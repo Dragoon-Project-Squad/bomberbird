@@ -75,7 +75,7 @@ func unregister_player(id):
 @rpc("call_local")
 func load_world():
 	# Change scene.
-	var world = load("res://world.tscn").instantiate()
+	var world = load("res://scenes/world.tscn").instantiate()
 	get_tree().get_root().add_child(world)
 	get_tree().get_root().get_node("Lobby").hide()
 
@@ -113,7 +113,7 @@ func begin_game():
 	load_world.rpc()
 
 	var world = get_tree().get_root().get_node("World")
-	var player_scene = load("res://player.tscn")
+	var player_scene = load("res://scenes/player.tscn")
 
 	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
 	var spawn_points = {}
