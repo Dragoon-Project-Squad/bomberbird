@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://brwp8bimc75uu"
-path="res://.godot/imported/icon.webp-e94f9a68b0f625a567a797079e4d325f.ctex"
+uid="uid://bdomqql6y50po"
+path="res://.godot/imported/brickfloor.png-1ce413e4c011fbd447287b441234b9f9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://icon.webp"
-dest_files=["res://.godot/imported/icon.webp-e94f9a68b0f625a567a797079e4d325f.ctex"]
+source_file="res://assets/brickfloor.png"
+dest_files=["res://.godot/imported/brickfloor.png-1ce413e4c011fbd447287b441234b9f9.ctex"]
 
 [params]
 

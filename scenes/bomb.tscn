@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://enwoaqi0rnei"]
 
-[ext_resource type="Script" path="res://bomb.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://bdomqql6y50po" path="res://brickfloor.png" id="2"]
-[ext_resource type="Texture2D" uid="uid://drfbkdqmj0gu2" path="res://explosion.png" id="3"]
+[ext_resource type="Script" path="res://scripts/bomb.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://bdomqql6y50po" path="res://assets/brickfloor.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://drfbkdqmj0gu2" path="res://assets/explosion.png" id="3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ih13"]
 size = Vector2(16, 192)

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bsqovikudjr0q"
-path="res://.godot/imported/charwalk.png-a9f067962a6454cc2f52a6e82832cbc5.ctex"
+path="res://.godot/imported/charwalk.png-1dd17a83d5239515e6be2d9fb6fca413.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://charwalk.png"
-dest_files=["res://.godot/imported/charwalk.png-a9f067962a6454cc2f52a6e82832cbc5.ctex"]
+source_file="res://assets/player/charwalk.png"
+dest_files=["res://.godot/imported/charwalk.png-1dd17a83d5239515e6be2d9fb6fca413.ctex"]
 
 [params]
 

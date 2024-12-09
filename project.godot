@@ -10,18 +10,17 @@ config_version=5
 
 [application]
 
-config/name="Multiplayer Bomber Demo"
-config/description="A multiplayer implementation of the classic bomberman game.
-One of the players should press \"Host\", while the other
-should type in his address and press \"Play\"."
-config/tags=PackedStringArray("2d", "demo", "network", "official")
-run/main_scene="res://lobby.tscn"
+config/name="BomberBird"
+config/description="What of Bomberman but Doki"
+config/version="0.01"
+config/tags=PackedStringArray("2d", "network")
+run/main_scene="res://scenes/lobby.tscn"
 config/features=PackedStringArray("4.3")
-config/icon="res://icon.webp"
+config/icon="res://assets/icon.webp"
 
 [autoload]
 
-gamestate="*res://gamestate.gd"
+gamestate="*res://scripts/gamestate.gd"
 
 [display]
 
