@@ -300,7 +300,6 @@ text = "EXIT GAME"
 offset = Vector2(512, 300)
 
 [node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://player.tscn")
 spawn_path = NodePath("../Players")
 
 [node name="BombSpawner" type="MultiplayerSpawner" parent="."]
