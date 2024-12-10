@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-const MOTION_SPEED = 90.0
+const MOTION_SPEED = 130.0
 const BOMB_RATE = 0.5
 
 @export
@@ -40,7 +40,7 @@ func _physics_process(delta):
 
 	if not stunned:
 		# Everybody runs physics. I.e. clients tries to predict where they will be during the next frame.
-		velocity = inputs.motion * MOTION_SPEED
+		velocity = inputs.motion.normalized() * MOTION_SPEED
 		move_and_slide()
 
 	# Also update the animation based on the last known player input state

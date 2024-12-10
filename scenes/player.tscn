@@ -1,12 +1,15 @@
-[gd_scene load_steps=16 format=3 uid="uid://dviwgv2ty8v6u"]
+[gd_scene load_steps=17 format=3 uid="uid://dviwgv2ty8v6u"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://bsqovikudjr0q" path="res://assets/player/charwalk.png" id="2"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="3"]
 [ext_resource type="Script" path="res://scripts/player_controls.gd" id="4_k1vfr"]
 
-[sub_resource type="CircleShape2D" id="1"]
-radius = 20.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_vs46n"]
+radius = 2.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i2bb5"]
+size = Vector2(46, 46)
 
 [sub_resource type="Animation" id="2"]
 resource_name = "standing"
@@ -175,8 +178,29 @@ offset = Vector2(-0.0750351, -6.23615)
 hframes = 4
 vframes = 4
 
-[node name="shape" type="CollisionShape2D" parent="."]
-shape = SubResource("1")
+[node name="rect" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-21, -23, 21, -23, 21, -21, 23, -21, 23, 21, 21, 21, 21, 23, -21, 23, -21, 21, -23, 21, -23, -21, -21, -21)
+
+[node name="corner1" type="CollisionShape2D" parent="."]
+position = Vector2(-21, -21)
+shape = SubResource("CircleShape2D_vs46n")
+
+[node name="corner2" type="CollisionShape2D" parent="."]
+position = Vector2(21, -21)
+shape = SubResource("CircleShape2D_vs46n")
+
+[node name="corner3" type="CollisionShape2D" parent="."]
+position = Vector2(21, 21)
+shape = SubResource("CircleShape2D_vs46n")
+
+[node name="corner4" type="CollisionShape2D" parent="."]
+position = Vector2(-21, 21)
+shape = SubResource("CircleShape2D_vs46n")
+
+[node name="origin_shape" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_i2bb5")
+disabled = true
 
 [node name="anim" type="AnimationPlayer" parent="."]
 libraries = {
@@ -184,6 +208,7 @@ libraries = {
 }
 
 [node name="label" type="Label" parent="."]
+visible = false
 offset_left = -82.0
 offset_top = -35.0
 offset_right = 85.0
