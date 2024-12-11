@@ -16,6 +16,7 @@ var current_anim = ""
 var tileMap : TileMapLayer
 
 var bombPos := Vector2()
+var direction := Vector2()
 
 func _ready():
 	stunned = false
@@ -37,8 +38,8 @@ func _physics_process(delta):
 		last_bomb_time += delta
 		if not stunned and is_multiplayer_authority() and inputs.bombing and last_bomb_time >= BOMB_RATE:
 			if tileMap != null:
-				bombPos = tileMap.map_to_local(tileMap.local_to_map(position))
-				print(velocity.normalized())
+				bombPos = tileMap.map_to_local(tileMap.local_to_map(position + direction))
+				print(direction)
 			last_bomb_time = 0.0
 			get_node("../../BombSpawner").spawn([bombPos, str(name).to_int()])
 	else:
@@ -55,12 +56,16 @@ func _physics_process(delta):
 
 	if inputs.motion.y < 0:
 		new_anim = "walk_up"
+		direction = Vector2(0, -48)
 	elif inputs.motion.y > 0:
 		new_anim = "walk_down"
+		direction = Vector2(0, 48)
 	elif inputs.motion.x < 0:
 		new_anim = "walk_left"
+		direction = Vector2(-48, 0)
 	elif inputs.motion.x > 0:
 		new_anim = "walk_right"
+		direction = Vector2(48, 0)
 
 	if stunned:
 		new_anim = "stunned"
