@@ -13,12 +13,16 @@ var stunned = false
 var inputs = $Inputs
 var last_bomb_time = BOMB_RATE
 var current_anim = ""
+var tileMap : TileMapLayer
+
+var bombPos := Vector2()
 
 func _ready():
 	stunned = false
 	position = synced_position
 	if str(name).is_valid_int():
 		get_node("Inputs/InputsSync").set_multiplayer_authority(str(name).to_int())
+	tileMap = get_parent().get_parent().get_node("TileMapLayer")
 
 
 func _physics_process(delta):
@@ -32,8 +36,11 @@ func _physics_process(delta):
 		# And increase the bomb cooldown spawning one if the client wants to.
 		last_bomb_time += delta
 		if not stunned and is_multiplayer_authority() and inputs.bombing and last_bomb_time >= BOMB_RATE:
+			if tileMap != null:
+				bombPos = tileMap.map_to_local(tileMap.local_to_map(position))
+				print(velocity.normalized())
 			last_bomb_time = 0.0
-			get_node("../../BombSpawner").spawn([position, str(name).to_int()])
+			get_node("../../BombSpawner").spawn([bombPos, str(name).to_int()])
 	else:
 		# The client simply updates the position to the last known one.
 		position = synced_position
@@ -61,6 +68,7 @@ func _physics_process(delta):
 	if new_anim != current_anim:
 		current_anim = new_anim
 		get_node("anim").play(current_anim)
+	
 
 
 func set_player_name(value):

@@ -3,6 +3,9 @@ extends Area2D
 var in_area: Array = []
 var from_player: int
 
+@export
+var self_collision_shape: CollisionShape2D
+
 # Called from the animation.
 func explode():
 	if not is_multiplayer_authority():
