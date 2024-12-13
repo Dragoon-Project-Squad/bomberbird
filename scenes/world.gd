@@ -1,14 +1,28 @@
 extends Node2D
 
-var music : AudioStreamOggVorbis = load("res://sound/mus/alpha_dance.ogg")
+var music_dir_path : String = "res://sound/mus/"
 @onready var mus_player := $MusicPlayer
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	mus_player.set_stream(music)
+	dir_contents(music_dir_path)
 	mus_player.play()
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
+func dir_contents(path):
+	var dir = DirAccess.open(path)
+	var index = 0
+	var file_name
+	var stream: AudioStreamOggVorbis
+	if dir:
+		dir.list_dir_begin()
+		file_name = dir.get_next()
+		while file_name != "":
+			if file_name.get_extension() == "ogg":
+				stream = load(path+file_name)
+				stream.loop = true
+				mus_player.stream.add_stream(index, stream)
+				index = index + 1
+			elif dir.current_is_dir():
+				print("Found directory: " + file_name)
+			file_name = dir.get_next()
+	else:
+		print("An error occurred when trying to access the path.")

@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/alpha_dance.ogg-1f1ba5697954691e6f1f42e108213
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0
 bpm=0
 beat_count=0
