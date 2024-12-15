@@ -2,9 +2,15 @@ extends Area2D
 
 var in_area: Array = []
 var from_player: int
+@export var explosion_audio : AudioStreamWAV = load("res://sound/fx/explosion.wav")
+@onready var explosion_sfx_player := $ExplosionSoundPlayer 
+
+func _ready():
+	explosion_sfx_player.set_stream(explosion_audio)
 
 # Called from the animation.
 func explode():
+	explosion_sfx_player.play()
 	if not is_multiplayer_authority():
 		# Explode only on authority.
 		return
@@ -15,7 +21,7 @@ func explode():
 			var query := PhysicsRayQueryParameters2D.create(position, p.position)
 			query.hit_from_inside = true
 			var result: Dictionary  = world_state.intersect_ray(query)
-			if not result.collider is TileMap:
+			if not result.collider is TileMapLayer:
 				# Exploded can only be called by the authority, but will also be called locally.
 				p.exploded.rpc(from_player)
 

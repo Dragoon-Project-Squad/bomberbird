@@ -3,16 +3,14 @@ extends CharacterBody2D
 const MOTION_SPEED = 130.0
 const BOMB_RATE = 0.5
 
-@export
-var synced_position := Vector2()
+@export var synced_position := Vector2()
 
-@export
-var stunned = false
+@export var stunned = false
 
-@onready
-var inputs = $Inputs
+@onready var inputs = $Inputs
 var last_bomb_time = BOMB_RATE
 var current_anim = ""
+@onready var hurt_sfx_player := $HurtSoundPlayer
 
 func _ready():
 	stunned = false
@@ -72,4 +70,5 @@ func exploded(_by_who):
 	if stunned:
 		return
 	stunned = true
+	hurt_sfx_player.play()
 	get_node("anim").play("stunned")

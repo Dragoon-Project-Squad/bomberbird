@@ -1,12 +1,17 @@
-[gd_scene load_steps=6 format=4 uid="uid://by3f5o7dyoqx4"]
+[gd_scene load_steps=9 format=4 uid="uid://by3f5o7dyoqx4"]
 
 [ext_resource type="TileSet" uid="uid://do2l6lpuotti8" path="res://assets/tileset.tres" id="1"]
+[ext_resource type="Script" path="res://scenes/world.gd" id="1_q8w2t"]
 [ext_resource type="PackedScene" uid="uid://bao3yernlglws" path="res://scenes/rock.tscn" id="2"]
 [ext_resource type="Script" path="res://scripts/score.gd" id="3"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="4"]
 [ext_resource type="Script" path="res://scripts/bomb_spawner.gd" id="6_ac5ja"]
+[ext_resource type="AudioStream" uid="uid://kkul2topsufx" path="res://sound/fx/bombdrop.wav" id="6_men6a"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_to18j"]
 
 [node name="World" type="Node2D"]
+script = ExtResource("1_q8w2t")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 use_parent_material = true
@@ -305,5 +310,12 @@ spawn_path = NodePath("../Players")
 [node name="BombSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("..")
 script = ExtResource("6_ac5ja")
+bomb_audio_stream = ExtResource("6_men6a")
+
+[node name="BombPlacementSFXPlayer" type="AudioStreamPlayer2D" parent="BombSpawner"]
+stream = ExtResource("6_men6a")
+
+[node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_to18j")
 
 [connection signal="pressed" from="Winner/ExitGame" to="Score" method="_on_exit_game_pressed"]
