@@ -3,9 +3,9 @@ extends Area2D
 var in_area: Array = []
 var from_player: int
 
-@export
-var self_collision_shape: CollisionShape2D
-
+func _ready() -> void:
+	$Timer.start()
+	pass
 # Called from the animation.
 func explode():
 	if not is_multiplayer_authority():
@@ -18,20 +18,26 @@ func explode():
 			var query := PhysicsRayQueryParameters2D.create(position, p.position)
 			query.hit_from_inside = true
 			var result: Dictionary  = world_state.intersect_ray(query)
-			if not result.collider is TileMap:
+			if not result.collider is TileMapLayer:
 				# Exploded can only be called by the authority, but will also be called locally.
 				p.exploded.rpc(from_player)
-
 
 func done():
 	if is_multiplayer_authority():
 		queue_free()
 
-
 func _on_bomb_body_enter(body):
 	if not body in in_area:
 		in_area.append(body)
 
-
 func _on_bomb_body_exit(body):
 	in_area.erase(body)
+	
+func _on_timer_timeout() -> void:
+	print("explode")
+	explode()
+	done()
+
+func _on_bomb_collision_area_2d_body_exited(body: Node2D) -> void:
+	print("exited")
+	$BombCollisionBody2D.set_deferred("process_mode", 0)
