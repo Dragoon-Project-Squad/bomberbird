@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=4 uid="uid://bs7slglsckv0i"]
+[gd_scene load_steps=9 format=4 uid="uid://bs7slglsckv0i"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_b42q6"]
 [ext_resource type="TileSet" uid="uid://do2l6lpuotti8" path="res://assets/tileset.tres" id="2_ay4g4"]
@@ -8,6 +8,11 @@
 [ext_resource type="AudioStream" uid="uid://kkul2topsufx" path="res://sound/fx/bombdrop.wav" id="7_cxllj"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_to18j"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_2w7dq"]
+vertices = PackedVector2Array(662, 566, 58, 566, 58, 58, 662, 58)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(48, 48, 672, 48, 672, 576, 48, 576)])
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_b42q6")
@@ -85,5 +90,8 @@ stream = ExtResource("7_cxllj")
 
 [node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_to18j")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_2w7dq")
 
 [connection signal="pressed" from="Winner/ExitGame" to="Score" method="_on_exit_game_pressed"]

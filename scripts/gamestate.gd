@@ -27,6 +27,10 @@ signal connection_succeeded()
 signal game_ended()
 signal game_error(what)
 
+# Preloaded Scenes
+var player_scene = preload("res://scenes/player.tscn")
+var ai_player_scene = preload("res://scenes/aiplayer.tscn")
+
 # Callback from SceneTree.
 func _player_connected(id):
 	# Registration of a client beings here, tell the connected player that we are here.
@@ -116,8 +120,7 @@ func begin_game():
 	load_world.rpc()
 
 	var world = get_tree().get_root().get_node("World")
-	var player_scene = load("res://scenes/player.tscn")
-
+	add_ai_players()
 	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
 	var spawn_points = {}
 	spawn_points[1] = 0 # Server in spawn point 0.
@@ -134,6 +137,8 @@ func begin_game():
 		player.set_player_name(player_name if p_id == multiplayer.get_unique_id() else players[p_id])
 		world.get_node("Players").add_child(player)
 
+func add_ai_players():
+	pass
 
 func end_game():
 	if has_node("/root/World"): # Game is in progress.
