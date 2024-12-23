@@ -11,7 +11,7 @@ const BOMB_RATE = 0.5
 @onready var navigation_agent_2d = $NavigationAgent2D
 @onready var navigation_region = $"../../NavigationRegion2D"
 @onready var anim_player = $anim
-@onready var timer = $Timer
+@onready var timer = $NavigationAgent2D/Timer
 
 var last_bomb_time = BOMB_RATE
 var current_anim = ""
@@ -27,8 +27,6 @@ func _ready():
 	set_random_target()
 	stunned = false
 	position = synced_position
-	if str(name).is_valid_int():
-		get_node("Inputs/InputsSync").set_multiplayer_authority(str(name).to_int())
 
 
 func _physics_process(delta):
@@ -106,7 +104,7 @@ func set_random_target():
 	navigation_agent_2d.set_target_position(target_position)
 	
 func set_player_name(value):
-	get_node("label").text = value
+	get_node("label").set_text(value)
 
 
 @rpc("call_local")

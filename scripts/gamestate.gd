@@ -11,9 +11,8 @@ const MAX_PEERS = 4
 var peer = null
 
 # Player count variables
-var total_player_count = 4
+var total_player_count = 2
 var human_player_count = 1
-var ai_player_count = 3
 
 # Name for my player.
 var player_name = "Dragoon"
@@ -122,9 +121,9 @@ func get_player_name():
 
 func begin_game():
 	assert(multiplayer.is_server())
+	add_ai_players()
 	load_world.rpc()
 	var world = get_tree().get_root().get_node("World")
-	#add_ai_players()
 	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
 	var spawn_points = {}
 	spawn_points[1] = 0 # Server in spawn point 0.
@@ -132,29 +131,28 @@ func begin_game():
 	for p in players:
 		spawn_points[p] = spawn_point_idx
 		spawn_point_idx += 1
-
+	var humans_loaded_in_game = 0
 	for p_id in spawn_points:
 		var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position
-		# Spawn a human there
-		var player = player_scene.instantiate()
-		player.synced_position = spawn_pos
-		player.name = str(p_id)
-		player.set_player_name(player_name if p_id == multiplayer.get_unique_id() else players[p_id])
-		world.get_node("Players").add_child(player)
-		# Spawn a robot there
-		# TODO: Find a way to track how many humans and AI are participating
-		#var player = ai_player_scene.instantiate()
-		#player.synced_position = spawn_pos
-		#player.name = str(p_id)
-		#player.set_player_name(player_name if p_id == multiplayer.get_unique_id() else players[p_id])
-		#world.get_node("Players").add_child(player)
+		var spawnedplayer
+		if humans_loaded_in_game < human_player_count:
+			# Spawn a human there
+			spawnedplayer = player_scene.instantiate()
+			humans_loaded_in_game += 1
+		else:
+			# Spawn a robot there
+			# TODO: Find a way to track how many humans and AI are participating
+			spawnedplayer = ai_player_scene.instantiate()
+		spawnedplayer.synced_position = spawn_pos
+		spawnedplayer.name = str(p_id)
+		spawnedplayer.set_player_name(player_name if p_id == multiplayer.get_unique_id() else players[p_id])
+		world.get_node("Players").add_child(spawnedplayer)
 
 func add_ai_players():
-	if human_player_count + ai_player_count != total_player_count: # This game is cooked anyway
+	var ai_player_count = total_player_count - human_player_count
+	if ai_player_count <= 0: # No robots allowed
 		pass
-	if ai_player_count < 1: # No robots allowed
-		pass
-	for n in range(0, total_player_count - ai_player_count, 1):
+	for n in range(0, ai_player_count, 1):
 		register_ai_player()
 	pass
 
@@ -175,8 +173,14 @@ func register_ai_player():
 	player_list_changed.emit()
 
 func is_id_free(chosen_ai_id) -> bool:
+	for p in players:
+		if p == chosen_ai_id:
+			return false
 	return true
 func is_name_free(playername: String) -> bool:
+	for p in players:
+		if players[p] == playername:
+			return false
 	return true
 
 func end_game():

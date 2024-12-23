@@ -63,7 +63,7 @@ func _physics_process(delta):
 
 
 func set_player_name(value):
-	get_node("label").text = value
+	get_node("label").set_text(value)
 
 
 @rpc("call_local")

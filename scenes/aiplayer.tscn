@@ -170,6 +170,7 @@ properties/1/replication_mode = 1
 z_index = 10
 motion_mode = 1
 script = ExtResource("1_q4yqk")
+synced_position = Vector2(649, 72)
 
 [node name="sprite" type="Sprite2D" parent="."]
 position = Vector2(0.0750351, 6.23615)
@@ -218,7 +219,7 @@ size_flags_horizontal = 2
 size_flags_vertical = 0
 theme_override_fonts/font = ExtResource("3_4dse3")
 theme_override_font_sizes/font_size = 16
-text = "Player 1"
+text = "Player 2"
 label_settings = SubResource("LabelSettings_5huhx")
 horizontal_alignment = 1
 
