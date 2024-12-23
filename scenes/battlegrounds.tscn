@@ -1,0 +1,235 @@
+[gd_scene load_steps=9 format=4 uid="uid://bs7slglsckv0i"]
+
+[ext_resource type="Script" path="res://scripts/world.gd" id="1_b42q6"]
+[ext_resource type="TileSet" uid="uid://do2l6lpuotti8" path="res://assets/tileset.tres" id="2_ay4g4"]
+[ext_resource type="PackedScene" uid="uid://bao3yernlglws" path="res://scenes/rock.tscn" id="3_x84f0"]
+[ext_resource type="Script" path="res://scripts/score.gd" id="4_hhld2"]
+[ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="5_g2doi"]
+[ext_resource type="Script" path="res://scripts/bomb_spawner.gd" id="6_xje61"]
+[ext_resource type="AudioStream" uid="uid://kkul2topsufx" path="res://sound/fx/bombdrop.wav" id="7_cxllj"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_to18j"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_b42q6")
+
+[node name="Background" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAABAAEAAAABAAAAAAABAAIAAAABAAAAAAABAAMAAAABAAAAAAABAAQAAAABAAAAAAABAAUAAAABAAAAAAABAAYAAAABAAAAAAABAAcAAAABAAAAAAABAAgAAAABAAAAAAABAAkAAAABAAAAAAABAAoAAAABAAAAAAABAAsAAAABAAAAAAACAAEAAAABAAAAAAACAAIAAAABAAAAAAACAAMAAAABAAAAAAACAAQAAAABAAAAAAACAAUAAAABAAAAAAACAAYAAAABAAAAAAACAAcAAAABAAAAAAACAAgAAAABAAAAAAACAAkAAAABAAAAAAACAAoAAAABAAAAAAACAAsAAAABAAAAAAADAAEAAAABAAAAAAADAAIAAAABAAAAAAADAAMAAAABAAAAAAADAAQAAAABAAAAAAADAAUAAAABAAAAAAADAAYAAAABAAAAAAADAAcAAAABAAAAAAADAAgAAAABAAAAAAADAAkAAAABAAAAAAADAAoAAAABAAAAAAADAAsAAAABAAAAAAAEAAEAAAABAAAAAAAEAAIAAAABAAAAAAAEAAMAAAABAAAAAAAEAAQAAAABAAAAAAAEAAUAAAABAAAAAAAEAAYAAAABAAAAAAAEAAcAAAABAAAAAAAEAAgAAAABAAAAAAAEAAkAAAABAAAAAAAEAAoAAAABAAAAAAAEAAsAAAABAAAAAAAFAAEAAAABAAAAAAAFAAIAAAABAAAAAAAFAAMAAAABAAAAAAAFAAQAAAABAAAAAAAFAAUAAAABAAAAAAAFAAYAAAABAAAAAAAFAAcAAAABAAAAAAAFAAgAAAABAAAAAAAFAAkAAAABAAAAAAAFAAoAAAABAAAAAAAFAAsAAAABAAAAAAAGAAEAAAABAAAAAAAGAAIAAAABAAAAAAAGAAMAAAABAAAAAAAGAAQAAAABAAAAAAAGAAUAAAABAAAAAAAGAAYAAAABAAAAAAAGAAcAAAABAAAAAAAGAAgAAAABAAAAAAAGAAkAAAABAAAAAAAGAAoAAAABAAAAAAAGAAsAAAABAAAAAAAHAAEAAAABAAAAAAAHAAIAAAABAAAAAAAHAAMAAAABAAAAAAAHAAQAAAABAAAAAAAHAAUAAAABAAAAAAAHAAYAAAABAAAAAAAHAAcAAAABAAAAAAAHAAgAAAABAAAAAAAHAAkAAAABAAAAAAAHAAoAAAABAAAAAAAHAAsAAAABAAAAAAAIAAEAAAABAAAAAAAIAAIAAAABAAAAAAAIAAMAAAABAAAAAAAIAAQAAAABAAAAAAAIAAUAAAABAAAAAAAIAAYAAAABAAAAAAAIAAcAAAABAAAAAAAIAAgAAAABAAAAAAAIAAkAAAABAAAAAAAIAAoAAAABAAAAAAAIAAsAAAABAAAAAAAJAAEAAAABAAAAAAAJAAIAAAABAAAAAAAJAAMAAAABAAAAAAAJAAQAAAABAAAAAAAJAAUAAAABAAAAAAAJAAYAAAABAAAAAAAJAAcAAAABAAAAAAAJAAgAAAABAAAAAAAJAAkAAAABAAAAAAAJAAoAAAABAAAAAAAJAAsAAAABAAAAAAAKAAEAAAABAAAAAAAKAAIAAAABAAAAAAAKAAMAAAABAAAAAAAKAAQAAAABAAAAAAAKAAUAAAABAAAAAAAKAAYAAAABAAAAAAAKAAcAAAABAAAAAAAKAAgAAAABAAAAAAAKAAkAAAABAAAAAAAKAAoAAAABAAAAAAAKAAsAAAABAAAAAAALAAEAAAABAAAAAAALAAIAAAABAAAAAAALAAMAAAABAAAAAAALAAQAAAABAAAAAAALAAUAAAABAAAAAAALAAYAAAABAAAAAAALAAcAAAABAAAAAAALAAgAAAABAAAAAAALAAkAAAABAAAAAAALAAoAAAABAAAAAAALAAsAAAABAAAAAAAMAAEAAAABAAAAAAAMAAIAAAABAAAAAAAMAAMAAAABAAAAAAAMAAQAAAABAAAAAAAMAAUAAAABAAAAAAAMAAYAAAABAAAAAAAMAAcAAAABAAAAAAAMAAgAAAABAAAAAAAMAAkAAAABAAAAAAAMAAoAAAABAAAAAAAMAAsAAAABAAAAAAANAAEAAAABAAAAAAANAAIAAAABAAAAAAANAAMAAAABAAAAAAANAAQAAAABAAAAAAANAAUAAAABAAAAAAANAAYAAAABAAAAAAANAAcAAAABAAAAAAANAAgAAAABAAAAAAANAAkAAAABAAAAAAANAAoAAAABAAAAAAANAAsAAAABAAAAAAA=")
+tile_set = ExtResource("2_ay4g4")
+
+[node name="Breakable" type="TileMapLayer" parent="."]
+tile_set = ExtResource("2_ay4g4")
+
+[node name="Unbreakable" type="TileMapLayer" parent="."]
+use_parent_material = true
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAAwAAAAAAAAAAAABAAAAAAAAAAAAAAABAAwAAAAAAAAAAAACAAAAAAAAAAAAAAACAAQAAAAAAAAAAAACAAYAAAAAAAAAAAACAAoAAAAAAAAAAAACAAwAAAAAAAAAAAADAAAAAAAAAAAAAAADAAwAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAQAAAAAAAAAAAAEAAYAAAAAAAAAAAAEAAgAAAAAAAAAAAAEAAoAAAAAAAAAAAAEAAwAAAAAAAAAAAAFAAAAAAAAAAAAAAAFAAwAAAAAAAAAAAAGAAAAAAAAAAAAAAAGAAQAAAAAAAAAAAAGAAYAAAAAAAAAAAAGAAgAAAAAAAAAAAAGAAoAAAAAAAAAAAAGAAwAAAAAAAAAAAAHAAAAAAAAAAAAAAAHAAwAAAAAAAAAAAAIAAAAAAAAAAAAAAAIAAQAAAAAAAAAAAAIAAYAAAAAAAAAAAAIAAgAAAAAAAAAAAAIAAoAAAAAAAAAAAAIAAwAAAAAAAAAAAAJAAAAAAAAAAAAAAAJAAwAAAAAAAAAAAAKAAAAAAAAAAAAAAAKAAQAAAAAAAAAAAAKAAYAAAAAAAAAAAAKAAgAAAAAAAAAAAAKAAoAAAAAAAAAAAAKAAwAAAAAAAAAAAALAAAAAAAAAAAAAAALAAwAAAAAAAAAAAAMAAAAAAAAAAAAAAAMAAIAAAAAAAAAAAAMAAQAAAAAAAAAAAAMAAYAAAAAAAAAAAAMAAgAAAAAAAAAAAAMAAoAAAAAAAAAAAAMAAwAAAAAAAAAAAANAAAAAAAAAAAAAAANAAwAAAAAAAAAAAAOAAAAAAAAAAAAAAAOAAEAAAAAAAAAAAAOAAIAAAAAAAAAAAAOAAMAAAAAAAAAAAAOAAQAAAAAAAAAAAAOAAUAAAAAAAAAAAAOAAYAAAAAAAAAAAAOAAcAAAAAAAAAAAAOAAgAAAAAAAAAAAAOAAkAAAAAAAAAAAAOAAoAAAAAAAAAAAAOAAsAAAAAAAAAAAAOAAwAAAAAAAAAAAACAAgAAAAAAAAAAAAKAAIAAAAAAAAAAAAHAAIAAAAAAAAAAAACAAIAAAAAAAAAAAAEAAIAAAAAAAAAAAA=")
+tile_set = ExtResource("2_ay4g4")
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="0" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(72, 72)
+
+[node name="1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(649, 72)
+
+[node name="2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(72, 456)
+
+[node name="3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(648, 552)
+
+[node name="Rocks" type="Node2D" parent="."]
+visible = false
+
+[node name="Rock0" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(120, 72)
+
+[node name="Rock1" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(264, 168)
+
+[node name="Rock2" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(264, 120)
+
+[node name="Rock3" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(216, 72)
+
+[node name="Rock4" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(264, 72)
+
+[node name="Rock5" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(312, 72)
+
+[node name="Rock6" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(552, 168)
+
+[node name="Rock7" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(600, 168)
+
+[node name="Rock8" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(552, 216)
+
+[node name="Rock9" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(264, 312)
+
+[node name="Rock10" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(120, 360)
+
+[node name="Rock11" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(168, 360)
+
+[node name="Rock12" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(216, 360)
+
+[node name="Rock13" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(120, 264)
+
+[node name="Rock14" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(168, 216)
+
+[node name="Rock15" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(72, 360)
+
+[node name="Rock16" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(72, 312)
+
+[node name="Rock17" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(72, 264)
+
+[node name="Rock18" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(360, 360)
+
+[node name="Rock19" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(408, 360)
+
+[node name="Rock20" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(504, 360)
+
+[node name="Rock21" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(600, 360)
+
+[node name="Rock22" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(648, 360)
+
+[node name="Rock23" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(504, 456)
+
+[node name="Rock24" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(552, 456)
+
+[node name="Rock25" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(552, 408)
+
+[node name="Rock26" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(360, 456)
+
+[node name="Rock27" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(360, 504)
+
+[node name="Rock28" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(264, 504)
+
+[node name="Rock29" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(264, 552)
+
+[node name="Rock30" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(168, 456)
+
+[node name="Rock31" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(168, 504)
+
+[node name="Rock32" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(72, 552)
+
+[node name="Rock33" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(120, 552)
+
+[node name="Rock34" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(504, 552)
+
+[node name="Rock35" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(600, 552)
+
+[node name="Rock37" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(648, 504)
+
+[node name="Rock38" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(456, 216)
+
+[node name="Rock39" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(360, 216)
+
+[node name="Rock40" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(360, 168)
+
+[node name="Rock41" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(456, 120)
+
+[node name="Rock42" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(456, 408)
+
+[node name="Rock43" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(456, 456)
+
+[node name="Rock44" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(456, 504)
+
+[node name="Rock45" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(600, 264)
+
+[node name="Rock46" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(600, 72)
+
+[node name="Rock47" parent="Rocks" instance=ExtResource("3_x84f0")]
+position = Vector2(408, 72)
+
+[node name="Players" type="Node2D" parent="."]
+
+[node name="Score" type="HBoxContainer" parent="."]
+offset_right = 1024.0
+offset_bottom = 40.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+script = ExtResource("4_hhld2")
+
+[node name="Winner" type="Label" parent="."]
+visible = false
+offset_right = 1031.0
+offset_bottom = 617.0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("5_g2doi")
+text = "THE WINNER IS:
+YOU"
+
+[node name="ExitGame" type="Button" parent="Winner"]
+layout_mode = 0
+offset_left = 384.0
+offset_top = 408.0
+offset_right = 649.0
+offset_bottom = 469.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+theme_override_fonts/font = ExtResource("5_g2doi")
+text = "EXIT GAME"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(512, 300)
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../Players")
+
+[node name="BombSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("..")
+script = ExtResource("6_xje61")
+bomb_audio_stream = ExtResource("7_cxllj")
+
+[node name="BombPlacementSFXPlayer" type="AudioStreamPlayer2D" parent="BombSpawner"]
+stream = ExtResource("7_cxllj")
+
+[node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_to18j")
+
+[connection signal="pressed" from="Winner/ExitGame" to="Score" method="_on_exit_game_pressed"]

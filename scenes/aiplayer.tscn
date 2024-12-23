@@ -1,10 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://dviwgv2ty8v6u"]
+[gd_scene load_steps=18 format=3 uid="uid://de6bmnxah5ten"]
 
-[ext_resource type="Script" path="res://scripts/player.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://bsqovikudjr0q" path="res://assets/player/charwalk.png" id="2"]
-[ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="3"]
-[ext_resource type="Script" path="res://scripts/player_controls.gd" id="4_k1vfr"]
-[ext_resource type="AudioStream" uid="uid://c3dded4qppq4" path="res://sound/fx/playerhurt.wav" id="5_611ko"]
+[ext_resource type="Script" path="res://scripts/aiplayer.gd" id="1_q4yqk"]
+[ext_resource type="Texture2D" uid="uid://bsqovikudjr0q" path="res://assets/player/charwalk.png" id="2_acxu8"]
+[ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="3_4dse3"]
+[ext_resource type="Script" path="res://scripts/player_controls.gd" id="4_66ljo"]
+[ext_resource type="AudioStream" uid="uid://c3dded4qppq4" path="res://sound/fx/playerhurt.wav" id="5_dlypu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vs46n"]
 radius = 2.0
@@ -166,15 +166,15 @@ properties/1/path = NodePath(".:bombing")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
-[node name="player" type="CharacterBody2D"]
+[node name="aiplayer" type="CharacterBody2D"]
 z_index = 10
 motion_mode = 1
-script = ExtResource("1")
+script = ExtResource("1_q4yqk")
 
 [node name="sprite" type="Sprite2D" parent="."]
 position = Vector2(0.0750351, 6.23615)
 rotation = -6.28319
-texture = ExtResource("2")
+texture = ExtResource("2_acxu8")
 offset = Vector2(-0.0750351, -6.23615)
 hframes = 4
 vframes = 4
@@ -216,7 +216,7 @@ offset_right = 85.0
 offset_bottom = -14.0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-theme_override_fonts/font = ExtResource("3")
+theme_override_fonts/font = ExtResource("3_4dse3")
 theme_override_font_sizes/font_size = 16
 text = "Player 1"
 label_settings = SubResource("LabelSettings_5huhx")
@@ -226,10 +226,10 @@ horizontal_alignment = 1
 replication_config = SubResource("SceneReplicationConfig_sh64w")
 
 [node name="Inputs" type="Node" parent="."]
-script = ExtResource("4_k1vfr")
+script = ExtResource("4_66ljo")
 
 [node name="InputsSync" type="MultiplayerSynchronizer" parent="Inputs"]
 replication_config = SubResource("SceneReplicationConfig_w53uu")
 
 [node name="HurtSoundPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_611ko")
+stream = ExtResource("5_dlypu")
