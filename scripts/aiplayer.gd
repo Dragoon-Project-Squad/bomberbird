@@ -11,7 +11,7 @@ const BOMB_RATE = 0.5
 
 var last_bomb_time = BOMB_RATE
 var current_anim = ""
-var is_bombing = false
+var is_bombing = false #TODO: Setup condition for AI to bomb, and include is_bombing
 
 func _ready():
 	stunned = false

@@ -1,10 +1,15 @@
 extends HBoxContainer
 
 var player_labels = {}
+var players_alive = gamestate.player_count
 
 func _process(_delta):
-	var rocks_left = $"../Rocks".get_child_count()
-	if rocks_left == 0:
+	#Declare a winner
+	var players_left = $"../Players".get_child_count()
+	for player in $"../Players".get_children():
+		if player.is_dead:
+			players_left -= 1
+	if players_left <= 0:
 		var winner_name = ""
 		var winner_score = 0
 		for p in player_labels:
