@@ -10,6 +10,11 @@ const MAX_PEERS = 4
 
 var peer = null
 
+# Player count variables
+var total_player_count = 4
+var human_player_count = 1
+var ai_player_count = 3
+
 # Name for my player.
 var player_name = "Dragoon"
 
@@ -17,8 +22,9 @@ var player_name = "Dragoon"
 var players = {}
 var players_ready = []
 
-# Players in the game
-var player_count = 2
+# AI Handling variables
+const MAX_ID_COLLISION_RESCUE_ATTEMPTS = 4
+const MAX_NAME_COLLISION_RESCUE_ATTEMPTS = 4
 
 # Signals to let lobby GUI know what's going on.
 signal player_list_changed()
@@ -72,8 +78,7 @@ func register_player(new_player_name):
 	var id = multiplayer.get_remote_sender_id()
 	players[id] = new_player_name
 	player_list_changed.emit()
-
-
+	
 func unregister_player(id):
 	players.erase(id)
 	player_list_changed.emit()
@@ -118,9 +123,8 @@ func get_player_name():
 func begin_game():
 	assert(multiplayer.is_server())
 	load_world.rpc()
-
 	var world = get_tree().get_root().get_node("World")
-	add_ai_players()
+	#add_ai_players()
 	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
 	var spawn_points = {}
 	spawn_points[1] = 0 # Server in spawn point 0.
@@ -131,14 +135,49 @@ func begin_game():
 
 	for p_id in spawn_points:
 		var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position
+		# Spawn a human there
 		var player = player_scene.instantiate()
 		player.synced_position = spawn_pos
 		player.name = str(p_id)
 		player.set_player_name(player_name if p_id == multiplayer.get_unique_id() else players[p_id])
 		world.get_node("Players").add_child(player)
+		# Spawn a robot there
+		# TODO: Find a way to track how many humans and AI are participating
+		#var player = ai_player_scene.instantiate()
+		#player.synced_position = spawn_pos
+		#player.name = str(p_id)
+		#player.set_player_name(player_name if p_id == multiplayer.get_unique_id() else players[p_id])
+		#world.get_node("Players").add_child(player)
 
 func add_ai_players():
+	if human_player_count + ai_player_count != total_player_count: # This game is cooked anyway
+		pass
+	if ai_player_count < 1: # No robots allowed
+		pass
+	for n in range(0, total_player_count - ai_player_count, 1):
+		register_ai_player()
 	pass
+
+func register_ai_player():
+	var id = 2 #TODO: Generate CPU ID here, ensure it does not clash
+	if !is_id_free(id):
+		for i in range(2, 2+MAX_ID_COLLISION_RESCUE_ATTEMPTS, 1):
+			id = i
+			if is_id_free(id):
+				break
+	players[id] = "LikeBot" #TODO: Generate CPU name here
+	if !is_name_free(players[id]):
+		players[id] = "CommentBot"
+	if !is_name_free(players[id]):
+		players[id] = "SubscribeBot"
+	if !is_name_free(players[id]):
+		players[id] = "MembershipBot"
+	player_list_changed.emit()
+
+func is_id_free(chosen_ai_id) -> bool:
+	return true
+func is_name_free(playername: String) -> bool:
+	return true
 
 func end_game():
 	if has_node("/root/World"): # Game is in progress.
