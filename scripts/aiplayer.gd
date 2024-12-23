@@ -15,6 +15,8 @@ const BOMB_RATE = 0.5
 
 var last_bomb_time = BOMB_RATE
 var current_anim = ""
+var is_dead = false
+# AI Player specific vars
 var is_bombing = false #TODO: Setup condition for AI to bomb, and include is_bombing
 var roaming_area: Rect2
 var target_position: Vector2
@@ -78,17 +80,17 @@ func set_roaming_area():
 	else:
 		print("No outlines found within the navigational polygon")
 
-func update_animation(velocity: Vector2):
+func update_animation(newvelocity: Vector2):
 	var new_anim = "standing"
-	if velocity.length() == 0:
+	if newvelocity.length() == 0:
 		new_anim = "standing"
-	elif velocity.y < 0:
+	elif newvelocity.y < 0:
 		new_anim = "walk_up"
-	elif velocity.y > 0:
+	elif newvelocity.y > 0:
 		new_anim = "walk_down"
-	elif velocity.x < 0:
+	elif newvelocity.x < 0:
 		new_anim = "walk_left"
-	elif velocity.x > 0:
+	elif newvelocity.x > 0:
 		new_anim = "walk_right"
 		
 	if new_anim != current_anim:

@@ -1,7 +1,7 @@
 extends HBoxContainer
 
 var player_labels = {}
-var players_alive = gamestate.player_count
+var players_alive = gamestate.total_player_count
 
 func _process(_delta):
 	#Declare a winner
