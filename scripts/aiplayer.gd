@@ -20,23 +20,21 @@ var is_dead = false
 var is_bombing = false #TODO: Setup condition for AI to bomb, and include is_bombing
 var roaming_area: Rect2
 var target_position: Vector2
-
+var waiting_for_map_sync = true
 func _ready():
-	await get_tree().create_timer(1).timeout
+	NavigationServer2D.map_changed.connect(navigation_map_sync_wait)
 	set_roaming_area()
 	set_random_target()
 	stunned = false
 	position = synced_position
-
-
 func _physics_process(delta):
-	# TODO: AI Controls Go Here
-	var next_path_position = navigation_agent_2d.get_next_path_position()
-	var new_velocity = (next_path_position - global_position).normalized() * MOTION_SPEED
-	if navigation_agent_2d.avoidance_enabled:
-		navigation_agent_2d.velocity = new_velocity
-	else:
-		_on_navigation_agent_2d_velocity_computed(new_velocity)
+	if !waiting_for_map_sync:
+		var next_path_position = navigation_agent_2d.get_next_path_position()
+		var new_velocity = (next_path_position - global_position).normalized() * MOTION_SPEED
+		if navigation_agent_2d.avoidance_enabled:
+			navigation_agent_2d.velocity = new_velocity
+		else:
+			_on_navigation_agent_2d_velocity_computed(new_velocity)
 	
 	#Update position
 	if multiplayer.multiplayer_peer == null or is_multiplayer_authority():
@@ -50,15 +48,20 @@ func _physics_process(delta):
 	else:
 		# The client simply updates the position to the last known one.
 		position = synced_position
-
 	if not stunned:
 		# Everybody runs physics. I.e. clients tries to predict where they will be during the next frame.
-		velocity = inputs.motion.normalized() * MOTION_SPEED
 		move_and_slide()
 	
 	# Also update the animation based on the last known player input state
 	update_animation(velocity)
 
+func navigation_map_sync_wait(map: RID):
+	while NavigationServer2D.map_get_iteration_id(map) == 0:
+		await get_tree().create_timer(0.1).timeout
+	if NavigationServer2D.map_get_iteration_id(map) != 0:
+		print("Yippie!")
+		waiting_for_map_sync = false
+	
 func set_roaming_area():
 	# Set the roaming area
 	var navigation_polygon = navigation_region.get_navigation_polygon()
