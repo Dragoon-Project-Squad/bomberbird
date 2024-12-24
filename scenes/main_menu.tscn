@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgfv37m0j3grk"]
+
+[ext_resource type="Script" path="res://scenes/main_menu.gd" id="1_qmksv"]
+[ext_resource type="Texture2D" uid="uid://c4etvudqmupbf" path="res://assets/scratch/Untitled.png" id="1_xtlt4"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_qmksv")
+
+[node name="Untitled" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+texture = ExtResource("1_xtlt4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 660.0
+offset_top = 800.0
+offset_right = 1260.0
+offset_bottom = 1100.0
+
+[node name="SinglePlayer" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Single Player"
+
+[node name="Multiplayer" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Multiplayer"
+
+[node name="Options" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Options
+"
