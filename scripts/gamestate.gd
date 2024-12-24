@@ -6,16 +6,24 @@ extends Node
 const DEFAULT_PORT = 10567
 
 # Max number of players.
-const MAX_PEERS = 12
+const MAX_PEERS = 4
 
 var peer = null
 
+# Player count variables
+var total_player_count = 1
+var human_player_count = 1
+
 # Name for my player.
-var player_name = "The Warrior"
+var player_name = "Dragoon"
 
 # Names for remote players in id:name format.
 var players = {}
 var players_ready = []
+
+# AI Handling variables
+const MAX_ID_COLLISION_RESCUE_ATTEMPTS = 4
+const MAX_NAME_COLLISION_RESCUE_ATTEMPTS = 4
 
 # Signals to let lobby GUI know what's going on.
 signal player_list_changed()
@@ -23,6 +31,10 @@ signal connection_failed()
 signal connection_succeeded()
 signal game_ended()
 signal game_error(what)
+
+# Preloaded Scenes
+var player_scene = preload("res://scenes/player.tscn")
+var ai_player_scene = preload("res://scenes/aiplayer.tscn")
 
 # Callback from SceneTree.
 func _player_connected(id):
@@ -65,8 +77,7 @@ func register_player(new_player_name):
 	var id = multiplayer.get_remote_sender_id()
 	players[id] = new_player_name
 	player_list_changed.emit()
-
-
+	
 func unregister_player(id):
 	players.erase(id)
 	player_list_changed.emit()
@@ -110,11 +121,9 @@ func get_player_name():
 
 func begin_game():
 	assert(multiplayer.is_server())
+	add_ai_players()
 	load_world.rpc()
-
 	var world = get_tree().get_root().get_node("World")
-	var player_scene = load("res://scenes/player.tscn")
-
 	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
 	var spawn_points = {}
 	spawn_points[1] = 0 # Server in spawn point 0.
@@ -122,15 +131,57 @@ func begin_game():
 	for p in players:
 		spawn_points[p] = spawn_point_idx
 		spawn_point_idx += 1
-
+	var humans_loaded_in_game = 0
 	for p_id in spawn_points:
 		var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position
-		var player = player_scene.instantiate()
-		player.synced_position = spawn_pos
-		player.name = str(p_id)
-		player.set_player_name(player_name if p_id == multiplayer.get_unique_id() else players[p_id])
-		world.get_node("Players").add_child(player)
+		var spawnedplayer
+		if humans_loaded_in_game < human_player_count:
+			# Spawn a human there
+			spawnedplayer = player_scene.instantiate()
+			humans_loaded_in_game += 1
+		else:
+			# Spawn a robot there
+			# TODO: Find a way to track how many humans and AI are participating
+			spawnedplayer = ai_player_scene.instantiate()
+		spawnedplayer.synced_position = spawn_pos
+		spawnedplayer.name = str(p_id)
+		spawnedplayer.set_player_name(player_name if p_id == multiplayer.get_unique_id() else players[p_id])
+		world.get_node("Players").add_child(spawnedplayer)
 
+func add_ai_players():
+	var ai_player_count = total_player_count - human_player_count
+	if ai_player_count <= 0: # No robots allowed
+		pass
+	for n in range(0, ai_player_count, 1):
+		register_ai_player()
+	pass
+
+func register_ai_player():
+	var id = 2 #TODO: Generate CPU ID here, ensure it does not clash
+	if !is_id_free(id):
+		for i in range(2, 2+MAX_ID_COLLISION_RESCUE_ATTEMPTS, 1):
+			id = i
+			if is_id_free(id):
+				break
+	players[id] = "LikeBot" #TODO: Generate CPU name here
+	if !is_name_free(players[id]):
+		players[id] = "CommentBot"
+	if !is_name_free(players[id]):
+		players[id] = "SubscribeBot"
+	if !is_name_free(players[id]):
+		players[id] = "MembershipBot"
+	player_list_changed.emit()
+
+func is_id_free(chosen_ai_id) -> bool:
+	for p in players:
+		if p == chosen_ai_id:
+			return false
+	return true
+func is_name_free(playername: String) -> bool:
+	for p in players:
+		if players[p] == playername:
+			return false
+	return true
 
 func end_game():
 	if has_node("/root/World"): # Game is in progress.

@@ -27,6 +27,11 @@ gamestate="*res://scripts/gamestate.gd"
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[global_group]
+
+player="human players"
+ai_player="cpu players"
+
 [input]
 
 move_down={

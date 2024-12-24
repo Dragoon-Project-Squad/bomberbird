@@ -4,13 +4,14 @@ const MOTION_SPEED = 130.0
 const BOMB_RATE = 0.5
 
 @export var synced_position := Vector2()
-
 @export var stunned = false
 
+@onready var hurt_sfx_player := $HurtSoundPlayer
 @onready var inputs = $Inputs
+
 var last_bomb_time = BOMB_RATE
 var current_anim = ""
-@onready var hurt_sfx_player := $HurtSoundPlayer
+var is_dead = false
 
 func _ready():
 	stunned = false
@@ -62,7 +63,7 @@ func _physics_process(delta):
 
 
 func set_player_name(value):
-	get_node("label").text = value
+	get_node("label").set_text(value)
 
 
 @rpc("call_local")
