@@ -9,7 +9,7 @@ func _ready():
 	gamestate.game_error.connect(_on_game_error)
 	# Set the player name according to the system username. Fallback to the path.
 	if OS.has_environment("USERNAME"):
-		$Connect/Name.text = "Dragoon"
+		$Connect/Name.text = "A Dragoon"
 	else:
 		$Connect/Name.text = "Doki Enjoyer"
 

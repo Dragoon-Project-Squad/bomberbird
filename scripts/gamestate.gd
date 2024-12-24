@@ -86,7 +86,7 @@ func unregister_player(id):
 @rpc("call_local")
 func load_world():
 	# Change scene.
-	var world = load("res://scenes/world.tscn").instantiate()
+	var world = load("res://scenes/battlegrounds.tscn").instantiate()
 	get_tree().get_root().add_child(world)
 	get_tree().get_root().get_node("Lobby").hide()
 
@@ -190,7 +190,6 @@ func end_game():
 
 	game_ended.emit()
 	players.clear()
-
 
 func _ready():
 	multiplayer.peer_connected.connect(_player_connected)

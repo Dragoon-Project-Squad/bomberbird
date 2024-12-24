@@ -1,0 +1,51 @@
+[gd_scene load_steps=9 format=3 uid="uid://cim10emfhkf7b"]
+
+[ext_resource type="Script" path="res://scripts/pickups/explosion_boost.gd" id="1_mcgtw"]
+[ext_resource type="Texture2D" uid="uid://t64vkd8wb6n1" path="res://assets/pickups/genericpowerup.png" id="1_yq8ss"]
+[ext_resource type="AudioStream" uid="uid://8u70xa4tmhc8" path="res://sound/fx/powerup.wav" id="3_mrjxs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3ywok"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y4tgb"]
+atlas = ExtResource("1_yq8ss")
+region = Rect2(0, 0, 19, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w3ms4"]
+atlas = ExtResource("1_yq8ss")
+region = Rect2(19, 0, 19, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_87ttm"]
+atlas = ExtResource("1_yq8ss")
+region = Rect2(38, 0, 19, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0hn6b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y4tgb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w3ms4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_87ttm")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}]
+
+[node name="ExplosionBoost" type="Area2D"]
+script = ExtResource("1_mcgtw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3ywok")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_0hn6b")
+animation = &"idle"
+
+[node name="PickupSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_mrjxs")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -14,6 +14,7 @@ var current_anim = ""
 var is_dead = false
 
 var movement_speed = BASE_MOTION_SPEED
+var explosion_boost_count = 0
 
 func _ready():
 	stunned = false
@@ -34,14 +35,14 @@ func _physics_process(delta):
 		last_bomb_time += delta
 		if not stunned and is_multiplayer_authority() and inputs.bombing and last_bomb_time >= BOMB_RATE:
 			last_bomb_time = 0.0
-			get_node("../../BombSpawner").spawn([position, str(name).to_int()])
+			get_node("../../BombSpawner").spawn([position, str(name).to_int(), explosion_boost_count])
 	else:
 		# The client simply updates the position to the last known one.
 		position = synced_position
 
 	if not stunned:
 		# Everybody runs physics. I.e. clients tries to predict where they will be during the next frame.
-		velocity = inputs.motion.normalized() * BASE_MOTION_SPEED
+		velocity = inputs.motion.normalized() * movement_speed
 		move_and_slide()
 
 	# Also update the animation based on the last known player input state
@@ -67,6 +68,9 @@ func _physics_process(delta):
 func set_player_name(value):
 	get_node("label").set_text(value)
 
+@rpc("call_local")
+func increase_bomb_level():
+	explosion_boost_count = min(explosion_boost_count + 1, 2)
 
 @rpc("call_local")
 func exploded(_by_who):
