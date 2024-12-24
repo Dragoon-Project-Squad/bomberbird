@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-const MOTION_SPEED = 130.0
+const BASE_MOTION_SPEED = 130.0
 const BOMB_RATE = 0.5
 
 @export var synced_position := Vector2()
@@ -12,6 +12,8 @@ const BOMB_RATE = 0.5
 var last_bomb_time = BOMB_RATE
 var current_anim = ""
 var is_dead = false
+
+var movement_speed = BASE_MOTION_SPEED
 
 func _ready():
 	stunned = false
@@ -39,7 +41,7 @@ func _physics_process(delta):
 
 	if not stunned:
 		# Everybody runs physics. I.e. clients tries to predict where they will be during the next frame.
-		velocity = inputs.motion.normalized() * MOTION_SPEED
+		velocity = inputs.motion.normalized() * BASE_MOTION_SPEED
 		move_and_slide()
 
 	# Also update the animation based on the last known player input state

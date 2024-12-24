@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-const MOTION_SPEED = 130.0
+const BASE_MOTION_SPEED = 130.0
 const BOMB_RATE = 0.5
 
 @export var synced_position := Vector2()
@@ -30,7 +30,7 @@ func _ready():
 func _physics_process(delta):
 	if !waiting_for_map_sync:
 		var next_path_position = navigation_agent_2d.get_next_path_position()
-		var new_velocity = (next_path_position - global_position).normalized() * MOTION_SPEED
+		var new_velocity = (next_path_position - global_position).normalized() * BASE_MOTION_SPEED
 		if navigation_agent_2d.avoidance_enabled:
 			navigation_agent_2d.velocity = new_velocity
 		else:
