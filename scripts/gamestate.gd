@@ -11,7 +11,7 @@ const MAX_PEERS = 4
 var peer = null
 
 # Player count variables
-var total_player_count = 2
+var total_player_count = 1
 var human_player_count = 1
 
 # Name for my player.
@@ -86,7 +86,7 @@ func unregister_player(id):
 @rpc("call_local")
 func load_world():
 	# Change scene.
-	var world = load("res://scenes/battlegrounds.tscn").instantiate()
+	var world = load("res://scenes/world.tscn").instantiate()
 	get_tree().get_root().add_child(world)
 	get_tree().get_root().get_node("Lobby").hide()
 
