@@ -11,7 +11,7 @@ const MAX_PEERS = 4
 var peer = null
 
 # Player count variables
-var total_player_count = 1
+var total_player_count = 2
 var human_player_count = 1
 
 # Name for my player.
@@ -190,7 +190,6 @@ func end_game():
 
 	game_ended.emit()
 	players.clear()
-
 
 func _ready():
 	multiplayer.peer_connected.connect(_player_connected)
