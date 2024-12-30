@@ -1,9 +1,15 @@
 class_name Pickup extends Area2D
-@onready var pickup_sfx = load("res://sound/fx/powerup.wav")
-@onready var pickup_sfx_player := $PickupSound
+@onready var pickup_sfx : AudioStreamWAV = load("res://sound/fx/powerup.wav")
+@onready var pickup_sfx_player = $PickupSoundPlayer
 @onready var animated_sprite = $AnimatedSprite2D
+@onready var collisionbox : CollisionShape2D = $CollisionShape2D
+var pickup_owner : Node2D = null
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
+func _ready():
 	pickup_sfx_player.set_stream(pickup_sfx)
-	animated_sprite.play("idle")
+
+func hide_and_disable():
+	collisionbox.visible = false
+	collisionbox.queue_free()
+	animated_sprite.visible = false
+	animated_sprite.queue_free()

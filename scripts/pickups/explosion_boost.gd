@@ -1,17 +1,25 @@
 extends Pickup
 
+func _ready():
+	animated_sprite.play("idle")
+	
 func _on_body_entered(body: Node2D) -> void:
+	pickup_sfx_player.play()
 	if not is_multiplayer_authority():
 		# Activate only on authority.
 		return
 	if body.is_in_group("player") or body.is_in_group("ai_player"):
-		if body.is_in_group("player"): #If this is a human
+		#Prevent anyone else from colliding with this pickup
+		hide_and_disable()
+		if pickup_owner == null: #Only ever let this be assigned once
+			pickup_owner = body
+		if pickup_owner.is_in_group("player"): #If this is a human
 			# Increase the bomb level ONLY for the person who obtained it
-			body.increase_bomb_level.rpc()
+			pickup_owner.increase_bomb_level.rpc()
 		else: #This is an AI
-			body.increase_bomb_level()
-		# Either way, play pickup sound
-		pickup_sfx_player.play()
-		print(body.explosion_boost_count)
+			pickup_owner.increase_bomb_level()
+		print(pickup_owner.explosion_boost_count)
+		# Ensure powerup has time to play before pickup is destroyed
+		await pickup_sfx_player.finished
 		# Remove powerup
 		queue_free()

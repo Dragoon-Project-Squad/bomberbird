@@ -45,7 +45,8 @@ shape = SubResource("RectangleShape2D_3ywok")
 sprite_frames = SubResource("SpriteFrames_0hn6b")
 animation = &"idle"
 
-[node name="PickupSound" type="AudioStreamPlayer2D" parent="."]
+[node name="PickupSoundPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_mrjxs")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="finished" from="PickupSoundPlayer" to="." method="_on_pickup_sound_player_finished"]
