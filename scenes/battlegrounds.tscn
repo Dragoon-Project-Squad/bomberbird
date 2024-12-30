@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://bs7slglsckv0i"]
+[gd_scene load_steps=11 format=4 uid="uid://bs7slglsckv0i"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_b42q6"]
 [ext_resource type="TileSet" uid="uid://do2l6lpuotti8" path="res://assets/tileset.tres" id="2_ay4g4"]
@@ -8,7 +8,6 @@
 [ext_resource type="Script" path="res://scripts/bomb_spawner.gd" id="6_xje61"]
 [ext_resource type="Script" path="res://scripts/powerup_spawner.gd" id="7_87w5t"]
 [ext_resource type="AudioStream" uid="uid://kkul2topsufx" path="res://sound/fx/bombdrop.wav" id="7_cxllj"]
-[ext_resource type="PackedScene" uid="uid://cim10emfhkf7b" path="res://scenes/pickups/explosion_boost.tscn" id="9_8plqa"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_2w7dq"]
 vertices = PackedVector2Array(662, 566, 58, 566, 58, 58, 662, 58)
@@ -98,6 +97,7 @@ script = ExtResource("6_xje61")
 bomb_audio_stream = ExtResource("7_cxllj")
 
 [node name="BombPlacementSFXPlayer" type="AudioStreamPlayer2D" parent="BombSpawner"]
+visible = false
 stream = ExtResource("7_cxllj")
 
 [node name="PickupSpawner" type="MultiplayerSpawner" parent="."]
@@ -106,8 +106,5 @@ script = ExtResource("7_87w5t")
 
 [node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_to18j")
-
-[node name="ExplosionBoost" parent="." instance=ExtResource("9_8plqa")]
-position = Vector2(168, 168)
 
 [connection signal="pressed" from="Winner/ExitGame" to="Score" method="_on_exit_game_pressed"]

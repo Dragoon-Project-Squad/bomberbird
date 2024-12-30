@@ -2,9 +2,11 @@ extends CharacterBody2D
 @onready var rock_sfx_player := $RockSound
 
 @rpc("call_local")
-func exploded(by_who):
+func exploded(_by_who):
 	rock_sfx_player.play()
-	# Spawn a powerup where this rock used to be.
-	$"../../PickupSpawner"._spawn_pickup(self.position)
 	#$"../../Score".increase_score(by_who) Rocks don't count for score
 	$"AnimationPlayer".play("explode")
+	# Spawn a powerup where this rock used to be.
+	$"../../PickupSpawner".spawn(self.position)
+	await $"AnimationPlayer".animation_finished #Wait for the animation to finish
+	queue_free()

@@ -4,11 +4,11 @@ func _ready():
 	animated_sprite.play("idle")
 	
 func _on_body_entered(body: Node2D) -> void:
-	pickup_sfx_player.play()
 	if not is_multiplayer_authority():
 		# Activate only on authority.
 		return
 	if body.is_in_group("player") or body.is_in_group("ai_player"):
+		pickup_sfx_player.play()
 		#Prevent anyone else from colliding with this pickup
 		hide_and_disable()
 		if pickup_owner == null: #Only ever let this be assigned once
