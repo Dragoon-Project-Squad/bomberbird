@@ -73,9 +73,10 @@ func increase_bomb_level():
 	explosion_boost_count = min(explosion_boost_count + 1, 2)
 
 @rpc("call_local")
-func exploded(_by_who):
+func exploded(by_who):
 	if stunned:
 		return
 	stunned = true
 	hurt_sfx_player.play()
+	$"../../Score".increase_score(by_who) # Award a point to the person who blew you up
 	get_node("anim").play("stunned")

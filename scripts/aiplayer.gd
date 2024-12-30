@@ -111,11 +111,12 @@ func set_player_name(value):
 
 
 @rpc("call_local")
-func exploded(_by_who):
+func exploded(by_who):
 	if stunned:
 		return
 	stunned = true
 	hurt_sfx_player.play()
+	$"../../Score".increase_score(by_who) # Award a point to the person who blew you up
 	anim_player.play("stunned")
 
 
