@@ -16,7 +16,7 @@ jobs:
           name: Bomberbird
       - name: Build
         id: build
-        uses: manleydev/build-godot-action@v1.4.1
+        uses: felix-schindler/build-godot-action@v2.0.0
         with:
           name: example
           preset: ${{ matrix.platform }}
