@@ -11,6 +11,9 @@
 .mono/
 data_*/
 mono_crash.*.json
+
+# Our specific ignores
 *.exe
 *.pck
 *.zip
+.build/
