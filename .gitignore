@@ -11,4 +11,6 @@
 .mono/
 data_*/
 mono_crash.*.json
-/build
+*.exe
+*.pck
+*.zip
