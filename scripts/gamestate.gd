@@ -4,26 +4,29 @@ extends Node
 # Not on the list of registered or common ports as of November 2020:
 # https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
 const DEFAULT_PORT = 10567
-
-# Max number of players.
 const MAX_PEERS = 4
-
-var peer = null
-
-# Player count variables
-var total_player_count = 2
-var human_player_count = 1
-
-# Name for my player.
-var player_name = "Dragoon"
-
-# Names for remote players in id:name format.
-var players = {}
-var players_ready = []
-
-# AI Handling variables
+const BASE_RENDER: Vector2 = Vector2(1152, 648)
+const MIN_SIZE = Vector2(1152, 648)
 const MAX_ID_COLLISION_RESCUE_ATTEMPTS = 4
 const MAX_NAME_COLLISION_RESCUE_ATTEMPTS = 4
+const AI_NAMES = ["LikeBot", "CommentBot", "SubscribeBot", "MembershipBot"]
+
+# Preloaded Scenes
+var player_scene = preload("res://scenes/player.tscn")
+var ai_player_scene = preload("res://scenes/aiplayer.tscn")
+
+var peer = null
+var players: Dictionary = {}
+var player_name = "Dragoon"
+var total_player_count = 2
+var human_player_count = 1
+var players_ready = []
+
+# Scene management
+var current_scene = null
+var game_container: SubViewportContainer
+var game_subport: SubViewport
+var main_node: CanvasLayer
 
 # Signals to let lobby GUI know what's going on.
 signal player_list_changed()
@@ -32,26 +35,68 @@ signal connection_succeeded()
 signal game_ended()
 signal game_error(what)
 
-# Preloaded Scenes
-var player_scene = preload("res://scenes/player.tscn")
-var ai_player_scene = preload("res://scenes/aiplayer.tscn")
+func _enter_tree():
+	ProjectSettings.set_setting("display/window/size/min_width", MIN_SIZE.x)
+	ProjectSettings.set_setting("display/window/size/min_height", MIN_SIZE.y)
+	DisplayServer.window_set_min_size(MIN_SIZE)
+	# Gets last child of root because it counts back from the end of the index
+
+	# Please don't change these lines unless you can confirm the nodes get assigned
+	main_node = get_node("/root/Main")
+	game_container = main_node.get_node("GameContainer")
+	game_subport = game_container.get_node("GamePort")
+
+func _ready():
+	print(game_container.get_path())
+	multiplayer.peer_connected.connect(_player_connected)
+	multiplayer.peer_disconnected.connect(_player_disconnected)
+	multiplayer.connected_to_server.connect(_connected_ok)
+	multiplayer.connection_failed.connect(_connected_fail)
+	multiplayer.server_disconnected.connect(_server_disconnected)
+
+	get_tree().get_root().connect("size_changed", Callable(self, "_on_screen_resized"))
+	_on_screen_resized()
+
+func _on_screen_resized():
+	# Calculate current viewport size and integer scaling factor
+	var cur_viewport_size: Vector2 = get_viewport().size
+	var scale_factor: int = mini(
+		floor(cur_viewport_size.x / BASE_RENDER.x),
+		floor(cur_viewport_size.y / BASE_RENDER.y)
+	)
+	print("Current viewport size: ", cur_viewport_size)
+	print("Scale factor: ", scale_factor)
+
+	# Calculate the offset, then adjust scale + position of game container
+	var scaled_size: Vector2 = BASE_RENDER * scale_factor
+	game_container.scale = Vector2(scale_factor, scale_factor) / 2
+	game_container.position = floor((cur_viewport_size - scaled_size) / 2)
+
+
+func goto_scene(path):
+	_deferred_goto_scene.call_deferred(path)
+
+func _deferred_goto_scene(path):
+	# Safe to remove scene
+	# Load, instance new scene, then add to root as child
+	current_scene.free()
+	current_scene = ResourceLoader.load(path).instantiate()
+	game_subport.add_child(current_scene)
+
 
 # Callback from SceneTree.
 func _player_connected(id):
 	# Registration of a client beings here, tell the connected player that we are here.
 	register_player.rpc_id(id, player_name)
 
-
 # Callback from SceneTree.
 func _player_disconnected(id):
-	if has_node("/root/World"): # Game is in progress.
-		if multiplayer.is_server():
-			game_error.emit("Player " + players[id] + " disconnected")
-			end_game()
+	if multiplayer.is_server():
+		game_error.emit("Player " + players[id] + " disconnected")
+		end_game()
 	else: # Game is not in progress.
 		# Unregister this player.
 		unregister_player(id)
-
 
 # Callback from SceneTree, only for clients (not server).
 func _connected_ok():
@@ -77,7 +122,7 @@ func register_player(new_player_name):
 	var id = multiplayer.get_remote_sender_id()
 	players[id] = new_player_name
 	player_list_changed.emit()
-	
+
 func unregister_player(id):
 	players.erase(id)
 	player_list_changed.emit()
@@ -87,14 +132,19 @@ func unregister_player(id):
 func load_world():
 	# Change scene.
 	var world = load("res://scenes/world.tscn").instantiate()
-	get_tree().get_root().add_child(world)
-	get_tree().get_root().get_node("Lobby").hide()
+	game_subport.add_child(world)
+	current_scene = world
+
+	# get lobby from game_subport
+	if game_subport.has_node("Lobby"):
+		game_subport.get_node("Lobby").hide()
 
 	# Set up score.
 	world.get_node("Score").add_player(multiplayer.get_unique_id(), player_name)
 	for pn in players:
 		world.get_node("Score").add_player(pn, players[pn])
-	get_tree().set_pause(false) # Unpause and unleash the game!
+
+	get_tree().set_pause(false) # Unpause and start the game!
 
 
 func host_game(new_player_name):
@@ -123,7 +173,7 @@ func begin_game():
 	assert(multiplayer.is_server())
 	add_ai_players()
 	load_world.rpc()
-	var world = get_tree().get_root().get_node("World")
+	var world = game_subport.get_node("World")
 	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
 	var spawn_points = {}
 	spawn_points[1] = 0 # Server in spawn point 0.
@@ -157,43 +207,27 @@ func add_ai_players():
 	pass
 
 func register_ai_player():
-	var id = 2 #TODO: Generate CPU ID here, ensure it does not clash
-	if !is_id_free(id):
-		for i in range(2, 2+MAX_ID_COLLISION_RESCUE_ATTEMPTS, 1):
-			id = i
-			if is_id_free(id):
-				break
-	players[id] = "LikeBot" #TODO: Generate CPU name here
-	if !is_name_free(players[id]):
-		players[id] = "CommentBot"
-	if !is_name_free(players[id]):
-		players[id] = "SubscribeBot"
-	if !is_name_free(players[id]):
-		players[id] = "MembershipBot"
+	var id = _generate_unique_id()
+	var name = _generate_unique_name()
+	players[id] = name
 	player_list_changed.emit()
 
-func is_id_free(chosen_ai_id) -> bool:
-	for p in players:
-		if p == chosen_ai_id:
-			return false
-	return true
-func is_name_free(playername: String) -> bool:
-	for p in players:
-		if players[p] == playername:
-			return false
-	return true
+
+func _generate_unique_id() -> int:
+	for id in range(2, 2 + MAX_ID_COLLISION_RESCUE_ATTEMPTS):
+		if id not in players:
+			return id
+	return -1
+
+func _generate_unique_name() -> String:
+	for name in AI_NAMES:
+		if name not in players.values():
+			return name
+	return "AIPlayer"
+
 
 func end_game():
-	if has_node("/root/World"): # Game is in progress.
-		# End it
-		get_node("/root/World").queue_free()
-
-	game_ended.emit()
+	current_scene.queue_free()
 	players.clear()
+	game_ended.emit()
 
-func _ready():
-	multiplayer.peer_connected.connect(_player_connected)
-	multiplayer.peer_disconnected.connect(_player_disconnected)
-	multiplayer.connected_to_server.connect(_connected_ok)
-	multiplayer.connection_failed.connect(_connected_fail)
-	multiplayer.server_disconnected.connect(_server_disconnected)
