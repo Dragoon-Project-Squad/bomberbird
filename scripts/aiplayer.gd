@@ -59,7 +59,7 @@ func navigation_map_sync_wait(map: RID):
 	while NavigationServer2D.map_get_iteration_id(map) == 0:
 		await get_tree().create_timer(0.1).timeout
 	if NavigationServer2D.map_get_iteration_id(map) != 0:
-		print("Yippie!")
+		#print("NavigationServer2D Map Iterated!")
 		waiting_for_map_sync = false
 	
 func set_roaming_area():

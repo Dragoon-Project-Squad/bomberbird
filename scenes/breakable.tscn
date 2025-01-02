@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://bao3yernlglws"]
 
-[ext_resource type="Script" path="res://scripts/rock.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/breakable.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://bdomqql6y50po" path="res://assets/brickfloor.png" id="2"]
 [ext_resource type="AudioStream" uid="uid://36rjkxoq18ne" path="res://sound/fx/debrisdeath.wav" id="3_8bomw"]
 
@@ -41,7 +41,7 @@ _data = {
 "explode": SubResource("2")
 }
 
-[node name="Rock" type="CharacterBody2D"]
+[node name="Breakable" type="CharacterBody2D"]
 motion_mode = 1
 script = ExtResource("1")
 
@@ -58,5 +58,5 @@ libraries = {
 "": SubResource("AnimationLibrary_6pqaw")
 }
 
-[node name="RockSound" type="AudioStreamPlayer2D" parent="."]
+[node name="BreakableSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_8bomw")
