@@ -1,7 +1,0 @@
-name: "Copy Export Preset"
-description: "Copies one file and renames it"
-runs:
-  using: "composite"
-  steps: 
-  - run: |
-      cp export_presets_ci.cfg export_presets.cfg
