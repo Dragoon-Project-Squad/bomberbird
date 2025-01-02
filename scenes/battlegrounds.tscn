@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_b42q6"]
 [ext_resource type="TileSet" uid="uid://do2l6lpuotti8" path="res://assets/tileset.tres" id="2_ay4g4"]
-[ext_resource type="PackedScene" uid="uid://bao3yernlglws" path="res://scenes/rock.tscn" id="3_rf625"]
+[ext_resource type="PackedScene" uid="uid://bao3yernlglws" path="res://scenes/breakable.tscn" id="3_rf625"]
 [ext_resource type="Script" path="res://scripts/score.gd" id="4_hhld2"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="5_g2doi"]
 [ext_resource type="Script" path="res://scripts/bomb_spawner.gd" id="6_xje61"]
@@ -45,12 +45,12 @@ position = Vector2(72, 552)
 [node name="3" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(648, 552)
 
-[node name="Rocks" type="Node2D" parent="."]
+[node name="Breakables" type="Node2D" parent="."]
 
-[node name="Rock0" parent="Rocks" instance=ExtResource("3_rf625")]
+[node name="Rock0" parent="Breakables" instance=ExtResource("3_rf625")]
 position = Vector2(168, 264)
 
-[node name="Rock1" parent="Rocks" instance=ExtResource("3_rf625")]
+[node name="Rock1" parent="Breakables" instance=ExtResource("3_rf625")]
 position = Vector2(264, 168)
 
 [node name="Players" type="Node2D" parent="."]
