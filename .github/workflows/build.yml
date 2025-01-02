@@ -15,8 +15,9 @@ jobs:
     container:
       image: barichello/godot-ci:4.3
     steps:
-      - name: Copy Export Config
-        uses: ./.github/workflows/copy_export_preset_action
+      - name: Copy Export Preset
+        run: |
+          cp export_presets_ci.cfg export_presets.cfg
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -45,8 +46,9 @@ jobs:
     container:
       image: barichello/godot-ci:4.3
     steps:
-      - name: Copy Export Config
-        uses: ./.github/workflows/copy_export_preset_action
+      - name: Copy Export Preset
+        run: |
+          cp export_presets_ci.cfg export_presets.cfg
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -73,8 +75,9 @@ jobs:
     container:
       image: barichello/godot-ci:4.3
     steps:
-      - name: Copy Export Config
-        uses: ./.github/workflows/copy_export_preset_action
+      - name: Copy Export Preset
+        run: |
+          cp export_presets_ci.cfg export_presets.cfg
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -109,8 +112,9 @@ jobs:
     container:
       image: barichello/godot-ci:4.3
     steps:
-      - name: Copy Export Config
-        uses: ./.github/workflows/copy_export_preset_action
+      - name: Copy Export Preset
+        run: |
+          cp export_presets_ci.cfg export_presets.cfg
       - name: Checkout
         uses: actions/checkout@v4
         with:
