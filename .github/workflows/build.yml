@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Copy Export Preset
         run: |
-          cp ${PROJECT_PATH}.export_presets_ci.cfg ${PROJECT_PATH}.export_presets.cfg
+          cp $PROJECT_PATH/export_presets_ci.cfg $PROJECT_PATH/export_presets.cfg
       - name: Checkout
         uses: actions/checkout@v4
         with:
