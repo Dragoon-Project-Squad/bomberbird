@@ -19,6 +19,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
+      - name: Copy Export Preset
+        run: |
+          cp export_presets_ci.cfg export_presets.cfg
       - name: Setup
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates/
@@ -47,6 +50,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
+      - name: Copy Export Preset
+        run: |
+          cp export_presets_ci.cfg export_presets.cfg
       - name: Setup
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates/
@@ -73,6 +79,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
+      - name: Copy Export Preset
+        run: |
+          cp export_presets_ci.cfg export_presets.cfg
       - name: Setup
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates/
@@ -107,6 +116,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
+      - name: Copy Export Preset
+        run: |
+          cp export_presets_ci.cfg export_presets.cfg
       - name: Setup
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates/
