@@ -37,5 +37,4 @@ func _spawn_pickup(spawn_coords: Vector2):
 	# Decide which pickup should be spawned
 	var pickup = spawn_chosen_pickup(random_pickup_type())
 	pickup.position = spawn_coords
-	print("hello")
 	return pickup
