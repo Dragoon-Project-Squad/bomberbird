@@ -12,9 +12,13 @@ const BOMB_RATE = 0.5
 var last_bomb_time = BOMB_RATE
 var current_anim = ""
 var is_dead = false
+var lives = 1
 
-var movement_speed = BASE_MOTION_SPEED
+#Powerup specific vars
+var movement_speed = BASE_MOTION_SPEED #TODO: Make movement speed powerup
 var explosion_boost_count = 0
+var can_punch = false #TODO: Make punch powerup
+var bomb_count = 0 #TODO: Rewrite bombs to work off bonus bombs
 
 func _ready():
 	stunned = false
@@ -64,10 +68,20 @@ func _physics_process(delta):
 		current_anim = new_anim
 		get_node("anim").play(current_anim)
 
+func enter_death_state():
+	self.visible = false #Invisible
+	process_mode = PROCESS_MODE_DISABLED
+	
+func exit_death_state():
+	self.visible = true #Visible
+	process_mode = PROCESS_MODE_INHERIT
 
 func set_player_name(value):
 	get_node("label").set_text(value)
 
+func get_player_name():
+	get_node("label").get_text()
+	
 @rpc("call_local")
 func increase_bomb_level():
 	explosion_boost_count = min(explosion_boost_count + 1, 2)
@@ -77,6 +91,14 @@ func exploded(by_who):
 	if stunned:
 		return
 	stunned = true
+	lives -= 1
 	hurt_sfx_player.play()
-	$"../../Score".increase_score(by_who) # Award a point to the person who blew you up
+	if str(by_who) == get_player_name():
+		$"../../Score".decrease_score(by_who) # Take away a point for blowing yourself up
+	else:
+		$"../../Score".increase_score(by_who) # Award a point to the person who blew you up
 	get_node("anim").play("stunned")
+	if lives <= 0:
+		is_dead = true
+		#TODO: Knockout Player
+		enter_death_state()

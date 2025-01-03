@@ -16,6 +16,14 @@ const BOMB_RATE = 0.5
 var last_bomb_time = BOMB_RATE
 var current_anim = ""
 var is_dead = false
+var lives = 1
+
+#Powerup specific vars
+var movement_speed = BASE_MOTION_SPEED #TODO: Make movement speed powerup
+var explosion_boost_count = 0
+var can_punch = false #TODO: Make punch powerup
+var bomb_count = 0 #TODO: Rewrite bombs to work off bonus bombs
+
 # AI Player specific vars
 var is_bombing = false #TODO: Setup condition for AI to bomb, and include is_bombing
 var roaming_area: Rect2
@@ -108,16 +116,34 @@ func set_random_target():
 	
 func set_player_name(value):
 	get_node("label").set_text(value)
+	
+func get_player_name():
+	get_node("label").get_text()
 
+func enter_death_state():
+	self.visible = false #Invisible
+	process_mode = PROCESS_MODE_DISABLED
+	
+func exit_death_state():
+	self.visible = true #Visible
+	process_mode = PROCESS_MODE_INHERIT
 
 @rpc("call_local")
 func exploded(by_who):
 	if stunned:
 		return
 	stunned = true
+	lives -= 1
 	hurt_sfx_player.play()
-	$"../../Score".increase_score(by_who) # Award a point to the person who blew you up
-	anim_player.play("stunned")
+	if str(by_who) == get_player_name():
+		$"../../Score".decrease_score(by_who) # Take away a point for blowing yourself up
+	else:
+		$"../../Score".increase_score(by_who) # Award a point to the person who blew you up
+	get_node("anim").play("stunned")
+	if lives <= 0:
+		is_dead = true
+		#TODO: Knockout Player
+		enter_death_state()
 
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
