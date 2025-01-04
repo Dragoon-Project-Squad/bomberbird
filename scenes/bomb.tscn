@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://enwoaqi0rnei"]
+[gd_scene load_steps=11 format=3 uid="uid://enwoaqi0rnei"]
 
 [ext_resource type="Script" path="res://scripts/bomb.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://bdomqql6y50po" path="res://assets/brickfloor.png" id="2"]
@@ -81,12 +81,16 @@ _data = {
 }
 
 [node name="Bomb" type="Area2D"]
+collision_layer = 8
+collision_mask = 6
 monitorable = false
 script = ExtResource("1")
 explosion_audio = ExtResource("2_gmoi6")
 
 [node name="BombCollisionBody2D" type="StaticBody2D" parent="."]
 process_mode = 4
+collision_layer = 8
+collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BombCollisionBody2D"]
 position = Vector2(-0.5, -1)
@@ -99,10 +103,12 @@ region_enabled = true
 region_rect = Rect2(144, 0, 48, 48)
 
 [node name="YAxisShape" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(-0.5, 0)
 shape = SubResource("RectangleShape2D_1ih13")
 
 [node name="XAxisShape" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_whso6")
 
@@ -144,12 +150,35 @@ libraries = {
 autoplay = "anim"
 
 [node name="ExplosionSoundPlayer" type="AudioStreamPlayer2D" parent="."]
+
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.8
+
 [node name="BombCollisionArea2D" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 6
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BombCollisionArea2D"]
 position = Vector2(-0.5, -1)
 shape = SubResource("RectangleShape2D_6btgv")
+
+[node name="Raycasts" type="Node2D" parent="."]
+
+[node name="Down" type="RayCast2D" parent="Raycasts"]
+target_position = Vector2(0, 48)
+collision_mask = 6
+
+[node name="Up" type="RayCast2D" parent="Raycasts"]
+target_position = Vector2(0, -48)
+collision_mask = 6
+
+[node name="Right" type="RayCast2D" parent="Raycasts"]
+target_position = Vector2(48, 0)
+collision_mask = 6
+
+[node name="Left" type="RayCast2D" parent="Raycasts"]
+target_position = Vector2(-48, 0)
+collision_mask = 6
 
 [connection signal="body_entered" from="." to="." method="_on_bomb_body_enter"]
 [connection signal="body_exited" from="." to="." method="_on_bomb_body_exit"]

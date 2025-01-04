@@ -5,14 +5,36 @@ var from_player: int
 var explosion_level: int = 1
 @export var explosion_audio : AudioStreamWAV = load("res://sound/fx/explosion.wav")
 @onready var explosion_sfx_player := $ExplosionSoundPlayer 
+@onready var rays = $Raycasts
 
 func _ready():
 	explosion_sfx_player.set_stream(explosion_audio)
-
-func _ready() -> void:
 	$Timer.start()
-	pass
 # Called from the animation.
+func _physics_process(delta: float) -> void:
+	in_area = detect_rays()
+	
+func detect_rays() -> Array:
+	
+	var colliders = []
+	var final_colliders = []
+	
+	for ray in rays.get_children():
+		var initial_ray_cast_to = ray.cast_to
+		for tile in explosion_level:
+			ray.cast_to = initial_ray_cast_to * (Vector2.ONE * (tile + 1))
+			if ray.is_colliding():
+				var collider = ray.get_collider()
+				colliders.append(collider)
+				ray.add_exception(collider)
+				ray.force_raycast_update()
+			else:
+				break
+
+		for collider in colliders: # Loop through all the colliders.
+			if not collider in final_colliders: # If the collider is not in the "final_colliders" array...
+				final_colliders.append(collider)
+	return final_colliders
 func explode():
 	explosion_sfx_player.play()
 	if not is_multiplayer_authority():

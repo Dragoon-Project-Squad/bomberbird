@@ -23,7 +23,7 @@ func _ready():
 	position = synced_position
 	if str(name).is_valid_int():
 		get_node("Inputs/InputsSync").set_multiplayer_authority(str(name).to_int())
-	tileMap = get_parent().get_parent().get_node("TileMapLayer")
+	tileMap = get_parent().get_parent().get_node("Background")
 
 
 func _physics_process(delta):
@@ -38,9 +38,10 @@ func _physics_process(delta):
 		last_bomb_time += delta
 		if not stunned and is_multiplayer_authority() and inputs.bombing and last_bomb_time >= BOMB_RATE:
 			if tileMap != null:
-				bombPos = tileMap.map_to_local(tileMap.local_to_map(position))
+				bombPos = tileMap.map_to_local(tileMap.local_to_map(synced_position))
+				
 			last_bomb_time = 0.0
-			get_node("../../BombSpawner").spawn([position, str(name).to_int(), explosion_boost_count])
+			get_node("../../BombSpawner").spawn([bombPos, str(name).to_int(), explosion_boost_count])
 	else:
 		# The client simply updates the position to the last known one.
 		position = synced_position
