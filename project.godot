@@ -16,7 +16,7 @@ config/version="0.01"
 config/tags=PackedStringArray("2d", "network")
 run/main_scene="res://scenes/lobby.tscn"
 config/features=PackedStringArray("4.3")
-config/icon="res://assets/icon.webp"
+config/icon="res://assets/gameart/icon.webp"
 
 [autoload]
 
@@ -26,6 +26,11 @@ gamestate="*res://scripts/gamestate.gd"
 
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[global_group]
+
+player="human players"
+ai_player="cpu players"
 
 [input]
 
@@ -74,6 +79,7 @@ set_bomb={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true
 
 [replication]
 

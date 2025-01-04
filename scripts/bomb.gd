@@ -2,12 +2,19 @@ extends Area2D
 
 var in_area: Array = []
 var from_player: int
+var explosion_level: int = 1
+@export var explosion_audio : AudioStreamWAV = load("res://sound/fx/explosion.wav")
+@onready var explosion_sfx_player := $ExplosionSoundPlayer 
+
+func _ready():
+	explosion_sfx_player.set_stream(explosion_audio)
 
 func _ready() -> void:
 	$Timer.start()
 	pass
 # Called from the animation.
 func explode():
+	explosion_sfx_player.play()
 	if not is_multiplayer_authority():
 		# Explode only on authority.
 		return
@@ -28,10 +35,10 @@ func done():
 
 func _on_bomb_body_enter(body):
 	if not body in in_area:
-		in_area.append(body)
+		in_area.append(body) #Add this thing to list of things this bomb will explode
 
 func _on_bomb_body_exit(body):
-	in_area.erase(body)
+	in_area.erase(body) # Remove this thing from the list of things this bomb will explode
 	
 func _on_timer_timeout() -> void:
 	print("explode")

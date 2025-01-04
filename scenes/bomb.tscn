@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/bomb.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://bdomqql6y50po" path="res://assets/brickfloor.png" id="2"]
+[ext_resource type="AudioStream" uid="uid://boidckhyrna5i" path="res://sound/fx/explosion.wav" id="2_gmoi6"]
 [ext_resource type="Texture2D" uid="uid://drfbkdqmj0gu2" path="res://assets/explosion.png" id="3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6btgv"]
@@ -82,6 +83,7 @@ _data = {
 [node name="Bomb" type="Area2D"]
 monitorable = false
 script = ExtResource("1")
+explosion_audio = ExtResource("2_gmoi6")
 
 [node name="BombCollisionBody2D" type="StaticBody2D" parent="."]
 process_mode = 4
@@ -91,7 +93,6 @@ position = Vector2(-0.5, -1)
 shape = SubResource("RectangleShape2D_6btgv")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-self_modulate = Color(1, 1, 1, 0)
 position = Vector2(-2.92606, -2.92606)
 texture = ExtResource("2")
 region_enabled = true
@@ -142,11 +143,10 @@ libraries = {
 }
 autoplay = "anim"
 
+[node name="ExplosionSoundPlayer" type="AudioStreamPlayer2D" parent="."]
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.8
-
 [node name="BombCollisionArea2D" type="Area2D" parent="."]
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BombCollisionArea2D"]
 position = Vector2(-0.5, -1)
 shape = SubResource("RectangleShape2D_6btgv")

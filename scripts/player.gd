@@ -1,20 +1,21 @@
 extends CharacterBody2D
 
-const MOTION_SPEED = 130.0
+const BASE_MOTION_SPEED = 130.0
 const BOMB_RATE = 0.5
 
-@export
-var synced_position := Vector2()
+@export var synced_position := Vector2()
+@export var stunned = false
 
-@export
-var stunned = false
+@onready var hurt_sfx_player := $HurtSoundPlayer
+@onready var inputs = $Inputs
 
-@onready
-var inputs = $Inputs
 var last_bomb_time = BOMB_RATE
 var current_anim = ""
-var tileMap : TileMapLayer
+var is_dead = false
 
+var movement_speed = BASE_MOTION_SPEED
+var explosion_boost_count = 0
+var tileMap : TileMapLayer
 var bombPos := Vector2()
 
 func _ready():
@@ -39,14 +40,14 @@ func _physics_process(delta):
 			if tileMap != null:
 				bombPos = tileMap.map_to_local(tileMap.local_to_map(position))
 			last_bomb_time = 0.0
-			get_node("../../BombSpawner").spawn([bombPos, str(name).to_int()])
+			get_node("../../BombSpawner").spawn([position, str(name).to_int(), explosion_boost_count])
 	else:
 		# The client simply updates the position to the last known one.
 		position = synced_position
 
 	if not stunned:
 		# Everybody runs physics. I.e. clients tries to predict where they will be during the next frame.
-		velocity = inputs.motion.normalized() * MOTION_SPEED
+		velocity = inputs.motion.normalized() * movement_speed
 		move_and_slide()
 
 	# Also update the animation based on the last known player input state
@@ -71,12 +72,17 @@ func _physics_process(delta):
 
 
 func set_player_name(value):
-	get_node("label").text = value
-
+	get_node("label").set_text(value)
 
 @rpc("call_local")
-func exploded(_by_who):
+func increase_bomb_level():
+	explosion_boost_count = min(explosion_boost_count + 1, 2)
+
+@rpc("call_local")
+func exploded(by_who):
 	if stunned:
 		return
 	stunned = true
+	hurt_sfx_player.play()
+	$"../../Score".increase_score(by_who) # Award a point to the person who blew you up
 	get_node("anim").play("stunned")
