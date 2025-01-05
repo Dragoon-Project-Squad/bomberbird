@@ -1,4 +1,4 @@
-extends Area2D
+extends StaticBody2D
 
 var in_area: Array = []
 var from_player: int
@@ -10,46 +10,34 @@ var explosion_level: int = 1
 func _ready():
 	explosion_sfx_player.set_stream(explosion_audio)
 	$Timer.start()
-# Called from the animation.
-func _physics_process(delta: float) -> void:
-	in_area = detect_rays()
 	
-func detect_rays() -> Array:
-	
-	var colliders = []
-	var final_colliders = []
-	
-	for ray in rays.get_children():
-		var initial_ray_cast_to = ray.cast_to
-		for tile in explosion_level:
-			ray.cast_to = initial_ray_cast_to * (Vector2.ONE * (tile + 1))
-			if ray.is_colliding():
-				var collider = ray.get_collider()
-				colliders.append(collider)
-				ray.add_exception(collider)
-				ray.force_raycast_update()
-			else:
-				break
-
-		for collider in colliders: # Loop through all the colliders.
-			if not collider in final_colliders: # If the collider is not in the "final_colliders" array...
-				final_colliders.append(collider)
-	return final_colliders
 func explode():
 	explosion_sfx_player.play()
-	if not is_multiplayer_authority():
+	for ray in rays.get_children():
+		match ray.target_position:
+			Vector2(0,48):
+				ray.target_position = Vector2(0,48 * (explosion_level))
+				ray.force_raycast_update()
+			Vector2(0,-48):
+				ray.target_position = Vector2(0,-48 * (explosion_level))
+				ray.force_raycast_update()
+			Vector2(48,0):
+				ray.target_position = Vector2(48 * (explosion_level), 0 )
+				ray.force_raycast_update()
+			Vector2(-48,0):
+				ray.target_position = Vector2(-48 * (explosion_level), 0 )
+				ray.force_raycast_update()
+		if ray.is_colliding():
+			print(ray.get_collider())
+			in_area.append(ray.get_collider())
+		if not is_multiplayer_authority():
 		# Explode only on authority.
-		return
-	for p in in_area:
-		if p.has_method("exploded"):
-			# Checks if there is wall in between bomb and the object
-			var world_state: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
-			var query := PhysicsRayQueryParameters2D.create(position, p.position)
-			query.hit_from_inside = true
-			var result: Dictionary  = world_state.intersect_ray(query)
-			if not result.collider is TileMapLayer:
+			return
+		for breakable in in_area:
+			if breakable.has_method("exploded"):
 				# Exploded can only be called by the authority, but will also be called locally.
-				p.exploded.rpc(from_player)
+				breakable.exploded.rpc(from_player)
+				in_area.erase(ray.get_collider())
 
 func done():
 	if is_multiplayer_authority():
@@ -67,6 +55,6 @@ func _on_timer_timeout() -> void:
 	explode()
 	done()
 
-func _on_bomb_collision_area_2d_body_exited(body: Node2D) -> void:
+func _on_detect_area_body_exit(body: Node2D) -> void:
 	print("exited")
-	$BombCollisionBody2D.set_deferred("process_mode", 0)
+	$CollisionShape2D.set_deferred("disabled", 0)
