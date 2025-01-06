@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dgfv37m0j3grk"]
+[gd_scene load_steps=4 format=3 uid="uid://dgfv37m0j3grk"]
 
-[ext_resource type="Script" path="res://scenes/main_menu.gd" id="1_qmksv"]
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_qmksv"]
 [ext_resource type="Texture2D" uid="uid://c4etvudqmupbf" path="res://assets/scratch/Untitled.png" id="1_xtlt4"]
+[ext_resource type="Theme" uid="uid://dbmlttmtal2do" path="res://assets/button_theme.tres" id="3_fxa86"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -12,22 +13,34 @@ script = ExtResource("1_qmksv")
 position = Vector2(960, 540)
 texture = ExtResource("1_xtlt4")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="ButtonBox" type="VBoxContainer" parent="."]
 layout_mode = 0
 offset_left = 660.0
 offset_top = 800.0
 offset_right = 1260.0
 offset_bottom = 1100.0
 
-[node name="SinglePlayer" type="Button" parent="VBoxContainer"]
+[node name="SinglePlayer" type="Button" parent="ButtonBox"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../Options")
+focus_neighbor_bottom = NodePath("../Multiplayer")
+theme = ExtResource("3_fxa86")
+toggle_mode = true
 text = "Single Player"
 
-[node name="Multiplayer" type="Button" parent="VBoxContainer"]
+[node name="Multiplayer" type="Button" parent="ButtonBox"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../SinglePlayer")
+focus_neighbor_bottom = NodePath("../Options")
 text = "Multiplayer"
 
-[node name="Options" type="Button" parent="VBoxContainer"]
+[node name="Options" type="Button" parent="ButtonBox"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../Multiplayer")
+focus_neighbor_bottom = NodePath("../SinglePlayer")
 text = "Options
 "
+
+[connection signal="pressed" from="ButtonBox/SinglePlayer" to="." method="_on_single_player_pressed"]
+[connection signal="pressed" from="ButtonBox/Multiplayer" to="." method="_on_multiplayer_pressed"]
+[connection signal="pressed" from="ButtonBox/Options" to="." method="_on_options_pressed"]
