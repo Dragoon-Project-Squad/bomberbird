@@ -3,6 +3,8 @@ extends StaticBody2D
 var in_area: Array = []
 var from_player: int
 var explosion_level: int = 1
+const TILE_SIZE = 48 #Primitive method of assigning correct tile size
+#var TILE_SIZE: int = get_node("/root/World/Unbreakale").get_tileset().get_tile_size() #Would be cool but the match doesn't like non constants
 @export var explosion_audio : AudioStreamWAV = load("res://sound/fx/explosion.wav")
 @onready var explosion_sfx_player := $ExplosionSoundPlayer 
 @onready var rays = $Raycasts
@@ -15,17 +17,17 @@ func explode():
 	explosion_sfx_player.play()
 	for ray in rays.get_children():
 		match ray.target_position:
-			Vector2(0,48):
-				ray.target_position = Vector2(0,48 * (explosion_level))
+			Vector2(0,TILE_SIZE):
+				ray.target_position = Vector2(0,TILE_SIZE * (explosion_level))
 				ray.force_raycast_update()
-			Vector2(0,-48):
-				ray.target_position = Vector2(0,-48 * (explosion_level))
+			Vector2(0,-TILE_SIZE):
+				ray.target_position = Vector2(0,-TILE_SIZE * (explosion_level))
 				ray.force_raycast_update()
-			Vector2(48,0):
-				ray.target_position = Vector2(48 * (explosion_level), 0 )
+			Vector2(TILE_SIZE,0):
+				ray.target_position = Vector2(TILE_SIZE * (explosion_level), 0 )
 				ray.force_raycast_update()
-			Vector2(-48,0):
-				ray.target_position = Vector2(-48 * (explosion_level), 0 )
+			Vector2(-TILE_SIZE,0):
+				ray.target_position = Vector2(-TILE_SIZE * (explosion_level), 0 )
 				ray.force_raycast_update()
 		if ray.is_colliding():
 			print(ray.get_collider())
