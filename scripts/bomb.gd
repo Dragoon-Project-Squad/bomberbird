@@ -9,6 +9,9 @@ var explosion_level: int = 1
 func _ready():
 	explosion_sfx_player.set_stream(explosion_audio)
 
+func _ready() -> void:
+	$Timer.start()
+	pass
 # Called from the animation.
 func explode():
 	explosion_sfx_player.play()
@@ -26,16 +29,22 @@ func explode():
 				# Exploded can only be called by the authority, but will also be called locally.
 				p.exploded.rpc(from_player)
 
-
 func done():
 	if is_multiplayer_authority():
 		queue_free()
-
 
 func _on_bomb_body_enter(body):
 	if not body in in_area:
 		in_area.append(body) #Add this thing to list of things this bomb will explode
 
-
 func _on_bomb_body_exit(body):
 	in_area.erase(body) # Remove this thing from the list of things this bomb will explode
+	
+func _on_timer_timeout() -> void:
+	print("explode")
+	explode()
+	done()
+
+func _on_bomb_collision_area_2d_body_exited(body: Node2D) -> void:
+	print("exited")
+	$BombCollisionBody2D.set_deferred("process_mode", 0)

@@ -36,6 +36,9 @@ signal game_error(what)
 var player_scene = preload("res://scenes/player.tscn")
 var ai_player_scene = preload("res://scenes/aiplayer.tscn")
 
+# Singleplayer Vars
+var current_level: int = 0
+
 # Callback from SceneTree.
 func _player_connected(id):
 	# Registration of a client beings here, tell the connected player that we are here.
@@ -86,7 +89,7 @@ func unregister_player(id):
 @rpc("call_local")
 func load_world():
 	# Change scene.
-	var world = load("res://scenes/world.tscn").instantiate()
+	var world = load("res://scenes/battlegrounds.tscn").instantiate()
 	get_tree().get_root().add_child(world)
 	get_tree().get_root().get_node("Lobby").hide()
 
