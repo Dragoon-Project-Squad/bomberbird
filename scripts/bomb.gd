@@ -8,10 +8,8 @@ var explosion_level: int = 1
 
 func _ready():
 	explosion_sfx_player.set_stream(explosion_audio)
-
-func _ready() -> void:
 	$Timer.start()
-	pass
+	
 # Called from the animation.
 func explode():
 	explosion_sfx_player.play()
