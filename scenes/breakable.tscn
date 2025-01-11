@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://36rjkxoq18ne" path="res://sound/fx/debrisdeath.wav" id="3_8bomw"]
 
 [sub_resource type="RectangleShape2D" id="1"]
-size = Vector2(48, 48)
+size = Vector2(32, 32)
 
 [sub_resource type="Animation" id="2"]
 resource_name = "explode"

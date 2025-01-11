@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c4wx6vvatpoeq"
-path="res://.godot/imported/doki_down.png-2cae5f8ebf6720dbf819a0476c1fa110.ctex"
+uid="uid://lckm0mdablaw"
+path="res://.godot/imported/chonkgoon_walk.png-ee6b6bc99c6ff716928df0425c884fa7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/player/doki_down.png"
-dest_files=["res://.godot/imported/doki_down.png-2cae5f8ebf6720dbf819a0476c1fa110.ctex"]
+source_file="res://assets/player/chonkgoon_walk.png"
+dest_files=["res://.godot/imported/chonkgoon_walk.png-ee6b6bc99c6ff716928df0425c884fa7.ctex"]
 
 [params]
 

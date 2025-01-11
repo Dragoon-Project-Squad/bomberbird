@@ -45,6 +45,7 @@ position = Vector2(48, 432)
 position = Vector2(432, 432)
 
 [node name="Breakables" type="Node2D" parent="."]
+visible = false
 
 [node name="Players" type="Node2D" parent="."]
 
