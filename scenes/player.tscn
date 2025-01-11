@@ -180,22 +180,22 @@ hframes = 4
 vframes = 4
 
 [node name="rect" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-21, -23, 21, -23, 21, -21, 23, -21, 23, 21, 21, 21, 21, 23, -21, 23, -21, 21, -23, 21, -23, -21, -21, -21)
+polygon = PackedVector2Array(-14, -15, 14, -15, 14, -14, 15, -14, 15, 14, 14, 14, 14, 15, -14, 15, -14, 14, -15, 14, -15, -14, -14, -14)
 
 [node name="corner1" type="CollisionShape2D" parent="."]
-position = Vector2(-21, -21)
+position = Vector2(-14, -14)
 shape = SubResource("CircleShape2D_vs46n")
 
 [node name="corner2" type="CollisionShape2D" parent="."]
-position = Vector2(21, -21)
+position = Vector2(14, -14)
 shape = SubResource("CircleShape2D_vs46n")
 
 [node name="corner3" type="CollisionShape2D" parent="."]
-position = Vector2(21, 21)
+position = Vector2(14, 14)
 shape = SubResource("CircleShape2D_vs46n")
 
 [node name="corner4" type="CollisionShape2D" parent="."]
-position = Vector2(-21, 21)
+position = Vector2(-14, 14)
 shape = SubResource("CircleShape2D_vs46n")
 
 [node name="origin_shape" type="CollisionShape2D" parent="."]
