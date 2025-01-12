@@ -15,7 +15,7 @@ env:
 jobs:
   export-windows:
     name: Windows Export
-    runs-on: self-hosted
+    runs-on: ubuntu-20.04
     container:
       image: barichello/godot-ci:4.3
     steps:
@@ -43,10 +43,10 @@ jobs:
         with:
           name: windows
           path: build/windows
-
+          retention-days: 7
   export-linux:
     name: Linux Export
-    runs-on: self-hosted
+    runs-on: ubuntu-20.04
     container:
       image: barichello/godot-ci:4.3
     steps:
@@ -72,10 +72,10 @@ jobs:
         with:
           name: linux
           path: build/linux
-
+          retention-days: 7
   export-web:
     name: Web Export
-    runs-on: self-hosted
+    runs-on: ubuntu-20.04
     container:
       image: barichello/godot-ci:4.3
     steps:
@@ -101,6 +101,7 @@ jobs:
         with:
           name: web
           path: build/web
+          retention-days: 7
       - name: Install rsync 📚
         run: |
           apt-get update && apt-get install -y rsync
@@ -112,7 +113,7 @@ jobs:
 
   export-mac:
     name: Mac Export
-    runs-on: self-hosted
+    runs-on: ubuntu-20.04
     container:
       image: barichello/godot-ci:4.3
     steps:
@@ -138,3 +139,4 @@ jobs:
         with:
           name: mac
           path: build/mac
+          retention-days: 7
