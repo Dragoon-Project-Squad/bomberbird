@@ -1,7 +1,9 @@
 name: "godot-ci export"
-on: 
+on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - 'releases/**'
     
 # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` below to ".".
 
