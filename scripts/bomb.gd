@@ -5,6 +5,7 @@ var from_player: int
 var explosion_level: int = 1
 @export var explosion_audio : AudioStreamWAV = load("res://sound/fx/explosion.wav")
 @onready var explosion_sfx_player := $ExplosionSoundPlayer 
+@onready var sprite := $Sprite
 
 func _ready():
 	explosion_sfx_player.set_stream(explosion_audio)
@@ -31,6 +32,16 @@ func done():
 	if is_multiplayer_authority():
 		queue_free()
 
+func set_explosion_level_and_size(explosionlevel: int):
+	explosion_level = clamp(explosionlevel, 1, 3)
+	sprite.set_frame(clamp(explosionlevel-1, 0, 2))
+
+func set_explosion_level(explosionlevel: int):
+	explosion_level = clamp(explosionlevel, 1, 3)
+	
+func set_bomb_size(size: int):
+	sprite.set_frame(clamp(size-1, 0, 2))
+	
 func _on_bomb_body_enter(body):
 	if not body in in_area:
 		in_area.append(body) #Add this thing to list of things this bomb will explode

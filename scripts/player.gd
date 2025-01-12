@@ -23,7 +23,7 @@ func _ready():
 	position = synced_position
 	if str(name).is_valid_int():
 		get_node("Inputs/InputsSync").set_multiplayer_authority(str(name).to_int())
-	tileMap = get_parent().get_parent().get_node("TileMapLayer")
+	tileMap = get_parent().get_parent().get_node("Unbreakable")
 
 
 func _physics_process(delta):
