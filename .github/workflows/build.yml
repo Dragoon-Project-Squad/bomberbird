@@ -1,6 +1,10 @@
 name: "godot-ci export"
-on: push
-
+on:
+  push:
+    branches:
+      - main
+      - 'releases/**'
+    
 # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` below to ".".
 
 env:
@@ -39,7 +43,7 @@ jobs:
         with:
           name: windows
           path: build/windows
-
+          retention-days: 7
   export-linux:
     name: Linux Export
     runs-on: ubuntu-20.04
@@ -68,7 +72,7 @@ jobs:
         with:
           name: linux
           path: build/linux
-
+          retention-days: 7
   export-web:
     name: Web Export
     runs-on: ubuntu-20.04
@@ -97,6 +101,7 @@ jobs:
         with:
           name: web
           path: build/web
+          retention-days: 7
       - name: Install rsync 📚
         run: |
           apt-get update && apt-get install -y rsync
@@ -134,3 +139,4 @@ jobs:
         with:
           name: mac
           path: build/mac
+          retention-days: 7
