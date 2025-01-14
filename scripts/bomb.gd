@@ -9,11 +9,12 @@ var explosion_level: int = 1
 
 func _ready():
 	explosion_sfx_player.set_stream(explosion_audio)
-	$Timer.start()
+	$BombTimer.start()
 	
 # Called from the animation.
 func explode():
 	explosion_sfx_player.play()
+	$ExplosionTimer.start()
 	if not is_multiplayer_authority():
 		# Explode only on authority.
 		return
@@ -52,8 +53,11 @@ func _on_bomb_body_exit(body):
 func _on_timer_timeout() -> void:
 	print("explode")
 	explode()
-	done()
 
 func _on_bomb_collision_area_2d_body_exited(body: Node2D) -> void:
 	print("exited")
 	$BombCollisionBody2D.set_deferred("process_mode", 0)
+
+
+func _on_explosion_timer_timeout() -> void:
+	done()
