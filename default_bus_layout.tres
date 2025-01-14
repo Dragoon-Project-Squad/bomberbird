@@ -5,6 +5,6 @@ resource_name = "Compressor"
 threshold = -7.0
 
 [resource]
-bus/0/volume_db = 6.02
+bus/0/volume_db = -0.130497
 bus/0/effect/0/effect = SubResource("AudioEffectCompressor_j7s8q")
-bus/0/effect/0/enabled = true
+bus/0/effect/0/enabled = false

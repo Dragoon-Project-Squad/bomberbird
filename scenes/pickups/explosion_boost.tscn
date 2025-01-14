@@ -33,8 +33,7 @@ sprite_frames = SubResource("SpriteFrames_0hn6b")
 animation = &"idle"
 frame_progress = 1.0
 
-[node name="PickupSoundPlayer" type="AudioStreamPlayer2D" parent="."]
+[node name="PickupSoundPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_mrjxs")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="finished" from="PickupSoundPlayer" to="." method="_on_pickup_sound_player_finished"]

@@ -14,7 +14,6 @@ func _ready():
 # Called from the animation.
 func explode():
 	explosion_sfx_player.play()
-	$ExplosionTimer.start()
 	if not is_multiplayer_authority():
 		# Explode only on authority.
 		return
@@ -53,11 +52,10 @@ func _on_bomb_body_exit(body):
 func _on_timer_timeout() -> void:
 	print("explode")
 	explode()
+	# Ensure explosion has time to play before bomb is destroyed
+	await explosion_sfx_player.finished
+	done()
 
 func _on_bomb_collision_area_2d_body_exited(body: Node2D) -> void:
 	print("exited")
 	$BombCollisionBody2D.set_deferred("process_mode", 0)
-
-
-func _on_explosion_timer_timeout() -> void:
-	done()

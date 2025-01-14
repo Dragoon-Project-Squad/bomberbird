@@ -143,13 +143,11 @@ libraries = {
 }
 autoplay = "anim"
 
-[node name="ExplosionSoundPlayer" type="AudioStreamPlayer2D" parent="."]
+[node name="ExplosionSoundPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_gmoi6")
 
 [node name="BombTimer" type="Timer" parent="."]
 wait_time = 2.8
-
-[node name="ExplosionTimer" type="Timer" parent="."]
 
 [node name="BombCollisionArea2D" type="Area2D" parent="."]
 
@@ -160,5 +158,4 @@ shape = SubResource("RectangleShape2D_6btgv")
 [connection signal="body_entered" from="." to="." method="_on_bomb_body_enter"]
 [connection signal="body_exited" from="." to="." method="_on_bomb_body_exit"]
 [connection signal="timeout" from="BombTimer" to="." method="_on_timer_timeout"]
-[connection signal="timeout" from="ExplosionTimer" to="." method="_on_explosion_timer_timeout"]
 [connection signal="body_exited" from="BombCollisionArea2D" to="." method="_on_bomb_collision_area_2d_body_exited"]
