@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://bs7slglsckv0i"]
+[gd_scene load_steps=12 format=4 uid="uid://bs7slglsckv0i"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_b42q6"]
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/deserttileset.tres" id="3_vcixd"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/bomb_spawner.gd" id="6_xje61"]
 [ext_resource type="Script" path="res://scripts/powerup_spawner.gd" id="7_87w5t"]
 [ext_resource type="AudioStream" uid="uid://kkul2topsufx" path="res://sound/fx/bombdrop.wav" id="7_cxllj"]
+[ext_resource type="AudioStream" uid="uid://boidckhyrna5i" path="res://sound/fx/explosion.wav" id="7_xn60i"]
 [ext_resource type="Script" path="res://scenes/breakable_spawner.gd" id="9_yixdt"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_2w7dq"]
@@ -92,6 +93,9 @@ bomb_audio_stream = ExtResource("7_cxllj")
 
 [node name="BombPlacementSFXPlayer" type="AudioStreamPlayer" parent="BombSpawner"]
 stream = ExtResource("7_cxllj")
+
+[node name="BombExplosionSFXPlayer" type="AudioStreamPlayer" parent="BombSpawner"]
+stream = ExtResource("7_xn60i")
 
 [node name="PickupSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("..")
