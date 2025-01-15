@@ -209,12 +209,14 @@ motion_mode = 1
 script = ExtResource("1")
 
 [node name="shadowsprite" type="Sprite2D" parent="."]
+position = Vector2(0, 8)
+scale = Vector2(1, 0.5)
 texture = ExtResource("3_iwdrj")
 
 [node name="sprite" type="Sprite2D" parent="."]
 position = Vector2(0.0750351, 6.23615)
 texture = ExtResource("2_jmpbn")
-offset = Vector2(-0.075, -16.236)
+offset = Vector2(-0.075, -6.236)
 hframes = 6
 vframes = 4
 

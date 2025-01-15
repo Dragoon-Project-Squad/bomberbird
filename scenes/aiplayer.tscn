@@ -210,13 +210,15 @@ script = ExtResource("1_q4yqk")
 synced_position = Vector2(649, 72)
 
 [node name="shadowsprite" type="Sprite2D" parent="."]
+position = Vector2(0, 8)
+scale = Vector2(1, 0.5)
 texture = ExtResource("2_rk0hu")
 
 [node name="sprite" type="Sprite2D" parent="."]
 position = Vector2(0.0750351, 6.23615)
 rotation = -6.28319
 texture = ExtResource("2_ofygj")
-offset = Vector2(-0.075, -16.536)
+offset = Vector2(-0.075, -6.536)
 hframes = 6
 vframes = 4
 
