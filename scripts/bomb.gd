@@ -13,7 +13,9 @@ func _ready():
 	
 # Called from the animation.
 func explode():
-	explosion_sfx_player.play()
+	var bomb_spawner_sfx_player = get_node("../BombSpawner/BombExplosionSFXPlayer")
+	if bomb_spawner_sfx_player:
+		bomb_spawner_sfx_player.play()
 	if not is_multiplayer_authority():
 		# Explode only on authority.
 		return

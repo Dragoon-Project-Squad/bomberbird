@@ -143,9 +143,6 @@ libraries = {
 }
 autoplay = "anim"
 
-[node name="ExplosionSoundPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_gmoi6")
-
 [node name="BombTimer" type="Timer" parent="."]
 wait_time = 2.8
 

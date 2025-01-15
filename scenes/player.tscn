@@ -216,11 +216,12 @@ texture = ExtResource("3_iwdrj")
 [node name="sprite" type="Sprite2D" parent="."]
 position = Vector2(0.0750351, 6.23615)
 texture = ExtResource("2_jmpbn")
-offset = Vector2(-0.075, -6.236)
+offset = Vector2(-0.075, -8.236)
 hframes = 6
 vframes = 4
 
 [node name="rect" type="CollisionPolygon2D" parent="."]
+visible = false
 polygon = PackedVector2Array(-14, -15, 14, -15, 14, -14, 15, -14, 15, 14, 14, 14, 14, 15, -14, 15, -14, 14, -15, 14, -15, -14, -14, -14)
 
 [node name="corner1" type="CollisionShape2D" parent="."]
