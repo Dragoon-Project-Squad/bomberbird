@@ -1,7 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://enwoaqi0rnei"]
+[gd_scene load_steps=10 format=3 uid="uid://enwoaqi0rnei"]
 
 [ext_resource type="Script" path="res://scripts/bomb.gd" id="1"]
-[ext_resource type="AudioStream" uid="uid://boidckhyrna5i" path="res://sound/fx/explosion.wav" id="2_gmoi6"]
 [ext_resource type="Texture2D" uid="uid://drfbkdqmj0gu2" path="res://assets/explosion.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://ld4vr0c52bkh" path="res://assets/bomb.png" id="3_dwo3p"]
 
@@ -83,7 +82,6 @@ _data = {
 [node name="Bomb" type="Area2D"]
 monitorable = false
 script = ExtResource("1")
-explosion_audio = ExtResource("2_gmoi6")
 
 [node name="BombCollisionBody2D" type="StaticBody2D" parent="."]
 process_mode = 4

@@ -4,18 +4,17 @@ var in_area: Array = []
 var from_player: int
 var explosion_level: int = 1
 @export var explosion_audio : AudioStreamWAV = load("res://sound/fx/explosion.wav")
-@onready var explosion_sfx_player := $ExplosionSoundPlayer 
+var explosion_sfx_player : AudioStreamPlayer 
 @onready var sprite := $Sprite
 
 func _ready():
-	explosion_sfx_player.set_stream(explosion_audio)
 	$BombTimer.start()
 	
 # Called from the animation.
 func explode():
-	var bomb_spawner_sfx_player = get_node("../BombSpawner/BombExplosionSFXPlayer")
-	if bomb_spawner_sfx_player:
-		bomb_spawner_sfx_player.play()
+	explosion_sfx_player = get_node("../BombSpawner/BombExplosionSFXPlayer")
+	if explosion_sfx_player:
+		explosion_sfx_player.play()
 	if not is_multiplayer_authority():
 		# Explode only on authority.
 		return
