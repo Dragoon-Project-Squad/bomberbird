@@ -15,7 +15,7 @@ env:
 jobs:
   export-windows:
     name: Windows Export
-    runs-on: ubuntu-20.04
+    runs-on: self-hosted
     container:
       image: barichello/godot-ci:4.3
     steps:
@@ -46,7 +46,7 @@ jobs:
           retention-days: 7
   export-linux:
     name: Linux Export
-    runs-on: ubuntu-20.04
+    runs-on: self-hosted
     container:
       image: barichello/godot-ci:4.3
     steps:
@@ -75,7 +75,7 @@ jobs:
           retention-days: 7
   export-web:
     name: Web Export
-    runs-on: ubuntu-20.04
+    runs-on: self-hosted
     container:
       image: barichello/godot-ci:4.3
     steps:
@@ -113,7 +113,7 @@ jobs:
 
   export-mac:
     name: Mac Export
-    runs-on: ubuntu-20.04
+    runs-on: self-hosted
     container:
       image: barichello/godot-ci:4.3
     steps:
