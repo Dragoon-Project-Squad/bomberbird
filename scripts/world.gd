@@ -79,10 +79,10 @@ func generate_breakables():
 	rng.randomize()
 	for x in range(1, map_width - 1):
 		for y in range(1, map_height - 1):
-			var base_breakable_chance = 0.2 # Default 20% Chance
+			var base_breakable_chance = 0.5 # Default 50% Chance
 			var level_chance_multiplier = 0.01 # Increase by 1% per level
 			var breakable_spawn_chance = base_breakable_chance + (gamestate.current_level - 1) * level_chance_multiplier
-			breakable_spawn_chance = min(breakable_spawn_chance, 0.5) #Max of 50%
+			breakable_spawn_chance = min(breakable_spawn_chance, 0.9) #Max of 90%
 			var current_cell = Vector2i(x, y + map_offset)
 			var skip_current_cell = false
 			#Skip cells where solid tiles are placed
