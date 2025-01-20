@@ -23,22 +23,30 @@ func dir_contents(path):
 	var dir = DirAccess.open(path)
 	var index = 0
 	var file_name
-	var stream: AudioStreamOggVorbis
 	if dir:
 		dir.list_dir_begin()
 		file_name = dir.get_next()
 		while file_name != "":
-			if file_name.get_extension() == "ogg":
-				stream = load(path+file_name)
-				stream.loop = true
-				mus_player.stream.add_stream(index, stream)
-				index = index + 1
+			print(file_name)
+			if file_name.get_extension() == "import":
+				# This is the WACKEST hack I have done in a while
+				file_name = file_name.split(".import")
+				loadstream(index, load(path+file_name[0]))
 			elif dir.current_is_dir():
 				print("Found directory: " + file_name)
 			file_name = dir.get_next()
 	else:
 		print("An error occurred when trying to access the path.")
 
+func loadstream(index: int,  this_stream: AudioStreamOggVorbis):
+	if this_stream == null:
+		return
+	if mus_player.playing:
+		mus_player.stop()
+	mus_player.stream.add_stream(index, this_stream)
+	this_stream.loop = true
+	index = index + 1
+	
 func unique_cell_identifier(coord):
 	return coord.x + coord.y * 10000
 	
