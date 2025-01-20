@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://enwoaqi0rnei"]
+[gd_scene load_steps=11 format=3 uid="uid://enwoaqi0rnei"]
 
 [ext_resource type="Script" path="res://scripts/bomb.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://drfbkdqmj0gu2" path="res://assets/explosion.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://ld4vr0c52bkh" path="res://assets/bomb.png" id="3_dwo3p"]
+[ext_resource type="AudioStream" uid="uid://boidckhyrna5i" path="res://sound/fx/explosion.wav" id="4_lhmpm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6btgv"]
 size = Vector2(39, 40)
@@ -34,7 +35,7 @@ tracks/0/keys = {
 }
 tracks/1/type = "method"
 tracks/1/imported = false
-tracks/1/enabled = false
+tracks/1/enabled = true
 tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
@@ -150,7 +151,9 @@ wait_time = 2.8
 position = Vector2(-0.5, -1)
 shape = SubResource("RectangleShape2D_6btgv")
 
+[node name="ExplosionSFXPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_lhmpm")
+
 [connection signal="body_entered" from="." to="." method="_on_bomb_body_enter"]
 [connection signal="body_exited" from="." to="." method="_on_bomb_body_exit"]
-[connection signal="timeout" from="BombTimer" to="." method="_on_timer_timeout"]
 [connection signal="body_exited" from="BombCollisionArea2D" to="." method="_on_bomb_collision_area_2d_body_exited"]

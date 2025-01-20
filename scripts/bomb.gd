@@ -4,7 +4,7 @@ var in_area: Array = []
 var from_player: int
 var explosion_level: int = 1
 @export var explosion_audio : AudioStreamWAV = load("res://sound/fx/explosion.wav")
-var explosion_sfx_player : AudioStreamPlayer 
+@onready var explosion_sfx_player : AudioStreamPlayer = $ExplosionSFXPlayer
 @onready var sprite := $Sprite
 
 func _ready():
@@ -12,7 +12,6 @@ func _ready():
 	
 # Called from the animation.
 func explode():
-	explosion_sfx_player = get_node("../BombSpawner/BombExplosionSFXPlayer")
 	if explosion_sfx_player:
 		explosion_sfx_player.play()
 	if not is_multiplayer_authority():
@@ -51,11 +50,7 @@ func _on_bomb_body_exit(body):
 	in_area.erase(body) # Remove this thing from the list of things this bomb will explode
 	
 func _on_timer_timeout() -> void:
-	print("explode")
-	explode()
-	# Ensure explosion has time to play before bomb is destroyed
-	await explosion_sfx_player.finished
-	done()
+	pass
 
 func _on_bomb_collision_area_2d_body_exited(body: Node2D) -> void:
 	print("exited")
