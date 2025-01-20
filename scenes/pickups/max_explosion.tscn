@@ -7,7 +7,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3ywok"]
 size = Vector2(32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_3hdcc"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_j8poe"]
 atlas = ExtResource("2_drchm")
 region = Rect2(0, 32, 32, 32)
 
@@ -15,7 +15,7 @@ region = Rect2(0, 32, 32, 32)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_3hdcc")
+"texture": SubResource("AtlasTexture_j8poe")
 }],
 "loop": true,
 "name": &"idle",
@@ -31,7 +31,7 @@ shape = SubResource("RectangleShape2D_3ywok")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_0hn6b")
 animation = &"idle"
-frame_progress = 0.885196
+frame_progress = 0.37658
 
 [node name="PickupSoundPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_6jq3q")
