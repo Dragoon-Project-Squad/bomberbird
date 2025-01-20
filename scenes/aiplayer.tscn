@@ -1,7 +1,8 @@
-[gd_scene load_steps=19 format=3 uid="uid://de6bmnxah5ten"]
+[gd_scene load_steps=20 format=3 uid="uid://de6bmnxah5ten"]
 
 [ext_resource type="Script" path="res://scripts/aiplayer.gd" id="1_q4yqk"]
 [ext_resource type="Texture2D" uid="uid://lckm0mdablaw" path="res://assets/player/chonkgoon_walk.png" id="2_ofygj"]
+[ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_rk0hu"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="3_4dse3"]
 [ext_resource type="Script" path="res://scripts/player_controls.gd" id="4_66ljo"]
 [ext_resource type="AudioStream" uid="uid://c3dded4qppq4" path="res://sound/fx/playerhurt.wav" id="5_dlypu"]
@@ -208,11 +209,16 @@ motion_mode = 1
 script = ExtResource("1_q4yqk")
 synced_position = Vector2(649, 72)
 
+[node name="shadowsprite" type="Sprite2D" parent="."]
+position = Vector2(0, 8)
+scale = Vector2(1, 0.5)
+texture = ExtResource("2_rk0hu")
+
 [node name="sprite" type="Sprite2D" parent="."]
 position = Vector2(0.0750351, 6.23615)
 rotation = -6.28319
 texture = ExtResource("2_ofygj")
-offset = Vector2(-0.0750351, -6.23615)
+offset = Vector2(-0.075, -8.536)
 hframes = 6
 vframes = 4
 

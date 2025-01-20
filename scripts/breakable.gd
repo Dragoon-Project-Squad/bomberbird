@@ -3,7 +3,7 @@ extends CharacterBody2D
 
 @rpc("call_local")
 func exploded(_by_who):
-	breakable_sfx_player.play()
+	#breakable_sfx_player.play()
 	#$"../../Score".increase_score(by_who) Rocks don't count for score
 	$"AnimationPlayer".play("explode")
 	# Spawn a powerup where this rock used to be.

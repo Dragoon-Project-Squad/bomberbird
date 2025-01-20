@@ -1,8 +1,9 @@
-[gd_scene load_steps=19 format=3 uid="uid://dviwgv2ty8v6u"]
+[gd_scene load_steps=20 format=3 uid="uid://dviwgv2ty8v6u"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://lckm0mdablaw" path="res://assets/player/chonkgoon_walk.png" id="2_jmpbn"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="3"]
+[ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="3_iwdrj"]
 [ext_resource type="Script" path="res://scripts/player_controls.gd" id="4_k1vfr"]
 [ext_resource type="AudioStream" uid="uid://c3dded4qppq4" path="res://sound/fx/playerhurt.wav" id="5_611ko"]
 
@@ -207,14 +208,20 @@ z_index = 10
 motion_mode = 1
 script = ExtResource("1")
 
+[node name="shadowsprite" type="Sprite2D" parent="."]
+position = Vector2(0, 7)
+scale = Vector2(0.75, 0.5)
+texture = ExtResource("3_iwdrj")
+
 [node name="sprite" type="Sprite2D" parent="."]
 position = Vector2(0.0750351, 6.23615)
 texture = ExtResource("2_jmpbn")
-offset = Vector2(-0.0750351, -6.23615)
+offset = Vector2(-0.075, -8.236)
 hframes = 6
 vframes = 4
 
 [node name="rect" type="CollisionPolygon2D" parent="."]
+visible = false
 polygon = PackedVector2Array(-14, -15, 14, -15, 14, -14, 15, -14, 15, 14, 14, 14, 14, 15, -14, 15, -14, 14, -15, 14, -15, -14, -14, -14)
 
 [node name="corner1" type="CollisionShape2D" parent="."]
