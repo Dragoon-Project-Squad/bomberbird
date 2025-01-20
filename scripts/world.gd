@@ -28,7 +28,7 @@ func dir_contents(path):
 		dir.list_dir_begin()
 		file_name = dir.get_next()
 		while file_name != "":
-			if file_name.get_extension() == "ogg":
+			if file_name.get_extension() == "import":
 				stream = load(path+file_name)
 				stream.loop = true
 				mus_player.stream.add_stream(index, stream)
