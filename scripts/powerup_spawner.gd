@@ -2,8 +2,8 @@ extends MultiplayerSpawner
 const EXPLOSION_BOOST_PICKUP_SCENE_PATH : String = "res://scenes/pickups/explosion_boost.tscn"
 const MAX_EXPLOSION_PICKUP_SCENE_PATH : String = "res://scenes/pickups/max_explosion.tscn"
 const SPEED_BOOST_PICKUP_SCENE_PATH : String = "res://scenes/pickups/speed_boost.tscn"
-const PUNCH_ABILITY_PICKUP_SCENE_PATH : String = "res://scenes/pickups/speed_boost.tscn"
-const EXTRA_BOMB_PICKUP_SCENE_PATH : String = "res://scenes/pickups/speed_boost.tscn"
+const PUNCH_ABILITY_PICKUP_SCENE_PATH : String = "res://scenes/pickups/punch_ability.tscn"
+const EXTRA_BOMB_PICKUP_SCENE_PATH : String = "res://scenes/pickups/extra_bomb.tscn"
 const PICKUP_SPAWN_RATE = 0.1
 
 func _init():
