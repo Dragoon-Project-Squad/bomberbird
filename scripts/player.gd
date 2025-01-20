@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-const BASE_MOTION_SPEED = 130.0
+const BASE_MOTION_SPEED = 100.0
 const BOMB_RATE = 0.5
 const MAX_BOMBS_OWNALE = 99
 
@@ -89,7 +89,7 @@ func maximize_bomb_level():
 	
 @rpc("call_local")
 func increase_speed():
-	movement_speed = movement_speed + 200
+	movement_speed = movement_speed + 20
 
 @rpc("call_local")
 func increment_bomb_count():
