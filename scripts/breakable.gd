@@ -8,5 +8,5 @@ func exploded(_by_who):
 	$"AnimationPlayer".play("explode")
 	# Spawn a powerup where this rock used to be.
 	get_node("/root/World/PickupSpawner").spawn(self.position)
-	await $"AnimationPlayer".animation_finished #Wait for the animation to finish
 	queue_free()
+	await $"AnimationPlayer".animation_finished #Wait for the animation to finish
