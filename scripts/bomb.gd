@@ -2,13 +2,14 @@ extends StaticBody2D
 
 var in_area: Array = []
 var from_player: int
-var explosion_level: int = 3
-var animation_finish = false
+var explosion_width := 3
+var animation_finish := false
 const TILE_SIZE = 32 #Primitive method of assigning correct tile size
 #var TILE_SIZE: int = get_node("/root/World/Unbreakale").get_tileset().get_tile_size() #Would be cool but the match doesn't like non constants
 @export var explosion_audio : AudioStreamWAV = load("res://sound/fx/explosion.wav")
 @onready var explosion_sfx_player := $ExplosionSoundPlayer 
 @onready var rays = $Raycasts
+@onready var sprite := $Sprite
 
 func _ready():
 	explosion_sfx_player.set_stream(explosion_audio)
@@ -20,19 +21,20 @@ func explode():
 	for ray in rays.get_children():
 		match ray.target_position:
 			Vector2(0,TILE_SIZE):
-				ray.target_position = Vector2(0,TILE_SIZE * (explosion_level))
+				ray.target_position = Vector2(0,TILE_SIZE * (explosion_width))
 				ray.force_raycast_update()
 			Vector2(0,-TILE_SIZE):
-				ray.target_position = Vector2(0,-TILE_SIZE * (explosion_level))
+				ray.target_position = Vector2(0,-TILE_SIZE * (explosion_width))
 				ray.force_raycast_update()
 			Vector2(TILE_SIZE,0):
-				ray.target_position = Vector2(TILE_SIZE * (explosion_level), 0 )
+				ray.target_position = Vector2(TILE_SIZE * (explosion_width), 0 )
 				ray.force_raycast_update()
 			Vector2(-TILE_SIZE,0):
-				ray.target_position = Vector2(-TILE_SIZE * (explosion_level), 0 )
+				ray.target_position = Vector2(-TILE_SIZE * (explosion_width), 0 )
 				ray.force_raycast_update()
 		if ray.is_colliding():
 			in_area.append(ray.get_collider())
+			print(ray.get_collider())
 		if not is_multiplayer_authority():
 		# Explode only on authority.
 			return
@@ -46,12 +48,12 @@ func done():
 	if is_multiplayer_authority():
 		queue_free()
 
-func set_explosion_level_and_size(explosionlevel: int):
-	explosion_level = clamp(explosionlevel, 1, 3)
-	sprite.set_frame(clamp(explosionlevel-1, 0, 2))
+func set_explosion_width_and_size(somewidth: int):
+	explosion_width = clamp(somewidth, 3, 5)
+	sprite.set_frame(clamp(somewidth-3, 0, 2))
 
-func set_explosion_level(explosionlevel: int):
-	explosion_level = clamp(explosionlevel, 1, 3)
+func set_explosion_width(somewidth: int):
+	explosion_width = clamp(somewidth, 3, 5)
 	
 func set_bomb_size(size: int):
 	sprite.set_frame(clamp(size-1, 0, 2))
@@ -67,16 +69,16 @@ func _on_timer_timeout() -> void:
 	var explosion_animation = ""
 	explode()
 	
-	if explosion_level <= 3:
+	if explosion_width <= 1:
 		explosion_animation = "explosion_small"
-	elif explosion_level == 4:
+	elif explosion_width == 2:
 		explosion_animation = "explosion_medium"
 	else:
 		explosion_animation = "explosion_large"
 	print(explosion_animation)
 	$AnimatedSprite2D.play(explosion_animation)
-	if animation_finish:
-		done()
+	await $AnimatedSprite2D.animation_finished
+	done()
 
 func _on_detect_area_body_exit(body: Node2D) -> void:
 	$CollisionShape2D.set_deferred("disabled", 0)

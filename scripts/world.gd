@@ -27,16 +27,13 @@ func dir_contents(path):
 		dir.list_dir_begin()
 		file_name = dir.get_next()
 		while file_name != "":
-			print(file_name)
 			if file_name.get_extension() == "import":
 				# This is the WACKEST hack I have done in a while
 				file_name = file_name.split(".import")
 				loadstream(index, load(path+file_name[0]))
-			elif dir.current_is_dir():
-				print("Found directory: " + file_name)
 			file_name = dir.get_next()
 	else:
-		print("An error occurred when trying to access the path.")
+		print("An error occurred when trying to access the music path.")
 
 func loadstream(index: int,  this_stream: AudioStreamOggVorbis):
 	if this_stream == null:

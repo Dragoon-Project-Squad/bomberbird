@@ -57,7 +57,6 @@ size_flags_vertical = 2
 script = ExtResource("4_hhld2")
 
 [node name="Winner" type="Label" parent="."]
-visible = false
 offset_right = 1031.0
 offset_bottom = 617.0
 size_flags_horizontal = 2
