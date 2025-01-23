@@ -4,7 +4,7 @@ var in_area: Array = []
 var from_player: int
 var explosion_level: int = 3
 var animation_finish = false
-const TILE_SIZE = 48 #Primitive method of assigning correct tile size
+const TILE_SIZE = 32 #Primitive method of assigning correct tile size
 #var TILE_SIZE: int = get_node("/root/World/Unbreakale").get_tileset().get_tile_size() #Would be cool but the match doesn't like non constants
 @export var explosion_audio : AudioStreamWAV = load("res://sound/fx/explosion.wav")
 @onready var explosion_sfx_player := $ExplosionSoundPlayer 
@@ -46,6 +46,16 @@ func done():
 	if is_multiplayer_authority():
 		queue_free()
 
+func set_explosion_level_and_size(explosionlevel: int):
+	explosion_level = clamp(explosionlevel, 1, 3)
+	sprite.set_frame(clamp(explosionlevel-1, 0, 2))
+
+func set_explosion_level(explosionlevel: int):
+	explosion_level = clamp(explosionlevel, 1, 3)
+	
+func set_bomb_size(size: int):
+	sprite.set_frame(clamp(size-1, 0, 2))
+	
 func _on_bomb_body_enter(body):
 	if not body in in_area:
 		in_area.append(body) #Add this thing to list of things this bomb will explode

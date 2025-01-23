@@ -15,7 +15,7 @@ var total_player_count = 2
 var human_player_count = 1
 
 # Name for my player.
-var player_name = "Dragoon"
+var player_name = globals.config.get_player_name()
 
 # Names for remote players in id:name format.
 var players = {}
