@@ -115,10 +115,10 @@ func set_random_target():
 	navigation_agent_2d.set_target_position(target_position)
 	
 func set_player_name(value):
-	get_node("label").set_text(value)
+	$label.set_text(value)
 	
-func get_player_name():
-	get_node("label").get_text()
+func get_player_name() -> String:
+	return $label.get_text()
 
 func enter_death_state():
 	self.visible = false #Invisible

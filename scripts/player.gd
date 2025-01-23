@@ -85,10 +85,10 @@ func exit_death_state():
 	process_mode = PROCESS_MODE_INHERIT
 
 func set_player_name(value):
-	get_node("label").set_text(value)
+	$label.set_text(value)
 
-func get_player_name():
-	get_node("label").get_text()
+func get_player_name() -> String:
+	return $label.get_text()
 	
 @rpc("call_local")
 func increase_bomb_level():
