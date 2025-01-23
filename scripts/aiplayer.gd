@@ -17,6 +17,7 @@ const MAX_BOMBS_OWNALE = 99
 var last_bomb_time = BOMB_RATE
 var current_anim = ""
 var is_dead = false
+var lives = 1
 # Powerup Vars
 var movement_speed = BASE_MOTION_SPEED
 var explosion_boost_count = 0
@@ -114,8 +115,18 @@ func set_random_target():
 	navigation_agent_2d.set_target_position(target_position)
 	
 func set_player_name(value):
-	get_node("label").set_text(value)
+	$label.set_text(value)
+	
+func get_player_name() -> String:
+	return $label.get_text()
 
+func enter_death_state():
+	self.visible = false #Invisible
+	process_mode = PROCESS_MODE_DISABLED
+	
+func exit_death_state():
+	self.visible = true #Visible
+	process_mode = PROCESS_MODE_INHERIT
 
 func increase_bomb_level():
 	explosion_boost_count = min(explosion_boost_count + 1, max_explosion_boosts_permitted)
@@ -138,9 +149,17 @@ func exploded(by_who):
 	if stunned:
 		return
 	stunned = true
+	lives -= 1
 	hurt_sfx_player.play()
-	$"../../Score".increase_score(by_who) # Award a point to the person who blew you up
-	anim_player.play("stunned")
+	if str(by_who) == get_player_name():
+		$"../../Score".decrease_score(by_who) # Take away a point for blowing yourself up
+	else:
+		$"../../Score".increase_score(by_who) # Award a point to the person who blew you up
+	get_node("anim").play("stunned")
+	if lives <= 0:
+		is_dead = true
+		#TODO: Knockout Player
+		enter_death_state()
 
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:

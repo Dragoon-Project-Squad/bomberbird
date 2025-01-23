@@ -11,7 +11,7 @@ const initial_width = 15
 const initial_height = 13
 var map_width = initial_width
 var map_height = initial_height
-var map_offset = 0 #Shifts map four rows down for UI, only used if map is randomly created
+var map_offset = 2 #Shifts map four rows down for UI, only used if map is randomly created
 var rng = RandomNumberGenerator.new()
 
 func _ready() -> void:
@@ -68,19 +68,19 @@ func generate_breakables():
 		# Top Left
 		[Vector2i(1, 1 + map_offset), 
 		Vector2i(1, 2 + map_offset),
-		Vector2i(1, 3 + map_offset)],
+		Vector2i(2, 1 + map_offset)],
 		# Top Right
 		[Vector2i(map_width - 2, 1 + map_offset), 
 		Vector2i(map_width - 2, 2 + map_offset),
-		Vector2i(map_width - 2, 3 + map_offset)],
+		Vector2i(map_width - 3, 1 + map_offset)],
 		# Bottom Left
 		[Vector2i(1, map_height - 2 + map_offset), 
 		Vector2i(1, map_height - 3 + map_offset),
-		Vector2i(1, map_height - 4 + map_offset)],
+		Vector2i(2, map_height - 2 + map_offset)],
 		# Bottom Right
 		[Vector2i(map_width - 2, map_height - 2 + map_offset), 
 		Vector2i(map_width - 2, map_height - 3 + map_offset),
-		Vector2i(map_width - 2, map_height - 4 + map_offset)]
+		Vector2i(map_width - 3, map_height - 2 + map_offset)]
 	]
 	
 	# Randomly place breakable walls on Layer 1
@@ -101,6 +101,7 @@ func generate_breakables():
 				if current_cell in corner:
 					skip_current_cell = true
 					break
+			#Skip cells adjacent to spawn zones
 			if skip_current_cell:
 				continue
 			if is_cell_empty(unbreakable_layer, current_cell):
