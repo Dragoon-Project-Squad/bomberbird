@@ -6,7 +6,8 @@ class_name Pickup extends Area2D
 var pickup_owner : Node2D = null
 
 func _ready():
-	pickup_sfx_player.set_stream(pickup_sfx)
+	pass
+	#pickup_sfx_player.set_stream(pickup_sfx)
 
 func hide_and_disable():
 	collisionbox.visible = false

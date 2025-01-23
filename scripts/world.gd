@@ -23,22 +23,30 @@ func dir_contents(path):
 	var dir = DirAccess.open(path)
 	var index = 0
 	var file_name
-	var stream: AudioStreamOggVorbis
 	if dir:
 		dir.list_dir_begin()
 		file_name = dir.get_next()
 		while file_name != "":
-			if file_name.get_extension() == "ogg":
-				stream = load(path+file_name)
-				stream.loop = true
-				mus_player.stream.add_stream(index, stream)
-				index = index + 1
+			print(file_name)
+			if file_name.get_extension() == "import":
+				# This is the WACKEST hack I have done in a while
+				file_name = file_name.split(".import")
+				loadstream(index, load(path+file_name[0]))
 			elif dir.current_is_dir():
 				print("Found directory: " + file_name)
 			file_name = dir.get_next()
 	else:
 		print("An error occurred when trying to access the path.")
 
+func loadstream(index: int,  this_stream: AudioStreamOggVorbis):
+	if this_stream == null:
+		return
+	if mus_player.playing:
+		mus_player.stop()
+	mus_player.stream.add_stream(index, this_stream)
+	this_stream.loop = true
+	index = index + 1
+	
 func unique_cell_identifier(coord):
 	return coord.x + coord.y * 10000
 	
@@ -79,10 +87,10 @@ func generate_breakables():
 	rng.randomize()
 	for x in range(1, map_width - 1):
 		for y in range(1, map_height - 1):
-			var base_breakable_chance = 0.2 # Default 20% Chance
+			var base_breakable_chance = 0.5 # Default 50% Chance
 			var level_chance_multiplier = 0.01 # Increase by 1% per level
 			var breakable_spawn_chance = base_breakable_chance + (gamestate.current_level - 1) * level_chance_multiplier
-			breakable_spawn_chance = min(breakable_spawn_chance, 0.5) #Max of 50%
+			breakable_spawn_chance = min(breakable_spawn_chance, 0.9) #Max of 90%
 			var current_cell = Vector2i(x, y + map_offset)
 			var skip_current_cell = false
 			#Skip cells where solid tiles are placed

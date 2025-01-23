@@ -8,10 +8,8 @@ func _ready():
 	gamestate.game_ended.connect(_on_game_ended)
 	gamestate.game_error.connect(_on_game_error)
 	# Set the player name according to the system username. Fallback to the path.
-	if OS.has_environment("USERNAME"):
-		$Connect/Name.text = "Defaultgoon"
-	else:
-		$Connect/Name.text = "Doki Enjoyer"
+	$Connect/Name.text = globals.config.get_player_name()
+
 
 
 func _on_host_pressed():

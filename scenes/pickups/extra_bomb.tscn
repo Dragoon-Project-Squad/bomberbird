@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=3 uid="uid://j3ujhpqy6ufm"]
+
+[ext_resource type="Script" path="res://scripts/pickups/extra_bomb.gd" id="1_11sqp"]
+[ext_resource type="Texture2D" uid="uid://cpcqguecfwnbv" path="res://assets/powerup.png" id="2_vov7d"]
+[ext_resource type="AudioStream" uid="uid://8u70xa4tmhc8" path="res://sound/fx/powerup.wav" id="3_p5ojm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3ywok"]
+size = Vector2(32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l7d1k"]
+atlas = ExtResource("2_vov7d")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0hn6b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l7d1k")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 1.0
+}]
+
+[node name="ExtraBomb" type="Area2D"]
+script = ExtResource("1_11sqp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3ywok")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_0hn6b")
+animation = &"idle"
+
+[node name="PickupSoundPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_p5ojm")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
