@@ -80,7 +80,7 @@ func _on_timer_timeout() -> void:
 	await $AnimatedSprite2D.animation_finished
 	done()
 
-func _on_detect_area_body_exit(body: Node2D) -> void:
+func _on_detect_area_body_exit(_body: Node2D) -> void:
 	$CollisionShape2D.set_deferred("disabled", 0)
 
 
