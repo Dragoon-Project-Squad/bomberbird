@@ -19,5 +19,5 @@ func _spawn_bomb(data):
 	bomb.from_player = data[1]
 	# Increase explosion power by spawning player's boosts
 	if data.size() > 2 and typeof(data[2]) == TYPE_INT:
-		bomb.explosion_level = min(data[2] + bomb.explosion_level, 3)
+		bomb.explosion_level = min(data[2] + bomb.explosion_level, 5)
 	return bomb
