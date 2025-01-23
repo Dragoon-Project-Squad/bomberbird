@@ -2,8 +2,7 @@ extends Pickup
 
 func _ready():
 	animated_sprite.play("idle")
-
-
+	
 func _on_body_entered(body: Node2D) -> void:
 	if not is_multiplayer_authority():
 		# Activate only on authority.
