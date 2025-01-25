@@ -140,6 +140,7 @@ vertical_alignment = 1
 
 [node name="P3Score" type="Label" parent="GameUI/Border/Container/Players/P3"]
 layout_mode = 2
+text = "0"
 horizontal_alignment = 2
 
 [node name="SeparatorP34" type="ColorRect" parent="GameUI/Border/Container/Players"]
@@ -159,6 +160,7 @@ vertical_alignment = 1
 
 [node name="P4Score" type="Label" parent="GameUI/Border/Container/Players/P4"]
 layout_mode = 2
+text = "0"
 horizontal_alignment = 2
 
 [node name="Winner" type="Label" parent="."]
