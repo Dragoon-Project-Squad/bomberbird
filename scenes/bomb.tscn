@@ -1,23 +1,79 @@
-[gd_scene load_steps=11 format=3 uid="uid://enwoaqi0rnei"]
+[gd_scene load_steps=17 format=3 uid="uid://enwoaqi0rnei"]
 
 [ext_resource type="Script" path="res://scripts/bomb.gd" id="1"]
+[ext_resource type="AudioStream" uid="uid://boidckhyrna5i" path="res://sound/fx/explosion.wav" id="2_gmoi6"]
 [ext_resource type="Texture2D" uid="uid://drfbkdqmj0gu2" path="res://assets/explosion.png" id="3"]
-[ext_resource type="Texture2D" uid="uid://ld4vr0c52bkh" path="res://assets/bomb.png" id="3_dwo3p"]
-[ext_resource type="AudioStream" uid="uid://boidckhyrna5i" path="res://sound/fx/explosion.wav" id="4_lhmpm"]
+[ext_resource type="Texture2D" uid="uid://bqth48ah40v72" path="res://assets/explosion/small_2.png" id="5_vdgxx"]
+[ext_resource type="Texture2D" uid="uid://btardcqneoxu5" path="res://assets/explosion/medium_1.png" id="6_6h4kc"]
+[ext_resource type="Texture2D" uid="uid://by5jmsb4paoub" path="res://assets/explosion/large_1.png" id="7_hpcqw"]
+[ext_resource type="Texture2D" uid="uid://cwpnhuimmgdha" path="res://assets/bombcentered.png" id="8_1u1d1"]
+[ext_resource type="Texture2D" uid="uid://ixibf0kxw05c" path="res://assets/explosion/small_0.png" id="8_68spy"]
+[ext_resource type="Texture2D" uid="uid://c5vuhckl0g8ke" path="res://assets/explosion/small_1.png" id="9_c21om"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6btgv"]
-size = Vector2(39, 40)
+size = Vector2(32, 32)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_1ih13"]
-size = Vector2(39, 192)
+[sub_resource type="SpriteFrames" id="SpriteFrames_tjkhu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_vdgxx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_6h4kc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_hpcqw")
+}],
+"loop": false,
+"name": &"explosion_large",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_vdgxx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_6h4kc")
+}],
+"loop": false,
+"name": &"explosion_medium",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_68spy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_c21om")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_vdgxx")
+}],
+"loop": false,
+"name": &"explosion_small",
+"speed": 3.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_whso6"]
-size = Vector2(192, 40)
-
-[sub_resource type="Curve" id="Curve_4yges"]
-max_value = 2.0
-_data = [Vector2(0.00150494, 0.398437), 0.0, 0.0, 0, 0, Vector2(0.0152287, 1.42969), 0.0, 0.0, 0, 0, Vector2(0.478607, 1.30078), 0.0, 0.0, 0, 0, Vector2(1, 0.291016), 0.0, 0.0, 0, 0]
-point_count = 4
+[sub_resource type="Animation" id="Animation_oq2m5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"explosion_small"]
+}
 
 [sub_resource type="Animation" id="Animation_21j5c"]
 length = 4.0
@@ -35,7 +91,7 @@ tracks/0/keys = {
 }
 tracks/1/type = "method"
 tracks/1/imported = false
-tracks/1/enabled = true
+tracks/1/enabled = false
 tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
@@ -52,7 +108,7 @@ tracks/1/keys = {
 }
 tracks/2/type = "value"
 tracks/2/imported = false
-tracks/2/enabled = true
+tracks/2/enabled = false
 tracks/2/path = NodePath("Explosion1:emitting")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
@@ -64,7 +120,7 @@ tracks/2/keys = {
 }
 tracks/3/type = "value"
 tracks/3/imported = false
-tracks/3/enabled = true
+tracks/3/enabled = false
 tracks/3/path = NodePath("Explosion2:emitting")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
@@ -75,37 +131,90 @@ tracks/3/keys = {
 "values": [false, true]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_h2w7m"]
-_data = {
-"anim": SubResource("Animation_21j5c")
+[sub_resource type="Animation" id="Animation_m6l0e"]
+resource_name = "explosion_small"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.0333333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"explosion_small"]
 }
 
-[node name="Bomb" type="Area2D"]
-monitorable = false
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_h2w7m"]
+_data = {
+"RESET": SubResource("Animation_oq2m5"),
+"anim": SubResource("Animation_21j5c"),
+"explosion_small": SubResource("Animation_m6l0e")
+}
+
+[sub_resource type="Curve" id="Curve_4yges"]
+max_value = 2.0
+_data = [Vector2(0.00150494, 0.398437), 0.0, 0.0, 0, 0, Vector2(0.0152287, 1.42969), 0.0, 0.0, 0, 0, Vector2(0.478607, 1.30078), 0.0, 0.0, 0, 0, Vector2(1, 0.291016), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[node name="Bomb" type="StaticBody2D"]
+collision_layer = 8
+collision_mask = 6
 script = ExtResource("1")
+explosion_audio = ExtResource("2_gmoi6")
 
-[node name="BombCollisionBody2D" type="StaticBody2D" parent="."]
-process_mode = 4
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_6btgv")
+disabled = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BombCollisionBody2D"]
-position = Vector2(-0.5, -1)
+[node name="DetectArea" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 6
+
+[node name="DetectShape" type="CollisionShape2D" parent="DetectArea"]
 shape = SubResource("RectangleShape2D_6btgv")
 
+[node name="Raycasts" type="Node2D" parent="."]
+
+[node name="Down" type="RayCast2D" parent="Raycasts"]
+target_position = Vector2(0, 32)
+collision_mask = 7
+collide_with_areas = true
+
+[node name="Up" type="RayCast2D" parent="Raycasts"]
+target_position = Vector2(0, -32)
+collision_mask = 7
+collide_with_areas = true
+
+[node name="Right" type="RayCast2D" parent="Raycasts"]
+target_position = Vector2(32, 0)
+collision_mask = 7
+collide_with_areas = true
+
+[node name="Left" type="RayCast2D" parent="Raycasts"]
+target_position = Vector2(-32, 0)
+collision_mask = 7
+collide_with_areas = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_tjkhu")
+animation = &"explosion_small"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_h2w7m")
+}
+autoplay = "anim"
+
 [node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("3_dwo3p")
+texture = ExtResource("8_1u1d1")
 hframes = 3
 region_enabled = true
 region_rect = Rect2(0, 0, 96, 32)
 
-[node name="YAxisShape" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 0)
-shape = SubResource("RectangleShape2D_1ih13")
-
-[node name="XAxisShape" type="CollisionShape2D" parent="."]
-position = Vector2(0, -1)
-shape = SubResource("RectangleShape2D_whso6")
-
 [node name="Explosion1" type="CPUParticles2D" parent="."]
+visible = false
 emitting = false
 lifetime = 0.5
 one_shot = true
@@ -121,6 +230,7 @@ angular_velocity_max = 188.35
 scale_amount_curve = SubResource("Curve_4yges")
 
 [node name="Explosion2" type="CPUParticles2D" parent="."]
+visible = false
 rotation = 1.57162
 emitting = false
 lifetime = 0.5
@@ -136,24 +246,11 @@ angular_velocity_min = 187.35
 angular_velocity_max = 188.35
 scale_amount_curve = SubResource("Curve_4yges")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_h2w7m")
-}
-autoplay = "anim"
+[node name="ExplosionSoundPlayer" type="AudioStreamPlayer2D" parent="."]
 
-[node name="BombTimer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="."]
 wait_time = 2.8
 
-[node name="BombCollisionArea2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BombCollisionArea2D"]
-position = Vector2(-0.5, -1)
-shape = SubResource("RectangleShape2D_6btgv")
-
-[node name="ExplosionSFXPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_lhmpm")
-
-[connection signal="body_entered" from="." to="." method="_on_bomb_body_enter"]
-[connection signal="body_exited" from="." to="." method="_on_bomb_body_exit"]
-[connection signal="body_exited" from="BombCollisionArea2D" to="." method="_on_bomb_collision_area_2d_body_exited"]
+[connection signal="body_exited" from="DetectArea" to="." method="_on_detect_area_body_exit"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -36,7 +36,7 @@ var player_scene = preload("res://scenes/player.tscn")
 var ai_player_scene = preload("res://scenes/aiplayer.tscn")
 
 # Singleplayer Vars
-var current_level: int = 0
+var current_level: int = 205 # Defaults to a high number for battle mode.
 
 # Callback from SceneTree.
 func _player_connected(id):

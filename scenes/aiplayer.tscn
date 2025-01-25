@@ -206,8 +206,10 @@ properties/1/path = NodePath(".:bombing")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
-[node name="aiplayer" type="CharacterBody2D"]
+[node name="aiplayer" type="CharacterBody2D" groups=["ai_player"]]
 z_index = 10
+collision_layer = 2
+collision_mask = 29
 motion_mode = 1
 script = ExtResource("1_q4yqk")
 synced_position = Vector2(649, 72)

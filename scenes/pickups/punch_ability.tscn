@@ -23,6 +23,8 @@ animations = [{
 }]
 
 [node name="PunchAbility" type="Area2D"]
+collision_layer = 16
+collision_mask = 2
 script = ExtResource("1_pipnm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

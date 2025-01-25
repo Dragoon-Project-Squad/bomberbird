@@ -42,6 +42,8 @@ _data = {
 }
 
 [node name="Breakable" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 11
 motion_mode = 1
 script = ExtResource("1")
 

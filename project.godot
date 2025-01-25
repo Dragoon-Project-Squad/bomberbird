@@ -75,6 +75,14 @@ set_bomb={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Walls"
+2d_physics/layer_2="Player"
+2d_physics/layer_3="Rocks"
+2d_physics/layer_4="Bombs"
+2d_physics/layer_5="PickUps"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
