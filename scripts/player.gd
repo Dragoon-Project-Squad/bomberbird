@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 const BASE_MOTION_SPEED = 100.0
 const BOMB_RATE = 0.5
-const MAX_BOMBS_OWNALE = 99
+const MAX_BOMBS_OWNABLE = 99
 
 @export var synced_position := Vector2()
 @export var stunned = false
@@ -105,7 +105,7 @@ func increase_speed():
 @rpc("call_local")
 func increment_bomb_count():
 	#TODO: Add code that makes bomb count matter.
-	bomb_count = min(bomb_count+1, MAX_BOMBS_OWNALE)
+	bomb_count = min(bomb_count+1, MAX_BOMBS_OWNABLE)
 	
 @rpc("call_local")
 func enable_punch():
