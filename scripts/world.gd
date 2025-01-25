@@ -27,7 +27,7 @@ func dir_contents(path):
 		dir.list_dir_begin()
 		file_name = dir.get_next()
 		while file_name != "":
-			print(file_name)
+			#print(file_name)
 			if file_name.get_extension() == "import":
 				# This is the WACKEST hack I have done in a while
 				file_name = file_name.split(".import")
