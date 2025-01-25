@@ -89,4 +89,3 @@ func _on_detect_area_body_exit(_body: Node2D) -> void:
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name != "idle":
 		animation_finish = true
-
