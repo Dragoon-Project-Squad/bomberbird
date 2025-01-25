@@ -103,6 +103,7 @@ text = "0"
 horizontal_alignment = 2
 
 [node name="SeparatorP12" type="ColorRect" parent="GameUI/Border/Container/Players"]
+visible = false
 custom_minimum_size = Vector2(4, 0)
 layout_mode = 2
 color = Color(0.619608, 0.380392, 0, 1)
@@ -123,11 +124,13 @@ text = "0"
 horizontal_alignment = 2
 
 [node name="SeparatorP23" type="ColorRect" parent="GameUI/Border/Container/Players"]
+visible = false
 custom_minimum_size = Vector2(4, 0)
 layout_mode = 2
 color = Color(0.619608, 0.380392, 0, 1)
 
 [node name="P3" type="HSplitContainer" parent="GameUI/Border/Container/Players"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -137,14 +140,17 @@ vertical_alignment = 1
 
 [node name="P3Score" type="Label" parent="GameUI/Border/Container/Players/P3"]
 layout_mode = 2
+text = "0"
 horizontal_alignment = 2
 
 [node name="SeparatorP34" type="ColorRect" parent="GameUI/Border/Container/Players"]
+visible = false
 custom_minimum_size = Vector2(4, 0)
 layout_mode = 2
 color = Color(0.619608, 0.380392, 0, 1)
 
 [node name="P4" type="HSplitContainer" parent="GameUI/Border/Container/Players"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -154,9 +160,11 @@ vertical_alignment = 1
 
 [node name="P4Score" type="Label" parent="GameUI/Border/Container/Players/P4"]
 layout_mode = 2
+text = "0"
 horizontal_alignment = 2
 
 [node name="Winner" type="Label" parent="."]
+visible = false
 z_index = 5
 offset_left = 32.0
 offset_top = 96.0
@@ -216,5 +224,5 @@ script = ExtResource("9_yixdt")
 stream = SubResource("AudioStreamRandomizer_to18j")
 volume_db = -4.685
 
-[connection signal="pressed" from="Winner/ExitGame" to="GameUI/Border/Container/Players" method="_on_exit_game_pressed"]
 [connection signal="pressed" from="Winner/ExitGame" to="GameUI" method="_on_exit_game_pressed"]
+[connection signal="pressed" from="Winner/ExitGame" to="GameUI/Border/Container/Players" method="_on_exit_game_pressed"]

@@ -9,7 +9,7 @@ func _ready() -> void:
 	set_process(true)
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	#Declare a winner
 	var players_left = player_count
 	for player in $"../Players".get_children():

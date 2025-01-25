@@ -19,6 +19,7 @@ func _on_host_pressed():
 
 	$Connect.hide()
 	$Players.show()
+	$Options.show()
 	$Connect/ErrorLabel.text = ""
 
 	var player_name = $Connect/Name.text
@@ -82,6 +83,10 @@ func refresh_lobby():
 
 
 func _on_start_pressed():
+	if gamestate.total_player_count < 2:
+		push_warning("Less than two players!")
+	elif gamestate.total_player_count > 4:
+		push_warning("More than four players!")
 	gamestate.begin_game()
 
 

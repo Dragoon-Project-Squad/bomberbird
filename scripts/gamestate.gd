@@ -11,7 +11,7 @@ const MAX_PEERS = 4
 var peer = null
 
 # Player count variables
-var total_player_count = 2
+var total_player_count = 1
 var human_player_count = 1
 
 # Name for my player.
@@ -123,6 +123,9 @@ func get_player_name():
 
 
 func begin_game():
+	human_player_count = 1+players.size()
+	total_player_count = human_player_count + get_tree().get_root().get_node("Lobby/Options/AICountContainer/AIPlayerCount").get_value()
+	#total_player_count = 2
 	assert(multiplayer.is_server())
 	add_ai_players()
 	load_world.rpc()
@@ -187,9 +190,12 @@ func is_id_free(chosen_ai_id) -> bool:
 			return false
 	return true
 func is_name_free(playername: String) -> bool:
+	var times_name_used := 0
 	for p in players:
 		if players[p] == playername:
-			return false
+			times_name_used += 1
+	if times_name_used > 1:
+		return false
 	return true
 
 func end_game():
@@ -199,6 +205,11 @@ func end_game():
 		peer.close()
 	game_ended.emit() 
 	players.clear()
+	resetvars()
+	
+func resetvars():
+	total_player_count = 1
+	human_player_count = 1
 
 func _ready():
 	multiplayer.peer_connected.connect(_player_connected)

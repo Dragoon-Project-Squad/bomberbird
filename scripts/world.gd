@@ -63,6 +63,9 @@ func find_empty_cells (mapwidth = map_width, mapheight = map_height, mapoffset =
 	return empty_cells
 
 func generate_breakables():
+	if not is_multiplayer_authority():
+		# Do not generate.
+		return
 	# Define an array for the spawn zones in the corners
 	var spawn_zones = [
 		# Top Left

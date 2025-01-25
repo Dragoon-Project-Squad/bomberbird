@@ -52,6 +52,6 @@ func _on_bomb_body_exit(body):
 func _on_timer_timeout() -> void:
 	pass
 
-func _on_bomb_collision_area_2d_body_exited(body: Node2D) -> void:
+func _on_bomb_collision_area_2d_body_exited(_body: Node2D) -> void:
 	print("exited")
 	$BombCollisionBody2D.set_deferred("process_mode", 0)
