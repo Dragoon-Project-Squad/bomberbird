@@ -47,11 +47,7 @@ func spawn_chosen_pickup(ptype: String) -> Pickup:
 			spawned_pickup = preload(EXPLOSION_BOOST_PICKUP_SCENE_PATH).instantiate()
 	return spawned_pickup
 	
-func _spawn_pickup(spawn_coords: Vector2):
-	# Decide if we spawn a pickup at all
-	if !will_pickup_spawn():
-		return
-	# Decide which pickup should be spawned
-	var pickup = spawn_chosen_pickup(random_pickup_type())
-	pickup.position = spawn_coords
+func _spawn_pickup(data):
+	var pickup = spawn_chosen_pickup(data.pickuptype)
+	pickup.position = data.spawnpoint
 	return pickup

@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 const BASE_MOTION_SPEED = 100.0
 const BOMB_RATE = 0.5
-const MAX_BOMBS_OWNALE = 99
+const MAX_BOMBS_OWNABLE = 99
 
 @export var synced_position := Vector2()
 @export var stunned = false
@@ -13,6 +13,7 @@ const MAX_BOMBS_OWNALE = 99
 var last_bomb_time = BOMB_RATE
 var current_anim = ""
 var is_dead = false
+var lives = 1
 # Powerup Vars
 var movement_speed = BASE_MOTION_SPEED
 var explosion_boost_count := 0
@@ -76,10 +77,20 @@ func _physics_process(delta):
 		get_node("anim").play(current_anim)
 	
 
+func enter_death_state():
+	self.visible = false #Invisible
+	process_mode = PROCESS_MODE_DISABLED
+	
+func exit_death_state():
+	self.visible = true #Visible
+	process_mode = PROCESS_MODE_INHERIT
 
 func set_player_name(value):
-	get_node("label").set_text(value)
+	$label.set_text(value)
 
+func get_player_name() -> String:
+	return $label.get_text()
+	
 @rpc("call_local")
 func increase_bomb_level():
 	explosion_boost_count = min(explosion_boost_count + 1, max_explosion_boosts_permitted)
@@ -95,7 +106,7 @@ func increase_speed():
 @rpc("call_local")
 func increment_bomb_count():
 	#TODO: Add code that makes bomb count matter.
-	bomb_count = min(bomb_count+1, MAX_BOMBS_OWNALE)
+	bomb_count = min(bomb_count+1, MAX_BOMBS_OWNABLE)
 	
 @rpc("call_local")
 func enable_punch():
@@ -106,6 +117,14 @@ func exploded(by_who):
 	if stunned:
 		return
 	stunned = true
+	lives -= 1
 	hurt_sfx_player.play()
-	$"../../Score".increase_score(by_who) # Award a point to the person who blew you up
+	if str(by_who) == get_player_name():
+		$"../../GameUI".decrease_score(by_who) # Take away a point for blowing yourself up
+	else:
+		$"../../GameUI".increase_score(by_who) # Award a point to the person who blew you up
 	get_node("anim").play("stunned")
+	if lives <= 0:
+		is_dead = true
+		#TODO: Knockout Player
+		enter_death_state()

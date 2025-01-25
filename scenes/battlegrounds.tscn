@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=4 uid="uid://bs7slglsckv0i"]
+[gd_scene load_steps=12 format=4 uid="uid://bs7slglsckv0i"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_b42q6"]
+[ext_resource type="Script" path="res://scripts/game_ui.gd" id="3_dadsx"]
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/deserttileset.tres" id="3_vcixd"]
-[ext_resource type="Script" path="res://scripts/score.gd" id="4_hhld2"]
+[ext_resource type="Script" path="res://scripts/player_spawner.gd" id="5_2eagj"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="5_g2doi"]
 [ext_resource type="Script" path="res://scripts/bomb_spawner.gd" id="6_xje61"]
 [ext_resource type="Script" path="res://scripts/powerup_spawner.gd" id="7_87w5t"]
@@ -49,17 +50,127 @@ visible = false
 
 [node name="Players" type="Node2D" parent="."]
 
-[node name="Score" type="HBoxContainer" parent="."]
-offset_right = 1024.0
-offset_bottom = 40.0
+[node name="GameUI" type="CanvasLayer" parent="."]
+script = ExtResource("3_dadsx")
+
+[node name="Border" type="ColorRect" parent="GameUI"]
+offset_right = 1152.0
+offset_bottom = 56.0
+color = Color(0.619608, 0.380392, 0, 1)
+
+[node name="Container" type="ColorRect" parent="GameUI/Border"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -568.0
+offset_top = -20.0
+offset_right = 568.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.14902, 0.168627, 0.266667, 1)
+
+[node name="Players" type="HBoxContainer" parent="GameUI/Border/Container"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -568.0
+offset_top = -20.0
+offset_right = 568.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
-script = ExtResource("4_hhld2")
+
+[node name="P1" type="HSplitContainer" parent="GameUI/Border/Container/Players"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="P1Name" type="Label" parent="GameUI/Border/Container/Players/P1"]
+layout_mode = 2
+text = "P1"
+vertical_alignment = 1
+
+[node name="P1Score" type="Label" parent="GameUI/Border/Container/Players/P1"]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 2
+
+[node name="SeparatorP12" type="ColorRect" parent="GameUI/Border/Container/Players"]
+visible = false
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+color = Color(0.619608, 0.380392, 0, 1)
+
+[node name="P2" type="HSplitContainer" parent="GameUI/Border/Container/Players"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="P2Name" type="Label" parent="GameUI/Border/Container/Players/P2"]
+layout_mode = 2
+text = "P2"
+vertical_alignment = 1
+
+[node name="P2Score" type="Label" parent="GameUI/Border/Container/Players/P2"]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 2
+
+[node name="SeparatorP23" type="ColorRect" parent="GameUI/Border/Container/Players"]
+visible = false
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+color = Color(0.619608, 0.380392, 0, 1)
+
+[node name="P3" type="HSplitContainer" parent="GameUI/Border/Container/Players"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="P3Name" type="Label" parent="GameUI/Border/Container/Players/P3"]
+layout_mode = 2
+vertical_alignment = 1
+
+[node name="P3Score" type="Label" parent="GameUI/Border/Container/Players/P3"]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 2
+
+[node name="SeparatorP34" type="ColorRect" parent="GameUI/Border/Container/Players"]
+visible = false
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+color = Color(0.619608, 0.380392, 0, 1)
+
+[node name="P4" type="HSplitContainer" parent="GameUI/Border/Container/Players"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="P4Name" type="Label" parent="GameUI/Border/Container/Players/P4"]
+layout_mode = 2
+vertical_alignment = 1
+
+[node name="P4Score" type="Label" parent="GameUI/Border/Container/Players/P4"]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 2
 
 [node name="Winner" type="Label" parent="."]
 visible = false
-offset_right = 1031.0
-offset_bottom = 617.0
+z_index = 5
+offset_left = 32.0
+offset_top = 96.0
+offset_right = 448.0
+offset_bottom = 448.0
 size_flags_horizontal = 2
 size_flags_vertical = 0
 theme_override_constants/shadow_offset_x = 2
@@ -67,23 +178,33 @@ theme_override_constants/shadow_offset_y = 2
 theme_override_fonts/font = ExtResource("5_g2doi")
 text = "THE WINNER IS:
 YOU"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ExitGame" type="Button" parent="Winner"]
-layout_mode = 0
-offset_left = 384.0
-offset_top = 408.0
-offset_right = 649.0
-offset_bottom = 469.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -132.5
+offset_top = -61.0
+offset_right = 132.5
+grow_horizontal = 2
+grow_vertical = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 theme_override_fonts/font = ExtResource("5_g2doi")
 text = "EXIT GAME"
 
 [node name="Camera2D" type="Camera2D" parent="."]
-offset = Vector2(360, 300)
+offset = Vector2(250, 250)
+zoom = Vector2(1.3, 1.3)
 
 [node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("../Players")
+script = ExtResource("5_2eagj")
 
 [node name="BombSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("..")
@@ -105,4 +226,5 @@ script = ExtResource("9_yixdt")
 stream = SubResource("AudioStreamRandomizer_to18j")
 volume_db = -4.685
 
-[connection signal="pressed" from="Winner/ExitGame" to="Score" method="_on_exit_game_pressed"]
+[connection signal="pressed" from="Winner/ExitGame" to="GameUI" method="_on_exit_game_pressed"]
+[connection signal="pressed" from="Winner/ExitGame" to="GameUI/Border/Container/Players" method="_on_exit_game_pressed"]

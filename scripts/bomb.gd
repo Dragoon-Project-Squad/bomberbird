@@ -82,8 +82,11 @@ func _on_timer_timeout() -> void:
 
 func _on_detect_area_body_exit(_body: Node2D) -> void:
 	$CollisionShape2D.set_deferred("disabled", 0)
-
+#func _on_bomb_collision_area_2d_body_exited(_body: Node2D) -> void:
+	#print("exited")
+	#$BombCollisionBody2D.set_deferred("process_mode", 0)
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name != "idle":
 		animation_finish = true
+
