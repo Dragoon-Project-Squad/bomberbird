@@ -94,9 +94,9 @@ func load_world():
 	get_tree().get_root().get_node("Lobby").hide()
 
 	# Set up score.
-	world.get_node("Score").add_player(multiplayer.get_unique_id(), player_name)
+	world.get_node("GameUI").add_player(multiplayer.get_unique_id(), player_name)
 	for pn in players:
-		world.get_node("Score").add_player(pn, players[pn])
+		world.get_node("GameUI").add_player(pn, players[pn])
 	get_tree().set_pause(false) # Unpause and unleash the game!
 
 
@@ -169,10 +169,16 @@ func register_ai_player():
 	players[id] = "LikeBot" #TODO: Generate CPU name here
 	if !is_name_free(players[id]):
 		players[id] = "CommentBot"
+	else:
+		return
 	if !is_name_free(players[id]):
 		players[id] = "SubscribeBot"
+	else:
+		return
 	if !is_name_free(players[id]):
 		players[id] = "MembershipBot"
+	else:
+		return
 	player_list_changed.emit()
 
 func is_id_free(chosen_ai_id) -> bool:
@@ -190,8 +196,8 @@ func end_game():
 	if has_node("/root/World"): # Game is in progress.
 		# End it
 		get_node("/root/World").queue_free()
-
-	game_ended.emit()
+		peer.close()
+	game_ended.emit() 
 	players.clear()
 
 func _ready():
