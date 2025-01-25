@@ -1,8 +1,8 @@
 extends CanvasLayer
 
 var player_labels = {}
-var player_count = gamestate.total_player_count
 var players_left = 5
+var someone_dead = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -12,16 +12,16 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	#Declare a winner
-	players_left = player_count
+	players_left = $"../Players".get_child_count()
 	# Only begin counting score if all human players have been loaded
-	if gamestate.humans_loaded_in_game == gamestate.human_player_count:
-		for player in $"../Players".get_children():
-			if player.is_dead:
-				players_left -= 1
-		if players_left <= 1:
-			await get_tree().create_timer(1.0).timeout
-			call_deferred("decide_game", players_left)
-			process_mode = PROCESS_MODE_DISABLED
+	for player in $"../Players".get_children():
+		if player.is_dead:
+			players_left -= 1
+			someone_dead = true
+	if players_left <= 1 && someone_dead:
+		await get_tree().create_timer(1.0).timeout
+		call_deferred("decide_game", players_left)
+		process_mode = PROCESS_MODE_DISABLED
 
 
 func decide_game(final_players: int):
