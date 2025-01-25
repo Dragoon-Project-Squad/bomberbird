@@ -12,8 +12,8 @@ var peer = null
 
 # Player count variables
 var total_player_count = 1
-var human_player_count = 1
-
+var human_player_count = 1 #Every game must have at least 1 human or two AI
+var humans_loaded_in_game = 0 #Starts at 0 so win checking won't begin until at least one human is loaded
 # Name for my player.
 var player_name = globals.config.get_player_name()
 
@@ -130,6 +130,7 @@ func begin_game():
 	add_ai_players()
 	load_world.rpc()
 	var world = get_tree().get_root().get_node("World")
+	#var playerspawner = get_tree().get_root().get_node("World/PlayerSpawner")
 	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
 	var spawn_points = {}
 	spawn_points[1] = 0 # Server in spawn point 0.
@@ -137,23 +138,26 @@ func begin_game():
 	for p in players:
 		spawn_points[p] = spawn_point_idx
 		spawn_point_idx += 1
-	var humans_loaded_in_game = 0
+	humans_loaded_in_game = 0
 	for p_id in spawn_points:
 		var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position
-		var spawnedplayer
+		#var spawnedplayer
+		var playerspawner = world.get_node("PlayerSpawner")
+		var spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players}
 		if humans_loaded_in_game < human_player_count:
 			# Spawn a human there
-			spawnedplayer = player_scene.instantiate()
+			playerspawner.spawn(spawningdata)
+			#spawnedplayer = player_scene.instantiate()
 			humans_loaded_in_game += 1
 		else:
 			# Spawn a robot there
-			# TODO: Find a way to track how many humans and AI are participating
-			spawnedplayer = ai_player_scene.instantiate()
-		spawnedplayer.synced_position = spawn_pos
-		spawnedplayer.name = str(p_id)
-		spawnedplayer.set_player_name(player_name if p_id == multiplayer.get_unique_id() else players[p_id])
-		world.get_node("Players").add_child(spawnedplayer)
-
+			playerspawner.spawn(spawningdata)
+			#spawnedplayer = ai_player_scene.instantiate()
+		#spawnedplayer.synced_position = spawn_pos
+		#spawnedplayer.name = str(p_id)
+		#spawnedplayer.set_player_name(player_name if p_id == multiplayer.get_unique_id() else players[p_id])
+		#world.get_node("Players").add_child(spawnedplayer)
+		
 func add_ai_players():
 	var ai_player_count = total_player_count - human_player_count
 	if ai_player_count <= 0: # No robots allowed
