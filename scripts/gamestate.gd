@@ -13,7 +13,6 @@ var peer = null
 # Player count variables
 var total_player_count = 1
 var human_player_count = 1 #Every game must have at least 1 human or two AI
-var humans_loaded_in_game = 0 #Starts at 0 so win checking won't begin until at least one human is loaded
 # Name for my player.
 var player_name = globals.config.get_player_name()
 
@@ -138,7 +137,7 @@ func begin_game():
 	for p in players:
 		spawn_points[p] = spawn_point_idx
 		spawn_point_idx += 1
-	humans_loaded_in_game = 0
+	var humans_loaded_in_game = 0
 	for p_id in spawn_points:
 		var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position
 		#var spawnedplayer
