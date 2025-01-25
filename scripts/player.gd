@@ -119,9 +119,9 @@ func exploded(by_who):
 	lives -= 1
 	hurt_sfx_player.play()
 	if str(by_who) == get_player_name():
-		$"../../Score".decrease_score(by_who) # Take away a point for blowing yourself up
+		$"../../GameUI".decrease_score(by_who) # Take away a point for blowing yourself up
 	else:
-		$"../../Score".increase_score(by_who) # Award a point to the person who blew you up
+		$"../../GameUI".increase_score(by_who) # Award a point to the person who blew you up
 	get_node("anim").play("stunned")
 	if lives <= 0:
 		is_dead = true
