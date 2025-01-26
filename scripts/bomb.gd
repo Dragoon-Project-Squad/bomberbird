@@ -34,7 +34,7 @@ func explode():
 				ray.force_raycast_update()
 		if ray.is_colliding():
 			in_area.append(ray.get_collider())
-			print(ray.get_collider())
+			#print(ray.get_collider())
 		if not is_multiplayer_authority():
 		# Explode only on authority.
 			return
@@ -75,7 +75,7 @@ func _on_timer_timeout() -> void:
 		explosion_animation = "explosion_medium"
 	else:
 		explosion_animation = "explosion_large"
-	print(explosion_animation)
+	#print(explosion_animation)
 	$AnimatedSprite2D.play(explosion_animation)
 	await $AnimatedSprite2D.animation_finished
 	done()
