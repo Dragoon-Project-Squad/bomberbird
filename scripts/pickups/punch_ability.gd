@@ -17,7 +17,7 @@ func _on_body_entered(body: Node2D) -> void:
 			pickup_owner.enable_punch.rpc()
 		else: #This is an AI
 			pickup_owner.enable_punch()
-		print(pickup_owner.can_punch)
+		#print(pickup_owner.can_punch)
 		# Ensure powerup has time to play before pickup is destroyed
 		pickup_sfx_player.play()
 		await pickup_sfx_player.finished

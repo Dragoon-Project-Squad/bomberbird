@@ -17,7 +17,7 @@ func _on_body_entered(body: Node2D) -> void:
 			pickup_owner.increment_bomb_count.rpc()
 		else: #This is an AI
 			pickup_owner.increment_bomb_count()
-		print(pickup_owner.bomb_count)
+		#print(pickup_owner.bomb_count)
 		# Ensure powerup has time to play before pickup is destroyed
 		pickup_sfx_player.play()
 		await pickup_sfx_player.finished
