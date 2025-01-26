@@ -21,8 +21,9 @@ func _on_host_pressed():
 	$Players.show()
 	$Options.show()
 	$Connect/ErrorLabel.text = ""
-
+	
 	var player_name = $Connect/Name.text
+	globals.config.set_player_name(player_name)
 	gamestate.host_game(player_name)
 	refresh_lobby()
 
@@ -42,6 +43,7 @@ func _on_join_pressed():
 	$Connect/Join.disabled = true
 
 	var player_name = $Connect/Name.text
+	globals.config.set_player_name(player_name)	
 	gamestate.join_game(ip, player_name)
 
 
@@ -92,3 +94,6 @@ func _on_start_pressed():
 
 func _on_find_public_ip_pressed():
 	OS.shell_open("https://icanhazip.com/")
+	
+func _on_back_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")

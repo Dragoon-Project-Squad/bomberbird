@@ -112,10 +112,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -138.5
-offset_top = -83.5
-offset_right = 138.5
-offset_bottom = 83.5
+offset_left = -138.0
+offset_top = -83.0
+offset_right = 139.0
+offset_bottom = 96.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 2
@@ -194,7 +194,19 @@ theme_override_colors/font_color = Color(0.820312, 0.291595, 0.291595, 1)
 
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
 
+[node name="Back" type="Button" parent="."]
+offset_left = 550.0
+offset_top = 607.0
+offset_right = 620.0
+offset_bottom = 638.0
+focus_neighbor_top = NodePath("../Multiplayer")
+focus_neighbor_bottom = NodePath("../SinglePlayer")
+theme_override_colors/font_focus_color = Color(1, 0, 0, 1)
+text = "Back
+"
+
 [connection signal="pressed" from="Players/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="Players/FindPublicIP" to="." method="_on_find_public_ip_pressed"]
 [connection signal="pressed" from="Connect/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="Connect/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="Back" to="." method="_on_back_pressed"]
