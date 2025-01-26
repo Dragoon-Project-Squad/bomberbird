@@ -1,8 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://dgfv37m0j3grk"]
+[gd_scene load_steps=6 format=3 uid="uid://dgfv37m0j3grk"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_qmksv"]
 [ext_resource type="Texture2D" uid="uid://c4etvudqmupbf" path="res://assets/scratch/Untitled.png" id="1_xtlt4"]
 [ext_resource type="Theme" uid="uid://dbmlttmtal2do" path="res://assets/button_theme.tres" id="3_fxa86"]
+[ext_resource type="Script" path="res://scripts/ui/remap_button.gd" id="4_8riyt"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_50xyb"]
+specular_color = Color(0.794024, 0.0460408, 0.417229, 1)
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -36,6 +40,8 @@ layout_mode = 2
 focus_neighbor_top = NodePath("../Options")
 focus_neighbor_bottom = NodePath("../Multiplayer")
 theme = ExtResource("3_fxa86")
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(1, 0, 0, 1)
 toggle_mode = true
 text = "Single Player"
 
@@ -43,15 +49,114 @@ text = "Single Player"
 layout_mode = 2
 focus_neighbor_top = NodePath("../SinglePlayer")
 focus_neighbor_bottom = NodePath("../Options")
+theme_override_colors/font_focus_color = Color(1, 0, 0, 1)
 text = "Multiplayer"
 
 [node name="Options" type="Button" parent="ButtonBox"]
 layout_mode = 2
 focus_neighbor_top = NodePath("../Multiplayer")
 focus_neighbor_bottom = NodePath("../SinglePlayer")
+theme_override_colors/font_focus_color = Color(1, 0, 0, 1)
 text = "Options
 "
+
+[node name="OptionsMenu" type="Node2D" parent="."]
+visible = false
+
+[node name="OptionsMenu3" type="BoxContainer" parent="OptionsMenu"]
+offset_left = 109.0
+offset_top = 45.0
+offset_right = 971.0
+offset_bottom = 600.0
+
+[node name="Sprite2D" type="Sprite2D" parent="OptionsMenu/OptionsMenu3"]
+position = Vector2(439, 275)
+scale = Vector2(884.5, 560.5)
+texture = SubResource("CanvasTexture_50xyb")
+
+[node name="Exit" type="Button" parent="OptionsMenu/OptionsMenu3"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../Multiplayer")
+focus_neighbor_bottom = NodePath("../SinglePlayer")
+theme_override_colors/font_focus_color = Color(1, 0, 0, 1)
+text = "Exit
+"
+
+[node name="TextEdit" type="TextEdit" parent="OptionsMenu"]
+visible = false
+offset_left = 265.0
+offset_top = 187.0
+offset_right = 344.0
+offset_bottom = 231.0
+text = "Controls"
+
+[node name="TextEdit2" type="TextEdit" parent="OptionsMenu"]
+visible = false
+offset_left = 456.0
+offset_top = 313.0
+offset_right = 535.0
+offset_bottom = 357.0
+text = "Down"
+
+[node name="TextEdit3" type="TextEdit" parent="OptionsMenu"]
+visible = false
+offset_left = 492.0
+offset_top = 276.0
+offset_right = 540.0
+offset_bottom = 313.0
+text = "Up"
+
+[node name="TextEdit4" type="TextEdit" parent="OptionsMenu"]
+visible = false
+offset_left = 449.0
+offset_top = 355.0
+offset_right = 528.0
+offset_bottom = 399.0
+text = "Left"
+
+[node name="TextEdit5" type="TextEdit" parent="OptionsMenu"]
+visible = false
+offset_left = 447.0
+offset_top = 402.0
+offset_right = 526.0
+offset_bottom = 446.0
+text = "Right"
+
+[node name="OptionsMenu2" type="BoxContainer" parent="OptionsMenu"]
+visible = false
+offset_left = 560.0
+offset_top = 214.0
+offset_right = 925.0
+offset_bottom = 487.0
+alignment = 1
+vertical = true
+
+[node name="Up" type="Button" parent="OptionsMenu/OptionsMenu2"]
+layout_mode = 2
+text = "ed"
+script = ExtResource("4_8riyt")
+action = "move_up"
+
+[node name="Up2" type="Button" parent="OptionsMenu/OptionsMenu2"]
+layout_mode = 2
+text = "ed"
+script = ExtResource("4_8riyt")
+action = "move_down"
+
+[node name="Up3" type="Button" parent="OptionsMenu/OptionsMenu2"]
+layout_mode = 2
+text = "ed"
+script = ExtResource("4_8riyt")
+action = "move_left"
+
+[node name="Up4" type="Button" parent="OptionsMenu/OptionsMenu2"]
+layout_mode = 2
+text = "ed"
+script = ExtResource("4_8riyt")
+action = "move_right"
 
 [connection signal="pressed" from="ButtonBox/SinglePlayer" to="." method="_on_single_player_pressed"]
 [connection signal="pressed" from="ButtonBox/Multiplayer" to="." method="_on_multiplayer_pressed"]
 [connection signal="pressed" from="ButtonBox/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="OptionsMenu/OptionsMenu3/Exit" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="OptionsMenu/OptionsMenu3/Exit" to="." method="_on_exit_pressed"]
