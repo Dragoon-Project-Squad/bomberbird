@@ -80,7 +80,7 @@ length = 4.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite:self_modulate")
+tracks/0/path = NodePath("BombSprite:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -207,7 +207,7 @@ libraries = {
 }
 autoplay = "anim"
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="BombSprite" type="Sprite2D" parent="."]
 texture = ExtResource("8_1u1d1")
 hframes = 3
 region_enabled = true

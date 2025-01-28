@@ -9,7 +9,7 @@ const TILE_SIZE = 32 #Primitive method of assigning correct tile size
 @export var explosion_audio : AudioStreamWAV = load("res://sound/fx/explosion.wav")
 @onready var explosion_sfx_player := $ExplosionSoundPlayer 
 @onready var rays = $Raycasts
-@onready var sprite := $Sprite
+@onready var bombsprite := $BombSprite
 
 func _ready():
 	explosion_sfx_player.set_stream(explosion_audio)
@@ -50,13 +50,13 @@ func done():
 
 func set_explosion_width_and_size(somewidth: int):
 	explosion_width = clamp(somewidth, 3, 5)
-	sprite.set_frame(clamp(somewidth-3, 0, 2))
+	bombsprite.set_frame(clamp(somewidth-3, 0, 2))
 
 func set_explosion_width(somewidth: int):
 	explosion_width = clamp(somewidth, 3, 5)
 	
 func set_bomb_size(size: int):
-	sprite.set_frame(clamp(size-1, 0, 2))
+	bombsprite.set_frame(clamp(size-1, 0, 2))
 	
 func _on_bomb_body_enter(body):
 	if not body in in_area:
