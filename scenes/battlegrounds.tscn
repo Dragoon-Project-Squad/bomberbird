@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://bs7slglsckv0i"]
+[gd_scene load_steps=13 format=4 uid="uid://bs7slglsckv0i"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_b42q6"]
 [ext_resource type="Script" path="res://scripts/game_ui.gd" id="3_dadsx"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://scripts/powerup_spawner.gd" id="7_87w5t"]
 [ext_resource type="AudioStream" uid="uid://kkul2topsufx" path="res://sound/fx/bombdrop.wav" id="7_cxllj"]
 [ext_resource type="Script" path="res://scenes/breakable_spawner.gd" id="9_yixdt"]
+[ext_resource type="Script" path="res://scripts/explosion_spawner.gd" id="10_o2q20"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_2w7dq"]
 vertices = PackedVector2Array(422, 422, 58, 422, 58, 122, 422, 122)
@@ -231,6 +232,10 @@ script = ExtResource("9_yixdt")
 [node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_to18j")
 volume_db = -4.685
+
+[node name="ExplosionSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("..")
+script = ExtResource("10_o2q20")
 
 [connection signal="pressed" from="Winner/ExitGame" to="GameUI" method="_on_exit_game_pressed"]
 [connection signal="pressed" from="Winner/ExitGame" to="GameUI/Border/Container/Players" method="_on_exit_game_pressed"]

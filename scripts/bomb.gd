@@ -22,10 +22,12 @@ func explode():
 	explosion_sfx_player.play()
 	var explosion_direction = Vector2.ZERO
 	var bombblocked = false
+	var collider_stopped_upon = null
 	place_explosion(position, explosion_direction, "center")
 	for ray in rays.get_children():
-		bombblocked = false
-		match ray.target_position:
+		bombblocked = false #Reset bomb lock
+		collider_stopped_upon = null #Reset collider stopped upon
+		match ray.target_position: 
 			Vector2(0,TILE_SIZE):
 				ray.target_position = Vector2(0,TILE_SIZE * (explosion_width))
 				ray.force_raycast_update()
@@ -43,29 +45,46 @@ func explode():
 				ray.force_raycast_update()
 				explosion_direction = Vector2.LEFT
 		if ray.is_colliding():
-			in_area.append(ray.get_collider())
-			print(ray.get_collider())
+			in_area.append(ray.get_collider()) #Add impacted objects to array.
+			#print(ray.get_collider())
 			if ray.get_collider().is_in_group("bombstop"):
 				bombblocked = true #We hit something that needs the bomb to stop.
-		if !bombblocked: #Note that we hit something but keep going.
+				collider_stopped_upon = ray.get_collider()
+			elif ray.get_collider().has_method("exploded"): #The bomb ray hit something that bombs pierce.
+				if is_multiplayer_authority(): #Try to destroy it on the host side.
+					## Explode only on authority.
+					ray.get_collider().exploded.rpc(from_player)
+		if not bombblocked: #This direction isn't stopped, draw the full thing.
 			explode_space_between_center_and_end(position, ray.target_position+position, explosion_direction)
 			place_explosion(ray.target_position+position, explosion_direction, "side_border")
-		if not is_multiplayer_authority():
-		# Explode only on authority.
-			return
-		for collider in in_area:
-			if collider.has_method("exploded"):
-				explode_space_between_center_and_end(position, collider.position, explosion_direction)
-				place_explosion(collider.position, explosion_direction, "side_border")
-				# Exploded can only be called by the authority, but will also be called locally.
-				collider.exploded.rpc(from_player)
-				if collider.is_in_group("bombstop"):
-					in_area.erase(ray.get_collider())
-			else:
-				var shaved_collision_point = shave_back_colliding_point(ray.get_collision_point(), explosion_direction)
-				var colliding_tile_pos = tileMap.map_to_local(tileMap.local_to_map(shaved_collision_point))
-				explode_space_between_center_and_end(position, colliding_tile_pos, explosion_direction)
+		elif collider_stopped_upon.has_method("exploded"): # Explodeable bomb stopper was hit.
+			explode_space_between_center_and_end(position, collider_stopped_upon.position, explosion_direction)
+			place_explosion(collider_stopped_upon.position, explosion_direction, "side_border")
+			if is_multiplayer_authority(): #Try to destroy it on the host side.
+				## Explode only on authority.
+				ray.get_collider().exploded.rpc(from_player)
+		else: # We hit something utterly unbreakable
+			var shaved_collision_point = shave_back_colliding_point(ray.get_collision_point(), explosion_direction)
+			var colliding_tile_pos = tileMap.map_to_local(tileMap.local_to_map(shaved_collision_point))
+			explode_space_between_center_and_end(position, colliding_tile_pos, explosion_direction)
+			if colliding_tile_pos != position: #Do not overlap the center.
 				place_explosion(colliding_tile_pos, explosion_direction, "side_border")
+			#for collider in in_area: #Check if anything hit by this ray was explodeable.
+				##BUG There is very likely a race condition here.
+				#if collider.has_method("exploded"):
+					#explode_space_between_center_and_end(position, collider.position, explosion_direction)
+					#place_explosion(collider.position, explosion_direction, "side_border")
+					## Exploded can only be called by the authority, but will also be called locally.
+					#if collider.is_in_group("bombstop"):
+						#in_area.erase(ray.get_collider())
+					#if is_multiplayer_authority():
+						## Explode only on authority.
+						#collider.exploded.rpc(from_player)
+				#else:
+					#var shaved_collision_point = shave_back_colliding_point(ray.get_collision_point(), explosion_direction)
+					#var colliding_tile_pos = tileMap.map_to_local(tileMap.local_to_map(shaved_collision_point))
+					#explode_space_between_center_and_end(position, colliding_tile_pos, explosion_direction)
+					#place_explosion(colliding_tile_pos, explosion_direction, "side_border")
 func done():
 	if is_multiplayer_authority():
 		queue_free()
@@ -98,23 +117,10 @@ func is_out_of_bounds(pos: Vector2):
 	return false
 
 func place_explosion(explosion_pos: Vector2i, explosion_direction: Vector2, explosion_type: String):
-	#if not is_multiplayer_authority():
-		## Explode only on authority.
-		#return
 	if is_out_of_bounds(explosion_pos):
 		return
-	var explosion = explosion_scene.instantiate()
-	explosion.bombowner = from_player
-	explosion.position = explosion_pos
-	match explosion_type:
-		"center":
-			explosion.type = explosion.CENTER
-		"side_border":
-			explosion.type = explosion.SIDE_BORDER
-		_:
-			explosion.type = explosion.SIDE
-	explosion.direction = explosion_direction
-	explosions.add_child(explosion)
+	if is_multiplayer_authority():
+		get_node("/root/World/ExplosionSpawner").spawn({"spawnpoint": explosion_pos, "bombowner": from_player, "explosiontype": explosion_type, "direction": explosion_direction})
 	
 func set_explosion_width_and_size(somewidth: int):
 	explosion_width = clamp(somewidth, 2, 5)

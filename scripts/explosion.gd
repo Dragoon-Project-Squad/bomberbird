@@ -3,7 +3,6 @@ extends Sprite2D
 @onready var tilemaplayer = get_node("/root/World/Floor")
 @onready var animation = get_node("AnimationPlayer")
 
-
 var bombowner := 1
 var direction = null
 # Explosion animation depends on this
@@ -24,6 +23,10 @@ func _ready():
 	if direction && direction != Vector2.ZERO:
 		rotation = atan2(direction.y, direction.x)
 
-func _on_AnimationPlayer_animation_finished( name ):
+@rpc("call_local")
+func double_queue_free():
+	queue_free()
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	# Explosion finished, we can remove the node
 	queue_free()
