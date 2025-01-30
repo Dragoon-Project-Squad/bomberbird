@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cbk4mh24wv6o1"]
+[gd_scene load_steps=8 format=3 uid="uid://cbk4mh24wv6o1"]
 
 [ext_resource type="Texture2D" uid="uid://vsaxcnh1x7ju" path="res://assets/explosion/explosionspritesheet.png" id="1_35ogm"]
 [ext_resource type="Script" path="res://scripts/explosion.gd" id="2_7iimv"]
@@ -77,9 +77,6 @@ _data = {
 "explosion_side_border": SubResource("Animation_ys8ny")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_l1a1n"]
-size = Vector2(26, 26)
-
 [node name="Explosion" type="Sprite2D"]
 top_level = true
 texture = ExtResource("1_35ogm")
@@ -92,12 +89,4 @@ libraries = {
 "": SubResource("AnimationLibrary_x3x6j")
 }
 
-[node name="Area2D" type="Area2D" parent="."]
-collision_layer = 8
-collision_mask = 30
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("RectangleShape2D_l1a1n")
-
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
