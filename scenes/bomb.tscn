@@ -1,8 +1,7 @@
-[gd_scene load_steps=17 format=3 uid="uid://enwoaqi0rnei"]
+[gd_scene load_steps=15 format=3 uid="uid://enwoaqi0rnei"]
 
 [ext_resource type="Script" path="res://scripts/bomb.gd" id="1"]
 [ext_resource type="AudioStream" uid="uid://boidckhyrna5i" path="res://sound/fx/explosion.wav" id="2_gmoi6"]
-[ext_resource type="Texture2D" uid="uid://drfbkdqmj0gu2" path="res://assets/explosion.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://bqth48ah40v72" path="res://assets/explosion/small_2.png" id="5_vdgxx"]
 [ext_resource type="Texture2D" uid="uid://btardcqneoxu5" path="res://assets/explosion/medium_1.png" id="6_6h4kc"]
 [ext_resource type="Texture2D" uid="uid://by5jmsb4paoub" path="res://assets/explosion/large_1.png" id="7_hpcqw"]
@@ -80,7 +79,7 @@ length = 4.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite:self_modulate")
+tracks/0/path = NodePath("BombSprite:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -91,7 +90,7 @@ tracks/0/keys = {
 }
 tracks/1/type = "method"
 tracks/1/imported = false
-tracks/1/enabled = false
+tracks/1/enabled = true
 tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
@@ -105,30 +104,6 @@ tracks/1/keys = {
 "args": [],
 "method": &"done"
 }]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = false
-tracks/2/path = NodePath("Explosion1:emitting")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 2.8),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = false
-tracks/3/path = NodePath("Explosion2:emitting")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 2.8),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
 }
 
 [sub_resource type="Animation" id="Animation_m6l0e"]
@@ -153,11 +128,6 @@ _data = {
 "explosion_small": SubResource("Animation_m6l0e")
 }
 
-[sub_resource type="Curve" id="Curve_4yges"]
-max_value = 2.0
-_data = [Vector2(0.00150494, 0.398437), 0.0, 0.0, 0, 0, Vector2(0.0152287, 1.42969), 0.0, 0.0, 0, 0, Vector2(0.478607, 1.30078), 0.0, 0.0, 0, 0, Vector2(1, 0.291016), 0.0, 0.0, 0, 0]
-point_count = 4
-
 [node name="Bomb" type="StaticBody2D"]
 collision_layer = 8
 collision_mask = 6
@@ -179,25 +149,26 @@ shape = SubResource("RectangleShape2D_6btgv")
 
 [node name="Down" type="RayCast2D" parent="Raycasts"]
 target_position = Vector2(0, 32)
-collision_mask = 7
+collision_mask = 23
 collide_with_areas = true
 
 [node name="Up" type="RayCast2D" parent="Raycasts"]
 target_position = Vector2(0, -32)
-collision_mask = 7
+collision_mask = 23
 collide_with_areas = true
 
 [node name="Right" type="RayCast2D" parent="Raycasts"]
 target_position = Vector2(32, 0)
-collision_mask = 7
+collision_mask = 23
 collide_with_areas = true
 
 [node name="Left" type="RayCast2D" parent="Raycasts"]
 target_position = Vector2(-32, 0)
-collision_mask = 7
+collision_mask = 23
 collide_with_areas = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
 sprite_frames = SubResource("SpriteFrames_tjkhu")
 animation = &"explosion_small"
 
@@ -207,49 +178,18 @@ libraries = {
 }
 autoplay = "anim"
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="BombSprite" type="Sprite2D" parent="."]
 texture = ExtResource("8_1u1d1")
 hframes = 3
 region_enabled = true
 region_rect = Rect2(0, 0, 96, 32)
 
-[node name="Explosion1" type="CPUParticles2D" parent="."]
-visible = false
-emitting = false
-lifetime = 0.5
-one_shot = true
-explosiveness = 0.95
-texture = ExtResource("3")
-emission_shape = 3
-emission_rect_extents = Vector2(80, 1)
-gravity = Vector2(0, 0)
-initial_velocity_min = 1.0
-initial_velocity_max = 1.0
-angular_velocity_min = 187.35
-angular_velocity_max = 188.35
-scale_amount_curve = SubResource("Curve_4yges")
-
-[node name="Explosion2" type="CPUParticles2D" parent="."]
-visible = false
-rotation = 1.57162
-emitting = false
-lifetime = 0.5
-one_shot = true
-explosiveness = 0.95
-texture = ExtResource("3")
-emission_shape = 3
-emission_rect_extents = Vector2(80, 1)
-gravity = Vector2(0, 0)
-initial_velocity_min = 1.0
-initial_velocity_max = 1.0
-angular_velocity_min = 187.35
-angular_velocity_max = 188.35
-scale_amount_curve = SubResource("Curve_4yges")
-
 [node name="ExplosionSoundPlayer" type="AudioStreamPlayer2D" parent="."]
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.8
+
+[node name="Explosions" type="Node2D" parent="."]
 
 [connection signal="body_exited" from="DetectArea" to="." method="_on_detect_area_body_exit"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

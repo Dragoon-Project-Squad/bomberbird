@@ -31,6 +31,7 @@ window/stretch/mode="canvas_items"
 
 player="human players"
 ai_player="cpu players"
+bombstop="stops bombs on impact"
 
 [input]
 

@@ -2,7 +2,7 @@ extends Node2D
 
 var music_dir_path : String = "res://sound/mus/"
 @onready var mus_player := $MusicPlayer
-@onready var background_layer = $Background
+@onready var floor_layer = $Floor
 @onready var unbreakable_layer = $Unbreakable
 @onready var breakable_spawner = $BreakableSpawner
 
@@ -47,7 +47,7 @@ func loadstream(index: int,  this_stream: AudioStreamOggVorbis):
 func unique_cell_identifier(coord):
 	return coord.x + coord.y * 10000
 	
-func find_empty_cells (mapwidth = map_width, mapheight = map_height, mapoffset = map_offset, background_tiles = background_layer, unbreakable_tiles = unbreakable_layer):
+func find_empty_cells (mapwidth = map_width, mapheight = map_height, mapoffset = map_offset, floor_tiles = floor_layer, unbreakable_tiles = unbreakable_layer):
 	# Array of empty tiles
 	var empty_cells = []
 	# Append empty tiles to array
@@ -55,7 +55,7 @@ func find_empty_cells (mapwidth = map_width, mapheight = map_height, mapoffset =
 		for y in range(1, mapheight - 1):
 			var current_cell = Vector2i(x, y + mapoffset)
 			# Checks if cells are empty but only on breakable & unbreakable layers
-			if is_cell_empty(background_tiles, current_cell) and is_cell_empty(unbreakable_tiles, current_cell):
+			if is_cell_empty(floor_tiles, current_cell) and is_cell_empty(unbreakable_tiles, current_cell):
 				empty_cells.append(current_cell)
 	return empty_cells
 

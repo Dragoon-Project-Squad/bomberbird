@@ -14,3 +14,8 @@ func hide_and_disable():
 	collisionbox.queue_free()
 	animated_sprite.visible = false
 	animated_sprite.queue_free()
+
+@rpc("call_local")
+func exploded(_from_player):
+	#TODO: Play exploding animation
+	queue_free()

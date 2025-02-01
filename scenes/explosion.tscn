@@ -1,0 +1,92 @@
+[gd_scene load_steps=8 format=3 uid="uid://cbk4mh24wv6o1"]
+
+[ext_resource type="Texture2D" uid="uid://vsaxcnh1x7ju" path="res://assets/explosion/explosionspritesheet.png" id="1_35ogm"]
+[ext_resource type="Script" path="res://scripts/explosion.gd" id="2_7iimv"]
+
+[sub_resource type="Animation" id="Animation_tyeab"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_f0g56"]
+resource_name = "explosion_center"
+length = 0.35
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6]
+}
+
+[sub_resource type="Animation" id="Animation_fnp60"]
+resource_name = "explosion_side"
+length = 0.35
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [7, 8, 9, 10, 11, 12, 13]
+}
+
+[sub_resource type="Animation" id="Animation_ys8ny"]
+resource_name = "explosion_side_border"
+length = 0.35
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [14, 15, 16, 17, 18, 19, 20]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_x3x6j"]
+_data = {
+"RESET": SubResource("Animation_tyeab"),
+"explosion_center": SubResource("Animation_f0g56"),
+"explosion_side": SubResource("Animation_fnp60"),
+"explosion_side_border": SubResource("Animation_ys8ny")
+}
+
+[node name="Explosion" type="Sprite2D"]
+top_level = true
+texture = ExtResource("1_35ogm")
+hframes = 7
+vframes = 3
+script = ExtResource("2_7iimv")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_x3x6j")
+}
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

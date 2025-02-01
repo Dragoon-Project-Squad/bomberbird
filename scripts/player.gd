@@ -17,7 +17,7 @@ var lives = 1
 # Powerup Vars
 var movement_speed = BASE_MOTION_SPEED
 var explosion_boost_count := 0
-var max_explosion_boosts_permitted := 2
+var max_explosion_boosts_permitted := 3
 var bomb_count := 3
 var can_punch := false
 # Tracking Vars
@@ -29,7 +29,7 @@ func _ready():
 	position = synced_position
 	if str(name).is_valid_int():
 		get_node("Inputs/InputsSync").set_multiplayer_authority(str(name).to_int())
-	tileMap = get_parent().get_parent().get_node("Background")
+	tileMap = get_parent().get_parent().get_node("Floor")
 
 
 func _physics_process(delta):
