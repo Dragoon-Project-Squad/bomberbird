@@ -69,16 +69,14 @@ func _physics_process(delta):
 	elif inputs.motion.x > 0:
 		new_anim = "walk_right"
 
-	if stunned:
-		new_anim = "stunned"
-
 	if new_anim != current_anim:
 		current_anim = new_anim
-		get_node("anim").play(current_anim)
+		$anim.play(current_anim)
 	
 
 func enter_death_state():
-	self.visible = false #Invisible
+	$anim.play("death")
+	await $anim.animation_finished
 	process_mode = PROCESS_MODE_DISABLED
 	
 func exit_death_state():
@@ -123,8 +121,9 @@ func exploded(by_who):
 		$"../../GameUI".decrease_score(by_who) # Take away a point for blowing yourself up
 	else:
 		$"../../GameUI".increase_score(by_who) # Award a point to the person who blew you up
-	get_node("anim").play("stunned")
 	if lives <= 0:
 		is_dead = true
 		#TODO: Knockout Player
 		enter_death_state()
+	else:
+		get_node("anim").play("stunned")

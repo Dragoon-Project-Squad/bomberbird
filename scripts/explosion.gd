@@ -27,6 +27,6 @@ func _ready():
 func double_queue_free():
 	queue_free()
 
-func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	# Explosion finished, we can remove the node
 	queue_free()
