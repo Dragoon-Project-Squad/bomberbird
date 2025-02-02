@@ -38,7 +38,7 @@ func load_buttons():
 func get_player_name():
 	return config.get_value("Player", "player_name", "Dragoon")
 	
-func set_player_name(name):
-	config.set_value("Player", "player_name", name)
+func set_player_name(newplayername):
+	config.set_value("Player", "player_name", newplayername)
 	save()
 	return 
