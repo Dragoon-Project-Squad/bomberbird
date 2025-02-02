@@ -17,5 +17,8 @@ func hide_and_disable():
 
 @rpc("call_local")
 func exploded(_from_player):
-	#TODO: Play exploding animation
+	collisionbox.queue_free()
+	if $anim:
+		$anim.play("explode_pickup")
+		await $anim.animation_finished
 	queue_free()
