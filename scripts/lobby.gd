@@ -81,7 +81,7 @@ func refresh_lobby():
 	for p in players:
 		$Players/List.add_item(p)
 
-	$Players/Start.disabled = not multiplayer.is_server()
+	$Players/Ready.disabled = not multiplayer.is_server()
 
 
 func _on_start_pressed():
@@ -100,3 +100,12 @@ func _on_back_pressed() -> void:
 		gamestate.peer.close()
 		await get_tree().process_frame
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+
+
+func _on_ready_pressed() -> void:
+	$Options.hide()
+	$Players.hide()
+	$Connect.hide()
+	$Back.hide()
+	$CSS.show()
+	pass # Replace with function body.
