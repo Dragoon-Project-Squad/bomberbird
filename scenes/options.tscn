@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://drj31ll2cuftl"]
 
 [ext_resource type="Script" path="res://scenes/options.gd" id="1_a2sg5"]
-[ext_resource type="Texture2D" uid="uid://c4etvudqmupbf" path="res://assets/scratch/Untitled.png" id="2_8ty2b"]
+[ext_resource type="Texture2D" uid="uid://bsu1o1vymo51p" path="res://assets/aesprite/Domber doki cenario1.png" id="2_ytm4a"]
 [ext_resource type="Script" path="res://scripts/ui/remap_button.gd" id="4_d6577"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_50xyb"]
@@ -16,10 +16,11 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_a2sg5")
 
-[node name="Untitled" type="Sprite2D" parent="."]
-position = Vector2(576, 324)
-scale = Vector2(0.6, 0.6)
-texture = ExtResource("2_8ty2b")
+[node name="BG" type="Sprite2D" parent="."]
+modulate = Color(0.501961, 0.501961, 0.501961, 1)
+position = Vector2(576, 323.5)
+scale = Vector2(2.19847, 2.88444)
+texture = ExtResource("2_ytm4a")
 
 [node name="OptionsMenu" type="Node2D" parent="."]
 
@@ -122,5 +123,5 @@ text = "ed"
 script = ExtResource("4_d6577")
 action = "set_bomb"
 
-[connection signal="pressed" from="OptionsMenu/OptionsMenu3/Exit" to="." method="_on_exit_pressed"]
 [connection signal="pressed" from="OptionsMenu/OptionsMenu3/Exit" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="OptionsMenu/OptionsMenu3/Exit" to="." method="_on_exit_pressed"]
