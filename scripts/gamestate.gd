@@ -20,6 +20,9 @@ var player_name = globals.config.get_player_name()
 var players = {}
 var players_ready = []
 
+# Character Textures in id:texture2D format.
+var characters = {}
+
 # AI Handling variables
 const MAX_ID_COLLISION_RESCUE_ATTEMPTS = 4
 const MAX_NAME_COLLISION_RESCUE_ATTEMPTS = 4
@@ -83,6 +86,11 @@ func register_player(new_player_name):
 func unregister_player(id):
 	players.erase(id)
 	player_list_changed.emit()
+	
+@rpc("any_peer")
+func change_character_player(texture):
+	var id = multiplayer.get_remote_sender_id() + 1
+	characters[id] = texture
 
 
 @rpc("call_local")
@@ -142,7 +150,7 @@ func begin_game():
 		var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position
 		#var spawnedplayer
 		var playerspawner = world.get_node("PlayerSpawner")
-		var spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players}
+		var spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players, "characterdictionary": characters}
 		if humans_loaded_in_game < human_player_count:
 			# Spawn a human there
 			playerspawner.spawn(spawningdata)

@@ -62,6 +62,9 @@ func _on_game_ended():
 	show()
 	$Connect.show()
 	$Players.hide()
+	$Back.show()
+	$Options.hide()
+	$CSS.hide()
 	$Connect/Host.disabled = false
 	$Connect/Join.disabled = false
 
@@ -81,7 +84,7 @@ func refresh_lobby():
 	for p in players:
 		$Players/List.add_item(p)
 
-	$Players/Start.disabled = not multiplayer.is_server()
+	$Players/Ready.disabled = not multiplayer.is_server()
 
 
 func _on_start_pressed():
@@ -96,4 +99,41 @@ func _on_find_public_ip_pressed():
 	OS.shell_open("https://icanhazip.com/")
 	
 func _on_back_pressed() -> void:
+	if gamestate.peer:
+		gamestate.peer.close()
+		await get_tree().process_frame
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+
+
+func _on_ready_pressed() -> void:
+	$Options.hide()
+	$Players.hide()
+	$Connect.hide()
+	$Back.hide()
+	$CSS.show()
+	pass # Replace with function body.
+
+
+func _on_dokibird_pressed() -> void:
+	$CSS/CSSPlayers/P1/Image.texture = load("res://assets/css/dokibh.png")
+	gamestate.change_character_player(load("res://assets/css/dokibh.png"))
+
+func _on_dragoon_pressed() -> void:
+	$CSS/CSSPlayers/P1/Image.texture = load("res://assets/css/normalgoon.png")
+	gamestate.change_character_player(load("res://assets/player/dragoon_walk.png"))
+
+func _on_chonkgoon_pressed() -> void:
+	$CSS/CSSPlayers/P1/Image.texture = load("res://assets/css/chonkgoon.png")
+	gamestate.change_character_player(load("res://assets/player/chonkgoon_walk.png"))
+
+func _on_longoon_pressed() -> void:
+	$CSS/CSSPlayers/P1/Image.texture = load("res://assets/css/longgoon.png")
+	gamestate.change_character_player(load("res://assets/css/longgoon.png"))
+
+func _on_eggoon_pressed() -> void:
+	$CSS/CSSPlayers/P1/Image.texture = load("res://assets/css/eggoon.png")
+	gamestate.change_character_player(load("res://assets/css/eggoon.png"))
+	
+func _on_tomato_pressed() -> void:
+	$CSS/CSSPlayers/P1/Image.texture = load("res://assets/css/tomato.png")
+	gamestate.change_character_player(load("res://assets/css/tomato.png"))
