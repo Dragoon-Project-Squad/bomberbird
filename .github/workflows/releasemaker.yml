@@ -22,12 +22,12 @@ jobs:
       # your project is available for Godot to export
     - name: checkout
       uses: actions/checkout@v4
-      
-    - name: install wine
-      id: wine_install
-      run: |
-        sudo apt install wine64
-        echo "WINE_PATH=$(which wine64)" >> $GITHUB_OUTPUT
+      #Enable the following once issues are resolved
+    #- name: install wine
+      #id: wine_install
+      #run: |
+        #sudo apt install wine64
+        #echo "WINE_PATH=$(which wine64)" >> $GITHUB_OUTPUT
     - name: Copy Export Preset
       run: |
         cp export_presets_ci.cfg export_presets.cfg
@@ -41,7 +41,7 @@ jobs:
         godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/${{ env.GODOT_VERSION }}-${{ env.GODOT_BUILD }}/Godot_v${{ env.GODOT_VERSION }}-${{ env.GODOT_BUILD }}_export_templates.tpz
         relative_project_path: ./
         archive_output: true
-        wine_path: ${{ steps.wine_install.outputs.WINE_PATH }} # set the wine path here which is the output of the wine_install step
+        #wine_path: ${{ steps.wine_install.outputs.WINE_PATH }} DISABLED TEMPORARILY set the wine path here which is the output of the wine_install step
 
       # This release action has worked well for me. However, you can most likely use any release action of your choosing.
       # https://github.com/ncipollo/release-action
