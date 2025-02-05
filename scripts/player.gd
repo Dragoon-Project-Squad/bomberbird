@@ -30,6 +30,7 @@ func _ready():
 	if str(name).is_valid_int():
 		get_node("Inputs/InputsSync").set_multiplayer_authority(str(name).to_int())
 	tileMap = get_parent().get_parent().get_node("Floor")
+	#$sprite.texture = load("res://assets/player/dragoon_walk.png")
 
 
 func _physics_process(delta):
@@ -127,3 +128,6 @@ func exploded(by_who):
 		enter_death_state()
 	else:
 		get_node("anim").play("stunned")
+
+func set_selected_character(value: Texture2D):
+	$sprite.texture = value
