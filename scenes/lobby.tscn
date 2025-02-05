@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://d3cn5or0vkn23" path="res://assets/css/chonkgoon.png" id="4_228fn"]
 [ext_resource type="Texture2D" uid="uid://cqgmyjw0vef1" path="res://assets/css/longgoon.png" id="5_adr2t"]
 [ext_resource type="Texture2D" uid="uid://bpx3jen13addh" path="res://assets/css/tomato.png" id="7_iu1o4"]
-[ext_resource type="Texture2D" uid="uid://bavfjxhor10w7" path="res://assets/css/question.png" id="9_f5vrd"]
+[ext_resource type="Texture2D" uid="uid://bvduv0j3kdwtj" path="res://assets/css/question.png" id="9_f5vrd"]
 
 [node name="Lobby" type="Control"]
 layout_mode = 3
@@ -359,9 +359,9 @@ texture_normal = ExtResource("3_lsque")
 
 [node name="tomato" type="TextureButton" parent="CSS/CSSPanel"]
 layout_mode = 2
-offset_top = 124.0
+offset_top = 128.0
 offset_right = 32.0
-offset_bottom = 156.0
+offset_bottom = 160.0
 scale = Vector2(4, 4)
 texture_normal = ExtResource("7_iu1o4")
 
@@ -369,9 +369,9 @@ texture_normal = ExtResource("7_iu1o4")
 layout_mode = 0
 offset_left = 128.0
 offset_top = 128.0
-offset_right = 160.0
-offset_bottom = 160.0
-scale = Vector2(4, 4)
+offset_right = 228.0
+offset_bottom = 228.0
+scale = Vector2(1.28, 1.28)
 texture_normal = ExtResource("9_f5vrd")
 
 [node name="secret2" type="TextureButton" parent="CSS/CSSPanel"]
@@ -380,25 +380,25 @@ offset_left = 256.0
 offset_top = 128.0
 offset_right = 288.0
 offset_bottom = 160.0
-scale = Vector2(4, 4)
+scale = Vector2(1.28, 1.28)
 texture_normal = ExtResource("9_f5vrd")
 
 [node name="secret3" type="TextureButton" parent="CSS/CSSPanel"]
 layout_mode = 0
 offset_left = 384.0
 offset_top = 128.0
-offset_right = 416.0
-offset_bottom = 160.0
-scale = Vector2(4, 4)
+offset_right = 484.0
+offset_bottom = 228.0
+scale = Vector2(1.28, 1.28)
 texture_normal = ExtResource("9_f5vrd")
 
 [node name="secret4" type="TextureButton" parent="CSS/CSSPanel"]
 layout_mode = 0
 offset_left = 512.0
-offset_top = 132.0
-offset_right = 544.0
-offset_bottom = 164.0
-scale = Vector2(4, 4)
+offset_top = 128.0
+offset_right = 612.0
+offset_bottom = 228.0
+scale = Vector2(1.28, 1.28)
 texture_normal = ExtResource("9_f5vrd")
 
 [node name="Label" type="Label" parent="CSS"]
