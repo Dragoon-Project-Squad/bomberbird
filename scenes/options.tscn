@@ -31,6 +31,7 @@ offset_right = 971.0
 offset_bottom = 600.0
 
 [node name="Sprite2D" type="Sprite2D" parent="OptionsMenu/OptionsMenu3"]
+modulate = Color(0.509465, 0.262329, 0.0145314, 1)
 position = Vector2(439, 275)
 scale = Vector2(884.5, 560.5)
 texture = SubResource("CanvasTexture_50xyb")
