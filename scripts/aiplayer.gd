@@ -121,7 +121,8 @@ func get_player_name() -> String:
 	return $label.get_text()
 
 func enter_death_state():
-	self.visible = false #Invisible
+	$anim.play("death")
+	await $anim.animation_finished
 	process_mode = PROCESS_MODE_DISABLED
 	
 func exit_death_state():
@@ -155,11 +156,12 @@ func exploded(by_who):
 		$"../../GameUI".decrease_score(by_who) # Take away a point for blowing yourself up
 	else:
 		$"../../GameUI".increase_score(by_who) # Award a point to the person who blew you up
-	get_node("anim").play("stunned")
 	if lives <= 0:
 		is_dead = true
 		#TODO: Knockout Player
 		enter_death_state()
+	else:
+		get_node("anim").play("stunned")
 
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
