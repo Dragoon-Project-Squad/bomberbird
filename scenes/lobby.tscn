@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" path="res://scripts/lobby.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://d06cvn5qmuvfv" path="res://assets/css/dokibh.png" id="2_6aldq"]
+[ext_resource type="Theme" uid="uid://wfdn1qbkwu46" path="res://assets/styles/main_menu_theme.tres" id="2_np2ya"]
 [ext_resource type="Texture2D" uid="uid://c4a21atlabdbr" path="res://assets/css/greyrect.png" id="2_p88hc"]
 [ext_resource type="Texture2D" uid="uid://dc6n600vfnmgp" path="res://assets/css/eggoon.png" id="3_lsque"]
 [ext_resource type="Texture2D" uid="uid://bb8yee4kwa6dt" path="res://assets/css/normalgoon.png" id="3_xvjye"]
-[ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="3_yxogx"]
 [ext_resource type="Texture2D" uid="uid://d3cn5or0vkn23" path="res://assets/css/chonkgoon.png" id="4_228fn"]
 [ext_resource type="Texture2D" uid="uid://cqgmyjw0vef1" path="res://assets/css/longgoon.png" id="5_adr2t"]
 [ext_resource type="Texture2D" uid="uid://bpx3jen13addh" path="res://assets/css/tomato.png" id="7_iu1o4"]
@@ -32,6 +32,7 @@ offset_top = -177.0
 offset_right = 256.0
 offset_bottom = 178.0
 grow_vertical = 2
+theme = ExtResource("2_np2ya")
 
 [node name="AICountContainer" type="HSplitContainer" parent="Options"]
 layout_mode = 0
@@ -64,6 +65,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
+theme = ExtResource("2_np2ya")
 
 [node name="Label" type="Label" parent="Players"]
 layout_mode = 0
@@ -115,6 +117,7 @@ offset_bottom = 432.5
 text = "Find your public IP address"
 
 [node name="Connect" type="Panel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -129,6 +132,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
+theme = ExtResource("2_np2ya")
 
 [node name="NameLabel" type="Label" parent="Connect"]
 layout_mode = 0
@@ -202,7 +206,6 @@ size_flags_vertical = 0
 theme_override_colors/font_color = Color(0.820312, 0.291595, 0.291595, 1)
 
 [node name="CSS" type="Control" parent="."]
-visible = false
 anchors_preset = 0
 offset_right = 1152.0
 offset_bottom = 648.0
@@ -211,16 +214,19 @@ offset_bottom = 648.0
 anchors_preset = 0
 offset_right = 1152.0
 offset_bottom = 648.0
+theme = ExtResource("2_np2ya")
 
 [node name="P1" type="Panel" parent="CSS/CSSPlayers"]
 layout_mode = 0
 offset_right = 128.0
 offset_bottom = 128.0
+theme = ExtResource("2_np2ya")
 
 [node name="Image" type="TextureRect" parent="CSS/CSSPlayers/P1"]
 layout_mode = 0
 offset_right = 128.0
 offset_bottom = 128.0
+theme = ExtResource("2_np2ya")
 texture = ExtResource("4_228fn")
 expand_mode = 2
 
@@ -229,7 +235,7 @@ layout_mode = 0
 offset_top = 128.0
 offset_right = 128.0
 offset_bottom = 192.0
-theme_override_fonts/font = ExtResource("3_yxogx")
+theme = ExtResource("2_np2ya")
 theme_override_font_sizes/font_size = 40
 text = "P1"
 horizontal_alignment = 1
@@ -252,7 +258,6 @@ layout_mode = 0
 offset_top = 128.0
 offset_right = 128.0
 offset_bottom = 192.0
-theme_override_fonts/font = ExtResource("3_yxogx")
 theme_override_font_sizes/font_size = 40
 text = "P2"
 horizontal_alignment = 1
@@ -274,7 +279,6 @@ texture = ExtResource("4_228fn")
 layout_mode = 0
 offset_top = -64.0
 offset_right = 128.0
-theme_override_fonts/font = ExtResource("3_yxogx")
 theme_override_font_sizes/font_size = 40
 text = "P3"
 horizontal_alignment = 1
@@ -297,7 +301,6 @@ texture = ExtResource("4_228fn")
 layout_mode = 0
 offset_top = -64.0
 offset_right = 128.0
-theme_override_fonts/font = ExtResource("3_yxogx")
 theme_override_font_sizes/font_size = 40
 text = "P4"
 horizontal_alignment = 1
@@ -410,7 +413,7 @@ offset_left = -440.0
 offset_right = 456.0
 offset_bottom = 200.0
 grow_horizontal = 2
-theme_override_fonts/font = ExtResource("3_yxogx")
+theme = ExtResource("2_np2ya")
 theme_override_font_sizes/font_size = 75
 text = "CHARACTER SELECT"
 horizontal_alignment = 1
@@ -430,11 +433,12 @@ grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-theme_override_fonts/font = ExtResource("3_yxogx")
+theme = ExtResource("2_np2ya")
 theme_override_font_sizes/font_size = 46
 text = "START!"
 
 [node name="Back" type="Button" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 550.0
 offset_top = 607.0
@@ -442,6 +446,7 @@ offset_right = 620.0
 offset_bottom = 638.0
 focus_neighbor_top = NodePath("../Multiplayer")
 focus_neighbor_bottom = NodePath("../SinglePlayer")
+theme = ExtResource("2_np2ya")
 theme_override_colors/font_focus_color = Color(1, 0, 0, 1)
 text = "Exit
 "
