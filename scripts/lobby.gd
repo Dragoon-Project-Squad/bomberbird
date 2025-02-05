@@ -96,4 +96,7 @@ func _on_find_public_ip_pressed():
 	OS.shell_open("https://icanhazip.com/")
 	
 func _on_back_pressed() -> void:
+	if gamestate.peer:
+		gamestate.peer.close()
+		await get_tree().process_frame
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
