@@ -1,9 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://dgfv37m0j3grk"]
+[gd_scene load_steps=10 format=3 uid="uid://dgfv37m0j3grk"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_qmksv"]
-[ext_resource type="Texture2D" uid="uid://c4etvudqmupbf" path="res://assets/scratch/Untitled.png" id="1_xtlt4"]
-[ext_resource type="Theme" uid="uid://dbmlttmtal2do" path="res://assets/button_theme.tres" id="3_fxa86"]
+[ext_resource type="Texture2D" uid="uid://bsu1o1vymo51p" path="res://assets/aesprite/Domber doki cenario1.png" id="2_u3scb"]
+[ext_resource type="Texture2D" uid="uid://bggd2gghfmofi" path="res://assets/aesprite/Domber doki cenario2.png" id="3_0wv10"]
 [ext_resource type="Script" path="res://scripts/ui/remap_button.gd" id="4_8riyt"]
+[ext_resource type="Texture2D" uid="uid://b7ve16526xnpv" path="res://assets/aesprite/title.png" id="4_jitsi"]
+[ext_resource type="Theme" uid="uid://wfdn1qbkwu46" path="res://assets/styles/main_menu_theme.tres" id="6_hrcjh"]
+[ext_resource type="StyleBox" uid="uid://dah145apm30c3" path="res://assets/styles/main_menu_select_style.tres" id="7_2iy8e"]
+[ext_resource type="StyleBox" uid="uid://c07q8xvjxkea6" path="res://assets/styles/main_menu_style.tres" id="7_nrhvf"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_50xyb"]
 specular_color = Color(0.794024, 0.0460408, 0.417229, 1)
@@ -18,9 +22,23 @@ grow_vertical = 2
 script = ExtResource("1_qmksv")
 
 [node name="Untitled" type="Sprite2D" parent="."]
-position = Vector2(576, 324)
-scale = Vector2(0.6, 0.6)
-texture = ExtResource("1_xtlt4")
+texture_filter = 1
+position = Vector2(576, 337.5)
+scale = Vector2(3, 3)
+texture = ExtResource("2_u3scb")
+
+[node name="Untitled2" type="Sprite2D" parent="."]
+visible = false
+texture_filter = 1
+position = Vector2(576, 337.5)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("3_0wv10")
+
+[node name="Title" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(576, 200)
+scale = Vector2(2, 2)
+texture = ExtResource("4_jitsi")
 
 [node name="ButtonBox" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -29,9 +47,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -298.0
-offset_top = -192.0
-offset_right = 298.0
+offset_left = -148.0
+offset_top = -351.0
+offset_right = 148.0
+offset_bottom = -159.0
 grow_horizontal = 2
 grow_vertical = 0
 
@@ -39,9 +58,7 @@ grow_vertical = 0
 layout_mode = 2
 focus_neighbor_top = NodePath("../Options")
 focus_neighbor_bottom = NodePath("../Multiplayer")
-theme = ExtResource("3_fxa86")
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_colors/font_focus_color = Color(1, 0, 0, 1)
+theme = ExtResource("6_hrcjh")
 toggle_mode = true
 text = "Single Player"
 
@@ -49,14 +66,17 @@ text = "Single Player"
 layout_mode = 2
 focus_neighbor_top = NodePath("../SinglePlayer")
 focus_neighbor_bottom = NodePath("../Options")
-theme_override_colors/font_focus_color = Color(1, 0, 0, 1)
+theme = ExtResource("6_hrcjh")
 text = "Multiplayer"
 
 [node name="Options" type="Button" parent="ButtonBox"]
+texture_filter = 1
 layout_mode = 2
 focus_neighbor_top = NodePath("../Multiplayer")
 focus_neighbor_bottom = NodePath("../SinglePlayer")
-theme_override_colors/font_focus_color = Color(1, 0, 0, 1)
+theme = ExtResource("6_hrcjh")
+theme_override_styles/hover = ExtResource("7_2iy8e")
+theme_override_styles/normal = ExtResource("7_nrhvf")
 text = "Options
 "
 
