@@ -15,14 +15,13 @@ var total_player_count = 1
 var human_player_count = 1 #Every game must have at least 1 human or two AI
 # Name for my player.
 var player_name = globals.config.get_player_name()
-
 # Names for remote players in id:name format.
 var players = {}
 var players_ready = []
 
 # Character Textures in id:texture2D format.
 var characters = {}
-
+var defaulttex = load("res://assets/player/chonkgoon_walk.png")
 # AI Handling variables
 const MAX_ID_COLLISION_RESCUE_ATTEMPTS = 4
 const MAX_NAME_COLLISION_RESCUE_ATTEMPTS = 4
@@ -80,6 +79,7 @@ func _connected_fail():
 @rpc("any_peer")
 func register_player(new_player_name):
 	var id = multiplayer.get_remote_sender_id()
+	characters[id+1] = defaulttex
 	players[id] = new_player_name
 	player_list_changed.emit()
 	
@@ -112,6 +112,8 @@ func host_game(new_player_name):
 	peer = ENetMultiplayerPeer.new()
 	peer.create_server(DEFAULT_PORT, MAX_PEERS)
 	multiplayer.set_multiplayer_peer(peer)
+	var id = multiplayer.get_remote_sender_id() + 1
+	characters[id] = defaulttex
 
 
 func join_game(ip, new_player_name):
