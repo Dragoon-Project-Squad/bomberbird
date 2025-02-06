@@ -86,6 +86,13 @@ func refresh_lobby():
 
 	$Players/Ready.disabled = not multiplayer.is_server()
 
+@rpc("call_local")
+func show_css():
+	$Options.hide()
+	$Players.hide()
+	$Connect.hide()
+	$Back.hide()
+	$CSS.show()
 
 func _on_start_pressed():
 	if gamestate.total_player_count < 2:
@@ -104,14 +111,8 @@ func _on_back_pressed() -> void:
 		await get_tree().process_frame
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
-
 func _on_ready_pressed() -> void:
-	$Options.hide()
-	$Players.hide()
-	$Connect.hide()
-	$Back.hide()
-	$CSS.show()
-	pass # Replace with function body.
+	show_css.rpc()
 
 
 func _on_dokibird_pressed() -> void:
