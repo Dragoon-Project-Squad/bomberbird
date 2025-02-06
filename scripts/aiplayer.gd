@@ -163,6 +163,8 @@ func exploded(by_who):
 	else:
 		get_node("anim").play("stunned")
 
+func set_selected_character(value: Texture2D):
+	$sprite.texture = value
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
 	# Move AI Player

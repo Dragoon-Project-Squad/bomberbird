@@ -79,7 +79,7 @@ func _connected_fail():
 @rpc("any_peer")
 func register_player(new_player_name):
 	var id = multiplayer.get_remote_sender_id()
-	characters[id+1] = defaulttex
+	characters[id] = defaulttex
 	players[id] = new_player_name
 	player_list_changed.emit()
 	
@@ -89,7 +89,9 @@ func unregister_player(id):
 	
 @rpc("any_peer")
 func change_character_player(texture):
-	var id = multiplayer.get_remote_sender_id() + 1
+	var id = multiplayer.get_remote_sender_id()
+	if id == 0:
+		id = 1
 	characters[id] = texture
 
 
@@ -133,7 +135,7 @@ func get_player_name():
 
 func begin_game():
 	human_player_count = 1+players.size()
-	total_player_count = human_player_count + get_tree().get_root().get_node("Lobby/Options/AICountContainer/AIPlayerCount").get_value()
+	total_player_count = human_player_count + get_tree().get_root().get_node("Lobby/Options/AIPlayerCount").get_value()
 	#total_player_count = 2
 	assert(multiplayer.is_server())
 	add_ai_players()
@@ -152,7 +154,8 @@ func begin_game():
 		var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position
 		#var spawnedplayer
 		var playerspawner = world.get_node("PlayerSpawner")
-		var spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players, "characterdictionary": characters}
+		#var spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players, "characterdictionary": characters}
+		var spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players}
 		if humans_loaded_in_game < human_player_count:
 			# Spawn a human there
 			playerspawner.spawn(spawningdata)
