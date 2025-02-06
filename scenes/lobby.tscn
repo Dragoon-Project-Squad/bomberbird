@@ -35,7 +35,7 @@ offset_top = -177.0
 offset_right = 256.0
 offset_bottom = 178.0
 grow_vertical = 2
-theme = ExtResource("2_0e6h4")
+theme = ExtResource("2_0k5fb")
 
 [node name="AICountContainer" type="HSplitContainer" parent="Options"]
 layout_mode = 0
@@ -68,7 +68,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
-theme = ExtResource("2_0e6h4")
+theme = ExtResource("2_0k5fb")
 
 [node name="Label" type="Label" parent="Players"]
 layout_mode = 0
@@ -120,7 +120,6 @@ offset_bottom = 432.5
 text = "Find your public IP address"
 
 [node name="Connect" type="Panel" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -135,7 +134,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
-theme = ExtResource("2_0e6h4")
+theme = ExtResource("2_0k5fb")
 
 [node name="NameLabel" type="Label" parent="Connect"]
 layout_mode = 0
@@ -209,6 +208,7 @@ size_flags_vertical = 0
 theme_override_colors/font_color = Color(0.820312, 0.291595, 0.291595, 1)
 
 [node name="CSS" type="Control" parent="."]
+visible = false
 anchors_preset = 0
 offset_right = 1152.0
 offset_bottom = 648.0
