@@ -48,13 +48,19 @@ func _player_connected(id):
 
 # Callback from SceneTree.
 func _player_disconnected(id):
+	# NOTE: WIP
+	total_player_count -= 1
+	human_player_count -= 1
 	if has_node("/root/World"): # Game is in progress.
-		if multiplayer.is_server():
-			game_error.emit("Player " + players[id] + " disconnected")
+		# Remove from world
+		remove_player_from_world.rpc(id)
+		# If everyone else disconnected
+		if total_player_count == 1:
+			game_error.emit("All other players disconnected")
 			end_game()
-	else: # Game is not in progress.
-		# Unregister this player.
-		unregister_player(id)
+	# Unregister this player.
+	unregister_player(id)
+
 
 
 # Callback from SceneTree, only for clients (not server).
@@ -65,8 +71,9 @@ func _connected_ok():
 
 # Callback from SceneTree, only for clients (not server).
 func _server_disconnected():
-	game_error.emit("Server disconnected")
-	end_game()
+	if multiplayer.is_server():
+		game_error.emit("Server disconnected")
+		end_game()
 
 
 # Callback from SceneTree, only for clients (not server).
@@ -86,6 +93,13 @@ func register_player(new_player_name):
 func unregister_player(id):
 	players.erase(id)
 	player_list_changed.emit()
+
+@rpc("authority", "call_local")
+func remove_player_from_world(id):
+	if get_tree().get_root().has_node("World"):
+		var world = get_tree().get_root().get_node("World")
+		if world.has_node("Players/" + str(id)):
+			world.get_node("Players/" + str(id)).queue_free()
 	
 @rpc("any_peer")
 func change_character_player(texture):
