@@ -61,7 +61,8 @@ func _physics_process(delta):
 		move_and_slide()
 	
 	# Also update the animation based on the last known player input state
-	update_animation(velocity)
+	if !is_dead:
+		update_animation(velocity)
 
 func navigation_map_sync_wait(map: RID):
 	while NavigationServer2D.map_get_iteration_id(map) == 0:
