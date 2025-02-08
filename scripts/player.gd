@@ -59,21 +59,24 @@ func _physics_process(delta):
 		move_and_slide()
 
 	# Also update the animation based on the last known player input state
+	if !is_dead:
+		update_animation(inputs.motion)
+	
+
+func update_animation(input_motion: Vector2):
 	var new_anim = "standing"
-
-	if inputs.motion.y < 0:
+	if input_motion.y < 0:
 		new_anim = "walk_up"
-	elif inputs.motion.y > 0:
+	elif input_motion.y > 0:
 		new_anim = "walk_down"
-	elif inputs.motion.x < 0:
+	elif input_motion.x < 0:
 		new_anim = "walk_left"
-	elif inputs.motion.x > 0:
+	elif input_motion.x > 0:
 		new_anim = "walk_right"
-
+		
 	if new_anim != current_anim:
 		current_anim = new_anim
 		$anim.play(current_anim)
-	
 
 func enter_death_state():
 	$anim.play("death")
