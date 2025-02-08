@@ -19,6 +19,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(48, 112, 432, 112, 432,
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_to18j"]
 
 [node name="World" type="Node2D"]
+texture_filter = 1
 script = ExtResource("1_b42q6")
 
 [node name="Background" type="TileMapLayer" parent="."]
