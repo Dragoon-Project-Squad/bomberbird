@@ -3,6 +3,8 @@ extends Control
 enum misobon_states {OFF, ON, SUPER}
 @export var curr_misobon_state = misobon_states.SUPER
 
+var timeout_timer = null
+
 func _ready():
 	# Called every time the node is added to the scene.
 	gamestate.connection_failed.connect(_on_connection_failed)
@@ -12,12 +14,18 @@ func _ready():
 	gamestate.game_error.connect(_on_game_error)
 	# Set the player name according to the system username. Fallback to the path.
 	$Connect/Name.text = globals.config.get_player_name()
+
 	# sets the misobon button text to the correct state
 	var button_label = ["off", "on", "super"]
 	get_node("Options/MisobonState").set_text(button_label[curr_misobon_state])
 
-
-
+	# Connection timeout timer
+	timeout_timer = Timer.new()
+	timeout_timer.name = "ConnectionTimeout"
+	timeout_timer.wait_time = 5.0
+	timeout_timer.one_shot = true
+	timeout_timer.connect("timeout", Callable(self, "_on_connection_timeout"))
+	add_child(timeout_timer)
 
 func _on_host_pressed():
 	if $Connect/Name.text == "":
@@ -51,7 +59,17 @@ func _on_join_pressed():
 
 	var player_name = $Connect/Name.text
 	globals.config.set_player_name(player_name)	
+	timeout_timer.start()
 	gamestate.join_game(ip, player_name)
+	
+
+func _on_connection_timeout():
+	if gamestate.peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
+		multiplayer.multiplayer_peer = null  # Reset the multiplayer peer
+		$Connect/Host.disabled = false
+		$Connect/Join.disabled = false
+		$Connect/Join.release_focus()
+		$Connect/ErrorLabel.text = "Connection timed out"
 
 func _on_misobon_pressed():
 	#toggels through the 3 options for misobon and changing the text on the button to reflect the state
@@ -76,7 +94,7 @@ func _on_game_ended():
 	$Connect.show()
 	$Players.hide()
 	$Back.show()
-	$Options.hide()
+	$Options.show()
 	$CSS.hide()
 	$Connect/Host.disabled = false
 	$Connect/Join.disabled = false
