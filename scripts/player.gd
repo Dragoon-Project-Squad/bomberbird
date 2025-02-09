@@ -125,6 +125,7 @@ func exploded(by_who):
 		$"../../GameUI".decrease_score(by_who) # Take away a point for blowing yourself up
 	else:
 		$"../../GameUI".increase_score(by_who) # Award a point to the person who blew you up
+		#TODO notify other player of kill
 	if lives <= 0:
 		is_dead = true
 		#TODO: Knockout Player

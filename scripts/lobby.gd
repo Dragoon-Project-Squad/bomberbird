@@ -1,5 +1,8 @@
 extends Control
 
+enum misobon_states {OFF, ON, SUPER}
+var curr_misobon_state = misobon_states.SUPER
+
 func _ready():
 	# Called every time the node is added to the scene.
 	gamestate.connection_failed.connect(_on_connection_failed)
@@ -46,6 +49,12 @@ func _on_join_pressed():
 	globals.config.set_player_name(player_name)	
 	gamestate.join_game(ip, player_name)
 
+func _on_misobon_pressed():
+	#toggels through the 3 options for misobon and changing the text on the button to reflect the state
+	var button = get_node("Options/MisobonState")
+	var button_label = ["off", "on", "super"]
+	curr_misobon_state = (curr_misobon_state + 1) % 3 as misobon_states
+	button.set_text(button_label[curr_misobon_state])
 
 func _on_connection_success():
 	$Connect.hide()

@@ -56,6 +56,25 @@ offset_right = 248.0
 offset_bottom = 58.0
 max_value = 3.0
 
+[node name="Misobon" type="Label" parent="Options"]
+offset_left = 17.0
+offset_top = 62.0
+offset_right = 185.0
+offset_bottom = 107.0
+size_flags_horizontal = 6
+theme_override_font_sizes/font_size = 25
+text = "Misobon"
+vertical_alignment = 1
+
+[node name="MisobonState" type="Button" parent="Options"]
+offset_left = 156.0
+offset_top = 64.0
+offset_right = 244.0
+offset_bottom = 102.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+text = "super"
+
 [node name="Players" type="Panel" parent="."]
 visible = false
 layout_mode = 1
@@ -491,6 +510,7 @@ text = "Exit
 
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
 
+[connection signal="pressed" from="Options/MisobonState" to="." method="_on_misobon_pressed"]
 [connection signal="pressed" from="Players/Ready" to="." method="_on_ready_pressed"]
 [connection signal="pressed" from="Players/FindPublicIP" to="." method="_on_find_public_ip_pressed"]
 [connection signal="pressed" from="Connect/Host" to="." method="_on_host_pressed"]
