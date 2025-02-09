@@ -3,6 +3,7 @@ extends CharacterBody2D
 const BASE_MOTION_SPEED = 100.0
 const BOMB_RATE = 0.5
 const MAX_BOMBS_OWNABLE = 99
+const MISOBON_RESPAWN_TIME: float = 1.5
 
 @export var synced_position := Vector2()
 @export var stunned = false
@@ -86,6 +87,24 @@ func enter_death_state():
 func exit_death_state():
 	self.visible = true #Visible
 	process_mode = PROCESS_MODE_INHERIT
+	
+func enter_misobon():
+	if(!has_node("/root/MainMenu") && get_node("/root/Lobby").curr_misobon_state == 0):
+			#in singlayer always just have it on for now (until we have options in sp) and in multiplayer spawn misobon iff its not off
+		return
+
+	#wait some time till spawning the Misobon player. NOTE!: this means everything after this point only is executed after the misobon player is spawned!. TODO fix this
+	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
+
+	get_node("../../MisobonPlayerSpawner").spawn({
+	"player_type": "human",
+	"spawn_here": -20,
+	"pid": str(name).to_int(),
+	"name": get_player_name()
+	 })
+
+
+
 
 func set_player_name(value):
 	$label.set_text(value)
@@ -130,6 +149,8 @@ func exploded(by_who):
 		is_dead = true
 		#TODO: Knockout Player
 		enter_death_state()
+		enter_misobon()
+		
 	else:
 		get_node("anim").play("stunned")
 

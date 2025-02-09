@@ -55,7 +55,7 @@ size_flags_horizontal = 2
 size_flags_vertical = 0
 theme_override_fonts/font = ExtResource("3_76jcr")
 theme_override_font_sizes/font_size = 16
-text = "Player 1"
+text = "Misobon 1"
 label_settings = SubResource("LabelSettings_aowd5")
 horizontal_alignment = 1
 

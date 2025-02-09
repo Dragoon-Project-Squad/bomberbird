@@ -42,3 +42,6 @@ func _process(delta: float) -> void:
 
 	progress += inputs.motion * MOVEMENT_SPEED * delta
 	#TODO update animation
+
+func set_player_name(new_name: String):
+	$label.set_text(new_name)
