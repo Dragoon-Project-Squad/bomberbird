@@ -1,7 +1,7 @@
 extends Control
 
 enum misobon_states {OFF, ON, SUPER}
-var curr_misobon_state = misobon_states.SUPER
+@export var curr_misobon_state = misobon_states.SUPER
 
 func _ready():
 	# Called every time the node is added to the scene.
@@ -12,6 +12,10 @@ func _ready():
 	gamestate.game_error.connect(_on_game_error)
 	# Set the player name according to the system username. Fallback to the path.
 	$Connect/Name.text = globals.config.get_player_name()
+	# sets the misobon button text to the correct state
+	var button_label = ["off", "on", "super"]
+	get_node("Options/MisobonState").set_text(button_label[curr_misobon_state])
+
 
 
 
