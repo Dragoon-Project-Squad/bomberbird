@@ -50,7 +50,7 @@ func _process(delta: float) -> void:
 	
 func _on_timeout() -> void:
 	var world = get_tree().get_root().get_node("World")
-	var unbreakable_spawner = world.get_node("UnbreakableSpawner")
+	var wall_spawner = world.get_node("WallSpawner")
 	var floor = world.get_node("Floor")
-	unbreakable_spawner.spawn(floor.map_to_local(Vector2(targetTiles[currentTileIndex].x + 1, targetTiles[currentTileIndex].y + world.map_offset + 1)))
+	wall_spawner.spawn(floor.map_to_local(Vector2(targetTiles[currentTileIndex].x + 1, targetTiles[currentTileIndex].y + world.map_offset + 1)))
 	currentTileIndex += 1
