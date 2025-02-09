@@ -100,7 +100,8 @@ func load_world():
 	# Change scene.
 	var world = load("res://scenes/battlegrounds.tscn").instantiate()
 	get_tree().get_root().add_child(world)
-	get_tree().get_root().get_node("Lobby").hide()
+	if get_tree().get_root().has_node("Lobby"):
+		get_tree().get_root().get_node("Lobby").hide()
 
 	# Set up score.
 	world.get_node("GameUI").add_player(multiplayer.get_unique_id(), player_name)
@@ -132,6 +133,35 @@ func get_player_list():
 func get_player_name():
 	return player_name
 
+func begin_singleplayer_game():
+	human_player_count = 1
+	total_player_count = human_player_count + 3
+	add_ai_players()
+	load_world.rpc()
+	var world = get_tree().get_root().get_node("World")
+	#var playerspawner = get_tree().get_root().get_node("World/PlayerSpawner")
+	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
+	var spawn_points = {}
+	spawn_points[1] = 0 # Server in spawn point 0.
+	var spawn_point_idx = 1
+	for p in players:
+		spawn_points[p] = spawn_point_idx
+		spawn_point_idx += 1
+	var humans_loaded_in_game = 0
+	for p_id in spawn_points:
+		var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position
+		#var spawnedplayer
+		var playerspawner = world.get_node("PlayerSpawner")
+		#var spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players, "characterdictionary": characters}
+		var spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players}
+		if humans_loaded_in_game < human_player_count:
+			# Spawn a human there
+			playerspawner.spawn(spawningdata)
+			#spawnedplayer = player_scene.instantiate()
+			humans_loaded_in_game += 1
+		else:
+			# Spawn a robot there
+			playerspawner.spawn(spawningdata)
 
 func begin_game():
 	human_player_count = 1+players.size()
