@@ -129,6 +129,7 @@ _data = {
 }
 
 [node name="Bomb" type="StaticBody2D"]
+texture_filter = 1
 collision_layer = 8
 collision_mask = 6
 script = ExtResource("1")

@@ -37,5 +37,6 @@ func exploded(_by_who):
 		if decide_pickup_spawn():
 			var type_of_pickup = decide_pickup_type()
 			get_node("/root/World/PickupSpawner").spawn({"spawnpoint": self.position, "pickuptype": type_of_pickup})
+	get_node("Shape").queue_free()
 	await $"AnimationPlayer".animation_finished #Wait for the animation to finish
 	queue_free()
