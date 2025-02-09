@@ -48,13 +48,18 @@ func _player_connected(id):
 
 # Callback from SceneTree.
 func _player_disconnected(id):
+	total_player_count -= 1
+	human_player_count -= 1
 	if has_node("/root/World"): # Game is in progress.
-		if multiplayer.is_server():
-			game_error.emit("Player " + players[id] + " disconnected")
+		# Remove from world
+		remove_player_from_world.rpc(id)
+		# If everyone else disconnected
+		if total_player_count == 1:
+			game_error.emit("All other players disconnected")
 			end_game()
-	else: # Game is not in progress.
-		# Unregister this player.
-		unregister_player(id)
+	# Unregister this player.
+	unregister_player(id)
+
 
 
 # Callback from SceneTree, only for clients (not server).
@@ -65,6 +70,7 @@ func _connected_ok():
 
 # Callback from SceneTree, only for clients (not server).
 func _server_disconnected():
+	# Gets called by the server if all players disconnect, this is to prevent that
 	game_error.emit("Server disconnected")
 	end_game()
 
@@ -86,6 +92,13 @@ func register_player(new_player_name):
 func unregister_player(id):
 	players.erase(id)
 	player_list_changed.emit()
+
+@rpc("authority", "call_local")
+func remove_player_from_world(id):
+	if get_tree().get_root().has_node("World"):
+		var world = get_tree().get_root().get_node("World")
+		if world.has_node("Players/" + str(id)):
+			world.get_node("Players/" + str(id)).queue_free()
 	
 @rpc("any_peer")
 func change_character_player(texture):
@@ -164,9 +177,11 @@ func begin_singleplayer_game():
 			playerspawner.spawn(spawningdata)
 
 func begin_game():
+	if players.size() == 0: # If players disconnected at character select
+		game_error.emit("All other players disconnected")
+		end_game()
 	human_player_count = 1+players.size()
 	total_player_count = human_player_count + get_tree().get_root().get_node("Lobby/Options/AIPlayerCount").get_value()
-	#total_player_count = 2
 	assert(multiplayer.is_server())
 	add_ai_players()
 	load_world.rpc()
@@ -248,7 +263,8 @@ func end_game():
 	if has_node("/root/World"): # Game is in progress.
 		# End it
 		get_node("/root/World").queue_free()
-		peer.close()
+		if !multiplayer.is_server():
+			peer.close()
 	game_ended.emit() 
 	players.clear()
 	resetvars()
