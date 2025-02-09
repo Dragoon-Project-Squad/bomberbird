@@ -48,7 +48,6 @@ func _player_connected(id):
 
 # Callback from SceneTree.
 func _player_disconnected(id):
-	# NOTE: WIP
 	total_player_count -= 1
 	human_player_count -= 1
 	if has_node("/root/World"): # Game is in progress.
@@ -71,9 +70,9 @@ func _connected_ok():
 
 # Callback from SceneTree, only for clients (not server).
 func _server_disconnected():
-	if multiplayer.is_server():
-		game_error.emit("Server disconnected")
-		end_game()
+	# Gets called by the server if all players disconnect, this is to prevent that
+	game_error.emit("Server disconnected")
+	end_game()
 
 
 # Callback from SceneTree, only for clients (not server).
@@ -148,9 +147,11 @@ func get_player_name():
 
 
 func begin_game():
+	if players.size() == 0: # If players disconnected at character select
+		game_error.emit("All other players disconnected")
+		end_game()
 	human_player_count = 1+players.size()
 	total_player_count = human_player_count + get_tree().get_root().get_node("Lobby/Options/AIPlayerCount").get_value()
-	#total_player_count = 2
 	assert(multiplayer.is_server())
 	add_ai_players()
 	load_world.rpc()
@@ -232,7 +233,8 @@ func end_game():
 	if has_node("/root/World"): # Game is in progress.
 		# End it
 		get_node("/root/World").queue_free()
-		peer.close()
+		if !multiplayer.is_server():
+			peer.close()
 	game_ended.emit() 
 	players.clear()
 	resetvars()
