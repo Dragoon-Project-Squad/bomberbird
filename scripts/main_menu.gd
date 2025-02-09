@@ -5,7 +5,9 @@ func _ready() -> void:
 	$ButtonBox/SinglePlayer.grab_focus()
 
 func _on_single_player_pressed() -> void:
-	gamestate.begin_singleplayer_game()
+	#if a game is already running do not allow a new game to start
+	if !has_node("/root/World"):
+		gamestate.begin_singleplayer_game()
 	# get_tree().change_scene_to_file("res://scenes/battlegrounds.tscn")
 
 
