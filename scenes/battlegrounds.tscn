@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://scripts/bomb_spawner.gd" id="6_xje61"]
 [ext_resource type="Script" path="res://scripts/powerup_spawner.gd" id="7_87w5t"]
 [ext_resource type="AudioStream" uid="uid://kkul2topsufx" path="res://sound/fx/bombdrop.wav" id="7_cxllj"]
-[ext_resource type="Script" path="res://scenes/breakable_spawner.gd" id="9_yixdt"]
+[ext_resource type="Script" path="res://scenes/unbreakable_spawner.gd" id="9_qqnss"]
 [ext_resource type="Script" path="res://scripts/explosion_spawner.gd" id="10_o2q20"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_2w7dq"]
@@ -228,7 +228,11 @@ script = ExtResource("7_87w5t")
 
 [node name="BreakableSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("..")
-script = ExtResource("9_yixdt")
+script = ExtResource("9_qqnss")
+
+[node name="UnbreakableSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("..")
+script = ExtResource("9_qqnss")
 
 [node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_to18j")
