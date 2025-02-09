@@ -177,13 +177,13 @@ func begin_singleplayer_game():
 			playerspawner.spawn(spawningdata)
 
 func begin_game():
-	if players.size() == 0: # If players disconnected at character select
-		game_error.emit("All other players disconnected")
-		end_game()
 	human_player_count = 1+players.size()
 	total_player_count = human_player_count + get_tree().get_root().get_node("Lobby/Options/AIPlayerCount").get_value()
 	assert(multiplayer.is_server())
 	add_ai_players()
+	if players.size() == 0: # If players disconnected at character select
+		game_error.emit("All other players disconnected")
+		end_game()
 	load_world.rpc()
 	var world = get_tree().get_root().get_node("World")
 	#var playerspawner = get_tree().get_root().get_node("World/PlayerSpawner")
