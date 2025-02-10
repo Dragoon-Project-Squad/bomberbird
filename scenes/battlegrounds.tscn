@@ -1,11 +1,13 @@
-[gd_scene load_steps=14 format=4 uid="uid://bs7slglsckv0i"]
+[gd_scene load_steps=17 format=4 uid="uid://bs7slglsckv0i"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_b42q6"]
 [ext_resource type="Script" path="res://scripts/game_ui.gd" id="3_dadsx"]
+[ext_resource type="Script" path="res://scripts/misobon_path.gd" id="3_uhlbr"]
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/deserttileset.tres" id="3_vcixd"]
 [ext_resource type="Script" path="res://scripts/player_spawner.gd" id="5_2eagj"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="5_g2doi"]
 [ext_resource type="Script" path="res://scripts/bomb_spawner.gd" id="6_xje61"]
+[ext_resource type="Script" path="res://scripts/misobon_player_spawner.gd" id="7_7cqae"]
 [ext_resource type="Script" path="res://scripts/powerup_spawner.gd" id="7_87w5t"]
 [ext_resource type="AudioStream" uid="uid://kkul2topsufx" path="res://sound/fx/bombdrop.wav" id="7_cxllj"]
 [ext_resource type="Script" path="res://scenes/breakable_spawner.gd" id="9_lscju"]
@@ -16,6 +18,12 @@
 vertices = PackedVector2Array(422, 422, 58, 422, 58, 122, 422, 122)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(48, 112, 432, 112, 432, 432, 48, 432)])
+
+[sub_resource type="Curve2D" id="Curve2D_pquxm"]
+_data = {
+"points": PackedVector2Array(0.297315, 2.88107, 0, 0, 240, 16, 0, 0, 0, 0, 464, 16, 0, 0, 0, 0, 464, 464, 0, 0, 0, 0, 16, 464, 0, 0, 0, 0, 16, 16, 0, 0, 0, 0, 240, 16)
+}
+point_count = 6
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_to18j"]
 
@@ -57,6 +65,10 @@ position = Vector2(432, 432)
 visible = false
 
 [node name="Players" type="Node2D" parent="."]
+
+[node name="MisobonPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_pquxm")
+script = ExtResource("3_uhlbr")
 
 [node name="GameUI" type="CanvasLayer" parent="."]
 visible = false
@@ -214,6 +226,10 @@ zoom = Vector2(1.3, 1.3)
 [node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("../Players")
 script = ExtResource("5_2eagj")
+
+[node name="MisobonPlayerSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../MisobonPath")
+script = ExtResource("7_7cqae")
 
 [node name="BombSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("..")

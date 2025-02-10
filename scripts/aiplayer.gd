@@ -3,6 +3,7 @@ extends CharacterBody2D
 const BASE_MOTION_SPEED = 130.0
 const BOMB_RATE = 0.5
 const MAX_BOMBS_OWNALE = 99
+const MISOBON_RESPAWN_TIME: float = 0.5
 
 @export var synced_position := Vector2()
 @export var stunned = false
@@ -35,6 +36,7 @@ func _ready():
 	set_random_target()
 	stunned = false
 	position = synced_position
+
 func _physics_process(delta):
 	if !waiting_for_map_sync:
 		var next_path_position = navigation_agent_2d.get_next_path_position()
@@ -130,6 +132,20 @@ func exit_death_state():
 	self.visible = true #Visible
 	process_mode = PROCESS_MODE_INHERIT
 
+func enter_misobon():
+	if(!has_node("/root/MainMenu") && get_node("/root/Lobby").curr_misobon_state == 0):
+			#in singlayer always just have it on SUPER for now (until we have options in sp) and in multiplayer spawn misobon iff its not off
+		return
+
+	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
+
+	get_node("../../MisobonPlayerSpawner").spawn({
+	"player_type": "AI",
+	"spawn_here": get_node("../../MisobonPath").get_progress_from_vector(synced_position),
+	"pid": str(name).to_int(),
+	"name": get_player_name()
+	 }).play_spawn_animation()
+
 func increase_bomb_level():
 	explosion_boost_count = min(explosion_boost_count + 1, max_explosion_boosts_permitted)
 
@@ -161,6 +177,7 @@ func exploded(by_who):
 		is_dead = true
 		#TODO: Knockout Player
 		enter_death_state()
+		enter_misobon()
 	else:
 		get_node("anim").play("stunned")
 

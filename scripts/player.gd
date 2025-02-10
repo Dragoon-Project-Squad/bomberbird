@@ -3,6 +3,7 @@ extends CharacterBody2D
 const BASE_MOTION_SPEED = 100.0
 const BOMB_RATE = 0.5
 const MAX_BOMBS_OWNABLE = 99
+const MISOBON_RESPAWN_TIME: float = 0.5
 
 @export var synced_position := Vector2()
 @export var stunned = false
@@ -86,6 +87,21 @@ func enter_death_state():
 func exit_death_state():
 	self.visible = true #Visible
 	process_mode = PROCESS_MODE_INHERIT
+	
+func enter_misobon():
+	if(!has_node("/root/MainMenu") && get_node("/root/Lobby").curr_misobon_state == 0):
+			#in singlayer always just have it on SUPER for now (until we have options in sp) and in multiplayer spawn misobon iff its not off
+		return
+
+	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
+	if is_multiplayer_authority():
+		get_node("../../MisobonPlayerSpawner").spawn({
+		"player_type": "human",
+		"spawn_here": get_node("../../MisobonPath").get_progress_from_vector(synced_position),
+		"pid": str(name).to_int(),
+		"name": get_player_name()
+		}).play_spawn_animation()
+
 
 func set_player_name(value):
 	$label.set_text(value)
@@ -125,10 +141,12 @@ func exploded(by_who):
 		$"../../GameUI".decrease_score(by_who) # Take away a point for blowing yourself up
 	elif by_who != gamestate.ENVIRONMENTAL_KILL_PLAYER_ID:
 		$"../../GameUI".increase_score(by_who) # Award a point to the person who blew you up
+		#TODO notify other player of kill
 	if lives <= 0:
 		is_dead = true
 		#TODO: Knockout Player
 		enter_death_state()
+		enter_misobon()
 	else:
 		get_node("anim").play("stunned")
 
