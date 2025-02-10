@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://bs7slglsckv0i"]
+[gd_scene load_steps=17 format=4 uid="uid://bs7slglsckv0i"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_b42q6"]
 [ext_resource type="Script" path="res://scripts/game_ui.gd" id="3_dadsx"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/bomb_spawner.gd" id="6_xje61"]
 [ext_resource type="Script" path="res://scripts/powerup_spawner.gd" id="7_87w5t"]
 [ext_resource type="AudioStream" uid="uid://kkul2topsufx" path="res://sound/fx/bombdrop.wav" id="7_cxllj"]
+[ext_resource type="Script" path="res://scenes/breakable_spawner.gd" id="9_k4om7"]
 [ext_resource type="Script" path="res://scenes/unbreakable_spawner.gd" id="9_qqnss"]
 [ext_resource type="Script" path="res://scripts/explosion_spawner.gd" id="10_o2q20"]
 [ext_resource type="Script" path="res://scripts/timers/restriction_start_timer.gd" id="11_bq37i"]
@@ -231,7 +232,7 @@ script = ExtResource("7_87w5t")
 
 [node name="BreakableSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("..")
-script = ExtResource("9_qqnss")
+script = ExtResource("9_k4om7")
 
 [node name="UnbreakableSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("..")
@@ -252,6 +253,7 @@ script = ExtResource("11_cd2yx")
 [node name="Timers" type="Node" parent="."]
 
 [node name="RestrictionStartTimer" type="Timer" parent="Timers"]
+wait_time = 2.0
 one_shot = true
 autostart = true
 script = ExtResource("11_bq37i")
