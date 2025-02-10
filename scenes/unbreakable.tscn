@@ -164,7 +164,6 @@ tracks/6/type = "method"
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/path = NodePath("SolidCollider/Shape")
-
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -184,12 +183,11 @@ _data = {
 
 [node name="Unbreakable" type="Area2D" groups=["bombstop"]]
 texture_filter = 1
-
 collision_layer = 4
 collision_mask = 11
 script = ExtResource("1_1dueh")
 
-[node name="SolidCollider" type="CharacterBody2D" parent="."]
+[node name="SolidCollider" type="Area2D" parent="."]
 collision_layer = 4
 collision_mask = 11
 
@@ -232,3 +230,6 @@ scale = Vector2(2, 2)
 shape = SubResource("1")
 disabled = true
 debug_color = Color(0.566368, 0.396401, 0.990421, 0.42)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
