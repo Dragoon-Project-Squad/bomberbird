@@ -58,7 +58,7 @@ func play_spawn_animation():
 		current_anim = "spawn_right"
 	else:
 		current_anim = "spawn_left"
-	$AnimationPlayer.play("spawn_left")
+	$AnimationPlayer.play(current_anim)
 	await $AnimationPlayer.animation_finished
 	is_rejoining = false
 func set_player_name(new_name: String):

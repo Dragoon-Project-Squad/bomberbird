@@ -29,22 +29,6 @@ properties/1/path = NodePath(".:bombing")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
-[sub_resource type="Animation" id="Animation_2k0ic"]
-resource_name = "look_left"
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [12]
-}
-
 [sub_resource type="Animation" id="Animation_8w66k"]
 length = 0.001
 tracks/0/type = "value"
@@ -96,22 +80,6 @@ tracks/3/keys = {
 "values": [Vector2(-82, -35)]
 }
 
-[sub_resource type="Animation" id="Animation_lr3ja"]
-resource_name = "look_right"
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [21]
-}
-
 [sub_resource type="Animation" id="Animation_yr62u"]
 resource_name = "look_down"
 length = 0.001
@@ -126,6 +94,38 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_2k0ic"]
+resource_name = "look_left"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [12]
+}
+
+[sub_resource type="Animation" id="Animation_lr3ja"]
+resource_name = "look_right"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [21]
 }
 
 [sub_resource type="Animation" id="Animation_1m5w0"]
@@ -278,9 +278,9 @@ vframes = 4
 
 [node name="label" type="Label" parent="."]
 z_index = 1
-offset_left = -50.0
+offset_left = -82.0
 offset_top = -35.0
-offset_right = 117.0
+offset_right = 85.0
 offset_bottom = -14.0
 size_flags_horizontal = 2
 size_flags_vertical = 0
