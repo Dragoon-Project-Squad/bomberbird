@@ -5,12 +5,12 @@ const BOMB_RATE: float = 0.5
 const MAX_BOMB_OWNABLE: int = 99
 
 @export var synced_progress: float = 0;
+@export var is_rejoining: bool = true
 
 @onready var inputs = $Inputs
 
 var last_bomb_time: float = BOMB_RATE
 var current_anim: String = ""
-var is_rejoining: bool = true
 
 #TODO figure out how the f to throw bomb
 

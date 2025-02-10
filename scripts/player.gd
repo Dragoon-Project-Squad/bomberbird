@@ -94,15 +94,13 @@ func enter_misobon():
 		return
 
 	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
-
-	get_node("../../MisobonPlayerSpawner").spawn({
-	"player_type": "human",
-	"spawn_here": get_node("../../MisobonPath").get_progress_from_vector(synced_position),
-	"pid": str(name).to_int(),
-	"name": get_player_name()
-	 }).play_spawn_animation()
-
-
+	if is_multiplayer_authority():
+		get_node("../../MisobonPlayerSpawner").spawn({
+		"player_type": "human",
+		"spawn_here": get_node("../../MisobonPath").get_progress_from_vector(synced_position),
+		"pid": str(name).to_int(),
+		"name": get_player_name()
+		}).play_spawn_animation()
 
 
 func set_player_name(value):
