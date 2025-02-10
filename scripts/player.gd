@@ -90,7 +90,7 @@ func exit_death_state():
 	
 func enter_misobon():
 	if(!has_node("/root/MainMenu") && get_node("/root/Lobby").curr_misobon_state == 0):
-			#in singlayer always just have it on for now (until we have options in sp) and in multiplayer spawn misobon iff its not off
+			#in singlayer always just have it on SUPER for now (until we have options in sp) and in multiplayer spawn misobon iff its not off
 		return
 
 	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
@@ -149,7 +149,6 @@ func exploded(by_who):
 		#TODO: Knockout Player
 		enter_death_state()
 		enter_misobon()
-		
 	else:
 		get_node("anim").play("stunned")
 

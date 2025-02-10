@@ -12,9 +12,8 @@ func _spawn_misobon_player(data) -> PathFollow2D:
 	if data.player_type == "human":
 		misobon_player = misobon_player_scene.instantiate()
 	else:
-		print("ups this is not yet implemented. This will likely cause a crash!")
+		printerr("ups this is not yet implemented. This will likely cause a crash!")
 		pass #TODO instantiate AI misobon player
-	#TODO add spawning animation (likely flying in from the side) either here or in the player itself
 	misobon_player.synced_progress = data.spawn_here
 	misobon_player.name = str(data.pid)
 	misobon_player.set_player_name(data.name)
