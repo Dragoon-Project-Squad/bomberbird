@@ -1,7 +1,7 @@
 extends MultiplayerSpawner
 
 var misobon_player_scene := preload("res://scenes/misobon_player.tscn")
-#TODO preload AI misobon player
+var misobon_aiplayer_scene := preload("res://scenes/misobon_aiplayer.tscn")
 
 func _init():
 	spawn_function = _spawn_misobon_player
@@ -12,8 +12,7 @@ func _spawn_misobon_player(data) -> PathFollow2D:
 	if data.player_type == "human":
 		misobon_player = misobon_player_scene.instantiate()
 	else:
-		printerr("ups this is not yet implemented. This will likely cause a crash!")
-		pass #TODO instantiate AI misobon player
+		misobon_player = misobon_aiplayer_scene.instantiate()
 	misobon_player.synced_progress = data.spawn_here
 	misobon_player.name = str(data.pid)
 	misobon_player.set_player_name(data.name)
