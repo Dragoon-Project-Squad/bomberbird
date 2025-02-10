@@ -3,7 +3,6 @@ extends PathFollow2D
 const MOVEMENT_SPEED: float = 200.0
 const BOMB_RATE: float = 0.5
 const MAX_BOMB_OWNABLE: int = 99
-const GRACE: float = 20 #grace allows for inputs close to a corner to still work
 
 @export var synced_progress: float = 0;
 
@@ -11,37 +10,56 @@ const GRACE: float = 20 #grace allows for inputs close to a corner to still work
 
 var last_bomb_time: float = BOMB_RATE
 var current_anim: String = ""
-var is_rejoining: bool = false
+var is_rejoining: bool = true
 
-var path_len: float
 #TODO figure out how the f to throw bomb
 
 func _ready() -> void:
 	progress = synced_progress
 	if str(name).is_valid_int():
 		get_node("Inputs/InputsSync").set_multiplayer_authority(str(name).to_int())
-	path_len = get_node("..").curve.get_baked_length()
 
 func _process(delta: float) -> void:
+	if is_rejoining:
+		return
 	if multiplayer.multiplayer_peer == null or str(multiplayer.get_unique_id()) == str(name):
 		# The client which this player represent will update the controls state, and notify it to everyone.
-		inputs.update(synced_progress, int(path_len / 4), GRACE) #This could become a problem is our path is ever not an integer, tho it should remain on.	
+		inputs.update(
+			get_parent().get_segment_with_grace(synced_progress)
+			)
 
-	if multiplayer.multiplayer_peer == null or is_multiplayer_authority():
+	if multiplayer.multiplayer_peer == null || is_multiplayer_authority():
 		# The server updates the position that will be notified to the clients.
 		synced_progress = progress;
 		# And increase the bomb cooldown spawning one if the client wants to.
 		last_bomb_time += delta
-		if is_multiplayer_authority() and inputs.bombing and last_bomb_time >= BOMB_RATE:
+		if is_multiplayer_authority() && inputs.bombing && last_bomb_time >= BOMB_RATE:
 			#TODO implement bomb throwing / spawning a thrown bomb	
 			last_bomb_time = 0.0
 	
 	else:
 		#The client updates their progess to the last know one
 		progress = synced_progress
-
 	progress += inputs.motion * MOVEMENT_SPEED * delta
-	#TODO update animation
+	update_animation(
+		get_parent().get_segment_id(synced_progress)
+		)
 
+func update_animation(segment_index: int):
+	var animations: Array[String] = ["look_down", "look_left", "look_up", "look_right"]
+	if animations[segment_index] != current_anim && !is_rejoining:
+		current_anim = animations[segment_index]
+		$AnimationPlayer.play(current_anim)
+
+func play_spawn_animation():
+	var seg_index: int = get_parent().get_segment_id(synced_progress)
+	assert(!seg_index == 0 && !seg_index == 2)
+	if seg_index == 1:
+		current_anim = "spawn_right"
+	else:
+		current_anim = "spawn_left"
+	$AnimationPlayer.play("spawn_left")
+	await $AnimationPlayer.animation_finished
+	is_rejoining = false
 func set_player_name(new_name: String):
 	$label.set_text(new_name)
