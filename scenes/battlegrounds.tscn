@@ -232,7 +232,7 @@ script = ExtResource("7_87w5t")
 
 [node name="BreakableSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("..")
-script = ExtResource("9_k4om7")
+script = ExtResource("9_lscju")
 
 [node name="UnbreakableSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("..")
