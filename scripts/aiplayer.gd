@@ -61,7 +61,8 @@ func _physics_process(delta):
 		move_and_slide()
 	
 	# Also update the animation based on the last known player input state
-	update_animation(velocity)
+	if !is_dead:
+		update_animation(velocity)
 
 func navigation_map_sync_wait(map: RID):
 	while NavigationServer2D.map_get_iteration_id(map) == 0:
@@ -152,9 +153,9 @@ func exploded(by_who):
 	stunned = true
 	lives -= 1
 	hurt_sfx_player.play()
-	if str(by_who) == get_player_name():
+	if by_who != gamestate.ENVIRONMENTAL_KILL_PLAYER_ID && str(by_who) == name: 
 		$"../../GameUI".decrease_score(by_who) # Take away a point for blowing yourself up
-	else:
+	elif by_who != gamestate.ENVIRONMENTAL_KILL_PLAYER_ID:
 		$"../../GameUI".increase_score(by_who) # Award a point to the person who blew you up
 	if lives <= 0:
 		is_dead = true

@@ -59,21 +59,24 @@ func _physics_process(delta):
 		move_and_slide()
 
 	# Also update the animation based on the last known player input state
+	if !is_dead:
+		update_animation(inputs.motion)
+	
+
+func update_animation(input_motion: Vector2):
 	var new_anim = "standing"
-
-	if inputs.motion.y < 0:
+	if input_motion.y < 0:
 		new_anim = "walk_up"
-	elif inputs.motion.y > 0:
+	elif input_motion.y > 0:
 		new_anim = "walk_down"
-	elif inputs.motion.x < 0:
+	elif input_motion.x < 0:
 		new_anim = "walk_left"
-	elif inputs.motion.x > 0:
+	elif input_motion.x > 0:
 		new_anim = "walk_right"
-
+		
 	if new_anim != current_anim:
 		current_anim = new_anim
 		$anim.play(current_anim)
-	
 
 func enter_death_state():
 	$anim.play("death")
@@ -118,9 +121,9 @@ func exploded(by_who):
 	stunned = true
 	lives -= 1
 	hurt_sfx_player.play()
-	if str(by_who) == get_player_name():
+	if by_who != gamestate.ENVIRONMENTAL_KILL_PLAYER_ID && str(by_who) == name: 
 		$"../../GameUI".decrease_score(by_who) # Take away a point for blowing yourself up
-	else:
+	elif by_who != gamestate.ENVIRONMENTAL_KILL_PLAYER_ID:
 		$"../../GameUI".increase_score(by_who) # Award a point to the person who blew you up
 	if lives <= 0:
 		is_dead = true

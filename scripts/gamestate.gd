@@ -3,12 +3,14 @@ extends Node
 # Default game server port. Can be any number between 1024 and 49151.
 # Not on the list of registered or common ports as of November 2020:
 # https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
-const DEFAULT_PORT = 10567
+const DEFAULT_PORT := 10567
 
-# Max number of players.
-const MAX_PEERS = 4
-
+# Multiplayer vars
+const MAX_PEERS := 4
 var peer = null
+
+#Environmental damage vars
+const ENVIRONMENTAL_KILL_PLAYER_ID := -69
 
 # Player count variables
 var total_player_count = 1
@@ -48,13 +50,18 @@ func _player_connected(id):
 
 # Callback from SceneTree.
 func _player_disconnected(id):
+	total_player_count -= 1
+	human_player_count -= 1
 	if has_node("/root/World"): # Game is in progress.
-		if multiplayer.is_server():
-			game_error.emit("Player " + players[id] + " disconnected")
+		# Remove from world
+		remove_player_from_world.rpc(id)
+		# If everyone else disconnected
+		if total_player_count == 1:
+			game_error.emit("All other players disconnected")
 			end_game()
-	else: # Game is not in progress.
-		# Unregister this player.
-		unregister_player(id)
+	# Unregister this player.
+	unregister_player(id)
+
 
 
 # Callback from SceneTree, only for clients (not server).
@@ -65,13 +72,14 @@ func _connected_ok():
 
 # Callback from SceneTree, only for clients (not server).
 func _server_disconnected():
+	# Gets called by the server if all players disconnect, this is to prevent that
 	game_error.emit("Server disconnected")
 	end_game()
 
 
 # Callback from SceneTree, only for clients (not server).
 func _connected_fail():
-	multiplayer.set_network_peer(null) # Remove peer
+	multiplayer.set_multiplayer_peer(null) # Remove peer
 	connection_failed.emit()
 
 
@@ -86,6 +94,13 @@ func register_player(new_player_name):
 func unregister_player(id):
 	players.erase(id)
 	player_list_changed.emit()
+
+@rpc("authority", "call_local")
+func remove_player_from_world(id):
+	if get_tree().get_root().has_node("World"):
+		var world = get_tree().get_root().get_node("World")
+		if world.has_node("Players/" + str(id)):
+			world.get_node("Players/" + str(id)).queue_free()
 	
 @rpc("any_peer")
 func change_character_player(texture):
@@ -100,7 +115,8 @@ func load_world():
 	# Change scene.
 	var world = load("res://scenes/battlegrounds.tscn").instantiate()
 	get_tree().get_root().add_child(world)
-	get_tree().get_root().get_node("Lobby").hide()
+	if get_tree().get_root().has_node("Lobby"):
+		get_tree().get_root().get_node("Lobby").hide()
 
 	# Set up score.
 	world.get_node("GameUI").add_player(multiplayer.get_unique_id(), player_name)
@@ -132,13 +148,44 @@ func get_player_list():
 func get_player_name():
 	return player_name
 
+func begin_singleplayer_game():
+	human_player_count = 1
+	total_player_count = human_player_count + 3
+	add_ai_players()
+	load_world.rpc()
+	var world = get_tree().get_root().get_node("World")
+	#var playerspawner = get_tree().get_root().get_node("World/PlayerSpawner")
+	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
+	var spawn_points = {}
+	spawn_points[1] = 0 # Server in spawn point 0.
+	var spawn_point_idx = 1
+	for p in players:
+		spawn_points[p] = spawn_point_idx
+		spawn_point_idx += 1
+	var humans_loaded_in_game = 0
+	for p_id in spawn_points:
+		var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position
+		#var spawnedplayer
+		var playerspawner = world.get_node("PlayerSpawner")
+		#var spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players, "characterdictionary": characters}
+		var spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players}
+		if humans_loaded_in_game < human_player_count:
+			# Spawn a human there
+			playerspawner.spawn(spawningdata)
+			#spawnedplayer = player_scene.instantiate()
+			humans_loaded_in_game += 1
+		else:
+			# Spawn a robot there
+			playerspawner.spawn(spawningdata)
 
 func begin_game():
 	human_player_count = 1+players.size()
 	total_player_count = human_player_count + get_tree().get_root().get_node("Lobby/Options/AIPlayerCount").get_value()
-	#total_player_count = 2
 	assert(multiplayer.is_server())
 	add_ai_players()
+	if players.size() == 0: # If players disconnected at character select
+		game_error.emit("All other players disconnected")
+		end_game()
 	load_world.rpc()
 	var world = get_tree().get_root().get_node("World")
 	#var playerspawner = get_tree().get_root().get_node("World/PlayerSpawner")
@@ -218,7 +265,8 @@ func end_game():
 	if has_node("/root/World"): # Game is in progress.
 		# End it
 		get_node("/root/World").queue_free()
-		peer.close()
+		if !multiplayer.is_server():
+			peer.close()
 	game_ended.emit() 
 	players.clear()
 	resetvars()
