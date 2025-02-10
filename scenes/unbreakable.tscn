@@ -163,7 +163,7 @@ tracks/5/keys = {
 tracks/6/type = "method"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("collision")
+tracks/6/path = NodePath("SolidCollider/Shape")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -183,8 +183,18 @@ _data = {
 
 [node name="Unbreakable" type="Area2D" groups=["bombstop"]]
 texture_filter = 1
-collision_mask = 22
+collision_layer = 4
+collision_mask = 11
 script = ExtResource("1_1dueh")
+
+[node name="SolidCollider" type="CharacterBody2D" parent="."]
+collision_layer = 4
+collision_mask = 11
+
+[node name="Shape" type="CollisionShape2D" parent="SolidCollider"]
+scale = Vector2(2, 2)
+shape = SubResource("1")
+disabled = true
 
 [node name="sprite" type="Sprite2D" parent="."]
 visible = false
@@ -202,11 +212,6 @@ visible = false
 modulate = Color(0.882353, 0.701961, 0.615686, 1)
 texture = ExtResource("4_jr8wg")
 
-[node name="collision" type="CollisionShape2D" parent="."]
-scale = Vector2(0.5, 0.5)
-shape = SubResource("1")
-disabled = true
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_6pqaw")
@@ -215,4 +220,8 @@ libraries = {
 [node name="UnbreakableSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_gdwcr")
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[node name="AreaCollider" type="CollisionShape2D" parent="."]
+scale = Vector2(2, 2)
+shape = SubResource("1")
+disabled = true
+debug_color = Color(0.566368, 0.396401, 0.990421, 0.42)
