@@ -12,9 +12,7 @@
 [ext_resource type="Script" path="res://scripts/unbreakable_spawner.gd" id="9_qqnss"]
 [ext_resource type="Script" path="res://scripts/explosion_spawner.gd" id="10_o2q20"]
 [ext_resource type="Script" path="res://scripts/timers/restriction_start_timer.gd" id="11_bq37i"]
-[ext_resource type="Script" path="res://scripts/wall_spawner.gd" id="11_cd2yx"]
 [ext_resource type="Script" path="res://scripts/timers/restriction_timer.gd" id="12_0gfi1"]
-
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_2w7dq"]
 vertices = PackedVector2Array(422, 422, 58, 422, 58, 122, 422, 122)

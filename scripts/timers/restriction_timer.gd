@@ -43,10 +43,6 @@ func generate_spiral(grid_size: Vector2) -> Array:
 			left += 1
 
 	return spiral
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
 	
 func _on_timeout() -> void:
 	var world = get_tree().get_root().get_node("World")
