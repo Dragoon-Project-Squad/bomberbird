@@ -1,5 +1,7 @@
 extends Timer
 
+func _process(delta: float) -> void:
+	$Timer.text = str(ceil(time_left))
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
