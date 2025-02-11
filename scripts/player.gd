@@ -2,7 +2,8 @@ extends CharacterBody2D
 
 const BASE_MOTION_SPEED = 100.0
 const BOMB_RATE = 0.5
-const MAX_BOMBS_OWNABLE = 99
+const MAX_BOMBS_OWNABLE = 8
+const MAX_EXPLOSION_BOOSTS_PERMITTED := 6
 const MISOBON_RESPAWN_TIME: float = 0.5
 
 @export var synced_position := Vector2()
@@ -18,8 +19,7 @@ var lives = 1
 # Powerup Vars
 var movement_speed = BASE_MOTION_SPEED
 var explosion_boost_count := 0
-var max_explosion_boosts_permitted := 3
-var bomb_count := 3
+var bomb_count := 2
 var bomb_total := bomb_count
 var can_punch := false
 var pressed_once := false
@@ -87,11 +87,13 @@ func update_animation(input_motion: Vector2):
 func enter_death_state():
 	$anim.play("death")
 	await $anim.animation_finished
-	process_mode = PROCESS_MODE_DISABLED
+	set_process(false)
+	set_physics_process(false)
 	
 func exit_death_state():
 	self.visible = true #Visible
-	process_mode = PROCESS_MODE_INHERIT
+	set_process(true)
+	set_physics_process(true)
 	
 func enter_misobon():
 	if(!has_node("/root/MainMenu") && get_node("/root/Lobby").curr_misobon_state == 0):
@@ -116,11 +118,11 @@ func get_player_name() -> String:
 	
 @rpc("call_local")
 func increase_bomb_level():
-	explosion_boost_count = min(explosion_boost_count + 1, max_explosion_boosts_permitted)
+	explosion_boost_count = min(explosion_boost_count + 1, MAX_EXPLOSION_BOOSTS_PERMITTED)
 	
 @rpc("call_local")
 func maximize_bomb_level():
-	explosion_boost_count = min(explosion_boost_count + 99, max_explosion_boosts_permitted)
+	explosion_boost_count = min(explosion_boost_count + 99, MAX_EXPLOSION_BOOSTS_PERMITTED)
 	
 @rpc("call_local")
 func increase_speed():

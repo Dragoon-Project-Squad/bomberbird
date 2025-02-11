@@ -1,7 +1,7 @@
 extends MultiplayerSpawner
 @export var bomb_audio_stream : AudioStreamWAV = load("res://sound/fx/bombdrop.wav")
 @onready var bomb_placement_sfx_player := $BombPlacementSFXPlayer 
-
+const MAX_EXPLOSION_WIDTH := 8
 func _init():
 	spawn_function = _spawn_bomb
 
@@ -19,5 +19,5 @@ func _spawn_bomb(data):
 	bomb.from_player = data[1]
 	# Increase explosion power by spawning player's boosts
 	if data.size() > 2 and typeof(data[2]) == TYPE_INT:
-		bomb.call_deferred("set_explosion_width_and_size", min(data[2] + bomb.explosion_width, 5))
+		bomb.call_deferred("set_explosion_width_and_size", min(data[2] + bomb.explosion_width, MAX_EXPLOSION_WIDTH))
 	return bomb

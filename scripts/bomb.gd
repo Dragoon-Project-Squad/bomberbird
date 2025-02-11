@@ -4,6 +4,7 @@ var in_area: Array = []
 var from_player: int
 var player: Node
 var explosion_width := 2
+const MAX_EXPLOSION_WIDTH := 8
 var animation_finish := false
 const TILE_SIZE = 32 #Primitive method of assigning correct tile size
 #var TILE_SIZE: int = get_node("/root/World/Unbreakale").get_tileset().get_tile_size() #Would be cool but the match doesn't like non constants
@@ -127,11 +128,11 @@ func place_explosion(explosion_pos: Vector2i, explosion_direction: Vector2, expl
 		get_node("/root/World/ExplosionSpawner").spawn({"spawnpoint": explosion_pos, "bombowner": from_player, "explosiontype": explosion_type, "direction": explosion_direction})
 	
 func set_explosion_width_and_size(somewidth: int):
-	explosion_width = clamp(somewidth, 2, 5)
+	explosion_width = clamp(somewidth, 2, MAX_EXPLOSION_WIDTH)
 	bombsprite.set_frame(clamp(somewidth-3, 0, 2))
 
 func set_explosion_width(somewidth: int):
-	explosion_width = clamp(somewidth, 2, 5)
+	explosion_width = clamp(somewidth, 2, MAX_EXPLOSION_WIDTH)
 	
 func set_bomb_size(size: int):
 	bombsprite.set_frame(clamp(size-1, 0, 2))
