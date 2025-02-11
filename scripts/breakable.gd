@@ -16,14 +16,14 @@ func decide_pickup_spawn() -> bool:
 func decide_pickup_type() -> String:
 	var pickup_type
 	var rng = RandomNumberGenerator.new()
-	var rng_result = rng.randi_range(1,3)
+	var rng_result = rng.randi_range(1,4)
 	# TODO: Invent fun spawn table that has chances for different pickups
 	match rng_result:
 		1: pickup_type = "explosion_boost"
 		2: pickup_type = "max_explosion"
 		3: pickup_type = "speed_boost"
-		4: pickup_type = "punch_ability"
-		5: pickup_type = "extra_bomb"
+		4: pickup_type = "extra_bomb"
+		5: pickup_type = "punch_ability"
 		_: pickup_type = "explosion_boost"
 	return pickup_type
 	
