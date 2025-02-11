@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://csxr6gsnneywq"]
+[gd_scene load_steps=10 format=3 uid="uid://ceopux65oftsk"]
 
 [ext_resource type="Script" path="res://scripts/unbreakable.gd" id="1_1dueh"]
 [ext_resource type="Texture2D" uid="uid://b7xhajclwoa2f" path="res://assets/desert_objects.png" id="2_c6xw4"]

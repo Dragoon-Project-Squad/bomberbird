@@ -2,6 +2,7 @@ extends StaticBody2D
 
 var in_area: Array = []
 var from_player: int
+var player: Node
 var explosion_width := 2
 var animation_finish := false
 const TILE_SIZE = 32 #Primitive method of assigning correct tile size
@@ -16,6 +17,7 @@ const TILE_SIZE = 32 #Primitive method of assigning correct tile size
 
 func _ready():
 	explosion_sfx_player.set_stream(explosion_audio)
+	player = get_node("../").get_child(6).get_child(from_player-1)
 	$Timer.start()
 	
 func explode():
@@ -85,6 +87,8 @@ func explode():
 					#var colliding_tile_pos = tileMap.map_to_local(tileMap.local_to_map(shaved_collision_point))
 					#explode_space_between_center_and_end(position, colliding_tile_pos, explosion_direction)
 					#place_explosion(colliding_tile_pos, explosion_direction, "side_border")
+	if(!player.is_dead):
+		player.return_bomb.rpc()
 func done():
 	if is_multiplayer_authority():
 		queue_free()
