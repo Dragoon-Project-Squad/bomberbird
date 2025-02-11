@@ -20,7 +20,9 @@ var lives = 1
 var movement_speed = BASE_MOTION_SPEED
 var explosion_boost_count := 0
 var bomb_count := 2
+var bomb_total := bomb_count
 var can_punch := false
+var pressed_once := false
 # Tracking Vars
 var tileMap : TileMapLayer
 var bombPos := Vector2()
@@ -44,12 +46,15 @@ func _physics_process(delta):
 		synced_position = position
 		# And increase the bomb cooldown spawning one if the client wants to.
 		last_bomb_time += delta
-		if not stunned and is_multiplayer_authority() and inputs.bombing and last_bomb_time >= BOMB_RATE:
+		if not stunned and is_multiplayer_authority() and inputs.bombing and bomb_count > 0 and !pressed_once:
 			if tileMap != null:
 				bombPos = tileMap.map_to_local(tileMap.local_to_map(synced_position))
-				
-			last_bomb_time = 0.0
+			pressed_once = true
+			bomb_count -= 1
+			print("Spent value: " + str(bomb_count))
 			get_node("../../BombSpawner").spawn([bombPos, str(name).to_int(), explosion_boost_count])
+		elif !inputs.bombing and pressed_once:
+			pressed_once = false
 	else:
 		# The client simply updates the position to the last known one.
 		position = synced_position
@@ -124,8 +129,15 @@ func increase_speed():
 @rpc("call_local")
 func increment_bomb_count():
 	#TODO: Add code that makes bomb count matter.
-	bomb_count = min(bomb_count+1, MAX_BOMBS_OWNABLE)
+	bomb_total = min(bomb_total+1, MAX_BOMBS_OWNABLE)
+	bomb_count = min(bomb_count+1, bomb_total)
 	
+
+@rpc("call_local")
+func return_bomb():
+	bomb_count = min(bomb_count+1, bomb_total)
+	print("Returned value: " + str(bomb_count))
+
 @rpc("call_local")
 func enable_punch():
 	can_punch = true
