@@ -100,8 +100,9 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
+offset_left = 8.0
 offset_top = -20.0
-offset_right = 1064.0
+offset_right = 1128.0
 offset_bottom = 20.0
 grow_vertical = 2
 size_flags_horizontal = 2
@@ -137,6 +138,7 @@ vertical_alignment = 1
 [node name="P1Score" type="Label" parent="GameUI/Border/Container/Players/P1"]
 layout_mode = 2
 text = "0"
+horizontal_alignment = 2
 
 [node name="SeparatorP12" type="ColorRect" parent="GameUI/Border/Container/Players"]
 visible = false
