@@ -3,7 +3,7 @@ extends CanvasLayer
 var player_labels = {}
 var players_left = 5
 var someone_dead = false
-
+var time
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$"../Winner".hide()
@@ -11,6 +11,7 @@ func _ready() -> void:
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
+	time = %MatchTimer.get_time_left()
 	#Declare a winner
 	players_left = $"../Players".get_child_count()
 	# Only begin counting score if all human players have been loaded
@@ -22,6 +23,7 @@ func _process(_delta: float) -> void:
 		await get_tree().create_timer(1.0).timeout
 		call_deferred("decide_game", players_left)
 		process_mode = PROCESS_MODE_DISABLED
+	%RemainingTime.set_text(time_to_string())
 
 
 func decide_game(final_players: int):
@@ -100,5 +102,12 @@ func set_player_four(id, new_player_name):
 	$Border/Container/Players/P4.visible = true
 	$Border/Container/Players/SeparatorP34.visible = true
 	
+func time_to_string() -> String:
+	var sec = fmod(time, 60)
+	var min = time / 60
+	var format_string = "%02d:%02d"
+	var actual_time_string = format_string % [min, sec]
+	return actual_time_string
+
 func _on_exit_game_pressed() -> void:
 	gamestate.end_game()
