@@ -87,11 +87,13 @@ func update_animation(input_motion: Vector2):
 func enter_death_state():
 	$anim.play("death")
 	await $anim.animation_finished
-	process_mode = PROCESS_MODE_DISABLED
+	set_process(false)
+	set_physics_process(false)
 	
 func exit_death_state():
 	self.visible = true #Visible
-	process_mode = PROCESS_MODE_INHERIT
+	set_process(true)
+	set_physics_process(true)
 	
 func enter_misobon():
 	if(!has_node("/root/MainMenu") && get_node("/root/Lobby").curr_misobon_state == 0):
