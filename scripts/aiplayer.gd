@@ -1,8 +1,9 @@
 extends CharacterBody2D
 
-const BASE_MOTION_SPEED = 130.0
+const BASE_MOTION_SPEED = 100.0
 const BOMB_RATE = 0.5
-const MAX_BOMBS_OWNALE = 99
+const MAX_BOMBS_OWNALE = 8
+const MAX_EXPLOSION_BOOSTS_PERMITTED = 6
 const MISOBON_RESPAWN_TIME: float = 0.5
 
 @export var synced_position := Vector2()
@@ -22,8 +23,7 @@ var lives = 1
 # Powerup Vars
 var movement_speed = BASE_MOTION_SPEED
 var explosion_boost_count = 0
-var max_explosion_boosts_permitted = 2
-var bomb_count := 3
+var bomb_count := 2
 var can_punch := false
 # AI Player specific vars
 var is_bombing = false #TODO: Setup condition for AI to bomb, and include is_bombing
@@ -147,13 +147,13 @@ func enter_misobon():
 	 }).play_spawn_animation()
 
 func increase_bomb_level():
-	explosion_boost_count = min(explosion_boost_count + 1, max_explosion_boosts_permitted)
+	explosion_boost_count = min(explosion_boost_count + 1, MAX_EXPLOSION_BOOSTS_PERMITTED)
 
 func maximize_bomb_level():
-	explosion_boost_count = min(explosion_boost_count + 99, max_explosion_boosts_permitted)
+	explosion_boost_count = min(explosion_boost_count + 99, MAX_EXPLOSION_BOOSTS_PERMITTED)
 		
 func increase_speed():
-	movement_speed = movement_speed + 200
+	movement_speed = movement_speed + 20
 
 func increment_bomb_count():
 	#TODO: Add code that makes bomb count matter.
