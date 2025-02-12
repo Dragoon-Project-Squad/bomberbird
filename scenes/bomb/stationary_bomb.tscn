@@ -74,7 +74,23 @@ tracks/0/keys = {
 "values": [&"explosion_small"]
 }
 
+[sub_resource type="Animation" id="Animation_m6l0e"]
+resource_name = "explosion_small"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.0333333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"explosion_small"]
+}
+
 [sub_resource type="Animation" id="Animation_21j5c"]
+resource_name = "fuse_and_call_explode()"
 length = 4.0
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -106,29 +122,14 @@ tracks/1/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_m6l0e"]
-resource_name = "explosion_small"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(-0.0333333),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"explosion_small"]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_h2w7m"]
 _data = {
 "RESET": SubResource("Animation_oq2m5"),
-"anim": SubResource("Animation_21j5c"),
-"explosion_small": SubResource("Animation_m6l0e")
+"explosion_small": SubResource("Animation_m6l0e"),
+"fuse_and_call_explode()": SubResource("Animation_21j5c")
 }
 
-[node name="Bomb" type="StaticBody2D"]
+[node name="StationaryBomb" type="StaticBody2D"]
 texture_filter = 1
 collision_layer = 8
 collision_mask = 6
@@ -177,7 +178,6 @@ animation = &"explosion_small"
 libraries = {
 "": SubResource("AnimationLibrary_h2w7m")
 }
-autoplay = "anim"
 
 [node name="BombSprite" type="Sprite2D" parent="."]
 texture = ExtResource("8_1u1d1")

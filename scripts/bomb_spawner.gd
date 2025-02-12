@@ -5,19 +5,17 @@ extends MultiplayerSpawner
 func _init():
 	spawn_function = _spawn_bomb
 
+#TODO as spawning a bomb does not place it anymore this has to be move to the bomb itself
 func _ready():
 	bomb_placement_sfx_player.set_stream(bomb_audio_stream)
 
 
 func _spawn_bomb(data):
-	if data.size() < 2 or typeof(data[0]) != TYPE_VECTOR2 or typeof(data[1]) != TYPE_INT:
-		push_error("Corrupt data sent to bomb spawner. Bomb not spawned. Output: ", data)
+	if data.size() != 1 or typeof(data[0]) != TYPE_INT:
+		push_error("Corrupt data sent to bomb spawner. Bomb not spawned. data.size():", data.size(), ", data", data)
 		return null
-	bomb_placement_sfx_player.play()
-	var bomb = preload("res://scenes/bomb.tscn").instantiate()
-	bomb.position = data[0]
-	bomb.from_player = data[1]
-	# Increase explosion power by spawning player's boosts
-	if data.size() > 2 and typeof(data[2]) == TYPE_INT:
-		bomb.call_deferred("set_explosion_width_and_size", min(data[2] + bomb.explosion_width, 5))
+	var bomb := preload("res://scenes/bomb/bomb_root.tscn").instantiate()
+	bomb._ready()
+	bomb.set_bomb_owner(get_node("/root/World/Players/" + str(data[0])))
+	bomb.set_state(bomb.DISABLED)
 	return bomb

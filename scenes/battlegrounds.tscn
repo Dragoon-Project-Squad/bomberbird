@@ -1,9 +1,10 @@
-[gd_scene load_steps=16 format=4 uid="uid://bs7slglsckv0i"]
+[gd_scene load_steps=20 format=4 uid="uid://bs7slglsckv0i"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_b42q6"]
 [ext_resource type="Script" path="res://scripts/game_ui.gd" id="3_dadsx"]
 [ext_resource type="Script" path="res://scripts/misobon_path.gd" id="3_uhlbr"]
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/deserttileset.tres" id="3_vcixd"]
+[ext_resource type="PackedScene" uid="uid://c4i5gyl4cut3t" path="res://scenes/bomb/bomb_pool.tscn" id="4_er4o6"]
 [ext_resource type="Script" path="res://scripts/player_spawner.gd" id="5_2eagj"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="5_g2doi"]
 [ext_resource type="Script" path="res://scripts/bomb_spawner.gd" id="6_xje61"]
@@ -71,6 +72,8 @@ visible = false
 [node name="MisobonPath" type="Path2D" parent="."]
 curve = SubResource("Curve2D_pquxm")
 script = ExtResource("3_uhlbr")
+
+[node name="BombPool" parent="." instance=ExtResource("4_er4o6")]
 
 [node name="GameUI" type="CanvasLayer" parent="."]
 visible = false
@@ -234,7 +237,7 @@ spawn_path = NodePath("../MisobonPath")
 script = ExtResource("7_7cqae")
 
 [node name="BombSpawner" type="MultiplayerSpawner" parent="."]
-spawn_path = NodePath("..")
+spawn_path = NodePath("../BombPool")
 script = ExtResource("6_xje61")
 bomb_audio_stream = ExtResource("7_cxllj")
 

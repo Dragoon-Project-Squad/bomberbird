@@ -10,6 +10,7 @@ const MISOBON_RESPAWN_TIME: float = 0.5
 
 @onready var hurt_sfx_player := $HurtSoundPlayer
 @onready var inputs = $Inputs
+var bomb_pool: Node2D
 
 var last_bomb_time = BOMB_RATE
 var current_anim = ""
@@ -20,6 +21,8 @@ var movement_speed = BASE_MOTION_SPEED
 var explosion_boost_count := 0
 var max_explosion_boosts_permitted := 3
 var bomb_count := 3
+var bomb_queue: Array[Node2D] = [] #note these are used as a Queue hence new items are always pushed to the back and items are always taken from the back
+var bomb_active: Array[Node2D] = []
 var can_punch := false
 # Tracking Vars
 var tileMap : TileMapLayer
@@ -31,6 +34,9 @@ func _ready():
 	if str(name).is_valid_int():
 		get_node("Inputs/InputsSync").set_multiplayer_authority(str(name).to_int())
 	tileMap = get_parent().get_parent().get_node("Floor")
+	bomb_pool = get_node("../../BombPool")
+	if is_multiplayer_authority():
+		bomb_queue = bomb_pool.request_bomb_array(self, bomb_count)
 	#$sprite.texture = load("res://assets/player/dragoon_walk.png")
 
 
@@ -44,15 +50,21 @@ func _physics_process(delta):
 		synced_position = position
 		# And increase the bomb cooldown spawning one if the client wants to.
 		last_bomb_time += delta
-		if not stunned and is_multiplayer_authority() and inputs.bombing and last_bomb_time >= BOMB_RATE:
-			if tileMap != null:
-				bombPos = tileMap.map_to_local(tileMap.local_to_map(synced_position))
-				
-			last_bomb_time = 0.0
-			get_node("../../BombSpawner").spawn([bombPos, str(name).to_int(), explosion_boost_count])
 	else:
 		# The client simply updates the position to the last known one.
 		position = synced_position
+
+	if not stunned and inputs.bombing and last_bomb_time >= BOMB_RATE:
+		if tileMap != null:
+			bombPos = tileMap.map_to_local(tileMap.local_to_map(synced_position))
+			
+		last_bomb_time = 0.0
+		#take an unused bomb place it and put it into the active bomb bucket
+		print(bomb_queue)
+		var bomb = bomb_queue.pop_front()
+		if bomb != null:
+			bomb.do_place(bombPos, explosion_boost_count)
+
 
 	if not stunned:
 		# Everybody runs physics. I.e. clients tries to predict where they will be during the next frame.
@@ -79,8 +91,17 @@ func update_animation(input_motion: Vector2):
 		current_anim = new_anim
 		$anim.play(current_anim)
 
+func bomb_done(bomb: Node2D):
+	if is_dead:
+		bomb_pool.return_bomb(self, bomb)
+		return
+
+	bomb_queue.push_back(bomb)
+
 func enter_death_state():
 	$anim.play("death")
+	if is_multiplayer_authority():
+		bomb_pool.return_bomb_array(self, bomb_queue) #on death return all bombs that are not activly deployed
 	await $anim.animation_finished
 	process_mode = PROCESS_MODE_DISABLED
 	
@@ -112,6 +133,7 @@ func get_player_name() -> String:
 @rpc("call_local")
 func increase_bomb_level():
 	explosion_boost_count = min(explosion_boost_count + 1, max_explosion_boosts_permitted)
+
 	
 @rpc("call_local")
 func maximize_bomb_level():
@@ -123,8 +145,10 @@ func increase_speed():
 
 @rpc("call_local")
 func increment_bomb_count():
-	#TODO: Add code that makes bomb count matter.
-	bomb_count = min(bomb_count+1, MAX_BOMBS_OWNABLE)
+	if bomb_count < MAX_BOMBS_OWNABLE:
+		bomb_count = bomb_count + 1
+		if is_multiplayer_authority():
+			bomb_queue.push_back(bomb_pool.request_bomb(self)) # bomb count is increased hence we request a new bomb from the pool as our own
 	
 @rpc("call_local")
 func enable_punch():

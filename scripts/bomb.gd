@@ -5,8 +5,13 @@ var from_player: int
 var explosion_width := 2
 var animation_finish := false
 const TILE_SIZE = 32 #Primitive method of assigning correct tile size
+const MAX_EXPLOSION_WIDTH = 8
 #var TILE_SIZE: int = get_node("/root/World/Unbreakale").get_tileset().get_tile_size() #Would be cool but the match doesn't like non constants
 @export var explosion_audio : AudioStreamWAV = load("res://sound/fx/explosion.wav")
+
+@export var init: bool = false
+@export var exit: bool = false
+@export var synced_position: Vector2 = Vector2.ZERO
 @onready var explosion_sfx_player := $ExplosionSoundPlayer 
 @onready var rays = $Raycasts
 @onready var bombsprite := $BombSprite
@@ -16,8 +21,49 @@ const TILE_SIZE = 32 #Primitive method of assigning correct tile size
 
 func _ready():
 	explosion_sfx_player.set_stream(explosion_audio)
-	$Timer.start()
+
+func _process(_delta):
+	if multiplayer.multiplayer_peer == null or is_multiplayer_authority():
+		synced_position = position
+	else:
+		position = synced_position
+	if init:
+		self.visible = true
+		$CollisionShape2D.set_deferred("disabled", 1)
+		$DetectArea.set_deferred("disabled", 0)
+		$AnimationPlayer.play("fuse_and_call_explode()")
+		print("init")
+		if is_multiplayer_authority(): init = false
+	elif exit:
+		self.visible = false
+		$AnimationPlayer.stop()
+		$DetectArea.set_deferred("disabled", 1)
+		$CollisionShape2D.set_deferred("disabled", 1)
+		print("exit")
+		if is_multiplayer_authority(): exit = false
+
+
+
+
+
+func pass_bomb_owner():
+	from_player = str(get_parent().bomb_owner.name).to_int()
+
+func disable():
+	position = Vector2.ZERO
+	in_area = []
+	animation_finish = false
+	explosion_width = 2
+	if is_multiplayer_authority(): exit = true
+	print("disabled: ", get_parent())
 	
+func place(bombPos: Vector2):
+	#TODO this should play the place audio
+	position = bombPos
+	if is_multiplayer_authority(): init = true
+	print("place: ", get_parent(), ", visibility: ", 1 if self.visible else 0, ", pos: ", position, ", process_mode: ", process_mode) 
+
+
 func explode():
 	explosion_sfx_player.play()
 	var explosion_direction = Vector2.ZERO
@@ -27,20 +73,20 @@ func explode():
 	for ray in rays.get_children():
 		bombblocked = false #Reset bomb lock
 		collider_stopped_upon = null #Reset collider stopped upon
-		match ray.target_position: 
-			Vector2(0,TILE_SIZE):
+		match ray.target_position.normalized(): 
+			Vector2.RIGHT:
 				ray.target_position = Vector2(0,TILE_SIZE * (explosion_width))
 				ray.force_raycast_update()
 				explosion_direction = Vector2.DOWN
-			Vector2(0,-TILE_SIZE):
+			Vector2.LEFT:
 				ray.target_position = Vector2(0,-TILE_SIZE * (explosion_width))
 				ray.force_raycast_update()
 				explosion_direction = Vector2.UP
-			Vector2(TILE_SIZE,0):
+			Vector2.DOWN:
 				ray.target_position = Vector2(TILE_SIZE * (explosion_width), 0 )
 				ray.force_raycast_update()
 				explosion_direction = Vector2.RIGHT
-			Vector2(-TILE_SIZE,0):
+			Vector2.UP:
 				ray.target_position = Vector2(-TILE_SIZE * (explosion_width), 0 )
 				ray.force_raycast_update()
 				explosion_direction = Vector2.LEFT
@@ -85,9 +131,10 @@ func explode():
 					#var colliding_tile_pos = tileMap.map_to_local(tileMap.local_to_map(shaved_collision_point))
 					#explode_space_between_center_and_end(position, colliding_tile_pos, explosion_direction)
 					#place_explosion(colliding_tile_pos, explosion_direction, "side_border")
+
 func done():
-	if is_multiplayer_authority():
-		queue_free()
+	get_parent().disable()
+	get_parent().bomb_owner.bomb_done(get_parent())
 
 func shave_back_colliding_point(collidingpoint: Vector2, intendeddirection: Vector2) -> Vector2:
 	var newcollisionpos = collidingpoint
@@ -123,6 +170,7 @@ func place_explosion(explosion_pos: Vector2i, explosion_direction: Vector2, expl
 		get_node("/root/World/ExplosionSpawner").spawn({"spawnpoint": explosion_pos, "bombowner": from_player, "explosiontype": explosion_type, "direction": explosion_direction})
 	
 func set_explosion_width_and_size(somewidth: int):
+
 	explosion_width = clamp(somewidth, 2, 5)
 	bombsprite.set_frame(clamp(somewidth-3, 0, 2))
 
