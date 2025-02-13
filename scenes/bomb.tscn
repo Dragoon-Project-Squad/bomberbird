@@ -1,78 +1,15 @@
-[gd_scene load_steps=15 format=3 uid="uid://enwoaqi0rnei"]
+[gd_scene load_steps=10 format=3 uid="uid://enwoaqi0rnei"]
 
 [ext_resource type="Script" path="res://scripts/bomb.gd" id="1"]
 [ext_resource type="AudioStream" uid="uid://boidckhyrna5i" path="res://sound/fx/explosion.wav" id="2_gmoi6"]
-[ext_resource type="Texture2D" uid="uid://bqth48ah40v72" path="res://assets/explosion/small_2.png" id="5_vdgxx"]
-[ext_resource type="Texture2D" uid="uid://btardcqneoxu5" path="res://assets/explosion/medium_1.png" id="6_6h4kc"]
-[ext_resource type="Texture2D" uid="uid://by5jmsb4paoub" path="res://assets/explosion/large_1.png" id="7_hpcqw"]
+[ext_resource type="PackedScene" uid="uid://c3row0thknslo" path="res://scenes/explosion.tscn" id="4_4i8os"]
 [ext_resource type="Texture2D" uid="uid://cwpnhuimmgdha" path="res://assets/bombcentered.png" id="8_1u1d1"]
-[ext_resource type="Texture2D" uid="uid://ixibf0kxw05c" path="res://assets/explosion/small_0.png" id="8_68spy"]
-[ext_resource type="Texture2D" uid="uid://c5vuhckl0g8ke" path="res://assets/explosion/small_1.png" id="9_c21om"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6btgv"]
 size = Vector2(32, 32)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_tjkhu"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("5_vdgxx")
-}, {
-"duration": 1.0,
-"texture": ExtResource("6_6h4kc")
-}, {
-"duration": 1.0,
-"texture": ExtResource("7_hpcqw")
-}],
-"loop": false,
-"name": &"explosion_large",
-"speed": 3.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("5_vdgxx")
-}, {
-"duration": 1.0,
-"texture": ExtResource("6_6h4kc")
-}],
-"loop": false,
-"name": &"explosion_medium",
-"speed": 3.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("8_68spy")
-}, {
-"duration": 1.0,
-"texture": ExtResource("9_c21om")
-}, {
-"duration": 1.0,
-"texture": ExtResource("5_vdgxx")
-}],
-"loop": false,
-"name": &"explosion_small",
-"speed": 3.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}]
-
 [sub_resource type="Animation" id="Animation_oq2m5"]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"explosion_small"]
-}
 
 [sub_resource type="Animation" id="Animation_21j5c"]
 length = 4.0
@@ -99,7 +36,7 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
-"method": &"explode"
+"method": &"detonate"
 }, {
 "args": [],
 "method": &"done"
@@ -108,18 +45,6 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_m6l0e"]
 resource_name = "explosion_small"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(-0.0333333),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"explosion_small"]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_h2w7m"]
 _data = {
@@ -148,30 +73,30 @@ shape = SubResource("RectangleShape2D_6btgv")
 
 [node name="Raycasts" type="Node2D" parent="."]
 
+[node name="Right" type="RayCast2D" parent="Raycasts"]
+scale = Vector2(0.974882, 0.469407)
+target_position = Vector2(32, 0)
+collision_mask = 5
+collide_with_areas = true
+metadata/direction = Vector2i(1, 0)
+
 [node name="Down" type="RayCast2D" parent="Raycasts"]
 target_position = Vector2(0, 32)
-collision_mask = 23
+collision_mask = 5
 collide_with_areas = true
-
-[node name="Up" type="RayCast2D" parent="Raycasts"]
-target_position = Vector2(0, -32)
-collision_mask = 23
-collide_with_areas = true
-
-[node name="Right" type="RayCast2D" parent="Raycasts"]
-target_position = Vector2(32, 0)
-collision_mask = 23
-collide_with_areas = true
+metadata/direction = Vector2i(0, 1)
 
 [node name="Left" type="RayCast2D" parent="Raycasts"]
 target_position = Vector2(-32, 0)
-collision_mask = 23
+collision_mask = 5
 collide_with_areas = true
+metadata/direction = Vector2i(-1, 0)
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-visible = false
-sprite_frames = SubResource("SpriteFrames_tjkhu")
-animation = &"explosion_small"
+[node name="Up" type="RayCast2D" parent="Raycasts"]
+target_position = Vector2(0, -32)
+collision_mask = 5
+collide_with_areas = true
+metadata/direction = Vector2i(0, -1)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -187,11 +112,7 @@ region_rect = Rect2(0, 0, 96, 32)
 
 [node name="ExplosionSoundPlayer" type="AudioStreamPlayer2D" parent="."]
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 2.8
-
-[node name="Explosions" type="Node2D" parent="."]
+[node name="Explosion" parent="." instance=ExtResource("4_4i8os")]
 
 [connection signal="body_exited" from="DetectArea" to="." method="_on_detect_area_body_exit"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -1,93 +1,33 @@
-[gd_scene load_steps=8 format=3 uid="uid://cbk4mh24wv6o1"]
+[gd_scene load_steps=5 format=3 uid="uid://c3row0thknslo"]
 
-[ext_resource type="Texture2D" uid="uid://vsaxcnh1x7ju" path="res://assets/explosion/explosionspritesheet.png" id="1_35ogm"]
-[ext_resource type="Script" path="res://scripts/explosion.gd" id="2_7iimv"]
+[ext_resource type="Script" path="res://scripts/explosion.gd" id="1_i8fun"]
+[ext_resource type="TileSet" uid="uid://c6a5jstmgemfc" path="res://scenes/explosions_anim.tres" id="2_544pj"]
 
-[sub_resource type="Animation" id="Animation_tyeab"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_5as2d"]
+a = Vector2(-16, 0)
+b = Vector2(16, 0)
 
-[sub_resource type="Animation" id="Animation_f0g56"]
-resource_name = "explosion_center"
-length = 0.35
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3, 4, 5, 6]
-}
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_wcjvg"]
+a = Vector2(0, -16)
+b = Vector2(0, 16)
 
-[sub_resource type="Animation" id="Animation_fnp60"]
-resource_name = "explosion_side"
-length = 0.35
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [7, 8, 9, 10, 11, 12, 13]
-}
+[node name="Explosion" type="Node2D"]
+script = ExtResource("1_i8fun")
 
-[sub_resource type="Animation" id="Animation_ys8ny"]
-resource_name = "explosion_side_border"
-length = 0.35
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [14, 15, 16, 17, 18, 19, 20]
-}
+[node name="SpriteTileMap" type="TileMapLayer" parent="."]
+position = Vector2(-16, -16)
+tile_set = ExtResource("2_544pj")
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_x3x6j"]
-_data = {
-"RESET": SubResource("Animation_tyeab"),
-"explosion_center": SubResource("Animation_f0g56"),
-"explosion_side": SubResource("Animation_fnp60"),
-"explosion_side_border": SubResource("Animation_ys8ny")
-}
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 18
+monitorable = false
 
-[node name="Explosion" type="Sprite2D"]
-top_level = true
-texture_filter = 1
-texture = ExtResource("1_35ogm")
-hframes = 7
-vframes = 3
-script = ExtResource("2_7iimv")
+[node name="x-line" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("SegmentShape2D_5as2d")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_x3x6j")
-}
+[node name="y-line" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("SegmentShape2D_wcjvg")
 
-[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_body_entered"]
