@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c3row0thknslo"]
+[gd_scene load_steps=7 format=3 uid="uid://c3row0thknslo"]
 
 [ext_resource type="Script" path="res://scripts/explosion.gd" id="1_i8fun"]
 [ext_resource type="TileSet" uid="uid://c6a5jstmgemfc" path="res://scenes/explosions_anim.tres" id="2_544pj"]
@@ -10,6 +10,47 @@ b = Vector2(16, 0)
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_wcjvg"]
 a = Vector2(0, -16)
 b = Vector2(0, 16)
+
+[sub_resource type="Animation" id="Animation_d03af"]
+resource_name = "boom"
+length = 0.4
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333, 0.1, 0.15, 0.2, 0.233333, 0.3, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [1],
+"method": &"next_detonate"
+}, {
+"args": [2],
+"method": &"next_detonate"
+}, {
+"args": [3],
+"method": &"next_detonate"
+}, {
+"args": [4],
+"method": &"next_detonate"
+}, {
+"args": [5],
+"method": &"next_detonate"
+}, {
+"args": [6],
+"method": &"next_detonate"
+}, {
+"args": [7],
+"method": &"next_detonate"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3okw3"]
+_data = {
+"boom": SubResource("Animation_d03af")
+}
 
 [node name="Explosion" type="Node2D"]
 script = ExtResource("1_i8fun")
@@ -28,6 +69,11 @@ shape = SubResource("SegmentShape2D_5as2d")
 
 [node name="y-line" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("SegmentShape2D_wcjvg")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_3okw3")
+}
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_body_entered"]
