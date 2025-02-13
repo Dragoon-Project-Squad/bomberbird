@@ -57,13 +57,13 @@ func _physics_process(delta):
 	if not stunned and inputs.bombing and last_bomb_time >= BOMB_RATE:
 		if tileMap != null:
 			bombPos = tileMap.map_to_local(tileMap.local_to_map(synced_position))
-			
+					
 		last_bomb_time = 0.0
 		#take an unused bomb place it and put it into the active bomb bucket
 		print(bomb_queue)
 		var bomb = bomb_queue.pop_front()
-		if bomb != null:
-			bomb.do_place(bombPos, explosion_boost_count)
+		if bomb != null && is_multiplayer_authority():
+			bomb.do_place.rpc(bombPos, explosion_boost_count)
 
 
 	if not stunned:

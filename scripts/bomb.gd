@@ -22,30 +22,6 @@ const MAX_EXPLOSION_WIDTH = 8
 func _ready():
 	explosion_sfx_player.set_stream(explosion_audio)
 
-func _process(_delta):
-	if multiplayer.multiplayer_peer == null or is_multiplayer_authority():
-		synced_position = position
-	else:
-		position = synced_position
-	if init:
-		self.visible = true
-		$CollisionShape2D.set_deferred("disabled", 1)
-		$DetectArea.set_deferred("disabled", 0)
-		$AnimationPlayer.play("fuse_and_call_explode()")
-		print("init")
-		if is_multiplayer_authority(): init = false
-	elif exit:
-		self.visible = false
-		$AnimationPlayer.stop()
-		$DetectArea.set_deferred("disabled", 1)
-		$CollisionShape2D.set_deferred("disabled", 1)
-		print("exit")
-		if is_multiplayer_authority(): exit = false
-
-
-
-
-
 func pass_bomb_owner():
 	from_player = str(get_parent().bomb_owner.name).to_int()
 
@@ -54,13 +30,21 @@ func disable():
 	in_area = []
 	animation_finish = false
 	explosion_width = 2
+	self.visible = false
+	$AnimationPlayer.stop()
+	$DetectArea.set_deferred("disabled", 1)
+	$CollisionShape2D.set_deferred("disabled", 1)
+
 	if is_multiplayer_authority(): exit = true
 	print("disabled: ", get_parent())
 	
 func place(bombPos: Vector2):
 	#TODO this should play the place audio
 	position = bombPos
-	if is_multiplayer_authority(): init = true
+	self.visible = true
+	$CollisionShape2D.set_deferred("disabled", 1)
+	$DetectArea.set_deferred("disabled", 0)
+	$AnimationPlayer.play("fuse_and_call_explode()")
 	print("place: ", get_parent(), ", visibility: ", 1 if self.visible else 0, ", pos: ", position, ", process_mode: ", process_mode) 
 
 

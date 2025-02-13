@@ -28,6 +28,7 @@ func disable() -> int:
 func set_bomb_owner(player: Node2D):
 	bomb_owner = player
 
+@rpc("call_local")
 func do_place(bombPos: Vector2, boost: int):
 	if bomb_owner == null:
 		printerr("A bomb without an bomb_owner tried to be thrown")

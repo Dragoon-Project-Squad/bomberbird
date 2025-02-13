@@ -6,15 +6,14 @@ func _ready():
 	pass
 
 func request_bomb(requester: Node2D) -> Node2D: #This function is called by the player when the number of bombs he holds is increased
-	if !is_multiplayer_authority(): return null
 	var tree = get_tree()
 	var bomb = tree.get_nodes_in_group("unowned").pop_back()
-	if bomb != null: #if there was an unowned bomb we add it to the group of the player #if there was an unowned bomb we add it to the group of the player
+	if bomb == null: #no bomb hence spawn one
+		bomb = bomb_spawner.spawn([str(requester.name).to_int()])
+	else:
 		bomb.remove_from_group("unowned")
-		bomb.add_to_group(requester.name)
-		return bomb
-	# hence bomb == null which means no bomb is currently unowned and we need to request a new one from the spawner
-	bomb = bomb_spawner.spawn([str(requester.name).to_int()])
+
+	bomb.set_bomb_owner(requester)
 	bomb.add_to_group(requester.name)
 	return bomb
 
