@@ -86,12 +86,14 @@ func update_animation(input_motion: Vector2):
 
 func enter_death_state():
 	$anim.play("death")
+	$Hitbox.set_deferred("disabled", 1)
 	await $anim.animation_finished
 	set_process(false)
 	set_physics_process(false)
 	
 func exit_death_state():
 	self.visible = true #Visible
+	$Hitbox.set_deferred("disabled", 1)
 	set_process(true)
 	set_physics_process(true)
 	
