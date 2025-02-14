@@ -16,8 +16,10 @@ func set_state(choice: int):
 	assert(0 <= choice && choice < SIZE)
 	if state_map[state] != null:
 		state_map[state].disable()#old state should be disabled
-		#state_map[state].set_process(false)
+		state_map[state].process_mode = Node.PROCESS_MODE_DISABLED
 	state = choice
+	if state_map[state] != null:
+		state_map[state].process_mode = Node.PROCESS_MODE_INHERIT
 
 @rpc("call_local")
 func disable() -> int:
@@ -29,7 +31,6 @@ func disable() -> int:
 
 @rpc("call_local")
 func set_bomb_owner(player_id: String):
-	push_warning("bomb: ", self, ", owner: ", player_id)
 	bomb_owner = get_node("/root/World/Players/" + player_id)
 
 @rpc("call_local")
@@ -42,7 +43,6 @@ func do_place(bombPos: Vector2, boost: int) -> int:
 		return 2
 
 	set_state(STATIONARY)
-	#state_map[state].set_process(true)
 	var bomb_authority: Node2D = state_map[state]
 	bomb_authority.set_explosion_width_and_size(min(boost + bomb_authority.explosion_width, bomb_authority.MAX_EXPLOSION_WIDTH))
 	bomb_authority.place(bombPos)
