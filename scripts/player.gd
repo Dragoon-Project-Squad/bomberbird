@@ -71,11 +71,13 @@ func enter_misobon():
 
 func enter_death_state():
 	$AnimationPlayer.play("death")
+	$Hitbox.set_deferred("disabled", 1)
 	await $AnimationPlayer.animation_finished
 	process_mode = PROCESS_MODE_DISABLED
 	
 func exit_death_state():
 	self.visible = true #Visible
+	$Hitbox.set_deferred("disabled", 0)
 	process_mode = PROCESS_MODE_INHERIT
 
 func set_player_name(value):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dviwgv2ty8v6u"]
+[gd_scene load_steps=21 format=3 uid="uid://dviwgv2ty8v6u"]
 
 [ext_resource type="Script" path="res://scripts/human_player.gd" id="1_u11j4"]
 [ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_wp3i8"]
@@ -8,11 +8,8 @@
 [ext_resource type="Script" path="res://scripts/human_player_controls.gd" id="6_ey2ea"]
 [ext_resource type="AudioStream" uid="uid://c3dded4qppq4" path="res://sound/fx/playerhurt.wav" id="7_ho0y0"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_vs46n"]
-radius = 1.0
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_i2bb5"]
-size = Vector2(30, 30)
+[sub_resource type="CircleShape2D" id="CircleShape2D_oj3wr"]
+radius = 15.9
 
 [sub_resource type="Animation" id="Animation_cfor6"]
 length = 0.001
@@ -414,28 +411,8 @@ scale = Vector2(0.333333, 0.351648)
 texture = ExtResource("4_bifw2")
 hframes = 9
 
-[node name="rect" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-14, -15, 14, -15, 14, -14, 15, -14, 15, 14, 14, 14, 14, 15, -14, 15, -14, 14, -15, 14, -15, -14, -14, -14)
-
-[node name="corner1" type="CollisionShape2D" parent="."]
-position = Vector2(-14, -14)
-shape = SubResource("CircleShape2D_vs46n")
-
-[node name="corner2" type="CollisionShape2D" parent="."]
-position = Vector2(14, -14)
-shape = SubResource("CircleShape2D_vs46n")
-
-[node name="corner3" type="CollisionShape2D" parent="."]
-position = Vector2(14, 14)
-shape = SubResource("CircleShape2D_vs46n")
-
-[node name="corner4" type="CollisionShape2D" parent="."]
-position = Vector2(-14, 14)
-shape = SubResource("CircleShape2D_vs46n")
-
-[node name="origin_shape" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_i2bb5")
-disabled = true
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_oj3wr")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
