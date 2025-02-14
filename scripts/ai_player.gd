@@ -14,9 +14,8 @@ func _ready():
 	NavigationServer2D.map_changed.connect(navigation_map_sync_wait)
 	set_roaming_area()
 	set_random_target()
-	stunned = false
-	position = synced_position
 	player_type = "ai"
+	super()
 
 func _physics_process(delta):
 	if !waiting_for_map_sync:
