@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://de6bmnxah5ten"]
+[gd_scene load_steps=21 format=3 uid="uid://de6bmnxah5ten"]
 
 [ext_resource type="Script" path="res://scripts/aiplayer.gd" id="1_q4yqk"]
 [ext_resource type="Texture2D" uid="uid://lckm0mdablaw" path="res://assets/player/chonkgoon_walk.png" id="2_ofygj"]
@@ -8,11 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_m8xye"]
 [ext_resource type="AudioStream" uid="uid://c3dded4qppq4" path="res://sound/fx/playerhurt.wav" id="5_dlypu"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_7m40b"]
-radius = 1.0
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_knqv0"]
-size = Vector2(30, 30)
+[sub_resource type="CircleShape2D" id="CircleShape2D_n0cfd"]
+radius = 15.9
 
 [sub_resource type="Animation" id="Animation_cfor6"]
 length = 0.001
@@ -373,28 +370,8 @@ scale = Vector2(0.333333, 0.351648)
 texture = ExtResource("4_m8xye")
 hframes = 9
 
-[node name="rect" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-14, -15, 14, -15, 14, -14, 15, -14, 15, 14, 14, 14, 14, 15, -14, 15, -14, 14, -15, 14, -15, -14, -14, -14)
-
-[node name="corner1" type="CollisionShape2D" parent="."]
-position = Vector2(-14, -14)
-shape = SubResource("CircleShape2D_7m40b")
-
-[node name="corner2" type="CollisionShape2D" parent="."]
-position = Vector2(14, -14)
-shape = SubResource("CircleShape2D_7m40b")
-
-[node name="corner3" type="CollisionShape2D" parent="."]
-position = Vector2(14, 14)
-shape = SubResource("CircleShape2D_7m40b")
-
-[node name="corner4" type="CollisionShape2D" parent="."]
-position = Vector2(-14, 14)
-shape = SubResource("CircleShape2D_7m40b")
-
-[node name="origin_shape" type="CollisionShape2D" parent="."]
-visible = false
-shape = SubResource("RectangleShape2D_knqv0")
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_n0cfd")
 disabled = true
 
 [node name="anim" type="AnimationPlayer" parent="."]

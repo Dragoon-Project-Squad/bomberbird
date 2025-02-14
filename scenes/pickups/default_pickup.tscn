@@ -50,3 +50,5 @@ animation = &"idle"
 
 [node name="PickupSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_sd1i0")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

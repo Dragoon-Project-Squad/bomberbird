@@ -124,5 +124,5 @@ text = "ed"
 script = ExtResource("4_d6577")
 action = "set_bomb"
 
-[connection signal="pressed" from="OptionsMenu/OptionsMenu3/Exit" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="OptionsMenu/OptionsMenu3/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="OptionsMenu/OptionsMenu3/Exit" to="." method="_on_options_pressed"]

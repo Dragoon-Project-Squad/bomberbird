@@ -1,5 +1,8 @@
 extends Control
 
+enum misobon_states {OFF, ON, SUPER}
+@export var curr_misobon_state = misobon_states.SUPER
+
 var timeout_timer = null
 
 func _ready():
@@ -11,7 +14,11 @@ func _ready():
 	gamestate.game_error.connect(_on_game_error)
 	# Set the player name according to the system username. Fallback to the path.
 	$Connect/Name.text = globals.config.get_player_name()
-	
+
+	# sets the misobon button text to the correct state
+	var button_label = ["off", "on", "super"]
+	get_node("Options/MisobonState").set_text(button_label[curr_misobon_state])
+
 	# Connection timeout timer
 	timeout_timer = Timer.new()
 	timeout_timer.name = "ConnectionTimeout"
@@ -19,8 +26,6 @@ func _ready():
 	timeout_timer.one_shot = true
 	timeout_timer.connect("timeout", Callable(self, "_on_connection_timeout"))
 	add_child(timeout_timer)
-
-
 
 func _on_host_pressed():
 	if $Connect/Name.text == "":
@@ -66,6 +71,12 @@ func _on_connection_timeout():
 		$Connect/Join.release_focus()
 		$Connect/ErrorLabel.text = "Connection timed out"
 
+func _on_misobon_pressed():
+	#toggels through the 3 options for misobon and changing the text on the button to reflect the state
+	var button = get_node("Options/MisobonState")
+	var button_label = ["off", "on", "super"]
+	curr_misobon_state = (curr_misobon_state + 1) % 3 as misobon_states
+	button.set_text(button_label[curr_misobon_state])
 
 func _on_connection_success():
 	$Connect.hide()
