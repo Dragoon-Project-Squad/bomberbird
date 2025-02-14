@@ -1,104 +1,60 @@
-extends CharacterBody2D
+class_name Player extends CharacterBody2D
 
-const BASE_MOTION_SPEED = 100.0
-const BOMB_RATE = 0.5
-const MAX_BOMBS_OWNABLE = 8
-const MAX_EXPLOSION_BOOSTS_PERMITTED := 6
+const BASE_MOTION_SPEED: float = 100.0
+const BOMB_RATE: float = 0.5
+const MAX_BOMBS_OWNABLE: int = 8
+const MAX_EXPLOSION_BOOSTS_PERMITTED: int = 6
 const MISOBON_RESPAWN_TIME: float = 0.5
 
 @export var synced_position := Vector2()
-@export var stunned = false
+@export var stunned: bool = false
 
 @onready var hurt_sfx_player := $HurtSoundPlayer
-@onready var inputs = $Inputs
+
+var current_anim: String = ""
+var is_dead: bool = false
+var player_type: String
 
 var bomb_pool: ObjectPool
-var last_bomb_time = BOMB_RATE
-var current_anim = ""
-var is_dead = false
-var lives = 1
-# Powerup Vars
-var movement_speed = BASE_MOTION_SPEED
-var explosion_boost_count := 0
-var bomb_count := 2
-var bomb_total := bomb_count
-var can_punch := false
-var pressed_once := false
-# Tracking Vars
-var tileMap : TileMapLayer
-var bombPos := Vector2()
+var last_bomb_time: float = BOMB_RATE
+var bomb_total: int
+
+@export_subgroup("player properties") #Set in inspector
+@export var movement_speed: float = BASE_MOTION_SPEED
+@export var bomb_count: int
+@export var lives: int
+@export var explosion_boost_count: int
+@export var can_punch: bool
+
+var tile_map: TileMapLayer
 
 func _ready():
-	stunned = false
+	#These are all needed
 	position = synced_position
-	if str(name).is_valid_int():
-		get_node("Inputs/InputsSync").set_multiplayer_authority(str(name).to_int())
-	tileMap = get_parent().get_parent().get_node("Floor")
+	bomb_total = bomb_count
+	tile_map = get_parent().get_parent().get_node("Floor")
 	bomb_pool = get_node("/root/World/BombPool")
-	#$sprite.texture = load("res://assets/player/dragoon_walk.png")
 
+func _physics_process(_delta: float):
+	pass
 
-func _physics_process(delta):
-	if multiplayer.multiplayer_peer == null or str(multiplayer.get_unique_id()) == str(name):
-		# The client which this player represent will update the controls state, and notify it to everyone.
-		inputs.update()
-
-	if multiplayer.multiplayer_peer == null or is_multiplayer_authority():
-		# The server updates the position that will be notified to the clients.
-		synced_position = position
-		# And increase the bomb cooldown spawning one if the client wants to.
-		last_bomb_time += delta
-	else:
-		# The client simply updates the position to the last known one.
-		position = synced_position
-
-	if not stunned and inputs.bombing and bomb_count > 0 and !pressed_once:
-		bombPos = tileMap.map_to_local(tileMap.local_to_map(synced_position))
-		pressed_once = true
-		bomb_count -= 1
-		print("Spent value: " + str(bomb_count))
-		if is_multiplayer_authority():
-			var bomb = bomb_pool.request(self)
-			bomb.do_place.rpc(bombPos, explosion_boost_count)
-	elif !inputs.bombing and pressed_once:
-		pressed_once = false
-
-	if not stunned:
-		# Everybody runs physics. I.e. clients tries to predict where they will be during the next frame.
-		velocity = inputs.motion.normalized() * movement_speed
-		move_and_slide()
-
-	# Also update the animation based on the last known player input state
-	if !is_dead:
-		update_animation(inputs.motion)
-	
-
-func update_animation(input_motion: Vector2):
-	var new_anim = "standing"
-	if input_motion.y < 0:
+func update_animation(direction: Vector2):
+	var new_anim: String = "standing"
+	if direction.length() == 0:
+		new_anim = "standing"
+	elif direction.y < 0:
 		new_anim = "walk_up"
-	elif input_motion.y > 0:
+	elif direction.y > 0:
 		new_anim = "walk_down"
-	elif input_motion.x < 0:
+	elif direction.x < 0:
 		new_anim = "walk_left"
-	elif input_motion.x > 0:
+	elif direction.x > 0:
 		new_anim = "walk_right"
 		
 	if new_anim != current_anim:
 		current_anim = new_anim
-		$anim.play(current_anim)
+		$AnimationPlayer.play(current_anim)
 
-func enter_death_state():
-	$anim.play("death")
-	await $anim.animation_finished
-	set_process(false)
-	set_physics_process(false)
-	
-func exit_death_state():
-	self.visible = true #Visible
-	set_process(true)
-	set_physics_process(true)
-	
 func enter_misobon():
 	if(!has_node("/root/MainMenu") && get_node("/root/Lobby").curr_misobon_state == 0):
 			#in singlayer always just have it on SUPER for now (until we have options in sp) and in multiplayer spawn misobon iff its not off
@@ -107,12 +63,20 @@ func enter_misobon():
 	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
 	if is_multiplayer_authority():
 		get_node("../../MisobonPlayerSpawner").spawn({
-		"player_type": "human",
+		"player_type": player_type,
 		"spawn_here": get_node("../../MisobonPath").get_progress_from_vector(synced_position),
 		"pid": str(name).to_int(),
 		"name": get_player_name()
 		}).play_spawn_animation()
 
+func enter_death_state():
+	$AnimationPlayer.play("death")
+	await $AnimationPlayer.animation_finished
+	process_mode = PROCESS_MODE_DISABLED
+	
+func exit_death_state():
+	self.visible = true #Visible
+	process_mode = PROCESS_MODE_INHERIT
 
 func set_player_name(value):
 	$label.set_text(value)
@@ -134,7 +98,6 @@ func increase_speed():
 
 @rpc("call_local")
 func increment_bomb_count():
-	#TODO: Add code that makes bomb count matter.
 	bomb_total = min(bomb_total+1, MAX_BOMBS_OWNABLE)
 	bomb_count = min(bomb_count+1, bomb_total)
 	
@@ -142,7 +105,6 @@ func increment_bomb_count():
 @rpc("call_local")
 func return_bomb():
 	bomb_count = min(bomb_count+1, bomb_total)
-	print("Returned value: " + str(bomb_count))
 
 @rpc("call_local")
 func enable_punch():
@@ -166,7 +128,7 @@ func exploded(by_who):
 		enter_death_state()
 		enter_misobon()
 	else:
-		get_node("anim").play("stunned")
+		$AnimationPlayer.play("stunned")
 
 func set_selected_character(value: Texture2D):
 	$sprite.texture = value
