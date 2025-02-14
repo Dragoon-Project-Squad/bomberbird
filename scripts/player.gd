@@ -12,6 +12,7 @@ const MISOBON_RESPAWN_TIME: float = 0.5
 @onready var hurt_sfx_player := $HurtSoundPlayer
 @onready var inputs = $Inputs
 
+var bomb_pool: ObjectPool
 var last_bomb_time = BOMB_RATE
 var current_anim = ""
 var is_dead = false
@@ -33,6 +34,7 @@ func _ready():
 	if str(name).is_valid_int():
 		get_node("Inputs/InputsSync").set_multiplayer_authority(str(name).to_int())
 	tileMap = get_parent().get_parent().get_node("Floor")
+	bomb_pool = get_node("/root/World/BombPool")
 	#$sprite.texture = load("res://assets/player/dragoon_walk.png")
 
 
@@ -46,18 +48,20 @@ func _physics_process(delta):
 		synced_position = position
 		# And increase the bomb cooldown spawning one if the client wants to.
 		last_bomb_time += delta
-		if not stunned and is_multiplayer_authority() and inputs.bombing and bomb_count > 0 and !pressed_once:
-			if tileMap != null:
-				bombPos = tileMap.map_to_local(tileMap.local_to_map(synced_position))
-			pressed_once = true
-			bomb_count -= 1
-			print("Spent value: " + str(bomb_count))
-			get_node("../../BombSpawner").spawn([bombPos, str(name).to_int(), explosion_boost_count])
-		elif !inputs.bombing and pressed_once:
-			pressed_once = false
 	else:
 		# The client simply updates the position to the last known one.
 		position = synced_position
+
+	if not stunned and inputs.bombing and bomb_count > 0 and !pressed_once:
+		bombPos = tileMap.map_to_local(tileMap.local_to_map(synced_position))
+		pressed_once = true
+		bomb_count -= 1
+		print("Spent value: " + str(bomb_count))
+		if is_multiplayer_authority():
+			var bomb = bomb_pool.request(self)
+			bomb.do_place.rpc(bombPos, explosion_boost_count)
+	elif !inputs.bombing and pressed_once:
+		pressed_once = false
 
 	if not stunned:
 		# Everybody runs physics. I.e. clients tries to predict where they will be during the next frame.

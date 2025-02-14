@@ -8,6 +8,27 @@ var down
 var left
 var up
 
+func reset():
+	tilemap.clear() #There is probably a smarterway to do this then to do it all over all the time but that might get complex fast 
+	detection_area.get_child(0).shape.a = Vector2(-16, 0)
+	detection_area.get_child(0).shape.b = Vector2(16, 0)
+	detection_area.get_child(1).shape.a = Vector2(0, -16)
+	detection_area.get_child(1).shape.b = Vector2(0, 16)
+
+	right = 0
+	down = 0
+	left = 0
+	up = 0
+
+	hide()
+	$AnimationPlayer.stop()
+	detection_area.monitoring = false
+	detection_area.get_child(0).set_deferred("disabled", 1)
+	detection_area.get_child(1).set_deferred("disabled", 1)
+
+
+
+@warning_ignore("SHADOWED_VARIABLE")
 func set_cell_hori(pos: Vector2i, left: int, right: int, step: int = 0):
 	if pos == Vector2i.ZERO: return
 	var edge_tile: Vector2i = Vector2i(step, 2)
@@ -20,6 +41,7 @@ func set_cell_hori(pos: Vector2i, left: int, right: int, step: int = 0):
 		_:
 			tilemap.set_cell(pos, 0, line_tile, 0)
 
+@warning_ignore("SHADOWED_VARIABLE")
 func set_cell_vert(pos: Vector2i, up: int, down: int, step: int = 0):
 	if pos == Vector2i.ZERO: return
 	var edge_tile: Vector2i = Vector2i(step, 2)
@@ -40,15 +62,14 @@ func _ready():
 	detection_area.get_child(1).set_deferred("disabled", 1)
 
 @rpc("call_local")
+@warning_ignore("SHADOWED_VARIABLE")
 func init_detonate(right: int, down: int = right, left: int = right, up: int = right):
 	self.right = right
 	self.down = down
 	self.left = left
 	self.up = up
-	
-	tilemap.clear() #There is probably a smarterway to do this then to do it all over all the time but that might get complex fast 
-	next_detonate()
 
+	next_detonate()
 	var tile_size: float = tilemap.tile_set.tile_size.x
 	detection_area.get_child(0).shape.a = Vector2(-left * tile_size, 0)
 	detection_area.get_child(0).shape.b = Vector2(right * tile_size, 0)
@@ -76,8 +97,8 @@ func do_detonate():
 
 func _on_body_entered(body: Node2D) -> void:
 	if is_multiplayer_authority() && body.has_method("exploded"):
-		body.exploded.rpc(get_parent().from_player)	
+		body.exploded.rpc(str(get_parent().get_parent().bomb_owner.name).to_int())	
 
 func _on_area_2d_entered(area: Area2D) -> void:
 	if is_multiplayer_authority() && area.has_method("exploded"):
-		area.exploded.rpc(get_parent().from_player)	
+		area.exploded.rpc(str(get_parent().get_parent().bomb_owner.name).to_int())
