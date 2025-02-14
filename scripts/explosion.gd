@@ -26,7 +26,7 @@ func set_cell_vert(pos: Vector2i, up: int, down: int, step: int = 0):
 	var line_tile: Vector2i = Vector2i(step, 1)
 	match pos.y:
 		up:
-			tilemap.set_cell(pos, 0, edge_tile, 1)
+			tilemap.set_cell(pos, 0, edge_tile, 3)
 		down:
 			tilemap.set_cell(pos, 0, edge_tile, 2)
 		_:

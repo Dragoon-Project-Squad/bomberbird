@@ -195,11 +195,11 @@ _data = {
 "slam": SubResource("Animation_k2qfn")
 }
 
-[node name="Unbreakable" type="Node2D" groups=["bombstop"]]
+[node name="Unbreakable" type="Node2D"]
 texture_filter = 1
 script = ExtResource("1_1dueh")
 
-[node name="SolidWall" type="StaticBody2D" parent="."]
+[node name="SolidWall" type="StaticBody2D" parent="." groups=["bombstop"]]
 collision_mask = 31
 
 [node name="Shape" type="CollisionShape2D" parent="SolidWall"]
