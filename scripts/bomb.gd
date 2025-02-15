@@ -1,114 +1,81 @@
 extends StaticBody2D
 
-var in_area: Array = []
-var from_player: int
+var bomb_pool: Node2D
+var bomb_root: Node2D
+
 var explosion_width := 2
+const MAX_EXPLOSION_WIDTH := 8
 var animation_finish := false
 const TILE_SIZE = 32 #Primitive method of assigning correct tile size
 #var TILE_SIZE: int = get_node("/root/World/Unbreakale").get_tileset().get_tile_size() #Would be cool but the match doesn't like non constants
+
+@export var bomb_place_audio: AudioStreamWAV = load("res://sound/fx/bombdrop.wav")
+@onready var bomb_placement_sfx_player := $BombPlacementSFXPlayer 
 @export var explosion_audio : AudioStreamWAV = load("res://sound/fx/explosion.wav")
 @onready var explosion_sfx_player := $ExplosionSoundPlayer 
 @onready var rays = $Raycasts
 @onready var bombsprite := $BombSprite
-@onready var explosions = $Explosions
-@onready var explosion_scene = preload("res://scenes/explosion.tscn")
+@onready var explosion = $Explosion
 @onready var tileMap = get_tree().get_root().get_node("World/Floor")
 
 func _ready():
 	explosion_sfx_player.set_stream(explosion_audio)
-	$Timer.start()
+	bomb_placement_sfx_player.set_stream(bomb_place_audio)
+	bomb_root = get_parent()
+	bomb_pool = get_parent().get_parent()
+	disable()
+
+func disable():
+	bomb_root.position = Vector2.ZERO
+	animation_finish = false
+	explosion_width = 2
+	self.visible = false
+	explosion.reset()
+	$AnimationPlayer.stop()
+	$DetectArea.set_deferred("disabled", 1)
+	$CollisionShape2D.set_deferred("disabled", 1)
+
+func place(bombPos: Vector2):
+	bomb_placement_sfx_player.play()
+	bomb_root.position = bombPos
+	self.visible = true
+	$CollisionShape2D.set_deferred("disabled", 1)
+	$DetectArea.set_deferred("disabled", 0)
+	$AnimationPlayer.play("fuse_and_call_detonate()")
 	
-func explode():
+func detonate():
 	explosion_sfx_player.play()
-	var explosion_direction = Vector2.ZERO
-	var bombblocked = false
-	var collider_stopped_upon = null
-	place_explosion(position, explosion_direction, "center")
+	var exp_range = {Vector2i.RIGHT: explosion_width, Vector2i.DOWN: explosion_width, Vector2i.LEFT: explosion_width, Vector2i.UP: explosion_width}
 	for ray in rays.get_children():
-		bombblocked = false #Reset bomb lock
-		collider_stopped_upon = null #Reset collider stopped upon
-		match ray.target_position: 
-			Vector2(0,TILE_SIZE):
-				ray.target_position = Vector2(0,TILE_SIZE * (explosion_width))
-				ray.force_raycast_update()
-				explosion_direction = Vector2.DOWN
-			Vector2(0,-TILE_SIZE):
-				ray.target_position = Vector2(0,-TILE_SIZE * (explosion_width))
-				ray.force_raycast_update()
-				explosion_direction = Vector2.UP
-			Vector2(TILE_SIZE,0):
-				ray.target_position = Vector2(TILE_SIZE * (explosion_width), 0 )
-				ray.force_raycast_update()
-				explosion_direction = Vector2.RIGHT
-			Vector2(-TILE_SIZE,0):
-				ray.target_position = Vector2(-TILE_SIZE * (explosion_width), 0 )
-				ray.force_raycast_update()
-				explosion_direction = Vector2.LEFT
-		if ray.is_colliding():
-			in_area.append(ray.get_collider()) #Add impacted objects to array.
-			#print(ray.get_collider())
-			if ray.get_collider().is_in_group("bombstop"):
-				bombblocked = true #We hit something that needs the bomb to stop.
-				collider_stopped_upon = ray.get_collider()
-			elif ray.get_collider().has_method("exploded"): #The bomb ray hit something that bombs pierce.
-				if is_multiplayer_authority(): #Try to destroy it on the host side.
-					## Explode only on authority.
-					ray.get_collider().exploded.rpc(from_player)
-		if not bombblocked: #This direction isn't stopped, draw the full thing.
-			explode_space_between_center_and_end(position, ray.target_position+position, explosion_direction)
-			place_explosion(ray.target_position+position, explosion_direction, "side_border")
-		elif collider_stopped_upon.has_method("exploded"): # Explodeable bomb stopper was hit.
-			explode_space_between_center_and_end(position, collider_stopped_upon.position, explosion_direction)
-			place_explosion(collider_stopped_upon.position, explosion_direction, "side_border")
-			if is_multiplayer_authority(): #Try to destroy it on the host side.
-				## Explode only on authority.
-				ray.get_collider().exploded.rpc(from_player)
-		else: # We hit something utterly unbreakable
-			var shaved_collision_point = shave_back_colliding_point(ray.get_collision_point(), explosion_direction)
-			var colliding_tile_pos = tileMap.map_to_local(tileMap.local_to_map(shaved_collision_point))
-			explode_space_between_center_and_end(position, colliding_tile_pos, explosion_direction)
-			if colliding_tile_pos != position: #Do not overlap the center.
-				place_explosion(colliding_tile_pos, explosion_direction, "side_border")
-			#for collider in in_area: #Check if anything hit by this ray was explodeable.
-				##BUG There is very likely a race condition here.
-				#if collider.has_method("exploded"):
-					#explode_space_between_center_and_end(position, collider.position, explosion_direction)
-					#place_explosion(collider.position, explosion_direction, "side_border")
-					## Exploded can only be called by the authority, but will also be called locally.
-					#if collider.is_in_group("bombstop"):
-						#in_area.erase(ray.get_collider())
-					#if is_multiplayer_authority():
-						## Explode only on authority.
-						#collider.exploded.rpc(from_player)
-				#else:
-					#var shaved_collision_point = shave_back_colliding_point(ray.get_collision_point(), explosion_direction)
-					#var colliding_tile_pos = tileMap.map_to_local(tileMap.local_to_map(shaved_collision_point))
-					#explode_space_between_center_and_end(position, colliding_tile_pos, explosion_direction)
-					#place_explosion(colliding_tile_pos, explosion_direction, "side_border")
+		var ray_direction = ray.get_meta("direction")
+		ray.target_position = ray_direction * explosion_width * TILE_SIZE
+		ray.force_raycast_update()
+		if !ray.is_colliding():
+			print(ray_direction, " hit nothing")
+			continue
+		var target: Node2D = ray.get_collider()
+		if target.is_in_group("bombstop"):
+			@warning_ignore("INTEGER_DIVISION")
+			var col_point = to_local(ray.get_collision_point()) + Vector2(ray_direction * (TILE_SIZE / 2)) #Note this integer division is fine idk why godot feels like it needs to warn for int divisions anyway?
+			
+			exp_range[ray_direction] = explosion.get_node("SpriteTileMap").local_to_map(col_point).length() - 1 #find the distance from bomb.position to the last tile that should be blown up (in number of tiles)
+			if target.has_method("exploded") && is_multiplayer_authority(): target.exploded.rpc(str(get_parent().bomb_owner.name).to_int()) #if an object stopped the bomb and can be blown up... blow it up!
+			print(ray_direction, " hit ", target.name, " at: ", explosion.get_node("SpriteTileMap").local_to_map(col_point)) 
+	print(exp_range)
+	if is_multiplayer_authority(): #multiplayer auth. now starts the transition to the explosion
+		explosion.init_detonate.rpc(exp_range[Vector2i.RIGHT], exp_range[Vector2i.DOWN], exp_range[Vector2i.LEFT], exp_range[Vector2i.UP])
+		explosion.do_detonate.rpc()
+		if(!get_parent().bomb_owner.is_dead):
+			get_parent().bomb_owner.return_bomb.rpc()
+	
 func done():
-	if is_multiplayer_authority():
-		queue_free()
+	var bomb_owner = get_parent().bomb_owner #need to keep a reference around of owner for the return, as disable removes the reference from BombRoot
+	if !is_multiplayer_authority():
+		return
+	bomb_root.disable.rpc()
+	bomb_pool.return_obj(bomb_owner, get_parent()) # bomb returns itself to the pool
 
-func shave_back_colliding_point(collidingpoint: Vector2, intendeddirection: Vector2) -> Vector2:
-	var newcollisionpos = collidingpoint
-	match intendeddirection:
-		Vector2.UP:
-			pass
-		Vector2.LEFT:
-			pass
-		Vector2.DOWN:
-			newcollisionpos.y = collidingpoint.y - 1
-		Vector2.RIGHT:
-			newcollisionpos.x = collidingpoint.x - 1
-	return newcollisionpos
-
-func explode_space_between_center_and_end(centerpos: Vector2, endpos: Vector2, explosion_direction: Vector2):
-	var difference_in_tiles = abs(int(((endpos-centerpos)/TILE_SIZE).x + ((endpos-centerpos)/TILE_SIZE).y))
-	for n in range(1, difference_in_tiles):
-		var new_explosion_pos = centerpos+(explosion_direction*TILE_SIZE*n)
-		place_explosion(new_explosion_pos, explosion_direction, "side")
-	pass
-
+#Probably Deprecated
 func is_out_of_bounds(pos: Vector2):
 	if pos.x < 33 || pos.x > 447:
 		return true
@@ -116,39 +83,20 @@ func is_out_of_bounds(pos: Vector2):
 		return true
 	return false
 
-func place_explosion(explosion_pos: Vector2i, explosion_direction: Vector2, explosion_type: String):
-	if is_out_of_bounds(explosion_pos):
-		return
-	if is_multiplayer_authority():
-		get_node("/root/World/ExplosionSpawner").spawn({"spawnpoint": explosion_pos, "bombowner": from_player, "explosiontype": explosion_type, "direction": explosion_direction})
-	
 func set_explosion_width_and_size(somewidth: int):
-	explosion_width = clamp(somewidth, 2, 5)
+	explosion_width = clamp(somewidth, 2, MAX_EXPLOSION_WIDTH)
 	bombsprite.set_frame(clamp(somewidth-3, 0, 2))
 
+#Either this or the above function are also probably Deprecated
 func set_explosion_width(somewidth: int):
-	explosion_width = clamp(somewidth, 2, 5)
+	explosion_width = clamp(somewidth, 2, MAX_EXPLOSION_WIDTH)
 	
 func set_bomb_size(size: int):
 	bombsprite.set_frame(clamp(size-1, 0, 2))
 	
-func _on_bomb_body_enter(body):
-	if not body in in_area:
-		in_area.append(body) #Add this thing to list of things this bomb will explode
-
-func _on_bomb_body_exit(body):
-	in_area.erase(body) # Remove this thing from the list of things this bomb will explode
-	
-#func _on_timer_timeout() -> void:
-	#explode()
-	#print(explosion_animation)
-	#done()
-
 func _on_detect_area_body_exit(_body: Node2D) -> void:
+	#BUG: This likely causes other players to be abled to walk over the bomb aslong as the player that placed it remains on the bomb
 	$CollisionShape2D.set_deferred("disabled", 0)
-#func _on_bomb_collision_area_2d_body_exited(_body: Node2D) -> void:
-	#print("exited")
-	#$BombCollisionBody2D.set_deferred("process_mode", 0)
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name != "idle":

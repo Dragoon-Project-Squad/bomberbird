@@ -168,6 +168,7 @@ position = Vector2(-1.07288e-06, 3.57628e-07)
 scale = Vector2(0.333333, 0.351648)
 texture = ExtResource("4_odqcd")
 hframes = 9
+frame = 8
 
 [node name="anim" type="AnimationPlayer" parent="."]
 libraries = {

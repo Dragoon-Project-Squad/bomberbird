@@ -36,8 +36,8 @@ signal game_ended()
 signal game_error(what)
 
 # Preloaded Scenes
-var player_scene = preload("res://scenes/player.tscn")
-var ai_player_scene = preload("res://scenes/aiplayer.tscn")
+var player_scene = preload("res://scenes/human_player.tscn")
+var ai_player_scene = preload("res://scenes/ai_player.tscn")
 
 # Singleplayer Vars
 var current_level: int = 205 # Defaults to a high number for battle mode.

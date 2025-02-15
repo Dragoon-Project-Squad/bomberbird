@@ -12,8 +12,12 @@ func _on_single_player_pressed() -> void:
 
 
 func _on_multiplayer_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/lobby.tscn")
+	#if a game is already running do not allow to open lobby
+	if !has_node("/root/World"):
+		get_tree().change_scene_to_file("res://scenes/lobby.tscn")
 
 
 func _on_options_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/options.tscn")
+	#if a game is already running do not allow to open menu
+	if !has_node("/root/World"):
+		get_tree().change_scene_to_file("res://scenes/options.tscn")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://csxr6gsnneywq"]
+[gd_scene load_steps=10 format=3 uid="uid://ceopux65oftsk"]
 
 [ext_resource type="Script" path="res://scripts/unbreakable.gd" id="1_1dueh"]
 [ext_resource type="Texture2D" uid="uid://b7xhajclwoa2f" path="res://assets/desert_objects.png" id="2_c6xw4"]
@@ -195,11 +195,11 @@ _data = {
 "slam": SubResource("Animation_k2qfn")
 }
 
-[node name="Unbreakable" type="Node2D" groups=["bombstop"]]
+[node name="Unbreakable" type="Node2D"]
 texture_filter = 1
 script = ExtResource("1_1dueh")
 
-[node name="SolidWall" type="StaticBody2D" parent="."]
+[node name="SolidWall" type="StaticBody2D" parent="." groups=["bombstop"]]
 collision_mask = 31
 
 [node name="Shape" type="CollisionShape2D" parent="SolidWall"]

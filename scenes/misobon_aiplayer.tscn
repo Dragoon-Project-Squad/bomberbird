@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cm07fhl1g383h"]
+[gd_scene load_steps=17 format=3 uid="uid://bsndu4n0j4hva"]
 
 [ext_resource type="Script" path="res://scripts/misobon_aiplayer.gd" id="1_iupa5"]
 [ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_lkx36"]

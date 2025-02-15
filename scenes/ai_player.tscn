@@ -1,18 +1,15 @@
-[gd_scene load_steps=22 format=3 uid="uid://de6bmnxah5ten"]
+[gd_scene load_steps=21 format=3 uid="uid://de6bmnxah5ten"]
 
-[ext_resource type="Script" path="res://scripts/aiplayer.gd" id="1_q4yqk"]
-[ext_resource type="Texture2D" uid="uid://lckm0mdablaw" path="res://assets/player/chonkgoon_walk.png" id="2_ofygj"]
-[ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_rk0hu"]
-[ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="3_4dse3"]
-[ext_resource type="Script" path="res://scripts/player_controls.gd" id="4_66ljo"]
-[ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_m8xye"]
-[ext_resource type="AudioStream" uid="uid://c3dded4qppq4" path="res://sound/fx/playerhurt.wav" id="5_dlypu"]
+[ext_resource type="Script" path="res://scripts/ai_player.gd" id="1_ql62k"]
+[ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_oae17"]
+[ext_resource type="Texture2D" uid="uid://lckm0mdablaw" path="res://assets/player/chonkgoon_walk.png" id="3_5pkqt"]
+[ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_e087y"]
+[ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="5_qbktl"]
+[ext_resource type="Script" path="res://scripts/human_player_controls.gd" id="6_rxnmx"]
+[ext_resource type="AudioStream" uid="uid://c3dded4qppq4" path="res://sound/fx/playerhurt.wav" id="7_raw0p"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_7m40b"]
-radius = 1.0
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_knqv0"]
-size = Vector2(30, 30)
+[sub_resource type="CircleShape2D" id="CircleShape2D_n0cfd"]
+radius = 15.9
 
 [sub_resource type="Animation" id="Animation_cfor6"]
 length = 0.001
@@ -344,24 +341,26 @@ properties/1/path = NodePath(".:bombing")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
-[node name="aiplayer" type="CharacterBody2D" groups=["ai_player"]]
+[node name="ai_player" type="CharacterBody2D" groups=["ai_player"]]
 z_index = 10
 texture_filter = 1
 collision_layer = 2
 collision_mask = 29
 motion_mode = 1
-script = ExtResource("1_q4yqk")
+script = ExtResource("1_ql62k")
 synced_position = Vector2(649, 72)
+bomb_count = 2
+lives = 1
 
 [node name="shadowsprite" type="Sprite2D" parent="."]
 position = Vector2(0, 8)
 scale = Vector2(1, 0.5)
-texture = ExtResource("2_rk0hu")
+texture = ExtResource("2_oae17")
 
 [node name="sprite" type="Sprite2D" parent="."]
 position = Vector2(0.0750351, 6.23615)
 rotation = -6.28319
-texture = ExtResource("2_ofygj")
+texture = ExtResource("3_5pkqt")
 offset = Vector2(-0.075, -8.536)
 hframes = 6
 vframes = 4
@@ -370,34 +369,14 @@ vframes = 4
 visible = false
 position = Vector2(-1.07288e-06, 3.57628e-07)
 scale = Vector2(0.333333, 0.351648)
-texture = ExtResource("4_m8xye")
+texture = ExtResource("4_e087y")
 hframes = 9
 
-[node name="rect" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-14, -15, 14, -15, 14, -14, 15, -14, 15, 14, 14, 14, 14, 15, -14, 15, -14, 14, -15, 14, -15, -14, -14, -14)
-
-[node name="corner1" type="CollisionShape2D" parent="."]
-position = Vector2(-14, -14)
-shape = SubResource("CircleShape2D_7m40b")
-
-[node name="corner2" type="CollisionShape2D" parent="."]
-position = Vector2(14, -14)
-shape = SubResource("CircleShape2D_7m40b")
-
-[node name="corner3" type="CollisionShape2D" parent="."]
-position = Vector2(14, 14)
-shape = SubResource("CircleShape2D_7m40b")
-
-[node name="corner4" type="CollisionShape2D" parent="."]
-position = Vector2(-14, 14)
-shape = SubResource("CircleShape2D_7m40b")
-
-[node name="origin_shape" type="CollisionShape2D" parent="."]
-visible = false
-shape = SubResource("RectangleShape2D_knqv0")
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_n0cfd")
 disabled = true
 
-[node name="anim" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_yb83i")
 }
@@ -409,7 +388,7 @@ offset_right = 85.0
 offset_bottom = -14.0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-theme_override_fonts/font = ExtResource("3_4dse3")
+theme_override_fonts/font = ExtResource("5_qbktl")
 theme_override_font_sizes/font_size = 16
 text = "AI Dragoon 2"
 label_settings = SubResource("LabelSettings_5huhx")
@@ -419,13 +398,13 @@ horizontal_alignment = 1
 replication_config = SubResource("SceneReplicationConfig_sh64w")
 
 [node name="Inputs" type="Node" parent="."]
-script = ExtResource("4_66ljo")
+script = ExtResource("6_rxnmx")
 
 [node name="InputsSync" type="MultiplayerSynchronizer" parent="Inputs"]
 replication_config = SubResource("SceneReplicationConfig_w53uu")
 
 [node name="HurtSoundPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_dlypu")
+stream = ExtResource("7_raw0p")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 avoidance_enabled = true

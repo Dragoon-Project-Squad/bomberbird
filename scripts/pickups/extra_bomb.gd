@@ -9,7 +9,7 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 	if body.is_in_group("player") or body.is_in_group("ai_player"):
 		#Prevent anyone else from colliding with this pickup
-		hide_and_disable()
+		hide_and_disable.rpc()
 		if pickup_owner == null: #Only ever let this be assigned once
 			pickup_owner = body
 		if pickup_owner.is_in_group("player"): #If this is a human

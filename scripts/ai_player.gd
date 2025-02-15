@@ -1,41 +1,21 @@
-extends CharacterBody2D
+extends Player
 
-const BASE_MOTION_SPEED = 130.0
-const BOMB_RATE = 0.5
-const MAX_BOMBS_OWNALE = 99
-const MISOBON_RESPAWN_TIME: float = 0.5
-
-@export var synced_position := Vector2()
-@export var stunned = false
-
-@onready var inputs = $Inputs
-@onready var hurt_sfx_player := $HurtSoundPlayer
 @onready var navigation_agent_2d = $NavigationAgent2D
 @onready var navigation_region = $"../../NavigationRegion2D"
-@onready var anim_player = $anim
 @onready var timer = $NavigationAgent2D/Timer
 
-var last_bomb_time = BOMB_RATE
-var current_anim = ""
-var is_dead = false
-var lives = 1
-# Powerup Vars
-var movement_speed = BASE_MOTION_SPEED
-var explosion_boost_count = 0
-var max_explosion_boosts_permitted = 2
-var bomb_count := 3
-var can_punch := false
 # AI Player specific vars
 var is_bombing = false #TODO: Setup condition for AI to bomb, and include is_bombing
 var roaming_area: Rect2
 var target_position: Vector2
 var waiting_for_map_sync = true
+
 func _ready():
 	NavigationServer2D.map_changed.connect(navigation_map_sync_wait)
 	set_roaming_area()
 	set_random_target()
-	stunned = false
-	position = synced_position
+	player_type = "ai"
+	super()
 
 func _physics_process(delta):
 	if !waiting_for_map_sync:
@@ -91,23 +71,6 @@ func set_roaming_area():
 		roaming_area = Rect2(min_x, min_y, max_x - min_x, max_y - min_y)
 	else:
 		print("No outlines found within the navigational polygon")
-
-func update_animation(newvelocity: Vector2):
-	var new_anim = "standing"
-	if newvelocity.length() == 0:
-		new_anim = "standing"
-	elif newvelocity.y < 0:
-		new_anim = "walk_up"
-	elif newvelocity.y > 0:
-		new_anim = "walk_down"
-	elif newvelocity.x < 0:
-		new_anim = "walk_left"
-	elif newvelocity.x > 0:
-		new_anim = "walk_right"
-		
-	if new_anim != current_anim:
-		current_anim = new_anim
-		anim_player.play(current_anim)
 		
 func set_random_target():
 	# Sets next roaming position within the roaming area
@@ -117,77 +80,10 @@ func set_random_target():
 	)
 	navigation_agent_2d.set_target_position(target_position)
 	
-func set_player_name(value):
-	$label.set_text(value)
-	
-func get_player_name() -> String:
-	return $label.get_text()
-
-func enter_death_state():
-	$anim.play("death")
-	await $anim.animation_finished
-	process_mode = PROCESS_MODE_DISABLED
-	
-func exit_death_state():
-	self.visible = true #Visible
-	process_mode = PROCESS_MODE_INHERIT
-
-func enter_misobon():
-	if(!has_node("/root/MainMenu") && get_node("/root/Lobby").curr_misobon_state == 0):
-			#in singlayer always just have it on SUPER for now (until we have options in sp) and in multiplayer spawn misobon iff its not off
-		return
-
-	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
-
-	get_node("../../MisobonPlayerSpawner").spawn({
-	"player_type": "AI",
-	"spawn_here": get_node("../../MisobonPath").get_progress_from_vector(synced_position),
-	"pid": str(name).to_int(),
-	"name": get_player_name()
-	 }).play_spawn_animation()
-
-func increase_bomb_level():
-	explosion_boost_count = min(explosion_boost_count + 1, max_explosion_boosts_permitted)
-
-func maximize_bomb_level():
-	explosion_boost_count = min(explosion_boost_count + 99, max_explosion_boosts_permitted)
-		
-func increase_speed():
-	movement_speed = movement_speed + 200
-
-func increment_bomb_count():
-	#TODO: Add code that makes bomb count matter.
-	bomb_count = min(bomb_count+1, MAX_BOMBS_OWNALE)
-	
-func enable_punch():
-	can_punch = true
-
-@rpc("call_local")
-func exploded(by_who):
-	if stunned:
-		return
-	stunned = true
-	lives -= 1
-	hurt_sfx_player.play()
-	if by_who != gamestate.ENVIRONMENTAL_KILL_PLAYER_ID && str(by_who) == name: 
-		$"../../GameUI".decrease_score(by_who) # Take away a point for blowing yourself up
-	elif by_who != gamestate.ENVIRONMENTAL_KILL_PLAYER_ID:
-		$"../../GameUI".increase_score(by_who) # Award a point to the person who blew you up
-	if lives <= 0:
-		is_dead = true
-		#TODO: Knockout Player
-		enter_death_state()
-		enter_misobon()
-	else:
-		get_node("anim").play("stunned")
-
-func set_selected_character(value: Texture2D):
-	$sprite.texture = value
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
 	# Move AI Player
 	velocity = safe_velocity
-
 
 func _on_navigation_agent_2d_navigation_finished() -> void:
 	# When path reached, redirect NPC

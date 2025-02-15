@@ -9,11 +9,15 @@ func _ready():
 	pass
 	#pickup_sfx_player.set_stream(pickup_sfx)
 
+@rpc("call_local")
 func hide_and_disable():
 	collisionbox.visible = false
 	collisionbox.queue_free()
 	animated_sprite.visible = false
 	animated_sprite.queue_free()
+
+func _on_body_entered(_body: Node2D) -> void:
+	pass
 
 @rpc("call_local")
 func exploded(_from_player):
