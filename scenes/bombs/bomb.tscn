@@ -107,12 +107,10 @@ hframes = 3
 region_enabled = true
 region_rect = Rect2(0, 0, 96, 32)
 
-[node name="ExplosionSoundPlayer" type="AudioStreamPlayer2D" parent="."]
-
-[node name="BombPlacementSFXPlayer" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_nrvts")
-
 [node name="Explosion" parent="." instance=ExtResource("4_4i8os")]
+
+[node name="BombPlacementPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_nrvts")
 
 [connection signal="body_exited" from="DetectArea" to="." method="_on_detect_area_body_exit"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
