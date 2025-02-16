@@ -341,7 +341,7 @@ properties/1/path = NodePath(".:bombing")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
-[node name="ai_player" type="CharacterBody2D" groups=["ai_player"]]
+[node name="ai_player" type="CharacterBody2D" groups=["ai_player", "thrown_bomb_bounces"]]
 z_index = 10
 texture_filter = 1
 collision_layer = 2

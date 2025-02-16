@@ -7,6 +7,10 @@
 script = ExtResource("1_hpd1g")
 initial_spawn_count = 2
 
+[node name="BombGlobalAudioPlayers" type="Node2D" parent="."]
+
+[node name="ExplosionSoundPlayer" type="AudioStreamPlayer2D" parent="BombGlobalAudioPlayers"]
+
 [node name="BombSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("..")
 script = ExtResource("2_iuuoa")

@@ -199,7 +199,7 @@ _data = {
 texture_filter = 1
 script = ExtResource("1_1dueh")
 
-[node name="SolidWall" type="StaticBody2D" parent="." groups=["bombstop"]]
+[node name="SolidWall" type="StaticBody2D" parent="." groups=["bombstop", "thrown_bomb_bounces"]]
 collision_mask = 31
 
 [node name="Shape" type="CollisionShape2D" parent="SolidWall"]

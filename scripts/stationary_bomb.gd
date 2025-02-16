@@ -10,23 +10,26 @@ const TILE_SIZE = 32 #Primitive method of assigning correct tile size
 #var TILE_SIZE: int = get_node("/root/World/Unbreakale").get_tileset().get_tile_size() #Would be cool but the match doesn't like non constants
 
 @export var bomb_place_audio: AudioStreamWAV = load("res://sound/fx/bombdrop.wav")
-@onready var bomb_placement_sfx_player := $BombPlacementSFXPlayer 
+@onready var bomb_placement_sfx_player: AudioStreamPlayer2D
 @export var explosion_audio : AudioStreamWAV = load("res://sound/fx/explosion.wav")
-@onready var explosion_sfx_player := $ExplosionSoundPlayer 
+@onready var explosion_sfx_player: AudioStreamPlayer2D
 @onready var rays = $Raycasts
 @onready var bombsprite := $BombSprite
 @onready var explosion = $Explosion
 @onready var tileMap = get_tree().get_root().get_node("World/Floor")
 
 func _ready():
-	explosion_sfx_player.set_stream(explosion_audio)
-	bomb_placement_sfx_player.set_stream(bomb_place_audio)
 	bomb_root = get_parent()
 	bomb_pool = get_parent().get_parent()
+	explosion_sfx_player = bomb_pool.get_node("BombGlobalAudioPlayers/ExplosionSoundPlayer")
+	bomb_placement_sfx_player = get_node("BombPlacementPlayer")
+	explosion_sfx_player.set_stream(explosion_audio)
+	bomb_placement_sfx_player.set_stream(bomb_place_audio)
 	disable()
 
 func disable():
 	bomb_root.position = Vector2.ZERO
+	explosion_sfx_player.position = Vector2.ZERO
 	animation_finish = false
 	explosion_width = 2
 	self.visible = false
@@ -44,6 +47,8 @@ func place(bombPos: Vector2):
 	$AnimationPlayer.play("fuse_and_call_detonate()")
 	
 func detonate():
+	explosion_sfx_player.stop()
+	explosion_sfx_player.position = bomb_root.position
 	explosion_sfx_player.play()
 	var exp_range = {Vector2i.RIGHT: explosion_width, Vector2i.DOWN: explosion_width, Vector2i.LEFT: explosion_width, Vector2i.UP: explosion_width}
 	for ray in rays.get_children():
@@ -51,7 +56,6 @@ func detonate():
 		ray.target_position = ray_direction * explosion_width * TILE_SIZE
 		ray.force_raycast_update()
 		if !ray.is_colliding():
-			print(ray_direction, " hit nothing")
 			continue
 		var target: Node2D = ray.get_collider()
 		if target.is_in_group("bombstop"):
@@ -60,8 +64,6 @@ func detonate():
 			
 			exp_range[ray_direction] = explosion.get_node("SpriteTileMap").local_to_map(col_point).length() - 1 #find the distance from bomb.position to the last tile that should be blown up (in number of tiles)
 			if target.has_method("exploded") && is_multiplayer_authority(): target.exploded.rpc(str(get_parent().bomb_owner.name).to_int()) #if an object stopped the bomb and can be blown up... blow it up!
-			print(ray_direction, " hit ", target.name, " at: ", explosion.get_node("SpriteTileMap").local_to_map(col_point)) 
-	print(exp_range)
 	if is_multiplayer_authority(): #multiplayer auth. now starts the transition to the explosion
 		explosion.init_detonate.rpc(exp_range[Vector2i.RIGHT], exp_range[Vector2i.DOWN], exp_range[Vector2i.LEFT], exp_range[Vector2i.UP])
 		explosion.do_detonate.rpc()

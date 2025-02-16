@@ -29,6 +29,7 @@ func _physics_process(delta: float):
 		var bombPos = tile_map.map_to_local(tile_map.local_to_map(synced_position))
 		pressed_once = true
 		bomb_count -= 1
+		last_bomb_time = 0
 		if is_multiplayer_authority():
 			var bomb = bomb_pool.request(self)
 			bomb.do_place.rpc(bombPos, explosion_boost_count)
