@@ -15,6 +15,7 @@ var default_idle_time = 2
 var idle_time = default_idle_time
 var idle : bool
 
+# Overwrite "_" functions as needed
 func _enter() -> void:
 	pass
 
@@ -30,23 +31,30 @@ func _physics_update(_delta : float) -> void:
 func _set_target() -> void:
 	pass
 
+# *****General utility*****
 func get_cell_position(position : Vector2) -> Vector2i:
 	var cell_index = world.floor_layer.local_to_map(position)
 	return cell_index
-	
+
 func get_global_position(cell : Vector2i) -> Vector2:
 	var position = world.floor_layer.map_to_local(cell)
 	position = Vector2i(position.x, position.y)
 	return position
 
+# *****Setting*****
 func set_area() -> void:
 	area = world.floor_layer.get_used_rect()
-	
+
+# *****Movement***** 
 func set_next_point() -> void:
+	# If player reached its next point enter idle
 	if currently_moving and reached_next_point():
 		currently_moving = false
 		idle = true
 		aiplayer.global_position = next_point
+	# When idle time finishes, currently_moving should be put to false so it can move again.
+	# If the path has been completely followed, decide a new target that each State should define,
+	# then follow the next point
 	elif !currently_moving:
 		currently_moving = true
 		if path.size()==0:

@@ -9,6 +9,17 @@ func _enter():
 	set_area()
 
 func _update(delta):
+	idle_and_detect(delta)
+	
+func _physics_update(delta):
+	if !idle:
+		set_next_point()
+	move_to_next_point()
+
+func _set_target():
+	randomize_target()
+
+func idle_and_detect(delta) -> void:
 	if idle:
 		# Wait in idle for a set time after moving
 		if(idle_time>0):
@@ -19,26 +30,20 @@ func _update(delta):
 			# Once idle time finished, evaluate the situation and change state
 			# depending on the things detected
 			detect_surroundings()
-	
-func _physics_update(delta):
-	if !idle:
-		set_next_point()
-	move_to_next_point()
-
-func _set_target():
-	randomize_target()
 
 func detect_surroundings() -> void:
 	if is_bomb_near():
 		state_changed.emit(self, "Survive")
+		return
 	if is_breakable_near():
 		state_changed.emit(self, "BombAndRun")
+		return
 	if is_enemy_near():
 		state_changed.emit(self, "FollowTarget")
+		return
 
 # Choose random point to wander to and create pathing
 func randomize_target():
-	print("Get new target")
 	var offset = area.position
 	var end = area.end
 	var valid_point = false
