@@ -168,14 +168,16 @@ func begin_singleplayer_game():
 		#var spawnedplayer
 		var playerspawner = world.get_node("PlayerSpawner")
 		#var spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players, "characterdictionary": characters}
-		var spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players}
+		var spawningdata
 		if humans_loaded_in_game < human_player_count:
+			spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players}
 			# Spawn a human there
 			playerspawner.spawn(spawningdata)
 			#spawnedplayer = player_scene.instantiate()
 			humans_loaded_in_game += 1
 		else:
 			# Spawn a robot there
+			spawningdata = {"playertype": "ai", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players}
 			playerspawner.spawn(spawningdata)
 
 func begin_game():

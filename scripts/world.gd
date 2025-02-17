@@ -1,6 +1,8 @@
 extends Node2D
+class_name World
 
 var music_dir_path : String = "res://sound/mus/"
+
 @onready var mus_player := $MusicPlayer
 @onready var floor_layer = $Floor
 @onready var unbreakable_layer = $Unbreakable
@@ -14,10 +16,15 @@ var map_height = initial_height
 var map_offset = 2 #Shifts map four rows down for UI, only used if map is randomly created
 var rng = RandomNumberGenerator.new()
 
+# AI pathing
+var astargrid = AStarGrid2D.new()
+
 func _ready() -> void:
 	dir_contents(music_dir_path)
 	mus_player.play()
 	generate_breakables()
+	setup_astargrid()
+	astargrid_set_initial_solidpoints()
 	
 func dir_contents(path):
 	var dir = DirAccess.open(path)
@@ -114,3 +121,25 @@ func generate_breakables():
 func is_cell_empty(layer: TileMapLayer, coords):
 	var data = layer.get_cell_tile_data(coords)
 	return data == null
+
+func setup_astargrid():
+	astargrid.region = floor_layer.get_used_rect()
+	astargrid.cell_size = Vector2i(16, 16)
+	astargrid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
+	astargrid.update()
+
+func astargrid_set_initial_solidpoints():
+	# Set unbreakables as solidpoints
+	var floor_rect = floor_layer.get_used_rect()
+	var floor_end = floor_rect.end
+	var offset = floor_rect.position
+	for pointx in range (offset.x+1, floor_end.x, 2):
+		for pointy in range(offset.y+1, floor_end.y, 2):
+			astargrid.set_point_solid(Vector2i(pointx, pointy), true)
+			
+func create_path(player: CharacterBody2D, end_position: Vector2i) -> Array[Vector2i]:
+	var player_pos = get_node("Players/"+player.name).global_position
+	var map_player_pos = floor_layer.local_to_map(player_pos)
+	var path = astargrid.get_id_path(map_player_pos, end_position)
+	print(path)
+	return path
