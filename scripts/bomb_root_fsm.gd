@@ -9,7 +9,7 @@ var state: int = DISABLED #this is the authority if ever somehow two state nodes
 var state_map: Array[Node2D]
 
 func _ready():
-	state_map = [null, get_node("%StationaryBomb"), null, null] #Whenever a future state is implemented update this (for e.g. if someone implements push into a new childmake sure this child is loaded into state_map[SLIDING]
+	state_map = [null, get_node("%StationaryBomb"), get_node("%AirbornBomb"), null] #Whenever a future state is implemented update this (for e.g. if someone implements push into a new childmake sure this child is loaded into state_map[SLIDING]
 	set_state(DISABLED)	
 
 func set_state(choice: int):
@@ -34,7 +34,7 @@ func set_bomb_owner(player_id: String):
 	bomb_owner = get_node("/root/World/Players/" + player_id)
 
 @rpc("call_local")
-func do_place(bombPos: Vector2, boost: int) -> int:
+func do_place(bombPos: Vector2, boost: int = 2) -> int:
 	if bomb_owner == null:
 		printerr("A bomb without an bomb_owner tried to be placed")
 		return 1
@@ -48,11 +48,7 @@ func do_place(bombPos: Vector2, boost: int) -> int:
 	bomb_authority.place(bombPos)
 	return 0
 
-
-#!!!!!
-# ALL FUNCTION FROM THIS POINT ARE EXAMPLES / NOT YET USED BY ANYTHING SO YOU ARE FREE TO COMPLETLY CHANGE THEM IF YOU IMPLEMENT ONE OF THEM PLEASE UPDATE THIS COMMENT TO REFLECT THIS
-#!!!!!
-
+@rpc("call_local")
 func do_misobon_throw(origin: Vector2, target: Vector2, direction: Vector2i) -> int:
 	if bomb_owner == null: #this should only be called by a misobon player hence the bomb must have an owner
 		printerr("A bomb without an bomb_owner tried to be thrown")
@@ -62,8 +58,15 @@ func do_misobon_throw(origin: Vector2, target: Vector2, direction: Vector2i) -> 
 		return 2
 
 	set_state(AIRBORN)
-	#TODO call the appropiate function to handle this in state_map[state]
-	return 0 #errorcode 0 mean no error
+	var bomb_authority: Node2D = state_map[state]
+	bomb_authority.throw(origin, target, direction)
+
+	return 0
+
+#!!!!!
+# ALL FUNCTION FROM THIS POINT ARE EXAMPLES / NOT YET USED BY ANYTHING SO YOU ARE FREE TO COMPLETLY CHANGE THEM IF YOU IMPLEMENT ONE OF THEM PLEASE UPDATE THIS COMMENT TO REFLECT THIS
+#!!!!!
+
 
 func do_kick(target: Vector2, direction: Vector2i):
 	if bomb_owner == null: #this should only be called by a misobon player hence the bomb must have an owner

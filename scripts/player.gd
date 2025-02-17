@@ -80,6 +80,10 @@ func exit_death_state():
 	$Hitbox.set_deferred("disabled", 0)
 	process_mode = PROCESS_MODE_INHERIT
 
+func stun():
+	stunned = true
+	$AnimationPlayer.play("stunned") #Note this animation sets stunned to false automatically
+
 func set_player_name(value):
 	$label.set_text(value)
 
