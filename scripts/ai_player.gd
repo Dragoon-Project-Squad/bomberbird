@@ -1,8 +1,8 @@
 extends Player
+class_name AIPlayer
 
 @onready var inputs = $Inputs
-@onready var anim_player = $anim
-@onready var timer = $AIActionTimer
+@onready var anim_player = $AnimationPlayer
 
 # AI Player specific vars
 var is_bombing = false #TODO: Setup condition for AI to bomb, and include is_bombing
@@ -24,7 +24,6 @@ func _ready():
 	world = get_parent().get_parent()
 	layer = world.get_node("Floor")
 	next_point = global_position
-	timer.autostart
 	player_type = "ai"
 	super()
 
