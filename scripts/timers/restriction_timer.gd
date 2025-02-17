@@ -47,6 +47,6 @@ func generate_spiral(grid_size: Vector2) -> Array:
 func _on_timeout() -> void:
 	var world = get_tree().get_root().get_node("World")
 	var unbreakable_spawner = world.get_node("UnbreakableSpawner")
-	var floor = world.get_node("Floor")
-	unbreakable_spawner.spawn(floor.map_to_local(Vector2(targetTiles[currentTileIndex].x + 1, targetTiles[currentTileIndex].y + world.map_offset + 1)))
+	var floor_tiles = world.get_node("Floor")
+	unbreakable_spawner.spawn(floor_tiles.map_to_local(Vector2(targetTiles[currentTileIndex].x + 1, targetTiles[currentTileIndex].y + world.map_offset + 1)))
 	currentTileIndex += 1
