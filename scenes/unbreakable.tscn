@@ -232,6 +232,7 @@ stream = ExtResource("3_gdwcr")
 
 [node name="HitDetection" type="Area2D" parent="."]
 collision_mask = 31
+monitorable = false
 
 [node name="HitCollision" type="CollisionShape2D" parent="HitDetection"]
 scale = Vector2(0.5, 0.5)

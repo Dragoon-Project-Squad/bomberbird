@@ -1,9 +1,10 @@
 extends PathFollow2D
 
+const THROW_RANGE: int = 3
 const MOVEMENT_SPEED: float = 200.0
 const BOMB_RATE: float = 0.5
 const MAX_BOMB_OWNABLE: int = 99
-const TILESIZE = 32
+const TILESIZE: int = 32
 
 @export var synced_progress: float = 0;
 @export var is_rejoining: bool = true
@@ -51,7 +52,7 @@ func _process(delta: float) -> void:
 		
 		var seg_index: int = get_parent().get_segment_id(synced_progress)
 		var direction_array: Array[Vector2i] = [Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP, Vector2i.RIGHT]
-		var bombPos = position + Vector2(direction_array[seg_index]) * TILESIZE * (3 if direction_array[seg_index] != Vector2i.DOWN else 5)
+		var bombPos = position + Vector2(direction_array[seg_index]) * TILESIZE * (THROW_RANGE if direction_array[seg_index] != Vector2i.DOWN else THROW_RANGE + 2)
 
 		if is_multiplayer_authority():
 			var bomb = bomb_pool.request(self)

@@ -1,5 +1,7 @@
 extends Area2D
 
+const MISOBON_THROW_TIME: float = 0.3
+const MISOBON_THROW_ANGLE_RAD: float = - PI / 8
 const TILESIZE: int = 32
 enum {DISABLED, AIRBORN, CHECKING, PLACING, ENUM_SIZE}
 var state: int = DISABLED
@@ -31,10 +33,11 @@ func disable() ->void:
 	starting_speed = Vector2.ZERO
 	direction = Vector2i.ZERO
 	self.visible = false
-	$CollisionShape2D.set_deferred("Disabled", 0)
+	$CollisionShape2D.set_deferred("Disabled", 1)
 	set_state(DISABLED)
 
-func _process(delta: float) -> void:
+#The use of physics process might be strange in a non physics body, but cause we check collisions in check_space() and collisions only update each physics frame its needed
+func _physics_process(delta: float) -> void:
 	if multiplayer.multiplayer_peer == null || is_multiplayer_authority():
 		# The server updates the position that will be notified to the clients.
 		synced_position = position;
@@ -75,7 +78,11 @@ func throw_physics(delta):
 	set_state(CHECKING)
 
 func check_space():
+	# Why in the name of Mint Fantome herself does Monitorable have to be one to detect collisions with TileMap I hate collisions
+	# I've been at this for Hours :Grieve:
 	$CollisionShape2D.set_deferred("Disabled", 0)
+	print("area: ", get_overlapping_areas())
+	print("body: ", get_overlapping_bodies())
 	if !has_overlapping_areas() && !has_overlapping_bodies():	
 		set_state(PLACING)
 		return
@@ -87,6 +94,7 @@ func check_space():
 			collision.stun()
 
 	for collision in get_overlapping_areas():
+		print("collision: ", collision)
 		if collision.is_in_group("thrown_bomb_bounces"):
 			place = false
 		if collision is Pickup:
@@ -95,7 +103,8 @@ func check_space():
 	if place:
 		set_state(PLACING)
 		return
-	throw(bomb_root.position, bomb_root.position + Vector2(direction) * TILESIZE, direction, PI / 8)
+	time = 0
+	throw(bomb_root.position, bomb_root.position + Vector2(direction) * TILESIZE, direction, MISOBON_THROW_ANGLE_RAD, MISOBON_THROW_TIME / 2)
 
 func to_stationary_bomb():
 	if !is_multiplayer_authority():
@@ -103,7 +112,7 @@ func to_stationary_bomb():
 	bomb_root.do_place.rpc(target)
 
 #throw calculates and starts a throw operations
-func throw(origin: Vector2, target: Vector2, direction: Vector2i, angle_rad: float = PI / 4, time_total: float = 0.3):
+func throw(origin: Vector2, target: Vector2, direction: Vector2i, angle_rad: float = MISOBON_THROW_ANGLE_RAD, time_total: float = MISOBON_THROW_TIME):
 	bomb_root.position = origin
 	self.visible = true
 	var corrected_target = tile_map.map_to_local(tile_map.local_to_map(target))
@@ -133,10 +142,6 @@ func calculate_line(diff: Vector2):
 	
 func calculate_arch(diff: Vector2, angle_rad: float):
 	#calculating the starting velocity and total time needed for the throw
-	throw_gravity = Vector2(
-		0,
-		2 * (tan(angle_rad) * diff.y - diff.x) / time_total * time_total * tan(angle_rad)
-		)
-	starting_speed = diff * 1 / time_total - 0.5 * throw_gravity * time_total
-	print("gravity: ", throw_gravity)
+	starting_speed = Vector2(cos(angle_rad), sin(angle_rad)) * diff.x / (cos(angle_rad) * time_total)
+	throw_gravity = 2 * (diff - starting_speed * time_total) * 1 / (time_total * time_total)
 

@@ -64,8 +64,10 @@ shape = SubResource("RectangleShape2D_6btgv")
 disabled = true
 
 [node name="DetectArea" type="Area2D" parent="."]
-collision_layer = 8
+collision_layer = 0
 collision_mask = 6
+input_pickable = false
+monitorable = false
 
 [node name="DetectShape" type="CollisionShape2D" parent="DetectArea"]
 shape = SubResource("RectangleShape2D_6btgv")
