@@ -117,9 +117,9 @@ func check_bounds() -> bool:
 
 	if !in_arena_x && direction.x == 0:
 		if arena_bounds[0].x >= bomb_root.position.x:
-			throw(bomb_root.position, bomb_root.position + Vector2(Vector2i.LEFT) * TILESIZE, Vector2i.LEFT, MISOBON_THROW_ANGLE_RAD, MISOBON_THROW_TIME / 2)
-		else:
 			throw(bomb_root.position, bomb_root.position + Vector2(Vector2i.RIGHT) * TILESIZE, Vector2i.RIGHT, MISOBON_THROW_ANGLE_RAD, MISOBON_THROW_TIME / 2)
+		else:
+			throw(bomb_root.position, bomb_root.position + Vector2(Vector2i.LEFT) * TILESIZE, Vector2i.LEFT, MISOBON_THROW_ANGLE_RAD, MISOBON_THROW_TIME / 2)
 		return true
 
 	if !in_arena_y && direction.y == 0:

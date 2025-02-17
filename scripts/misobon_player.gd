@@ -85,5 +85,6 @@ func play_spawn_animation():
 	$AnimationPlayer.play(current_anim)
 	await $AnimationPlayer.animation_finished
 	is_rejoining = false
+
 func set_player_name(new_name: String):
 	$label.set_text(new_name)
