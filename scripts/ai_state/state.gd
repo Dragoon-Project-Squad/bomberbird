@@ -1,6 +1,8 @@
 extends Node
 class_name State
 
+signal state_changed
+
 # Utils
 var world : World
 var aiplayer : AIPlayer

@@ -1,9 +1,8 @@
 extends State
 class_name AIWander
 
-signal state_changed
-
 func _enter():
+	print("Enter wander")
 	idle = true
 	currently_moving = false
 	set_area()

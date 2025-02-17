@@ -7,6 +7,7 @@ var states : Dictionary = {}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	print("Machine ready")
 	for child in get_children():
 		if child is State:
 			states[child.name.to_lower()] = child
