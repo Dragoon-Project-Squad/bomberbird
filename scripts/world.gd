@@ -47,6 +47,24 @@ func loadstream(index: int,  this_stream: AudioStreamOggVorbis):
 func unique_cell_identifier(coord):
 	return coord.x + coord.y * 10000
 	
+func get_arena_bounds() -> Array[Vector2]:
+	var tile_size = unbreakable_layer.tile_set.tile_size.x
+	return [
+		to_global(unbreakable_layer.map_to_local(Vector2i(1, 1 + map_offset)) - Vector2(tile_size / 2, tile_size / 2)),
+		to_global(unbreakable_layer.map_to_local(Vector2i(map_width - 2, map_height - 2 + map_offset)) + Vector2(tile_size / 2, tile_size / 2)),
+	]
+
+func get_world_bounds() -> Array[Vector2]:
+	var tile_size = unbreakable_layer.tile_set.tile_size.x
+	return [
+		to_global(unbreakable_layer.map_to_local(Vector2i(-2, -4 + map_offset)) + Vector2(tile_size / 2, tile_size / 2)),
+		to_global(unbreakable_layer.map_to_local(Vector2i(map_width + 1, map_height + 1 + map_offset))),
+	]	
+
+func get_world_size() -> Vector2:
+	var tile_size = unbreakable_layer.tile_set.tile_size.x
+	return Vector2((map_width + 2) * tile_size, (map_height + 4) * tile_size)
+
 func find_empty_cells (mapwidth = map_width, mapheight = map_height, mapoffset = map_offset, floor_tiles = floor_layer, unbreakable_tiles = unbreakable_layer):
 	# Array of empty tiles
 	var empty_cells = []

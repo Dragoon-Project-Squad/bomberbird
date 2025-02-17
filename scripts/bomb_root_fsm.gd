@@ -11,6 +11,9 @@ var state_map: Array[Node2D]
 func _ready():
 	state_map = [null, get_node("%StationaryBomb"), get_node("%AirbornBomb"), null] #Whenever a future state is implemented update this (for e.g. if someone implements push into a new childmake sure this child is loaded into state_map[SLIDING]
 	set_state(DISABLED)	
+	for state_node in state_map:
+		if state_node != null:
+			state_node.process_mode = Node.PROCESS_MODE_DISABLED
 
 func set_state(choice: int):
 	assert(0 <= choice && choice < SIZE)
@@ -34,18 +37,23 @@ func set_bomb_owner(player_id: String):
 	bomb_owner = get_node("/root/World/Players/" + player_id)
 
 @rpc("call_local")
-func do_place(bombPos: Vector2, boost: int = 2) -> int:
+func do_place(bombPos: Vector2, boost: int = 0) -> int:
 	if bomb_owner == null:
 		printerr("A bomb without an bomb_owner tried to be placed")
 		return 1
-	if state == STATIONARY: #a bomb should not already be in a 
-		printerr("do place is called from a wrong state")
-		return 2
+	var force_collision: bool = false
+	match state:
+		STATIONARY: #a bomb should not already be in a 
+			printerr("do place is called from a wrong state")
+			return 2
+		AIRBORN:
+			force_collision = true	
 
 	set_state(STATIONARY)
 	var bomb_authority: Node2D = state_map[state]
 	bomb_authority.set_explosion_width_and_size(min(boost + bomb_authority.explosion_width, bomb_authority.MAX_EXPLOSION_WIDTH))
 	bomb_authority.place(bombPos)
+	if force_collision: bomb_authority._on_detect_area_body_exit(bomb_owner) # This sucks but i haven't found a better way to solve this... I think we need to rework how bombs stay collision less for the placing player at some point
 	return 0
 
 @rpc("call_local")

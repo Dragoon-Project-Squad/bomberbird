@@ -42,5 +42,5 @@ func _physics_process(delta: float):
 		move_and_slide()
 
 	# Also update the animation based on the last known player input state
-	if !is_dead:
+	if !is_dead && !stunned:
 		update_animation(inputs.motion)

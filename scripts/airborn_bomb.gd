@@ -6,8 +6,6 @@ const TILESIZE: int = 32
 enum {DISABLED, AIRBORN, CHECKING, PLACING, ENUM_SIZE}
 var state: int = DISABLED
 
-@export var synced_position = Vector2()
-
 #throwing state variables
 var time: float
 var time_total: float
@@ -17,6 +15,11 @@ var origin: Vector2
 var starting_speed: Vector2
 var direction: Vector2i
 
+#checking state variables
+var arena_bounds: Array[Vector2]
+var world_bounds: Array[Vector2]
+var world_size: Vector2
+
 var tile_map: TileMapLayer
 var bomb_root: Node2D
 
@@ -24,6 +27,8 @@ var bomb_root: Node2D
 func _ready() -> void:
 	tile_map = get_node("/root/World/Floor")
 	bomb_root = get_parent()
+
+	disable()
 
 func disable() ->void:
 	time = 0
@@ -38,19 +43,13 @@ func disable() ->void:
 
 #The use of physics process might be strange in a non physics body, but cause we check collisions in check_space() and collisions only update each physics frame its needed
 func _physics_process(delta: float) -> void:
-	if multiplayer.multiplayer_peer == null || is_multiplayer_authority():
-		# The server updates the position that will be notified to the clients.
-		synced_position = position;
-	
-	else:
-		#The client updates their progess to the last know one
-		position = synced_position
 	
 	match state:
 		PLACING:
 			to_stationary_bomb()	
 		CHECKING:
-			check_space()
+			if !check_bounds():
+				check_space()
 		AIRBORN:
 			throw_physics(delta)
 		
@@ -81,8 +80,6 @@ func check_space():
 	# Why in the name of Mint Fantome herself does Monitorable have to be one to detect collisions with TileMap I hate collisions
 	# I've been at this for Hours :Grieve:
 	$CollisionShape2D.set_deferred("Disabled", 0)
-	print("area: ", get_overlapping_areas())
-	print("body: ", get_overlapping_bodies())
 	if !has_overlapping_areas() && !has_overlapping_bodies():	
 		set_state(PLACING)
 		return
@@ -94,7 +91,6 @@ func check_space():
 			collision.stun()
 
 	for collision in get_overlapping_areas():
-		print("collision: ", collision)
 		if collision.is_in_group("thrown_bomb_bounces"):
 			place = false
 		if collision is Pickup:
@@ -103,7 +99,6 @@ func check_space():
 	if place:
 		set_state(PLACING)
 		return
-	time = 0
 	throw(bomb_root.position, bomb_root.position + Vector2(direction) * TILESIZE, direction, MISOBON_THROW_ANGLE_RAD, MISOBON_THROW_TIME / 2)
 
 func to_stationary_bomb():
@@ -111,16 +106,60 @@ func to_stationary_bomb():
 		return
 	bomb_root.do_place.rpc(target)
 
+func check_bounds() -> bool:
+	var in_arena_x: bool = arena_bounds[0].x < bomb_root.position.x && bomb_root.position.x < arena_bounds[1].x
+	var in_arena_y: bool = arena_bounds[0].y < bomb_root.position.y && bomb_root.position.y < arena_bounds[1].y
+	var in_world_x: bool = world_bounds[0].x < bomb_root.position.x && bomb_root.position.x < world_bounds[1].x
+	var in_world_y: bool = world_bounds[0].y < bomb_root.position.y && bomb_root.position.y < world_bounds[1].y
+
+	if in_arena_x && in_arena_y:
+		return false #we are in the arena so do a space check
+
+	if !in_arena_x && direction.x == 0:
+		if arena_bounds[0].x >= bomb_root.position.x:
+			throw(bomb_root.position, bomb_root.position + Vector2(Vector2i.LEFT) * TILESIZE, Vector2i.LEFT, MISOBON_THROW_ANGLE_RAD, MISOBON_THROW_TIME / 2)
+		else:
+			throw(bomb_root.position, bomb_root.position + Vector2(Vector2i.RIGHT) * TILESIZE, Vector2i.RIGHT, MISOBON_THROW_ANGLE_RAD, MISOBON_THROW_TIME / 2)
+		return true
+
+	if !in_arena_y && direction.y == 0:
+		if arena_bounds[0].y >= bomb_root.position.y:
+			throw(bomb_root.position, bomb_root.position + Vector2(Vector2i.DOWN) * TILESIZE, Vector2i.DOWN, MISOBON_THROW_ANGLE_RAD, MISOBON_THROW_TIME / 2)
+		else:
+			throw(bomb_root.position, bomb_root.position + Vector2(Vector2i.UP) * TILESIZE, Vector2i.UP, MISOBON_THROW_ANGLE_RAD, MISOBON_THROW_TIME / 2)
+		return true
+
+	if in_world_x && in_world_y:
+		throw(bomb_root.position, bomb_root.position + Vector2(direction) * TILESIZE, direction, MISOBON_THROW_ANGLE_RAD, MISOBON_THROW_TIME / 2)
+		return true #we have already found a problem so skip to after match
+
+	wrap_around()
+	return true
+
+
+func wrap_around():
+	bomb_root.position -= Vector2(direction) * world_size.dot(direction.abs())
+	print("wrap_position: ", bomb_root.position)
+
+
 #throw calculates and starts a throw operations
 func throw(origin: Vector2, target: Vector2, direction: Vector2i, angle_rad: float = MISOBON_THROW_ANGLE_RAD, time_total: float = MISOBON_THROW_TIME):
+	#This should really be in _ready but that no worky
+	var world: Node2D = get_node("/root/World")
+	arena_bounds = world.get_arena_bounds()
+	world_bounds = world.get_world_bounds()
+	world_size = world.get_world_size()
+
 	bomb_root.position = origin
 	self.visible = true
 	var corrected_target = tile_map.map_to_local(tile_map.local_to_map(target))
+	self.time = 0
 	self.time_total = time_total
 	self.direction = direction
 	self.target = corrected_target
 	self.origin = origin
 	var diff: Vector2 = (corrected_target - origin)
+
 	match direction:
 		Vector2i.RIGHT:
 			calculate_arch(diff, angle_rad)
@@ -134,6 +173,7 @@ func throw(origin: Vector2, target: Vector2, direction: Vector2i, angle_rad: flo
 		_:
 			push_error("throw must be handed a valid direction (UP, DOWN, LEFT o RIGHT)")
 			return
+
 	set_state(AIRBORN)
 
 func calculate_line(diff: Vector2):
@@ -144,4 +184,3 @@ func calculate_arch(diff: Vector2, angle_rad: float):
 	#calculating the starting velocity and total time needed for the throw
 	starting_speed = Vector2(cos(angle_rad), sin(angle_rad)) * diff.x / (cos(angle_rad) * time_total)
 	throw_gravity = 2 * (diff - starting_speed * time_total) * 1 / (time_total * time_total)
-

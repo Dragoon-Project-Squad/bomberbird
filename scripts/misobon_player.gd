@@ -36,19 +36,19 @@ func _process(delta: float) -> void:
 		# The server updates the position that will be notified to the clients.
 		synced_progress = progress;
 		# And increase the bomb cooldown spawning one if the client wants to.
-		last_bomb_time += delta
 		
-		if last_bomb_time >= BOMB_RATE:
-			$BombSprite.visible = true
-			
 	else:
 		#The client updates their progess to the last know one
 		progress = synced_progress
 
+	last_bomb_time += delta
+
+	if last_bomb_time >= BOMB_RATE && !$BombSprite.visible:
+		$BombSprite.show()
+
 	if inputs.bombing && last_bomb_time >= BOMB_RATE:
-		#TODO implement bomb throwing / spawning a thrown bomb	
 		last_bomb_time = 0
-		$BombSprite.visible = false
+		$BombSprite.hide()
 		
 		var seg_index: int = get_parent().get_segment_id(synced_progress)
 		var direction_array: Array[Vector2i] = [Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP, Vector2i.RIGHT]

@@ -11,5 +11,5 @@ script = ExtResource("1_pel47")
 unique_name_in_owner = true
 z_index = 1
 
-[node name="AirbornBomb" parent="." instance=ExtResource("3_mn2mc")]
+[node name="AirbornBomb" parent="." groups=["should_be_wrapped"] instance=ExtResource("3_mn2mc")]
 unique_name_in_owner = true

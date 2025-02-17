@@ -1,7 +1,7 @@
 extends StaticBody2D
 
-var bomb_pool: Node2D
-var bomb_root: Node2D
+@onready var bomb_root: Node2D = get_parent()
+@onready var bomb_pool: Node2D = get_parent().get_parent()
 
 var explosion_width := 2
 const MAX_EXPLOSION_WIDTH := 8
@@ -19,13 +19,13 @@ const TILE_SIZE = 32 #Primitive method of assigning correct tile size
 @onready var tileMap = get_tree().get_root().get_node("World/Floor")
 
 func _ready():
-	bomb_root = get_parent()
-	bomb_pool = get_parent().get_parent()
 	explosion_sfx_player = bomb_pool.get_node("BombGlobalAudioPlayers/ExplosionSoundPlayer")
 	bomb_placement_sfx_player = get_node("BombPlacementPlayer")
 	explosion_sfx_player.set_stream(explosion_audio)
 	bomb_placement_sfx_player.set_stream(bomb_place_audio)
-	disable()
+	self.visible = false
+	$DetectArea.set_deferred("disabled", 1)
+	$CollisionShape2D.set_deferred("disabled", 1) # This line of code thinks it knows better so it just kinda doesn't do what it should... also doesn't give an error tho...
 
 func disable():
 	bomb_root.position = Vector2.ZERO
