@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://de6bmnxah5ten"]
+[gd_scene load_steps=23 format=3 uid="uid://de6bmnxah5ten"]
 
 [ext_resource type="Script" path="res://scripts/ai_player.gd" id="1_ql62k"]
 [ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_oae17"]
@@ -7,6 +7,8 @@
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="5_qbktl"]
 [ext_resource type="Script" path="res://scripts/human_player_controls.gd" id="6_rxnmx"]
 [ext_resource type="AudioStream" uid="uid://c3dded4qppq4" path="res://sound/fx/playerhurt.wav" id="7_raw0p"]
+[ext_resource type="Script" path="res://scripts/ai_state/ai_state_machine.gd" id="8_5j1t4"]
+[ext_resource type="Script" path="res://scripts/ai_state/ai_wander.gd" id="9_67dp8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_n0cfd"]
 radius = 15.9
@@ -345,12 +347,10 @@ properties/1/replication_mode = 1
 z_index = 10
 texture_filter = 1
 collision_layer = 2
-collision_mask = 29
+collision_mask = 31
 motion_mode = 1
 script = ExtResource("1_ql62k")
 synced_position = Vector2(649, 72)
-bomb_count = 2
-lives = 1
 
 [node name="shadowsprite" type="Sprite2D" parent="."]
 position = Vector2(0, 8)
@@ -374,7 +374,6 @@ hframes = 9
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_n0cfd")
-disabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -406,12 +405,9 @@ replication_config = SubResource("SceneReplicationConfig_w53uu")
 [node name="HurtSoundPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_raw0p")
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-avoidance_enabled = true
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("8_5j1t4")
+initial_state = NodePath("Wander")
 
-[node name="Timer" type="Timer" parent="NavigationAgent2D"]
-one_shot = true
-
-[connection signal="navigation_finished" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_navigation_finished"]
-[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
-[connection signal="timeout" from="NavigationAgent2D/Timer" to="." method="_on_timer_timeout"]
+[node name="Wander" type="Node" parent="StateMachine"]
+script = ExtResource("9_67dp8")
