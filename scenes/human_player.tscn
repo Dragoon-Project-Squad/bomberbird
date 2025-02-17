@@ -1,12 +1,12 @@
 [gd_scene load_steps=21 format=3 uid="uid://dviwgv2ty8v6u"]
 
-[ext_resource type="Script" path="res://scripts/player.gd" id="1"]
-[ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="3"]
-[ext_resource type="Texture2D" uid="uid://lckm0mdablaw" path="res://assets/player/chonkgoon_walk.png" id="3_4qf4u"]
-[ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="3_iwdrj"]
-[ext_resource type="Script" path="res://scripts/player_controls.gd" id="4_k1vfr"]
-[ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_rh3la"]
-[ext_resource type="AudioStream" uid="uid://c3dded4qppq4" path="res://sound/fx/playerhurt.wav" id="5_611ko"]
+[ext_resource type="Script" path="res://scripts/human_player.gd" id="1_u11j4"]
+[ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_wp3i8"]
+[ext_resource type="Texture2D" uid="uid://lckm0mdablaw" path="res://assets/player/chonkgoon_walk.png" id="3_lr0sp"]
+[ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_bifw2"]
+[ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="5_3fscl"]
+[ext_resource type="Script" path="res://scripts/human_player_controls.gd" id="6_ey2ea"]
+[ext_resource type="AudioStream" uid="uid://c3dded4qppq4" path="res://sound/fx/playerhurt.wav" id="7_ho0y0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_oj3wr"]
 radius = 15.9
@@ -384,16 +384,18 @@ texture_filter = 1
 collision_layer = 2
 collision_mask = 31
 motion_mode = 1
-script = ExtResource("1")
+script = ExtResource("1_u11j4")
+bomb_count = 2
+lives = 1
 
 [node name="shadowsprite" type="Sprite2D" parent="."]
 position = Vector2(0, 7)
 scale = Vector2(0.75, 0.5)
-texture = ExtResource("3_iwdrj")
+texture = ExtResource("2_wp3i8")
 
 [node name="sprite" type="Sprite2D" parent="."]
 position = Vector2(0.0750351, 6.23615)
-texture = ExtResource("3_4qf4u")
+texture = ExtResource("3_lr0sp")
 offset = Vector2(-0.075, -8.236)
 hframes = 6
 vframes = 4
@@ -402,13 +404,13 @@ vframes = 4
 visible = false
 position = Vector2(-1.07288e-06, 3.57628e-07)
 scale = Vector2(0.333333, 0.351648)
-texture = ExtResource("4_rh3la")
+texture = ExtResource("4_bifw2")
 hframes = 9
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_oj3wr")
 
-[node name="anim" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_yb83i")
 }
@@ -420,7 +422,7 @@ offset_right = 85.0
 offset_bottom = -14.0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-theme_override_fonts/font = ExtResource("3")
+theme_override_fonts/font = ExtResource("5_3fscl")
 theme_override_font_sizes/font_size = 16
 text = "Player 1"
 label_settings = SubResource("LabelSettings_5huhx")
@@ -430,10 +432,10 @@ horizontal_alignment = 1
 replication_config = SubResource("SceneReplicationConfig_sh64w")
 
 [node name="Inputs" type="Node" parent="."]
-script = ExtResource("4_k1vfr")
+script = ExtResource("6_ey2ea")
 
 [node name="InputsSync" type="MultiplayerSynchronizer" parent="Inputs"]
 replication_config = SubResource("SceneReplicationConfig_w53uu")
 
 [node name="HurtSoundPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_611ko")
+stream = ExtResource("7_ho0y0")

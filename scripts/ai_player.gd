@@ -1,30 +1,8 @@
-extends CharacterBody2D
-class_name AIPlayer
-
-const BASE_MOTION_SPEED = 100.0
-const BOMB_RATE = 0.5
-const MAX_BOMBS_OWNALE = 8
-const MAX_EXPLOSION_BOOSTS_PERMITTED = 6
-const MISOBON_RESPAWN_TIME: float = 0.5
-
-@export var synced_position := Vector2()
-@export var stunned = false
+extends Player
 
 @onready var inputs = $Inputs
-@onready var hurt_sfx_player := $HurtSoundPlayer
 @onready var anim_player = $anim
 @onready var timer = $AIActionTimer
-
-var last_bomb_time = BOMB_RATE
-var current_anim = ""
-var is_dead = false
-var lives = 1
-
-# Powerup Vars
-var movement_speed = BASE_MOTION_SPEED
-var explosion_boost_count = 0
-var bomb_count := 2
-var can_punch := false
 
 # AI Player specific vars
 var is_bombing = false #TODO: Setup condition for AI to bomb, and include is_bombing
@@ -45,10 +23,10 @@ var next_point
 func _ready():
 	world = get_parent().get_parent()
 	layer = world.get_node("Floor")
-	stunned = false
-	position = synced_position
 	next_point = global_position
 	timer.autostart
+	player_type = "ai"
+	super()
 
 func _physics_process(delta):
 	#Update position
@@ -75,13 +53,6 @@ func _physics_process(delta):
 			print(movement_vector.normalized())
 			"""
 		update_animation(movement_vector.normalized())
-
-func navigation_map_sync_wait(map: RID):
-	while NavigationServer2D.map_get_iteration_id(map) == 0:
-		await get_tree().create_timer(0.1).timeout
-	if NavigationServer2D.map_get_iteration_id(map) != 0:
-		#print("NavigationServer2D Map Iterated!")
-		waiting_for_map_sync = false
 
 func update_animation(newvelocity: Vector2):
 	var new_anim = "standing"
@@ -110,21 +81,6 @@ func set_random_target():
 	)
 	"""
 
-func set_player_name(value):
-	$label.set_text(value)
-	
-func get_player_name() -> String:
-	return $label.get_text()
-
-func enter_death_state():
-	$anim.play("death")
-	await $anim.animation_finished
-	process_mode = PROCESS_MODE_DISABLED
-	
-func exit_death_state():
-	self.visible = true #Visible
-	process_mode = PROCESS_MODE_INHERIT
-
 func enter_misobon():
 	if(!has_node("/root/MainMenu") && get_node("/root/Lobby").curr_misobon_state == 0):
 			#in singlayer always just have it on SUPER for now (until we have options in sp) and in multiplayer spawn misobon iff its not off
@@ -138,22 +94,6 @@ func enter_misobon():
 	"pid": str(name).to_int(),
 	"name": get_player_name()
 	 }).play_spawn_animation()
-
-func increase_bomb_level():
-	explosion_boost_count = min(explosion_boost_count + 1, MAX_EXPLOSION_BOOSTS_PERMITTED)
-
-func maximize_bomb_level():
-	explosion_boost_count = min(explosion_boost_count + 99, MAX_EXPLOSION_BOOSTS_PERMITTED)
-		
-func increase_speed():
-	movement_speed = movement_speed + 20
-
-func increment_bomb_count():
-	#TODO: Add code that makes bomb count matter.
-	bomb_count = min(bomb_count+1, MAX_BOMBS_OWNALE)
-	
-func enable_punch():
-	can_punch = true
 
 @rpc("call_local")
 func exploded(by_who):
@@ -178,9 +118,6 @@ func get_next_position() -> Vector2:
 	var current_path_local = layer.map_to_local(current_path[0])
 	var next_position = Vector2i(current_path_local.x + tile_offset.x, current_path_local.y + tile_offset.y)
 	return next_position
-
-func set_selected_character(value: Texture2D):
-	$sprite.texture = value
 
 func set_new_path():
 	var initial = layer.local_to_map(global_position)

@@ -1,7 +1,7 @@
 extends MultiplayerSpawner
 
-var player_scene = preload("res://scenes/player.tscn")
-var ai_player_scene = preload("res://scenes/aiplayer.tscn")
+var player_scene = preload("res://scenes/human_player.tscn")
+var ai_player_scene = preload("res://scenes/ai_player.tscn")
 
 func _init():
 	spawn_function = _spawn_player

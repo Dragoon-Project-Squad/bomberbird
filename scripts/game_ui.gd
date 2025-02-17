@@ -103,10 +103,10 @@ func set_player_four(id, new_player_name):
 	$Border/Container/Players/SeparatorP34.visible = true
 	
 func time_to_string() -> String:
-	var sec = fmod(time, 60)
-	var min = time / 60
+	var seconds = fmod(time, 60)
+	var minutes = time / 60
 	var format_string = "%02d:%02d"
-	var actual_time_string = format_string % [min, sec]
+	var actual_time_string = format_string % [minutes, seconds]
 	return actual_time_string
 
 func _on_exit_game_pressed() -> void:

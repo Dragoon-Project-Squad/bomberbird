@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://enwoaqi0rnei"]
+[gd_scene load_steps=11 format=3 uid="uid://enwoaqi0rnei"]
 
 [ext_resource type="Script" path="res://scripts/bomb.gd" id="1"]
 [ext_resource type="AudioStream" uid="uid://boidckhyrna5i" path="res://sound/fx/explosion.wav" id="2_gmoi6"]
 [ext_resource type="PackedScene" uid="uid://c3row0thknslo" path="res://scenes/explosion.tscn" id="4_4i8os"]
+[ext_resource type="AudioStream" uid="uid://kkul2topsufx" path="res://sound/fx/bombdrop.wav" id="4_nrvts"]
 [ext_resource type="Texture2D" uid="uid://cwpnhuimmgdha" path="res://assets/bombcentered.png" id="8_1u1d1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6btgv"]
@@ -11,7 +12,11 @@ size = Vector2(32, 32)
 [sub_resource type="Animation" id="Animation_oq2m5"]
 length = 0.001
 
+[sub_resource type="Animation" id="Animation_m6l0e"]
+resource_name = "explosion_small"
+
 [sub_resource type="Animation" id="Animation_21j5c"]
+resource_name = "fuse_and_call_detonate()"
 length = 4.0
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -40,14 +45,11 @@ tracks/1/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_m6l0e"]
-resource_name = "explosion_small"
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_h2w7m"]
 _data = {
 "RESET": SubResource("Animation_oq2m5"),
-"anim": SubResource("Animation_21j5c"),
-"explosion_small": SubResource("Animation_m6l0e")
+"explosion_small": SubResource("Animation_m6l0e"),
+"fuse_and_call_detonate()": SubResource("Animation_21j5c")
 }
 
 [node name="Bomb" type="StaticBody2D"]
@@ -98,7 +100,6 @@ metadata/direction = Vector2i(0, -1)
 libraries = {
 "": SubResource("AnimationLibrary_h2w7m")
 }
-autoplay = "anim"
 
 [node name="BombSprite" type="Sprite2D" parent="."]
 texture = ExtResource("8_1u1d1")
@@ -106,9 +107,10 @@ hframes = 3
 region_enabled = true
 region_rect = Rect2(0, 0, 96, 32)
 
-[node name="ExplosionSoundPlayer" type="AudioStreamPlayer2D" parent="."]
-
 [node name="Explosion" parent="." instance=ExtResource("4_4i8os")]
+
+[node name="BombPlacementPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_nrvts")
 
 [connection signal="body_exited" from="DetectArea" to="." method="_on_detect_area_body_exit"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
