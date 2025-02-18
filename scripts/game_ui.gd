@@ -4,9 +4,10 @@ var player_labels = {}
 var players_left = 5
 var someone_dead = false
 var time
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$"../Winner".hide()
+	$"../WinnerLayer".hide()
 	set_process(true)
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -24,19 +25,21 @@ func _process(_delta: float) -> void:
 		call_deferred("decide_game", players_left)
 		process_mode = PROCESS_MODE_DISABLED
 	%RemainingTime.set_text(time_to_string())
-
+	
+	if Input.is_action_pressed("escape"):
+		_on_pause_button_pressed()
 
 func decide_game(final_players: int):
 	# First check if zero players are alive. If so, this is a draw game.
 	if final_players == 0:
-		$"../Winner".set_text("DRAW GAME")
-		$"../Winner".show()
+		$"../WinnerLayer/Winner".set_text("DRAW GAME")
+		$"../WinnerLayer".show()
 	# Second check if only one player is alive. If so, they win.
 	if final_players == 1:
 		for player in $"../Players".get_children():
 			if !player.is_dead:
-				$"../Winner".set_text("THE WINNER IS:\n" + 	player.get_player_name())
-				$"../Winner".show()
+				$"../WinnerLayer/Winner".set_text("THE WINNER IS:\n" + 	player.get_player_name())
+				$"../WinnerLayer".show()
 				return
 	# If this somehow doesn't work, then decide via score.
 	if final_players == 1:
@@ -46,8 +49,8 @@ func decide_game(final_players: int):
 			if player_labels[p].score > winner_score:
 				winner_score = player_labels[p].score
 				winner_name = player_labels[p].name
-		$"../Winner".set_text("THE WINNER IS:\n" + winner_name)
-		$"../Winner".show()
+		$"../WinnerLayer/Winner".set_text("THE WINNER IS:\n" + winner_name)
+		$"../WinnerLayer".show()
 
 func increase_score(for_who):
 	assert(for_who in player_labels)
@@ -111,3 +114,20 @@ func time_to_string() -> String:
 
 func _on_exit_game_pressed() -> void:
 	gamestate.end_game()
+	get_tree().paused = false
+
+
+func _on_pause_button_pressed() -> void:
+	get_tree().paused = true
+	$"../PauseLayer".show()
+
+
+func _on_resume_button_pressed() -> void:
+	get_tree().paused = false
+	$"../PauseLayer".hide()
+
+func _on_pause_button_down() -> void:
+	globals.mouse_down_on_pause_btn = true
+
+func _on_pause_button_up() -> void:
+	globals.mouse_down_on_pause_btn = false

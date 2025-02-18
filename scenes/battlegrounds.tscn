@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://bs7slglsckv0i"]
+[gd_scene load_steps=19 format=4 uid="uid://bs7slglsckv0i"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_b42q6"]
 [ext_resource type="Script" path="res://scripts/game_ui.gd" id="3_dadsx"]
@@ -7,6 +7,7 @@
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/deserttileset.tres" id="3_vcixd"]
 [ext_resource type="Script" path="res://scripts/player_spawner.gd" id="5_2eagj"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="5_g2doi"]
+[ext_resource type="FontFile" uid="uid://do0laogygl6cd" path="res://assets/fonts/ThaleahFat.ttf" id="6_5yyoc"]
 [ext_resource type="Script" path="res://scripts/misobon_player_spawner.gd" id="7_7cqae"]
 [ext_resource type="Script" path="res://scripts/powerup_spawner.gd" id="7_87w5t"]
 [ext_resource type="Script" path="res://scripts/breakable_spawner.gd" id="9_k4om7"]
@@ -24,6 +25,9 @@ _data = {
 "points": PackedVector2Array(0.297315, 2.88107, 0, 0, 240, 16, 0, 0, 0, 0, 464, 16, 0, 0, 0, 0, 464, 464, 0, 0, 0, 0, 16, 464, 0, 0, 0, 0, 16, 16, 0, 0, 0, 0, 240, 16)
 }
 point_count = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7i08g"]
+bg_color = Color(0, 0, 0, 0.498039)
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_to18j"]
 
@@ -72,6 +76,10 @@ curve = SubResource("Curve2D_pquxm")
 script = ExtResource("3_uhlbr")
 
 [node name="BombPool" parent="." instance=ExtResource("3_mcaqn")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(250, 250)
+zoom = Vector2(1.3, 1.3)
 
 [node name="GameUI" type="CanvasLayer" parent="."]
 visible = false
@@ -203,43 +211,125 @@ layout_mode = 2
 text = "0"
 horizontal_alignment = 2
 
-[node name="Winner" type="Label" parent="."]
+[node name="PauseButtonLayer" type="CanvasLayer" parent="."]
+
+[node name="Button" type="Button" parent="PauseButtonLayer"]
+offset_left = 6.0
+offset_top = 5.0
+offset_right = 36.0
+offset_bottom = 36.0
+theme_override_constants/outline_size = 5
+
+[node name="Label" type="Label" parent="PauseButtonLayer/Button"]
+layout_mode = 0
+offset_left = 1.0
+offset_right = 30.0
+offset_bottom = 29.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 15
+text = "||"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PauseLayer" type="CanvasLayer" parent="."]
+process_mode = 2
 visible = false
+
+[node name="Panel" type="Panel" parent="PauseLayer"]
+z_index = 4
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7i08g")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseLayer"]
+z_index = 4
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Pause" type="Label" parent="PauseLayer/VBoxContainer"]
 z_index = 5
-offset_left = 32.0
-offset_top = 96.0
-offset_right = 448.0
-offset_bottom = 448.0
-size_flags_horizontal = 2
-size_flags_vertical = 0
-theme_override_constants/shadow_offset_x = 2
-theme_override_constants/shadow_offset_y = 2
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 1
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_fonts/font = ExtResource("6_5yyoc")
+theme_override_font_sizes/font_size = 72
+text = "PAUSED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="PauseLayer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 20
+text = "Resume"
+
+[node name="ExitButton" type="Button" parent="PauseLayer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 20
+text = "Exit to Main Menu"
+
+[node name="WinnerLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Panel" type="Panel" parent="WinnerLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7i08g")
+
+[node name="Winner" type="Label" parent="WinnerLayer"]
+z_index = 5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 1
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
 theme_override_fonts/font = ExtResource("5_g2doi")
+theme_override_font_sizes/font_size = 30
 text = "THE WINNER IS:
 YOU"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ExitGame" type="Button" parent="Winner"]
+[node name="ExitGame" type="Button" parent="WinnerLayer/Winner"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -132.5
-offset_top = -61.0
-offset_right = 132.5
+offset_left = -136.0
+offset_top = -132.0
+offset_right = 129.0
+offset_bottom = -71.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 theme_override_fonts/font = ExtResource("5_g2doi")
 text = "EXIT GAME"
-
-[node name="Camera2D" type="Camera2D" parent="."]
-offset = Vector2(250, 250)
-zoom = Vector2(1.3, 1.3)
 
 [node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("../Players")
@@ -282,5 +372,10 @@ wait_time = 120.0
 one_shot = true
 autostart = true
 
-[connection signal="pressed" from="Winner/ExitGame" to="GameUI" method="_on_exit_game_pressed"]
-[connection signal="pressed" from="Winner/ExitGame" to="GameUI/Border/Container/Players" method="_on_exit_game_pressed"]
+[connection signal="button_down" from="PauseButtonLayer/Button" to="GameUI" method="_on_pause_button_down"]
+[connection signal="button_up" from="PauseButtonLayer/Button" to="GameUI" method="_on_pause_button_up"]
+[connection signal="pressed" from="PauseButtonLayer/Button" to="GameUI" method="_on_pause_button_pressed"]
+[connection signal="pressed" from="PauseLayer/VBoxContainer/ResumeButton" to="GameUI" method="_on_resume_button_pressed"]
+[connection signal="pressed" from="PauseLayer/VBoxContainer/ExitButton" to="GameUI" method="_on_exit_game_pressed"]
+[connection signal="pressed" from="WinnerLayer/Winner/ExitGame" to="GameUI" method="_on_exit_game_pressed"]
+[connection signal="pressed" from="WinnerLayer/Winner/ExitGame" to="GameUI/Border/Container/Players" method="_on_exit_game_pressed"]

@@ -25,7 +25,7 @@ func _physics_process(delta: float):
 		# The client simply updates the position to the last known one.
 		position = synced_position
 
-	if not stunned and inputs.bombing and bomb_count > 0 and !pressed_once:
+	if not stunned and inputs.bombing and bomb_count > 0 and !pressed_once and !globals.mouse_down_on_pause_btn:
 		var bombPos = tile_map.map_to_local(tile_map.local_to_map(synced_position))
 		pressed_once = true
 		bomb_count -= 1
