@@ -1,14 +1,17 @@
 extends PathFollow2D
 
+const THROW_RANGE: int = 3
 const MOVEMENT_SPEED: float = 200.0
 const BOMB_RATE: float = 0.5
 const MAX_BOMB_OWNABLE: int = 99
+const TILESIZE: int = 32
 
 @export var synced_progress: float = 0;
 @export var is_rejoining: bool = true
 
 @onready var inputs = $Inputs
 
+var bomb_pool: ObjectPool
 var last_bomb_time: float = BOMB_RATE
 var current_anim: String = ""
 
@@ -18,6 +21,7 @@ func _ready() -> void:
 	progress = synced_progress
 	if str(name).is_valid_int():
 		get_node("Inputs/InputsSync").set_multiplayer_authority(str(name).to_int())
+	bomb_pool = get_node("/root/World/BombPool")
 
 func _process(delta: float) -> void:
 	if is_rejoining:
@@ -32,14 +36,34 @@ func _process(delta: float) -> void:
 		# The server updates the position that will be notified to the clients.
 		synced_progress = progress;
 		# And increase the bomb cooldown spawning one if the client wants to.
-		last_bomb_time += delta
-		if is_multiplayer_authority() && inputs.bombing && last_bomb_time >= BOMB_RATE:
-			#TODO implement bomb throwing / spawning a thrown bomb	
-			last_bomb_time = 0.0
-	
+		
 	else:
 		#The client updates their progess to the last know one
 		progress = synced_progress
+
+	last_bomb_time += delta
+
+	if last_bomb_time >= BOMB_RATE && !$BombSprite.visible:
+		$BombSprite.show()
+
+	if inputs.bombing && last_bomb_time >= BOMB_RATE:
+		last_bomb_time = 0
+		$BombSprite.hide()
+		
+		var seg_index: int = get_parent().get_segment_id(synced_progress)
+		var direction_array: Array[Vector2i] = [Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP, Vector2i.RIGHT]
+		var bombPos = position + Vector2(direction_array[seg_index]) * TILESIZE * (THROW_RANGE if direction_array[seg_index] != Vector2i.DOWN else THROW_RANGE + 2)
+
+		if is_multiplayer_authority():
+			var bomb = bomb_pool.request(self)
+			bomb.do_misobon_throw.rpc(
+				position + $BombSprite.position,
+				bombPos,
+				direction_array[seg_index]
+				)
+
+
+
 	progress += inputs.motion * MOVEMENT_SPEED * delta
 	update_animation(
 		get_parent().get_segment_id(synced_progress)
@@ -61,5 +85,6 @@ func play_spawn_animation():
 	$AnimationPlayer.play(current_anim)
 	await $AnimationPlayer.animation_finished
 	is_rejoining = false
+
 func set_player_name(new_name: String):
 	$label.set_text(new_name)

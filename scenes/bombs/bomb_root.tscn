@@ -1,10 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://crrkmxwyf4bqw"]
+[gd_scene load_steps=4 format=3 uid="uid://crrkmxwyf4bqw"]
 
 [ext_resource type="Script" path="res://scripts/bomb_root_fsm.gd" id="1_pel47"]
-[ext_resource type="PackedScene" uid="uid://enwoaqi0rnei" path="res://scenes/bombs/bomb.tscn" id="2_ijtvv"]
+[ext_resource type="PackedScene" uid="uid://enwoaqi0rnei" path="res://scenes/bombs/stationary_bomb.tscn" id="2_ijtvv"]
+[ext_resource type="PackedScene" uid="uid://cag7boglclvqo" path="res://scenes/bombs/airborn_bombs.tscn" id="3_mn2mc"]
 
 [node name="BombRoot" type="Node2D"]
 script = ExtResource("1_pel47")
 
-[node name="StationaryBomb" parent="." instance=ExtResource("2_ijtvv")]
+[node name="StationaryBomb" parent="." groups=["thrown_bomb_bounces"] instance=ExtResource("2_ijtvv")]
+unique_name_in_owner = true
+z_index = 1
+
+[node name="AirbornBomb" parent="." groups=["should_be_wrapped"] instance=ExtResource("3_mn2mc")]
 unique_name_in_owner = true

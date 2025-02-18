@@ -378,7 +378,7 @@ properties/1/path = NodePath(".:bombing")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
-[node name="player" type="CharacterBody2D" groups=["player"]]
+[node name="player" type="CharacterBody2D" groups=["player", "thrown_bomb_bounces"]]
 z_index = 10
 texture_filter = 1
 collision_layer = 2
@@ -395,6 +395,7 @@ texture = ExtResource("2_wp3i8")
 
 [node name="sprite" type="Sprite2D" parent="."]
 position = Vector2(0.0750351, 6.23615)
+rotation = -6.28319
 texture = ExtResource("3_lr0sp")
 offset = Vector2(-0.075, -8.236)
 hframes = 6

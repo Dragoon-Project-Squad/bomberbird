@@ -29,6 +29,7 @@ func _physics_process(delta: float):
 		var bombPos = tile_map.map_to_local(tile_map.local_to_map(synced_position))
 		pressed_once = true
 		bomb_count -= 1
+		last_bomb_time = 0
 		if is_multiplayer_authority():
 			var bomb = bomb_pool.request(self)
 			bomb.do_place.rpc(bombPos, explosion_boost_count)
@@ -41,5 +42,5 @@ func _physics_process(delta: float):
 		move_and_slide()
 
 	# Also update the animation based on the last known player input state
-	if !is_dead:
+	if !is_dead && !stunned:
 		update_animation(inputs.motion)
