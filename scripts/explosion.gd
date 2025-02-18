@@ -26,8 +26,6 @@ func reset():
 	detection_area.get_child(0).set_deferred("disabled", 1)
 	detection_area.get_child(1).set_deferred("disabled", 1)
 
-
-
 @warning_ignore("SHADOWED_VARIABLE")
 func set_cell_hori(pos: Vector2i, left: int, right: int, step: int = 0):
 	if pos == Vector2i.ZERO: return
@@ -95,9 +93,17 @@ func do_detonate():
 	await $AnimationPlayer.animation_finished
 	get_parent().done()
 
+func report_kill(killed_player: Player):
+	var killer: Player = get_parent().bomb_root.bomb_owner
+	if(!killer.is_dead): return
+	killer.misobon_player.revive(killed_player.synced_position)
+	
+
 func _on_body_entered(body: Node2D) -> void:
 	if is_multiplayer_authority() && body.has_method("exploded"):
 		body.exploded.rpc(str(get_parent().get_parent().bomb_owner.name).to_int())	
+	if body is Player:
+		report_kill(body)
 
 func _on_area_2d_entered(area: Area2D) -> void:
 	if is_multiplayer_authority() && area.has_method("exploded"):

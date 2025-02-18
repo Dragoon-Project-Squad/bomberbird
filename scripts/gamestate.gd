@@ -167,12 +167,19 @@ func begin_singleplayer_game():
 		var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position
 		#var spawnedplayer
 		var playerspawner = world.get_node("PlayerSpawner")
+		var misobonspawner = world.get_node("MisobonPlayerSpawner")
 		#var spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players, "characterdictionary": characters}
 		var spawningdata
+		var misobondata
 		if humans_loaded_in_game < human_player_count:
 			spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players}
+			misobondata = {"player_type": "human", "spawn_here": 0.0, "pid": p_id, "name": player_name}
 			# Spawn a human there
-			playerspawner.spawn(spawningdata)
+			var player: Player = playerspawner.spawn(spawningdata)
+			player.misobon_player = misobonspawner.spawn(misobondata)
+			player.misobon_player.player = player #... i wrote this and... wtf
+			player.misobon_player.disable()
+
 			#spawnedplayer = player_scene.instantiate()
 			humans_loaded_in_game += 1
 		else:

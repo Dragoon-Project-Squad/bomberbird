@@ -14,6 +14,7 @@ const MISOBON_RESPAWN_TIME: float = 0.5
 var current_anim: String = ""
 var is_dead: bool = false
 var player_type: String
+var misobon_player: MisobonPlayer
 
 var bomb_pool: ObjectPool
 var last_bomb_time: float = BOMB_RATE
@@ -56,18 +57,16 @@ func update_animation(direction: Vector2):
 		$AnimationPlayer.play(current_anim)
 
 func enter_misobon():
+	#TODO make something smart to access choosen options globably rather than wtf this is
 	if(!has_node("/root/MainMenu") && get_node("/root/Lobby").curr_misobon_state == 0):
 			#in singlayer always just have it on SUPER for now (until we have options in sp) and in multiplayer spawn misobon iff its not off
 		return
 
 	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
+
 	if is_multiplayer_authority():
-		get_node("../../MisobonPlayerSpawner").spawn({
-		"player_type": player_type,
-		"spawn_here": get_node("../../MisobonPath").get_progress_from_vector(synced_position),
-		"pid": str(name).to_int(),
-		"name": get_player_name()
-		}).play_spawn_animation()
+		misobon_player.progress = misobon_player.get_parent().get_progress_from_vector(position) 
+		misobon_player.enable()
 
 func enter_death_state():
 	$AnimationPlayer.play("death")
@@ -129,10 +128,10 @@ func exploded(by_who):
 		$"../../GameUI".increase_score(by_who) # Award a point to the person who blew you up
 		#TODO notify other player of kill
 	if lives <= 0:
-		is_dead = true
 		#TODO: Knockout Player
 		enter_death_state()
 		enter_misobon()
+		is_dead = true
 	else:
 		$AnimationPlayer.play("stunned")
 
