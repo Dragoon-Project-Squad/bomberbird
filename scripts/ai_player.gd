@@ -44,7 +44,7 @@ func _physics_process(delta):
 		velocity = movement_vector.normalized() * movement_speed
 		move_and_slide()	
 	# Also update the animation based on the last known player input state
-	if !is_dead:
+	if !is_dead && !stunned:
 		if(name == "2"):
 			"""
 			print("Global:"+str(global_position))

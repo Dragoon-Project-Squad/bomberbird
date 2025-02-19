@@ -20,7 +20,7 @@ func _spawn_misobon_player(data) -> MisobonPlayer:
 	else:
 		push_error("data contained an unknown player type")
 		return null
-	misobon_player.synced_progress = data.spawn_here
+	misobon_player.progress = data.spawn_here
 	misobon_player.name = str(data.pid)
 	misobon_player.set_player_name(data.name)
 

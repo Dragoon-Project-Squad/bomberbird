@@ -69,15 +69,20 @@ func enter_misobon():
 		misobon_player.enable()
 
 func enter_death_state():
+	is_dead = true
 	$AnimationPlayer.play("death")
 	$Hitbox.set_deferred("disabled", 1)
 	await $AnimationPlayer.animation_finished
 	process_mode = PROCESS_MODE_DISABLED
 	
 func exit_death_state():
-	self.visible = true #Visible
+	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
+	$AnimationPlayer.play("revive")
 	$Hitbox.set_deferred("disabled", 0)
-	process_mode = PROCESS_MODE_INHERIT
+	lives += 1
+	stunned = false
+	is_dead = false
+	misobon_player.disable()
 
 func stun():
 	stunned = true
@@ -131,7 +136,6 @@ func exploded(by_who):
 		#TODO: Knockout Player
 		enter_death_state()
 		enter_misobon()
-		is_dead = true
 	else:
 		$AnimationPlayer.play("stunned")
 

@@ -13,7 +13,7 @@ func _process(delta: float) -> void:
 
 	last_bomb_time += delta
 
-	if last_bomb_time >= BOMB_RATE && $BombSprite.visible:
+	if last_bomb_time >= BOMB_RATE && !$BombSprite.visible:
 		$BombSprite.show()
 
 	if ai_throw_bomb && last_bomb_time >= BOMB_RATE:

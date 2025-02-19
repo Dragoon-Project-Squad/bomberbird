@@ -2,7 +2,7 @@ class_name MisobonPlayer extends PathFollow2D
 
 const THROW_RANGE: int = 3
 const MOVEMENT_SPEED: float = 200.0
-const BOMB_RATE: float = 0.5
+const BOMB_RATE: float = 2
 const MAX_BOMB_OWNABLE: int = 99
 const TILESIZE: int = 32
 
@@ -58,6 +58,7 @@ func revive(pos: Vector2):
 	#TODO check if game is on SUPER
 	player.synced_position = pos
 	player.position = pos
+	player.process_mode = PROCESS_MODE_INHERIT
 	player.exit_death_state()
 
 func update_animation(segment_index: int):

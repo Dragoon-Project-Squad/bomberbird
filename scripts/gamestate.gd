@@ -171,21 +171,24 @@ func begin_singleplayer_game():
 		#var spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players, "characterdictionary": characters}
 		var spawningdata
 		var misobondata
+		var player: Player 
 		if humans_loaded_in_game < human_player_count:
 			spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players}
 			misobondata = {"player_type": "human", "spawn_here": 0.0, "pid": p_id, "name": player_name}
 			# Spawn a human there
-			var player: Player = playerspawner.spawn(spawningdata)
-			player.misobon_player = misobonspawner.spawn(misobondata)
-			player.misobon_player.player = player #... i wrote this and... wtf
-			player.misobon_player.disable()
+			player = playerspawner.spawn(spawningdata)
 
 			#spawnedplayer = player_scene.instantiate()
 			humans_loaded_in_game += 1
 		else:
 			# Spawn a robot there
 			spawningdata = {"playertype": "ai", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players}
-			playerspawner.spawn(spawningdata)
+			misobondata = {"player_type": "ai", "spawn_here": 0.0, "pid": p_id, "name": player_name}
+			player = playerspawner.spawn(spawningdata)
+
+		player.misobon_player = misobonspawner.spawn(misobondata)
+		player.misobon_player.player = player #... i wrote this and... wtf
+		player.misobon_player.disable()
 
 func begin_game():
 	human_player_count = 1+players.size()

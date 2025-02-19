@@ -101,9 +101,7 @@ func report_kill(killed_player: Player):
 
 func _on_body_entered(body: Node2D) -> void:
 	if is_multiplayer_authority() && body.has_method("exploded"):
-		body.exploded.rpc(str(get_parent().get_parent().bomb_owner.name).to_int())	
-	if body is Player:
-		report_kill(body)
+		body.exploded.rpc(str(get_parent().bomb_root.bomb_owner.name).to_int())	
 
 func _on_area_2d_entered(area: Area2D) -> void:
 	if is_multiplayer_authority() && area.has_method("exploded"):
