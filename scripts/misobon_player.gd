@@ -6,7 +6,7 @@ const BOMB_RATE: float = 2
 const MAX_BOMB_OWNABLE: int = 99
 const TILESIZE: int = 32
 
-@export var is_alive: bool = false
+@export var synced_progress: float = 0
 
 var bomb_pool: ObjectPool
 var player: Player
@@ -15,19 +15,32 @@ var current_anim: String = ""
 
 func _ready() -> void:
 	bomb_pool = get_node("/root/World/BombPool")
+	set_player(str(self.name).to_int())
+	disable()
 
 func _process(_delta: float) -> void:
-	return	
+	if multiplayer.multiplayer_peer == null || is_multiplayer_authority():
+		# The server updates the position that will be notified to the clients.
+		synced_progress = progress;
+		# And increase the bomb cooldown spawning one if the client wants to.
+		
+	else:
+		#The client updates their progess to the last know one
+		progress = synced_progress
 
-func enable():
+func set_player(player_id: int):
+	self.player = get_node("../../Players/" + str(player_id))
+
+@rpc("call_local")
+func enable(starting_progress: float):
 	process_mode = PROCESS_MODE_INHERIT
+	progress = starting_progress
 	last_bomb_time = BOMB_RATE
 	show()
 	play_spawn_animation()
-	is_alive = false
 
+@rpc("call_local")
 func disable():
-	is_alive = true
 	$AnimationPlayer.stop()
 	hide()
 	current_anim = ""
@@ -54,16 +67,18 @@ func throw_bomb():
 		direction_array[seg_index]
 		)
 
+@rpc("call_local")
 func revive(pos: Vector2):
 	#TODO check if game is on SUPER
 	player.synced_position = pos
 	player.position = pos
 	player.process_mode = PROCESS_MODE_INHERIT
 	player.exit_death_state()
+	disable()
 
 func update_animation(segment_index: int):
 	var animations: Array[String] = ["look_down", "look_left", "look_up", "look_right"]
-	if animations[segment_index] != current_anim && !is_alive:
+	if animations[segment_index] != current_anim:
 		current_anim = animations[segment_index]
 		$AnimationPlayer.play(current_anim)
 

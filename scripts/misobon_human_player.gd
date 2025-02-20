@@ -1,7 +1,5 @@
 extends MisobonPlayer
 
-@export var synced_progress: float = 0;
-
 @onready var inputs = $Inputs
 
 func _ready() -> void:
@@ -11,23 +9,13 @@ func _ready() -> void:
 	super()
 
 func _process(delta: float) -> void:
-	if is_alive:
-		return
 	if multiplayer.multiplayer_peer == null or str(multiplayer.get_unique_id()) == str(name):
 		# The client which this player represent will update the controls state, and notify it to everyone.
 		inputs.update(
 			get_parent().get_segment_with_grace(synced_progress)
 			)
 
-	if multiplayer.multiplayer_peer == null || is_multiplayer_authority():
-		# The server updates the position that will be notified to the clients.
-		synced_progress = progress;
-		# And increase the bomb cooldown spawning one if the client wants to.
-		
-	else:
-		#The client updates their progess to the last know one
-		progress = synced_progress
-
+	super(delta)
 	last_bomb_time += delta
 
 	if last_bomb_time >= BOMB_RATE && !$BombSprite.visible:

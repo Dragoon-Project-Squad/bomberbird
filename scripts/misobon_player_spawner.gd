@@ -9,7 +9,7 @@ func _init():
 #data is an dict of size 4, with the following types: {player_type: String, spawn_here: float, pid: int, name: string]
 func _spawn_misobon_player(data) -> MisobonPlayer:
 	if data.size() != 4 || typeof(data.player_type) != TYPE_STRING || typeof(data.spawn_here) != TYPE_FLOAT || typeof(data.pid) != TYPE_INT || typeof(data.name) != TYPE_STRING:
-		push_error("Data for _spawn_misobon_player(data) is of the wrong format")
+		push_error("Data for _spawn_misobon_player(data) is of the wrong format: ", data)
 		return null
 
 	var misobon_player: MisobonPlayer

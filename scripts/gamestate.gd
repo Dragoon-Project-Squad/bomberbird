@@ -169,26 +169,22 @@ func begin_singleplayer_game():
 		var playerspawner = world.get_node("PlayerSpawner")
 		var misobonspawner = world.get_node("MisobonPlayerSpawner")
 		#var spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players, "characterdictionary": characters}
-		var spawningdata
-		var misobondata
+		var spawningdata = {"spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players}
+		var misobondata = {"spawn_here": 0.0, "pid": p_id}
 		var player: Player 
 		if humans_loaded_in_game < human_player_count:
-			spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players}
-			misobondata = {"player_type": "human", "spawn_here": 0.0, "pid": p_id, "name": player_name}
-			# Spawn a human there
-			player = playerspawner.spawn(spawningdata)
-
+			spawningdata.playertype = "human"
+			misobondata.player_type = "human"
 			#spawnedplayer = player_scene.instantiate()
 			humans_loaded_in_game += 1
 		else:
-			# Spawn a robot there
-			spawningdata = {"playertype": "ai", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players}
-			misobondata = {"player_type": "ai", "spawn_here": 0.0, "pid": p_id, "name": player_name}
-			player = playerspawner.spawn(spawningdata)
+			spawningdata.playertype = "ai"
+			misobondata.player_type = "ai"
 
-		player.misobon_player = misobonspawner.spawn(misobondata)
-		player.misobon_player.player = player #... i wrote this and... wtf
-		player.misobon_player.disable()
+		player = playerspawner.spawn(spawningdata)
+		misobondata.name = player.get_player_name()
+
+		misobonspawner.spawn(misobondata)
 
 func begin_game():
 	human_player_count = 1+players.size()
@@ -213,22 +209,25 @@ func begin_game():
 		var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position
 		#var spawnedplayer
 		var playerspawner = world.get_node("PlayerSpawner")
-		#var spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players, "characterdictionary": characters}
-		var spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players}
+		var misobonspawner = world.get_node("MisobonPlayerSpawner")
+		#var player data
+		var spawningdata = {"spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players}
+		var misobondata = {"spawn_here": 0.0, "pid": p_id}
+		var player: Player 
 		if humans_loaded_in_game < human_player_count:
-			# Spawn a human there
-			playerspawner.spawn(spawningdata)
-			#spawnedplayer = player_scene.instantiate()
+			spawningdata.playertype = "human"
+			misobondata.player_type = "human"
+
 			humans_loaded_in_game += 1
 		else:
-			# Spawn a robot there
-			playerspawner.spawn(spawningdata)
-			#spawnedplayer = ai_player_scene.instantiate()
-		#spawnedplayer.synced_position = spawn_pos
-		#spawnedplayer.name = str(p_id)
-		#spawnedplayer.set_player_name(player_name if p_id == multiplayer.get_unique_id() else players[p_id])
-		#world.get_node("Players").add_child(spawnedplayer)
-		
+			spawningdata.playertype = "ai"
+			misobondata.player_type = "ai"
+
+		player = playerspawner.spawn(spawningdata)
+		misobondata.name = player.get_player_name()
+
+		misobonspawner.spawn(misobondata)
+
 func add_ai_players():
 	var ai_player_count = total_player_count - human_player_count
 	if ai_player_count <= 0: # No robots allowed
@@ -264,6 +263,7 @@ func is_id_free(chosen_ai_id) -> bool:
 		if p == chosen_ai_id:
 			return false
 	return true
+
 func is_name_free(playername: String) -> bool:
 	var times_name_used := 0
 	for p in players:

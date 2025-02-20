@@ -88,7 +88,7 @@ func check_space():
 		if collision.is_in_group("thrown_bomb_bounces"):
 			place = false
 		if collision is Player:
-			collision.stun()
+			collision.do_stun()
 
 	for collision in get_overlapping_areas():
 		if collision.is_in_group("thrown_bomb_bounces"):
@@ -104,7 +104,7 @@ func check_space():
 func to_stationary_bomb():
 	if !is_multiplayer_authority():
 		return
-	bomb_root.do_place.rpc(target)
+	bomb_root.do_place.rpc(target, 0, true)
 
 func check_bounds() -> bool:
 	var in_arena_x: bool = arena_bounds[0].x < bomb_root.position.x && bomb_root.position.x < arena_bounds[1].x

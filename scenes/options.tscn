@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://drj31ll2cuftl"]
 
-[ext_resource type="Script" path="res://scenes/options.gd" id="1_a2sg5"]
+[ext_resource type="Script" path="res://scripts/options.gd" id="1_a2sg5"]
 [ext_resource type="Texture2D" uid="uid://bsu1o1vymo51p" path="res://assets/aesprite/Domber doki cenario1.png" id="2_ytm4a"]
 [ext_resource type="Script" path="res://scripts/ui/remap_button.gd" id="4_d6577"]
 

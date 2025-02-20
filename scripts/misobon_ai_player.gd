@@ -6,9 +6,8 @@ func _ready() -> void:
 	super()
 
 func _process(delta: float) -> void:
-	if is_alive:
-		return
 
+	super(delta)
 	#TODO AI
 
 	last_bomb_time += delta
