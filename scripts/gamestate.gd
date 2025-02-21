@@ -43,8 +43,8 @@ var ai_player_scene = preload("res://scenes/ai_player.tscn")
 var current_level: int = 205 # Defaults to a high number for battle mode.
 
 # Battle Mode vars
-enum misobon_states {OFF=0, ON=1, SUPER=2}
-var misobon_mode = misobon_states.OFF
+enum misobon_states {OFF, ON, SUPER}
+var misobon_mode = misobon_states.SUPER #For debugging let state be default to super even in Singleplayer
 
 # Callback from SceneTree.
 func _player_connected(id):
