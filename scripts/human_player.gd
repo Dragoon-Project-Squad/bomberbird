@@ -26,21 +26,14 @@ func _physics_process(delta: float):
 		position = synced_position
 
 	if not stunned and inputs.bombing and bomb_count > 0 and !pressed_once:
-		var bombPos = tile_map.map_to_local(tile_map.local_to_map(synced_position))
 		pressed_once = true
-		bomb_count -= 1
-		last_bomb_time = 0
-		if is_multiplayer_authority():
-			var bomb = bomb_pool.request(self)
-			bomb.do_place.rpc(bombPos, explosion_boost_count)
+		place_bomb()
 	elif !inputs.bombing and pressed_once:
 		pressed_once = false
 
-	if not stunned:
+	if !is_dead && !stunned:
 		# Everybody runs physics. I.e. clients tries to predict where they will be during the next frame.
 		velocity = inputs.motion.normalized() * movement_speed
 		move_and_slide()
-
-	# Also update the animation based on the last known player input state
-	if !is_dead && !stunned:
+		# Also update the animation based on the last known player input state
 		update_animation(inputs.motion)

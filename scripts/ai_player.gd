@@ -35,23 +35,21 @@ func _physics_process(delta):
 		# And increase the bomb cooldown spawning one if the client wants to.
 		last_bomb_time += delta
 		if not stunned and is_multiplayer_authority() and is_bombing and last_bomb_time >= BOMB_RATE:
-			last_bomb_time = 0.0
-			get_node("../../BombSpawner").spawn([position, str(name).to_int()])
+			place_bomb()
 	else:
 		# The client simply updates the position to the last known one.
 		position = synced_position
-	if not stunned:
+	# Also update the animation based on the last known player input state
+	if !is_dead && !stunned:
 		velocity = movement_vector.normalized() * movement_speed
 		move_and_slide()	
-	# Also update the animation based on the last known player input state
-	if !is_dead:
+		update_animation(movement_vector.normalized())
 		if(name == "2"):
 			"""
 			print("Global:"+str(global_position))
 			print("Next:"+str(next_point))
 			print(movement_vector.normalized())
 			"""
-		update_animation(movement_vector.normalized())
 
 func set_random_target():
 	var size

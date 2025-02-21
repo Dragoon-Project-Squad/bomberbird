@@ -5,15 +5,24 @@ const BOMB_RATE: float = 0.5
 const MAX_BOMBS_OWNABLE: int = 8
 const MAX_EXPLOSION_BOOSTS_PERMITTED: int = 6
 const MISOBON_RESPAWN_TIME: float = 0.5
+const INVULNERABILITY_TIME: float = 2
+const INVULNERABILITY_FLASH_TIME: float = 0.125
 
 @export var synced_position := Vector2()
 @export var stunned: bool = false
+@export var invulnerable: bool = false
 
 @onready var hurt_sfx_player := $HurtSoundPlayer
 
 var current_anim: String = ""
 var is_dead: bool = false
 var player_type: String
+var misobon_player: MisobonPlayer
+
+var game_ui: CanvasLayer
+
+var invulnerable_animation_time: float
+var invulnerable_total_time: float = 2
 
 var bomb_pool: ObjectPool
 var last_bomb_time: float = BOMB_RATE
@@ -34,9 +43,32 @@ func _ready():
 	bomb_total = bomb_count
 	tile_map = get_parent().get_parent().get_node("Floor")
 	bomb_pool = get_node("/root/World/BombPool")
+	game_ui = get_node("/root/World/GameUI")
 
+func _process(delta: float):
+	if !invulnerable:
+		show()
+		set_process(false)
+		return
+	invulnerable_total_time += delta
+	invulnerable_animation_time += delta
+	if invulnerable_total_time >= INVULNERABILITY_TIME:
+		show()
+		invulnerable = false
+	elif invulnerable_animation_time >= INVULNERABILITY_FLASH_TIME:
+		self.visible = !self.visible
+		invulnerable_animation_time = 0
+	
 func _physics_process(_delta: float):
 	pass
+
+func place_bomb():
+	var bombPos = tile_map.map_to_local(tile_map.local_to_map(synced_position))
+	bomb_count -= 1
+	last_bomb_time = 0
+	if is_multiplayer_authority():
+		var bomb = bomb_pool.request(self)
+		bomb.do_place.rpc(bombPos, explosion_boost_count)
 
 func update_animation(direction: Vector2):
 	var new_anim: String = "standing"
@@ -56,33 +88,49 @@ func update_animation(direction: Vector2):
 		$AnimationPlayer.play(current_anim)
 
 func enter_misobon():
+	if misobon_player == null:
+		set_misobon(self.name)
+	#TODO make something smart to access choosen options globably rather than wtf this is
 	if(!has_node("/root/MainMenu") && get_node("/root/Lobby").curr_misobon_state == 0):
 			#in singlayer always just have it on SUPER for now (until we have options in sp) and in multiplayer spawn misobon iff its not off
 		return
 
 	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
+
 	if is_multiplayer_authority():
-		get_node("../../MisobonPlayerSpawner").spawn({
-		"player_type": player_type,
-		"spawn_here": get_node("../../MisobonPath").get_progress_from_vector(synced_position),
-		"pid": str(name).to_int(),
-		"name": get_player_name()
-		}).play_spawn_animation()
+		misobon_player.enable.rpc(
+			misobon_player.get_parent().get_progress_from_vector(position) 
+			)
 
 func enter_death_state():
+	is_dead = true
 	$AnimationPlayer.play("death")
 	$Hitbox.set_deferred("disabled", 1)
+	hide()
 	await $AnimationPlayer.animation_finished
 	process_mode = PROCESS_MODE_DISABLED
 	
 func exit_death_state():
-	self.visible = true #Visible
+	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
+	$AnimationPlayer.play("revive")
+	await $AnimationPlayer.animation_finished
 	$Hitbox.set_deferred("disabled", 0)
-	process_mode = PROCESS_MODE_INHERIT
+	game_ui.player_revived()
+	lives += 1
+	stunned = false
+	is_dead = false
+	do_invulnerabilty()
 
-func stun():
-	stunned = true
-	$AnimationPlayer.play("stunned") #Note this animation sets stunned to false automatically
+func do_invulnerabilty():
+	invulnerable_total_time = 0
+	invulnerable = true
+	set_process(true)
+	
+func do_stun():
+	$AnimationPlayer.play("stunned") #Note this animation sets stunned automatically
+
+func set_misobon(player_name: String):
+	misobon_player = get_node("../../MisobonPath/" + player_name)
 
 func set_player_name(value):
 	$label.set_text(value)
@@ -118,23 +166,20 @@ func enable_punch():
 
 @rpc("call_local")
 func exploded(by_who):
-	if stunned:
+	if stunned || invulnerable:
 		return
-	stunned = true
 	lives -= 1
 	hurt_sfx_player.play()
 	if by_who != gamestate.ENVIRONMENTAL_KILL_PLAYER_ID && str(by_who) == name: 
-		$"../../GameUI".decrease_score(by_who) # Take away a point for blowing yourself up
+		game_ui.decrease_score(by_who) # Take away a point for blowing yourself up
 	elif by_who != gamestate.ENVIRONMENTAL_KILL_PLAYER_ID:
-		$"../../GameUI".increase_score(by_who) # Award a point to the person who blew you up
-		#TODO notify other player of kill
+		game_ui.increase_score(by_who) # Award a point to the person who blew you up
 	if lives <= 0:
-		is_dead = true
-		#TODO: Knockout Player
+		game_ui.player_died()
 		enter_death_state()
 		enter_misobon()
 	else:
-		$AnimationPlayer.play("stunned")
+		do_stun()
 
 func set_selected_character(value: Texture2D):
 	$sprite.texture = value
