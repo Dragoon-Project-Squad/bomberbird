@@ -75,13 +75,7 @@ func _on_misobon_pressed():
 	var button = get_node("Options/MisobonState")
 	var button_label = ["off", "on", "super"]
 	curr_misobon_state = (curr_misobon_state + 1) % 3 as gamestate.misobon_states
-	match curr_misobon_state:
-		0: 
-			gamestate.misobon_mode = gamestate.misobon_states.OFF
-		1: 
-			gamestate.misobon_mode = gamestate.misobon_states.ON
-		2: 
-			gamestate.misobon_mode = gamestate.misobon_states.SUPER
+	gamestate.misobon_mode = curr_misobon_state
 	button.set_text(button_label[curr_misobon_state])
 
 func _on_connection_success():

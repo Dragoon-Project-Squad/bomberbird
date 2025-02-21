@@ -95,8 +95,6 @@ func do_detonate():
 
 func report_kill(killed_player: Player):
 	var killer: Player = get_parent().bomb_root.bomb_owner
-	if(!killer.is_dead) && !has_node("/root/MainMenu") && get_node("/root/Lobby").curr_misobon_state == 0:
-		return
 	killer.misobon_player.revive.rpc(killed_player.synced_position)
 	
 

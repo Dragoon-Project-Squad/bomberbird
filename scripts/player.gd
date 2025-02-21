@@ -90,9 +90,8 @@ func update_animation(direction: Vector2):
 func enter_misobon():
 	if misobon_player == null:
 		set_misobon(self.name)
-	#TODO make something smart to access choosen options globably rather than wtf this is
-	if(!has_node("/root/MainMenu") && get_node("/root/Lobby").curr_misobon_state == 0):
-			#in singlayer always just have it on SUPER for now (until we have options in sp) and in multiplayer spawn misobon iff its not off
+		
+	if gamestate.misobon_mode == gamestate.misobon_states.OFF:
 		return
 
 	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
@@ -106,6 +105,7 @@ func enter_death_state():
 	is_dead = true
 	$AnimationPlayer.play("death")
 	$Hitbox.set_deferred("disabled", 1)
+	game_ui.player_died()
 	hide()
 	await $AnimationPlayer.animation_finished
 	process_mode = PROCESS_MODE_DISABLED
@@ -175,7 +175,6 @@ func exploded(by_who):
 	elif by_who != gamestate.ENVIRONMENTAL_KILL_PLAYER_ID:
 		game_ui.increase_score(by_who) # Award a point to the person who blew you up
 	if lives <= 0:
-		game_ui.player_died()
 		enter_death_state()
 		enter_misobon()
 	else:
