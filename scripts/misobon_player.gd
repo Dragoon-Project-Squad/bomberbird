@@ -69,7 +69,8 @@ func throw_bomb():
 
 @rpc("call_local")
 func revive(pos: Vector2):
-	#TODO check if game is on SUPER
+	if gamestate.misobon_mode != gamestate.misobon_states.SUPER:
+		pass
 	player.synced_position = pos
 	player.position = pos
 	player.process_mode = PROCESS_MODE_INHERIT

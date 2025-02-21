@@ -42,6 +42,10 @@ var ai_player_scene = preload("res://scenes/ai_player.tscn")
 # Singleplayer Vars
 var current_level: int = 205 # Defaults to a high number for battle mode.
 
+# Battle Mode vars
+enum misobon_states {OFF=0, ON=1, SUPER=2}
+var misobon_mode = misobon_states.OFF
+
 # Callback from SceneTree.
 func _player_connected(id):
 	# Registration of a client beings here, tell the connected player that we are here.
