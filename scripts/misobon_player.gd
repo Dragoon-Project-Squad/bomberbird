@@ -72,7 +72,7 @@ func throw_bomb():
 
 @rpc("call_local")
 func revive(pos: Vector2):
-	if gamestate.misobon_mode != gamestate.misobon_states.SUPER:
+	if gamestate.misobon_mode != gamestate.misobon_states.SUPER || !player.is_dead:
 		return
 	play_despawn_animation()
 	player.synced_position = pos
