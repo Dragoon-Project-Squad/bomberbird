@@ -1,7 +1,8 @@
-[gd_scene load_steps=17 format=4 uid="uid://bs7slglsckv0i"]
+[gd_scene load_steps=18 format=4 uid="uid://bs7slglsckv0i"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_b42q6"]
 [ext_resource type="Script" path="res://scripts/game_ui.gd" id="3_dadsx"]
+[ext_resource type="Script" path="res://scenes/players_manager.gd" id="3_jta2f"]
 [ext_resource type="PackedScene" uid="uid://c4i5gyl4cut3t" path="res://scenes/bombs/bomb_pool.tscn" id="3_mcaqn"]
 [ext_resource type="Script" path="res://scripts/misobon_path.gd" id="3_uhlbr"]
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/deserttileset.tres" id="3_vcixd"]
@@ -66,6 +67,7 @@ position = Vector2(432, 432)
 [node name="Unbreakables" type="Node2D" parent="."]
 
 [node name="Players" type="Node2D" parent="."]
+script = ExtResource("3_jta2f")
 
 [node name="MisobonPath" type="Path2D" parent="."]
 curve = SubResource("Curve2D_pquxm")
@@ -74,7 +76,6 @@ script = ExtResource("3_uhlbr")
 [node name="BombPool" parent="." instance=ExtResource("3_mcaqn")]
 
 [node name="GameUI" type="CanvasLayer" parent="."]
-visible = false
 script = ExtResource("3_dadsx")
 
 [node name="Border" type="ColorRect" parent="GameUI"]
@@ -268,7 +269,7 @@ volume_db = -4.685
 [node name="Timers" type="Node" parent="."]
 
 [node name="RestrictionStartTimer" type="Timer" parent="Timers"]
-wait_time = 60.0
+wait_time = 10.0
 one_shot = true
 autostart = true
 script = ExtResource("11_bq37i")
@@ -284,3 +285,4 @@ autostart = true
 
 [connection signal="pressed" from="Winner/ExitGame" to="GameUI" method="_on_exit_game_pressed"]
 [connection signal="pressed" from="Winner/ExitGame" to="GameUI/Border/Container/Players" method="_on_exit_game_pressed"]
+[connection signal="timeout" from="Timers/RestrictionStartTimer" to="Players" method="_on_restriction_start_timer_timeout"]

@@ -19,6 +19,7 @@ var current_anim: String = ""
 var is_dead: bool = false
 var player_type: String
 var misobon_player: MisobonPlayer
+var hurry_up_started: bool = false 
 
 var game_ui: CanvasLayer
 
@@ -89,13 +90,16 @@ func update_animation(direction: Vector2):
 		$AnimationPlayer.play("player_animations/" + current_anim)
 
 func enter_misobon():
+	if gamestate.misobon_mode == gamestate.misobon_states.OFF || hurry_up_started:
+		return
+	
 	if misobon_player == null:
 		set_misobon(self.name)
-		
-	if gamestate.misobon_mode == gamestate.misobon_states.OFF:
-		return
 
 	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
+	#Check if nothing changed in the meantime
+	if gamestate.misobon_mode == gamestate.misobon_states.OFF || hurry_up_started:
+		return
 
 	if is_multiplayer_authority():
 		misobon_player.enable.rpc(

@@ -20,8 +20,6 @@ func _ready() -> void:
 	disable()
 
 func _process(_delta: float) -> void:
-	if !controlable:
-		return
 	if multiplayer.multiplayer_peer == null || is_multiplayer_authority():
 		# The server updates the position that will be notified to the clients.
 		synced_progress = progress;
@@ -43,7 +41,8 @@ func enable(starting_progress: float):
 	
 
 @rpc("call_local")
-func disable():
+func disable(do_wait: bool = false):
+	if do_wait: await $AnimationPlayer.animation_finished
 	controlable = false
 	hide()
 	current_anim = ""
@@ -102,11 +101,11 @@ func play_spawn_animation():
 
 @rpc("call_local")
 func play_despawn_animation():
+	controlable = false
 	var seg_index: int = get_parent().get_segment_id(progress)
 	var animations = ["despawn_top", "despawn_right", "despawn_bottom", "despawn_left"]
 	current_anim = animations[seg_index]
 	$AnimationPlayer.play("misobon_player_animation/" + current_anim)
-	controlable = false
 
 func set_player_name(new_name: String):
 	$label.set_text(new_name)
