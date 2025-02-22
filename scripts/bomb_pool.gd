@@ -1,24 +1,19 @@
-extends ObjectPool
+class_name BombPool extends ObjectPool
+
+@export var initial_spawn_count: int #set in the inspector or in the child that inherits ObjectPool
+
+
 
 func _ready():
 	obj_spawner = get_node("BombSpawner")
+	create_reserve(initial_spawn_count)
 	super()
 
-func create_reserve(count: int):
-	spawn_data = []
-	super(count)
+func create_reserve(count: int, spawn_data = []):
+	super(count, spawn_data)
 
-func request(caller: Node2D) -> Node2D:
-	spawn_data = []
-	var bomb: Node2D = super(caller)
-	if bomb.bomb_owner == null:
-		bomb.set_bomb_owner.rpc(str(caller))
-	return bomb
+func request(spawn_data: Array = []) -> BombRoot:
+	return super(spawn_data)
 
-func request_array(caller: Node2D, count: int) -> Array[Node2D]:
-	spawn_data = []
-	var bomb_arr: Array[Node2D] = super(caller, count)
-	for bomb in bomb_arr:
-		if bomb.bomb_owner == null:
-			bomb.set_bomb_owner.rpc(str(caller))
-	return bomb_arr
+func request_group(count: int, spawn_data: Array = []) -> Array[BombRoot]:
+	return super(spawn_data, count)

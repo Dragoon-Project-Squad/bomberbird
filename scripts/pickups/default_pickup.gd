@@ -1,32 +1,76 @@
 class_name Pickup extends Area2D
-@onready var pickup_sfx : AudioStreamWAV = load("res://sound/fx/powerup.wav")
+@onready var pickup_sfx: AudioStreamWAV = load("res://sound/fx/powerup.wav")
 @onready var pickup_sfx_player = $PickupSoundPlayer
 @onready var animated_sprite = $AnimatedSprite2D
-@onready var collisionbox : CollisionShape2D = $CollisionShape2D
-var pickup_owner : Node2D = null
+@onready var collisionbox: CollisionShape2D = $CollisionShape2D
+@onready var pickup_pool: PickupPool = get_node("/root/World/PickupPool") 
+
+var pickup_type: String = "":
+	set(type): #i don't like setters but it only enforces something here so its okey
+		if pickup_type != "":
+			push_error("private member pickup_type should only be overwritten once")
+		pickup_type = type
 
 func _ready():
 	pass
-	#pickup_sfx_player.set_stream(pickup_sfx)
 
 @rpc("call_local")
-func hide_and_disable():
-	collisionbox.visible = false
-	collisionbox.queue_free()
-	animated_sprite.visible = false
-	animated_sprite.queue_free()
+func disable_collison_and_hide():
+	hide()
+	collisionbox.set_deferred("disabled", 1)
 
-func _on_body_entered(_body: Node2D) -> void:
-	pass
+@rpc("call_local")
+func enable_collison():
+	collisionbox.set_deferred("disabled", 0)
+
+@rpc("call_local")
+func disable():
+	hide()
+	self.position = Vector2.ZERO
+	process_mode = PROCESS_MODE_DISABLED
+
+func enable():
+	process_mode = PROCESS_MODE_INHERIT
+	enable_collison()
+	show()
+
+@rpc("call_local")
+func place(pos: Vector2):
+	self.position = pos
+	enable()
+
+func apply_power_up(pickup_owner: Player):
+	pass #default pickup has no effect
+
+func _on_body_entered(body: Node2D) -> void:
+	if !is_multiplayer_authority():
+		# Activate only on authority.
+		return
+	if !body.is_in_group("player") && !body.is_in_group("ai_player"): return
+	#Prevent anyone else from colliding with this pickup
+	pickup_sfx_player.play()
+	disable_collison_and_hide.rpc()
+	
+	var pickup_owner: Player = body as Player
+	apply_power_up(pickup_owner)
+	
+	# Ensure powerup has time to play before pickup is destroyed
+	await pickup_sfx_player.finished
+	pickup_pool.return_obj.rpc(self) #Pickup returns itself to the pool
+	disable_collison_and_hide.rpc()
+	disable.rpc()
 
 @rpc("call_local")
 func exploded(_from_player):
-	collisionbox.queue_free()
+	pickup_pool.return_obj(self) #Pickup returns itself to the pool
+	disable_collison_and_hide()
 	if $anim:
 		$anim.play("explode_pickup")
 		await $anim.animation_finished
-	queue_free()
+	disable()
 
 @rpc("call_local")
 func crush():
-	queue_free()
+	disable_collison_and_hide()
+	pickup_pool.return_obj(self) #Pickup returns itself to the pool
+	disable()
