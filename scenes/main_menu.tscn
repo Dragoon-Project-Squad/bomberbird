@@ -54,7 +54,7 @@ offset_bottom = -159.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="SinglePlayer" type="Button" parent="ButtonBox"]
+[node name="Singleplayer" type="Button" parent="ButtonBox"]
 layout_mode = 2
 focus_neighbor_top = NodePath("../Options")
 focus_neighbor_bottom = NodePath("../Multiplayer")
@@ -64,7 +64,7 @@ text = "Single Player"
 
 [node name="Multiplayer" type="Button" parent="ButtonBox"]
 layout_mode = 2
-focus_neighbor_top = NodePath("../SinglePlayer")
+focus_neighbor_top = NodePath("../Singleplayer")
 focus_neighbor_bottom = NodePath("../Options")
 theme = ExtResource("6_hrcjh")
 text = "Multiplayer"
@@ -73,7 +73,7 @@ text = "Multiplayer"
 texture_filter = 1
 layout_mode = 2
 focus_neighbor_top = NodePath("../Multiplayer")
-focus_neighbor_bottom = NodePath("../SinglePlayer")
+focus_neighbor_bottom = NodePath("../Singleplayer")
 theme = ExtResource("6_hrcjh")
 theme_override_styles/hover = ExtResource("7_2iy8e")
 theme_override_styles/normal = ExtResource("7_nrhvf")
@@ -175,8 +175,8 @@ text = "ed"
 script = ExtResource("4_8riyt")
 action = "move_right"
 
-[connection signal="pressed" from="ButtonBox/SinglePlayer" to="." method="_on_single_player_pressed"]
+[connection signal="pressed" from="ButtonBox/Singleplayer" to="." method="_on_single_player_pressed"]
 [connection signal="pressed" from="ButtonBox/Multiplayer" to="." method="_on_multiplayer_pressed"]
 [connection signal="pressed" from="ButtonBox/Options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="OptionsMenu/OptionsMenu3/Exit" to="." method="_on_exit_pressed"]
 [connection signal="pressed" from="OptionsMenu/OptionsMenu3/Exit" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="OptionsMenu/OptionsMenu3/Exit" to="." method="_on_exit_pressed"]
