@@ -114,8 +114,8 @@ func enter_death_state():
 	$AnimationPlayer.play("player_animations/death")
 	$Hitbox.set_deferred("disabled", 1)
 	game_ui.player_died()
-	hide()
 	await $AnimationPlayer.animation_finished
+	hide()
 	process_mode = PROCESS_MODE_DISABLED
 	
 func exit_death_state():
