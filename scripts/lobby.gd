@@ -1,7 +1,6 @@
 extends Control
 
-enum misobon_states {OFF, ON, SUPER}
-@export var curr_misobon_state = misobon_states.SUPER
+@export var curr_misobon_state = gamestate.misobon_states.SUPER
 
 var timeout_timer = null
 
@@ -75,7 +74,8 @@ func _on_misobon_pressed():
 	#toggels through the 3 options for misobon and changing the text on the button to reflect the state
 	var button = get_node("Options/MisobonState")
 	var button_label = ["off", "on", "super"]
-	curr_misobon_state = (curr_misobon_state + 1) % 3 as misobon_states
+	curr_misobon_state = (curr_misobon_state + 1) % 3 as gamestate.misobon_states
+	gamestate.misobon_mode = curr_misobon_state
 	button.set_text(button_label[curr_misobon_state])
 
 func _on_connection_success():

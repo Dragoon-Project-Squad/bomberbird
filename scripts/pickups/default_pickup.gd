@@ -26,3 +26,7 @@ func exploded(_from_player):
 		$anim.play("explode_pickup")
 		await $anim.animation_finished
 	queue_free()
+
+@rpc("call_local")
+func crush():
+	queue_free()
