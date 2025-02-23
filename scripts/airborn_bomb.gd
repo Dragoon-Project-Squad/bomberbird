@@ -139,7 +139,7 @@ func check_bounds() -> bool:
 
 func wrap_around():
 	bomb_root.position -= Vector2(direction) * world_size.dot(direction.abs())
-	print("wrap_position: ", bomb_root.position)
+	#print("wrap_position: ", bomb_root.position)
 
 
 #throw calculates and starts a throw operations

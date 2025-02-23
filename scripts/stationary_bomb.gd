@@ -1,4 +1,5 @@
 extends StaticBody2D
+class_name Bomb
 
 @onready var bomb_root: Node2D = get_parent()
 @onready var bomb_pool: Node2D = get_parent().get_parent()

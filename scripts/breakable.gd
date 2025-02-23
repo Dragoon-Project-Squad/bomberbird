@@ -1,5 +1,10 @@
 extends CharacterBody2D
+class_name Breakable
+
 @onready var breakable_sfx_player := $BreakableSound
+
+var world : World
+
 const PICKUP_ENABLED := true
 const PICKUP_SPAWN_BASE_CHANCE := 1.0
 
@@ -39,4 +44,6 @@ func exploded(by_who):
 			get_node("/root/World/PickupSpawner").spawn({"spawnpoint": self.position, "pickuptype": type_of_pickup})
 	get_node("Shape").queue_free()
 	await $"AnimationPlayer".animation_finished #Wait for the animation to finish
+	world.astargrid_set_point(global_position, false)
 	queue_free()
+	

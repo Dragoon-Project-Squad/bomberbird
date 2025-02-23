@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://de6bmnxah5ten"]
+[gd_scene load_steps=28 format=3 uid="uid://c2q3ttulq4cmu"]
 
 [ext_resource type="Script" path="res://scripts/ai_player.gd" id="1_ql62k"]
 [ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_oae17"]
@@ -9,6 +9,12 @@
 [ext_resource type="AudioStream" uid="uid://c3dded4qppq4" path="res://sound/fx/playerhurt.wav" id="7_raw0p"]
 [ext_resource type="Script" path="res://scripts/ai_state/ai_state_machine.gd" id="8_5j1t4"]
 [ext_resource type="Script" path="res://scripts/ai_state/ai_wander.gd" id="9_67dp8"]
+[ext_resource type="Script" path="res://scripts/ai_state/ai_dodge.gd" id="10_aefyb"]
+[ext_resource type="Script" path="res://scripts/ai_state/ai_bomb.gd" id="11_njo8t"]
+[ext_resource type="Script" path="res://scripts/ai_state/ai_safe.gd" id="12_ulae3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_na3x7"]
+size = Vector2(128, 128)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_n0cfd"]
 radius = 15.9
@@ -426,6 +432,15 @@ texture = ExtResource("4_e087y")
 hframes = 9
 frame = 8
 
+[node name="ObjectDetection" type="Area2D" parent="."]
+light_mask = 7
+collision_layer = 32
+collision_mask = 130
+input_pickable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ObjectDetection"]
+shape = SubResource("RectangleShape2D_na3x7")
+
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_n0cfd")
 
@@ -465,3 +480,15 @@ initial_state = NodePath("Wander")
 
 [node name="Wander" type="Node" parent="StateMachine"]
 script = ExtResource("9_67dp8")
+
+[node name="Dodge" type="Node" parent="StateMachine"]
+script = ExtResource("10_aefyb")
+
+[node name="Bombing" type="Node" parent="StateMachine"]
+script = ExtResource("11_njo8t")
+
+[node name="Safe" type="Node" parent="StateMachine"]
+script = ExtResource("12_ulae3")
+
+[connection signal="area_entered" from="ObjectDetection" to="." method="_on_object_detection_area_entered"]
+[connection signal="area_exited" from="ObjectDetection" to="." method="_on_object_detection_area_exited"]
