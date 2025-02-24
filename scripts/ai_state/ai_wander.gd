@@ -25,7 +25,7 @@ func _set_target():
 
 func _detect_surroundings() -> void:
 	if is_bomb_near():
-		state_changed.emit(self, "Dodge")
+		state_changed.emit(self, "Wander")
 		return
 	if is_breakable_in_front():
 		state_changed.emit(self, "Bombing")
