@@ -4,7 +4,8 @@ const BASE_MOTION_SPEED: float = 100.0
 const BOMB_RATE: float = 0.5
 const MAX_BOMBS_OWNABLE: int = 8
 const MAX_EXPLOSION_BOOSTS_PERMITTED: int = 6
-const MISOBON_RESPAWN_TIME: float = 0.5
+#NOTE: MISOBON_RESPAWN_TIME is additive to the animation time for both spawning and despawning the misobon player
+const MISOBON_RESPAWN_TIME: float = 0.5 
 const INVULNERABILITY_TIME: float = 2
 const INVULNERABILITY_FLASH_TIME: float = 0.125
 
@@ -18,6 +19,7 @@ var current_anim: String = ""
 var is_dead: bool = false
 var player_type: String
 var misobon_player: MisobonPlayer
+var hurry_up_started: bool = false 
 
 var game_ui: CanvasLayer
 
@@ -85,25 +87,30 @@ func update_animation(direction: Vector2):
 		
 	if new_anim != current_anim:
 		current_anim = new_anim
-		$AnimationPlayer.play(current_anim)
+		$AnimationPlayer.play("player_animations/" + current_anim)
 
 func enter_misobon():
+	if gamestate.misobon_mode == gamestate.misobon_states.OFF || hurry_up_started:
+		return
+	
 	if misobon_player == null:
 		set_misobon(self.name)
-		
-	if gamestate.misobon_mode == gamestate.misobon_states.OFF:
-		return
 
 	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
+	#Check if nothing changed in the meantime
+	if gamestate.misobon_mode == gamestate.misobon_states.OFF || hurry_up_started:
+		return
 
 	if is_multiplayer_authority():
 		misobon_player.enable.rpc(
 			misobon_player.get_parent().get_progress_from_vector(position) 
 			)
+		misobon_player.play_spawn_animation.rpc()
+	
 
 func enter_death_state():
 	is_dead = true
-	$AnimationPlayer.play("death")
+	$AnimationPlayer.play("player_animations/death")
 	$Hitbox.set_deferred("disabled", 1)
 	game_ui.player_died()
 	hide()
@@ -112,7 +119,7 @@ func enter_death_state():
 	
 func exit_death_state():
 	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
-	$AnimationPlayer.play("revive")
+	$AnimationPlayer.play("player_animations/revive")
 	await $AnimationPlayer.animation_finished
 	$Hitbox.set_deferred("disabled", 0)
 	game_ui.player_revived()
@@ -127,7 +134,7 @@ func do_invulnerabilty():
 	set_process(true)
 	
 func do_stun():
-	$AnimationPlayer.play("stunned") #Note this animation sets stunned automatically
+	$AnimationPlayer.play("player_animations/stunned") #Note this animation sets stunned automatically
 
 func set_misobon(player_name: String):
 	misobon_player = get_node("../../MisobonPath/" + player_name)

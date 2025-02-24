@@ -10,14 +10,15 @@ func _ready() -> void:
 	set_process(true)
 	
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	time = %MatchTimer.get_time_left()
-	#Declare a winner
 	# Only begin counting score if all human players have been loaded
 	if players_left <= 1 && someone_dead:
-		await get_tree().create_timer(1.0).timeout
+		await get_tree().create_timer(2.0).timeout
+		#In SUPER mode this timer is needed as otherwise the game end prematurly. This is bad... 
+		#TODO make a better system that keeps track of alive players and accounts for timedelay in respawning
 		if players_left <= 1:
+			#Declare a winner
 			call_deferred("decide_game", players_left)
 			process_mode = PROCESS_MODE_DISABLED
 	%RemainingTime.set_text(time_to_string())

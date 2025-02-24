@@ -12,6 +12,7 @@ var bomb_pool: ObjectPool
 var player: Player
 var last_bomb_time: float = BOMB_RATE
 var current_anim: String = ""
+var controlable: bool = false
 
 func _ready() -> void:
 	bomb_pool = get_node("/root/World/BombPool")
@@ -35,13 +36,14 @@ func set_player(player_id: int):
 func enable(starting_progress: float):
 	process_mode = PROCESS_MODE_INHERIT
 	progress = starting_progress
+	synced_progress = progress
 	last_bomb_time = BOMB_RATE
-	show()
-	play_spawn_animation()
+	
 
 @rpc("call_local")
-func disable():
-	$AnimationPlayer.stop()
+func disable(do_wait: bool = false):
+	if do_wait: await $AnimationPlayer.animation_finished
+	controlable = false
 	hide()
 	current_anim = ""
 	process_mode = PROCESS_MODE_DISABLED
@@ -69,20 +71,23 @@ func throw_bomb():
 
 @rpc("call_local")
 func revive(pos: Vector2):
-	if gamestate.misobon_mode != gamestate.misobon_states.SUPER:
+	if gamestate.misobon_mode != gamestate.misobon_states.SUPER || !player.is_dead:
 		return
+	play_despawn_animation()
 	player.synced_position = pos
 	player.position = pos
+	await $AnimationPlayer.animation_finished
 	player.process_mode = PROCESS_MODE_INHERIT
 	player.exit_death_state()
 	disable()
 
 func update_animation(segment_index: int):
 	var animations: Array[String] = ["look_down", "look_left", "look_up", "look_right"]
-	if animations[segment_index] != current_anim:
+	if animations[segment_index] != current_anim && controlable:
 		current_anim = animations[segment_index]
-		$AnimationPlayer.play(current_anim)
+		$AnimationPlayer.play("misobon_player_animation/" + current_anim)
 
+@rpc("call_local")
 func play_spawn_animation():
 	var seg_index: int = get_parent().get_segment_id(progress)
 	assert(!seg_index == 0 && !seg_index == 2)
@@ -90,8 +95,17 @@ func play_spawn_animation():
 		current_anim = "spawn_right"
 	else:
 		current_anim = "spawn_left"
-	$AnimationPlayer.play(current_anim)
+	$AnimationPlayer.play("misobon_player_animation/" + current_anim)
 	await $AnimationPlayer.animation_finished
+	controlable = true
+
+@rpc("call_local")
+func play_despawn_animation():
+	controlable = false
+	var seg_index: int = get_parent().get_segment_id(progress)
+	var animations = ["despawn_top", "despawn_right", "despawn_bottom", "despawn_left"]
+	current_anim = animations[seg_index]
+	$AnimationPlayer.play("misobon_player_animation/" + current_anim)
 
 func set_player_name(new_name: String):
 	$label.set_text(new_name)
