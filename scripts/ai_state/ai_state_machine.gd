@@ -7,7 +7,6 @@ var states : Dictionary = {}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print("Machine ready")
 	for child in get_children():
 		if child is State:
 			states[child.name.to_lower()] = child
@@ -33,6 +32,9 @@ func _on_state_changed(state, new_state):
 	if(state != current_state):
 		return
 	
+	if get_parent().name == "2":
+		print("Changing state to "+new_state+" from "+state.name)
+	
 	var next_state = states.get(new_state.to_lower())
 	if !new_state:
 		return
@@ -41,3 +43,4 @@ func _on_state_changed(state, new_state):
 		current_state._exit()
 	
 	next_state._enter()
+	current_state = next_state
