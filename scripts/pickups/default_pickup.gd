@@ -39,7 +39,7 @@ func place(pos: Vector2):
 	self.position = pos
 	enable()
 
-func apply_power_up(pickup_owner: Player):
+func apply_power_up(_pickup_owner: Player):
 	pass #default pickup has no effect
 
 func _on_body_entered(body: Node2D) -> void:
@@ -52,11 +52,12 @@ func _on_body_entered(body: Node2D) -> void:
 	disable_collison_and_hide.rpc()
 	
 	var pickup_owner: Player = body as Player
+	pickup_owner.pickups.add(pickup_type)
 	apply_power_up(pickup_owner)
 	
 	# Ensure powerup has time to play before pickup is destroyed
 	await pickup_sfx_player.finished
-	pickup_pool.return_obj.rpc(self) #Pickup returns itself to the pool
+	pickup_pool.return_obj(self) #Pickup returns itself to the pool
 	disable_collison_and_hide.rpc()
 	disable.rpc()
 

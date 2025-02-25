@@ -31,16 +31,6 @@ func _physics_process(delta):
 	if !is_dead:
 		update_animation(movement_vector.normalized())
 
-func place_bomb():
-	if not stunned and last_bomb_time >= BOMB_RATE:
-		var bombPos = tile_map.map_to_local(tile_map.local_to_map(synced_position))
-		bomb_count -= 1
-		last_bomb_time = 0.0
-		if multiplayer.multiplayer_peer == null or is_multiplayer_authority():
-			var bomb : BombRootFSM
-			bomb = bomb_pool.request(self)
-			bomb.do_place.rpc(bombPos, explosion_boost_count)
-
 func _on_object_detection_area_entered(area):
 	var body = area.get_parent()
 	if body is Bomb:

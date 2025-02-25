@@ -1,6 +1,7 @@
 class_name Player extends CharacterBody2D
 
 const BASE_MOTION_SPEED: float = 100.0
+const MOTION_SPEED_INCREASE: float = 20.0
 const BOMB_RATE: float = 0.5
 const MAX_BOMBS_OWNABLE: int = 8
 const MAX_EXPLOSION_BOOSTS_PERMITTED: int = 6
@@ -35,8 +36,8 @@ var bomb_total: int
 @export var bomb_count: int
 @export var lives: int
 @export var explosion_boost_count: int
-@export var can_punch: bool
 
+var pickups: HeldPickups = HeldPickups.new()
 var tile_map: TileMapLayer
 
 func _ready():
@@ -69,7 +70,7 @@ func place_bomb():
 	bomb_count -= 1
 	last_bomb_time = 0
 	if is_multiplayer_authority():
-		var bomb = bomb_pool.request([])
+		var bomb: BombRoot = bomb_pool.request([])
 		bomb.set_bomb_owner.rpc(self.name)
 		bomb.do_place.rpc(bombPos, explosion_boost_count)
 
@@ -167,10 +168,6 @@ func increment_bomb_count():
 @rpc("call_local")
 func return_bomb():
 	bomb_count = min(bomb_count+1, bomb_total)
-
-@rpc("call_local")
-func enable_punch():
-	can_punch = true
 
 @rpc("call_local")
 func exploded(by_who):

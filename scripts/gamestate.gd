@@ -123,11 +123,13 @@ func load_world():
 		get_tree().get_root().get_node("Lobby").hide()
 
 	# Set up score.
-	world.get_node("GameUI").add_player(multiplayer.get_unique_id(), player_name)
-	for pn in players:
-		world.get_node("GameUI").add_player(pn, players[pn])
-	get_tree().set_pause(false) # Unpause and unleash the game!
+	if is_multiplayer_authority():
+		world.get_node("GameUI").add_player.rpc(multiplayer.get_unique_id(), player_name)
+		for pn in players:
+			world.get_node("GameUI").add_player.rpc(pn, players[pn])
 
+	# Unpause and unleash the game!
+	get_tree().set_pause(false) 
 
 func host_game(new_player_name):
 	player_name = new_player_name

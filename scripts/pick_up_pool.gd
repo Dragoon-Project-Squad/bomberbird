@@ -2,12 +2,20 @@ class_name PickupPool extends ObjectPool
 
 #NOTE: If we have a rate table for each pickup we could dynamically calculate the expected value to set initial spawn count
 @export var initial_spawn_counts := {
-		"explosion_boost": 0,
-		"max_explosion": 0,
-		"speed_boost": 0,
-		"punch_ability": 0,
-		"extra_bomb": 0
-		}
+	"bomb_type": 0,					#//
+	"exclusive": 0,					#Bomb Kick / Bombthrough
+	"virus": 0,							#Random, counterproductive condition
+	"extra_bomb": 0,				#Bomb UP
+	"explosion_boost": 0,		#Fire Up
+	"speed_boost": 0,				#Speed Up
+	"heart": 0,							#+1 HP (max 2)
+	"max_explosion": 0,			#Full Fire
+	"punch_ability": 0,			#Bomb Punch
+	"throw_ability": 0,			#Power Glove
+	"wallthrough": 0,				#Wallthrough
+	"timer": 0, 						#Freezes enemies
+	"invincibility vest": 0	#invulnerability
+	}
 
 func _ready():
 	obj_spawner = get_node("PickupSpawner")

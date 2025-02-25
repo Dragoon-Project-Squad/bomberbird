@@ -1,7 +1,6 @@
 extends CharacterBody2D
 class_name Breakable
-@onready var breakable_sfx_player := $BreakableSound
-var world : World
+
 
 const PICKUP_ENABLED := true
 const PICKUP_SPAWN_BASE_CHANCE := 1.0
@@ -10,6 +9,8 @@ const PICKUP_SPAWN_BASE_CHANCE := 1.0
 @onready var pickup_pool: PickupPool = get_node("/root/World/PickupPool")
 
 var rng = RandomNumberGenerator.new()
+
+var world : World
 
 func decide_pickup_spawn() -> bool:
 	if !PICKUP_ENABLED:
