@@ -59,5 +59,4 @@ func get_progress_from_vector(pos: Vector2) -> float:
 	#returns a progress value s.t. it is either to the left or right or the battleground & at the same height of pos
 	var res: float = curve_len / 8
 	res += pos.y - 16 if pos.x > res + 16 else curve_len * 3/4 - pos.y + 16
-	print(res)
 	return res
