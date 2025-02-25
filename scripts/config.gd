@@ -14,7 +14,7 @@ func _init() -> void:
 func defaults() -> void:
 	config.set_value("Player", "player_name", "Dragoon")
 	# TODO(Input)
-	print(InputMap.action_get_events("move_down"))
+	#print(InputMap.action_get_events("move_down"))
 	#config.set_value("Input", "player_name", "Steve")
 	
 func set_button(button, value) -> void:

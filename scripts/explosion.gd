@@ -101,7 +101,7 @@ func report_kill(killed_player: Player):
 func _on_body_entered(body: Node2D) -> void:
 	if is_multiplayer_authority() && body.has_method("exploded"):
 		body.exploded.rpc(str(get_parent().bomb_root.bomb_owner.name).to_int())	
-	print(get_parent().bomb_root.bomb_owner_is_dead)
+	#print(get_parent().bomb_root.bomb_owner_is_dead)
 	if body is Player && get_parent().bomb_root.bomb_owner_is_dead && body.lives - 1 <= 0 && !body.stunned && !body.invulnerable: #TODO This is stupit
 		report_kill(body)
 
