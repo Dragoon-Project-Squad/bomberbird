@@ -68,47 +68,23 @@ func decrease_score(for_who):
 	pl.score -= 1
 	pl.scorelabel.set_text(str(pl.score))
 
+@rpc("call_local")
+func add_player(id: int, new_player_name: String):
+	var order: int = player_labels.size() + 1
+	var player_container: HBoxContainer = get_node("Border/Container/Players")
 
-func add_player(id, new_player_name):
-	# Use size of current array to figure out which player to assign
-	match player_labels.size():
-		0:	set_player_one(id, new_player_name)
-		1:	set_player_two(id, new_player_name)
-		2:	set_player_three(id, new_player_name)
-		3:	set_player_four(id, new_player_name)
-		_:	set_player_four(id, new_player_name)
-	#var l = Label.new()
-	#l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	#l.set_text(new_player_name + "\n" + "0")
-	#l.set_h_size_flags(SIZE_EXPAND_FILL)
-	#var font = preload("res://montserrat.otf")
-	#l.set("custom_fonts/font", font)
-	#l.set("custom_font_size/font_size", 18)
-	#add_child(l)
-	#player_labels[id] = { name = new_player_name, label = l, score = 0 }
+	player_labels[id] = {
+		namelabel = player_container.get_node("P" + str(order) + "/P" + str(order) + "Name"),
+		scorelabel = player_container.get_node("P" + str(order) + "/P" + str(order) + "Score"),
+		score = 0
+	}
 
-func set_player_one(id, new_player_name):
-	$Border/Container/Players/P1/P1Name.set_text(new_player_name)
-	player_labels[id] = { namelabel = $Border/Container/Players/P1/P1Name, scorelabel = $Border/Container/Players/P1/P1Score, score = 0 }
+	player_labels[id].namelabel.set_text(new_player_name)
 
-func set_player_two(id, new_player_name):
-	$Border/Container/Players/P2/P2Name.set_text(new_player_name)
-	player_labels[id] = { namelabel = $Border/Container/Players/P2/P2Name, scorelabel = $Border/Container/Players/P2/P2Score, score = 0 }
-	$Border/Container/Players/P2.visible = true
-	$Border/Container/Players/SeparatorP12.visible = true
+	if order == 1: return
+	player_container.get_node("P" + str(order)).visible = true
+	player_container.get_node("SeparatorP" + str(order - 1) + str(order)).visible = true
 
-func set_player_three(id, new_player_name):
-	$Border/Container/Players/P3/P3Name.set_text(new_player_name)
-	player_labels[id] = { namelabel = $Border/Container/Players/P3/P3Name, scorelabel = $Border/Container/Players/P3/P3Score, score = 0 }
-	$Border/Container/Players/P3.visible = true
-	$Border/Container/Players/SeparatorP23.visible = true
-	
-func set_player_four(id, new_player_name):
-	$Border/Container/Players/P4/P4Name.set_text(new_player_name)
-	player_labels[id] = { namelabel = $Border/Container/Players/P4/P4Name, scorelabel = $Border/Container/Players/P4/P4Score, score = 0 }
-	$Border/Container/Players/P4.visible = true
-	$Border/Container/Players/SeparatorP34.visible = true
-	
 func time_to_string() -> String:
 	var seconds = fmod(time, 60)
 	var minutes = time / 60

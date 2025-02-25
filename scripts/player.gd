@@ -70,7 +70,7 @@ func place_bomb():
 	bomb_count -= 1
 	last_bomb_time = 0
 	if is_multiplayer_authority():
-		var bomb = bomb_pool.request([])
+		var bomb: BombRoot = bomb_pool.request([])
 		bomb.set_bomb_owner.rpc(self.name)
 		bomb.do_place.rpc(bombPos, explosion_boost_count)
 

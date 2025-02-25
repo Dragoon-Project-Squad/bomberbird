@@ -60,3 +60,4 @@ func add(pickup_type: String, virus_type: int = 0):
 			held_pickups[pickup_type] = true
 		_:
 			push_error("unknown pickup type... picked up")
+	print(held_pickups)

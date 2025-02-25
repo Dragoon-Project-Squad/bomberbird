@@ -57,7 +57,7 @@ func _on_body_entered(body: Node2D) -> void:
 	
 	# Ensure powerup has time to play before pickup is destroyed
 	await pickup_sfx_player.finished
-	pickup_pool.return_obj.rpc(self) #Pickup returns itself to the pool
+	pickup_pool.return_obj(self) #Pickup returns itself to the pool
 	disable_collison_and_hide.rpc()
 	disable.rpc()
 

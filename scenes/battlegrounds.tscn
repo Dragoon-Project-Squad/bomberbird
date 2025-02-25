@@ -252,10 +252,6 @@ script = ExtResource("5_2eagj")
 spawn_path = NodePath("../MisobonPath")
 script = ExtResource("7_7cqae")
 
-[node name="PickupSpawner" type="MultiplayerSpawner" parent="."]
-spawn_path = NodePath("..")
-script = ExtResource("7_87w5t")
-
 [node name="BreakableSpawner" type="MultiplayerSpawner" parent="." node_paths=PackedStringArray("world")]
 spawn_path = NodePath("../Breakables")
 script = ExtResource("9_k4om7")
