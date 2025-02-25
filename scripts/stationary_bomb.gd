@@ -76,7 +76,7 @@ func done():
 	if !is_multiplayer_authority():
 		return
 	bomb_root.disable.rpc()
-	bomb_pool.return_obj(bomb_owner, get_parent()) # bomb returns itself to the pool
+	bomb_pool.return_obj(get_parent()) # bomb returns itself to the pool
 
 #Probably Deprecated
 func is_out_of_bounds(pos: Vector2):

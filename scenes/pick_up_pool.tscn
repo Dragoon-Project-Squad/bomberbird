@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://b22qg08qddy6x"]
+
+[ext_resource type="Script" path="res://scripts/powerup_spawner.gd" id="1_jqavm"]
+[ext_resource type="Script" path="res://scripts/pick_up_pool.gd" id="1_uwgdf"]
+
+[node name="PickUpPool" type="Node2D"]
+script = ExtResource("1_uwgdf")
+initial_spawn_counts = {
+"explosion_boost": 15,
+"extra_bomb": 15,
+"max_explosion": 5,
+"punch_ability": 15,
+"speed_boost": 15
+}
+
+[node name="PickupSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("..")
+script = ExtResource("1_jqavm")

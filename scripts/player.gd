@@ -26,7 +26,7 @@ var game_ui: CanvasLayer
 var invulnerable_animation_time: float
 var invulnerable_total_time: float = 2
 
-var bomb_pool: ObjectPool
+var bomb_pool: BombPool
 var last_bomb_time: float = BOMB_RATE
 var bomb_total: int
 
@@ -69,7 +69,8 @@ func place_bomb():
 	bomb_count -= 1
 	last_bomb_time = 0
 	if is_multiplayer_authority():
-		var bomb = bomb_pool.request(self)
+		var bomb = bomb_pool.request([])
+		bomb.set_bomb_owner.rpc(self.name)
 		bomb.do_place.rpc(bombPos, explosion_boost_count)
 
 func update_animation(direction: Vector2):
@@ -113,8 +114,8 @@ func enter_death_state():
 	$AnimationPlayer.play("player_animations/death")
 	$Hitbox.set_deferred("disabled", 1)
 	game_ui.player_died()
-	hide()
 	await $AnimationPlayer.animation_finished
+	hide()
 	process_mode = PROCESS_MODE_DISABLED
 	
 func exit_death_state():

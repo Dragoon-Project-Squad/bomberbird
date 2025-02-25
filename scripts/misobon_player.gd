@@ -8,7 +8,7 @@ const TILESIZE: int = 32
 
 @export var synced_progress: float = 0
 
-var bomb_pool: ObjectPool
+var bomb_pool: BombPool
 var player: Player
 var last_bomb_time: float = BOMB_RATE
 var current_anim: String = ""
@@ -62,7 +62,8 @@ func throw_bomb():
 	if !is_multiplayer_authority():
 		return
 
-	var bomb = bomb_pool.request(self)
+	var bomb = bomb_pool.request()
+	bomb.set_bomb_owner.rpc(self.name)
 	bomb.do_misobon_throw.rpc(
 		position + $BombSprite.position,
 		bombPos,
