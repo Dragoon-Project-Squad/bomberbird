@@ -22,6 +22,7 @@ config/icon="res://assets/gameart/icon.webp"
 
 globals="*res://scripts/globals.gd"
 gamestate="*res://scripts/gamestate.gd"
+world_data="*res://scripts/world_data.gd"
 
 [display]
 

@@ -42,6 +42,7 @@ func disable():
 func place(bombPos: Vector2):
 	bomb_placement_sfx_player.play()
 	bomb_root.position = bombPos
+	world_data.set_tile(world_data.tiles.BOMB, bomb_root.global_position)
 	self.visible = true
 	$CollisionShape2D.set_deferred("disabled", 1)
 	$DetectArea.set_deferred("disabled", 0)
@@ -72,7 +73,7 @@ func detonate():
 			get_parent().bomb_owner.return_bomb.rpc()
 	
 func done():
-	var bomb_owner = get_parent().bomb_owner #need to keep a reference around of owner for the return, as disable removes the reference from BombRoot
+	world_data.set_tile(world_data.tiles.EMPTY, bomb_root.global_position)
 	if !is_multiplayer_authority():
 		return
 	bomb_root.disable.rpc()

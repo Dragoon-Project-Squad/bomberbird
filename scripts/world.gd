@@ -26,9 +26,10 @@ func _ready() -> void:
 	setup_astargrid()
 	dir_contents(music_dir_path)
 	mus_player.play()
-	
+
+	world_data.begin_init(Vector2i(1, 3), map_width - 2, map_height - 2, floor_layer)	
 	generate_breakables()
-	
+	world_data.finish_init()		
 	astargrid_set_initial_solidpoints()
 	
 func dir_contents(path):
@@ -137,8 +138,8 @@ func generate_breakables():
 			if is_cell_empty(unbreakable_layer, current_cell):
 				if rng.randf() < breakable_spawn_chance:
 					#place_breakable(current_cell.x, current_cell.y)
-					var tilespawncoords = Vector2(current_cell.x,current_cell.y)
-					var mapspawncoords = unbreakable_layer.map_to_local(tilespawncoords)
+					world_data.init_breakable(current_cell)
+					var mapspawncoords = floor_layer.map_to_local(current_cell)
 					breakable_spawner.spawn(mapspawncoords)
 
 func is_cell_empty(layer: TileMapLayer, coords):

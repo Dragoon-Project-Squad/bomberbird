@@ -45,9 +45,11 @@ func exploded(by_who):
 			var type_of_pickup = decide_pickup_type()
 			var pickup = pickup_pool.request(type_of_pickup)
 			pickup.place.rpc(self.position)
+		else:
+			world_data.set_tile.rpc(world_data.tiles.EMPTY, global_position) #We only wanne delete this cell if no pickup is spawned on it
 			
 	get_node("Shape").queue_free()
-	await $"AnimationPlayer".animation_finished #Wait for the animation to finish
 	world.astargrid_set_point(global_position, false)
+	await $"AnimationPlayer".animation_finished #Wait for the animation to finish
 	queue_free()
 	

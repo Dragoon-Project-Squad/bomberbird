@@ -1,13 +1,13 @@
 extends Timer
 
-var targetTiles = null
-var currentTileIndex = 0
+var target_tiles = null
+var current_tile_index = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	timeout.connect(_on_timeout)
 	var world = get_tree().get_root().get_node("World")
-	targetTiles = generate_spiral(Vector2(world.map_width - world.map_offset, world.map_height - world.map_offset))
+	target_tiles = generate_spiral(Vector2(world.map_width - world.map_offset, world.map_height - world.map_offset))
 
 func generate_spiral(grid_size: Vector2) -> Array:
 	var width = grid_size.x
@@ -44,9 +44,27 @@ func generate_spiral(grid_size: Vector2) -> Array:
 
 	return spiral
 	
+func spiral_to_world(index: int, world: World) -> Vector2:
+	return Vector2(
+		target_tiles[index].x + 1,
+		target_tiles[index].y + world.map_offset + 1
+	)
+
+
 func _on_timeout() -> void:
 	var world = get_tree().get_root().get_node("World")
 	var unbreakable_spawner = world.get_node("UnbreakableSpawner")
-	var floor_tiles = world.get_node("Floor")
-	unbreakable_spawner.spawn(floor_tiles.map_to_local(Vector2(targetTiles[currentTileIndex].x + 1, targetTiles[currentTileIndex].y + world.map_offset + 1)))
-	currentTileIndex += 1
+
+	var unbreakable_pos: Vector2 = world_data.tile_map.map_to_local(spiral_to_world(current_tile_index, world))
+	while(current_tile_index < target_tiles.size() && world_data.is_tile(world_data.tiles.UNBREAKABLE, unbreakable_pos)):
+		world_data._debug_print_matrix()
+		current_tile_index += 1
+		unbreakable_pos = world_data.tile_map.map_to_local(spiral_to_world(current_tile_index, world))
+
+	unbreakable_spawner.spawn(unbreakable_pos)
+	current_tile_index += 1
+
+	world_data.set_tile(world_data.tiles.UNBREAKABLE, unbreakable_pos)
+	
+	if current_tile_index >= target_tiles.size():
+		stop()

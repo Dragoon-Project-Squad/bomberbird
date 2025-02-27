@@ -38,13 +38,11 @@ var bomb_total: int
 @export var explosion_boost_count: int
 
 var pickups: HeldPickups = HeldPickups.new()
-var tile_map: TileMapLayer
 
 func _ready():
 	#These are all needed
 	position = synced_position
 	bomb_total = bomb_count
-	tile_map = get_parent().get_parent().get_node("Floor")
 	bomb_pool = get_node("/root/World/BombPool")
 	game_ui = get_node("/root/World/GameUI")
 
@@ -66,9 +64,12 @@ func _physics_process(_delta: float):
 	pass
 
 func place_bomb():
-	var bombPos = tile_map.map_to_local(tile_map.local_to_map(synced_position))
+	if(world_data.is_tile(world_data.tiles.BOMB, self.global_position)): return
+
+	var bombPos = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(synced_position))
 	bomb_count -= 1
 	last_bomb_time = 0
+
 	if is_multiplayer_authority():
 		var bomb: BombRoot = bomb_pool.request([])
 		bomb.set_bomb_owner.rpc(self.name)
