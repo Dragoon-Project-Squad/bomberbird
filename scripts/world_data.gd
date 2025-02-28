@@ -6,6 +6,7 @@ enum tiles {EMPTY, UNBREAKABLE, BREAKABLE, BOMB, PICKUP}
 var _world_matrix: Array[int]
 var _world_empty_cells: Dictionary
 var _is_initialized: bool = false
+var _lock: Mutex = Mutex.new()
 
 #public members
 #origin of the play area (Top left most tile)
@@ -108,19 +109,25 @@ func is_tile(tile: int, global_pos: Vector2):
 	return tile == _world_matrix[_vec_to_index(matrix_pos)]
 
 func get_random_empty_tiles(count: int, in_cells: bool = false) -> Array:
+	_lock.lock() #Below this is clearly a critical section (if this ever causes performance issues a more fine grained locking may solve this)
+
 	#There is probably a more efficient way to do this
 	var temp: Array = _world_empty_cells.keys()
+	temp.filter(func(key): return _world_empty_cells[key])
 	temp.shuffle()
-	temp = temp.slice(0, count)
-	var res: Array = []
-	res.resize(temp.size())
 
-	for i in range(0, temp.size()):
+	var res: Array = []
+	res.resize(count)
+
+	for i in range(0, min(count, temp.size())):
+		_world_empty_cells[temp[i]] = false
 		temp[i] += floor_origin
 		if !in_cells:
-			res[i] = tile_map.map_to_local(temp[i]) #As a non python programmer this is cursed af
+			res[i] = tile_map.map_to_local(temp[i])
 		else:
 			res[i] = temp[i]
+
+	_lock.unlock()
 
 	print("random positions: ", res)
 	return res
