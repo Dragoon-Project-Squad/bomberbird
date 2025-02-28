@@ -14,7 +14,7 @@ class_name PickupPool extends ObjectPool
 	"throw_ability": 0,			#Power Glove
 	"wallthrough": 0,				#Wallthrough
 	"timer": 0, 						#Freezes enemies
-	"invincibility vest": 0	#invulnerability
+	"invincibility_vest": 0	#invulnerability
 	}
 
 func _ready():

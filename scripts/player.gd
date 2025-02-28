@@ -27,6 +27,7 @@ var game_ui: CanvasLayer
 var invulnerable_animation_time: float
 var invulnerable_total_time: float = 2
 
+var pickup_pool: PickupPool
 var bomb_pool: BombPool
 var last_bomb_time: float = BOMB_RATE
 var bomb_total: int
@@ -44,6 +45,7 @@ func _ready():
 	position = synced_position
 	bomb_total = bomb_count
 	bomb_pool = get_node("/root/World/BombPool")
+	pickup_pool = get_node("/root/World/PickupPool")
 	game_ui = get_node("/root/World/GameUI")
 
 func _process(delta: float):
@@ -109,13 +111,14 @@ func enter_misobon():
 			misobon_player.get_parent().get_progress_from_vector(position) 
 			)
 		misobon_player.play_spawn_animation.rpc()
-	
 
 func enter_death_state():
 	is_dead = true
 	$AnimationPlayer.play("player_animations/death")
 	$Hitbox.set_deferred("disabled", 1)
 	game_ui.player_died()
+	spread_items() #TODO: Check if battlemode
+	pickups.reset()
 	await $AnimationPlayer.animation_finished
 	hide()
 	process_mode = PROCESS_MODE_DISABLED
@@ -130,6 +133,37 @@ func exit_death_state():
 	stunned = false
 	is_dead = false
 	do_invulnerabilty()
+
+func spread_items():
+	if !is_multiplayer_authority():
+		return
+
+	var pickup_types: Array[String] = []
+	var pickup_count: Array[int] = []
+
+	for key in pickups.count_keys:
+		var count: int = pickups.held_pickups[key]
+		if count == 0: continue
+		pickup_types.push_back(key)
+		pickup_count.push_back(count)
+
+	for key in pickups.bool_keys:
+		if !pickups.held_pickups[key]: continue
+		pickup_types.push_back(key)
+		pickup_count.push_back(1)
+
+	#TODO: add pickups for exclusive pickups
+
+	var to_place_pickups: Dictionary = pickup_pool.request_group(pickup_count, pickup_types)
+	for i in range(pickup_types.size()):
+		if pickup_count[i] == 1:
+			var pos: Vector2 = world_data.get_random_empty_tile()
+			to_place_pickups[pickup_types[i]][0].place.rpc(pos)
+		else:
+			var pos_array: Array = world_data.get_random_empty_tiles(pickup_count[i])
+			for j in range(pos_array.size()):
+				to_place_pickups[pickup_types[i]][j].place.rpc(pos_array[j])
+
 
 func do_invulnerabilty():
 	invulnerable_total_time = 0

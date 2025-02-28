@@ -6,7 +6,8 @@ enum tiles {EMPTY, UNBREAKABLE, BREAKABLE, BOMB, PICKUP}
 var _world_matrix: Array[int]
 var _world_empty_cells: Dictionary
 var _is_initialized: bool = false
-var _lock: Mutex = Mutex.new()
+var _get_rand_lock: Mutex = Mutex.new()
+var _get_set_lock: Mutex = Mutex.new()
 
 #public members
 #origin of the play area (Top left most tile)
@@ -20,12 +21,12 @@ var tile_map: TileMapLayer
 #private functions
 func _vec_to_index(vec: Vector2i) -> int:
 	var indx: int = vec.x + vec.y * self.world_width
-	assert(indx < self._world_matrix.size(), "index out of bounds for world_data")
+	assert(indx < self._world_matrix.size(), "index" + str(vec) + " <-> " + str(indx) + " out of bounds for world_data")
 	return indx
 
 func _add_tile(tile: int, pos: Vector2i):
 	var index = _vec_to_index(pos)
-	assert(self._world_matrix[index] != tile, "attempted to place " + _int_to_enumString(tile)	+ " on a cell already occupied by that cell")
+	assert(self._world_matrix[index] != tile, "attempted to place " + _int_to_enum_name(tile)	+ " on a cell already occupied by that cell")
 	self._world_matrix[index] = tile
 
 	if !self._is_initialized: return
@@ -63,7 +64,7 @@ func _sync_test() -> bool:
 			res = res && _world_empty_cells[matrix_pos]
 	return res
 
-func _int_to_enumString(tile: int) -> String:
+func _int_to_enum_name(tile: int) -> String:
 	match tile:
 		0: return "EMPTY"
 		1: return "UNBREAKABLE"
@@ -98,18 +99,34 @@ func finish_init():
 
 @rpc("call_local")
 func set_tile(tile: int, global_pos: Vector2):
+	_get_set_lock.lock()
 	var matrix_pos: Vector2i = tile_map.local_to_map(global_pos) - floor_origin
 	if tile == tiles.EMPTY:
 		_remove_tile(matrix_pos)
 	else:
 		_add_tile(tile, matrix_pos)
+	_get_set_lock.unlock()
 
 func is_tile(tile: int, global_pos: Vector2):
 	var matrix_pos: Vector2i = tile_map.local_to_map(global_pos) - floor_origin
 	return tile == _world_matrix[_vec_to_index(matrix_pos)]
 
+func get_random_empty_tile(in_cells: bool = false) -> Variant:
+	_get_rand_lock.lock() #Below this is clearly a critical section (if this ever causes performance issues a more fine grained locking may solve this)
+
+	var temp: Array = _world_empty_cells.keys()
+	temp.filter(func(key): return _world_empty_cells[key])
+
+	var res = temp.pick_random()
+	res += floor_origin
+	if !in_cells:
+		res = tile_map.map_to_local(res)
+
+	_get_rand_lock.unlock()
+	return res
+
 func get_random_empty_tiles(count: int, in_cells: bool = false) -> Array:
-	_lock.lock() #Below this is clearly a critical section (if this ever causes performance issues a more fine grained locking may solve this)
+	_get_rand_lock.lock() #Below this is clearly a critical section (if this ever causes performance issues a more fine grained locking may solve this)
 
 	#There is probably a more efficient way to do this
 	var temp: Array = _world_empty_cells.keys()
@@ -127,7 +144,6 @@ func get_random_empty_tiles(count: int, in_cells: bool = false) -> Array:
 		else:
 			res[i] = temp[i]
 
-	_lock.unlock()
+	_get_rand_lock.unlock()
 
-	print("random positions: ", res)
 	return res
