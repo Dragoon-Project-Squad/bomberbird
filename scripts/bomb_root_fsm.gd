@@ -42,7 +42,9 @@ func do_place(bombPos: Vector2, boost: int = 0, is_dead: bool = false) -> int:
 	if bomb_owner == null:
 		printerr("A bomb without an bomb_owner tried to be placed")
 		return 1
+
 	var force_collision: bool = false
+
 	match state:
 		STATIONARY: #a bomb should not already be in a 
 			printerr("do place is called from a wrong state")
@@ -51,6 +53,7 @@ func do_place(bombPos: Vector2, boost: int = 0, is_dead: bool = false) -> int:
 			force_collision = true	
 
 	set_state(STATIONARY)
+	
 	bomb_owner_is_dead = is_dead
 	var bomb_authority: Node2D = state_map[state]
 	bomb_authority.set_explosion_width_and_size(min(boost + bomb_authority.explosion_width, bomb_authority.MAX_EXPLOSION_WIDTH))

@@ -17,6 +17,7 @@ func _ready():
 @rpc("call_local")
 func disable_collison_and_hide():
 	hide()
+	world_data.set_tile(world_data.tiles.EMPTY, self.global_position)
 	collisionbox.set_deferred("disabled", 1)
 
 @rpc("call_local")
@@ -36,7 +37,9 @@ func enable():
 
 @rpc("call_local")
 func place(pos: Vector2):
+	print("hi at: ", pos)
 	self.position = pos
+	world_data.set_tile(world_data.tiles.PICKUP, self.global_position)
 	enable()
 
 func apply_power_up(_pickup_owner: Player):

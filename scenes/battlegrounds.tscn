@@ -282,6 +282,9 @@ wait_time = 120.0
 one_shot = true
 autostart = true
 
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(304, 144)
+
 [connection signal="pressed" from="Winner/ExitGame" to="GameUI" method="_on_exit_game_pressed"]
 [connection signal="pressed" from="Winner/ExitGame" to="GameUI/Border/Container/Players" method="_on_exit_game_pressed"]
 [connection signal="timeout" from="Timers/RestrictionStartTimer" to="Players" method="_on_restriction_start_timer_timeout"]
