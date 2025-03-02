@@ -32,6 +32,7 @@ func disable() -> int:
 		return 1 #it might not be an issue if a disabled node is attempted to be disabled again so we just return an error and let the caller figure that out without giving a project wide error
 	bomb_owner = null
 	self.position = Vector2.ZERO
+	self.fuse_time_passed = 0
 	set_state(DISABLED)
 	return 0
 

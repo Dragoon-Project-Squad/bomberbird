@@ -45,7 +45,7 @@ func place(bombPos: Vector2, fuse_time_passed: float = 0):
 	$CollisionShape2D.set_deferred("disabled", 1)
 	$DetectArea.set_deferred("disabled", 0)
 	$AnimationPlayer.play("fuse_and_call_detonate()")
-	$AnimationPlayer.advance(fuse_time_passed) #continue the animtion from where it was left of
+	$AnimationPlayer.advance(fuse_time_passed) #continue the animation from where it was left of
 	
 func detonate():
 	explosion_sfx_player.stop()
@@ -60,8 +60,8 @@ func detonate():
 			continue
 		var target: Node2D = ray.get_collider()
 		if target.is_in_group("bombstop"):
-			@warning_ignore("INTEGER_DIVISION")
-			var col_point = to_local(ray.get_collision_point()) + Vector2(ray_direction * (TILE_SIZE / 2)) #Note this integer division is fine idk why godot feels like it needs to warn for int divisions anyway?
+			@warning_ignore("INTEGER_DIVISION") #Note this integer division is fine idk why godot feels like it needs to warn for int divisions anyway?
+			var col_point = to_local(ray.get_collision_point()) + Vector2(ray_direction * (TILE_SIZE / 2))
 			
 			exp_range[ray_direction] = explosion.get_node("SpriteTileMap").local_to_map(col_point).length() - 1 #find the distance from bomb.position to the last tile that should be blown up (in number of tiles)
 			if target.has_method("exploded") && is_multiplayer_authority(): target.exploded.rpc(str(get_parent().bomb_owner.name).to_int()) #if an object stopped the bomb and can be blown up... blow it up!

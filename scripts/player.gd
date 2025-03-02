@@ -20,6 +20,7 @@ var current_anim: String = ""
 var is_dead: bool = false
 var player_type: String
 var hurry_up_started: bool = false 
+var misobon_player: MisobonPlayer
 
 var game_ui: CanvasLayer
 

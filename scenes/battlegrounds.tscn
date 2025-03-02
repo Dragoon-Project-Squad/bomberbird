@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_b42q6"]
 [ext_resource type="Script" path="res://scripts/game_ui.gd" id="3_dadsx"]
-[ext_resource type="Script" path="res://scenes/players_manager.gd" id="3_jta2f"]
+[ext_resource type="Script" path="res://players_manager.gd" id="3_jta2f"]
 [ext_resource type="PackedScene" uid="uid://c4i5gyl4cut3t" path="res://scenes/bombs/bomb_pool.tscn" id="3_mcaqn"]
 [ext_resource type="Script" path="res://scripts/misobon_path.gd" id="3_uhlbr"]
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/deserttileset.tres" id="3_vcixd"]
