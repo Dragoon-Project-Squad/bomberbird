@@ -80,7 +80,8 @@ func detect_stuck(delta) -> void:
 			if prev_pos == Vector2(0,0):
 				prev_pos = aiplayer.global_position
 			elif floor_prev_pos == floor_current_pos:
-				print("Stuck detected, changing direction")
+				#if aiplayer.name == "2":
+					#print("Stuck detected, changing direction")
 				prev_pos = Vector2(0, 0)
 				aiplayer.global_position = get_global_position(get_cell_position(aiplayer.global_position))
 				idle = true

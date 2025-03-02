@@ -74,6 +74,13 @@ func detonate():
 	
 func done():
 	world_data.set_tile(world_data.tiles.EMPTY, bomb_root.global_position)
+	
+	# Frees collision from astargrid when done
+	# Revise for posible implementation on world_data
+	var world : World
+	world = get_parent().get_parent().get_parent()
+	world.astargrid_set_point(world_data.tile_map.local_to_map(bomb_root.global_position), false)
+	
 	if !is_multiplayer_authority():
 		return
 	bomb_root.disable.rpc()

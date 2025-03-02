@@ -25,7 +25,7 @@ func _set_target():
 
 func _detect_surroundings() -> void:
 	if is_bomb_near():
-		state_changed.emit(self, "Wander")
+		state_changed.emit(self, "Dodge")
 		return
 	if is_breakable_in_front():
 		state_changed.emit(self, "Bombing")
@@ -51,7 +51,13 @@ func randomize_target():
 		# If the point is valid, finish
 		if (!is_unbreakable(new_target, offset) and new_target != current_cell):
 			valid_point = true
-	path = world.create_path_no_breakables(aiplayer, new_target)
+		else:
+			continue
+		path = world.create_path_no_breakables(aiplayer, new_target)
+		if world.is_breakable(path[1]):
+			valid_point = false
+			path = []
+	
 	# Remove first point in path which is the current position
 	path.pop_front()
 	#if aiplayer.name == "2":

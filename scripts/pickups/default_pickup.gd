@@ -37,7 +37,7 @@ func enable():
 
 @rpc("call_local")
 func place(pos: Vector2):
-	print("hi at: ", pos)
+	#print("hi at: ", pos)
 	self.position = pos
 	world_data.set_tile(world_data.tiles.PICKUP, self.global_position)
 	enable()
