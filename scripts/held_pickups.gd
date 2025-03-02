@@ -4,6 +4,28 @@ enum bomb_types {DEFAULT, PIERCING, MINE, REMOTE, SEEKER}
 enum exclusive {DEFAULT, KICK, BOMBTHROUGH}
 enum virus {DEFAULT, SPEEDDOWN, SPEEDUP, FIREDOWN, SLOWFUSE_A, SLOWFUSE_B, FASTFUSE, AUTOBOMB, INVERSE_CONTROL, NON_STOP_MOTION, NOBOMBS, SIZE}
 
+var count_keys: Array[String] = [
+	"extra_bomb",
+	"explosion_boost",
+	"speed_boost",
+	#"heart",
+	]
+
+var bool_keys: Array[String] = [
+	"max_explosion",
+	#"punch_ability",
+	#"throw_ability",
+	#"wallthrough",
+	#"timer",
+	#"invincibility_vest",
+	]
+
+var enum_keys: Array[String] = [
+	#"bomb_type",
+	#"exclusive",
+	#"virus",
+	]
+
 var held_pickups: Dictionary = {
 	"bomb_type": bomb_types.DEFAULT,	#//
 	"exclusive": exclusive.DEFAULT,		#Bomb Kick / Bombthrough
@@ -17,8 +39,25 @@ var held_pickups: Dictionary = {
 	"throw_ability": false,						#Power Glove
 	"wallthrough": false,							#Wallthrough
 	"timer": false, 									#Freezes enemies
-	"invincibility vest": false				#invulnerability
+	"invincibility_vest": false				#invulnerability
 	}
+
+func reset():
+	print(held_pickups)
+	held_pickups.bomb_type = bomb_types.DEFAULT
+	held_pickups.exclusive = exclusive.DEFAULT
+	held_pickups.virus = virus.DEFAULT
+	held_pickups.extra_bomb = 0
+	held_pickups.explosion_boost = 0
+	held_pickups.speed_boost = 0
+	held_pickups.heart = 0
+	held_pickups.max_explosion = false
+	held_pickups.punch_ability = false
+	held_pickups.throw_ability = false
+	held_pickups.wallthrough = false
+	held_pickups.timer = false
+	held_pickups.invincibility_vest = false
+	
 
 func add(pickup_type: String, virus_type: int = 0):
 	if(virus_type < 0 || virus.SIZE <= virus_type):
