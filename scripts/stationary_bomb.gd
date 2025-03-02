@@ -17,7 +17,7 @@ const TILE_SIZE = 32 #Primitive method of assigning correct tile size
 @onready var rays = $Raycasts
 @onready var bombsprite := $BombSprite
 @onready var explosion = $Explosion
-@onready var tileMap = get_tree().get_root().get_node("World/Floor")
+@onready var tileMap = world_data.tile_map
 
 func _ready():
 	explosion_sfx_player = bomb_pool.get_node("BombGlobalAudioPlayers/ExplosionSoundPlayer")
@@ -29,7 +29,6 @@ func _ready():
 	$CollisionShape2D.set_deferred("disabled", 1) # This line of code thinks it knows better so it just kinda doesn't do what it should... also doesn't give an error tho...
 
 func disable():
-	bomb_root.position = Vector2.ZERO
 	explosion_sfx_player.position = Vector2.ZERO
 	animation_finish = false
 	explosion_width = 2
@@ -39,14 +38,14 @@ func disable():
 	$DetectArea.set_deferred("disabled", 1)
 	$CollisionShape2D.set_deferred("disabled", 1)
 
-func place(bombPos: Vector2):
+func place(bombPos: Vector2, fuse_time_passed: float = 0):
 	bomb_placement_sfx_player.play()
 	bomb_root.position = bombPos
-	world_data.set_tile(world_data.tiles.BOMB, bomb_root.global_position)
 	self.visible = true
 	$CollisionShape2D.set_deferred("disabled", 1)
 	$DetectArea.set_deferred("disabled", 0)
 	$AnimationPlayer.play("fuse_and_call_detonate()")
+	$AnimationPlayer.advance(fuse_time_passed) #continue the animtion from where it was left of
 	
 func detonate():
 	explosion_sfx_player.stop()

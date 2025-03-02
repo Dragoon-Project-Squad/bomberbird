@@ -76,13 +76,6 @@ script = ExtResource("3_uhlbr")
 [node name="BombPool" parent="." instance=ExtResource("3_mcaqn")]
 
 [node name="PickupPool" parent="." instance=ExtResource("6_2h1qq")]
-initial_spawn_counts = {
-"explosion_boost": 15,
-"extra_bomb": 15,
-"max_explosion": 15,
-"punch_ability": 0,
-"speed_boost": 15
-}
 
 [node name="GameUI" type="CanvasLayer" parent="."]
 script = ExtResource("3_dadsx")

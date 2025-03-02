@@ -13,7 +13,7 @@ var count_keys: Array[String] = [
 
 var bool_keys: Array[String] = [
 	"max_explosion",
-	#"punch_ability",
+	"punch_ability",
 	#"throw_ability",
 	#"wallthrough",
 	#"timer",
@@ -43,7 +43,6 @@ var held_pickups: Dictionary = {
 	}
 
 func reset():
-	print(held_pickups)
 	held_pickups.bomb_type = bomb_types.DEFAULT
 	held_pickups.exclusive = exclusive.DEFAULT
 	held_pickups.virus = virus.DEFAULT
