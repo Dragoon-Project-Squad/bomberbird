@@ -46,14 +46,14 @@ func safe_target() -> void:
 			var y1 = current_pos.y - iteration
 			var y2 = current_pos.y + iteration
 			var new_target = Vector2i(x,y1)
-			if aiplayer.name == "2":
-				print(new_target)
+			#if aiplayer.name == "2":
+			#	print(new_target)
 			if set_valid_new_target(new_target, unsafe_cells):
 				found = true
 				break
 			new_target = Vector2i(x,y2)
-			if aiplayer.name == "2":
-				print(new_target)
+			#if aiplayer.name == "2":
+			#	print(new_target)
 			if set_valid_new_target(new_target, unsafe_cells):
 				found = true
 				break
@@ -63,14 +63,14 @@ func safe_target() -> void:
 			var x1 = current_pos.x - iteration
 			var x2 = current_pos.x + iteration
 			var new_target = Vector2i(x1,y)
-			if aiplayer.name == "2":
-				print(new_target)
+			#if aiplayer.name == "2":
+			#	print(new_target)
 			if set_valid_new_target(new_target, unsafe_cells):
 				found = true
 				break
 			new_target = Vector2i(x2,y)
-			if aiplayer.name == "2":
-				print(new_target)
+			#if aiplayer.name == "2":
+			#	print(new_target)
 			if set_valid_new_target(new_target, unsafe_cells):
 				found = true
 				break
@@ -81,14 +81,14 @@ func safe_target() -> void:
 		path = world.create_path(aiplayer, target)
 		path.pop_front()
 	else:
-		print("No safe was found")
+		#print("No safe was found")
 		state_changed.emit("Safe")
 
 func set_valid_new_target(new_target : Vector2i, unsafe_cells : Array[Vector2i]) -> bool:
 	if is_new_target_valid(new_target, unsafe_cells):
 		path = world.create_path(aiplayer, new_target)
-		if aiplayer.name == "2":
-			print("New target valid, path:",str(path))
+		#if aiplayer.name == "2":
+		#	print("New target valid, path:",str(path))
 		if path.size() > 0:
 			target = new_target
 			return true
@@ -116,8 +116,8 @@ func get_unsafe_cells(bomb_list : Array[Bomb]) -> Array[Vector2i]:
 				cell = Vector2i(bomb_position.x, y)
 				if area.has_point(cell):
 					cell_list.append(Vector2i(bomb_position.x, y))
-	if aiplayer.name == "2":
-		print(cell_list)
+	#if aiplayer.name == "2":
+	#	print(cell_list)
 	return cell_list
 
 func is_new_target_valid(new_target : Vector2i, unsafe_cells : Array[Vector2i]) -> bool:

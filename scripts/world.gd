@@ -172,19 +172,6 @@ func astargrid_set_point(position : Vector2, solid : bool) -> void:
 	# Set unbreakables as solidpoints
 	var cell_position = floor_layer.local_to_map(position)
 	astargrid.set_point_solid(cell_position, solid)
-	"""
-	print()
-	print("*******************************")
-	for x in range (astargrid.region.position.x, astargrid.region.end.x):
-		for y in range (astargrid.region.position.y, astargrid.region.end.y):
-			if astargrid.is_point_solid(Vector2i(x, y)):
-				printraw("X")
-			else:
-				printraw(" ")
-		print()
-	print("*******************************")
-	print()
-	"""
 
 func create_path_no_breakables(player: CharacterBody2D, end_position: Vector2i) -> Array[Vector2i]:
 	var player_pos = get_node("Players/"+player.name).global_position
@@ -196,16 +183,6 @@ func create_path(player: CharacterBody2D, end_position: Vector2i) -> Array[Vecto
 	var player_pos = get_node("Players/"+player.name).global_position
 	var map_player_pos = floor_layer.local_to_map(player_pos)
 	var path = astargrid.get_id_path(map_player_pos, end_position)
-	if path.size() <= 1 and player.name == "2":
-		print()
-		print("*******************")
-		print(map_player_pos)
-		print(astargrid.is_point_solid(map_player_pos))
-		print(end_position)
-		print(astargrid.is_point_solid(end_position))
-		print(path)
-		print("*******************")
-		print()
 	return path
 
 func is_breakable(cell : Vector2i) -> bool:
