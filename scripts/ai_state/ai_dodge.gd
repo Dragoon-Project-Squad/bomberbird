@@ -36,24 +36,24 @@ func _set_target():
 
 func safe_target() -> void:
 	var unsafe_cells = get_unsafe_cells(aiplayer.bombs_near)
-	if unsafe_cells.size() == 0:
-		#if aiplayer.name == "2":
-		#	print(Time.get_unix_time_from_system())
-		#	print("No unsafe found")
-		state_changed.emit(self, "Wander")
-		return
 	var found = false
 	var current_pos = get_cell_position(aiplayer.global_position)
 	var iteration = 1
-	while !found or iteration < 4:
+	# Will consider it's own explosion rate to get out of danger
+	var range = 6
+	while !found and iteration < range:
 		for x in range(current_pos.x-iteration, current_pos.x+iteration+1):
 			var y1 = current_pos.y - iteration
 			var y2 = current_pos.y + iteration
 			var new_target = Vector2i(x,y1)
+			#if aiplayer.name == "2":
+			#	print(new_target)
 			if set_valid_new_target(new_target, unsafe_cells):
 				found = true
 				break
 			new_target = Vector2i(x,y2)
+			#if aiplayer.name == "2":
+			#	print(new_target)
 			if set_valid_new_target(new_target, unsafe_cells):
 				found = true
 				break
@@ -63,27 +63,32 @@ func safe_target() -> void:
 			var x1 = current_pos.x - iteration
 			var x2 = current_pos.x + iteration
 			var new_target = Vector2i(x1,y)
+			#if aiplayer.name == "2":
+			#	print(new_target)
 			if set_valid_new_target(new_target, unsafe_cells):
 				found = true
 				break
 			new_target = Vector2i(x2,y)
+			#if aiplayer.name == "2":
+			#	print(new_target)
 			if set_valid_new_target(new_target, unsafe_cells):
 				found = true
 				break
 		if found:
 			break
 		iteration += 1
-	#if aiplayer.name == "2":
-	#	print("Target:"+str(target))
-	#	print("Path:"+str(path))
-	path = world.create_path(aiplayer, target)
-	path.pop_front()
-	#if aiplayer.name == "2":
-	#	print("Dodge path: "+str(path))
+	if found:
+		path = world.create_path(aiplayer, target)
+		path.pop_front()
+	else:
+		#print("No safe was found")
+		state_changed.emit("Safe")
 
 func set_valid_new_target(new_target : Vector2i, unsafe_cells : Array[Vector2i]) -> bool:
 	if is_new_target_valid(new_target, unsafe_cells):
 		path = world.create_path(aiplayer, new_target)
+		#if aiplayer.name == "2":
+		#	print("New target valid, path:",str(path))
 		if path.size() > 0:
 			target = new_target
 			return true
@@ -94,6 +99,7 @@ func set_valid_new_target(new_target : Vector2i, unsafe_cells : Array[Vector2i])
 func get_unsafe_cells(bomb_list : Array[Bomb]) -> Array[Vector2i]:
 	var cell_list : Array[Vector2i]
 	var cell
+	var range = aiplayer.explosion_boost_count + 2
 	for bomb in bomb_list:
 		var bomb_position = get_cell_position(bomb.global_position)
 		var unsafe_cell : Vector2i
@@ -101,15 +107,17 @@ func get_unsafe_cells(bomb_list : Array[Bomb]) -> Array[Vector2i]:
 		# the explosion
 		# Code can look prettier, but I'm not gonna bother
 		if not world.is_unbreakable(Vector2i(bomb_position.x-1, bomb_position.y)) or not world.is_unbreakable(Vector2i(bomb_position.x+1, bomb_position.y)):
-			for x in range (bomb_position.x-3, bomb_position.x+4):
+			for x in range (bomb_position.x-range, bomb_position.x+range+1):
 				cell = Vector2i(x, bomb_position.y)
 				if area.has_point(cell):
 					cell_list.append(cell)
 		if not world.is_unbreakable(Vector2i(bomb_position.x, bomb_position.y-1)) or not world.is_unbreakable(Vector2i(bomb_position.x, bomb_position.y+1)):
-			for y in range (bomb_position.y-3, bomb_position.y+4):
+			for y in range (bomb_position.y-range, bomb_position.y+range+1):
 				cell = Vector2i(bomb_position.x, y)
 				if area.has_point(cell):
 					cell_list.append(Vector2i(bomb_position.x, y))
+	#if aiplayer.name == "2":
+	#	print(cell_list)
 	return cell_list
 
 func is_new_target_valid(new_target : Vector2i, unsafe_cells : Array[Vector2i]) -> bool:

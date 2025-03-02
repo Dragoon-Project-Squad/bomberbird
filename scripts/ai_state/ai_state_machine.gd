@@ -32,8 +32,8 @@ func _on_state_changed(state, new_state):
 	if(state != current_state):
 		return
 	
-	if get_parent().name == "2":
-		print("Changing state to "+new_state+" from "+state.name)
+	#if get_parent().name == "2":
+		#print("Changing state to "+new_state+" from "+state.name)
 	
 	var next_state = states.get(new_state.to_lower())
 	if !new_state:

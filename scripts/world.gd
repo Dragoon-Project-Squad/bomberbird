@@ -171,7 +171,7 @@ func astargrid_set_initial_solidpoints() -> void:
 func astargrid_set_point(position : Vector2, solid : bool) -> void:
 	# Set unbreakables as solidpoints
 	var cell_position = floor_layer.local_to_map(position)
-	astargrid.set_point_solid(cell_position, true)
+	astargrid.set_point_solid(cell_position, solid)
 
 func create_path_no_breakables(player: CharacterBody2D, end_position: Vector2i) -> Array[Vector2i]:
 	var player_pos = get_node("Players/"+player.name).global_position

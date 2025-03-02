@@ -71,6 +71,12 @@ func place_bomb():
 	var bombPos = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(synced_position))
 	bomb_count -= 1
 	last_bomb_time = 0
+	
+	# Adding bomb to astargrid so bombs have collision inside the grid
+	# Replace code if "world_data" class can be used
+	var world : World
+	world = get_parent().get_parent()
+	world.astargrid_set_point(world_data.tile_map.local_to_map(synced_position), true)
 
 	if is_multiplayer_authority():
 		var bomb: BombRoot = bomb_pool.request([])
