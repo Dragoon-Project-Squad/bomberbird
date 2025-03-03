@@ -9,14 +9,13 @@ var left
 var up
 
 func _ready():
-	hide()
-	detection_area.monitoring = false
-	detection_area.monitorable = false
-	detection_area.get_child(0).set_deferred("disabled", 1)
-	detection_area.get_child(1).set_deferred("disabled", 1)
+	# For whatever reason collision shapes are by default shared between instances so we need to copy them
+	detection_area.get_child(0).shape = detection_area.get_child(0).shape.duplicate(true)
+	detection_area.get_child(1).shape = detection_area.get_child(1).shape.duplicate(true)
+	reset()
 
 func reset():
-	tilemap.clear() #There is probably a smarterway to do this then to do it all over all the time but that might get complex fast 
+	tilemap.clear() #There is probably a smarter way to do this then to do it all over all the time but that might get complex fast 
 	detection_area.get_child(0).shape.a = Vector2(-8, 0)
 	detection_area.get_child(0).shape.b = Vector2(8, 0)
 	detection_area.get_child(1).shape.a = Vector2(0, -8)
@@ -29,9 +28,7 @@ func reset():
 	
 	hide()
 	$AnimationPlayer.stop()
-	detection_area.monitoring = false
-	detection_area.get_child(0).set_deferred("disabled", 1)
-	detection_area.get_child(1).set_deferred("disabled", 1)
+	process_mode = PROCESS_MODE_DISABLED
 
 @warning_ignore("SHADOWED_VARIABLE")
 func set_cell_hori(pos: Vector2i, left: int, right: int, step: int = 0):
@@ -92,9 +89,7 @@ func next_detonate(step: int = 0):
 func do_detonate():
 	show()
 	$AnimationPlayer.play("boom") #this animation is freaky ngl
-	detection_area.monitoring = true
-	detection_area.get_child(0).set_deferred("disabled", 0)
-	detection_area.get_child(1).set_deferred("disabled", 0)
+	process_mode = PROCESS_MODE_INHERIT
 	await $AnimationPlayer.animation_finished
 	get_parent().done()
 
