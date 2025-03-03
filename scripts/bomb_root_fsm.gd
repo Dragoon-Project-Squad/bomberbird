@@ -31,6 +31,7 @@ func disable() -> int:
 	if state == DISABLED:
 		return 1 #it might not be an issue if a disabled node is attempted to be disabled again so we just return an error and let the caller figure that out without giving a project wide error
 	bomb_owner = null
+	bomb_owner_is_dead = false
 	self.position = Vector2.ZERO
 	self.fuse_time_passed = 0
 	set_state(DISABLED)
@@ -49,11 +50,11 @@ func do_place(bombPos: Vector2, boost: int = 0, is_dead: bool = false) -> int:
 	var force_collision: bool = false
 
 	match state:
-		STATIONARY: #a bomb should not already be in a 
+		STATIONARY: #a bomb should not already be in the STATIONARY state when it is getting placed
 			printerr("do place is called from a wrong state")
 			return 2
 		AIRBORN:
-			force_collision = true	
+			force_collision = true #If it state is airborn we do now want the collision ignore logic to work rather we want the bomb to collied immediately
 
 	set_state(STATIONARY)
 	
@@ -93,7 +94,7 @@ func do_punch(direction: Vector2i):
 	fuse_time_passed = state_map[state].get_node("AnimationPlayer").current_animation_position
 
 	set_state(AIRBORN)
-
+	bomb_owner_is_dead = false
 	var bomb_authority: Node2D = state_map[state]
 	bomb_authority.throw(
 		self.position,

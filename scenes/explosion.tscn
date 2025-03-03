@@ -4,12 +4,12 @@
 [ext_resource type="TileSet" uid="uid://c6a5jstmgemfc" path="res://scenes/explosions_anim.tres" id="2_544pj"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_5as2d"]
-a = Vector2(-16, 0)
-b = Vector2(16, 0)
+a = Vector2(-8, 0)
+b = Vector2(8, 0)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_wcjvg"]
-a = Vector2(0, -16)
-b = Vector2(0, 16)
+a = Vector2(0, -8)
+b = Vector2(0, 8)
 
 [sub_resource type="Animation" id="Animation_d03af"]
 resource_name = "boom"

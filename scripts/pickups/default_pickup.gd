@@ -31,8 +31,8 @@ func disable():
 	process_mode = PROCESS_MODE_DISABLED
 
 func enable():
-	process_mode = PROCESS_MODE_INHERIT
 	enable_collison()
+	process_mode = PROCESS_MODE_INHERIT
 	show()
 
 @rpc("call_local")
