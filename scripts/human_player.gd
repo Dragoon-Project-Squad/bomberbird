@@ -2,8 +2,8 @@ extends Player
 
 @onready var inputs = $Inputs
 
-var pressed_once := false
-# Tracking Vars
+var set_bomb_pressed_once := false
+var ability_pressed_once := false
 
 func _ready():
 	player_type = "human"
@@ -25,11 +25,18 @@ func _physics_process(delta: float):
 		# The client simply updates the position to the last known one.
 		position = synced_position
 
-	if not stunned and inputs.bombing and bomb_count > 0 and !pressed_once:
-		pressed_once = true
+	if not stunned and inputs.use_ability and not ability_pressed_once:
+		ability_pressed_once = true
+		var direction: Vector2i = Vector2i(inputs.motion.normalized()) if inputs.motion != Vector2.ZERO else Vector2i.DOWN
+		punch_bomb(direction)
+	elif !inputs.use_ability and ability_pressed_once:
+		ability_pressed_once = false
+
+	if not stunned and inputs.bombing and bomb_count > 0 and not set_bomb_pressed_once:
+		set_bomb_pressed_once = true
 		place_bomb()
-	elif !inputs.bombing and pressed_once:
-		pressed_once = false
+	elif !inputs.bombing and set_bomb_pressed_once:
+		set_bomb_pressed_once = false
 
 	if !is_dead && !stunned:
 		# Everybody runs physics. I.e. clients tries to predict where they will be during the next frame.
