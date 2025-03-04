@@ -14,8 +14,9 @@ func _ready():
 	detection_area.get_child(1).shape = detection_area.get_child(1).shape.duplicate(true)
 	reset()
 
+# resets the object s.t. it can be reused at a later time
 func reset():
-	tilemap.clear() #There is probably a smarter way to do this then to do it all over all the time but that might get complex fast 
+	tilemap.clear()
 	detection_area.get_child(0).shape.a = Vector2(-8, 0)
 	detection_area.get_child(0).shape.b = Vector2(8, 0)
 	detection_area.get_child(1).shape.a = Vector2(0, -8)
@@ -28,8 +29,11 @@ func reset():
 	
 	hide()
 	$AnimationPlayer.stop()
+	detection_area.get_child(0).set_deferred("disabled", 1)
+	detection_area.get_child(1).set_deferred("disabled", 1)
 	process_mode = PROCESS_MODE_DISABLED
 
+# draws all tiles for the horizontal part of the explosion
 @warning_ignore("SHADOWED_VARIABLE")
 func set_cell_hori(pos: Vector2i, left: int, right: int, step: int = 0):
 	if pos == Vector2i.ZERO: return
@@ -43,6 +47,7 @@ func set_cell_hori(pos: Vector2i, left: int, right: int, step: int = 0):
 		_:
 			tilemap.set_cell(pos, 0, line_tile, 0)
 
+# draws all tiles for the vertical part of the explosion
 @warning_ignore("SHADOWED_VARIABLE")
 func set_cell_vert(pos: Vector2i, up: int, down: int, step: int = 0):
 	if pos == Vector2i.ZERO: return
@@ -56,7 +61,7 @@ func set_cell_vert(pos: Vector2i, up: int, down: int, step: int = 0):
 		_:
 			tilemap.set_cell(pos, 0, line_tile, 1)
 
-
+# sets up all values for the explosition that the bomb calculated.
 @rpc("call_local")
 @warning_ignore("SHADOWED_VARIABLE")
 func init_detonate(right: int, down: int = right, left: int = right, up: int = right):
@@ -76,7 +81,7 @@ func init_detonate(right: int, down: int = right, left: int = right, up: int = r
 	if down > 0:
 		detection_area.get_child(1).shape.b = Vector2(0, down * tile_size)
 
-#Gets called once by init_detonate and then from an animation with increasing steps
+# Gets called once by init_detonate and then from an animation with increasing steps
 func next_detonate(step: int = 0):
 	tilemap.set_cell(Vector2i.ZERO, 0, Vector2i(step, 0), 0)
 	for x in range(-left, right + 1):
@@ -84,20 +89,22 @@ func next_detonate(step: int = 0):
 	for y in range(-up, down + 1):
 		set_cell_vert(Vector2i(0, y), -up, down, step)
 
-
+# Starts the detonation. Must be called after init_detonate(...)
 @rpc("call_local")
 func do_detonate():
 	show()
 	$AnimationPlayer.play("boom") #this animation is freaky ngl
 	process_mode = PROCESS_MODE_INHERIT
+	detection_area.get_child(0).set_deferred("disabled", 0)
+	detection_area.get_child(1).set_deferred("disabled", 0)
 	await $AnimationPlayer.animation_finished
 	get_parent().done()
 
+#reports a kill from a player to the killer s.t. he can be revived if the settings allow it
 func report_kill(killed_player: Player):
 	var killer: Player = get_parent().bomb_root.bomb_owner
 	killer.misobon_player.revive.rpc(killed_player.synced_position)
 	
-
 func _on_body_entered(body: Node2D) -> void:
 	if is_multiplayer_authority() && body.has_method("exploded"):
 		body.exploded.rpc(str(get_parent().bomb_root.bomb_owner.name).to_int())	
@@ -112,5 +119,6 @@ func _on_body_entered(body: Node2D) -> void:
 		report_kill(body)
 
 func _on_area_2d_entered(area: Area2D) -> void:
+	print("hi")
 	if is_multiplayer_authority() && area.has_method("exploded"):
 		area.exploded.rpc(str(get_parent().bomb_root.bomb_owner.name).to_int())
