@@ -2,8 +2,12 @@
 class_name BombRoot extends Node2D
 
 var bomb_owner: Node2D
+# checks if the player has been dead at the time they placed the bomb
 var bomb_owner_is_dead: bool
+# remembers the time the bomb already cooked
 var fuse_time_passed: float
+# stores the boost s.t. it is remembered even during transition to for example airborn (punched) state
+var boost: int
 
 enum {DISABLED, STATIONARY, AIRBORN, SLIDING, SIZE} #all states plus a SIZE constant that has to remain the last entry
 var state: int = DISABLED #this is the authority if ever somehow two state nodes try to execute text_overrun_behavior
@@ -42,7 +46,7 @@ func set_bomb_owner(player_id: String):
 	bomb_owner = get_node("/root/World/Players/" + player_id)
 
 @rpc("call_local")
-func do_place(bombPos: Vector2, boost: int = 0, is_dead: bool = false) -> int:
+func do_place(bombPos: Vector2, boost: int = boost, is_dead: bool = false) -> int:
 	if bomb_owner == null:
 		printerr("A bomb without an bomb_owner tried to be placed")
 		return 1
@@ -59,6 +63,12 @@ func do_place(bombPos: Vector2, boost: int = 0, is_dead: bool = false) -> int:
 	set_state(STATIONARY)
 	
 	bomb_owner_is_dead = is_dead
+
+	if boost < 0:
+		boost = self.boost
+	elif self.boost == 0:
+		self.boost = boost
+
 	var bomb_authority: Node2D = state_map[state]
 	bomb_authority.set_explosion_width_and_size(min(boost + bomb_authority.explosion_width, bomb_authority.MAX_EXPLOSION_WIDTH))
 	bomb_authority.place(bombPos, fuse_time_passed)

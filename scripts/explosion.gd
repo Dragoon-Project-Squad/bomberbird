@@ -115,10 +115,10 @@ func _on_body_entered(body: Node2D) -> void:
 		&& body.lives - 1 <= 0 #will the player that got hit die
 		&& !body.stunned #will the player that got hit die
 		&& !body.invulnerable #will the player that got hit die
+		&& !body.hurry_up_started #has hurry up alread started
 		): #TODO: fix this, this is stupit
 		report_kill(body)
 
 func _on_area_2d_entered(area: Area2D) -> void:
-	print("hi")
 	if is_multiplayer_authority() && area.has_method("exploded"):
 		area.exploded.rpc(str(get_parent().bomb_root.bomb_owner.name).to_int())
