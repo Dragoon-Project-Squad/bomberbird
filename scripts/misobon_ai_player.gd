@@ -1,9 +1,11 @@
 extends MisobonPlayer
 
+
 var ai_throw_bomb: bool = false
 
 func _ready() -> void:
 	super()
+	$PlayerDetectArea.get_child(0).shape = $PlayerDetectArea.get_child(0).shape.duplicate(true)
 
 func _process(delta: float) -> void:
 	super(delta)
