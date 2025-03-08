@@ -14,5 +14,5 @@ Button/font_sizes/font_size = 32
 Button/styles/focus = ExtResource("1_tj4dq")
 Button/styles/hover = ExtResource("1_tj4dq")
 Button/styles/normal = ExtResource("2_htwv7")
-Label/font_sizes/font_size = 64
+Label/font_sizes/font_size = 32
 Label/fonts/font = ExtResource("3_i84aj")
