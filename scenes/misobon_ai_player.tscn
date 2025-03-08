@@ -1,12 +1,15 @@
-[gd_scene load_steps=11 format=3 uid="uid://bsndu4n0j4hva"]
+[gd_scene load_steps=14 format=3 uid="uid://bsndu4n0j4hva"]
 
 [ext_resource type="Script" path="res://scripts/misobon_ai_player.gd" id="1_iupa5"]
 [ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_lkx36"]
 [ext_resource type="Texture2D" uid="uid://lckm0mdablaw" path="res://assets/player/chonkgoon_walk.png" id="3_a7ytd"]
 [ext_resource type="Texture2D" uid="uid://cwpnhuimmgdha" path="res://assets/bombcentered.png" id="4_3foh7"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="4_6653n"]
+[ext_resource type="Script" path="res://scripts/misobon_ai_state_machine.gd" id="5_e4txw"]
 [ext_resource type="Script" path="res://scripts/misobon_player_controls.gd" id="5_j88x1"]
+[ext_resource type="Script" path="res://scripts/misobon_ai_wander.gd" id="6_wkc6b"]
 [ext_resource type="AnimationLibrary" uid="uid://b7alfxjlq0yvb" path="res://animations/misobon_player_animation.tres" id="7_jqlv8"]
+[ext_resource type="Script" path="res://scripts/misobon_ai_bombing.gd" id="7_nvk1q"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_aowd5"]
 outline_size = 8
@@ -19,6 +22,12 @@ properties/0/replication_mode = 0
 properties/1/path = NodePath(".:synced_progress")
 properties/1/spawn = true
 properties/1/replication_mode = 1
+properties/2/path = NodePath(".:move_direction")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath("Raycasts:position")
+properties/3/spawn = true
+properties/3/replication_mode = 2
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ehaou"]
 properties/0/path = NodePath(".:motion")
@@ -46,11 +55,47 @@ hframes = 6
 vframes = 4
 
 [node name="BombSprite" type="Sprite2D" parent="."]
-position = Vector2(-82, -35)
+position = Vector2(0, -35)
 texture = ExtResource("4_3foh7")
 hframes = 3
 region_enabled = true
 region_rect = Rect2(0, 0, 96, 32)
+
+[node name="Raycasts" type="Node2D" parent="."]
+
+[node name="Right" type="RayCast2D" parent="Raycasts"]
+target_position = Vector2(64, 0)
+collision_mask = 7
+collide_with_areas = true
+metadata/direction = Vector2i(1, 0)
+
+[node name="Down" type="RayCast2D" parent="Raycasts"]
+target_position = Vector2(0, 64)
+collision_mask = 7
+collide_with_areas = true
+metadata/direction = Vector2i(0, 1)
+
+[node name="Left" type="RayCast2D" parent="Raycasts"]
+target_position = Vector2(-64, 0)
+collision_mask = 7
+collide_with_areas = true
+metadata/direction = Vector2i(-1, 0)
+
+[node name="Up" type="RayCast2D" parent="Raycasts"]
+target_position = Vector2(0, -64)
+collision_mask = 7
+collide_with_areas = true
+metadata/direction = Vector2i(0, -1)
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("5_e4txw")
+initial_state = NodePath("Wander")
+
+[node name="Wander" type="Node" parent="StateMachine"]
+script = ExtResource("6_wkc6b")
+
+[node name="Bombing" type="Node" parent="StateMachine"]
+script = ExtResource("7_nvk1q")
 
 [node name="label" type="Label" parent="."]
 z_index = 1
