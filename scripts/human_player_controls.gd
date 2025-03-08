@@ -8,6 +8,8 @@ var motion = Vector2():
 
 @export
 var bombing = false
+@export
+var use_ability = false
 
 func update():
 	var m = Vector2()
@@ -22,3 +24,4 @@ func update():
 
 	motion = m
 	bombing = Input.is_action_pressed("set_bomb")
+	use_ability = Input.is_action_pressed("ability")

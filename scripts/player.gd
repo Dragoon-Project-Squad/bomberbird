@@ -1,10 +1,12 @@
 class_name Player extends CharacterBody2D
 
 const BASE_MOTION_SPEED: float = 100.0
+const MOTION_SPEED_INCREASE: float = 20.0
 const BOMB_RATE: float = 0.5
 const MAX_BOMBS_OWNABLE: int = 8
 const MAX_EXPLOSION_BOOSTS_PERMITTED: int = 6
-const MISOBON_RESPAWN_TIME: float = 0.5
+#NOTE: MISOBON_RESPAWN_TIME is additive to the animation time for both spawning and despawning the misobon player
+const MISOBON_RESPAWN_TIME: float = 0.5 
 const INVULNERABILITY_TIME: float = 2
 const INVULNERABILITY_FLASH_TIME: float = 0.125
 
@@ -17,6 +19,7 @@ const INVULNERABILITY_FLASH_TIME: float = 0.125
 var current_anim: String = ""
 var is_dead: bool = false
 var player_type: String
+var hurry_up_started: bool = false 
 var misobon_player: MisobonPlayer
 
 var game_ui: CanvasLayer
@@ -24,7 +27,8 @@ var game_ui: CanvasLayer
 var invulnerable_animation_time: float
 var invulnerable_total_time: float = 2
 
-var bomb_pool: ObjectPool
+var pickup_pool: PickupPool
+var bomb_pool: BombPool
 var last_bomb_time: float = BOMB_RATE
 var bomb_total: int
 
@@ -33,16 +37,15 @@ var bomb_total: int
 @export var bomb_count: int
 @export var lives: int
 @export var explosion_boost_count: int
-@export var can_punch: bool
 
-var tile_map: TileMapLayer
+var pickups: HeldPickups = HeldPickups.new()
 
 func _ready():
 	#These are all needed
 	position = synced_position
 	bomb_total = bomb_count
-	tile_map = get_parent().get_parent().get_node("Floor")
 	bomb_pool = get_node("/root/World/BombPool")
+	pickup_pool = get_node("/root/World/PickupPool")
 	game_ui = get_node("/root/World/GameUI")
 
 func _process(delta: float):
@@ -62,12 +65,39 @@ func _process(delta: float):
 func _physics_process(_delta: float):
 	pass
 
+func punch_bomb(direction: Vector2i):
+	if !is_multiplayer_authority():
+		return
+	if !pickups.held_pickups.punch_ability:
+		return
+	
+	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
+	var bomb: BombRoot
+	for body in bodies:
+		if !body is Bomb: continue
+		bomb = body.get_parent()
+		break
+	
+	if bomb == null: return
+
+	bomb.do_punch.rpc(direction)
+
 func place_bomb():
-	var bombPos = tile_map.map_to_local(tile_map.local_to_map(synced_position))
+	if(world_data.is_tile(world_data.tiles.BOMB, self.global_position)): return
+	
+	var bombPos = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(synced_position))
 	bomb_count -= 1
 	last_bomb_time = 0
+	
+	# Adding bomb to astargrid so bombs have collision inside the grid
+	# Replace code if "world_data" class can be used
+	var world : World
+	world = get_parent().get_parent()
+	world.astargrid_set_point(world_data.tile_map.local_to_map(synced_position), true)
+	
 	if is_multiplayer_authority():
-		var bomb = bomb_pool.request(self)
+		var bomb: BombRoot = bomb_pool.request([])
+		bomb.set_bomb_owner.rpc(self.name)
 		bomb.do_place.rpc(bombPos, explosion_boost_count)
 
 func update_animation(direction: Vector2):
@@ -85,34 +115,40 @@ func update_animation(direction: Vector2):
 		
 	if new_anim != current_anim:
 		current_anim = new_anim
-		$AnimationPlayer.play(current_anim)
+		$AnimationPlayer.play("player_animations/" + current_anim)
 
 func enter_misobon():
-	if misobon_player == null:
-		set_misobon(self.name)
-		
-	if gamestate.misobon_mode == gamestate.misobon_states.OFF:
+	if gamestate.misobon_mode == gamestate.misobon_states.OFF || hurry_up_started:
 		return
-
+	
+	
 	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
-
+	#Check if nothing changed in the meantime
+	if gamestate.misobon_mode == gamestate.misobon_states.OFF || hurry_up_started:
+		return
+	
 	if is_multiplayer_authority():
+		if misobon_player == null:
+			set_misobon.rpc()
 		misobon_player.enable.rpc(
 			misobon_player.get_parent().get_progress_from_vector(position) 
 			)
+		misobon_player.play_spawn_animation.rpc()
 
 func enter_death_state():
 	is_dead = true
-	$AnimationPlayer.play("death")
+	$AnimationPlayer.play("player_animations/death")
 	$Hitbox.set_deferred("disabled", 1)
 	game_ui.player_died()
-	hide()
+	spread_items() #TODO: Check if battlemode
+	pickups.reset()
 	await $AnimationPlayer.animation_finished
+	hide()
 	process_mode = PROCESS_MODE_DISABLED
 	
 func exit_death_state():
 	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
-	$AnimationPlayer.play("revive")
+	$AnimationPlayer.play("player_animations/revive")
 	await $AnimationPlayer.animation_finished
 	$Hitbox.set_deferred("disabled", 0)
 	game_ui.player_revived()
@@ -121,16 +157,48 @@ func exit_death_state():
 	is_dead = false
 	do_invulnerabilty()
 
+func spread_items():
+	if !is_multiplayer_authority():
+		return
+	
+	var pickup_types: Array[String] = []
+	var pickup_count: Array[int] = []
+	
+	for key in pickups.count_keys:
+		var count: int = pickups.held_pickups[key]
+		if count == 0: continue
+		pickup_types.push_back(key)
+		pickup_count.push_back(count)
+	
+	for key in pickups.bool_keys:
+		if !pickups.held_pickups[key]: continue
+		pickup_types.push_back(key)
+		pickup_count.push_back(1)
+	
+	#TODO: add pickups for exclusive pickups
+	
+	var to_place_pickups: Dictionary = pickup_pool.request_group(pickup_count, pickup_types)
+	for i in range(pickup_types.size()):
+		if pickup_count[i] == 1:
+			var pos: Vector2 = world_data.get_random_empty_tile()
+			to_place_pickups[pickup_types[i]][0].place.rpc(pos)
+		else:
+			var pos_array: Array = world_data.get_random_empty_tiles(pickup_count[i])
+			for j in range(pos_array.size()):
+				to_place_pickups[pickup_types[i]][j].place.rpc(pos_array[j])
+
+
 func do_invulnerabilty():
 	invulnerable_total_time = 0
 	invulnerable = true
 	set_process(true)
 	
 func do_stun():
-	$AnimationPlayer.play("stunned") #Note this animation sets stunned automatically
+	$AnimationPlayer.play("player_animations/stunned") #Note this animation sets stunned automatically
 
-func set_misobon(player_name: String):
-	misobon_player = get_node("../../MisobonPath/" + player_name)
+@rpc("call_local")
+func set_misobon():
+	misobon_player = get_node("../../MisobonPath/" + str(self.name))
 
 func set_player_name(value):
 	$label.set_text(value)
@@ -159,10 +227,6 @@ func increment_bomb_count():
 @rpc("call_local")
 func return_bomb():
 	bomb_count = min(bomb_count+1, bomb_total)
-
-@rpc("call_local")
-func enable_punch():
-	can_punch = true
 
 @rpc("call_local")
 func exploded(by_who):

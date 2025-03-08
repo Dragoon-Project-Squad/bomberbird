@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://enwoaqi0rnei"]
+[gd_scene load_steps=11 format=3 uid="uid://ct3sf5ul21w14"]
 
 [ext_resource type="Script" path="res://scripts/stationary_bomb.gd" id="1"]
 [ext_resource type="AudioStream" uid="uid://boidckhyrna5i" path="res://sound/fx/explosion.wav" id="2_gmoi6"]
@@ -64,15 +64,15 @@ shape = SubResource("RectangleShape2D_6btgv")
 disabled = true
 
 [node name="DetectArea" type="Area2D" parent="."]
-collision_layer = 0
+collision_layer = 128
 collision_mask = 6
 input_pickable = false
-monitorable = false
 
 [node name="DetectShape" type="CollisionShape2D" parent="DetectArea"]
 shape = SubResource("RectangleShape2D_6btgv")
 
 [node name="Raycasts" type="Node2D" parent="."]
+visible = false
 
 [node name="Right" type="RayCast2D" parent="Raycasts"]
 target_position = Vector2(32, 0)

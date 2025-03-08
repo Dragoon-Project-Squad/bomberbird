@@ -1,4 +1,5 @@
 extends StaticBody2D
+class_name Bomb
 
 @onready var bomb_root: Node2D = get_parent()
 @onready var bomb_pool: Node2D = get_parent().get_parent()
@@ -16,7 +17,7 @@ const TILE_SIZE = 32 #Primitive method of assigning correct tile size
 @onready var rays = $Raycasts
 @onready var bombsprite := $BombSprite
 @onready var explosion = $Explosion
-@onready var tileMap = get_tree().get_root().get_node("World/Floor")
+@onready var tileMap = world_data.tile_map
 
 func _ready():
 	explosion_sfx_player = bomb_pool.get_node("BombGlobalAudioPlayers/ExplosionSoundPlayer")
@@ -28,7 +29,6 @@ func _ready():
 	$CollisionShape2D.set_deferred("disabled", 1) # This line of code thinks it knows better so it just kinda doesn't do what it should... also doesn't give an error tho...
 
 func disable():
-	bomb_root.position = Vector2.ZERO
 	explosion_sfx_player.position = Vector2.ZERO
 	animation_finish = false
 	explosion_width = 2
@@ -38,13 +38,14 @@ func disable():
 	$DetectArea.set_deferred("disabled", 1)
 	$CollisionShape2D.set_deferred("disabled", 1)
 
-func place(bombPos: Vector2):
+func place(bombPos: Vector2, fuse_time_passed: float = 0):
 	bomb_placement_sfx_player.play()
 	bomb_root.position = bombPos
 	self.visible = true
 	$CollisionShape2D.set_deferred("disabled", 1)
 	$DetectArea.set_deferred("disabled", 0)
 	$AnimationPlayer.play("fuse_and_call_detonate()")
+	$AnimationPlayer.advance(fuse_time_passed) #continue the animation from where it was left of
 	
 func detonate():
 	explosion_sfx_player.stop()
@@ -59,8 +60,8 @@ func detonate():
 			continue
 		var target: Node2D = ray.get_collider()
 		if target.is_in_group("bombstop"):
-			@warning_ignore("INTEGER_DIVISION")
-			var col_point = to_local(ray.get_collision_point()) + Vector2(ray_direction * (TILE_SIZE / 2)) #Note this integer division is fine idk why godot feels like it needs to warn for int divisions anyway?
+			@warning_ignore("INTEGER_DIVISION") #Note this integer division is fine idk why godot feels like it needs to warn for int divisions anyway?
+			var col_point = to_local(ray.get_collision_point()) + Vector2(ray_direction * (TILE_SIZE / 2))
 			
 			exp_range[ray_direction] = explosion.get_node("SpriteTileMap").local_to_map(col_point).length() - 1 #find the distance from bomb.position to the last tile that should be blown up (in number of tiles)
 			if target.has_method("exploded") && is_multiplayer_authority(): target.exploded.rpc(str(get_parent().bomb_owner.name).to_int()) #if an object stopped the bomb and can be blown up... blow it up!
@@ -71,11 +72,18 @@ func detonate():
 			get_parent().bomb_owner.return_bomb.rpc()
 	
 func done():
-	var bomb_owner = get_parent().bomb_owner #need to keep a reference around of owner for the return, as disable removes the reference from BombRoot
+	world_data.set_tile(world_data.tiles.EMPTY, bomb_root.global_position)
+	
+	# Frees collision from astargrid when done
+	# Revise for posible implementation on world_data
+	var world : World
+	world = get_parent().get_parent().get_parent()
+	world.astargrid_set_point(world_data.tile_map.local_to_map(bomb_root.global_position), false)
+	
 	if !is_multiplayer_authority():
 		return
 	bomb_root.disable.rpc()
-	bomb_pool.return_obj(bomb_owner, get_parent()) # bomb returns itself to the pool
+	bomb_pool.return_obj(get_parent()) # bomb returns itself to the pool
 
 #Probably Deprecated
 func is_out_of_bounds(pos: Vector2):

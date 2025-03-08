@@ -9,13 +9,13 @@ func _ready() -> void:
 	super()
 
 func _process(delta: float) -> void:
-	if multiplayer.multiplayer_peer == null or str(multiplayer.get_unique_id()) == str(name):
+	super(delta)
+	if multiplayer.multiplayer_peer == null or str(multiplayer.get_unique_id()) == str(name) && controlable:
 		# The client which this player represent will update the controls state, and notify it to everyone.
 		inputs.update(
 			get_parent().get_segment_with_grace(synced_progress)
 			)
-
-	super(delta)
+	
 	last_bomb_time += delta
 
 	if last_bomb_time >= BOMB_RATE && !$BombSprite.visible:

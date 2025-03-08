@@ -13,16 +13,26 @@ var target : Vector2i
 var path : Array[Vector2i]
 var next_point : Vector2
 var currently_moving : bool
-var default_idle_time = 2
+var default_idle_time = 0.5
 var idle_time = default_idle_time
+var default_stuck_time = 1
+var stuck_time = default_stuck_time
 var idle : bool
+var prev_pos : Vector2
+var detect : bool
 
 # Overwrite "_" functions as needed
 func _enter() -> void:
 	pass
 
 func _exit() -> void:
-	pass
+	target = Vector2i()
+	path = []
+	next_point = Vector2()
+	currently_moving  = false
+	idle_time = default_idle_time
+	stuck_time = default_stuck_time
+	idle = false
 
 func _update(delta : float) -> void:
 	pass
@@ -43,6 +53,41 @@ func get_global_position(cell : Vector2i) -> Vector2:
 	position = Vector2i(position.x, position.y)
 	return position
 
+func _idle_and_detect(delta) -> void:
+	if idle:
+		# Wait in idle for a set time after moving
+		if(idle_time>0):
+			idle_time -= delta
+		else:
+			idle = false
+			idle_time = default_idle_time
+			currently_moving = false
+			# Once idle time finished, evaluate the situation and change state
+			# depending on the things detected
+			detect = true
+
+func _detect_surroundings() -> void:
+	pass
+
+func detect_stuck(delta) -> void:
+	if not idle:
+		if stuck_time > 0:
+			stuck_time -= delta
+		else:
+			var floor_prev_pos = Vector2(floor(prev_pos.x), floor(prev_pos.y))
+			var floor_current_pos = Vector2(floor(aiplayer.global_position.x), floor(aiplayer.global_position.y))
+			stuck_time = default_stuck_time
+			if prev_pos == Vector2(0,0):
+				prev_pos = aiplayer.global_position
+			elif floor_prev_pos == floor_current_pos:
+				#if aiplayer.name == "2":
+					#print("Stuck detected, changing direction")
+				prev_pos = Vector2(0, 0)
+				aiplayer.global_position = get_global_position(get_cell_position(aiplayer.global_position))
+				idle = true
+				_set_target()
+				
+
 # *****Setting*****
 func set_area() -> void:
 	area = world.floor_layer.get_used_rect()
@@ -51,8 +96,7 @@ func set_area() -> void:
 func set_next_point() -> void:
 	# If player reached its next point enter idle
 	if currently_moving and reached_next_point():
-		currently_moving = false
-		idle = true
+		_on_player_reached_next_point()
 		aiplayer.global_position = next_point
 	# When idle time finishes, currently_moving should be put to false so it can move again.
 	# If the path has been completely followed, decide a new target that each State should define,
@@ -60,8 +104,18 @@ func set_next_point() -> void:
 	elif !currently_moving:
 		currently_moving = true
 		if path.size()==0:
-			_set_target()
+			if _on_player_finished_path():
+				return
 		next_point = get_global_position(path.pop_front())
+
+func _on_player_reached_next_point() -> bool:
+	currently_moving = false
+	idle = true
+	stuck_time = default_stuck_time
+	return false
+
+func _on_player_finished_path():
+	_set_target()
 
 func move_to_next_point() -> void:
 	if next_point:

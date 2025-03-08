@@ -20,12 +20,10 @@ var arena_bounds: Array[Vector2]
 var world_bounds: Array[Vector2]
 var world_size: Vector2
 
-var tile_map: TileMapLayer
 var bomb_root: Node2D
 
 
 func _ready() -> void:
-	tile_map = get_node("/root/World/Floor")
 	bomb_root = get_parent()
 
 	disable()
@@ -104,7 +102,7 @@ func check_space():
 func to_stationary_bomb():
 	if !is_multiplayer_authority():
 		return
-	bomb_root.do_place.rpc(target, 0, true)
+	bomb_root.do_place.rpc(target, -1)
 
 func check_bounds() -> bool:
 	var in_arena_x: bool = arena_bounds[0].x < bomb_root.position.x && bomb_root.position.x < arena_bounds[1].x
@@ -139,7 +137,7 @@ func check_bounds() -> bool:
 
 func wrap_around():
 	bomb_root.position -= Vector2(direction) * world_size.dot(direction.abs())
-	print("wrap_position: ", bomb_root.position)
+	#print("wrap_position: ", bomb_root.position)
 
 
 #throw calculates and starts a throw operations
@@ -152,7 +150,7 @@ func throw(origin: Vector2, target: Vector2, direction: Vector2i, angle_rad: flo
 
 	bomb_root.position = origin
 	self.visible = true
-	var corrected_target = tile_map.map_to_local(tile_map.local_to_map(target))
+	var corrected_target = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(target))
 	self.time = 0
 	self.time_total = time_total
 	self.direction = direction
@@ -171,7 +169,7 @@ func throw(origin: Vector2, target: Vector2, direction: Vector2i, angle_rad: flo
 		Vector2i.UP:
 			calculate_line(diff.abs())
 		_:
-			push_error("throw must be handed a valid direction (UP, DOWN, LEFT o RIGHT)")
+			push_error("throw must be handed a valid direction (UP, DOWN, LEFT o RIGHT) not: ", direction)
 			return
 
 	set_state(AIRBORN)
