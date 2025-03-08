@@ -51,6 +51,6 @@ frame_progress = 0.0251961
 
 [node name="PickupSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_sd1i0")
-bus = &"Sound"
+bus = &"SFX"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

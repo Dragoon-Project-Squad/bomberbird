@@ -229,7 +229,7 @@ libraries = {
 
 [node name="UnbreakableSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_gdwcr")
-bus = &"Sound"
+bus = &"SFX"
 
 [node name="HitDetection" type="Area2D" parent="."]
 collision_mask = 31

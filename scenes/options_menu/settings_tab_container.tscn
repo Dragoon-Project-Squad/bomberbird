@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://cuslig6cjmt18"]
+[gd_scene load_steps=7 format=3 uid="uid://cuslig6cjmt18"]
 
+[ext_resource type="PackedScene" uid="uid://btedou2ck0dq2" path="res://scenes/options_menu/audio_slider_settings.tscn" id="1_0xsqn"]
 [ext_resource type="PackedScene" uid="uid://dde0vhaw16pm7" path="res://scenes/options_menu/hotkey_rebind_button.tscn" id="1_e0vr5"]
 [ext_resource type="PackedScene" uid="uid://cvmphqwgfj7s6" path="res://scenes/options_menu/window_mode_button.tscn" id="1_qe5us"]
 [ext_resource type="PackedScene" uid="uid://bji7xtln0wpgk" path="res://scenes/options_menu/resolution_mode_button.tscn" id="2_gsepo"]
@@ -47,30 +48,24 @@ theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 24
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Sound/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Sound/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Sound/MarginContainer/ScrollContainer"]
 layout_mode = 2
 theme_override_constants/separation = 64
 alignment = 1
 
-[node name="Label" type="Label" parent="TabContainer/Sound/MarginContainer/VBoxContainer"]
+[node name="AudioSliderSettings" parent="TabContainer/Sound/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_0xsqn")]
 layout_mode = 2
-text = "S1"
+bus_name = "Master"
 
-[node name="Label2" type="Label" parent="TabContainer/Sound/MarginContainer/VBoxContainer"]
+[node name="AudioSliderSettings2" parent="TabContainer/Sound/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_0xsqn")]
 layout_mode = 2
-text = "S2"
+bus_name = "Music"
 
-[node name="Label3" type="Label" parent="TabContainer/Sound/MarginContainer/VBoxContainer"]
+[node name="AudioSliderSettings3" parent="TabContainer/Sound/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_0xsqn")]
 layout_mode = 2
-text = "S3"
-
-[node name="Label4" type="Label" parent="TabContainer/Sound/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "S4"
-
-[node name="Label5" type="Label" parent="TabContainer/Sound/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "S5"
 
 [node name="Graphics" type="TabBar" parent="TabContainer"]
 visible = false

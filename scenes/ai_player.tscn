@@ -148,7 +148,7 @@ replication_config = SubResource("SceneReplicationConfig_w53uu")
 
 [node name="HurtSoundPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_raw0p")
-bus = &"Sound"
+bus = &"SFX"
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("8_5j1t4")
