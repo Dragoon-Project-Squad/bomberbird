@@ -174,13 +174,13 @@ layout_mode = 2
 layout_mode = 2
 action_name = "move_left"
 
-[node name="Hotkey_Rebind_Button3" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_e0vr5")]
-layout_mode = 2
-action_name = "move_right"
-
 [node name="Hotkey_Rebind_Button4" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_e0vr5")]
 layout_mode = 2
 action_name = "move_down"
+
+[node name="Hotkey_Rebind_Button3" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_e0vr5")]
+layout_mode = 2
+action_name = "move_right"
 
 [node name="Hotkey_Rebind_Button5" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_e0vr5")]
 layout_mode = 2
@@ -203,7 +203,6 @@ layout_mode = 2
 action_name = "pause"
 
 [node name="HSeparator2" type="HSeparator" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/separation = 12
 theme_override_styles/separator = SubResource("StyleBoxEmpty_xs6b0")

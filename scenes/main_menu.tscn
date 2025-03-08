@@ -178,5 +178,5 @@ action = "move_right"
 [connection signal="pressed" from="ButtonBox/Singleplayer" to="." method="_on_single_player_pressed"]
 [connection signal="pressed" from="ButtonBox/Multiplayer" to="." method="_on_multiplayer_pressed"]
 [connection signal="pressed" from="ButtonBox/Options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="OptionsMenu/OptionsMenu3/Exit" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="OptionsMenu/OptionsMenu3/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="OptionsMenu/OptionsMenu3/Exit" to="." method="_on_options_pressed"]
