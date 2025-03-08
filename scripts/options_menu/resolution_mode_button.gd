@@ -20,5 +20,11 @@ func add_resolution_items() -> void:
 	for resolution_size_text in RESOLUTION_DICTIONARY:
 		option_button.add_item(resolution_size_text)
 
+func center_window():
+	var center_screen = DisplayServer.screen_get_position() + DisplayServer.screen_get_size()/2
+	var window_size = get_window().get_size_with_decorations()
+	get_window().set_position(center_screen - window_size/2)
+
 func _on_resolution_selected(index: int) -> void:
 	DisplayServer.window_set_size(RESOLUTION_DICTIONARY.values()[index])
+	center_window()
