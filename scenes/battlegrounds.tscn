@@ -264,6 +264,7 @@ script = ExtResource("9_qqnss")
 [node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_to18j")
 volume_db = -4.685
+bus = &"Music"
 
 [node name="Timers" type="Node" parent="."]
 
