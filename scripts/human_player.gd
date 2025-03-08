@@ -25,11 +25,11 @@ func _physics_process(delta: float):
 		# The client simply updates the position to the last known one.
 		position = synced_position
 
-	if not stunned and inputs.use_ability and not punch_pressed_once:
+	if not stunned and inputs.punch_ability and not punch_pressed_once:
 		punch_pressed_once = true
 		var direction: Vector2i = Vector2i(inputs.motion.normalized()) if inputs.motion != Vector2.ZERO else Vector2i.DOWN
 		punch_bomb(direction)
-	elif !inputs.use_ability and punch_pressed_once:
+	elif !inputs.punch_ability and punch_pressed_once:
 		punch_pressed_once = false
 
 	if not stunned and inputs.bombing and bomb_count > 0 and not set_bomb_pressed_once:
