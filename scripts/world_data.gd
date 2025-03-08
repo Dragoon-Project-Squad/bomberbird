@@ -20,6 +20,7 @@ var tile_map: TileMapLayer
 
 #private functions
 func _vec_to_index(vec: Vector2i) -> int:
+	assert(0 <= vec.x && vec.x < world_width && 0 <= vec.y && vec.y <= world_height, "index " + str(vec) + " out of bounds for world_data")
 	var indx: int = vec.x + vec.y * self.world_width
 	assert(indx < self._world_matrix.size(), "index" + str(vec) + " <-> " + str(indx) + " out of bounds for world_data")
 	return indx
@@ -110,6 +111,14 @@ func set_tile(tile: int, global_pos: Vector2):
 func is_tile(tile: int, global_pos: Vector2):
 	var matrix_pos: Vector2i = tile_map.local_to_map(global_pos) - floor_origin
 	return tile == _world_matrix[_vec_to_index(matrix_pos)]
+
+func is_out_of_bounds(global_pos: Vector2) -> int:
+	var matrix_pos: Vector2i = tile_map.local_to_map(global_pos) - floor_origin
+	if matrix_pos.x < 0: return 3
+	elif matrix_pos.x >= world_width: return 1
+	elif matrix_pos.y < 0: return 0
+	elif matrix_pos.y >= world_height: return 2
+	return -1
 
 func get_random_empty_tile(in_cells: bool = false) -> Variant:
 	_get_rand_lock.lock() #Below this is clearly a critical section (if this ever causes performance issues a more fine grained locking may solve this)

@@ -2,8 +2,7 @@ class_name MisobonAiState extends Node
 
 signal state_changed
 
-var player: MisobonPlayer
-var player_detect_area: Area2D
+var player: Node2D
 var rng = RandomNumberGenerator.new()
 
 func _enter() -> void:

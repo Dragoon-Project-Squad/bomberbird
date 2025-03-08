@@ -1,7 +1,7 @@
 class_name MisobonPlayer extends PathFollow2D
 
 const THROW_RANGE: int = 3
-const MOVEMENT_SPEED: float = 200.0
+const MOVEMENT_SPEED: float = 150.0
 const BOMB_RATE: float = 2
 const MAX_BOMB_OWNABLE: int = 99
 const TILESIZE: int = 32
@@ -49,15 +49,13 @@ func disable(do_wait: bool = false):
 	process_mode = PROCESS_MODE_DISABLED
 	
 func throw_bomb():
-
 	last_bomb_time = 0
 	$BombSprite.hide()
 	
-	var seg_index: int = get_parent().get_segment_id(progress)
-	var direction_array: Array[Vector2i] = [Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP, Vector2i.RIGHT]
-	var throw_range = THROW_RANGE if direction_array[seg_index] != Vector2i.DOWN else THROW_RANGE + 2
+	var look_direction: Vector2i = get_parent().get_direction(progress)
+	var throw_range = THROW_RANGE if look_direction != Vector2i.DOWN else THROW_RANGE + 2
 
-	var bombPos = position + Vector2(direction_array[seg_index]) * TILESIZE * throw_range
+	var bombPos = position + Vector2(look_direction) * TILESIZE * throw_range
 
 	if !is_multiplayer_authority():
 		return
@@ -67,8 +65,8 @@ func throw_bomb():
 	bomb.do_misobon_throw.rpc(
 		position + $BombSprite.position,
 		bombPos,
-		direction_array[seg_index]
-		)
+		look_direction,
+	)
 
 @rpc("call_local")
 func revive(pos: Vector2):
