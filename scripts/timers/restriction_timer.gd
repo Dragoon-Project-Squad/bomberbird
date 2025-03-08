@@ -57,7 +57,6 @@ func _on_timeout() -> void:
 
 	var unbreakable_pos: Vector2 = world_data.tile_map.map_to_local(spiral_to_world(current_tile_index, world))
 	while(current_tile_index < target_tiles.size() && world_data.is_tile(world_data.tiles.UNBREAKABLE, unbreakable_pos)):
-		world_data._debug_print_matrix()
 		current_tile_index += 1
 		unbreakable_pos = world_data.tile_map.map_to_local(spiral_to_world(current_tile_index, world))
 

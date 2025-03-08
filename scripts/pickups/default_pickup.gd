@@ -68,7 +68,7 @@ func exploded(_from_player):
 	pickup_pool.return_obj(self) #Pickup returns itself to the pool
 	disable_collison_and_hide()
 	if $anim:
-		$anim.play("explode_pickup")
+		$anim.play("pickup/explode_pickup")
 		await $anim.animation_finished
 	disable()
 

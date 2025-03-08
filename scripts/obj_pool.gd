@@ -14,8 +14,8 @@ func create_reserve(count, spawn_data): #creates a number of unowned obj's for t
 	unowned = []
 	unowned.resize(count)
 	if spawn_data == null: push_error("spawn_data is not allowed to be null")
-	for _i in range(count):
-		unowned.push_back(obj_spawner.spawn(spawn_data))
+	for i in range(count):
+		unowned[i] = obj_spawner.spawn(spawn_data)
 	
 
 func request(spawn_data) -> Variant: #This function is called if a caller needs a obj from the pool

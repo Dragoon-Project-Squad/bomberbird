@@ -31,8 +31,9 @@ func create_reserve(count: int, pickup_type: String): #creates a number of unown
 		push_error("a pickup of unknown type has been requested from the pool, Type: ", pickup_type)
 		return null
 	unowned[pickup_type] = []
-	for _i in range(count):
-		unowned[pickup_type].push_back(obj_spawner.spawn(pickup_type))
+	unowned[pickup_type].resize(count)
+	for i in range(count):
+		unowned[pickup_type][i] = obj_spawner.spawn(pickup_type)
 
 func request(pickup_type: String) -> Pickup:
 	if !initial_spawn_counts.has(pickup_type): 
