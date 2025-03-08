@@ -93,7 +93,7 @@ func place_bomb():
 	# Replace code if "world_data" class can be used
 	var world : World
 	world = get_parent().get_parent()
-	world.astargrid_set_point(world_data.tile_map.local_to_map(synced_position), true)
+	world.astargrid_set_point(synced_position, true)
 	
 	if is_multiplayer_authority():
 		var bomb: BombRoot = bomb_pool.request([])

@@ -82,7 +82,7 @@ func safe_target() -> void:
 		path.pop_front()
 	else:
 		#print("No safe was found")
-		state_changed.emit("Safe")
+		state_changed.emit(self, "Safe")
 
 func set_valid_new_target(new_target : Vector2i, unsafe_cells : Array[Vector2i]) -> bool:
 	if is_new_target_valid(new_target, unsafe_cells):
