@@ -78,6 +78,7 @@ script = ExtResource("3_uhlbr")
 [node name="PickupPool" parent="." instance=ExtResource("6_2h1qq")]
 
 [node name="GameUI" type="CanvasLayer" parent="."]
+visible = false
 script = ExtResource("3_dadsx")
 
 [node name="Border" type="ColorRect" parent="GameUI"]
@@ -284,7 +285,6 @@ one_shot = true
 autostart = true
 
 [node name="Marker2D" type="Marker2D" parent="."]
-position = Vector2(304, 144)
 
 [connection signal="pressed" from="Winner/ExitGame" to="GameUI" method="_on_exit_game_pressed"]
 [connection signal="pressed" from="Winner/ExitGame" to="GameUI/Border/Container/Players" method="_on_exit_game_pressed"]

@@ -55,6 +55,14 @@ func get_segment_id(progress: float) -> int:
 	printerr("could not evaluate segment index for progress: ", progress, "and curve length of:", curve_len)
 	return -1 #this indicateds something went wrong, tho considering the modolo of progress is handeled by godot this should never happen
 
+func get_direction(progress: float) -> Vector2i:
+	match get_segment_id(progress):
+		0: return Vector2i.DOWN
+		1: return Vector2i.LEFT
+		2: return Vector2i.UP
+		3: return Vector2i.RIGHT
+		_: return Vector2i.ZERO
+
 func get_progress_from_vector(pos: Vector2) -> float:
 	#returns a progress value s.t. it is either to the left or right or the battleground & at the same height of pos
 	var res: float = curve_len / 8
