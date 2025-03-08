@@ -1,4 +1,3 @@
-class_name HotkeyRebindButton
 extends Control
 
 @onready var label: Label = $HBoxContainer/Label as Label

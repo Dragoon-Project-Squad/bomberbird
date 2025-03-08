@@ -1,11 +1,11 @@
 [gd_scene load_steps=5 format=3 uid="uid://drj31ll2cuftl"]
 
-[ext_resource type="Script" path="res://scripts/options.gd" id="1_rs434"]
+[ext_resource type="Script" path="res://scripts/options_menu/options.gd" id="1_rs434"]
 [ext_resource type="Texture2D" uid="uid://bsu1o1vymo51p" path="res://assets/aesprite/Domber doki cenario1.png" id="2_mqvme"]
 [ext_resource type="Theme" uid="uid://m30a0nncwbm0" path="res://assets/styles/options_menu.tres" id="3_4bifj"]
 [ext_resource type="PackedScene" uid="uid://cuslig6cjmt18" path="res://scenes/options_menu/settings_tab_container.tscn" id="4_pbji6"]
 
-[node name="Options_Menu" type="Control"]
+[node name="OptionsMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
