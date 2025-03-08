@@ -111,8 +111,9 @@ region_rect = Rect2(0, 0, 96, 32)
 
 [node name="Explosion" parent="." instance=ExtResource("4_4i8os")]
 
-[node name="BombPlacementPlayer" type="AudioStreamPlayer2D" parent="."]
+[node name="BombPlacementPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_nrvts")
+bus = &"Sound"
 
 [connection signal="body_exited" from="DetectArea" to="." method="_on_detect_area_body_exit"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
