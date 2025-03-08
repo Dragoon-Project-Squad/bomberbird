@@ -47,6 +47,7 @@ shape = SubResource("RectangleShape2D_41uh0")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_y24j8")
 animation = &"idle"
+frame_progress = 0.0251961
 
 [node name="PickupSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_sd1i0")

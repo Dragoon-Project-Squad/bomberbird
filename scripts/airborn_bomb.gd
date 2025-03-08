@@ -102,7 +102,7 @@ func check_space():
 func to_stationary_bomb():
 	if !is_multiplayer_authority():
 		return
-	bomb_root.do_place.rpc(target, 0, true)
+	bomb_root.do_place.rpc(target, -1)
 
 func check_bounds() -> bool:
 	var in_arena_x: bool = arena_bounds[0].x < bomb_root.position.x && bomb_root.position.x < arena_bounds[1].x
