@@ -1,0 +1,59 @@
+[gd_resource type="Resource" script_class="PlayerKeybindResource" load_steps=11 format=3 uid="uid://3ychjvba1m30"]
+
+[ext_resource type="Script" path="res://resources/settings/player_keybind_resource.gd" id="1_t20qs"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_bq1eo"]
+device = -1
+physical_keycode = 71
+unicode = 103
+
+[sub_resource type="InputEventKey" id="InputEventKey_r3rvp"]
+device = -1
+physical_keycode = 83
+unicode = 115
+
+[sub_resource type="InputEventKey" id="InputEventKey_sk5jj"]
+device = -1
+physical_keycode = 65
+unicode = 97
+
+[sub_resource type="InputEventKey" id="InputEventKey_m51h6"]
+device = -1
+physical_keycode = 68
+unicode = 100
+
+[sub_resource type="InputEventKey" id="InputEventKey_ybh4l"]
+device = -1
+physical_keycode = 65
+unicode = 97
+
+[sub_resource type="InputEventKey" id="InputEventKey_lcax0"]
+device = -1
+physical_keycode = 4194305
+
+[sub_resource type="InputEventKey" id="InputEventKey_r4epq"]
+device = -1
+physical_keycode = 69
+unicode = 101
+
+[sub_resource type="InputEventKey" id="InputEventKey_fa4xb"]
+device = -1
+physical_keycode = 70
+unicode = 102
+
+[sub_resource type="InputEventKey" id="InputEventKey_h4rqf"]
+device = -1
+physical_keycode = 32
+unicode = 32
+
+[resource]
+script = ExtResource("1_t20qs")
+DEFAULT_MOVE_UP_KEY = SubResource("InputEventKey_ybh4l")
+DEFAULT_MOVE_LEFT_KEY = SubResource("InputEventKey_sk5jj")
+DEFAULT_MOVE_DOWN_KEY = SubResource("InputEventKey_r3rvp")
+DEFAULT_MOVE_RIGHT_KEY = SubResource("InputEventKey_m51h6")
+DEFAULT_SET_BOMB_KEY = SubResource("InputEventKey_h4rqf")
+DEFAULT_DETONATE_RC_KEY = SubResource("InputEventKey_bq1eo")
+DEFAULT_PUNCH_ACTION_KEY = SubResource("InputEventKey_r4epq")
+DEFAULT_SECONDARY_ACTION_KEY = SubResource("InputEventKey_fa4xb")
+DEFAULT_PAUSE_KEY = SubResource("InputEventKey_lcax0")

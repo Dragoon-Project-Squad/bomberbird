@@ -2,6 +2,7 @@ extends Control
 
 @onready var label: Label = $HBoxContainer/Label as Label
 @onready var button: Button = $HBoxContainer/Button as Button
+
 @export var action_name := "move_up"
 
 # Called when the node enters the scene tree for the first time.
@@ -9,6 +10,10 @@ func _ready() -> void:
 	set_process_unhandled_key_input(false) #DO NOT just take random keyboard inputs.
 	set_action_name()
 	set_text_for_key()
+	load_keybinds()
+	
+func load_keybinds() -> void:
+	rebind_action_key(SettingsContainer.get_keybind(action_name))
 	
 func set_action_name() -> void:
 	label.text = "Unassigned"
@@ -64,6 +69,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 func rebind_action_key(event) -> void:
 	InputMap.action_erase_events(action_name)
 	InputMap.action_add_event(action_name, event)
+	SettingsContainer.set_keybind(action_name, event)
+	
 	set_process_unhandled_key_input(false)
 	set_text_for_key()
 	set_action_name()
