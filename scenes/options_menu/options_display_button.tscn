@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://buu1prw7bd2xo"]
+
+[ext_resource type="Theme" uid="uid://m30a0nncwbm0" path="res://assets/styles/options_menu.tres" id="1_k026d"]
+
+[node name="OptionsDisplayButton" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme = ExtResource("1_k026d")
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+custom_minimum_size = Vector2(264, 0)
+layout_mode = 2
+text = "BASE_LABEL"
+vertical_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 160
+
+[node name="OptionButton" type="OptionButton" parent="HBoxContainer"]
+custom_minimum_size = Vector2(256, 64)
+layout_mode = 2
+alignment = 1

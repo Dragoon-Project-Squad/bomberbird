@@ -9,7 +9,8 @@ initial_spawn_count = 16
 
 [node name="BombGlobalAudioPlayers" type="Node2D" parent="."]
 
-[node name="ExplosionSoundPlayer" type="AudioStreamPlayer2D" parent="BombGlobalAudioPlayers"]
+[node name="ExplosionSoundPlayer" type="AudioStreamPlayer" parent="BombGlobalAudioPlayers"]
+bus = &"SFX"
 
 [node name="BombSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("..")

@@ -39,6 +39,7 @@ animation = &"idle"
 
 [node name="PickupSoundPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_almfq")
+bus = &"SFX"
 
 [node name="kaboom" type="Sprite2D" parent="."]
 visible = false
