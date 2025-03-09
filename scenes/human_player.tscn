@@ -1,0 +1,136 @@
+[gd_scene load_steps=16 format=3 uid="uid://dviwgv2ty8v6u"]
+
+[ext_resource type="Script" path="res://scripts/human_player.gd" id="1_u11j4"]
+[ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_wp3i8"]
+[ext_resource type="Texture2D" uid="uid://lckm0mdablaw" path="res://assets/player/chonkgoon_walk.png" id="3_lr0sp"]
+[ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_bifw2"]
+[ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="5_3fscl"]
+[ext_resource type="AnimationLibrary" uid="uid://b6igytp0a077" path="res://animations/player_animations.tres" id="5_aeuj7"]
+[ext_resource type="Script" path="res://scripts/human_player_controls.gd" id="6_ey2ea"]
+[ext_resource type="AudioStream" uid="uid://c3dded4qppq4" path="res://sound/fx/playerhurt.wav" id="7_ho0y0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oj3wr"]
+radius = 15.9
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_x4bxg"]
+a = Vector2(0, 16)
+b = Vector2(0, 24)
+
+[sub_resource type="Animation" id="Animation_y1m3h"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FrontArea:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_v8ypd"]
+_data = {
+"RESET": SubResource("Animation_y1m3h")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_5huhx"]
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_sh64w"]
+properties/0/path = NodePath(".:synced_position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("label:text")
+properties/1/spawn = true
+properties/1/replication_mode = 0
+properties/2/path = NodePath(".:is_dead")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_w53uu"]
+properties/0/path = NodePath(".:motion")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:bombing")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:punch_ability")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[node name="player" type="CharacterBody2D" groups=["player", "thrown_bomb_bounces"]]
+z_index = 10
+texture_filter = 1
+collision_layer = 2
+collision_mask = 31
+motion_mode = 1
+script = ExtResource("1_u11j4")
+bomb_count = 2
+lives = 1
+
+[node name="shadowsprite" type="Sprite2D" parent="."]
+position = Vector2(0, 7)
+scale = Vector2(0.75, 0.5)
+texture = ExtResource("2_wp3i8")
+
+[node name="sprite" type="Sprite2D" parent="."]
+position = Vector2(0.0750351, 6.23615)
+rotation = -6.28319
+texture = ExtResource("3_lr0sp")
+offset = Vector2(-0.075, -8.236)
+hframes = 6
+vframes = 4
+frame = 6
+
+[node name="kaboom" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-1.07288e-06, 3.57628e-07)
+scale = Vector2(0.333333, 0.351648)
+texture = ExtResource("4_bifw2")
+hframes = 9
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_oj3wr")
+
+[node name="FrontArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FrontArea"]
+shape = SubResource("SegmentShape2D_x4bxg")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_v8ypd"),
+"player_animations": ExtResource("5_aeuj7")
+}
+
+[node name="label" type="Label" parent="."]
+offset_left = -82.0
+offset_top = -35.0
+offset_right = 85.0
+offset_bottom = -14.0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("5_3fscl")
+theme_override_font_sizes/font_size = 16
+text = "Player 1"
+label_settings = SubResource("LabelSettings_5huhx")
+horizontal_alignment = 1
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_sh64w")
+
+[node name="Inputs" type="Node" parent="."]
+script = ExtResource("6_ey2ea")
+
+[node name="InputsSync" type="MultiplayerSynchronizer" parent="Inputs"]
+replication_config = SubResource("SceneReplicationConfig_w53uu")
+
+[node name="HurtSoundPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_ho0y0")
+bus = &"Sound"

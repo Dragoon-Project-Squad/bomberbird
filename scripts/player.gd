@@ -1,116 +1,204 @@
-extends CharacterBody2D
+class_name Player extends CharacterBody2D
 
-const BASE_MOTION_SPEED = 100.0
-const BOMB_RATE = 0.5
-const MAX_BOMBS_OWNABLE = 8
-const MAX_EXPLOSION_BOOSTS_PERMITTED := 6
-const MISOBON_RESPAWN_TIME: float = 0.5
+const BASE_MOTION_SPEED: float = 100.0
+const MOTION_SPEED_INCREASE: float = 20.0
+const BOMB_RATE: float = 0.5
+const MAX_BOMBS_OWNABLE: int = 8
+const MAX_EXPLOSION_BOOSTS_PERMITTED: int = 6
+#NOTE: MISOBON_RESPAWN_TIME is additive to the animation time for both spawning and despawning the misobon player
+const MISOBON_RESPAWN_TIME: float = 0.5 
+const INVULNERABILITY_TIME: float = 2
+const INVULNERABILITY_FLASH_TIME: float = 0.125
 
 @export var synced_position := Vector2()
-@export var stunned = false
+@export var stunned: bool = false
+@export var invulnerable: bool = false
 
 @onready var hurt_sfx_player := $HurtSoundPlayer
-@onready var inputs = $Inputs
 
-var last_bomb_time = BOMB_RATE
-var current_anim = ""
-var is_dead = false
-var lives = 1
-# Powerup Vars
-var movement_speed = BASE_MOTION_SPEED
-var explosion_boost_count := 0
-var bomb_count := 2
-var bomb_total := bomb_count
-var can_punch := false
-var pressed_once := false
-# Tracking Vars
-var tileMap : TileMapLayer
-var bombPos := Vector2()
+var current_anim: String = ""
+var is_dead: bool = false
+var player_type: String
+var hurry_up_started: bool = false 
+var misobon_player: MisobonPlayer
+
+var game_ui: CanvasLayer
+
+var invulnerable_animation_time: float
+var invulnerable_total_time: float = 2
+
+var pickup_pool: PickupPool
+var bomb_pool: BombPool
+var last_bomb_time: float = BOMB_RATE
+var bomb_total: int
+
+@export_subgroup("player properties") #Set in inspector
+@export var movement_speed: float = BASE_MOTION_SPEED
+@export var bomb_count: int
+@export var lives: int
+@export var explosion_boost_count: int
+
+var pickups: HeldPickups = HeldPickups.new()
 
 func _ready():
-	stunned = false
+	#These are all needed
 	position = synced_position
-	if str(name).is_valid_int():
-		get_node("Inputs/InputsSync").set_multiplayer_authority(str(name).to_int())
-	tileMap = get_parent().get_parent().get_node("Floor")
-	#$sprite.texture = load("res://assets/player/dragoon_walk.png")
+	bomb_total = bomb_count
+	bomb_pool = get_node("/root/World/BombPool")
+	pickup_pool = get_node("/root/World/PickupPool")
+	game_ui = get_node("/root/World/GameUI")
 
-
-func _physics_process(delta):
-	if multiplayer.multiplayer_peer == null or str(multiplayer.get_unique_id()) == str(name):
-		# The client which this player represent will update the controls state, and notify it to everyone.
-		inputs.update()
-
-	if multiplayer.multiplayer_peer == null or is_multiplayer_authority():
-		# The server updates the position that will be notified to the clients.
-		synced_position = position
-		# And increase the bomb cooldown spawning one if the client wants to.
-		last_bomb_time += delta
-		if not stunned and is_multiplayer_authority() and inputs.bombing and bomb_count > 0 and !pressed_once:
-			if tileMap != null:
-				bombPos = tileMap.map_to_local(tileMap.local_to_map(synced_position))
-			pressed_once = true
-			bomb_count -= 1
-			print("Spent value: " + str(bomb_count))
-			get_node("../../BombSpawner").spawn([bombPos, str(name).to_int(), explosion_boost_count])
-		elif !inputs.bombing and pressed_once:
-			pressed_once = false
-	else:
-		# The client simply updates the position to the last known one.
-		position = synced_position
-
-	if not stunned:
-		# Everybody runs physics. I.e. clients tries to predict where they will be during the next frame.
-		velocity = inputs.motion.normalized() * movement_speed
-		move_and_slide()
-
-	# Also update the animation based on the last known player input state
-	if !is_dead:
-		update_animation(inputs.motion)
+func _process(delta: float):
+	if !invulnerable:
+		show()
+		set_process(false)
+		return
+	invulnerable_total_time += delta
+	invulnerable_animation_time += delta
+	if invulnerable_total_time >= INVULNERABILITY_TIME:
+		show()
+		invulnerable = false
+	elif invulnerable_animation_time >= INVULNERABILITY_FLASH_TIME:
+		self.visible = !self.visible
+		invulnerable_animation_time = 0
 	
+func _physics_process(_delta: float):
+	pass
 
-func update_animation(input_motion: Vector2):
-	var new_anim = "standing"
-	if input_motion.y < 0:
+func punch_bomb(direction: Vector2i):
+	if !is_multiplayer_authority():
+		return
+	if !pickups.held_pickups.punch_ability:
+		return
+	
+	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
+	var bomb: BombRoot
+	for body in bodies:
+		if !body is Bomb: continue
+		bomb = body.get_parent()
+		break
+	
+	if bomb == null: return
+
+	bomb.do_punch.rpc(direction)
+
+func place_bomb():
+	if(world_data.is_tile(world_data.tiles.BOMB, self.global_position)): return
+	
+	var bombPos = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(synced_position))
+	bomb_count -= 1
+	last_bomb_time = 0
+	
+	# Adding bomb to astargrid so bombs have collision inside the grid
+	# Replace code if "world_data" class can be used
+	var world : World
+	world = get_parent().get_parent()
+	world.astargrid_set_point(synced_position, true)
+	
+	if is_multiplayer_authority():
+		var bomb: BombRoot = bomb_pool.request([])
+		bomb.set_bomb_owner.rpc(self.name)
+		bomb.do_place.rpc(bombPos, explosion_boost_count)
+
+func update_animation(direction: Vector2):
+	var new_anim: String = "standing"
+	if direction.length() == 0:
+		new_anim = "standing"
+	elif direction.y < 0:
 		new_anim = "walk_up"
-	elif input_motion.y > 0:
+	elif direction.y > 0:
 		new_anim = "walk_down"
-	elif input_motion.x < 0:
+	elif direction.x < 0:
 		new_anim = "walk_left"
-	elif input_motion.x > 0:
+	elif direction.x > 0:
 		new_anim = "walk_right"
 		
 	if new_anim != current_anim:
 		current_anim = new_anim
-		$anim.play(current_anim)
+		$AnimationPlayer.play("player_animations/" + current_anim)
+
+func enter_misobon():
+	if gamestate.misobon_mode == gamestate.misobon_states.OFF || hurry_up_started:
+		return
+	
+	
+	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
+	#Check if nothing changed in the meantime
+	if gamestate.misobon_mode == gamestate.misobon_states.OFF || hurry_up_started:
+		return
+	
+	if is_multiplayer_authority():
+		if misobon_player == null:
+			set_misobon.rpc()
+		misobon_player.enable.rpc(
+			misobon_player.get_parent().get_progress_from_vector(position) 
+			)
+		misobon_player.play_spawn_animation.rpc()
 
 func enter_death_state():
-	$anim.play("death")
+	is_dead = true
+	$AnimationPlayer.play("player_animations/death")
 	$Hitbox.set_deferred("disabled", 1)
-	await $anim.animation_finished
-	set_process(false)
-	set_physics_process(false)
+	game_ui.player_died()
+	spread_items() #TODO: Check if battlemode
+	pickups.reset()
+	await $AnimationPlayer.animation_finished
+	hide()
+	process_mode = PROCESS_MODE_DISABLED
 	
 func exit_death_state():
-	self.visible = true #Visible
-	$Hitbox.set_deferred("disabled", 1)
-	set_process(true)
-	set_physics_process(true)
-	
-func enter_misobon():
-	if(!has_node("/root/MainMenu") && get_node("/root/Lobby").curr_misobon_state == 0):
-			#in singlayer always just have it on SUPER for now (until we have options in sp) and in multiplayer spawn misobon iff its not off
-		return
-
 	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
-	if is_multiplayer_authority():
-		get_node("../../MisobonPlayerSpawner").spawn({
-		"player_type": "human",
-		"spawn_here": get_node("../../MisobonPath").get_progress_from_vector(synced_position),
-		"pid": str(name).to_int(),
-		"name": get_player_name()
-		}).play_spawn_animation()
+	$AnimationPlayer.play("player_animations/revive")
+	await $AnimationPlayer.animation_finished
+	$Hitbox.set_deferred("disabled", 0)
+	game_ui.player_revived()
+	lives += 1
+	stunned = false
+	is_dead = false
+	do_invulnerabilty()
 
+func spread_items():
+	if !is_multiplayer_authority():
+		return
+	
+	var pickup_types: Array[String] = []
+	var pickup_count: Array[int] = []
+	
+	for key in pickups.count_keys:
+		var count: int = pickups.held_pickups[key]
+		if count == 0: continue
+		pickup_types.push_back(key)
+		pickup_count.push_back(count)
+	
+	for key in pickups.bool_keys:
+		if !pickups.held_pickups[key]: continue
+		pickup_types.push_back(key)
+		pickup_count.push_back(1)
+	
+	#TODO: add pickups for exclusive pickups
+	
+	var to_place_pickups: Dictionary = pickup_pool.request_group(pickup_count, pickup_types)
+	for i in range(pickup_types.size()):
+		if pickup_count[i] == 1:
+			var pos: Vector2 = world_data.get_random_empty_tile()
+			to_place_pickups[pickup_types[i]][0].place.rpc(pos)
+		else:
+			var pos_array: Array = world_data.get_random_empty_tiles(pickup_count[i])
+			for j in range(pos_array.size()):
+				to_place_pickups[pickup_types[i]][j].place.rpc(pos_array[j])
+
+
+func do_invulnerabilty():
+	invulnerable_total_time = 0
+	invulnerable = true
+	set_process(true)
+	
+func do_stun():
+	$AnimationPlayer.play("player_animations/stunned") #Note this animation sets stunned automatically
+
+@rpc("call_local")
+func set_misobon():
+	misobon_player = get_node("../../MisobonPath/" + str(self.name))
 
 func set_player_name(value):
 	$label.set_text(value)
@@ -132,7 +220,6 @@ func increase_speed():
 
 @rpc("call_local")
 func increment_bomb_count():
-	#TODO: Add code that makes bomb count matter.
 	bomb_total = min(bomb_total+1, MAX_BOMBS_OWNABLE)
 	bomb_count = min(bomb_count+1, bomb_total)
 	
@@ -140,31 +227,22 @@ func increment_bomb_count():
 @rpc("call_local")
 func return_bomb():
 	bomb_count = min(bomb_count+1, bomb_total)
-	print("Returned value: " + str(bomb_count))
-
-@rpc("call_local")
-func enable_punch():
-	can_punch = true
 
 @rpc("call_local")
 func exploded(by_who):
-	if stunned:
+	if stunned || invulnerable:
 		return
-	stunned = true
 	lives -= 1
 	hurt_sfx_player.play()
 	if by_who != gamestate.ENVIRONMENTAL_KILL_PLAYER_ID && str(by_who) == name: 
-		$"../../GameUI".decrease_score(by_who) # Take away a point for blowing yourself up
+		game_ui.decrease_score(by_who) # Take away a point for blowing yourself up
 	elif by_who != gamestate.ENVIRONMENTAL_KILL_PLAYER_ID:
-		$"../../GameUI".increase_score(by_who) # Award a point to the person who blew you up
-		#TODO notify other player of kill
+		game_ui.increase_score(by_who) # Award a point to the person who blew you up
 	if lives <= 0:
-		is_dead = true
-		#TODO: Knockout Player
 		enter_death_state()
 		enter_misobon()
 	else:
-		get_node("anim").play("stunned")
+		do_stun()
 
 func set_selected_character(value: Texture2D):
 	$sprite.texture = value

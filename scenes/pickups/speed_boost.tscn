@@ -1,10 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://k27srgql5ell"]
+[gd_scene load_steps=9 format=3 uid="uid://k27srgql5ell"]
 
 [ext_resource type="Script" path="res://scripts/pickups/speed_boost.gd" id="1_t325b"]
 [ext_resource type="Texture2D" uid="uid://cpcqguecfwnbv" path="res://assets/powerup.png" id="2_b0kq2"]
 [ext_resource type="AudioStream" uid="uid://8u70xa4tmhc8" path="res://sound/fx/powerup.wav" id="3_almfq"]
 [ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_odqcd"]
-[ext_resource type="AudioStream" uid="uid://boidckhyrna5i" path="res://sound/fx/explosion.wav" id="5_we785"]
+[ext_resource type="AnimationLibrary" uid="uid://deqi1mrq6p7pt" path="res://animations/pickup.res" id="5_nabkr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3ywok"]
 size = Vector2(32, 32)
@@ -24,128 +24,6 @@ animations = [{
 "speed": 1.0
 }]
 
-[sub_resource type="Animation" id="Animation_xahqg"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("kaboom:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("PickupSoundPlayer:stream")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("3_almfq")]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("PickupSoundPlayer:playing")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
-[sub_resource type="Animation" id="Animation_56vc7"]
-resource_name = "explode_pickup"
-length = 1.2
-step = 0.125
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("kaboom:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3, 4, 5, 6, 7, 8]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("kaboom:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 1.125),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("PickupSoundPlayer:stream")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("5_we785")]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("PickupSoundPlayer:playing")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0.125),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_d0yv2"]
-_data = {
-"RESET": SubResource("Animation_xahqg"),
-"explode_pickup": SubResource("Animation_56vc7")
-}
-
 [node name="SpeedBoost" type="Area2D"]
 collision_layer = 16
 collision_mask = 2
@@ -161,6 +39,7 @@ animation = &"idle"
 
 [node name="PickupSoundPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_almfq")
+bus = &"SFX"
 
 [node name="kaboom" type="Sprite2D" parent="."]
 visible = false
@@ -168,11 +47,10 @@ position = Vector2(-1.07288e-06, 3.57628e-07)
 scale = Vector2(0.333333, 0.351648)
 texture = ExtResource("4_odqcd")
 hframes = 9
-frame = 8
 
 [node name="anim" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_d0yv2")
+"pickup": ExtResource("5_nabkr")
 }
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

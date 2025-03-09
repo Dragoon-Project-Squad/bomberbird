@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 var player_labels = {}
-var players_left = 5
+var players_left = -1
 var someone_dead = false
 var time
 # Called when the node enters the scene tree for the first time.
@@ -9,22 +9,29 @@ func _ready() -> void:
 	$"../Winner".hide()
 	set_process(true)
 	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func _process(_delta: float) -> void:
 	time = %MatchTimer.get_time_left()
-	#Declare a winner
-	players_left = $"../Players".get_child_count()
 	# Only begin counting score if all human players have been loaded
-	for player in $"../Players".get_children():
-		if player.is_dead:
-			players_left -= 1
-			someone_dead = true
 	if players_left <= 1 && someone_dead:
-		await get_tree().create_timer(1.0).timeout
-		call_deferred("decide_game", players_left)
-		process_mode = PROCESS_MODE_DISABLED
+		await get_tree().create_timer(2.0).timeout
+		#In SUPER mode this timer is needed as otherwise the game end prematurly. This is bad... 
+		#TODO make a better system that keeps track of alive players and accounts for timedelay in respawning
+		if players_left <= 1:
+			#Declare a winner
+			call_deferred("decide_game", players_left)
+			process_mode = PROCESS_MODE_DISABLED
 	%RemainingTime.set_text(time_to_string())
 
+func player_died():
+	if players_left == -1:
+		players_left = $"../Players".get_child_count()
+		someone_dead = true
+
+	players_left -= 1
+
+func player_revived():
+	players_left += 1
 
 func decide_game(final_players: int):
 	# First check if zero players are alive. If so, this is a draw game.
@@ -61,52 +68,28 @@ func decrease_score(for_who):
 	pl.score -= 1
 	pl.scorelabel.set_text(str(pl.score))
 
+@rpc("call_local")
+func add_player(id: int, new_player_name: String):
+	var order: int = player_labels.size() + 1
+	var player_container: HBoxContainer = get_node("Border/Container/Players")
 
-func add_player(id, new_player_name):
-	# Use size of current array to figure out which player to assign
-	match player_labels.size():
-		0:	set_player_one(id, new_player_name)
-		1:	set_player_two(id, new_player_name)
-		2:	set_player_three(id, new_player_name)
-		3:	set_player_four(id, new_player_name)
-		_:	set_player_four(id, new_player_name)
-	#var l = Label.new()
-	#l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	#l.set_text(new_player_name + "\n" + "0")
-	#l.set_h_size_flags(SIZE_EXPAND_FILL)
-	#var font = preload("res://montserrat.otf")
-	#l.set("custom_fonts/font", font)
-	#l.set("custom_font_size/font_size", 18)
-	#add_child(l)
-	#player_labels[id] = { name = new_player_name, label = l, score = 0 }
+	player_labels[id] = {
+		namelabel = player_container.get_node("P" + str(order) + "/P" + str(order) + "Name"),
+		scorelabel = player_container.get_node("P" + str(order) + "/P" + str(order) + "Score"),
+		score = 0
+	}
 
-func set_player_one(id, new_player_name):
-	$Border/Container/Players/P1/P1Name.set_text(new_player_name)
-	player_labels[id] = { namelabel = $Border/Container/Players/P1/P1Name, scorelabel = $Border/Container/Players/P1/P1Score, score = 0 }
+	player_labels[id].namelabel.set_text(new_player_name)
 
-func set_player_two(id, new_player_name):
-	$Border/Container/Players/P2/P2Name.set_text(new_player_name)
-	player_labels[id] = { namelabel = $Border/Container/Players/P2/P2Name, scorelabel = $Border/Container/Players/P2/P2Score, score = 0 }
-	$Border/Container/Players/P2.visible = true
-	$Border/Container/Players/SeparatorP12.visible = true
+	if order == 1: return
+	player_container.get_node("P" + str(order)).visible = true
+	player_container.get_node("SeparatorP" + str(order - 1) + str(order)).visible = true
 
-func set_player_three(id, new_player_name):
-	$Border/Container/Players/P3/P3Name.set_text(new_player_name)
-	player_labels[id] = { namelabel = $Border/Container/Players/P3/P3Name, scorelabel = $Border/Container/Players/P3/P3Score, score = 0 }
-	$Border/Container/Players/P3.visible = true
-	$Border/Container/Players/SeparatorP23.visible = true
-	
-func set_player_four(id, new_player_name):
-	$Border/Container/Players/P4/P4Name.set_text(new_player_name)
-	player_labels[id] = { namelabel = $Border/Container/Players/P4/P4Name, scorelabel = $Border/Container/Players/P4/P4Score, score = 0 }
-	$Border/Container/Players/P4.visible = true
-	$Border/Container/Players/SeparatorP34.visible = true
-	
 func time_to_string() -> String:
-	var sec = fmod(time, 60)
-	var min = time / 60
+	var seconds = fmod(time, 60)
+	var minutes = time / 60
 	var format_string = "%02d:%02d"
-	var actual_time_string = format_string % [min, sec]
+	var actual_time_string = format_string % [minutes, seconds]
 	return actual_time_string
 
 func _on_exit_game_pressed() -> void:

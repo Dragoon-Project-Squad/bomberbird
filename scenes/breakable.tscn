@@ -41,7 +41,7 @@ _data = {
 "explode": SubResource("2")
 }
 
-[node name="Breakable" type="CharacterBody2D" groups=["bombstop"]]
+[node name="Breakable" type="CharacterBody2D" groups=["bombstop", "thrown_bomb_bounces"]]
 texture_filter = 1
 collision_layer = 4
 collision_mask = 11
@@ -63,3 +63,4 @@ libraries = {
 
 [node name="BreakableSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_8bomw")
+bus = &"SFX"
