@@ -187,7 +187,6 @@ func set_keybinds_loaded(data : Dictionary) -> void:
 
 func on_settings_data_loaded(data : Dictionary) -> void:
 	loaded_data = data
-	print(loaded_data)
 	set_window_mode(loaded_data.window_mode_index)
 	set_resolution(loaded_data.resolution_index)
 	set_master_vol(loaded_data.master_volume)

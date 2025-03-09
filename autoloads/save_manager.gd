@@ -18,7 +18,7 @@ func on_settings_save(data : Dictionary) -> void:
 
 func load_settings_data() -> void:
 	if not FileAccess.file_exists(SETTINGS_SAVE_PATH):
-		print("No settings save data found!")
+		push_warning("No settings save data found!")
 		return
 	
 	var save_settings_data_file = FileAccess.open(SETTINGS_SAVE_PATH, FileAccess.READ)

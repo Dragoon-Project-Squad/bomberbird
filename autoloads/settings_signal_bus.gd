@@ -34,7 +34,3 @@ func emit_on_sfx_sound_set(value : float) -> void:
 	
 func emit_set_settings_dictionary(settings_dict : Dictionary) -> void:
 	set_settings_dictionary.emit(settings_dict)
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
