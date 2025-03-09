@@ -11,9 +11,19 @@ var bus_index := 0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	get_bus_name_by_index()
+	load_data()
 	set_audio_name_label_text()
 	set_slider_value()
 	
+func load_data() -> void:
+	match bus_name:
+		"Master":
+			_on_value_changed(SettingsContainer.get_master_volume())
+		"Music":
+			_on_value_changed(SettingsContainer.get_music_volume())
+		"SFX":
+			_on_value_changed(SettingsContainer.get_sfx_volume())
+			
 func set_audio_name_label_text() -> void:
 	audio_name_label.text = str(bus_name) + " Volume"
 	

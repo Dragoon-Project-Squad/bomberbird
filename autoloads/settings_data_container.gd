@@ -1,5 +1,7 @@
 extends Node
 
+@onready var DEFAULT_SETTINGS : DefaultSettingsResource = preload("res://resources/settings/default_settings.tres")
+
 var window_mode_index := 0
 var resolution_index := 0
 var master_volume := 0.0
@@ -22,6 +24,31 @@ func create_sotrage_dictionary() -> Dictionary:
 	return settings_container_dict
 
 
+func get_window_mode_index() -> int:
+	if loaded_data == {}:
+		return DEFAULT_SETTINGS.DEFAULT_WINDOW_MODE_INDEX
+	return window_mode_index
+	
+func get_resolution_index() -> int:
+	if loaded_data == {}:
+		return DEFAULT_SETTINGS.DEFAULT_RESOLUTION_INDEX
+	return resolution_index
+	
+func get_master_volume() -> float:
+	if loaded_data == {}:
+		return DEFAULT_SETTINGS.DEFAULT_MASTER_VOLUME
+	return master_volume
+	
+func get_music_volume() -> float:
+	if loaded_data == {}:
+		return DEFAULT_SETTINGS.DEFAULT_MUSIC_VOLUME
+	return music_volume
+	
+func get_sfx_volume() -> float:
+	if loaded_data == {}:
+		return DEFAULT_SETTINGS.DEFAULT_SFX_VOLUME
+	return sfx_volume
+	
 func set_window_mode(index : int) -> void:
 	window_mode_index = index
 
@@ -41,7 +68,7 @@ func on_settings_data_loaded(data : Dictionary) -> void:
 	loaded_data = data
 	print(loaded_data)
 	set_window_mode(loaded_data.window_mode_index)
-	set_resolution(loaded_data.window_mode_index)
+	set_resolution(loaded_data.resolution_index)
 	set_master_vol(loaded_data.master_volume)
 	set_music_vol(loaded_data.music_volume)
 	set_sfx_vol(loaded_data.sfx_volume)

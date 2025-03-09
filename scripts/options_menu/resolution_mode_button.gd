@@ -10,11 +10,11 @@ const RESOLUTION_DICTIONARY : Dictionary = {
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	add_resolution_items()
+	load_data()
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func load_data() -> void:
+	_on_resolution_selected(SettingsContainer.get_resolution_index())
+	option_button.select(SettingsContainer.get_resolution_index())
 	
 func add_resolution_items() -> void:
 	for resolution_size_text in RESOLUTION_DICTIONARY:
@@ -27,6 +27,5 @@ func center_window():
 
 func _on_resolution_selected(index: int) -> void:
 	SettingsSignalBus.emit_on_resolution_selected(index)
-	
 	DisplayServer.window_set_size(RESOLUTION_DICTIONARY.values()[index])
 	center_window()
