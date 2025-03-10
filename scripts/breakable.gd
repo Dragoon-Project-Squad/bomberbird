@@ -51,5 +51,6 @@ func exploded(by_who):
 	get_node("Shape").queue_free()
 	world.astargrid_set_point(global_position, false)
 	await $"AnimationPlayer".animation_finished #Wait for the animation to finish
-	queue_free()
+	if is_multiplayer_authority():
+		queue_free()
 	

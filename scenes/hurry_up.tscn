@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6pfxs37rwloc"]
+
+[ext_resource type="PackedScene" uid="uid://ceopux65oftsk" path="res://scenes/falling_unbreakable.tscn" id="1_hvxub"]
+[ext_resource type="Script" path="res://scenes/hurry_up.gd" id="1_lahts"]
+
+[node name="HurryUp" type="TileMapLayer"]
+script = ExtResource("1_lahts")
+
+[node name="FallingUnbreakable" parent="." instance=ExtResource("1_hvxub")]
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="HurryUpStartTimer" type="Timer" parent="Timers"]
+wait_time = 60.0
+one_shot = true
+autostart = true
+
+[node name="HurryUpStepTimer" type="Timer" parent="Timers"]
+
+[connection signal="timeout" from="Timers/HurryUpStartTimer" to="." method="_on_hurry_up_start_timer_timeout"]
+[connection signal="timeout" from="Timers/HurryUpStepTimer" to="." method="_on_hurry_up_step_timer_timeout"]

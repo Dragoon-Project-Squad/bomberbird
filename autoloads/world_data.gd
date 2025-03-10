@@ -127,6 +127,7 @@ func get_random_empty_tile(in_cells: bool = false) -> Variant:
 	temp.filter(func(key): return _world_empty_cells[key])
 
 	var res = temp.pick_random()
+	if res == null: return null
 	res += floor_origin
 	if !in_cells:
 		res = tile_map.map_to_local(res)
@@ -165,4 +166,3 @@ func reset():
 	world_height = 0
 	floor_origin = Vector2i.ZERO	
 	tile_map = null
-
