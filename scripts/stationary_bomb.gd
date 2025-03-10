@@ -11,7 +11,7 @@ const TILE_SIZE = 32 #Primitive method of assigning correct tile size
 #var TILE_SIZE: int = get_node("/root/World/Unbreakale").get_tileset().get_tile_size() #Would be cool but the match doesn't like non constants
 
 @export var bomb_place_audio: AudioStreamWAV = load("res://sound/fx/bombdrop.wav")
-@onready var bomb_placement_sfx_player: AudioStreamPlayer2D
+@onready var bomb_placement_sfx_player: AudioStreamPlayer
 @export var explosion_audio : AudioStreamWAV = load("res://sound/fx/explosion.wav")
 @onready var explosion_sfx_player: AudioStreamPlayer2D
 @onready var rays = $Raycasts
