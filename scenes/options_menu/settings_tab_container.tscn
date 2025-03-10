@@ -30,10 +30,9 @@ offset_bottom = -50.0
 grow_horizontal = 2
 grow_vertical = 2
 tab_alignment = 1
-current_tab = 2
+current_tab = 0
 
 [node name="General" type="TabBar" parent="TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -56,23 +55,23 @@ alignment = 1
 
 [node name="Label" type="Label" parent="TabContainer/General/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "A1"
+text = "EMPTY SPACE"
 
 [node name="Label2" type="Label" parent="TabContainer/General/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "A2"
+text = "THIS IS MEANT TO BE EMPTY (FOR NOW)"
 
 [node name="Label3" type="Label" parent="TabContainer/General/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "A3"
+text = "DO NOT BE ALARMED"
 
 [node name="Label4" type="Label" parent="TabContainer/General/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "A4"
+text = "WE COME IN PEACE"
 
 [node name="Label5" type="Label" parent="TabContainer/General/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "A5"
+text = "BOOGIE WOOGIE WOOGIE"
 
 [node name="Graphics" type="TabBar" parent="TabContainer"]
 visible = false
@@ -105,6 +104,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Controls" type="TabBar" parent="TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 

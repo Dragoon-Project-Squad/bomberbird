@@ -11,9 +11,9 @@ const TILE_SIZE = 32 #Primitive method of assigning correct tile size
 #var TILE_SIZE: int = get_node("/root/World/Unbreakale").get_tileset().get_tile_size() #Would be cool but the match doesn't like non constants
 
 @export var bomb_place_audio: AudioStreamWAV = load("res://sound/fx/bombdrop.wav")
-@onready var bomb_placement_sfx_player: AudioStreamPlayer2D
+@onready var bomb_placement_sfx_player: AudioStreamPlayer
 @export var explosion_audio : AudioStreamWAV = load("res://sound/fx/explosion.wav")
-@onready var explosion_sfx_player: AudioStreamPlayer2D
+@onready var explosion_sfx_player: AudioStreamPlayer2D #Left 2D for Monsto fix
 @onready var rays = $Raycasts
 @onready var bombsprite := $BombSprite
 @onready var explosion = $Explosion
@@ -29,7 +29,7 @@ func _ready():
 	$CollisionShape2D.set_deferred("disabled", 1) # This line of code thinks it knows better so it just kinda doesn't do what it should... also doesn't give an error tho...
 
 func disable():
-	explosion_sfx_player.position = Vector2.ZERO
+	explosion_sfx_player.position = Vector2.ZERO #Mmonsto Fix
 	animation_finish = false
 	explosion_width = 2
 	self.visible = false
@@ -49,7 +49,7 @@ func place(bombPos: Vector2, fuse_time_passed: float = 0):
 	
 func detonate():
 	explosion_sfx_player.stop()
-	explosion_sfx_player.position = bomb_root.position
+	explosion_sfx_player.position = bomb_root.position #Monsto Fix
 	explosion_sfx_player.play()
 	var exp_range = {Vector2i.RIGHT: explosion_width, Vector2i.DOWN: explosion_width, Vector2i.LEFT: explosion_width, Vector2i.UP: explosion_width}
 	for ray in rays.get_children():
