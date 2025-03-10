@@ -20,9 +20,6 @@ func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	crush_colliding_obj($HitDetection.get_overlapping_areas())
 
 	var hurry_up_tilemap: TileMapLayer = get_parent()
-	var cell: Vector2i = hurry_up_tilemap.local_to_map(self.position)
-	
-	hurry_up_tilemap.set_cell(cell, 3, Vector2i(6, 0))
-	world_data.set_tile(world_data.tiles.UNBREAKABLE, self.position)
+	hurry_up_tilemap.place(self.position)
 	
 	self.position = Vector2.ZERO

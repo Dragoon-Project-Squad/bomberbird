@@ -57,6 +57,12 @@ func generate_spiral(width: int, height: int) -> Array[Vector2i]:
 func spiral_to_world(index: int) -> Vector2:
 	return world_data.tile_map.map_to_local(target_tiles[index] + world_data.floor_origin)
 
+func place(pos: Vector2):
+	var cell: Vector2i = local_to_map(pos)
+	
+	set_cell(cell, 3, Vector2i(6, 0))
+	world_data.set_tile(world_data.tiles.UNBREAKABLE, pos)
+
 func _on_hurry_up_start_timer_timeout():
 	hurry_up_start.emit()
 	target_tiles = generate_spiral(world_data.world_width, world_data.world_height)
