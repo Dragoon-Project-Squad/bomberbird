@@ -288,6 +288,7 @@ func end_game():
 	game_ended.emit() 
 	players.clear()
 	resetvars()
+	world_data.reset()
 	
 func resetvars():
 	total_player_count = 1

@@ -156,3 +156,13 @@ func get_random_empty_tiles(count: int, in_cells: bool = false) -> Array:
 	_get_rand_lock.unlock()
 
 	return res
+
+func reset():
+	_is_initialized = false
+	_world_matrix.clear()
+	_world_empty_cells.clear()
+	world_width = 0
+	world_height = 0
+	floor_origin = Vector2i.ZERO	
+	tile_map = null
+
