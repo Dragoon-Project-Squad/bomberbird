@@ -2,7 +2,7 @@
 #TODO: Move player related functions (evtl as static) from world and/or gamestate into here
 class_name PlayerManager extends Node2D
 
-func _on_restriction_start_timer_timeout() -> void:
+func _on_hurry_up_start() -> void:
 	if gamestate.misobon_mode == gamestate.misobon_states.OFF:
 		return
 	for player in get_children():

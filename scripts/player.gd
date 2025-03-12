@@ -180,7 +180,9 @@ func spread_items():
 	var to_place_pickups: Dictionary = pickup_pool.request_group(pickup_count, pickup_types)
 	for i in range(pickup_types.size()):
 		if pickup_count[i] == 1:
-			var pos: Vector2 = world_data.get_random_empty_tile()
+			var pos = world_data.get_random_empty_tile()
+			if pos == null: return
+			pos = pos as Vector2 #This is a hack and also the reason to burn anything pythonic
 			to_place_pickups[pickup_types[i]][0].place.rpc(pos)
 		else:
 			var pos_array: Array = world_data.get_random_empty_tiles(pickup_count[i])

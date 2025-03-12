@@ -1,6 +1,7 @@
-[gd_scene load_steps=18 format=4 uid="uid://bs7slglsckv0i"]
+[gd_scene load_steps=16 format=4 uid="uid://bs7slglsckv0i"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_b42q6"]
+[ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="3_b46h1"]
 [ext_resource type="Script" path="res://scripts/game_ui.gd" id="3_dadsx"]
 [ext_resource type="Script" path="res://players_manager.gd" id="3_jta2f"]
 [ext_resource type="PackedScene" uid="uid://c4i5gyl4cut3t" path="res://scenes/bombs/bomb_pool.tscn" id="3_mcaqn"]
@@ -11,9 +12,6 @@
 [ext_resource type="PackedScene" uid="uid://b22qg08qddy6x" path="res://scenes/pick_up_pool.tscn" id="6_2h1qq"]
 [ext_resource type="Script" path="res://scripts/misobon_player_spawner.gd" id="7_7cqae"]
 [ext_resource type="Script" path="res://scripts/breakable_spawner.gd" id="9_k4om7"]
-[ext_resource type="Script" path="res://scripts/unbreakable_spawner.gd" id="9_qqnss"]
-[ext_resource type="Script" path="res://scripts/timers/restriction_start_timer.gd" id="11_bq37i"]
-[ext_resource type="Script" path="res://scripts/timers/restriction_timer.gd" id="12_0gfi1"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_2w7dq"]
 vertices = PackedVector2Array(422, 422, 58, 422, 58, 122, 422, 122)
@@ -44,6 +42,9 @@ tile_set = ExtResource("3_vcixd")
 tile_map_data = PackedByteArray("AAAAAAAAAwABAAAAABAAAAEAAwACAAAAABAAAAIAAwACAAAAABAAAAMAAwACAAAAADAAAAQAAwACAAAAADAAAAUAAwACAAAAADAAAAYAAwACAAAAADAAAAcAAwACAAAAADAAAAgAAwACAAAAADAAAAkAAwACAAAAADAAAAoAAwACAAAAADAAAAsAAwACAAAAADAAAAwAAwACAAAAADABAAAAAwAAAAAAAAACAAAAAwAAAAAAAAACAAIAAwABAAEAAAACAAQAAwAGAAAAAAACAAYAAwAGAAAAAAACAAgAAwAGAAAAAAACAAoAAwAGAAAAAAACAAwAAwAGAAAAAAADAAAAAwAAAAAAAAAEAAAAAwAAAAAAAAAEAAIAAwABAAEAAAAEAAQAAwAGAAAAAAAEAAYAAwAGAAAAAAAEAAgAAwAGAAAAAAAEAAoAAwAGAAAAAAAEAAwAAwAGAAAAAAAFAAAAAwAAAAAAAAAGAAAAAwAAAAAAAAAGAAIAAwABAAEAAAAGAAQAAwAGAAAAAAAGAAYAAwAGAAAAAAAGAAgAAwAGAAAAAAAGAAoAAwAGAAAAAAAGAAwAAwAGAAAAAAAHAAAAAwAAAAAAAAAIAAAAAwAAAAAAAAAIAAIAAwABAAEAAAAIAAQAAwAGAAAAAAAIAAYAAwAGAAAAAAAIAAgAAwAGAAAAAAAIAAoAAwAGAAAAAAAIAAwAAwAGAAAAAAAJAAAAAwAAAAAAAAAKAAAAAwAAAAAAAAAKAAIAAwABAAEAAAAKAAQAAwAGAAAAAAAKAAYAAwAGAAAAAAAKAAgAAwAGAAAAAAAKAAoAAwAGAAAAAAAKAAwAAwAGAAAAAAALAAAAAwAAAAAAAAAMAAIAAwABAAEAAAAMAAQAAwAGAAAAAAAMAAYAAwAGAAAAAAAMAAgAAwAGAAAAAAAMAAoAAwAGAAAAAAAMAAwAAwAGAAAAAAAOAAAAAwABAAAAAAAOAAEAAwACAAAAAAAOAAIAAwACAAAAAAAOAAMAAwACAAAAAAAOAAQAAwACAAAAAAAOAAUAAwACAAAAAAAOAAYAAwACAAAAAAAOAAcAAwACAAAAAAAOAAgAAwACAAAAAAAOAAkAAwACAAAAAAAOAAoAAwACAAAAAAAOAAsAAwACAAAAAAAOAAwAAwACAAAAAAAAAA0AAwACAAAAADAAAA4AAwAEAAAAAFABAAEAAwABAAEAAAABAAIAAwABAAEAAAABAA4AAwADAAAAAAACAAEAAwABAAEAAAACAA4AAwADAAAAAAADAAEAAwABAAEAAAADAAIAAwABAAEAAAADAA4AAwADAAAAAAAEAAEAAwABAAEAAAAEAA4AAwADAAAAAAAFAAEAAwABAAEAAAAFAAIAAwABAAEAAAAFAA4AAwADAAAAAAAGAAEAAwABAAEAAAAGAA4AAwADAAAAAAAHAAEAAwABAAEAAAAHAAIAAwABAAEAAAAHAA4AAwADAAAAAAAIAAEAAwABAAEAAAAIAA4AAwADAAAAAAAJAAEAAwABAAEAAAAJAAIAAwABAAEAAAAJAA4AAwADAAAAAAAKAAEAAwABAAEAAAAKAA4AAwADAAAAAAALAAEAAwABAAEAAAALAAIAAwABAAEAAAALAA4AAwADAAAAAAAMAAEAAwABAAEAAAAMAA4AAwADAAAAAAANAAEAAwABAAEAAAANAAIAAwABAAEAAAANAA4AAwADAAAAAAAOAA0AAwACAAAAAAAOAA4AAwAEAAAAAAABABAAAwADAAAAAAACABAAAwADAAAAAAADABAAAwADAAAAAAAEABAAAwADAAAAAAAFABAAAwADAAAAAAAGABAAAwADAAAAAAAHABAAAwADAAAAAAAIABAAAwADAAAAAAAJABAAAwADAAAAAAAKABAAAwADAAAAAAALABAAAwADAAAAAAAMABAAAwADAAAAAAANABAAAwADAAAAAAAQAA0AAwACAAAAAAAQAAwAAwACAAAAAAAQAAoAAwACAAAAAAAQAAIAAwACAAAAAAAQAAMAAwACAAAAAAAQAAQAAwACAAAAAAAQAAUAAwACAAAAAAAQAAYAAwACAAAAAAAQAAcAAwACAAAAAAAQAAgAAwACAAAAAAAQAAkAAwACAAAAAAAQAAsAAwACAAAAAAAQAAEAAwACAAAAAAAQAA4AAwACAAAAAAAQAA8AAwACAAAAAAAOABAAAwADAAAAAAAPABAAAwADAAAAAAAQABAAAwAEAAAAAAAQAAAAAwACAAAAAAD+/wAAAwACAAAAADD+/wEAAwACAAAAADD+/wIAAwACAAAAADD+/wMAAwACAAAAADD+/wQAAwACAAAAADD+/wUAAwACAAAAADD+/wYAAwACAAAAADD+/wcAAwACAAAAADD+/wgAAwACAAAAADD+/wkAAwACAAAAADD+/woAAwACAAAAADD+/wsAAwACAAAAADD+/wwAAwACAAAAADD+/w0AAwACAAAAADD+/w4AAwACAAAAADD+/w8AAwACAAAAADAAABAAAwADAAAAAAD//xAAAwADAAAAAAD+/xAAAwAEAAAAABD+//7/AwABAAAAABD///7/AwAAAAAAAAAAAP7/AwAAAAAAAAABAP7/AwAAAAAAAAACAP7/AwAAAAAAAAADAP7/AwAAAAAAAAAEAP7/AwAAAAAAAAAFAP7/AwAAAAAAAAAGAP7/AwAAAAAAAAAMAP7/AwAAAAAAAAANAP7/AwAAAAAAAAAOAP7/AwAAAAAAAAAPAP7/AwAAAAAAAAAQAP7/AwABAAAAAAAMAAAAAwAAAAAAAAANAAAAAwAAAAAAAAAQAP//AwACAAAAAAD+////AwACAAAAABALAP7/AwAAAAAAAAAKAP7/AwAAAAAAAAAJAP7/AwAAAAAAAAAIAP7/AwAAAAAAAAAHAP7/AwAAAAAAAAA=")
 tile_set = ExtResource("3_vcixd")
 
+[node name="HurryUp" parent="." instance=ExtResource("3_b46h1")]
+tile_set = ExtResource("3_vcixd")
+
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 visible = false
 navigation_polygon = SubResource("NavigationPolygon_2w7dq")
@@ -64,8 +65,6 @@ position = Vector2(432, 432)
 
 [node name="Breakables" type="Node2D" parent="."]
 
-[node name="Unbreakables" type="Node2D" parent="."]
-
 [node name="Players" type="Node2D" parent="."]
 script = ExtResource("3_jta2f")
 
@@ -78,7 +77,6 @@ script = ExtResource("3_uhlbr")
 [node name="PickupPool" parent="." instance=ExtResource("6_2h1qq")]
 
 [node name="GameUI" type="CanvasLayer" parent="."]
-visible = false
 script = ExtResource("3_dadsx")
 
 [node name="Border" type="ColorRect" parent="GameUI"]
@@ -258,25 +256,12 @@ spawn_path = NodePath("../Breakables")
 script = ExtResource("9_k4om7")
 world = NodePath("..")
 
-[node name="UnbreakableSpawner" type="MultiplayerSpawner" parent="."]
-spawn_path = NodePath("../Unbreakables")
-script = ExtResource("9_qqnss")
-
 [node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_to18j")
 volume_db = -4.685
 bus = &"Music"
 
 [node name="Timers" type="Node" parent="."]
-
-[node name="RestrictionStartTimer" type="Timer" parent="Timers"]
-wait_time = 60.0
-one_shot = true
-autostart = true
-script = ExtResource("11_bq37i")
-
-[node name="RestrictionTimer" type="Timer" parent="Timers"]
-script = ExtResource("12_0gfi1")
 
 [node name="MatchTimer" type="Timer" parent="Timers"]
 unique_name_in_owner = true
@@ -286,6 +271,6 @@ autostart = true
 
 [node name="Marker2D" type="Marker2D" parent="."]
 
+[connection signal="hurry_up_start" from="HurryUp" to="Players" method="_on_hurry_up_start"]
 [connection signal="pressed" from="Winner/ExitGame" to="GameUI" method="_on_exit_game_pressed"]
 [connection signal="pressed" from="Winner/ExitGame" to="GameUI/Border/Container/Players" method="_on_exit_game_pressed"]
-[connection signal="timeout" from="Timers/RestrictionStartTimer" to="Players" method="_on_restriction_start_timer_timeout"]
