@@ -11,9 +11,12 @@ var current_tile_index = 0
 
 func _ready() -> void:
 	self.clear()
-	# because of the animation taking 0.5 seconds the timer between the waittimes must be slighly higher then that.heightmap_shape_create
-	# If this needs to be changed we need more then one FallingUnbreakable node and have logic to use them sequentially
-	hurry_up_step_timer.wait_time = max(hurry_up_step_timer.wait_time, 0.55)
+	var anim_time: float = falling_unbreakable.get_node("AnimationPlayer").get_animation("slam").length
+	if hurry_up_step_timer.wait_time < anim_time + 0.05:
+		# because of the animation taking 'anim_time' seconds the timer between the waittimes must be slighly higher then that.
+		# If this needs to be changed we need more then one FallingUnbreakable node (so a MultiplayerSpawner then spawns them dynamically at the start of the game) and have logic (a list and an index) to use them sequentially
+		push_error("Time set in the HurryUpStepTimer is ", hurry_up_step_timer.wait_time, " this is not supported as it must be stricly more then the animation time of the slam animation which currently is ", anim_time, " aswell as some tolerance the timer has been automatically reajusted to ", anim_time + 0.05)
+		hurry_up_step_timer.wait_time = anim_time + 0.05
 
 func generate_spiral(width: int, height: int) -> Array[Vector2i]:
 	var spiral: Array[Vector2i]
