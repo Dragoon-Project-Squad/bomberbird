@@ -26,7 +26,7 @@ point_count = 6
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_to18j"]
 
-[node name="World" type="Node2D"]
+[node name="World_test" type="Node2D"]
 texture_filter = 1
 script = ExtResource("1_b42q6")
 
@@ -64,6 +64,10 @@ position = Vector2(48, 432)
 position = Vector2(432, 432)
 
 [node name="Breakables" type="Node2D" parent="."]
+
+[node name="BreakableSpawner" type="MultiplayerSpawner" parent="Breakables"]
+spawn_path = NodePath("..")
+script = ExtResource("9_k4om7")
 
 [node name="Players" type="Node2D" parent="."]
 script = ExtResource("3_jta2f")
@@ -251,11 +255,6 @@ script = ExtResource("5_2eagj")
 spawn_path = NodePath("../MisobonPath")
 script = ExtResource("7_7cqae")
 
-[node name="BreakableSpawner" type="MultiplayerSpawner" parent="." node_paths=PackedStringArray("world")]
-spawn_path = NodePath("../Breakables")
-script = ExtResource("9_k4om7")
-world = NodePath("..")
-
 [node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_to18j")
 volume_db = -4.685
@@ -268,8 +267,6 @@ unique_name_in_owner = true
 wait_time = 120.0
 one_shot = true
 autostart = true
-
-[node name="Marker2D" type="Marker2D" parent="."]
 
 [connection signal="hurry_up_start" from="HurryUp" to="Players" method="_on_hurry_up_start"]
 [connection signal="pressed" from="Winner/ExitGame" to="GameUI" method="_on_exit_game_pressed"]

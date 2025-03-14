@@ -56,7 +56,7 @@ func _player_connected(id):
 func _player_disconnected(id):
 	total_player_count -= 1
 	human_player_count -= 1
-	if has_node("/root/World"): # Game is in progress.
+	if globals.current_world != null: # Game is in progress.
 		# Remove from world
 		remove_player_from_world.rpc(id)
 		# If everyone else disconnected
@@ -101,10 +101,9 @@ func unregister_player(id):
 
 @rpc("authority", "call_local")
 func remove_player_from_world(id):
-	if get_tree().get_root().has_node("World"):
-		var world = get_tree().get_root().get_node("World")
-		if world.has_node("Players/" + str(id)):
-			world.get_node("Players/" + str(id)).queue_free()
+	if globals.current_world != null:
+		if globals.current_world.has_node("Players/" + str(id)):
+			globals.current_world.get_node("Players/" + str(id)).queue_free()
 	
 @rpc("any_peer")
 func change_character_player(texture):
@@ -159,38 +158,7 @@ func begin_singleplayer_game():
 	total_player_count = human_player_count + 3
 	add_ai_players()
 	load_world.rpc()
-	var world = get_tree().get_root().get_node("World")
-	#var playerspawner = get_tree().get_root().get_node("World/PlayerSpawner")
-	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
-	var spawn_points = {}
-	spawn_points[1] = 0 # Server in spawn point 0.
-	var spawn_point_idx = 1
-	for p in players:
-		spawn_points[p] = spawn_point_idx
-		spawn_point_idx += 1
-	var humans_loaded_in_game = 0
-	for p_id in spawn_points:
-		var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position
-		#var spawnedplayer
-		var playerspawner = world.get_node("PlayerSpawner")
-		var misobonspawner = world.get_node("MisobonPlayerSpawner")
-		#var spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players, "characterdictionary": characters}
-		var spawningdata = {"spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players}
-		var misobondata = {"spawn_here": 0.0, "pid": p_id}
-		var player: Player 
-		if humans_loaded_in_game < human_player_count:
-			spawningdata.playertype = "human"
-			misobondata.player_type = "human"
-			#spawnedplayer = player_scene.instantiate()
-			humans_loaded_in_game += 1
-		else:
-			spawningdata.playertype = "ai"
-			misobondata.player_type = "ai"
-
-		player = playerspawner.spawn(spawningdata)
-		misobondata.name = player.get_player_name()
-
-		misobonspawner.spawn(misobondata)
+	spawn_players()	
 
 func begin_game():
 	human_player_count = 1+players.size()
@@ -201,29 +169,31 @@ func begin_game():
 		game_error.emit("All other players disconnected")
 		end_game()
 	load_world.rpc()
-	var world = get_tree().get_root().get_node("World")
-	#var playerspawner = get_tree().get_root().get_node("World/PlayerSpawner")
+	spawn_players()
+	
+func spawn_players():
 	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
 	var spawn_points = {}
-	spawn_points[1] = 0 # Server in spawn point 0.
 	var spawn_point_idx = 1
+	spawn_points[1] = 0 # Server in spawn point 0.
+
 	for p in players:
 		spawn_points[p] = spawn_point_idx
 		spawn_point_idx += 1
+
 	var humans_loaded_in_game = 0
+
 	for p_id in spawn_points:
-		var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position
-		#var spawnedplayer
-		var playerspawner = world.get_node("PlayerSpawner")
-		var misobonspawner = world.get_node("MisobonPlayerSpawner")
-		#var player data
+		var spawn_pos = globals.current_world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position
+		var playerspawner = globals.current_world.get_node("PlayerSpawner")
+		var misobonspawner = globals.current_world.get_node("MisobonPlayerSpawner")
 		var spawningdata = {"spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players}
 		var misobondata = {"spawn_here": 0.0, "pid": p_id}
 		var player: Player 
+
 		if humans_loaded_in_game < human_player_count:
 			spawningdata.playertype = "human"
 			misobondata.player_type = "human"
-
 			humans_loaded_in_game += 1
 		else:
 			spawningdata.playertype = "ai"
@@ -280,9 +250,9 @@ func is_name_free(playername: String) -> bool:
 	return true
 
 func end_game():
-	if has_node("/root/World"): # Game is in progress.
+	if globals.current_world != null: # Game is in progress.
 		# End it
-		get_node("/root/World").queue_free()
+		globals.current_world.queue_free()
 		if !multiplayer.is_server():
 			peer.close()
 	game_ended.emit() 

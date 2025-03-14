@@ -15,7 +15,7 @@ var current_anim: String = ""
 var controlable: bool = false
 
 func _ready() -> void:
-	bomb_pool = get_node("/root/World/BombPool")
+	bomb_pool = globals.current_world.bomb_pool
 	set_player(str(self.name).to_int())
 	disable()
 

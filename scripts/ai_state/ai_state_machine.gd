@@ -11,9 +11,8 @@ func _ready():
 		if child is State:
 			states[child.name.to_lower()] = child
 			child.state_changed.connect(_on_state_changed)
-			# Scuffed, but it works
-			child.aiplayer = get_parent()
-			child.world = get_parent().get_parent().get_parent()
+			child.aiplayer = get_parent() # This is arguably fine because its within its own scene tree imo
+			child.world = globals.current_world
 	
 	if initial_state:
 		initial_state._enter()

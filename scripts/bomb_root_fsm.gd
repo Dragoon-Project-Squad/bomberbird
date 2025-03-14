@@ -43,7 +43,7 @@ func disable() -> int:
 
 @rpc("call_local")
 func set_bomb_owner(player_id: String):
-	bomb_owner = get_node("/root/World/Players/" + player_id)
+	bomb_owner = globals.player_manager.get_node(str(player_id))
 
 @rpc("call_local")
 func do_place(bombPos: Vector2, boost: int = boost, is_dead: bool = false) -> int:

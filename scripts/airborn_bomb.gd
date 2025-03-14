@@ -102,7 +102,7 @@ func check_space():
 func to_stationary_bomb():
 	if !is_multiplayer_authority():
 		return
-	bomb_root.do_place.rpc(target, -1)
+	bomb_root.do_place.rpc(target, -1, bomb_root.bomb_owner_is_dead)
 
 func check_bounds() -> bool:
 	var in_arena_x: bool = arena_bounds[0].x < bomb_root.position.x && bomb_root.position.x < arena_bounds[1].x
@@ -143,7 +143,7 @@ func wrap_around():
 #throw calculates and starts a throw operations
 func throw(origin: Vector2, target: Vector2, direction: Vector2i, angle_rad: float = MISOBON_THROW_ANGLE_RAD, time_total: float = MISOBON_THROW_TIME):
 	#This should really be in _ready but that no worky
-	var world: Node2D = get_node("/root/World")
+	var world: World = globals.current_world
 	arena_bounds = world.get_arena_bounds()
 	world_bounds = world.get_world_bounds()
 	world_size = world.get_world_size()

@@ -76,9 +76,7 @@ func done():
 	
 	# Frees collision from astargrid when done
 	# Revise for posible implementation on world_data
-	var world : World
-	world = get_parent().get_parent().get_parent()
-	world.astargrid_set_point(bomb_root.global_position, false)
+	globals.current_world.astargrid_set_point(bomb_root.global_position, false)
 	
 	if !is_multiplayer_authority():
 		return

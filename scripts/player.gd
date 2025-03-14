@@ -44,9 +44,9 @@ func _ready():
 	#These are all needed
 	position = synced_position
 	bomb_total = bomb_count
-	bomb_pool = get_node("/root/World/BombPool")
-	pickup_pool = get_node("/root/World/PickupPool")
-	game_ui = get_node("/root/World/GameUI")
+	bomb_pool = globals.current_world.bomb_pool
+	pickup_pool = globals.current_world.pickup_pool
+	game_ui = globals.current_world.game_ui
 
 func _process(delta: float):
 	if !invulnerable:
@@ -90,10 +90,7 @@ func place_bomb():
 	last_bomb_time = 0
 	
 	# Adding bomb to astargrid so bombs have collision inside the grid
-	# Replace code if "world_data" class can be used
-	var world : World
-	world = get_parent().get_parent()
-	world.astargrid_set_point(synced_position, true)
+	globals.current_world.astargrid_set_point(synced_position, true)
 	
 	if is_multiplayer_authority():
 		var bomb: BombRoot = bomb_pool.request([])
