@@ -447,13 +447,13 @@ tracks/1/keys = {
 
 [resource]
 _data = {
-"RESET": SubResource("Animation_cfor6"),
-"death": SubResource("Animation_ivjsy"),
-"revive": SubResource("Animation_uhsui"),
-"standing": SubResource("2"),
-"stunned": SubResource("3"),
-"walk_down": SubResource("4"),
-"walk_left": SubResource("5"),
-"walk_right": SubResource("6"),
-"walk_up": SubResource("7")
+&"RESET": SubResource("Animation_cfor6"),
+&"death": SubResource("Animation_ivjsy"),
+&"revive": SubResource("Animation_uhsui"),
+&"standing": SubResource("2"),
+&"stunned": SubResource("3"),
+&"walk_down": SubResource("4"),
+&"walk_left": SubResource("5"),
+&"walk_right": SubResource("6"),
+&"walk_up": SubResource("7")
 }

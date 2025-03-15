@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://ceopux65oftsk"]
 
-[ext_resource type="Script" path="res://scripts/falling_unbreakable.gd" id="1_wuxvk"]
+[ext_resource type="Script" uid="uid://bl6ccw5h56q2e" path="res://scripts/falling_unbreakable.gd" id="1_wuxvk"]
 [ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_ls4hb"]
 [ext_resource type="Texture2D" uid="uid://jog1koyue4lr" path="res://assets/fallingsprite.png" id="3_c53sl"]
 [ext_resource type="AudioStream" uid="uid://36rjkxoq18ne" path="res://sound/fx/debrisdeath.wav" id="4_eldcf"]
@@ -135,8 +135,8 @@ tracks/4/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6pqaw"]
 _data = {
-"RESET": SubResource("Animation_k1cd6"),
-"slam": SubResource("Animation_k2qfn")
+&"RESET": SubResource("Animation_k1cd6"),
+&"slam": SubResource("Animation_k2qfn")
 }
 
 [sub_resource type="RectangleShape2D" id="1"]
