@@ -14,20 +14,18 @@ func switch_to_options_menu() -> void:
 
 func _on_single_player_pressed() -> void:
 	#if a game is already running do not allow a new game to start
-	if not has_node("/root/World"):
+	if globals.current_world == null:
 		gamestate.begin_singleplayer_game()
 	# get_tree().change_scene_to_file("res://scenes/battlegrounds.tscn")
 
 
 func _on_multiplayer_pressed() -> void:
 	#if a game is already running do not allow to open lobby
-	if not has_node("/root/World"):
+	if globals.current_world == null:
 		get_tree().change_scene_to_file("res://scenes/lobby.tscn")
 
 
 func _on_options_pressed() -> void:
 	#if a game is already running do not allow to open menu
-	if has_node("/root/World"):
-		pass
-	#get_tree().change_scene_to_file("res://scenes/options_menu/options_menu.tscn")
-	switch_to_options_menu()
+	if globals.current_world == null:
+		switch_to_options_menu()

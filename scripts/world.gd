@@ -6,9 +6,11 @@ var music_dir_path : String = "res://sound/mus/"
 @onready var mus_player := $MusicPlayer
 @onready var floor_layer = $Floor
 @onready var unbreakable_layer = $Unbreakable
-@onready var breakable_spawner = $BreakableSpawner
+@onready var breakable_spawner = get_node("Breakables/BreakableSpawner")
 @onready var breakables = $Breakables
 @onready var bomb_pool = $BombPool
+@onready var pickup_pool = $PickupPool
+@onready var game_ui= $GameUI
 
 # Randomizer & Dimension values ( make sure width & height is uneven)
 const initial_width = 15
@@ -21,6 +23,10 @@ var rng = RandomNumberGenerator.new()
 # AI pathing
 var astargrid = AStarGrid2D.new()
 var astargrid_no_breakables = AStarGrid2D.new()
+
+# we use the init to pass ourselfs to globals as this will be called on instanciation while ready is only called after all children are also ready (which may lead to some of the children trying to access world already in there ready functions)
+func _init():
+	globals.current_world = self
 
 func _ready() -> void:
 	setup_astargrid()
@@ -100,7 +106,7 @@ func generate_breakables():
 		[Vector2i(1, 1 + map_offset), 
 		Vector2i(1, 2 + map_offset),
 		Vector2i(2, 1 + map_offset)],
-		# Top Right
+		# Top eight
 		[Vector2i(map_width - 2, 1 + map_offset), 
 		Vector2i(map_width - 2, 2 + map_offset),
 		Vector2i(map_width - 3, 1 + map_offset)],

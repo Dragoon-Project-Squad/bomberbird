@@ -3,8 +3,8 @@ class_name Pickup extends Area2D
 @onready var pickup_sfx_player = $PickupSoundPlayer
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var collisionbox: CollisionShape2D = $CollisionShape2D
-@onready var pickup_pool: PickupPool = get_node("/root/World/PickupPool") 
 
+var pickup_pool: PickupPool
 var pickup_type: String = "":
 	set(type): #i don't like setters but it only enforces something here so its okey
 		if pickup_type != "":
@@ -12,7 +12,7 @@ var pickup_type: String = "":
 		pickup_type = type
 
 func _ready():
-	pass
+	pickup_pool = globals.current_world.get_node("PickupPool")
 
 @rpc("call_local")
 func disable_collison_and_hide():

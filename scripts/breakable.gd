@@ -6,11 +6,14 @@ const PICKUP_ENABLED := true
 const PICKUP_SPAWN_BASE_CHANCE := 1.0
 
 @onready var breakable_sfx_player := $BreakableSound
-@onready var pickup_pool: PickupPool = get_node("/root/World/PickupPool")
 
 var rng = RandomNumberGenerator.new()
-
+#set from the spawner
 var world : World
+var pickup_pool: PickupPool
+
+func _ready():
+	pickup_pool = world.pickup_pool
 
 func decide_pickup_spawn() -> bool:
 	if !PICKUP_ENABLED:
@@ -37,9 +40,10 @@ func decide_pickup_type() -> String:
 	
 @rpc("call_local")
 func exploded(by_who):
-	#breakable_sfx_player.play()
+	# breakable_sfx_player.play()
 	$"AnimationPlayer".play("explode")
 	# Spawn a powerup where this rock used to be.
+
 	if is_multiplayer_authority():
 		if decide_pickup_spawn() && by_who != gamestate.ENVIRONMENTAL_KILL_PLAYER_ID:
 			var type_of_pickup = decide_pickup_type()
@@ -48,7 +52,8 @@ func exploded(by_who):
 		else:
 			world_data.set_tile.rpc(world_data.tiles.EMPTY, global_position) #We only wanne delete this cell if no pickup is spawned on it
 			
-	get_node("Shape").queue_free()
+	if is_multiplayer_authority():
+		get_node("Shape").queue_free()
 	world.astargrid_set_point(global_position, false)
 	await $"AnimationPlayer".animation_finished #Wait for the animation to finish
 	if is_multiplayer_authority():
