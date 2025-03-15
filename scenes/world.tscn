@@ -1,14 +1,14 @@
 [gd_scene load_steps=13 format=4 uid="uid://by3f5o7dyoqx4"]
 
 [ext_resource type="TileSet" uid="uid://do2l6lpuotti8" path="res://assets/origtileset.tres" id="1"]
-[ext_resource type="Script" path="res://scripts/world/world.gd" id="1_q8w2t"]
+[ext_resource type="Script" uid="uid://cgd2dtgirjv86" path="res://scripts/world.gd" id="1_q8w2t"]
 [ext_resource type="PackedScene" uid="uid://bao3yernlglws" path="res://scenes/breakable.tscn" id="2"]
-[ext_resource type="Script" path="res://scripts/score.gd" id="3"]
+[ext_resource type="Script" uid="uid://c2ydgkwecfjjs" path="res://scripts/score.gd" id="3"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="4"]
 [ext_resource type="Theme" uid="uid://wfdn1qbkwu46" path="res://assets/styles/main_menu_theme.tres" id="5_6aw7n"]
-[ext_resource type="Script" path="res://scripts/bomb_spawner.gd" id="6_ac5ja"]
+[ext_resource type="Script" uid="uid://6fqhmpwvmglv" path="res://scripts/bomb_spawner.gd" id="6_ac5ja"]
 [ext_resource type="AudioStream" uid="uid://kkul2topsufx" path="res://sound/fx/bombdrop.wav" id="6_men6a"]
-[ext_resource type="Script" path="res://scripts/powerup_spawner.gd" id="8_2nlye"]
+[ext_resource type="Script" uid="uid://c5jpcx64c0x0s" path="res://scripts/powerup_spawner.gd" id="8_2nlye"]
 [ext_resource type="PackedScene" uid="uid://cim10emfhkf7b" path="res://scenes/pickups/explosion_boost.tscn" id="9_7eckx"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_to18j"]
