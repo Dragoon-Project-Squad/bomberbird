@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://k27srgql5ell"]
 
-[ext_resource type="Script" path="res://scripts/pickups/speed_boost.gd" id="1_t325b"]
+[ext_resource type="Script" uid="uid://cmrckxvk8orjy" path="res://scripts/pickups/speed_boost.gd" id="1_t325b"]
 [ext_resource type="Texture2D" uid="uid://cpcqguecfwnbv" path="res://assets/powerup.png" id="2_b0kq2"]
 [ext_resource type="AudioStream" uid="uid://8u70xa4tmhc8" path="res://sound/fx/powerup.wav" id="3_almfq"]
 [ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_odqcd"]

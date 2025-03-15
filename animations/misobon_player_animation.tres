@@ -693,15 +693,15 @@ tracks/6/keys = {
 
 [resource]
 _data = {
-"RESET": SubResource("Animation_8w66k"),
-"despawn_bottom": SubResource("Animation_204um"),
-"despawn_left": SubResource("Animation_yuekk"),
-"despawn_right": SubResource("Animation_2n8cj"),
-"despawn_top": SubResource("Animation_jpmtu"),
-"look_down": SubResource("Animation_yr62u"),
-"look_left": SubResource("Animation_2k0ic"),
-"look_right": SubResource("Animation_lr3ja"),
-"look_up": SubResource("Animation_1m5w0"),
-"spawn_left": SubResource("Animation_vvrew"),
-"spawn_right": SubResource("Animation_tivyv")
+&"RESET": SubResource("Animation_8w66k"),
+&"despawn_bottom": SubResource("Animation_204um"),
+&"despawn_left": SubResource("Animation_yuekk"),
+&"despawn_right": SubResource("Animation_2n8cj"),
+&"despawn_top": SubResource("Animation_jpmtu"),
+&"look_down": SubResource("Animation_yr62u"),
+&"look_left": SubResource("Animation_2k0ic"),
+&"look_right": SubResource("Animation_lr3ja"),
+&"look_up": SubResource("Animation_1m5w0"),
+&"spawn_left": SubResource("Animation_vvrew"),
+&"spawn_right": SubResource("Animation_tivyv")
 }

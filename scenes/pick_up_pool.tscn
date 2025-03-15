@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b22qg08qddy6x"]
 
-[ext_resource type="Script" path="res://scripts/powerup_spawner.gd" id="1_jqavm"]
-[ext_resource type="Script" path="res://scripts/pick_up_pool.gd" id="1_uwgdf"]
+[ext_resource type="Script" uid="uid://c5jpcx64c0x0s" path="res://scripts/powerup_spawner.gd" id="1_jqavm"]
+[ext_resource type="Script" uid="uid://dw2ppdr3nv0c4" path="res://scripts/pick_up_pool.gd" id="1_uwgdf"]
 
 [node name="PickUpPool" type="Node2D"]
 script = ExtResource("1_uwgdf")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://dulu2qni8mygv"]
 
-[ext_resource type="Script" path="res://scripts/pickups/punch_ability.gd" id="1_pipnm"]
+[ext_resource type="Script" uid="uid://cqtte2vc7fgvi" path="res://scripts/pickups/punch_ability.gd" id="1_pipnm"]
 [ext_resource type="Texture2D" uid="uid://cpcqguecfwnbv" path="res://assets/powerup.png" id="2_vbdta"]
 [ext_resource type="AudioStream" uid="uid://8u70xa4tmhc8" path="res://sound/fx/powerup.wav" id="3_5itkc"]
 [ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_ssgm4"]

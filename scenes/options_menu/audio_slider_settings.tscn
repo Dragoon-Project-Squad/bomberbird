@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://btedou2ck0dq2"]
 
 [ext_resource type="Theme" uid="uid://m30a0nncwbm0" path="res://assets/styles/options_menu.tres" id="1_02rl6"]
-[ext_resource type="Script" path="res://scripts/options_menu/audio_slider_settings.gd" id="1_cr6x5"]
+[ext_resource type="Script" uid="uid://wou57u28uys4" path="res://scripts/options_menu/audio_slider_settings.gd" id="1_cr6x5"]
 
 [node name="AudioSliderSettings" type="Control"]
 layout_mode = 3

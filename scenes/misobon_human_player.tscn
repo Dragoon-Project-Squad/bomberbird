@@ -1,11 +1,11 @@
 [gd_scene load_steps=11 format=3 uid="uid://qnn4bkknt2vc"]
 
-[ext_resource type="Script" path="res://scripts/misobon_human_player.gd" id="1_ltqwy"]
+[ext_resource type="Script" uid="uid://d33r5y7fbncib" path="res://scripts/misobon_human_player.gd" id="1_ltqwy"]
 [ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_1nsf8"]
 [ext_resource type="Texture2D" uid="uid://lckm0mdablaw" path="res://assets/player/chonkgoon_walk.png" id="3_teqgl"]
 [ext_resource type="Texture2D" uid="uid://cwpnhuimmgdha" path="res://assets/bombcentered.png" id="4_gkxlo"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="5_qxep3"]
-[ext_resource type="Script" path="res://scripts/misobon_player_controls.gd" id="6_cfis0"]
+[ext_resource type="Script" uid="uid://dnmrmhgsrxu3k" path="res://scripts/misobon_player_controls.gd" id="6_cfis0"]
 [ext_resource type="AnimationLibrary" uid="uid://b7alfxjlq0yvb" path="res://animations/misobon_player_animation.tres" id="7_lst5j"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_aowd5"]
