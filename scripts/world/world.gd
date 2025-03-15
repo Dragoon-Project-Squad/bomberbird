@@ -1,9 +1,6 @@
 extends Node2D
 class_name World
 
-var music_dir_path : String = "res://sound/mus/"
-
-@onready var mus_player := $MusicPlayer
 @onready var floor_layer = $Floor
 @onready var unbreakable_layer = $Unbreakable
 @onready var breakable_spawner = get_node("Breakables/BreakableSpawner")
@@ -30,38 +27,13 @@ func _init():
 
 func _ready() -> void:
 	setup_astargrid()
-	dir_contents(music_dir_path)
-	mus_player.play()
+	#dir_contents(music_dir_path)
+	#mus_player.play()
 
 	world_data.begin_init(Vector2i(1, 3), map_width - 2, map_height - 2, floor_layer)	
 	generate_breakables()
 	world_data.finish_init()		
 	astargrid_set_initial_solidpoints()
-	
-func dir_contents(path):
-	var dir = DirAccess.open(path)
-	var index = 0
-	var file_name
-	if dir:
-		dir.list_dir_begin()
-		file_name = dir.get_next()
-		while file_name != "":
-			if file_name.get_extension() == "import":
-				# This is the WACKEST hack I have done in a while
-				file_name = file_name.split(".import")
-				loadstream(index, load(path+file_name[0]))
-			file_name = dir.get_next()
-	else:
-		print("An error occurred when trying to access the music path.")
-
-func loadstream(index: int,  this_stream: AudioStreamOggVorbis):
-	if this_stream == null:
-		return
-	if mus_player.playing:
-		mus_player.stop()
-	mus_player.stream.add_stream(index, this_stream)
-	this_stream.loop = true
-	index = index + 1
 	
 func unique_cell_identifier(coord):
 	return coord.x + coord.y * 10000
