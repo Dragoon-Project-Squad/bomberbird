@@ -1,4 +1,4 @@
-extends Path2D
+class_name MisobonPath extends Path2D
 
 const GRACE: float = 10 #grace allows for inputs close to a corner to still work
 const GRACE_ERR: float = 10;

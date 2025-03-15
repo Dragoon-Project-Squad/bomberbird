@@ -9,16 +9,18 @@ var _is_initialized: bool = false
 var _get_rand_lock: Mutex = Mutex.new()
 var _get_set_lock: Mutex = Mutex.new()
 
-#public members
-#origin of the play area (Top left most tile)
+## public members
+
+## origin of the play area (Top left most tile)
 var floor_origin: Vector2i
-#width and height of the player area in tiles
+## width and height of the player area in tiles
 var world_width: int
 var world_height: int
-#The TileMapLayer
+## The TileMapLayer
 var tile_map: TileMapLayer
 
-#private functions
+## private functions
+
 func _vec_to_index(vec: Vector2i) -> int:
 	assert(0 <= vec.x && vec.x < world_width && 0 <= vec.y && vec.y <= world_height, "index " + str(vec) + " out of bounds for world_data")
 	var indx: int = vec.x + vec.y * self.world_width
@@ -76,7 +78,7 @@ func _int_to_enum_name(tile: int) -> String:
 
 #public functions
 @warning_ignore("SHADOWED_VARIABLE")
-func begin_init(floor_origin: Vector2, world_width: int, world_height: int, tile_map: TileMapLayer):
+func begin_init(floor_rect2i: Rect2i, tile_map: TileMapLayer):
 	self.floor_origin = floor_origin
 	self.world_width = world_width
 	self.world_height = world_height
