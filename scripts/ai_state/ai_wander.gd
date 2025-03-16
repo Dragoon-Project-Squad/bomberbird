@@ -34,7 +34,7 @@ func _detect_surroundings() -> void:
 		state_changed.emit(self, "FollowTarget")
 		return
 
-# Choose random point to wander to and create pathing
+## Choose random point to wander to and create pathing
 func randomize_target():
 	var offset = area.position
 	var end = area.end
@@ -49,12 +49,12 @@ func randomize_target():
 		var posy = clamp(number_generator.randi_range(current_cell.y-range, current_cell.y+range+1), offset.y, end.y-1)
 		new_target = Vector2i(posx, posy)
 		# If the point is valid, finish
-		if (!is_unbreakable(new_target, offset) and new_target != current_cell):
+		if (!world_data.is_tile(world_data.tiles.UNBREAKABLE, world_data.tile_map.map_to_local(new_target)) and new_target != current_cell):
 			valid_point = true
 		else:
 			continue
-		path = world.create_path_no_breakables(aiplayer, new_target)
-		if world.is_breakable(path[1]):
+		path = astargrid_handler.create_path_no_breakables(aiplayer, new_target)
+		if world_data.is_tile(world_data.tiles.BREAKABLE, world_data.tile_map.map_to_local(path[1])):
 			valid_point = false
 			path = []
 	
@@ -63,14 +63,13 @@ func randomize_target():
 	#if aiplayer.name == "2":
 	#	print("Wander path: "+str(path))
 	
-func is_unbreakable(point : Vector2i, offset : Vector2i) -> bool:
-	return (point.x-offset.x+1)%2==0 and (point.y-offset.y+1)%2==0
-
+#func is_unbreakable(point : Vector2i, offset : Vector2i) -> bool:
+#	return (point.x-offset.x+1)%2==0 and (point.y-offset.y+1)%2==0
+#
 func is_breakable_in_front() -> bool:
 	if path.size()==0:
 		return false
-	var is_in_front = world.is_breakable(path[0])
-	return world.is_breakable(path[0])
+	return world_data.is_tile(world_data.tiles.BREAKABLE, world_data.tile_map.map_to_local(path[0]))
 
 func is_enemy_near() -> bool:
 	# TODO

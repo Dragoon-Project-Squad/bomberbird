@@ -1,8 +1,9 @@
 extends MisobonAiState
 
 const WANDER_COOLDOWN: float = 1
+
+## cooldown between checking for a target (if this is too low it might be laggy)
 const TARGET_CHECKING_COOLDOWN: float = 0.1
-const RAND_BOMB_CHANGE: float = 0.01 #Expected Value about every 100 frames a bomb is thrown randomly
 
 
 
@@ -36,13 +37,13 @@ func _update(delta: float) -> void:
 
 	pot_bomb_pos += Vector2(look_direction) * player.TILESIZE * predicted_bounce
 	
-	if world_data.is_out_of_bounds(pot_bomb_pos) == 1:
+	if world_data.is_out_of_bounds(pot_bomb_pos) == world_data.bounds.OUT_RIGHT:
 		pot_bomb_pos.x = world_data.tile_map.map_to_local(world_data.floor_origin + Vector2i(world_data.world_width - 1, 0)).x
-	elif world_data.is_out_of_bounds(pot_bomb_pos) == 3:
+	elif world_data.is_out_of_bounds(pot_bomb_pos) == world_data.bounds.OUT_LEFT:
 		pot_bomb_pos.x = world_data.tile_map.map_to_local(world_data.floor_origin).x
-	elif world_data.is_out_of_bounds(pot_bomb_pos) == 0:
+	elif world_data.is_out_of_bounds(pot_bomb_pos) == world_data.bounds.OUT_TOP:
 		pot_bomb_pos.y = world_data.tile_map.map_to_local(world_data.floor_origin).y
-	elif world_data.is_out_of_bounds(pot_bomb_pos) == 2:
+	elif world_data.is_out_of_bounds(pot_bomb_pos) == world_data.bounds.OUT_DOWN:
 		pot_bomb_pos.y = world_data.tile_map.map_to_local(world_data.floor_origin + Vector2i(0, world_data.world_height - 1)).y
 
 	raycasts.position = pot_bomb_pos - player.position
@@ -53,13 +54,13 @@ func _update(delta: float) -> void:
 
 #Private functions
 func _predict_throw(pos: Vector2, direction: Vector2i, throw_range: int) -> int:
-	if world_data.is_out_of_bounds(pos) == 1:
+	if world_data.is_out_of_bounds(pos) == world_data.bounds.OUT_RIGHT:
 		pos.x = world_data.tile_map.map_to_local(world_data.floor_origin + Vector2i(world_data.world_width - 1, 0)).x
-	elif world_data.is_out_of_bounds(pos) == 3:
+	elif world_data.is_out_of_bounds(pos) == world_data.bounds.OUT_LEFT:
 		pos.x = world_data.tile_map.map_to_local(world_data.floor_origin).x
-	elif world_data.is_out_of_bounds(pos) == 0:
+	elif world_data.is_out_of_bounds(pos) == world_data.bounds.OUT_TOP:
 		pos.y = world_data.tile_map.map_to_local(world_data.floor_origin).y
-	elif world_data.is_out_of_bounds(pos) == 2:
+	elif world_data.is_out_of_bounds(pos) == world_data.bounds.OUT_DOWN:
 		pos.y = world_data.tile_map.map_to_local(world_data.floor_origin + Vector2i(0, world_data.world_height - 1)).y
 
 	var res: int = 0
@@ -71,7 +72,7 @@ func _predict_throw(pos: Vector2, direction: Vector2i, throw_range: int) -> int:
 		if counter > max(world_data.world_height, world_data.world_width):
 			return -999
 		if world_data.is_out_of_bounds(pos) != -1:
-			pos = pos - Vector2(direction) * player.TILESIZE * (world_data.world_height if direction.x != 0 else world_data.world_width)
+			pos = pos - Vector2(direction) * player.TILESIZE * (world_data.world_height if direction.y != 0 else world_data.world_width)
 			res = -throw_range
 	return res
 
