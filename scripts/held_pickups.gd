@@ -1,4 +1,4 @@
-class_name HeldPickups extends Node
+class_name HeldPickups extends Resource
 
 enum bomb_types {DEFAULT, PIERCING, MINE, REMOTE, SEEKER}
 enum exclusive {DEFAULT, KICK, BOMBTHROUGH}
@@ -26,7 +26,7 @@ var enum_keys: Array[String] = [
 	#"virus",
 	]
 
-var held_pickups: Dictionary = {
+@export var held_pickups: Dictionary = {
 	"bomb_type": bomb_types.DEFAULT,	#//
 	"exclusive": exclusive.DEFAULT,		#Bomb Kick / Bombthrough
 	"virus": virus.DEFAULT, 					#Random, counterproductive condition

@@ -37,8 +37,7 @@ var bomb_total: int
 @export var bomb_count: int
 @export var lives: int
 @export var explosion_boost_count: int
-
-var pickups: HeldPickups = HeldPickups.new()
+@export var pickups: HeldPickups
 
 func _ready():
 	#These are all needed

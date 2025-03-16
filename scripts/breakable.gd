@@ -24,17 +24,10 @@ func decide_pickup_spawn() -> bool:
 		return false
 		
 func decide_pickup_type() -> String:
-	var pickup_type
-	var rng_result = rng.randi_range(1,5)
-	# TODO: Invent fun spawn table that has chances for different pickups
-	match rng_result:
-		1: pickup_type = "explosion_boost"
-		2: pickup_type = "max_explosion"
-		3: pickup_type = "speed_boost"
-		4: pickup_type = "extra_bomb"
-		5: pickup_type = "punch_ability"
-		_: pickup_type = "explosion_boost"
-	return pickup_type
+	var pickup_table = globals.current_world.pickup_table
+	var rng_result = rng.randi_range(0, pickup_table.total_weight())
+	print(rng_result, ", ", pickup_table.total_weight())
+	return pickup_table.get_type_from_weight(rng_result)
 	
 @rpc("call_local")
 func exploded(by_who):
