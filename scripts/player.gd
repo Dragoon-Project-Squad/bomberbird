@@ -90,7 +90,7 @@ func place_bomb():
 	last_bomb_time = 0
 	
 	# Adding bomb to astargrid so bombs have collision inside the grid
-	globals.current_world.astargrid_set_point(synced_position, true)
+	globals.astargrid_handler.astargrid_set_point(synced_position, true)
 	
 	if is_multiplayer_authority():
 		var bomb: BombRoot = bomb_pool.request([])

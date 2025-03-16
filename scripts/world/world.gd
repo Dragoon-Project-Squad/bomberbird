@@ -1,6 +1,9 @@
-## world expects the following structure (child nodes) to work properly:
+extends Node2D
+class_name World
+## World contains the base functionallity of every stage
+## World expects the following structure (child nodes) to work properly:
 ## - Floor: TileMapLayer (Layer just consists of floor tiles)
-## - Border: TileMapLayer (Layer with just tiles blocking the player from exiting the main area)
+## - Bounds: TileMapLayer (Layer with just tiles blocking the player from exiting the main area)
 ## - Obsticals: TileMapLayer (Layer with Unbreakables and potentially Breakables)
 ## - Breakables: Node2D (Node that will contain all breakables generated also contains the BreakableSpawner)
 ## - Players: PlayerManager (Node that will contain all players, also contains a PlayerSpawner)
@@ -11,21 +14,46 @@
 ## - Timers: Node (Contains atleast the MatchTimer)
 ## - Music: Node (responsable for playing the music in this stage)
 
-extends Node2D
-class_name World
-
 @export_group("World Settings")
-## Tile Coordinate of the top right tile still within the playable area
-@export var arena_rect: Rect2i
-@export var misobon_path_rect: Rect2i
+## The Rectangle that covers the playable area where (x,y) are the top left corner and (w, h) the size of the rectangle all in tile coordinates
+@export var _arena_rect: Rect2i
+## The Rectangle that determans the world_edge hence outside of which items are wrapped around to the other side
+@export var _world_edge_rect: Rect2i
+## The Rectangle that forms the misobon path where (x,y) are the top left corner and (w, h) the size of the rectangle all in tile coordinates
+@export var _misobon_path_rect: Rect2i
 
-var unbreakable_tile: Vector2i
+
+@onready var floor_layer = $Floor
+@onready var bounds_layer = $Bounds
+@onready var obsticals_layer = $Obsticals
+@onready var breakable_spawner = get_node("Breakables/BreakableSpawner")
+@onready var breakables = $Breakables
+@onready var bomb_pool = $BombPool
+@onready var pickup_pool = $PickupPool
+@onready var game_ui= $GameUI
+
+## The Atlas coordinate of the unbreakable tile in this stages tileset
+var _unbreakable_tile: Vector2i
+
+# PRIVATE FUNCTIONS
 
 func _init():
 	globals.current_world = self
+	_asserting_world()
 
 func _ready() -> void:
-	assert(arena_rect != Rect2i())
-	assert(misobon_path_rect != Rect2i())
-	pass
+	world_data.begin_init(_arena_rect, _world_edge_rect, floor_layer)
+	world_data.init_unbreakables(_unbreakable_tile, obsticals_layer)
+	globals.astargrid_handler.setup_astargrid()
+	_generate_breakables()
+	world_data.finish_init()
+	globals.astargrid_handler.astargrid_set_initial_solidpoints()
 
+## Asserts that properties of the world are set correctly
+func _asserting_world():
+	assert(_arena_rect.size != Vector2i.ZERO, "area_rect must be set properly and cannot have size ZERO")
+	assert(_misobon_path_rect.size != Vector2i.ZERO, "misobon_path_rect must be set properly and cannot have size ZERO")
+
+## Generates all the breakables
+func _generate_breakables():
+	pass

@@ -8,12 +8,10 @@ const PICKUP_SPAWN_BASE_CHANCE := 1.0
 @onready var breakable_sfx_player := $BreakableSound
 
 var rng = RandomNumberGenerator.new()
-#set from the spawner
-var world : World
 var pickup_pool: PickupPool
 
 func _ready():
-	pickup_pool = world.pickup_pool
+	pickup_pool = globals.current_world.get_node("PickupPool")
 
 func decide_pickup_spawn() -> bool:
 	if !PICKUP_ENABLED:
@@ -54,7 +52,7 @@ func exploded(by_who):
 			
 	if is_multiplayer_authority():
 		get_node("Shape").queue_free()
-	world.astargrid_set_point(global_position, false)
+	globals.astargrid_handler.astargrid_set_point(global_position, false)
 	await $"AnimationPlayer".animation_finished #Wait for the animation to finish
 	if is_multiplayer_authority():
 		queue_free()

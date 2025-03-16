@@ -45,11 +45,11 @@ func _set_target() -> void:
 
 # *****General utility*****
 func get_cell_position(position : Vector2) -> Vector2i:
-	var cell_index = world.floor_layer.local_to_map(position)
+	var cell_index = world_data.tile_map.local_to_map(position)
 	return cell_index
 
 func get_global_position(cell : Vector2i) -> Vector2:
-	var position = world.floor_layer.map_to_local(cell)
+	var position = world_data.tile_map.map_to_local(cell)
 	position = Vector2i(position.x, position.y)
 	return position
 
@@ -90,7 +90,7 @@ func detect_stuck(delta) -> void:
 
 # *****Setting*****
 func set_area() -> void:
-	area = world.floor_layer.get_used_rect()
+	area = world_data.get_arena_rect()
 
 # *****Movement***** 
 func set_next_point() -> void:

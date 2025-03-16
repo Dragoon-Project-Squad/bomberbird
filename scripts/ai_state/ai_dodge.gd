@@ -78,7 +78,7 @@ func safe_target() -> void:
 			break
 		iteration += 1
 	if found:
-		path = world.create_path(aiplayer, target)
+		path = globals.astargrid_handler.create_path(aiplayer, target)
 		path.pop_front()
 	else:
 		#print("No safe was found")
@@ -86,7 +86,7 @@ func safe_target() -> void:
 
 func set_valid_new_target(new_target : Vector2i, unsafe_cells : Array[Vector2i]) -> bool:
 	if is_new_target_valid(new_target, unsafe_cells):
-		path = world.create_path(aiplayer, new_target)
+		path = globals.astargrid_handler.create_path(aiplayer, new_target)
 		#if aiplayer.name == "2":
 		#	print("New target valid, path:",str(path))
 		if path.size() > 0:
@@ -105,14 +105,17 @@ func get_unsafe_cells(bomb_list : Array[Bomb]) -> Array[Vector2i]:
 		var unsafe_cell : Vector2i
 		# Will only mark unsafe cells if there isn't unbreakables in the way of
 		# the explosion
-		# Code can look prettier, but I'm not gonna bother
-		if not world.is_unbreakable(Vector2i(bomb_position.x-1, bomb_position.y)) or not world.is_unbreakable(Vector2i(bomb_position.x+1, bomb_position.y)):
-			for x in range (bomb_position.x-range, bomb_position.x+range+1):
+		var left_is_unbreakable: bool = world_data.is_out_of_bounds(bomb_position + Vector2i.LEFT) == world_data.bounds.IN and world_data.is_tile(world_data.tiles.UNBREAKABLE, world_data.tile_map.map_to_local(bomb_position + Vector2i.LEFT))
+		var right_is_unbreakable: bool = world_data.is_out_of_bounds(bomb_position + Vector2i.RIGHT) == world_data.bounds.IN and world_data.is_tile(world_data.tiles.UNBREAKABLE, world_data.tile_map.map_to_local(bomb_position + Vector2i.RIGHT))
+		var top_is_unbreakable: bool = world_data.is_out_of_bounds(bomb_position + Vector2i.UP) == world_data.bounds.IN and world_data.is_tile(world_data.tiles.UNBREAKABLE, world_data.tile_map.map_to_local(bomb_position + Vector2i.UP))
+		var down_is_unbreakable: bool = world_data.is_out_of_bounds(bomb_position + Vector2i.DOWN) == world_data.bounds.IN and world_data.is_tile(world_data.tiles.UNBREAKABLE, world_data.tile_map.map_to_local(bomb_position + Vector2i.DOWN))
+		if not left_is_unbreakable or not right_is_unbreakable:
+			for x in range(bomb_position.x-range, bomb_position.x+range+1):
 				cell = Vector2i(x, bomb_position.y)
 				if area.has_point(cell):
 					cell_list.append(cell)
-		if not world.is_unbreakable(Vector2i(bomb_position.x, bomb_position.y-1)) or not world.is_unbreakable(Vector2i(bomb_position.x, bomb_position.y+1)):
-			for y in range (bomb_position.y-range, bomb_position.y+range+1):
+		if not top_is_unbreakable or not down_is_unbreakable:
+			for y in range(bomb_position.y-range, bomb_position.y+range+1):
 				cell = Vector2i(bomb_position.x, y)
 				if area.has_point(cell):
 					cell_list.append(Vector2i(bomb_position.x, y))
@@ -123,6 +126,8 @@ func get_unsafe_cells(bomb_list : Array[Bomb]) -> Array[Vector2i]:
 func is_new_target_valid(new_target : Vector2i, unsafe_cells : Array[Vector2i]) -> bool:
 	var is_x_inbounds = new_target.x < area.end.x and new_target.x >= area.position.x
 	var is_y_inbounds = new_target.y < area.end.y and new_target.y >= area.position.y
+	if !is_x_inbounds || !is_y_inbounds:
+		return false
 	var is_safe = new_target not in unsafe_cells
-	var is_not_blocked = not world.is_unbreakable(new_target) and not world.is_breakable(new_target)
-	return is_x_inbounds and is_y_inbounds and is_safe and is_not_blocked
+	var is_not_blocked = not world_data.is_tile(world_data.tiles.UNBREAKABLE, world_data.tile_map.map_to_local(new_target)) and not world_data.is_tile(world_data.tiles.UNBREAKABLE, world_data.tile_map.map_to_local(new_target))
+	return is_safe and is_not_blocked
