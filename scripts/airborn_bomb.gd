@@ -100,33 +100,32 @@ func to_stationary_bomb():
 
 func check_bounds() -> bool:
 	var bounds = world_data.is_out_of_bounds(bomb_root.position)
+	print(bounds)
 
 	if bounds == world_data.bounds.IN:
 		return false #we are in the arena so do a space check
 
-	if world_data.bounds.OUT_LEFT && direction.x == 0: # We are out of bound on the left but our direction is either up or down so bounce to the right
+	if bounds == world_data.bounds.OUT_LEFT && direction.y != 0: # We are out of bound on the left but our direction is either up or down so bounce to the right
 		throw(bomb_root.position, bomb_root.position + Vector2(Vector2i.RIGHT) * TILESIZE, Vector2i.RIGHT, MISOBON_THROW_ANGLE_RAD, MISOBON_THROW_TIME / 2)
 		return true
-	elif world_data.bounds.OUT_RIGHT && direction.x == 0: # We are out of bound on the right but our direction is either up or down so bounce to the left
+	elif bounds == world_data.bounds.OUT_RIGHT && direction.y != 0: # We are out of bound on the right but our direction is either up or down so bounce to the left
 		throw(bomb_root.position, bomb_root.position + Vector2(Vector2i.LEFT) * TILESIZE, Vector2i.LEFT, MISOBON_THROW_ANGLE_RAD, MISOBON_THROW_TIME / 2)
 		return true
-	elif world_data.bounds.OUT_TOP && direction.y == 0: # We are out of bound on the top but our direction is either left or right so bounce to the down 
+	elif bounds == world_data.bounds.OUT_TOP && direction.x != 0: # We are out of bound on the top but our direction is either left or right so bounce to the down 
 		throw(bomb_root.position, bomb_root.position + Vector2(Vector2i.DOWN) * TILESIZE, Vector2i.DOWN, MISOBON_THROW_ANGLE_RAD, MISOBON_THROW_TIME / 2)
 		return true
-	elif world_data.bounds.OUT_DOWN && direction.y == 0: # We are out of bound on the down but our direction is either left or right so bounce to the top
+	elif bounds == world_data.bounds.OUT_DOWN && direction.x != 0: # We are out of bound on the down but our direction is either left or right so bounce to the top
 		throw(bomb_root.position, bomb_root.position + Vector2(Vector2i.UP) * TILESIZE, Vector2i.UP, MISOBON_THROW_ANGLE_RAD, MISOBON_THROW_TIME / 2)
 		return true
-	elif !world_data.is_out_of_world_edge(position): #clearly we are not in bounds and we do not need to correct to a different direction hence just bounce allong
+	elif !world_data.is_out_of_world_edge(bomb_root.position): #clearly we are not in bounds and we do not need to correct to a different direction hence just bounce allong
 		throw(bomb_root.position, bomb_root.position + Vector2(direction) * TILESIZE, direction, MISOBON_THROW_ANGLE_RAD, MISOBON_THROW_TIME / 2)
 		return true
 
 	wrap_around() #clearly we are outside the world_edge hence we wrap
 	return true
 
-
 func wrap_around():
-	bomb_root.position -= Vector2(direction) * Vector2(world_data.world_width, world_data.world_height).dot(direction.abs()) * TILESIZE
-
+	bomb_root.position -= Vector2(direction) * Vector2(world_data.world_edge_width, world_data.world_edge_height).dot(direction.abs()) * TILESIZE
 
 #throw calculates and starts a throw operations
 func throw(origin: Vector2, target: Vector2, direction: Vector2i, angle_rad: float = MISOBON_THROW_ANGLE_RAD, time_total: float = MISOBON_THROW_TIME):

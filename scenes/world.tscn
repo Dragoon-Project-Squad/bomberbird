@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=4 uid="uid://by3f5o7dyoqx4"]
 
 [ext_resource type="TileSet" uid="uid://do2l6lpuotti8" path="res://assets/origtileset.tres" id="1"]
-[ext_resource type="Script" uid="uid://ddqqm5y7geeut" path="res://scripts/world/world_old.gd" id="1_q8w2t"]
+[ext_resource type="Script" uid="uid://c7rrhgeevwtus" path="res://scripts/world/randomized_stage.gd" id="1_q8w2t"]
 [ext_resource type="PackedScene" uid="uid://bao3yernlglws" path="res://scenes/breakable.tscn" id="2"]
 [ext_resource type="Script" uid="uid://dyum13a8a8ibi" path="res://scripts/score.gd" id="3"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="4"]

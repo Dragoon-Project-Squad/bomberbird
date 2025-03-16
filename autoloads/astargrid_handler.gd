@@ -1,11 +1,8 @@
-extends Node2D
+extends Node
 class_name AStarGridHandler
 
 var astargrid: AStarGrid2D = AStarGrid2D.new()
 var astargrid_no_breakables: AStarGrid2D = AStarGrid2D.new()
-
-func _init():
-	globals.astargrid_handler = self
 
 func setup_astargrid():
 	astargrid.region = world_data.get_arena_rect()
@@ -25,6 +22,7 @@ func astargrid_set_initial_solidpoints() -> void:
 		astargrid_no_breakables.set_point_solid(unbreakable_cell, true)
 
 ## sets 'pos' as a solid in the astargrid (used for breakable mainly?)
+@rpc("call_local")
 func astargrid_set_point(pos: Vector2, solid: bool) -> void:
 	astargrid.set_point_solid(
 		world_data.tile_map.local_to_map(pos),

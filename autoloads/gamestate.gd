@@ -36,8 +36,7 @@ signal game_ended()
 signal game_error(what)
 
 # Preloaded Scenes
-var player_scene = preload("res://scenes/human_player.tscn")
-var ai_player_scene = preload("res://scenes/ai_player.tscn")
+var stage_scene = preload("res://scenes/stages/desert_stages/randomized_desert_stage.tscn")
 
 # Singleplayer Vars
 var current_level: int = 205 # Defaults to a high number for battle mode.
@@ -116,7 +115,7 @@ func change_character_player(texture):
 @rpc("call_local")
 func load_world():
 	# Change scene.
-	var world = load("res://scenes/battlegrounds.tscn").instantiate()
+	var world = stage_scene.instantiate()
 	get_tree().get_root().add_child(world)
 	if get_tree().get_root().has_node("Lobby"):
 		get_tree().get_root().get_node("Lobby").hide()
@@ -184,7 +183,7 @@ func spawn_players():
 	var humans_loaded_in_game = 0
 
 	for p_id in spawn_points:
-		var spawn_pos = globals.current_world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position
+		var spawn_pos = world_data.tile_map.map_to_local(globals.current_world.spawnpoints[spawn_points[p_id]])
 		var playerspawner = globals.current_world.get_node("PlayerSpawner")
 		var misobonspawner = globals.current_world.get_node("MisobonPlayerSpawner")
 		var spawningdata = {"spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players}

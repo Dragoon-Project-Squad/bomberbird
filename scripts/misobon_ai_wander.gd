@@ -72,7 +72,7 @@ func _predict_throw(pos: Vector2, direction: Vector2i, throw_range: int) -> int:
 		if counter > max(world_data.world_height, world_data.world_width):
 			return -999
 		if world_data.is_out_of_bounds(pos) != -1:
-			pos = pos - Vector2(direction) * player.TILESIZE * (world_data.world_height if direction.x != 0 else world_data.world_width)
+			pos = pos - Vector2(direction) * player.TILESIZE * (world_data.world_height if direction.y != 0 else world_data.world_width)
 			res = -throw_range
 	return res
 

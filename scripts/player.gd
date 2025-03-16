@@ -5,7 +5,7 @@ const MOTION_SPEED_INCREASE: float = 20.0
 const BOMB_RATE: float = 0.5
 const MAX_BOMBS_OWNABLE: int = 8
 const MAX_EXPLOSION_BOOSTS_PERMITTED: int = 6
-#NOTE: MISOBON_RESPAWN_TIME is additive to the animation time for both spawning and despawning the misobon player
+## NOTE: MISOBON_RESPAWN_TIME is additive to the animation time for both spawning and despawning the misobon player
 const MISOBON_RESPAWN_TIME: float = 0.5 
 const INVULNERABILITY_TIME: float = 2
 const INVULNERABILITY_FLASH_TIME: float = 0.125
@@ -90,7 +90,7 @@ func place_bomb():
 	last_bomb_time = 0
 	
 	# Adding bomb to astargrid so bombs have collision inside the grid
-	globals.astargrid_handler.astargrid_set_point(synced_position, true)
+	astargrid_handler.astargrid_set_point(synced_position, true)
 	
 	if is_multiplayer_authority():
 		var bomb: BombRoot = bomb_pool.request([])
