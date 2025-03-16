@@ -18,8 +18,3 @@ func _on_hurry_up_start() -> void:
 		if !is_multiplayer_authority(): continue
 		player.misobon_player.play_despawn_animation.rpc()
 		player.misobon_player.disable.rpc(true)
-
-
-func _on_hurry_up_hurry_up_start() -> void:
-	pass # Replace with function body.
-
