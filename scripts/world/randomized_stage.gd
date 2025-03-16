@@ -14,7 +14,6 @@ func _generate_breakables():
 		return
 	for x in range(0, world_data.world_width):	
 		for y in range(0, world_data.world_height):
-			print(gamestate.current_level)
 			var breakable_spawn_chance = base_breakable_chance + (gamestate.current_level - 1) * level_chance_multiplier
 			breakable_spawn_chance = min(breakable_spawn_chance, 0.9)
 			var current_cell = Vector2i(x, y) + world_data.floor_origin
