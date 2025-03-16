@@ -1,0 +1,198 @@
+[gd_scene load_steps=15 format=3 uid="uid://fsg6gwfw5fbi"]
+
+[ext_resource type="Script" uid="uid://c38ml0k45w55u" path="res://scripts/cssmenu/character_select_screen.gd" id="1_ehcif"]
+[ext_resource type="Texture2D" uid="uid://d3cn5or0vkn23" path="res://assets/css/chonkgoon.png" id="2_ehcif"]
+[ext_resource type="PackedScene" uid="uid://j82uc33jjfko" path="res://scenes/cssmenu/character_select_button.tscn" id="4_2bgdj"]
+[ext_resource type="PackedScene" uid="uid://mpfu86h4h7vr" path="res://scenes/cssmenu/css_player_view.tscn" id="6_e6qlr"]
+[ext_resource type="Theme" uid="uid://bgj72vffexht" path="res://assets/styles/panel_theme.tres" id="7_mfnxv"]
+[ext_resource type="Texture2D" uid="uid://bb8yee4kwa6dt" path="res://assets/css/normalgoon.png" id="9_2srfx"]
+[ext_resource type="Texture2D" uid="uid://cqgmyjw0vef1" path="res://assets/css/longgoon.png" id="10_lxxyg"]
+[ext_resource type="Texture2D" uid="uid://dc6n600vfnmgp" path="res://assets/css/eggoon.png" id="11_63x5c"]
+[ext_resource type="Texture2D" uid="uid://bpx3jen13addh" path="res://assets/css/tomato.png" id="12_5agtp"]
+[ext_resource type="Texture2D" uid="uid://bvduv0j3kdwtj" path="res://assets/css/question.png" id="13_7vmrt"]
+[ext_resource type="AudioStream" uid="uid://cb75c45y5yhvk" path="res://sound/fx/click.wav" id="15_cv4tj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q6qq2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rgcd7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lqo1b"]
+
+[node name="CharacterSelectScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+script = ExtResource("1_ehcif")
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -648.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Players" type="BoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -576.0
+offset_top = -200.0
+offset_right = 568.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Player1" parent="Players" instance=ExtResource("6_e6qlr")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+player_number = "Player 1"
+
+[node name="VSeparator" type="VSeparator" parent="Players"]
+layout_mode = 2
+theme_override_constants/separation = 96
+theme_override_styles/separator = SubResource("StyleBoxEmpty_q6qq2")
+
+[node name="Player2" parent="Players" instance=ExtResource("6_e6qlr")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+player_number = "Player 2"
+
+[node name="VSeparator2" type="VSeparator" parent="Players"]
+layout_mode = 2
+theme_override_constants/separation = 384
+theme_override_styles/separator = SubResource("StyleBoxEmpty_rgcd7")
+
+[node name="Player3" parent="Players" instance=ExtResource("6_e6qlr")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+player_number = "Player 3"
+
+[node name="VSeparator3" type="VSeparator" parent="Players"]
+layout_mode = 2
+theme_override_constants/separation = 96
+theme_override_styles/separator = SubResource("StyleBoxEmpty_lqo1b")
+
+[node name="Player4" parent="Players" instance=ExtResource("6_e6qlr")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+player_number = "Player 4"
+
+[node name="CSSLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -288.5
+offset_right = 288.5
+offset_bottom = 69.0
+grow_horizontal = 2
+theme = ExtResource("7_mfnxv")
+theme_override_font_sizes/font_size = 75
+text = "CHARACTER SELECT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SkinBG" type="PanelContainer" parent="."]
+texture_filter = 3
+layout_mode = 0
+offset_left = 248.0
+offset_top = 120.0
+offset_right = 904.0
+offset_bottom = 392.0
+theme = ExtResource("7_mfnxv")
+
+[node name="CharacterGrid" type="GridContainer" parent="SkinBG"]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 5
+
+[node name="dokibird" parent="SkinBG/CharacterGrid" instance=ExtResource("4_2bgdj")]
+layout_mode = 2
+
+[node name="dragoon" type="TextureButton" parent="SkinBG/CharacterGrid"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("9_2srfx")
+stretch_mode = 0
+
+[node name="chonkgoon" type="TextureButton" parent="SkinBG/CharacterGrid"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("2_ehcif")
+stretch_mode = 0
+
+[node name="longoon" type="TextureButton" parent="SkinBG/CharacterGrid"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("10_lxxyg")
+stretch_mode = 0
+
+[node name="eggoon" type="TextureButton" parent="SkinBG/CharacterGrid"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("11_63x5c")
+stretch_mode = 0
+
+[node name="tomato" type="TextureButton" parent="SkinBG/CharacterGrid"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("12_5agtp")
+stretch_mode = 0
+
+[node name="secret1" type="TextureButton" parent="SkinBG/CharacterGrid"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("13_7vmrt")
+stretch_mode = 0
+
+[node name="secret2" type="TextureButton" parent="SkinBG/CharacterGrid"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("13_7vmrt")
+stretch_mode = 0
+
+[node name="secret3" type="TextureButton" parent="SkinBG/CharacterGrid"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("13_7vmrt")
+stretch_mode = 0
+
+[node name="secret4" type="TextureButton" parent="SkinBG/CharacterGrid"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("13_7vmrt")
+stretch_mode = 0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("15_cv4tj")
+bus = &"SFX"
+
+[connection signal="peer_pressed" from="SkinBG/CharacterGrid/dokibird" to="." method="_on_dokibird_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/dragoon" to="." method="_on_dragoon_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/chonkgoon" to="." method="_on_chonkgoon_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/longoon" to="." method="_on_longoon_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/eggoon" to="." method="_on_eggoon_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/tomato" to="." method="_on_tomato_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/secret1" to="." method="_on_secret_1_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/secret2" to="." method="_on_secret_2_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/secret3" to="." method="_on_secret_3_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/secret4" to="." method="_on_secret_4_pressed"]
