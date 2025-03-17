@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c38ml0k45w55u" path="res://scripts/cssmenu/character_select_screen.gd" id="1_ehcif"]
 [ext_resource type="Texture2D" uid="uid://d3cn5or0vkn23" path="res://assets/css/chonkgoon.png" id="2_ehcif"]
-[ext_resource type="PackedScene" uid="uid://j82uc33jjfko" path="res://scenes/cssmenu/character_select_button.tscn" id="4_2bgdj"]
+[ext_resource type="Texture2D" uid="uid://d06cvn5qmuvfv" path="res://assets/css/dokibh.png" id="4_2bgdj"]
 [ext_resource type="PackedScene" uid="uid://mpfu86h4h7vr" path="res://scenes/cssmenu/css_player_view.tscn" id="6_e6qlr"]
 [ext_resource type="Theme" uid="uid://bgj72vffexht" path="res://assets/styles/panel_theme.tres" id="7_mfnxv"]
 [ext_resource type="Texture2D" uid="uid://bb8yee4kwa6dt" path="res://assets/css/normalgoon.png" id="9_2srfx"]
@@ -116,8 +116,12 @@ unique_name_in_owner = true
 layout_mode = 2
 columns = 5
 
-[node name="dokibird" parent="SkinBG/CharacterGrid" instance=ExtResource("4_2bgdj")]
+[node name="bhdoki" type="TextureButton" parent="SkinBG/CharacterGrid"]
 layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("4_2bgdj")
+stretch_mode = 0
 
 [node name="dragoon" type="TextureButton" parent="SkinBG/CharacterGrid"]
 layout_mode = 2
@@ -186,7 +190,7 @@ stretch_mode = 0
 stream = ExtResource("15_cv4tj")
 bus = &"SFX"
 
-[connection signal="peer_pressed" from="SkinBG/CharacterGrid/dokibird" to="." method="_on_dokibird_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/bhdoki" to="." method="_on_bhdoki_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/dragoon" to="." method="_on_dragoon_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/chonkgoon" to="." method="_on_chonkgoon_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/longoon" to="." method="_on_longoon_pressed"]

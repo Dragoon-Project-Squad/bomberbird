@@ -3,12 +3,14 @@ extends Control
 @onready var player_label: Label = $PlayerPanel/Text
 @onready var player_panel: Panel = $PlayerPanel
 @onready var player_image: TextureRect = $PlayerPanel/Image
+var is_participating := true
 
 func _ready() -> void:
 	setup_player()
 
-func set_texture(image: Texture2D) -> void:
-	player_image.texture = load(image.resource_path)
+@rpc("authority", "call_local")
+func set_texture(image_path) -> void:
+	player_image.texture = load(image_path)
 
 func setup_player() -> void:
 	set_player_panel_theme()
@@ -39,3 +41,8 @@ func set_player_panel_theme() -> void:
 			player_panel.theme = load("res://assets/styles/p4_theme.tres")
 		_:
 			player_panel.theme = load("res://assets/styles/p0_theme.tres")
+
+func remove_as_participant() -> void:
+	is_participating = false
+	player_image.visible = false
+	player_label.visible = false

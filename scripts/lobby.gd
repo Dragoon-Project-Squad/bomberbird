@@ -1,7 +1,6 @@
 extends Control
 
 @export var curr_misobon_state = gamestate.misobon_states.SUPER
-
 var timeout_timer = null
 
 func _ready():
@@ -144,4 +143,9 @@ func _on_back_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
 func _on_ready_pressed() -> void:
+	gamestate.ai_players_chosen_in_lobby = $Options/AIPlayerCount.value
+	gamestate.establish_player_counts()
+	gamestate.assign_player_numbers()
+	# Tell CSS with a signal of some kind to capture gamestate player nums
+	$CharacterSelectScreen.disable_unused_player_slots()
 	show_css.rpc()
