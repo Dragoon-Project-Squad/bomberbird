@@ -33,7 +33,7 @@ var player_numbers = {
 
 # Character Textures in id:texture2D format.
 var characters = {}
-var defaulttex = load("res://assets/player/chonkgoon_walk.png")
+const DEFAULT_PLAYER_TEXTURE_PATH = "res://assets/player/chonkgoon_walk.png"
 
 # AI Handling variables
 const MAX_ID_COLLISION_RESCUE_ATTEMPTS = 4
@@ -97,7 +97,7 @@ func _connected_fail():
 @rpc("any_peer")
 func register_player(new_player_name):
 	var id = multiplayer.get_remote_sender_id()
-	characters[id] = defaulttex
+	characters[id] = DEFAULT_PLAYER_TEXTURE_PATH
 	players[id] = new_player_name
 	player_list_changed.emit()
 	
@@ -149,7 +149,7 @@ func assign_player_numbers():
 
 
 func establish_player_counts() -> void:
-	human_player_count = 1+players.size()
+	human_player_count = 1 + players.size()
 	assert(multiplayer.is_server())
 	total_player_count = human_player_count + ai_players_chosen_in_lobby
 	add_ai_players() #Depends on knowing the total player count and human player count to do its job
@@ -176,8 +176,7 @@ func host_game(new_player_name):
 	peer = ENetMultiplayerPeer.new()
 	peer.create_server(DEFAULT_PORT, MAX_PEERS)
 	multiplayer.set_multiplayer_peer(peer)
-	var id = multiplayer.get_remote_sender_id() + 1
-	characters[id] = defaulttex
+	characters[1] = DEFAULT_PLAYER_TEXTURE_PATH
 
 
 func join_game(ip, new_player_name):
@@ -202,7 +201,6 @@ func begin_singleplayer_game():
 	spawn_players()	
 
 func begin_game():
-	establish_player_counts()
 	if players.size() == 0: # If players disconnected at character select
 		game_error.emit("All other players disconnected")
 		end_game()
@@ -259,7 +257,9 @@ func register_ai_player():
 			id = i
 			if is_id_free(id):
 				break
-	players[id] = "LikeBot" #TODO: Generate CPU name here
+	characters[id] = DEFAULT_PLAYER_TEXTURE_PATH
+	player_list_changed.emit()
+	players[id] = "LikeBot" #TODO: Generate CPU name from list resource here
 	if not is_name_free(players[id]):
 		players[id] = "CommentBot"
 	else:
@@ -272,7 +272,6 @@ func register_ai_player():
 		players[id] = "MembershipBot"
 	else:
 		return
-	player_list_changed.emit()
 
 func is_id_free(chosen_ai_id) -> bool:
 	for p in players:

@@ -1,6 +1,6 @@
 extends TextureButton
 class_name CharacterSelectButton
-signal peer_pressed(id)
+signal peer_pressed()
 	
 func _on_pressed() -> void:
-	peer_pressed.emit(multiplayer.get_unique_id())
+	peer_pressed.emit()

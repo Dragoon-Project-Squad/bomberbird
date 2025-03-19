@@ -21,7 +21,8 @@
 [node name="CharacterSelectScreen" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 1152.0
+offset_left = 2.0
+offset_right = 1154.0
 offset_bottom = 648.0
 script = ExtResource("1_ehcif")
 
