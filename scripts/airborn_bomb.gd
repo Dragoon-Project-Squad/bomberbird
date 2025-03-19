@@ -100,7 +100,6 @@ func to_stationary_bomb():
 
 func check_bounds() -> bool:
 	var bounds = world_data.is_out_of_bounds(bomb_root.position)
-	print(bounds)
 
 	if bounds == world_data.bounds.IN:
 		return false #we are in the arena so do a space check
@@ -117,7 +116,7 @@ func check_bounds() -> bool:
 	elif bounds == world_data.bounds.OUT_DOWN && direction.x != 0: # We are out of bound on the down but our direction is either left or right so bounce to the top
 		throw(bomb_root.position, bomb_root.position + Vector2(Vector2i.UP) * TILESIZE, Vector2i.UP, MISOBON_THROW_ANGLE_RAD, MISOBON_THROW_TIME / 2)
 		return true
-	elif !world_data.is_out_of_world_edge(bomb_root.position): #clearly we are not in bounds and we do not need to correct to a different direction hence just bounce allong
+	elif !world_data.is_out_of_world_edge(bomb_root.position): #clearly we are not in bounds and we do not need to correct to a different direction hence just bounce along
 		throw(bomb_root.position, bomb_root.position + Vector2(direction) * TILESIZE, direction, MISOBON_THROW_ANGLE_RAD, MISOBON_THROW_TIME / 2)
 		return true
 

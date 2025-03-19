@@ -1,20 +1,43 @@
 class_name PickupPool extends ObjectPool
 
+@export_group("Initial Pickup Spawn Amount")
+@export var extra_bomb: int = 0
+@export var explosion_boost: int = 0
+@export var speed_boost: int = 0
+#@export var hearth: int = 0
+@export var max_explosion: int = 0
+@export var punch_ability: int = 0
+#@export var throw_ability: int = 0
+#@export var wallthrough: int = 0
+#@export var timer: int = 0
+#@export var invincibility_vest: int = 0
+#@export var virus: int = 0
+#@export var kick: int = 0
+#@export var bombthrough: int = 0
+#@export var piercing_bomb: int = 0
+#@export var land_mine: int = 0
+#@export var remote_control: int = 0
+#@export var seeker_bomb: int = 0
+
 #NOTE: If we have a rate table for each pickup we could dynamically calculate the expected value to set initial spawn count
-@export var initial_spawn_counts := {
-	"bomb_type": 0,					#//
-	"exclusive": 0,					#Bomb Kick / Bombthrough
-	"virus": 0,							#Random, counterproductive condition
-	"extra_bomb": 0,				#Bomb UP
-	"explosion_boost": 0,		#Fire Up
-	"speed_boost": 0,				#Speed Up
-	"heart": 0,							#+1 HP (max 2)
-	"max_explosion": 0,			#Full Fire
-	"punch_ability": 0,			#Bomb Punch
-	"throw_ability": 0,			#Power Glove
-	"wallthrough": 0,				#Wallthrough
-	"timer": 0, 						#Freezes enemies
-	"invincibility_vest": 0	#invulnerability
+@onready var initial_spawn_counts := {
+	globals.pickups.BOMB_UP: extra_bomb,
+	globals.pickups.FIRE_UP: explosion_boost,
+	globals.pickups.SPEED_UP: speed_boost,
+	#globals.pickups.HP_UP: hearth,
+	globals.pickups.FULL_FIRE: max_explosion,
+	globals.pickups.BOMB_PUNCH: punch_ability,
+	#globals.pickups.POWER_GLOVE: throw_ability,
+	#globals.pickups.WALLTHROUGH: wallthrough,
+	#globals.pickups.FREEZE: timer,
+	#globals.pickups.INVINCIBILITY_VEST: invincibility_vest,
+	#globals.pickups.VIRUS: virus,
+	#globals.pickups.KICK: kick,
+	#globals.pickups.BOMBTHROUGH: bombthrough,
+	#globals.pickups.PIERCING: piercing_bomb,
+	#globals.pickups.MINE: land_mine,
+	#globals.pickups.REMOTE: remote_control,
+	#globals.pickups.SEEKER: seeker_bomb,
 	}
 
 func _ready():
@@ -24,20 +47,20 @@ func _ready():
 		create_reserve(initial_spawn_counts[pickup_type], pickup_type)
 	super()
 
-func create_reserve(count: int, pickup_type: String): #creates a number of unowned obj's for the pool
+func create_reserve(count: int, pickup_type: int): #creates a number of unowned obj's for the pool
 	if !is_multiplayer_authority():
 		return
 	if !initial_spawn_counts.has(pickup_type): 
-		push_error("a pickup of unknown type has been requested from the pool, Type: ", pickup_type)
+		push_error("a pickup of unknown type has been requested from the pool, Type: ", globals.pickup_name_str[pickup_type])
 		return null
 	unowned[pickup_type] = []
 	unowned[pickup_type].resize(count)
 	for i in range(count):
 		unowned[pickup_type][i] = obj_spawner.spawn(pickup_type)
 
-func request(pickup_type: String) -> Pickup:
+func request(pickup_type: int) -> Pickup:
 	if !initial_spawn_counts.has(pickup_type): 
-		push_error("a pickup of unknown type has been requested from the pool, Type: ", pickup_type)
+		push_error("a pickup of unknown type has been requested from the pool, Type: ", globals.pickup_name_str[pickup_type])
 		return null
 	var pickup: Pickup = unowned[pickup_type].pop_front()
 		
@@ -46,7 +69,7 @@ func request(pickup_type: String) -> Pickup:
 		
 	return pickup
 
-func request_group(counts: Array[int], pickup_types: Array[String]) -> Dictionary:
+func request_group(counts: Array[int], pickup_types: Array[int]) -> Dictionary:
 	if counts.size() != pickup_types.size():
 		push_error("pickup_type list must be as big as the count array")
 		return {}
@@ -73,7 +96,7 @@ func request_group(counts: Array[int], pickup_types: Array[String]) -> Dictionar
 
 func return_obj(pickup: Pickup) -> void:
 	if !initial_spawn_counts.has(pickup.pickup_type):
-		push_error("a pickup of unknown type has been return to the pool, Type: ", pickup.pickup_type)
+		push_error("a pickup of unknown type has been return to the pool, Type: ", globals.pickup_name_str[pickup.pickup_type])
 		return
 	if !unowned.has(pickup.pickup_type):
 		unowned[pickup.pickup_type] = []
@@ -82,7 +105,7 @@ func return_obj(pickup: Pickup) -> void:
 func return_obj_group(pickup_dict: Dictionary) -> void:
 	for pickup_type in pickup_dict.keys():
 		if !unowned.has(pickup_type):
-			push_error("a pickup of unknown type has been return to the pool, Type: ", pickup_type)
+			push_error("a pickup of unknown type has been return to the pool, Type: ", globals.pickup_name_str[pickup_type])
 			continue
 		if !unowned.has(pickup_type):
 			unowned[pickup_type] = []

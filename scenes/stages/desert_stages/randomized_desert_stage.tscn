@@ -17,25 +17,11 @@
 
 [sub_resource type="Resource" id="Resource_6r5we"]
 script = ExtResource("2_snyva")
-pickup_weights = {
-"bomb_through": 0,
-"explosion_boost": 100,
-"extra_bomb": 100,
-"heart": 0,
-"invincibility_vest": 0,
-"kick": 0,
-"max_explosion": 2,
-"mine_bomb": 0,
-"piercing_bomb": 0,
-"punch_ability": 20,
-"remote_bomb": 0,
-"seeker_bomb": 0,
-"speed_boost": 100,
-"throw_ability": 0,
-"timer": 0,
-"virus": 0,
-"wallthrough": 0
-}
+extra_bomb = 500
+explosion_boost = 500
+speed_boost = 500
+max_explosion = 20
+punch_ability = 50
 metadata/_custom_type_script = "uid://bta1elkd6rmla"
 
 [sub_resource type="Curve2D" id="Curve2D_o7i7u"]
@@ -82,6 +68,11 @@ script = ExtResource("5_8fws0")
 [node name="BombPool" parent="." instance=ExtResource("6_gvntt")]
 
 [node name="PickupPool" parent="." instance=ExtResource("7_5ws5l")]
+extra_bomb = 15
+explosion_boost = 15
+speed_boost = 15
+max_explosion = 5
+punch_ability = 10
 
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2(250, 250)

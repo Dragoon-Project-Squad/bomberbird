@@ -17,21 +17,6 @@
 
 [sub_resource type="Resource" id="Resource_2solf"]
 script = ExtResource("2_xhrxh")
-held_pickups = {
-"bomb_type": 0,
-"exclusive": 0,
-"explosion_boost": 0,
-"extra_bomb": 0,
-"heart": 0,
-"invincibility_vest": false,
-"max_explosion": false,
-"punch_ability": false,
-"speed_boost": 0,
-"throw_ability": false,
-"timer": false,
-"virus": 0,
-"wallthrough": false
-}
 metadata/_custom_type_script = "uid://dfosda1bstp2m"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_na3x7"]

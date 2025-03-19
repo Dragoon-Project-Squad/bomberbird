@@ -23,10 +23,9 @@ func decide_pickup_spawn() -> bool:
 	else:
 		return false
 		
-func decide_pickup_type() -> String:
+func decide_pickup_type() -> int:
 	var pickup_table = globals.current_world.pickup_table
 	var rng_result = rng.randi_range(0, pickup_table.total_weight())
-	print(rng_result, ", ", pickup_table.total_weight())
 	return pickup_table.get_type_from_weight(rng_result)
 	
 @rpc("call_local")
@@ -37,8 +36,8 @@ func exploded(by_who):
 
 	if is_multiplayer_authority():
 		if decide_pickup_spawn() && by_who != gamestate.ENVIRONMENTAL_KILL_PLAYER_ID:
-			var type_of_pickup = decide_pickup_type()
-			var pickup = pickup_pool.request(type_of_pickup)
+			var type_of_pickup: int = decide_pickup_type()
+			var pickup: Pickup = pickup_pool.request(type_of_pickup)
 			pickup.place.rpc(self.position)
 		else:
 			world_data.set_tile.rpc(world_data.tiles.EMPTY, global_position) #We only wanne delete this cell if no pickup is spawned on it

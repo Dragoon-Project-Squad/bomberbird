@@ -166,7 +166,6 @@ func get_arena_rect():
 ## returns true iff global_pos is outside of the world_edge
 func is_out_of_world_edge(global_pos: Vector2) -> bool:
 	var matrix_pos: Vector2i = tile_map.local_to_map(global_pos) - world_edge_origin
-	print(matrix_pos, "is: ", !(matrix_pos.x >= 0 && matrix_pos.x < world_edge_width && matrix_pos.y >= 0 && matrix_pos.y < world_edge_height))
 	return !(matrix_pos.x >= 0 && matrix_pos.x < world_edge_width
 		&& matrix_pos.y >= 0 && matrix_pos.y < world_edge_height)
 
