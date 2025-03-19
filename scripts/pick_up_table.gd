@@ -58,6 +58,7 @@ func total_weight() -> int:
 
 func get_type_from_weight(weight: int) -> int:
 	for key in pickup_weights.keys():
+		if pickup_weights[key] == 0: continue
 		weight -= pickup_weights[key]
 		if weight <= 0: return key
 	push_error("invalid weight value given to pickup_table")
