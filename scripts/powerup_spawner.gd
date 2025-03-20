@@ -6,29 +6,31 @@ const PUNCH_ABILITY_PICKUP_SCENE_PATH : String = "res://scenes/pickups/punch_abi
 const EXTRA_BOMB_PICKUP_SCENE_PATH : String = "res://scenes/pickups/extra_bomb.tscn"
 const PICKUP_SPAWN_RATE = 0.1
 
+
 func _init():
 	spawn_function = _spawn_pickup
 	
-func spawn_chosen_pickup(ptype: String) -> Pickup:
+func spawn_chosen_pickup(ptype: int) -> Pickup:
 	var spawned_pickup
 	# TODO: Add other pickup types
 	match ptype:
-		"explosion_boost":
+		globals.pickups.FIRE_UP:
 			spawned_pickup = preload(EXPLOSION_BOOST_PICKUP_SCENE_PATH).instantiate()
-		"max_explosion":
+		globals.pickups.FULL_FIRE:
 			spawned_pickup = preload(MAX_EXPLOSION_PICKUP_SCENE_PATH).instantiate()
-		"speed_boost":
+		globals.pickups.SPEED_UP:
 			spawned_pickup = preload(SPEED_BOOST_PICKUP_SCENE_PATH).instantiate()
-		"punch_ability":
+		globals.pickups.BOMB_PUNCH:
 			spawned_pickup = preload(PUNCH_ABILITY_PICKUP_SCENE_PATH).instantiate()
-		"extra_bomb":
+		globals.pickups.BOMB_UP:
 			spawned_pickup = preload(EXTRA_BOMB_PICKUP_SCENE_PATH).instantiate()
 		_:
+			push_error("invalid pickup type passed to the spawn function")
 			spawned_pickup = preload(EXPLOSION_BOOST_PICKUP_SCENE_PATH).instantiate()
 	return spawned_pickup
 	
 func _spawn_pickup(data):
-	if typeof(data) != TYPE_STRING:
+	if typeof(data) != TYPE_INT:
 		push_error("Invalid Pickup data: ", data)
 	var pickup = spawn_chosen_pickup(data)
 	pickup.pickup_type = data

@@ -22,11 +22,12 @@ class_name World
 @export var _arena_rect: Rect2i
 ## The Rectangle that determans the world_edge hence outside of which items are wrapped around to the other side
 @export var _world_edge_rect: Rect2i
-## The Rectangle that forms the misobon path where (x,y) are the top left corner and (w, h) the size of the rectangle all in tile coordinates
-@export var _misobon_path_rect: Rect2i
 ## list of spawnpoints (if there are less players then spawnpoints they will be used in order)
 ## if there is more players then spawnpoints, spawnpoints will be choosen randomly
 @export var spawnpoints: Array[Vector2i]
+
+
+@export var pickup_table: PickupTable
 
 
 @onready var floor_layer = $Floor
@@ -40,6 +41,9 @@ class_name World
 
 ## The Atlas coordinate of the unbreakable tile in this stages tileset
 var _unbreakable_tile: Vector2i
+
+## declares whenever a world is special (hence should be loaded standalone without adjusting anything
+var _is_special: bool
 
 # PRIVATE FUNCTIONS
 
@@ -59,7 +63,6 @@ func _ready() -> void:
 ## Asserts that properties of the world are set correctly
 func _asserting_world():
 	assert(_arena_rect.size != Vector2i.ZERO, "area_rect must be set properly and cannot have size ZERO")
-	assert(_misobon_path_rect.size != Vector2i.ZERO, "misobon_path_rect must be set properly and cannot have size ZERO")
 
 ## Generates all the breakables
 func _generate_breakables():

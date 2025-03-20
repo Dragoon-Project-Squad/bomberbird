@@ -37,8 +37,7 @@ var bomb_total: int
 @export var bomb_count: int
 @export var lives: int
 @export var explosion_boost_count: int
-
-var pickups: HeldPickups = HeldPickups.new()
+@export var pickups: HeldPickups
 
 func _ready():
 	#These are all needed
@@ -68,7 +67,7 @@ func _physics_process(_delta: float):
 func punch_bomb(direction: Vector2i):
 	if !is_multiplayer_authority():
 		return
-	if !pickups.held_pickups.punch_ability:
+	if !pickups.held_pickups[globals.pickups.BOMB_PUNCH]:
 		return
 	
 	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
@@ -158,19 +157,20 @@ func spread_items():
 	if !is_multiplayer_authority():
 		return
 	
-	var pickup_types: Array[String] = []
+	var pickup_types: Array[int] = []
 	var pickup_count: Array[int] = []
 	
-	for key in pickups.count_keys:
-		var count: int = pickups.held_pickups[key]
-		if count == 0: continue
-		pickup_types.push_back(key)
-		pickup_count.push_back(count)
+	for key in pickups.held_pickups:
+		if key < globals.pickups.GENERIC_COUNT:
+			var count: int = pickups.held_pickups[key]
+			if count == 0: continue
+			pickup_types.push_back(key)
+			pickup_count.push_back(count)
 	
-	for key in pickups.bool_keys:
-		if !pickups.held_pickups[key]: continue
-		pickup_types.push_back(key)
-		pickup_count.push_back(1)
+		elif globals.pickups.GENERIC_COUNT < key && key < globals.pickups.GENERIC_BOOL:
+			if !pickups.held_pickups[key]: continue
+			pickup_types.push_back(key)
+			pickup_count.push_back(1)
 	
 	#TODO: add pickups for exclusive pickups
 	
