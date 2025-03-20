@@ -42,6 +42,9 @@ class_name World
 ## The Atlas coordinate of the unbreakable tile in this stages tileset
 var _unbreakable_tile: Vector2i
 
+## declares whenever a world is special (hence should be loaded standalone without adjusting anything
+var _is_special: bool
+
 # PRIVATE FUNCTIONS
 
 func _init():
