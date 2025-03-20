@@ -47,7 +47,7 @@ signal game_ended()
 signal game_error(what)
 
 # Preloaded Scenes
-var stage_scene = preload("res://scenes/stages/desert_stages/randomized_desert_stage.tscn")
+var stage_scene = preload("res://scenes/stages/desert_rand.tscn")
 
 # Singleplayer Vars
 var current_level: int = 205 # Defaults to a high number for battle mode.
