@@ -5,9 +5,9 @@ class_name Pickup extends Area2D
 @onready var collisionbox: CollisionShape2D = $CollisionShape2D
 
 var pickup_pool: PickupPool
-var pickup_type: String = "":
+var pickup_type: int = globals.pickups.NONE:
 	set(type): #i don't like setters but it only enforces something here so its okey
-		if pickup_type != "":
+		if pickup_type != globals.pickups.NONE:
 			push_error("private member pickup_type should only be overwritten once")
 		pickup_type = type
 
