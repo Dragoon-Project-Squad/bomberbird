@@ -49,10 +49,10 @@ func change_slot_texture(texture_path: String):
 		print("Couldn't find a match.")
 
 func _on_bhdoki_pressed() -> void:
-	var id = multiplayer.get_unique_id()
-	change_slot_texture.rpc_id(1, character_texture_paths.BHDOKI_SELECT_TEXTURE_PATH)
-	gamestate.change_character_player.rpc_id(1, character_texture_paths.BHDOKI_PLAYER_TEXTURE_PATH)
-	play_select_audio()
+	#change_slot_texture.rpc_id(1, character_texture_paths.BHDOKI_SELECT_TEXTURE_PATH)
+	#gamestate.change_character_player.rpc_id(1, character_texture_paths.BHDOKI_PLAYER_TEXTURE_PATH)
+	#play_select_audio()
+	play_error_audio() #Not yet available
 	
 func _on_dragoon_pressed() -> void:
 	change_slot_texture.rpc_id(1, character_texture_paths.NORMALGOON_SELECT_TEXTURE_PATH)
@@ -60,37 +60,36 @@ func _on_dragoon_pressed() -> void:
 	play_select_audio()
 	
 func _on_chonkgoon_pressed() -> void:
-	var id = multiplayer.get_unique_id()
 	change_slot_texture.rpc_id(1, character_texture_paths.CHONKGOON_SELECT_TEXTURE_PATH)
 	gamestate.change_character_player.rpc_id(1, character_texture_paths.CHONKGOON_PLAYER_TEXTURE_PATH)
 	play_select_audio()
 	
 func _on_longoon_pressed() -> void:
-	var id = multiplayer.get_unique_id()
-	change_slot_texture.rpc_id(1, character_texture_paths.LONGGOON_SELECT_TEXTURE_PATH)
-	gamestate.change_character_player.rpc_id(1, character_texture_paths.LONGGOON_PLAYER_TEXTURE_PATH)
-	play_select_audio()
+	#change_slot_texture.rpc_id(1, character_texture_paths.LONGGOON_SELECT_TEXTURE_PATH)
+	#gamestate.change_character_player.rpc_id(1, character_texture_paths.LONGGOON_PLAYER_TEXTURE_PATH)
+	#play_select_audio()
+	play_error_audio() #Not yet available
 	
 func _on_eggoon_pressed() -> void:
-	var id = multiplayer.get_unique_id()
-	change_slot_texture.rpc_id(1, character_texture_paths.EGGOON_SELECT_TEXTURE_PATH)
-	gamestate.change_character_player.rpc_id(1, character_texture_paths.EGGOON_PLAYER_TEXTURE_PATH)
-	play_select_audio()
+	#change_slot_texture.rpc_id(1, character_texture_paths.EGGOON_SELECT_TEXTURE_PATH)
+	#gamestate.change_character_player.rpc_id(1, character_texture_paths.EGGOON_PLAYER_TEXTURE_PATH)
+	#play_select_audio()
+	play_error_audio() #Not yet available
 	
 func _on_tomato_pressed() -> void:
-	var id = multiplayer.get_unique_id()
-	change_slot_texture.rpc_id(1, character_texture_paths.TOMATODOKI_SELECT_TEXTURE_PATH)
-	gamestate.change_character_player.rpc_id(1, character_texture_paths.TOMATODOKI_PLAYER_TEXTURE_PATH)
-	play_select_audio()
+	#change_slot_texture.rpc_id(1, character_texture_paths.TOMATODOKI_SELECT_TEXTURE_PATH)
+	#gamestate.change_character_player.rpc_id(1, character_texture_paths.TOMATODOKI_PLAYER_TEXTURE_PATH)
+	#play_select_audio()
+	play_error_audio() #Not yet available
 
 func _on_secret_1_pressed() -> void:
-	play_error_audio()
+	play_error_audio() #Not yet available
 
 func _on_secret_2_pressed() -> void:
-	play_error_audio()
+	play_error_audio() #Not yet available
 
 func _on_secret_3_pressed() -> void:
-	play_error_audio()
+	play_error_audio() #Not yet available
 
 func _on_secret_4_pressed() -> void:
-	play_error_audio()
+	play_error_audio() #Not yet available
