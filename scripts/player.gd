@@ -243,5 +243,5 @@ func exploded(by_who):
 	else:
 		do_stun()
 
-func set_selected_character(value: Texture2D):
-	$sprite.texture = value
+func set_selected_character(value_path : String):
+	$sprite.texture = load(value_path)

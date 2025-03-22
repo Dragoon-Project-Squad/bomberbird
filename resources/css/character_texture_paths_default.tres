@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CharacterSelectDataResource" load_steps=2 format=3 uid="uid://c6kjpj6sf2fm2"]
+
+[ext_resource type="Script" uid="uid://b7e1l1hcg4beu" path="res://resources/css/character_select_data.gd" id="1_8xxup"]
+
+[resource]
+script = ExtResource("1_8xxup")
+BHDOKI_SELECT_TEXTURE_PATH = "res://assets/css/dokibh.png"
+BHDOKI_PLAYER_TEXTURE_PATH = "res://assets/css/dokibh.png"
+CHONKGOON_SELECT_TEXTURE_PATH = "res://assets/css/chonkgoon.png"
+CHONKGOON_PLAYER_TEXTURE_PATH = "res://assets/player/chonkgoon_walk.png"
+NORMALGOON_SELECT_TEXTURE_PATH = "res://assets/css/normalgoon.png"
+NORMALGOON_PLAYER_TEXTURE_PATH = "res://assets/player/dragoon_walk.png"
+LONGGOON_SELECT_TEXTURE_PATH = "res://assets/css/longgoon.png"
+LONGGOON_PLAYER_TEXTURE_PATH = "res://assets/css/longgoon.png"
+EGGOON_SELECT_TEXTURE_PATH = "res://assets/css/eggoon.png"
+EGGOON_PLAYER_TEXTURE_PATH = "res://assets/css/eggoon.png"
+TOMATODOKI_SELECT_TEXTURE_PATH = "res://assets/css/tomato.png"
+TOMATODOKI_PLAYER_TEXTURE_PATH = "res://assets/css/tomato.png"

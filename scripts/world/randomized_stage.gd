@@ -57,5 +57,3 @@ func _set_spawnpoints():
 			continue
 		spawnpoints.append(new_spawnpoint)
 		remaining_spawnpoints -= 1
-
-
