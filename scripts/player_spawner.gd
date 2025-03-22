@@ -12,7 +12,6 @@ func _spawn_player(data) -> Player:
 		spawningplayer = player_scene.instantiate()
 	else:
 		spawningplayer = ai_player_scene.instantiate()
-	#$"../Players".add_child(spawningplayer)
 	spawningplayer.synced_position = data.spawndata
 	spawningplayer.name = str(data.pid)
 	#print("Data: ",data)

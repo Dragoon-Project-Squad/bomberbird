@@ -198,6 +198,7 @@ func begin_singleplayer_game():
 	total_player_count = human_player_count + 3
 	add_ai_players()
 	load_world.rpc()
+	characters[1] = DEFAULT_PLAYER_TEXTURE_PATH
 	spawn_players()	
 
 func begin_game():

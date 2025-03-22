@@ -35,7 +35,6 @@ func disable_unused_player_slots() -> void:
 @rpc("any_peer", "call_local")
 func change_slot_texture(texture_path: String):
 	var id = multiplayer.get_remote_sender_id()
-	print("e")
 	if id == 1:
 		$Players/Player1.set_texture.rpc(texture_path)
 	elif id == gamestate.player_numbers.p2:
