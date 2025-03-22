@@ -3,8 +3,9 @@
 [ext_resource type="Script" uid="uid://c1rwqjvquyov8" path="res://scripts/level_graph/stage_node.gd" id="1_0h5ea"]
 
 [node name="StageNode" type="GraphNode"]
-offset_right = 587.0
-offset_bottom = 375.0
+custom_minimum_size = Vector2(0, 350)
+offset_right = 600.0
+offset_bottom = 350.0
 mouse_filter = 1
 title = "Stage Node"
 slot/0/left_enabled = true
@@ -63,12 +64,16 @@ visible = false
 layout_mode = 2
 
 [node name="ExitNumber" type="Label" parent="ExitBoiler"]
+custom_minimum_size = Vector2(23, 0)
 layout_mode = 2
 text = "1. "
+horizontal_alignment = 2
 
-[node name="ColorRect" type="ColorPickerButton" parent="ExitBoiler"]
+[node name="ExitColor" type="ColorPickerButton" parent="ExitBoiler"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
+color = Color(0.898039, 0.788235, 0.0941176, 1)
+edit_alpha = false
 
 [node name="Position" type="HBoxContainer" parent="ExitBoiler"]
 custom_minimum_size = Vector2(176, 0)
@@ -77,91 +82,88 @@ layout_mode = 2
 [node name="x" type="SpinBox" parent="ExitBoiler/Position"]
 layout_mode = 2
 rounded = true
+alignment = 3
+prefix = "x:"
 
 [node name="y" type="SpinBox" parent="ExitBoiler/Position"]
 layout_mode = 2
 rounded = true
+alignment = 3
+prefix = "y:"
 
 [node name="RemoveExitButton" type="Button" parent="ExitBoiler"]
 layout_mode = 2
 text = "Remove"
 
 [node name="AddExitButton" type="Button" parent="."]
-unique_name_in_owner = true
 layout_mode = 2
 text = "Add Exit"
 
 [node name="TabContainer" type="TabContainer" parent="."]
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
-current_tab = 1
+current_tab = 0
 
 [node name="Enemies" type="VBoxContainer" parent="TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Enemies"]
+[node name="EnemyBoiler" type="HBoxContainer" parent="TabContainer/Enemies"]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="TabContainer/Enemies/HBoxContainer"]
-custom_minimum_size = Vector2(14, 0)
-layout_mode = 2
-text = "#"
-
-[node name="Label2" type="Label" parent="TabContainer/Enemies/HBoxContainer"]
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-text = "Enemy Name"
-
-[node name="Label3" type="Label" parent="TabContainer/Enemies/HBoxContainer"]
-custom_minimum_size = Vector2(176, 0)
-layout_mode = 2
-text = "(x, y)"
-
-[node name="Enemy" type="HBoxContainer" parent="TabContainer/Enemies"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="TabContainer/Enemies/Enemy"]
-custom_minimum_size = Vector2(14, 0)
+[node name="EnemyNumber" type="Label" parent="TabContainer/Enemies/EnemyBoiler"]
+custom_minimum_size = Vector2(23, 0)
 layout_mode = 2
 text = "1."
+horizontal_alignment = 2
 
-[node name="OptionButton" type="OptionButton" parent="TabContainer/Enemies/Enemy"]
-custom_minimum_size = Vector2(300, 0)
+[node name="EnemySelect" type="OptionButton" parent="TabContainer/Enemies/EnemyBoiler"]
+custom_minimum_size = Vector2(267, 0)
 layout_mode = 2
+fit_to_longest_item = false
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Enemies/Enemy"]
+[node name="Position" type="HBoxContainer" parent="TabContainer/Enemies/EnemyBoiler"]
 custom_minimum_size = Vector2(176, 0)
 layout_mode = 2
 
-[node name="x" type="SpinBox" parent="TabContainer/Enemies/Enemy/HBoxContainer"]
+[node name="x" type="SpinBox" parent="TabContainer/Enemies/EnemyBoiler/Position"]
 layout_mode = 2
+rounded = true
+alignment = 3
+prefix = "x:"
 
-[node name="y" type="SpinBox" parent="TabContainer/Enemies/Enemy/HBoxContainer"]
+[node name="y" type="SpinBox" parent="TabContainer/Enemies/EnemyBoiler/Position"]
 layout_mode = 2
+rounded = true
+alignment = 3
+prefix = "y:"
 
-[node name="Button" type="Button" parent="TabContainer/Enemies/Enemy"]
+[node name="RemoveEnemyButton" type="Button" parent="TabContainer/Enemies/EnemyBoiler"]
 layout_mode = 2
 text = "Remove"
 
-[node name="Button" type="Button" parent="TabContainer/Enemies"]
+[node name="AddEnemyButton" type="Button" parent="TabContainer/Enemies"]
 layout_mode = 2
 text = "Add Enemy"
 
-[node name="Pickups" type="VBoxContainer" parent="TabContainer"]
+[node name="Pickups" type="GridContainer" parent="TabContainer"]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
+columns = 3
 metadata/_tab_index = 1
 
-[node name="Pickup" type="HBoxContainer" parent="TabContainer/Pickups"]
+[node name="PickupBoiler" type="SpinBox" parent="TabContainer/Pickups"]
+visible = false
+custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
-
-[node name="Label" type="Label" parent="TabContainer/Pickups/Pickup"]
-layout_mode = 2
-text = "Bomb UP: "
-
-[node name="SpinBox" type="SpinBox" parent="TabContainer/Pickups/Pickup"]
-layout_mode = 2
+max_value = 1000.0
+rounded = true
+allow_greater = true
+alignment = 3
+prefix = "Boiler:"
 
 [connection signal="pressed" from="StageSelect/SceneOptions" to="." method="_on_scene_options_pressed"]
 [connection signal="pressed" from="AddExitButton" to="." method="_on_add_exit_button_pressed"]
+[connection signal="pressed" from="TabContainer/Enemies/AddEnemyButton" to="." method="_on_add_enemy_button_pressed"]

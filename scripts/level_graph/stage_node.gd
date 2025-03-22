@@ -1,74 +1,135 @@
 class_name StageNode extends GraphNode
 
-const STAGE_SCENE_DIR = "res://scenes/stages/"
+const STAGE_SCENE_DIR: String = "res://scenes/sp_stages/"
 
 @onready var scene_options: OptionButton = %SceneOptions
 @onready var exit_boiler: HBoxContainer = %ExitBoiler
+@onready var enemy_boiler: HBoxContainer = %EnemyBoiler
+@onready var pickups_tab: GridContainer = %Pickups
+@onready var pickup_boiler: SpinBox = pickups_tab.get_node("PickupBoiler")
 
-var selected_scene_path: String
-var pickup_resource: PickupTable
-#var enemy_resource: ??? TODO make enemies a thing
+var stages_subfolders: Dictionary = {}
+var selected_scene_file: String
+
+var pickup_resource: PickupTable = PickupTable.new()
+var enemy_resource: EnemyTable = EnemyTable.new()
+var exit_resource: ExitTable = ExitTable.new()
+
 var exit_indx: int = 0
-var exit_array: Array[Vector2i] = []
+var exit_in_port_color: Color = Color.SILVER
+
+var enemy_indx: int = 0
+# ----------------------------- init functions
 
 func _ready():
-	_get_scenes_from_dir()
+	_get_file_name_from_dir(STAGE_SCENE_DIR, [], stages_subfolders)
+	_set_scene_options(stages_subfolders)
 	set_slot(
-		exit_indx,
+		0,
 		true,
 		0,
-		Color.SILVER,
+		exit_in_port_color,
 		false,
 		0,
 		Color.GOLD,
 	)
+	_setup_pickup_tab()
 
+func _set_scene_options(stages_subfolders_arg: Dictionary):
+	for key in stages_subfolders_arg.keys():
+		scene_options.add_item(key)
 
-func _get_scenes_from_dir():
-	var stages_dir = DirAccess.open(STAGE_SCENE_DIR)
-	assert(stages_dir, "stage scene dir not found at: " + STAGE_SCENE_DIR)
+func _set_enemy_options(enemy_options: OptionButton, enemy_subfolders: Dictionary, subfolders: Array[String]):
+	enemy_options.clear()
+	for key in enemy_subfolders.keys():
+		if enemy_subfolders[key] != subfolders: continue
+		enemy_options.add_item(key)
+
+func _get_path_to_scene(scene: String, subfolders: Array[String], only_dir: bool = false):
+	var ret: String = STAGE_SCENE_DIR
+	for s in subfolders:
+		ret += "/" + s
+	return ret + ("/" + scene) if !only_dir else ""
+
+## recursive function that gets all scenes in the given folder aswell as all subfolders adding each subfolder as an array into the stages_subfolder Dictionary
+func _get_file_name_from_dir(path: String, subfolders: Array[String], subfolder_dict: Dictionary):
+	var stages_dir = DirAccess.open(path)
+	assert(stages_dir, "stage scene dir not found at: " + path)
 
 	stages_dir.list_dir_begin()
 	var scene_file: String = stages_dir.get_next()
 	while scene_file != "":
 		if scene_file.get_extension() == "tscn":
-			scene_options.add_item(scene_file)
+			if(subfolder_dict.has(scene_file)):
+				push_error("Same filename for differente stages found: " + _get_path_to_scene(scene_file, subfolders) + " and " + _get_path_to_scene(scene_file, stages_subfolders[scene_file]) + "expect fauty behavior")
+			stages_subfolders[scene_file] = subfolders.duplicate()
+		elif scene_file.get_extension() == "":
+			subfolders.append(scene_file)
+			_get_file_name_from_dir(path + scene_file, subfolders, subfolder_dict)
+			subfolders.pop_back()
+
 		scene_file = stages_dir.get_next()
 
+func _setup_pickup_tab():
+	var last_pickup: SpinBox = pickup_boiler
+	for pickup in range(globals.pickups.NONE):
+		match pickup:
+			globals.pickups.GENERIC_COUNT: continue
+			globals.pickups.GENERIC_BOOL: continue
+			globals.pickups.GENERIC_EXCLUSIVE: continue
+			globals.pickups.GENERIC_BOMB: continue
+		
+		var pickup_element: SpinBox = pickup_boiler.duplicate()
+		pickup_element.set_horizontal_alignment(HORIZONTAL_ALIGNMENT_FILL) # This no worky probably a bug in godot itself
+		pickup_element.name = globals.pickup_name_str[pickup]
+		pickup_element.prefix = globals.pickup_name_str[pickup] + ": "
+		if pickup_resource.pickup_weights.has(pickup):
+			pickup_element.value = float(pickup_resource.pickup_weights[pickup])
+		pickup_element.show()
+		
+		last_pickup.add_sibling(pickup_element)
+		last_pickup = pickup_element
+		
+		var changed_function_value: Callable = _on_pickup_weight_changed.bind(pickup)
+		last_pickup.value_changed.connect(changed_function_value)
+
+# ---------------------- signal functions
 
 func _on_scene_options_pressed() -> void:
-	selected_scene_path = scene_options.get_item_text(scene_options.selected)
+	selected_scene_file = scene_options.get_item_text(scene_options.selected)
 
 ## Create a new entry for an exit
 func _on_add_exit_button_pressed() -> void:
 	var exit: HBoxContainer = exit_boiler.duplicate()
 	exit_indx += 1
 	
+	add_child(exit)
+	move_child(exit, 1 + exit_indx)
+	
 	exit.name = "Exit" + str(exit_indx)
 	exit.get_node("ExitNumber").text = str(exit_indx) + "."
 	exit.show()
-
-	exit_array.append(Vector2i.ZERO)
 	
-	add_child(exit)
-	move_child(exit, 1 + exit_indx)
+	exit_resource.append(Vector2i.ZERO, exit.get_node("ExitColor").color)
 	
 	set_slot(
 		exit_indx,
 		false,
 		0,
-		Color.SILVER,
+		exit_in_port_color,
 		true,
 		0,
-		Color.GOLD,
+		exit.get_node("ExitColor").color,
 	)
 	
 	var remove_function: Callable = _on_remove_exit_button_pressed.bind(exit)
 	var changed_function_x: Callable = _on_exit_position_changed.bind(exit, true)
 	var changed_function_y: Callable = _on_exit_position_changed.bind(exit, false)
+	var changed_function_color: Callable = _on_exit_color_changed.bind(exit)
 	exit.get_node("RemoveExitButton").pressed.connect(remove_function, ConnectFlags.CONNECT_ONE_SHOT)
 	exit.get_node("Position/x").value_changed.connect(changed_function_x)
 	exit.get_node("Position/y").value_changed.connect(changed_function_y)
+	exit.get_node("ExitColor").color_changed.connect(changed_function_color)
 
 ## deletes an exit and adjusts all indicies of exits after itself
 func _on_remove_exit_button_pressed(exit: HBoxContainer):
@@ -90,7 +151,7 @@ func _on_remove_exit_button_pressed(exit: HBoxContainer):
 		child.get_node("ExitNumber").text = str(exit_indx_new) + "."
 		exit_indx_new += 1
 	
-	exit_array.remove_at(exit_num)
+	exit_resource.remove_at(exit_num)
 	exit.queue_free()
 
 	exit_indx -= 1
@@ -98,8 +159,78 @@ func _on_remove_exit_button_pressed(exit: HBoxContainer):
 func _on_exit_position_changed(val: float, exit: HBoxContainer, is_x: bool,):
 	var exit_num: int = exit.name.to_int() - 1
 	if is_x:
-		exit_array[exit_num].x = int(val)
+		exit_resource.set_x(exit_num, int(val))
 	else:
-		exit_array[exit_num].y = int(val)
-	print(exit_array)
+		exit_resource.set_y(exit_num, int(val))
 	
+func _on_exit_color_changed(color: Color, exit: HBoxContainer):
+	var exit_num: int = exit.name.to_int()
+	set_slot(
+		exit_num,
+		false,
+		0,
+		exit_in_port_color,
+		true,
+		0,
+		exit.get_node("ExitColor").color,
+	)
+	exit_resource.set_color(exit_num - 1, color)
+
+## Create a new entry for an exit
+func _on_add_enemy_button_pressed() -> void:
+	var enemy: HBoxContainer = enemy_boiler.duplicate()
+	enemy_indx += 1
+	
+	enemy_boiler.get_parent().add_child(enemy)
+	enemy_boiler.get_parent().move_child(enemy, enemy_indx)
+	
+	enemy.name = "Enemy" + str(enemy_indx)
+	enemy.get_node("EnemyNumber").text = str(enemy_indx) + "."
+	enemy.show()
+	
+	enemy_resource.append(Vector2i.ZERO, "")
+	
+	var remove_function: Callable = _on_remove_enemy_button_pressed.bind(enemy)
+	var changed_function_x: Callable = _on_enemy_position_changed.bind(enemy, true)
+	var changed_function_y: Callable = _on_enemy_position_changed.bind(enemy, false)
+	var changed_function_file: Callable = _on_enemy_file_changed.bind(enemy)
+	enemy.get_node("RemoveEnemyButton").pressed.connect(remove_function, ConnectFlags.CONNECT_ONE_SHOT)
+	enemy.get_node("Position/x").value_changed.connect(changed_function_x)
+	enemy.get_node("Position/y").value_changed.connect(changed_function_y)
+	enemy.get_node("EnemySelect").item_selected.connect(changed_function_file)
+
+func _on_remove_enemy_button_pressed(enemy: HBoxContainer):
+	var enemy_num: int = enemy.name.to_int()
+	assert(enemy_num <= enemy_indx, "encountered invalid index for enemy")
+	var enemy_indx_new: int = enemy_num
+
+	# We need to change the name of the enemy that we wish to remove in order to change its sibling's name.
+	enemy.name = "REMOVING_" + enemy.name
+	for i in range(1 + enemy_num, 1 + enemy_indx):
+		var child = enemy_boiler.get_parent().get_child(i)
+		assert(child.has_node("EnemyNumber"), "bad index: " + str(i))
+		child.name = "Enemy" + str(enemy_indx_new)
+		child.get_node("EnemyNumber").text = str(enemy_indx_new) + "."
+		enemy_indx_new += 1
+	
+	enemy_resource.remove_at(enemy_num)
+	enemy.queue_free()
+
+	enemy_indx -= 1
+
+func _on_enemy_position_changed(val: float, enemy: HBoxContainer, is_x: bool,):
+	var enemy_num: int = enemy.name.to_int() - 1
+	if is_x:
+		enemy_resource.set_x(enemy_num, int(val))
+	else:
+		enemy_resource.set_y(enemy_num, int(val))
+
+func _on_enemy_file_changed(index: int, enemy: HBoxContainer):
+	pass
+
+func _on_pickup_weight_changed(weight: float, pickup: int):
+	if(pickup_resource.pickup_weights.has(pickup)):
+		pickup_resource.pickup_weights[pickup] = weight
+	else:
+		push_error("Pickup " + globals.pickup_name_str[pickup] + " not yet implemented")
+	pass

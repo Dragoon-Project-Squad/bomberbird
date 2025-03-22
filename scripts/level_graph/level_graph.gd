@@ -2,7 +2,6 @@ extends GraphEdit
 
 var stage_node_preload := preload("res://scenes/level_graph/stage_node.tscn")
 
-
 func _ready():
 	var add_stage_node_button: Button = Button.new()
 	add_stage_node_button.text = "Add Node"

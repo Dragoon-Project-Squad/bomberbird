@@ -1,12 +1,12 @@
 class_name PickupTable extends Resource
 
 @export_group("Pickup Weigths")
-@export var extra_bomb: int = 0
-@export var explosion_boost: int = 0
-@export var speed_boost: int = 0
+@export var extra_bomb: int = 500
+@export var explosion_boost: int = 500
+@export var speed_boost: int = 500
 #@export var hearth: int = 0
-@export var max_explosion: int = 0
-@export var punch_ability: int = 0
+@export var max_explosion: int = 100
+@export var punch_ability: int = 200
 #@export var throw_ability: int = 0
 #@export var wallthrough: int = 0
 #@export var timer: int = 0
