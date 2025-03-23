@@ -1,23 +1,16 @@
 class_name ExitTable extends Resource
 
-class Exit extends Resource:
-	@export var coords: Vector2i
-	@export var color: Color
-	func _init(in_coords: Vector2i, in_color: Color):
-		self.coords = in_coords
-		self.color = in_color
-	func _to_string():
-		return "(" + str(coords) + ", " + str(color) + ")"
+@export var exits: Array[Dictionary] = []
 
-@export var exits: Array[Exit] = []
+func _init():
+	self.resource_local_to_scene = true
 
 func append(exit_coordinates: Vector2i, exit_color: Color):
-	exits.append(
-		Exit.new(
-			exit_coordinates,
-			exit_color,
-		)
-	)
+	var entry: Dictionary = {
+		"coords": exit_coordinates,
+		"color": exit_color,
+		}
+	exits.append(entry)
 
 func set_color(index: int, exit_color: Color):
 	exits[index].color = exit_color
