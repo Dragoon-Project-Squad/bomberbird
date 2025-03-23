@@ -306,9 +306,13 @@ func _on_remove_exit_button_pressed(exit: HBoxContainer):
 	assert(exit_num <= exit_indx, "encountered invalid index for exit")
 	var exit_indx_new: int = exit_num
 
-	# Readjust the slots to behave correctly
-	get_parent().remove_ports(self.name, exit_num)
-	get_parent().reindex_ports(self.name, exit_num, -1)
+	print(exit_num, ", ", exit_indx)
+	if exit_num < exit_indx:
+		# Readjust the slots to behave correctly
+		get_parent().remove_ports(self.name, exit_num - 1)
+		get_parent().reindex_ports(self.name, exit_num - 1, -1)
+	else: 
+		get_parent().remove_ports(self.name, exit_num - 1)
 	clear_slot(exit_indx + 1)
 
 	# We need to change the name of the exit that we wish to remove in order to change its sibling's name.

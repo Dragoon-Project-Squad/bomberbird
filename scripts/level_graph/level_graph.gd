@@ -72,11 +72,17 @@ func _add_stage_node():
 	stage_node.pickup_resource.init()
 	stage_node._setup_pickup_tab()
 	
+func clear_graph():
+	for child in get_children():
+		if !child is StageNode: continue
+		child.name = "REMOVING" + child.name
+		child.queue_free()
+	stage_node_indx = 0
+
 ## loads the graph stored in graph_data
 func load_graph(graph_data: LevelGraphData):
-	clear_connections()
-	for connection in graph_data.connections:
-		connect_node(connection.from_node, connection.from_port, connection.to_node, connection.to_port)
+	self.clear_connections()
+	clear_graph()
 	for node in graph_data.nodes:
 		var stage_node: StageNode = stage_node_preload.instantiate()
 		stage_node_indx += 1
@@ -85,10 +91,12 @@ func load_graph(graph_data: LevelGraphData):
 		move_child(stage_node, 1 + stage_node_indx)
 
 		stage_node.load_stage_node(node)
+	for connection in graph_data.connections:
+		connect_node(connection.from_node, connection.from_port, connection.to_node, connection.to_port)
+
 		
 ## loads the selected graph if it exists
 func _on_load_pressed():
-	print(SAVE_PATH + "/" + file_name + ".res")
 	if ResourceLoader.exists(SAVE_PATH + "/" + file_name + ".res"):
 		load_graph(ResourceLoader.load(SAVE_PATH + "/" + file_name + ".res"))
 	else:
@@ -119,10 +127,10 @@ func _save_node(node: StageNode, index: int) -> StageNodeData:
 	node_data.curr_enemy_options = node.curr_enemy_options
 	node_data.selected_scene_file = node.selected_scene_file
 	node_data.selected_scene_path = node.selected_scene_path
-	node_data.pickup_resource = node.pickup_resource
-	node_data.enemy_resource = node.enemy_resource
-	node_data.exit_resource = node.exit_resource
-	node_data.spawn_point_arr = node.spawn_point_arr
+	node_data.pickup_resource = node.pickup_resource.duplicate()
+	node_data.enemy_resource = node.enemy_resource.duplicate()
+	node_data.exit_resource = node.exit_resource.duplicate()
+	node_data.spawn_point_arr = node.spawn_point_arr.duplicate()
 	node_data.stage_node_name = node.name
 	node_data.stage_node_title = node.title
 	node_data.stage_node_pos = node.position_offset
