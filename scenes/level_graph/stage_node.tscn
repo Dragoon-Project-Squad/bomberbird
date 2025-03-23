@@ -110,6 +110,7 @@ metadata/_tab_index = 0
 
 [node name="EnemyBoiler" type="HBoxContainer" parent="TabContainer/Enemies"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
 [node name="EnemyNumber" type="Label" parent="TabContainer/Enemies/EnemyBoiler"]
@@ -164,6 +165,7 @@ allow_greater = true
 alignment = 3
 prefix = "Boiler:"
 
-[connection signal="pressed" from="StageSelect/SceneOptions" to="." method="_on_scene_options_pressed"]
+[connection signal="item_selected" from="StageSelect/SceneOptions" to="." method="_on_scene_options_item_selected"]
 [connection signal="pressed" from="AddExitButton" to="." method="_on_add_exit_button_pressed"]
+[connection signal="tab_changed" from="TabContainer" to="." method="_on_tab_container_tab_changed"]
 [connection signal="pressed" from="TabContainer/Enemies/AddEnemyButton" to="." method="_on_add_enemy_button_pressed"]

@@ -1,6 +1,7 @@
 class_name StageNode extends GraphNode
 
 const STAGE_SCENE_DIR: String = "res://scenes/sp_stages/"
+const ENEMY_SCENE_DIR: String = "res://scenes/enemies/"
 
 @onready var scene_options: OptionButton = %SceneOptions
 @onready var exit_boiler: HBoxContainer = %ExitBoiler
@@ -9,7 +10,10 @@ const STAGE_SCENE_DIR: String = "res://scenes/sp_stages/"
 @onready var pickup_boiler: SpinBox = pickups_tab.get_node("PickupBoiler")
 
 var stages_subfolders: Dictionary = {}
-var selected_scene_file: String
+var enemy_subfolders: Dictionary = {}
+
+var curr_enemy_options: Array[String] = []
+var selected_scene_file: String = ""
 
 var pickup_resource: PickupTable = PickupTable.new()
 var enemy_resource: EnemyTable = EnemyTable.new()
@@ -24,6 +28,9 @@ var enemy_indx: int = 0
 func _ready():
 	_get_file_name_from_dir(STAGE_SCENE_DIR, [], stages_subfolders)
 	_set_scene_options(stages_subfolders)
+
+	_get_file_name_from_dir(ENEMY_SCENE_DIR, [], enemy_subfolders)
+
 	set_slot(
 		0,
 		true,
@@ -33,17 +40,30 @@ func _ready():
 		0,
 		Color.GOLD,
 	)
+	$TabContainer.current_tab = 1
 	_setup_pickup_tab()
 
 func _set_scene_options(stages_subfolders_arg: Dictionary):
 	for key in stages_subfolders_arg.keys():
 		scene_options.add_item(key)
+	scene_options.selected = -1
 
-func _set_enemy_options(enemy_options: OptionButton, enemy_subfolders: Dictionary, subfolders: Array[String]):
-	enemy_options.clear()
-	for key in enemy_subfolders.keys():
-		if enemy_subfolders[key] != subfolders: continue
-		enemy_options.add_item(key)
+func _reset_enemy_options(enemy_subfolders_arg: Dictionary, subfolders: Array[String]):
+	curr_enemy_options = []
+	for key in enemy_subfolders_arg.keys():
+		if enemy_subfolders_arg[key] != subfolders: continue
+		curr_enemy_options.append(key)
+	
+	for i in range(1, enemy_indx + 1):	
+		var enemy_option: OptionButton = enemy_boiler.get_parent().get_child(i).get_node("EnemySelect")
+		_set_enemy_options(enemy_option)
+		
+func _set_enemy_options(enemy_option: OptionButton):
+	enemy_option.clear()
+	for o in curr_enemy_options:
+		enemy_option.add_item(o)
+	enemy_option.selected = -1
+
 
 func _get_path_to_scene(scene: String, subfolders: Array[String], only_dir: bool = false):
 	var ret: String = STAGE_SCENE_DIR
@@ -51,24 +71,24 @@ func _get_path_to_scene(scene: String, subfolders: Array[String], only_dir: bool
 		ret += "/" + s
 	return ret + ("/" + scene) if !only_dir else ""
 
-## recursive function that gets all scenes in the given folder aswell as all subfolders adding each subfolder as an array into the stages_subfolder Dictionary
+## recursive function that gets all scenes in the given folder aswell as all subfolders adding each subfolder as an array into the subfolder_dict Dictionary
 func _get_file_name_from_dir(path: String, subfolders: Array[String], subfolder_dict: Dictionary):
-	var stages_dir = DirAccess.open(path)
-	assert(stages_dir, "stage scene dir not found at: " + path)
+	var scene_dir = DirAccess.open(path)
+	assert(scene_dir, "stage scene dir not found at: " + path)
 
-	stages_dir.list_dir_begin()
-	var scene_file: String = stages_dir.get_next()
+	scene_dir.list_dir_begin()
+	var scene_file: String = scene_dir.get_next()
 	while scene_file != "":
 		if scene_file.get_extension() == "tscn":
 			if(subfolder_dict.has(scene_file)):
-				push_error("Same filename for differente stages found: " + _get_path_to_scene(scene_file, subfolders) + " and " + _get_path_to_scene(scene_file, stages_subfolders[scene_file]) + "expect fauty behavior")
-			stages_subfolders[scene_file] = subfolders.duplicate()
+				push_error("Same filename for differente stages found: " + _get_path_to_scene(scene_file, subfolders) + " and " + _get_path_to_scene(scene_file, subfolder_dict[scene_file]) + "expect fauty behavior")
+			subfolder_dict[scene_file] = subfolders.duplicate()
 		elif scene_file.get_extension() == "":
 			subfolders.append(scene_file)
 			_get_file_name_from_dir(path + scene_file, subfolders, subfolder_dict)
 			subfolders.pop_back()
 
-		scene_file = stages_dir.get_next()
+		scene_file = scene_dir.get_next()
 
 func _setup_pickup_tab():
 	var last_pickup: SpinBox = pickup_boiler
@@ -95,8 +115,15 @@ func _setup_pickup_tab():
 
 # ---------------------- signal functions
 
-func _on_scene_options_pressed() -> void:
-	selected_scene_file = scene_options.get_item_text(scene_options.selected)
+func _on_scene_options_item_selected(index: int) -> void:
+	if index < 0:
+		return
+	selected_scene_file = scene_options.get_item_text(index)
+	_reset_enemy_options(enemy_subfolders, stages_subfolders[selected_scene_file])
+
+func _on_tab_container_tab_changed(tab: int) -> void:
+	if tab == 0 && selected_scene_file == "":
+		$TabContainer.current_tab = 1
 
 ## Create a new entry for an exit
 func _on_add_exit_button_pressed() -> void:
@@ -149,6 +176,7 @@ func _on_remove_exit_button_pressed(exit: HBoxContainer):
 		assert(child.has_node("ExitNumber"), "bad index: " + str(i))
 		child.name = "Exit" + str(exit_indx_new)
 		child.get_node("ExitNumber").text = str(exit_indx_new) + "."
+		_on_exit_color_changed(child.get_node("ExitColor").color, child)
 		exit_indx_new += 1
 	
 	exit_resource.remove_at(exit_num)
@@ -186,6 +214,7 @@ func _on_add_enemy_button_pressed() -> void:
 	
 	enemy.name = "Enemy" + str(enemy_indx)
 	enemy.get_node("EnemyNumber").text = str(enemy_indx) + "."
+	_set_enemy_options(enemy.get_node("EnemySelect"))
 	enemy.show()
 	
 	enemy_resource.append(Vector2i.ZERO, "")
@@ -226,11 +255,11 @@ func _on_enemy_position_changed(val: float, enemy: HBoxContainer, is_x: bool,):
 		enemy_resource.set_y(enemy_num, int(val))
 
 func _on_enemy_file_changed(index: int, enemy: HBoxContainer):
-	pass
+	var enemy_num: int = enemy.name.to_int() - 1
+	enemy_resource.set_file(enemy_num, enemy.get_node("EnemySelect").get_item_text(index))
 
 func _on_pickup_weight_changed(weight: float, pickup: int):
 	if(pickup_resource.pickup_weights.has(pickup)):
 		pickup_resource.pickup_weights[pickup] = weight
 	else:
 		push_error("Pickup " + globals.pickup_name_str[pickup] + " not yet implemented")
-	pass

@@ -1,0 +1,174 @@
+[gd_scene load_steps=23 format=3 uid="uid://eulpjfeboeur"]
+
+[ext_resource type="Script" uid="uid://bbolv85umxm0a" path="res://scripts/ai_player.gd" id="1_b6x6g"]
+[ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_pc5q3"]
+[ext_resource type="Texture2D" uid="uid://lckm0mdablaw" path="res://assets/player/chonkgoon_walk.png" id="3_1goyl"]
+[ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_gh1q5"]
+[ext_resource type="AnimationLibrary" uid="uid://b6igytp0a077" path="res://animations/player_animations.tres" id="5_g5cmx"]
+[ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="6_f5q0p"]
+[ext_resource type="Script" uid="uid://ctx61c3w8pd35" path="res://scripts/human_player_controls.gd" id="7_n1qvi"]
+[ext_resource type="AudioStream" uid="uid://c3dded4qppq4" path="res://sound/fx/playerhurt.wav" id="8_qgndc"]
+[ext_resource type="Script" uid="uid://cj45k03q8plvf" path="res://scripts/ai_state/ai_state_machine.gd" id="9_dsyhv"]
+[ext_resource type="Script" uid="uid://cic1u132cjhpf" path="res://scripts/ai_state/ai_wander.gd" id="10_ojjf0"]
+[ext_resource type="Script" uid="uid://boifqm64sjt73" path="res://scripts/ai_state/ai_dodge.gd" id="11_svsbf"]
+[ext_resource type="Script" uid="uid://0ywunhnh15xu" path="res://scripts/ai_state/ai_bomb.gd" id="12_ooj4o"]
+[ext_resource type="Script" uid="uid://dcjhrjf3f6csw" path="res://scripts/ai_state/ai_safe.gd" id="13_7oelw"]
+
+[sub_resource type="Resource" id="Resource_2solf"]
+metadata/_custom_type_script = "uid://dfosda1bstp2m"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_na3x7"]
+size = Vector2(128, 128)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_n0cfd"]
+radius = 15.9
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_3406r"]
+a = Vector2(0, 16)
+b = Vector2(0, 32)
+
+[sub_resource type="Animation" id="Animation_2ljjh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FrontArea:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bboyf"]
+_data = {
+&"RESET": SubResource("Animation_2ljjh")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_5huhx"]
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_sh64w"]
+properties/0/path = NodePath(".:synced_position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("label:text")
+properties/1/spawn = true
+properties/1/replication_mode = 0
+properties/2/path = NodePath(".:is_dead")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_w53uu"]
+properties/0/path = NodePath(".:motion")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:bombing")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:punch_ability")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[node name="ai_player" type="CharacterBody2D" groups=["ai_player", "thrown_bomb_bounces"]]
+z_index = 10
+texture_filter = 1
+collision_layer = 2
+collision_mask = 31
+motion_mode = 1
+script = ExtResource("1_b6x6g")
+synced_position = Vector2(649, 72)
+pickups = SubResource("Resource_2solf")
+
+[node name="shadowsprite" type="Sprite2D" parent="."]
+position = Vector2(0, 8)
+scale = Vector2(1, 0.5)
+texture = ExtResource("2_pc5q3")
+
+[node name="sprite" type="Sprite2D" parent="."]
+position = Vector2(0.0750351, 6.23615)
+rotation = -6.28319
+texture = ExtResource("3_1goyl")
+offset = Vector2(-0.075, -8.536)
+hframes = 6
+vframes = 4
+
+[node name="kaboom" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-1.07288e-06, 3.57628e-07)
+scale = Vector2(0.333333, 0.351648)
+texture = ExtResource("4_gh1q5")
+hframes = 9
+
+[node name="ObjectDetection" type="Area2D" parent="."]
+light_mask = 7
+collision_layer = 32
+collision_mask = 130
+input_pickable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ObjectDetection"]
+shape = SubResource("RectangleShape2D_na3x7")
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_n0cfd")
+
+[node name="FrontArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FrontArea"]
+shape = SubResource("SegmentShape2D_3406r")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_bboyf"),
+&"player_animations": ExtResource("5_g5cmx")
+}
+
+[node name="label" type="Label" parent="."]
+offset_left = -82.0
+offset_top = -35.0
+offset_right = 85.0
+offset_bottom = -14.0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("6_f5q0p")
+theme_override_font_sizes/font_size = 16
+text = "AI Dragoon 2"
+label_settings = SubResource("LabelSettings_5huhx")
+horizontal_alignment = 1
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_sh64w")
+
+[node name="Inputs" type="Node" parent="."]
+script = ExtResource("7_n1qvi")
+
+[node name="InputsSync" type="MultiplayerSynchronizer" parent="Inputs"]
+replication_config = SubResource("SceneReplicationConfig_w53uu")
+
+[node name="HurtSoundPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_qgndc")
+bus = &"SFX"
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("9_dsyhv")
+initial_state = NodePath("Wander")
+
+[node name="Wander" type="Node" parent="StateMachine"]
+script = ExtResource("10_ojjf0")
+
+[node name="Dodge" type="Node" parent="StateMachine"]
+script = ExtResource("11_svsbf")
+
+[node name="Bombing" type="Node" parent="StateMachine"]
+script = ExtResource("12_ooj4o")
+
+[node name="Safe" type="Node" parent="StateMachine"]
+script = ExtResource("13_7oelw")
+
+[connection signal="area_entered" from="ObjectDetection" to="." method="_on_object_detection_area_entered"]
+[connection signal="area_exited" from="ObjectDetection" to="." method="_on_object_detection_area_exited"]
