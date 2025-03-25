@@ -11,6 +11,7 @@ var current_tile_index = 0
 
 func _ready() -> void:
 	self.clear()
+	hurry_up_start.connect(globals.player_manager._on_hurry_up_start)
 	var anim_time: float = falling_unbreakable.get_node("AnimationPlayer").get_animation("slam").length
 	if hurry_up_step_timer.wait_time < anim_time + 0.05:
 		# because of the animation taking 'anim_time' seconds the timer between the waittimes must be slighly higher then that.
@@ -69,6 +70,7 @@ func place(pos: Vector2):
 func _on_hurry_up_start_timer_timeout():
 	hurry_up_start.emit()
 	target_tiles = generate_spiral(world_data.world_width, world_data.world_height)
+	globals.game.game_ui.get_node("%RemainingTime").add_theme_color_override("font_color", Color(255, 0, 0))
 	hurry_up_step_timer.start()
 
 

@@ -4,7 +4,6 @@ class_name Pickup extends Area2D
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var collisionbox: CollisionShape2D = $CollisionShape2D
 
-var pickup_pool: PickupPool
 var pickup_type: int = globals.pickups.NONE:
 	set(type): #i don't like setters but it only enforces something here so its okey
 		if pickup_type != globals.pickups.NONE:
@@ -12,7 +11,7 @@ var pickup_type: int = globals.pickups.NONE:
 		pickup_type = type
 
 func _ready():
-	pickup_pool = globals.current_world.get_node("PickupPool")
+	pass
 
 @rpc("call_local")
 func disable_collison_and_hide():
@@ -59,13 +58,13 @@ func _on_body_entered(body: Node2D) -> void:
 	
 	# Ensure powerup has time to play before pickup is destroyed
 	await pickup_sfx_player.finished
-	pickup_pool.return_obj(self) #Pickup returns itself to the pool
+	globals.game.pickup_pool.return_obj(self) #Pickup returns itself to the pool
 	disable_collison_and_hide.rpc()
 	disable.rpc()
 
 @rpc("call_local")
 func exploded(_from_player):
-	pickup_pool.return_obj(self) #Pickup returns itself to the pool
+	globals.game.pickup_pool.return_obj(self) #Pickup returns itself to the pool
 	disable_collison_and_hide()
 	if $anim:
 		$anim.play("pickup/explode_pickup")
@@ -75,5 +74,5 @@ func exploded(_from_player):
 @rpc("call_local")
 func crush():
 	disable_collison_and_hide()
-	pickup_pool.return_obj(self) #Pickup returns itself to the pool
+	globals.game.pickup_pool.return_obj(self) #Pickup returns itself to the pool
 	disable()

@@ -15,7 +15,7 @@ var current_anim: String = ""
 var controlable: bool = false
 
 func _ready() -> void:
-	bomb_pool = globals.current_world.bomb_pool
+	bomb_pool = globals.game.bomb_pool
 	set_player(str(self.name).to_int())
 	disable()
 

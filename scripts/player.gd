@@ -43,9 +43,9 @@ func _ready():
 	#These are all needed
 	position = synced_position
 	bomb_total = bomb_count
-	bomb_pool = globals.current_world.bomb_pool
-	pickup_pool = globals.current_world.pickup_pool
-	game_ui = globals.current_world.game_ui
+	bomb_pool = globals.game.bomb_pool
+	pickup_pool = globals.game.pickup_pool
+	game_ui = globals.game.game_ui
 
 func _process(delta: float):
 	if !invulnerable:

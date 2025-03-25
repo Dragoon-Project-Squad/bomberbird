@@ -11,7 +11,7 @@ var rng = RandomNumberGenerator.new()
 var pickup_pool: PickupPool
 
 func _ready():
-	pickup_pool = globals.current_world.get_node("PickupPool")
+	pickup_pool = globals.game.pickup_pool
 
 func decide_pickup_spawn() -> bool:
 	if !PICKUP_ENABLED:

@@ -105,10 +105,10 @@ func _set_enemy_options(enemy_option: OptionButton):
 
 ## given a scene and its subfolders returns the path to that scene (if only_dir == true returns the path to the Directory containing the scene rather then the scene)
 func _get_path_to_scene(scene: String, subfolders: Array[String], only_dir: bool = false):
-	var ret: String = STAGE_SCENE_DIR
+	var ret: String = STAGE_SCENE_DIR.left(len(STAGE_SCENE_DIR) - 1)
 	for s in subfolders:
 		ret += "/" + s
-	return ret + ("/" + scene) if !only_dir else ""
+	return ret + ("/" + scene if !only_dir else "")
 
 func _get_file_name_from_dir(path: String, subfolders: Array[String], subfolder_dict: Dictionary):
 	var scene_dir = DirAccess.open(path)

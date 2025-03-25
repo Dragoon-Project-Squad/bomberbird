@@ -72,7 +72,6 @@ input_pickable = false
 shape = SubResource("RectangleShape2D_6btgv")
 
 [node name="Raycasts" type="Node2D" parent="."]
-visible = false
 
 [node name="Right" type="RayCast2D" parent="Raycasts"]
 target_position = Vector2(32, 0)

@@ -1,10 +1,5 @@
 extends Node
 
-enum zones {
-	DESERT,
-	#TODO: Issue #8
-	}
-
 enum pickups {
 	BOMB_UP = 0,
 	FIRE_UP,
@@ -29,10 +24,6 @@ enum pickups {
 	GENERIC_BOMB, # A generic value describing a pickup that changes the bomb type (also mutaly exclusive with other bomb types)
 	NONE, # A value describing the absens of a pickup
 	}
-
-var zones_name_str: Dictionary = {
-	zones.DESERT: "desert"
-}	
 
 var pickup_name_str: Dictionary = {
 	pickups.BOMB_UP: "extra_bomb",
@@ -60,5 +51,6 @@ var pickup_name_str: Dictionary = {
 }
 
 var config = Config.new()
+var game: Node2D
 var current_world: World
 var player_manager: PlayerManager

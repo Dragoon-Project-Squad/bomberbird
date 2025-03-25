@@ -1,11 +1,11 @@
-# Interface for obj pools, contains functions that need to be implemented for a valid pool
+## Interface for obj pools, contains functions that need to be implemented for a valid pool
 class_name ObjectPool extends Node2D
 
 var obj_spawner: MultiplayerSpawner
 var unowned #keeps a reference of unowned object
 #children of ObjectPool must manage owned on there own if needed
 
-func _ready():
+func _ready() -> void:
 	pass
 
 func create_reserve(count, spawn_data): #creates a number of unowned obj's for the pool

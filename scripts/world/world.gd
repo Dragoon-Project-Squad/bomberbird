@@ -25,25 +25,18 @@ class_name World
 ## list of spawnpoints (if there are less players then spawnpoints they will be used in order)
 ## if there is more players then spawnpoints, spawnpoints will be choosen randomly
 @export var spawnpoints: Array[Vector2i]
-
-
+@export var exit_table: ExitTable
+@export var enemy_table: EnemyTable
 @export var pickup_table: PickupTable
 
 
 @onready var floor_layer = $Floor
 @onready var bounds_layer = $Bounds
 @onready var obstacles_layer = $Obstacles
-@onready var breakable_spawner = $BreakableSpawner
 @onready var breakables = $Breakables
-@onready var bomb_pool = $BombPool
-@onready var pickup_pool = $PickupPool
-@onready var game_ui= $GameUI
-
+@onready var breakable_spawner = breakables.get_node("BreakableSpawner")
 ## The Atlas coordinate of the unbreakable tile in this stages tileset
 var _unbreakable_tile: Vector2i
-
-## declares whenever a world is special (hence should be loaded standalone without adjusting anything
-var _is_special: bool
 
 # PRIVATE FUNCTIONS
 
@@ -52,6 +45,14 @@ func _init():
 
 func _ready() -> void:
 	_asserting_world()
+	bounds_layer.collision_enabled = false
+	obsticals_layer.collision_enabled = false
+
+func make_active_world():
+	bounds_layer.collision_enabled = true
+	obsticals_layer.collision_enabled = true
+	world_data.reset()
+	astargrid_handler.astargrid.clear()
 	world_data.begin_init(_arena_rect, _world_edge_rect, floor_layer)
 	world_data.init_unbreakables(_unbreakable_tile, obstacles_layer)
 	astargrid_handler.setup_astargrid()
@@ -59,6 +60,10 @@ func _ready() -> void:
 	_generate_breakables()
 	world_data.finish_init()
 	astargrid_handler.astargrid_set_initial_solidpoints()
+
+## resets a stage s.t. it may be reused later
+func _reset():
+	pass
 
 ## Asserts that properties of the world are set correctly
 func _asserting_world():

@@ -7,8 +7,6 @@ enum bounds {IN = -1, OUT_TOP = 0, OUT_RIGHT = 1, OUT_DOWN = 2, OUT_LEFT = 3}
 var _world_matrix: Array[int]
 var _world_empty_cells: Dictionary
 var _is_initialized: bool = false
-var _get_rand_lock: Mutex = Mutex.new()
-var _get_set_lock: Mutex = Mutex.new()
 
 ## public members
 
@@ -121,13 +119,11 @@ func finish_init():
 @rpc("call_local")
 ## Set a tile at global_po in world_data to 'tile' throwing an error if that tile is already occupied
 func set_tile(tile: int, global_pos: Vector2):
-	_get_set_lock.lock()
 	var matrix_pos: Vector2i = tile_map.local_to_map(global_pos) - floor_origin
 	if tile == tiles.EMPTY:
 		_remove_tile(matrix_pos)
 	else:
 		_add_tile(tile, matrix_pos)
-	_get_set_lock.unlock()
 
 ## checks if the tile at 'global_pos' is 'tile'
 func is_tile(tile: int, global_pos: Vector2):
@@ -171,7 +167,6 @@ func is_out_of_world_edge(global_pos: Vector2) -> bool:
 
 ## returns a singular randomly choosen empty tile or null if non are awailable
 func get_random_empty_tile(in_cells: bool = false) -> Variant:
-	_get_rand_lock.lock() #Below this is clearly a critical section (if this ever causes performance issues a more fine grained locking may solve this)
 
 	var temp: Array = _world_empty_cells.keys()
 	temp.filter(func(key): return _world_empty_cells[key])
@@ -182,12 +177,10 @@ func get_random_empty_tile(in_cells: bool = false) -> Variant:
 	if !in_cells:
 		res = tile_map.map_to_local(res)
 
-	_get_rand_lock.unlock()
 	return res
 
 ## gets an Array of size count (or less if less are awailable) of randomly choosen empty cells
 func get_random_empty_tiles(count: int, in_cells: bool = false) -> Array:
-	_get_rand_lock.lock() #Below this is clearly a critical section (if this ever causes performance issues a more fine grained locking may solve this)
 
 	#There is probably a more efficient way to do this
 	var temp: Array = _world_empty_cells.keys()
@@ -204,8 +197,6 @@ func get_random_empty_tiles(count: int, in_cells: bool = false) -> Array:
 			res[i] = tile_map.map_to_local(temp[i])
 		else:
 			res[i] = temp[i]
-
-	_get_rand_lock.unlock()
 
 	return res
 

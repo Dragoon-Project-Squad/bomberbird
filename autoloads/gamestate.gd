@@ -47,7 +47,8 @@ signal game_ended()
 signal game_error(what)
 
 # Preloaded Scenes
-var stage_scene = preload("res://scenes/sp_stages/desert/desert_rand.tscn")
+var game_scene = preload("res://scenes/game.tscn")
+var graph_name: String = "test_graph_1.res"
 
 # Singleplayer Vars
 var current_level: int = 205 # Defaults to a high number for battle mode.
@@ -157,16 +158,20 @@ func establish_player_counts() -> void:
 @rpc("call_local")
 func load_world():
 	# Change scene.
-	var world = stage_scene.instantiate()
-	get_tree().get_root().add_child(world)
+	var game = game_scene.instantiate()
+	get_tree().get_root().add_child(game)
+	game.load_level_graph(graph_name)
+	game.start()
+	var world = game.stage
+	game.stage = world
 	if get_tree().get_root().has_node("Lobby"):
 		get_tree().get_root().get_node("Lobby").hide()
 
 	# Set up score.
 	if is_multiplayer_authority():
-		world.get_node("GameUI").add_player.rpc(multiplayer.get_unique_id(), player_name)
+		game.get_node("GameUI").add_player.rpc(multiplayer.get_unique_id(), player_name)
 		for pn in players:
-			world.get_node("GameUI").add_player.rpc(pn, players[pn])
+			game.get_node("GameUI").add_player.rpc(pn, players[pn])
 
 	# Unpause and unleash the game!
 	get_tree().set_pause(false) 
@@ -222,8 +227,8 @@ func spawn_players():
 
 	for p_id in spawn_points:
 		var spawn_pos = world_data.tile_map.map_to_local(globals.current_world.spawnpoints[spawn_points[p_id]])
-		var playerspawner = globals.current_world.get_node("PlayerSpawner")
-		var misobonspawner = globals.current_world.get_node("MisobonPlayerSpawner")
+		var playerspawner = globals.game.player_spawner
+		var misobonspawner = globals.game.misobon_player_spawner
 		var spawningdata = {"spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players, "characterdictionary": characters}
 		var misobondata = {"spawn_here": 0.0, "pid": p_id}
 		var player: Player 
@@ -290,9 +295,9 @@ func is_name_free(playername: String) -> bool:
 	return true
 
 func end_game():
-	if globals.current_world != null: # Game is in progress.
+	if globals.game != null: # Game is in progress.
 		# End it
-		globals.current_world.queue_free()
+		globals.game.queue_free()
 		if !multiplayer.is_server():
 			peer.close()
 	game_ended.emit() 
