@@ -32,28 +32,39 @@ class_name World
 @onready var floor_layer = $Floor
 @onready var bounds_layer = $Bounds
 @onready var obstacles_layer = $Obstacles
+@onready var hurry_up = $HurryUp
+
+@onready var music = $Music
 
 ## The Atlas coordinate of the unbreakable tile in this stages tileset
 var _unbreakable_tile: Vector2i
+var _rng = RandomNumberGenerator.new()
+
 var breakable_pool: BreakablePool
-var rng = RandomNumberGenerator.new()
 
 # PRIVATE FUNCTIONS
-
-func _init():
-	globals.current_world = self
 
 func _ready() -> void:
 	_asserting_world()
 	disable()
 	breakable_pool = globals.game.breakable_pool
 
+func stage_ended():
+	pass
+
 func disable():
+	music.stop()
+
 	bounds_layer.collision_enabled = false
 	obsticals_layer.collision_enabled = false
 
 @warning_ignore("SHADOWED_VARIABLE")
 func enable(exit_table: ExitTable, enemy_table: EnemyTable, pickup_table: PickupTable, spawnpoints: Array[Vector2i]):
+	music.play()
+	globals.current_world = self
+	if hurry_up:
+		hurry_up.start()
+
 	bounds_layer.collision_enabled = true
 	obsticals_layer.collision_enabled = true
 
@@ -69,21 +80,32 @@ func enable(exit_table: ExitTable, enemy_table: EnemyTable, pickup_table: Pickup
 >>>>>>> f572cc7 (breakable_pool and more init stuff)
 	astargrid_handler.setup_astargrid()
 
-	self.enemy_table = enemy_table
-	self.exit_table = exit_table
-	self.pickup_table = pickup_table
+	self.enemy_table = enemy_table.duplicate()
+	self.exit_table = exit_table.duplicate()
+	self.pickup_table = pickup_table.duplicate()
+	pickup_table.update()
+	print(pickup_table.pickup_weights)
 	self.spawnpoints = spawnpoints
 
 	_set_spawnpoints()
-	_spawn_enemies()
+	if is_multiplayer_authority():
+		if !globals.game.players_are_spawned: _spawn_player()
+		else: _place_players.rpc()
+		_spawn_enemies()
 	_generate_breakables()
 
 	world_data.finish_init()
 	astargrid_handler.astargrid_set_initial_solidpoints()
 
 ## resets a stage s.t. it may be reused later
-func _reset():
-	pass
+func reset():
+	for breakable in breakable_pool.get_children():
+		if !(breakable is Breakable): continue
+		if !breakable.visible: continue #If the breakable is visible we may assume it is in use
+		if is_multiplayer_authority():
+			breakable.disable_collision.rpc()
+			breakable.disable.rpc()
+		breakable_pool.return_obj(breakable)
 
 func _spawn_enemies():
 	pass
@@ -107,8 +129,8 @@ func _set_spawnpoints():
 	var remaining_spawnpoints: int = gamestate.total_player_count - spawnpoints.size()
 	while remaining_spawnpoints > 0:	
 		var new_spawnpoint: Vector2i = Vector2i(
-			rng.randi_range(0, world_data.world_width - 1),
-			rng.randi_range(0, world_data.world_height - 1),
+			_rng.randi_range(0, world_data.world_width - 1),
+			_rng.randi_range(0, world_data.world_height - 1),
 		) + world_data.floor_origin
 		if world_data.is_tile(world_data.tiles.UNBREAKABLE, world_data.tile_map.map_to_local(new_spawnpoint)):
 				continue # Skip cells where solid tiles are placed
@@ -118,3 +140,51 @@ func _set_spawnpoints():
 			continue
 		spawnpoints.append(new_spawnpoint)
 		remaining_spawnpoints -= 1
+
+@rpc("call_local")
+func _place_players():
+	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
+	var spawn_points = {}
+	var spawn_point_idx = 0
+	spawn_points[1] = spawn_point_idx # Server in spawn point 0.
+
+	for p in gamestate.players:
+		spawn_point_idx += 1
+		spawn_points[p] = spawn_point_idx
+
+	for p_id in spawn_points:
+		globals.player_manager.get_node(str(p_id)).position = world_data.tile_map.map_to_local(spawnpoints[spawn_points[p_id]])	
+
+func _spawn_player():
+	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
+	var spawn_points = {}
+	var spawn_point_idx = 0
+	spawn_points[1] = spawn_point_idx # Server in spawn point 0.
+
+	for p in gamestate.players:
+		spawn_point_idx += 1
+		spawn_points[p] = spawn_point_idx
+
+	var humans_loaded_in_game = 0
+
+	for p_id in spawn_points:
+		var spawn_pos: Vector2 = world_data.tile_map.map_to_local(spawnpoints[spawn_points[p_id]])
+		print(p_id, ": ", spawn_pos) 
+		var playerspawner: MultiplayerSpawner = globals.game.player_spawner
+		var misobonspawner: MultiplayerSpawner = globals.game.misobon_player_spawner
+		var spawningdata = {"spawndata": spawn_pos, "pid": p_id, "defaultname": gamestate.player_name, "playerdictionary": gamestate.players, "characterdictionary": gamestate.characters}
+		var misobondata = {"spawn_here": 0.0, "pid": p_id}
+		var player: Player 
+
+		if humans_loaded_in_game < gamestate.human_player_count:
+			spawningdata.playertype = "human"
+			misobondata.player_type = "human"
+			humans_loaded_in_game += 1
+		else:
+			spawningdata.playertype = "ai"
+			misobondata.player_type = "ai"
+
+		player = playerspawner.spawn(spawningdata)
+		if gamestate.misobon_mode != gamestate.misobon_states.OFF:
+			misobondata.name = player.get_player_name()
+			misobonspawner.spawn(misobondata)

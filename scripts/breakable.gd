@@ -43,7 +43,6 @@ func decide_pickup_spawn() -> bool:
 func decide_pickup_type() -> int:
 	var pickup_table = globals.current_world.pickup_table
 	var rng_result = rng.randi_range(0, pickup_table.total_weight() - 1)
-	print(rng_result)
 	return pickup_table.get_type_from_weight(rng_result)
 	
 @rpc("call_local")

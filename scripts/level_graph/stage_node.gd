@@ -468,7 +468,7 @@ func _on_spawn_point_position_changed(value: float, spawn_point: HBoxContainer, 
 func _on_pickup_weight_changed(weight: float, pickup: int):
 	if(pickup_resource.pickup_weights.has(pickup)):
 		pickup_resource.pickup_weights[pickup] = weight
-		pickup_resource.force_update()
+		pickup_resource.reverse_update()
 	else:
 		push_error("Pickup " + globals.pickup_name_str[pickup] + " not yet implemented")
 

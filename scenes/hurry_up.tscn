@@ -13,7 +13,6 @@ script = ExtResource("1_lahts")
 [node name="HurryUpStartTimer" type="Timer" parent="Timers"]
 wait_time = 60.0
 one_shot = true
-autostart = true
 
 [node name="HurryUpStepTimer" type="Timer" parent="Timers"]
 

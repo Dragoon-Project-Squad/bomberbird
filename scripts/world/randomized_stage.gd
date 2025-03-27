@@ -17,20 +17,16 @@ func _generate_breakables():
 			var current_cell = Vector2i(x, y) + world_data.floor_origin
 			if world_data.is_tile(world_data.tiles.UNBREAKABLE, world_data.tile_map.map_to_local(current_cell)):
 				continue # Skip cells where solid tiles are placed
-			var skip: bool = false
-			for spawnpoint in spawnpoints:
-				if is_in_cross(1, spawnpoint, current_cell):
-					skip = true
-					break
-			if skip: continue
-			for enemy_entry in enemy_table.get_coords():
-				if is_in_cross(1, enemy_entry, current_cell):
-					skip = true
-					break
-			if skip: continue
+			var skip_checker: Callable = is_in_spawn_area.bind(1, current_cell)
+			if spawnpoints.any(skip_checker): continue
+			if enemy_table.get_coords().any(skip_checker): continue
 
-			if rng.randf() < breakable_spawn_chance:
+			if _rng.randf() < breakable_spawn_chance:
 				_spawn_breakable(current_cell)
 
-func is_in_cross(size: int, center: Vector2i, point: Vector2i) -> bool: 
-	return (point.x == center.x && center.y - size <= point.y && point.y <= center.y + size) || (point.y == center.y && center.x - size <= point.x && point.x <= center.x + size)
+## returns true iff [param pos] is in a designated area around [param spawn] of size [param size] [br]
+## [param size] Size of the area [br]
+## [param spawn] Vector2i declaring the position of the area [br]
+## [param pos] the position to check against [br]
+func is_in_spawn_area(pos: Vector2i, size: int, spawn: Vector2i) -> bool: 
+	return (spawn.y - size <= pos.y && pos.y <= spawn.y + size && spawn.x - size <= pos.x && pos.x <= spawn.x + size)

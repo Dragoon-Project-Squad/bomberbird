@@ -2,6 +2,7 @@
 #TODO: Move player related functions (evtl as static) from world and/or gamestate into here
 class_name PlayerManager extends Node2D
 
+
 func _init():
 	globals.player_manager = self
 

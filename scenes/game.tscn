@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://c4i5gyl4cut3t" path="res://scenes/bombs/bomb_pool.tscn" id="7_ca42v"]
 [ext_resource type="PackedScene" uid="uid://b22qg08qddy6x" path="res://scenes/pick_up_pool.tscn" id="8_rysoc"]
 [ext_resource type="PackedScene" uid="uid://ywlmyq88jlvj" path="res://scenes/breakable_pool.tscn" id="9_kvpfn"]
-[ext_resource type="Script" uid="uid://sbjldqwu2xuh" path="res://scripts/game_ui.gd" id="9_ssvqc"]
+[ext_resource type="Script" uid="uid://gnneqjcybokd" path="res://scripts/game_ui.gd" id="9_ssvqc"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="10_264po"]
 
 [sub_resource type="Curve2D" id="Curve2D_6r17b"]

@@ -201,51 +201,19 @@ func get_player_name():
 func begin_singleplayer_game():
 	human_player_count = 1
 	total_player_count = human_player_count + 3
-	add_ai_players()
-	load_world.rpc()
+
 	characters[1] = DEFAULT_PLAYER_TEXTURE_PATH
-	spawn_players()	
+
+	add_ai_players()
+
+	load_world.rpc()
 
 func begin_game():
 	if players.size() == 0: # If players disconnected at character select
 		game_error.emit("All other players disconnected")
 		end_game()
 	load_world.rpc()
-	spawn_players()
 	
-func spawn_players():
-	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
-	var spawn_points = {}
-	var spawn_point_idx = 1
-	spawn_points[1] = 0 # Server in spawn point 0.
-
-	for p in players:
-		spawn_points[p] = spawn_point_idx
-		spawn_point_idx += 1
-
-	var humans_loaded_in_game = 0
-
-	for p_id in players:
-		var spawn_pos = Vector2.ZERO
-		var playerspawner = globals.game.player_spawner
-		var misobonspawner = globals.game.misobon_player_spawner
-		var spawningdata = {"spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players, "characterdictionary": characters}
-		var misobondata = {"spawn_here": 0.0, "pid": p_id}
-		var player: Player 
-
-		if humans_loaded_in_game < human_player_count:
-			spawningdata.playertype = "human"
-			misobondata.player_type = "human"
-			humans_loaded_in_game += 1
-		else:
-			spawningdata.playertype = "ai"
-			misobondata.player_type = "ai"
-
-		player = playerspawner.spawn(spawningdata)
-		misobondata.name = player.get_player_name()
-
-		misobonspawner.spawn(misobondata)
-
 func add_ai_players():
 	var ai_player_count = total_player_count - human_player_count
 	print("total player count: ", total_player_count, " human player count: ", human_player_count)

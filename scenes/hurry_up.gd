@@ -9,9 +9,11 @@ signal hurry_up_start
 var target_tiles: Array[Vector2i]
 var current_tile_index = 0
 
-func _ready() -> void:
+func start() -> void:
 	self.clear()
+	hurry_up_start_timer.start()
 	hurry_up_start.connect(globals.player_manager._on_hurry_up_start)
+
 	var anim_time: float = falling_unbreakable.get_node("AnimationPlayer").get_animation("slam").length
 	if hurry_up_step_timer.wait_time < anim_time + 0.05:
 		# because of the animation taking 'anim_time' seconds the timer between the waittimes must be slighly higher then that.

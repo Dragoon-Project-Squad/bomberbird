@@ -14,6 +14,7 @@ const LEVEL_GRAPH_PATH: String = "res://resources/level_graph/saved_graphs"
 @onready var stage: World
 
 var stage_data_arr: Array[StageNodeData]
+var players_are_spawned: bool = false
 
 func _init():
 	globals.game = self
@@ -23,19 +24,24 @@ func start():
 	var init_stage_set: Dictionary = GraphHelper.bfs_get_values(
 		stage_data_arr, 
 		func (s: StageNodeData): 
-			return [s.selected_scene_path + "/" + s.selected_scene_file],
+			return s.selected_scene_path + "/" + s.selected_scene_file,
 		func (s: StageNodeData): return s.children,
 		0,
 		3,
 	)
 
-	stage_handler.load_stages(
+	stage_handler.init_load_stages(
 		stage_data_arr[0].selected_scene_path + "/" + stage_data_arr[0].selected_scene_file,
 		init_stage_set
 	)
 
 	stage = stage_handler.get_stage()
-	stage.make_active_world()
+	stage.enable(
+		stage_data_arr[0].exit_resource,
+		stage_data_arr[0].enemy_resource,
+		stage_data_arr[0].pickup_resource,
+		stage_data_arr[0].spawn_point_arr,
+	)
 
 func load_level_graph(file_name: String):
 	if ResourceLoader.exists(LEVEL_GRAPH_PATH + "/" + file_name):

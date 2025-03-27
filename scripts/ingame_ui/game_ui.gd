@@ -4,6 +4,7 @@ var player_labels = {}
 var players_left = -1
 var someone_dead = false
 var time
+
 signal game_decided(winningplayer)
 
 @onready var match_timer: Timer = %MatchTimer
@@ -25,7 +26,7 @@ func _process(_delta: float) -> void:
 
 func player_died():
 	if players_left == -1:
-		players_left = $"../Players".get_child_count()
+		players_left = get_node("../Players").get_child_count()
 		someone_dead = true
 
 	players_left -= 1
@@ -39,7 +40,8 @@ func decide_game(final_players: int):
 		game_decided.emit(null)
 	# Second check if only one player is alive. If so, they win.
 	if final_players == 1:
-		for player in $"../Players".get_children():
+		for player in globals.player_manager.get_children():
+			if !(player is HumanPlayer) || !(player is AIPlayer): continue
 			if !player.is_dead:
 				game_decided.emit(player)
 				return
