@@ -225,8 +225,8 @@ func spawn_players():
 
 	var humans_loaded_in_game = 0
 
-	for p_id in spawn_points:
-		var spawn_pos = world_data.tile_map.map_to_local(globals.current_world.spawnpoints[spawn_points[p_id]])
+	for p_id in players:
+		var spawn_pos = Vector2.ZERO
 		var playerspawner = globals.game.player_spawner
 		var misobonspawner = globals.game.misobon_player_spawner
 		var spawningdata = {"spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players, "characterdictionary": characters}

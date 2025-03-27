@@ -6,7 +6,7 @@ var loaded_stage_path_map: Dictionary
 func get_stage() -> World:
 	return loaded_stage_path_map[current_stage_path]
 
-func load_stages(curr_stage_path: String, init_stage_set: Dictionary):
+func init_load_stages(curr_stage_path: String, init_stage_set: Dictionary):
 	if !is_multiplayer_authority(): return
 	
 	for stage_path in init_stage_set.keys():

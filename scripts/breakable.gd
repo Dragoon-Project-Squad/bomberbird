@@ -9,9 +9,26 @@ const PICKUP_SPAWN_BASE_CHANCE := 1.0
 
 var rng = RandomNumberGenerator.new()
 var pickup_pool: PickupPool
+var breakable_pool: BreakablePool
 
-func _ready():
-	pickup_pool = globals.game.pickup_pool
+@rpc("call_local")
+func disable_collison():
+	$Shape.set_deferred("disabled", 1)
+
+@rpc("call_local")
+func disable():
+	self.hide()
+	self.position = Vector2.ZERO
+
+@rpc("call_local")
+func place(pos: Vector2):
+	if pickup_pool == null:
+		pickup_pool = globals.game.pickup_pool
+	if breakable_pool == null:
+		breakable_pool = globals.game.breakable_pool
+	self.position = pos
+	self.show()
+	
 
 func decide_pickup_spawn() -> bool:
 	if !PICKUP_ENABLED:
@@ -25,7 +42,8 @@ func decide_pickup_spawn() -> bool:
 		
 func decide_pickup_type() -> int:
 	var pickup_table = globals.current_world.pickup_table
-	var rng_result = rng.randi_range(0, pickup_table.total_weight())
+	var rng_result = rng.randi_range(0, pickup_table.total_weight() - 1)
+	print(rng_result)
 	return pickup_table.get_type_from_weight(rng_result)
 	
 @rpc("call_local")
@@ -43,9 +61,11 @@ func exploded(by_who):
 			world_data.set_tile.rpc(world_data.tiles.EMPTY, global_position) #We only wanne delete this cell if no pickup is spawned on it
 			
 	if is_multiplayer_authority():
-		get_node("Shape").queue_free()
+		disable_collison.rpc()
 	astargrid_handler.astargrid_set_point(global_position, false)
 	await $"AnimationPlayer".animation_finished #Wait for the animation to finish
 	if is_multiplayer_authority():
-		queue_free()
+		disable.rpc()
+	breakable_pool.return_obj(self)
+
 	

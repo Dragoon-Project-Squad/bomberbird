@@ -5,8 +5,6 @@ extends Zone
 @export_range(0, 1) var level_chance_multiplier: float = 0.01
 ## if set to false will use the corners as a spawnpoint
 
-var rng = RandomNumberGenerator.new()
-
 ## Private Functions
 
 func _generate_breakables():
@@ -20,40 +18,19 @@ func _generate_breakables():
 			if world_data.is_tile(world_data.tiles.UNBREAKABLE, world_data.tile_map.map_to_local(current_cell)):
 				continue # Skip cells where solid tiles are placed
 			var skip: bool = false
-			for spawnpoint in spawnpoints: # Skip cells that are adjecent to a spawnpoint
-				if current_cell == spawnpoint:
-					skip = true
-					break
-				if current_cell == spawnpoint + Vector2i.LEFT:
-					skip = true
-					break
-				if current_cell == spawnpoint + Vector2i.DOWN:
-					skip = true
-					break
-				if current_cell == spawnpoint + Vector2i.RIGHT:
-					skip = true
-					break
-				if current_cell == spawnpoint + Vector2i.UP:
+			for spawnpoint in spawnpoints:
+				if is_in_cross(1, spawnpoint, current_cell):
 					skip = true
 					break
 			if skip: continue
+			for enemy_entry in enemy_table.get_coords():
+				if is_in_cross(1, enemy_entry, current_cell):
+					skip = true
+					break
+			if skip: continue
+
 			if rng.randf() < breakable_spawn_chance:
 				_spawn_breakable(current_cell)
 
-func _spawn_breakable(cell: Vector2i):
-	world_data.init_breakable(cell)
-	var spawn_coords = world_data.tile_map.map_to_local(cell)
-	astargrid_handler.astargrid_set_point.rpc(spawn_coords, true)
-	breakable_spawner.spawn(spawn_coords)
-
-func _set_spawnpoints():
-	var remaining_spawnpoints: int = gamestate.total_player_count - spawnpoints.size()
-	while remaining_spawnpoints > 0:	
-		var new_spawnpoint: Vector2i = Vector2i(
-			rng.randi_range(0, world_data.world_width - 1),
-			rng.randi_range(0, world_data.world_height - 1),
-		)
-		if new_spawnpoint in spawnpoints:
-			continue
-		spawnpoints.append(new_spawnpoint)
-		remaining_spawnpoints -= 1
+func is_in_cross(size: int, center: Vector2i, point: Vector2i) -> bool: 
+	return (point.x == center.x && center.y - size <= point.y && point.y <= center.y + size) || (point.y == center.y && center.x - size <= point.x && point.x <= center.x + size)

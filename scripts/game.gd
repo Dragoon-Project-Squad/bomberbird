@@ -9,6 +9,7 @@ const LEVEL_GRAPH_PATH: String = "res://resources/level_graph/saved_graphs"
 @onready var misobon_player_spawner: MultiplayerSpawner = misobon_path.get_node("MisobonPlayerSpawner")
 @onready var bomb_pool: BombPool = $BombPool
 @onready var pickup_pool: PickupPool = $PickupPool
+@onready var breakable_pool: BreakablePool = $BreakablePool
 @onready var game_ui: CanvasLayer = $GameUI
 @onready var stage: World
 
@@ -21,13 +22,18 @@ func start():
 	assert(stage_data_arr != [], "stage_data not loaded")
 	var init_stage_set: Dictionary = GraphHelper.bfs_get_values(
 		stage_data_arr, 
-		func (s: StageNodeData): return s.selected_scene_path + "/" + s.selected_scene_file,
+		func (s: StageNodeData): 
+			return [s.selected_scene_path + "/" + s.selected_scene_file],
 		func (s: StageNodeData): return s.children,
 		0,
 		3,
 	)
-	print(init_stage_set)
-	stage_handler.load_stages(stage_data_arr[0].selected_scene_path + "/" + stage_data_arr[0].selected_scene_file, init_stage_set)
+
+	stage_handler.load_stages(
+		stage_data_arr[0].selected_scene_path + "/" + stage_data_arr[0].selected_scene_file,
+		init_stage_set
+	)
+
 	stage = stage_handler.get_stage()
 	stage.make_active_world()
 

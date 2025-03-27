@@ -1,11 +1,10 @@
-[gd_scene load_steps=9 format=4 uid="uid://bo8ke01l11gor"]
+[gd_scene load_steps=8 format=4 uid="uid://bo8ke01l11gor"]
 
 [ext_resource type="Script" uid="uid://bbemf67mj4846" path="res://scripts/world/prebuild_stage.gd" id="1_lffdh"]
 [ext_resource type="Script" uid="uid://bta1elkd6rmla" path="res://resources/gameplay/pick_up_table.gd" id="2_y5yee"]
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/tilesets/desert_tileset.tres" id="3_tkqu8"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="4_c5ijh"]
 [ext_resource type="Script" uid="uid://dgwlvvxb85sln" path="res://scripts/music.gd" id="9_70y2y"]
-[ext_resource type="Script" uid="uid://doclw3ct8jf7v" path="res://scripts/breakable_spawner.gd" id="12_4c7ii"]
 [sub_resource type="Resource" id="Resource_6pr3e"]
 
 script = ExtResource("2_y5yee")
@@ -42,12 +41,6 @@ tile_set = ExtResource("3_tkqu8")
 
 [node name="HurryUp" parent="." instance=ExtResource("4_c5ijh")]
 tile_set = ExtResource("3_tkqu8")
-
-[node name="Breakables" type="Node2D" parent="."]
-
-[node name="BreakableSpawner" type="MultiplayerSpawner" parent="Breakables"]
-spawn_path = NodePath("..")
-script = ExtResource("12_4c7ii")
 
 [node name="Music" type="Node" parent="."]
 script = ExtResource("9_70y2y")

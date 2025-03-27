@@ -33,11 +33,9 @@ func request_group(count, spawn_data) -> Variant:
 		res.push_back(request(spawn_data))
 	return res
 
-
 func return_obj(obj) -> void:
 	unowned.push_back(obj)
 
 func return_obj_group(obj_array) -> void:
 	if typeof(obj_array) != TYPE_ARRAY: push_error("return_obj_group expected an array")
-	
 	unowned.append_array(obj_array)
