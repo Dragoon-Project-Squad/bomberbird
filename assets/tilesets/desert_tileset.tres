@@ -1,10 +1,10 @@
 [gd_resource type="TileSet" load_steps=3 format=3 uid="uid://c5k358s71dvg7"]
 
-[ext_resource type="Texture2D" uid="uid://bg23qq0jm0n3j" path="res://assets/tileset.png" id="1_pbrf2"]
+[ext_resource type="Texture2D" uid="uid://bg23qq0jm0n3j" path="res://assets/tilesetimages/deserttileset.png" id="1_iurnb"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dg3ks"]
-resource_name = "desert"
-texture = ExtResource("1_pbrf2")
+resource_name = "dungeon"
+texture = ExtResource("1_iurnb")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)

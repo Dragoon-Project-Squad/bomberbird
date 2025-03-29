@@ -4,14 +4,14 @@ class_name World
 ## World expects the following structure (child nodes) to work properly:
 ## - Floor: TileMapLayer (Layer just consists of floor tiles)
 ## - Bounds: TileMapLayer (Layer with just tiles blocking the player from exiting the main area)
-## - Obsticals: TileMapLayer (Layer with Unbreakables and potentially Breakables)
+## - Obstacles: TileMapLayer (Layer with Unbreakables and potentially Breakables)
 ## - Breakables: Node2D (Node that will contain all breakables generated)
-## - Players: PlayerManager (Node that will contain all players
+## - Players: PlayerManager (Node that will contain all players)
 ## - MisobonPath: MisobonPath (Node that will contain all misobon players)
 ## - BombPool: BombPool (Node that spawns and contains all bombs used during the game
 ## - PickupPool: PickupPool (Node that spawns and contains all pickups used during the game
 ## - Camera2D: Camera2D (Main camera used during the game)
-## - Timers: Node (Contains atleast the MatchTimer)
+## - Timers: Node (Node that will contain all Timers)
 ## - Music: Node (responsable for playing the music in this stage)
 ## - BreakableSpawner
 ## - PlayerSpawner
@@ -32,7 +32,7 @@ class_name World
 
 @onready var floor_layer = $Floor
 @onready var bounds_layer = $Bounds
-@onready var obsticals_layer = $Obsticals
+@onready var obstacles_layer = $Obstacles
 @onready var breakable_spawner = $BreakableSpawner
 @onready var breakables = $Breakables
 @onready var bomb_pool = $BombPool
@@ -53,7 +53,7 @@ func _init():
 func _ready() -> void:
 	_asserting_world()
 	world_data.begin_init(_arena_rect, _world_edge_rect, floor_layer)
-	world_data.init_unbreakables(_unbreakable_tile, obsticals_layer)
+	world_data.init_unbreakables(_unbreakable_tile, obstacles_layer)
 	astargrid_handler.setup_astargrid()
 	_set_spawnpoints()
 	_generate_breakables()
