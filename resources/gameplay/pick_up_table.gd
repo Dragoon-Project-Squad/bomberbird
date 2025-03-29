@@ -1,12 +1,12 @@
 class_name PickupTable extends Resource
 
 @export_group("Pickup Weigths")
-@export var extra_bomb: int = 0
-@export var explosion_boost: int = 0
-@export var speed_boost: int = 0
+@export var extra_bomb: int = 500
+@export var explosion_boost: int = 500
+@export var speed_boost: int = 500
 #@export var hearth: int = 0
-@export var max_explosion: int = 0
-@export var punch_ability: int = 0
+@export var max_explosion: int = 100
+@export var punch_ability: int = 200
 #@export var throw_ability: int = 0
 #@export var wallthrough: int = 0
 #@export var timer: int = 0
@@ -47,6 +47,27 @@ func init():
 		#globals.pickups.SEEKER: seeker_bomb,
 		}
 	initialized = true
+
+func force_update():
+	extra_bomb = pickup_weights[globals.pickups.BOMB_UP]
+	explosion_boost = pickup_weights[globals.pickups.FIRE_UP]
+	speed_boost = pickup_weights[globals.pickups.SPEED_UP]
+	#hearth = pickup_weights[globals.pickups.HP_UP]
+	max_explosion = pickup_weights[globals.pickups.FULL_FIRE]
+	punch_ability = pickup_weights[globals.pickups.BOMB_PUNCH]
+	#throw_ability = pickup_weights[globals.pickups.POWER_GLOVE]
+	#wallthrough = pickup_weights[globals.pickups.WALLTHROUGH]
+	#timer = pickup_weights[globals.pickups.FREEZE]
+	#invincibility_vest = pickup_weights[globals.pickups.INVINCIBILITY_VEST]
+	#virus = pickup_weights[globals.pickups.VIRUS]
+	#kick = pickup_weights[globals.pickups.KICK]
+	#bombthrough = pickup_weights[globals.pickups.BOMBTHROUGH]
+	#piercing_bomb = pickup_weights[globals.pickups.PIERCING]
+	#land_mine = pickup_weights[globals.pickups.MINE]
+	#remote_control = pickup_weights[globals.pickups.REMOTE]
+	#seeker_bomb = pickup_weights[globals.pickups.SEEKER]
+
+
 
 func total_weight() -> int:
 	if !initialized:
