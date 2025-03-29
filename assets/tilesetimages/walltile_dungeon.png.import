@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7xhajclwoa2f"
-path="res://.godot/imported/desert_objects.png-0808be86466b98df53e4129e70b02f95.ctex"
+uid="uid://bbgde27yd0ual"
+path="res://.godot/imported/walltile_dungeon.png-a348fb32dfa4a30abbe7be61313ea74d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/desert_objects.png"
-dest_files=["res://.godot/imported/desert_objects.png-0808be86466b98df53e4129e70b02f95.ctex"]
+source_file="res://assets/tilesetimages/walltile_dungeon.png"
+dest_files=["res://.godot/imported/walltile_dungeon.png-a348fb32dfa4a30abbe7be61313ea74d.ctex"]
 
 [params]
 

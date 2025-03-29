@@ -1,8 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://bao3yernlglws"]
 
 [ext_resource type="Script" uid="uid://bq0qs07pxk3mm" path="res://scripts/breakable.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://b7xhajclwoa2f" path="res://assets/desert_objects.png" id="2_qd0fb"]
+[ext_resource type="Texture2D" uid="uid://b7xhajclwoa2f" path="res://assets/tilesetimages/desert_objects.png" id="2_qd0fb"]
 [ext_resource type="AudioStream" uid="uid://36rjkxoq18ne" path="res://sound/fx/debrisdeath.wav" id="3_8bomw"]
+
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(32, 32)

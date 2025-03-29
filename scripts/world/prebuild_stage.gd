@@ -9,11 +9,11 @@ var rng = RandomNumberGenerator.new()
 ## Private Functions
 
 func _generate_breakables():
-	for current_cell in obsticals_layer.get_used_cells():	
-		if breakable_tile_atlas_coordinates == obsticals_layer.get_cell_atlas_coords(current_cell):
+	for current_cell in obstacles_layer.get_used_cells():	
+		if breakable_tile_atlas_coordinates == obstacles_layer.get_cell_atlas_coords(current_cell):
 			if is_multiplayer_authority():
 				_spawn_breakable(current_cell)
-			obsticals_layer.erase_cell(current_cell)
+			obstacles_layer.erase_cell(current_cell)
 
 func _spawn_breakable(cell: Vector2i):
 	world_data.init_breakable(cell)
