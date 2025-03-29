@@ -1,6 +1,6 @@
 class_name StageNode extends GraphNode
 
-const STAGE_SCENE_DIR: String = "res://scenes/sp_stages/"
+const STAGE_SCENE_DIR: String = "res://scenes/stages/"
 const ENEMY_SCENE_DIR: String = "res://scenes/enemies/"
 
 @onready var scene_options: OptionButton = %SceneOptions
@@ -63,7 +63,7 @@ func load_stage_node(stage_node_data: StageNodeData):
 	self.pickup_resource = stage_node_data.pickup_resource
 	self.enemy_resource = stage_node_data.enemy_resource
 	self.exit_resource = stage_node_data.exit_resource
-	pickup_resource.init()
+	pickup_resource.update()
 	_setup_pickup_tab()
 	_setup_enemy_tab_from_load()
 	_setup_exit_from_load()

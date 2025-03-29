@@ -56,28 +56,24 @@ func disable():
 	music.stop()
 
 	bounds_layer.collision_enabled = false
-	obsticals_layer.collision_enabled = false
+	obstacles_layer.collision_enabled = false
 
 @warning_ignore("SHADOWED_VARIABLE")
 func enable(exit_table: ExitTable, enemy_table: EnemyTable, pickup_table: PickupTable, spawnpoints: Array[Vector2i]):
 	music.play()
 	globals.current_world = self
-	if hurry_up:
+
+	if hurry_up: ##SP stages may not have a hurry up node
 		hurry_up.start()
 
 	bounds_layer.collision_enabled = true
-	obsticals_layer.collision_enabled = true
+	obstacles_layer.collision_enabled = true
 
 	world_data.reset()
 	astargrid_handler.astargrid.clear()
 
 	world_data.begin_init(_arena_rect, _world_edge_rect, floor_layer)
-<<<<<<< HEAD
 	world_data.init_unbreakables(_unbreakable_tile, obstacles_layer)
-=======
-	world_data.init_unbreakables(_unbreakable_tile, obsticals_layer)
-
->>>>>>> f572cc7 (breakable_pool and more init stuff)
 	astargrid_handler.setup_astargrid()
 
 	self.enemy_table = enemy_table.duplicate()

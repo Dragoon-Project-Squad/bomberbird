@@ -13,6 +13,7 @@ func start() -> void:
 	self.clear()
 	hurry_up_start_timer.start()
 	hurry_up_start.connect(globals.player_manager._on_hurry_up_start)
+	hurry_up_start.connect(globals.game.game_ui._on_hurry_up_start)
 
 	var anim_time: float = falling_unbreakable.get_node("AnimationPlayer").get_animation("slam").length
 	if hurry_up_step_timer.wait_time < anim_time + 0.05:

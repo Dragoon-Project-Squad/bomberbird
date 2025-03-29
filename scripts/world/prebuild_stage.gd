@@ -11,4 +11,4 @@ func _generate_breakables():
 		if breakable_tile_atlas_coordinates == obstacles_layer.get_cell_atlas_coords(current_cell):
 			if is_multiplayer_authority():
 				_spawn_breakable(current_cell)
-			obsticals_layer.erase_cell(current_cell)
+			obstacles_layer.erase_cell(current_cell)

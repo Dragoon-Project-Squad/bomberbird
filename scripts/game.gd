@@ -12,7 +12,7 @@ var bomb_pool: BombPool
 var pickup_pool: PickupPool
 var breakable_pool: BreakablePool
 var game_ui: CanvasLayer
-var win_screen: Label
+var win_screen: Control
 var stage: World
 
 var stage_data_arr: Array[StageNodeData]
@@ -32,7 +32,6 @@ func start():
 		0,
 		3,
 	)
-
 	stage_handler.init_load_stages(
 		stage_data_arr[0].selected_scene_path + "/" + stage_data_arr[0].selected_scene_file,
 		init_stage_set
@@ -67,14 +66,7 @@ func _check_campaign_ending_condition(_alive_players: Array[Player], _alive_enem
 func _check_battlemode_ending_condition(alive_players: Array[Player]):
 	print(alive_players)
 	if len(alive_players) == 0:
-		#TODO: make this a nice function that sets up a pretty win screen
-		win_screen.set_text("DRAW GAME")
-		win_screen.show()
+		win_screen.draw_game()
 	if len(alive_players) == 1:
-		#TODO: make this a nice function that sets up a pretty win screen
-		win_screen.set_text("THE WINNER IS: \n" + alive_players[0].get_player_name())
-		win_screen.show()
+		win_screen.declare_winner(alive_players[0])
 	return
-
-func _on_exit_game_pressed():
-	gamestate.end_game()
