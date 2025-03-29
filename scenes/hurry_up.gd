@@ -69,7 +69,6 @@ func place(pos: Vector2):
 func _on_hurry_up_start_timer_timeout():
 	hurry_up_start.emit()
 	target_tiles = generate_spiral(world_data.world_width, world_data.world_height)
-	globals.current_world.get_node("%RemainingTime").add_theme_color_override("font_color", Color(255, 0, 0))
 	hurry_up_step_timer.start()
 
 
