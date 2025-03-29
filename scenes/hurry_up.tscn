@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://ceopux65oftsk" path="res://scenes/falling_unbreakable.tscn" id="1_hvxub"]
 [ext_resource type="Script" uid="uid://clawdpv2sloom" path="res://scenes/hurry_up.gd" id="1_lahts"]
 
-[node name="HurryUp" type="TileMapLayer"]
+[node name="HurryUp" type="TileMapLayer" groups=["bombstop", "thrown_bomb_bounces"]]
 script = ExtResource("1_lahts")
 
 [node name="FallingUnbreakable" parent="." instance=ExtResource("1_hvxub")]
@@ -13,7 +13,6 @@ script = ExtResource("1_lahts")
 [node name="HurryUpStartTimer" type="Timer" parent="Timers"]
 wait_time = 60.0
 one_shot = true
-autostart = true
 
 [node name="HurryUpStepTimer" type="Timer" parent="Timers"]
 

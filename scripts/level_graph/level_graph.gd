@@ -69,7 +69,7 @@ func _add_stage_node():
 	move_child(stage_node, 1 + stage_node_indx)
 
 	stage_node.position_offset = (self.scroll_offset + self.size / 2) / self.zoom - stage_node.size / 2;
-	stage_node.pickup_resource.init()
+	stage_node.pickup_resource.update()
 	stage_node._setup_pickup_tab()
 	
 func clear_graph():

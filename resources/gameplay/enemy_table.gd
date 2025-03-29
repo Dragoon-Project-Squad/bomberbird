@@ -15,7 +15,7 @@ func append(enemy_coordinates: Vector2i, enemy_file: String, enemy_path: String)
 
 func set_file(index: int, enemy_file: String, enemy_path: String):
 	enemies[index].file = enemy_file
-	enemies[index].path= enemy_path
+	enemies[index].path = enemy_path
 
 
 func set_x(index: int, x: int):
@@ -27,3 +27,8 @@ func set_y(index: int, y: int):
 
 func remove_at(index: int):
 	enemies.remove_at(index)
+
+func get_coords() -> Array[Vector2i]:
+	return Array(enemies.map(
+		func (entry: Dictionary) -> Vector2i: return entry.coords,
+	), TYPE_VECTOR2I, "", null)

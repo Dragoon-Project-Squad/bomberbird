@@ -1,4 +1,4 @@
-extends Player
+class_name HumanPlayer extends Player
 
 @onready var inputs = $Inputs
 

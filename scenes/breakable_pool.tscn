@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://ywlmyq88jlvj"]
+
+[ext_resource type="Script" uid="uid://doclw3ct8jf7v" path="res://scripts/breakable_spawner.gd" id="1_kx0ux"]
+[ext_resource type="Script" uid="uid://1y2x61cmvgit" path="res://scripts/breakable_pool.gd" id="1_syist"]
+
+[node name="BreakablePool" type="Node2D"]
+script = ExtResource("1_syist")
+initial_spawn_count = 90
+
+[node name="BreakableSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("..")
+script = ExtResource("1_kx0ux")

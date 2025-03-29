@@ -47,7 +47,8 @@ signal game_ended()
 signal game_error(what)
 
 # Preloaded Scenes
-var stage_scene = preload("res://scenes/sp_stages/desert/desert_rand.tscn")
+var game_scene = preload("res://scenes/game.tscn")
+var graph_name: String = "test_graph_1.res"
 
 # Singleplayer Vars
 var current_level: int = 205 # Defaults to a high number for battle mode.
@@ -155,18 +156,21 @@ func establish_player_counts() -> void:
 	add_ai_players() #Depends on knowing the total player count and human player count to do its job
 	
 @rpc("call_local")
-func load_world():
+func load_world(mode: int):
 	# Change scene.
-	var world = stage_scene.instantiate()
-	get_tree().get_root().add_child(world)
+	var game = game_scene.instantiate()
+	get_tree().get_root().add_child(game)
+	game.current_game_type = mode
+	game.load_level_graph(graph_name)
+	game.start()
 	if get_tree().get_root().has_node("Lobby"):
 		get_tree().get_root().get_node("Lobby").hide()
 
 	# Set up score.
 	if is_multiplayer_authority():
-		world.get_node("GameUI").add_player.rpc(multiplayer.get_unique_id(), player_name)
+		game.game_ui.add_player.rpc(multiplayer.get_unique_id(), player_name)
 		for pn in players:
-			world.get_node("GameUI").add_player.rpc(pn, players[pn])
+			game.game_ui.add_player.rpc(pn, players[pn])
 
 	# Unpause and unleash the game!
 	get_tree().set_pause(false) 
@@ -196,51 +200,19 @@ func get_player_name():
 func begin_singleplayer_game():
 	human_player_count = 1
 	total_player_count = human_player_count + 3
-	add_ai_players()
-	load_world.rpc()
+
 	characters[1] = DEFAULT_PLAYER_TEXTURE_PATH
-	spawn_players()	
+
+	add_ai_players()
+
+	load_world.rpc(Game.game_type.BATTLE_MODE) #TODO: change this when we have a working wincondition of the CAMPAIGN
 
 func begin_game():
 	if players.size() == 0: # If players disconnected at character select
 		game_error.emit("All other players disconnected")
 		end_game()
-	load_world.rpc()
-	spawn_players()
+	load_world.rpc(Game.game_type.BATTLE_MODE)
 	
-func spawn_players():
-	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
-	var spawn_points = {}
-	var spawn_point_idx = 1
-	spawn_points[1] = 0 # Server in spawn point 0.
-
-	for p in players:
-		spawn_points[p] = spawn_point_idx
-		spawn_point_idx += 1
-
-	var humans_loaded_in_game = 0
-
-	for p_id in spawn_points:
-		var spawn_pos = world_data.tile_map.map_to_local(globals.current_world.spawnpoints[spawn_points[p_id]])
-		var playerspawner = globals.current_world.get_node("PlayerSpawner")
-		var misobonspawner = globals.current_world.get_node("MisobonPlayerSpawner")
-		var spawningdata = {"spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players, "characterdictionary": characters}
-		var misobondata = {"spawn_here": 0.0, "pid": p_id}
-		var player: Player 
-
-		if humans_loaded_in_game < human_player_count:
-			spawningdata.playertype = "human"
-			misobondata.player_type = "human"
-			humans_loaded_in_game += 1
-		else:
-			spawningdata.playertype = "ai"
-			misobondata.player_type = "ai"
-
-		player = playerspawner.spawn(spawningdata)
-		misobondata.name = player.get_player_name()
-
-		misobonspawner.spawn(misobondata)
-
 func add_ai_players():
 	var ai_player_count = total_player_count - human_player_count
 	print("total player count: ", total_player_count, " human player count: ", human_player_count)
@@ -290,9 +262,9 @@ func is_name_free(playername: String) -> bool:
 	return true
 
 func end_game():
-	if globals.current_world != null: # Game is in progress.
+	if globals.game != null: # Game is in progress.
 		# End it
-		globals.current_world.queue_free()
+		globals.game.queue_free()
 		if !multiplayer.is_server():
 			peer.close()
 	game_ended.emit() 

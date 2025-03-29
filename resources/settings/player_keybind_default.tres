@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="PlayerKeybindResource" load_steps=11 format=3 uid="uid://3ychjvba1m30"]
 
-[ext_resource type="Script" uid="uid://coe104tvl5rqq" path="res://resources/settings/player_keybind_resource.gd" id="1_t20qs"]
+[ext_resource type="Script" uid="uid://ct2o5aqdn4oiv" path="res://resources/settings/player_keybind_resource.gd" id="1_t20qs"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_bq1eo"]
 device = -1

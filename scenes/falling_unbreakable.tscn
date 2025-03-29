@@ -143,6 +143,7 @@ _data = {
 size = Vector2(32, 32)
 
 [node name="FallingUnbreakable" type="Node2D"]
+top_level = true
 texture_filter = 1
 script = ExtResource("1_wuxvk")
 

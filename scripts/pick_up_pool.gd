@@ -41,6 +41,7 @@ class_name PickupPool extends ObjectPool
 	}
 
 func _ready():
+	globals.game.pickup_pool = self
 	obj_spawner = get_node("PickupSpawner")
 	unowned = {}
 	for pickup_type in initial_spawn_counts.keys():

@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://dq5edn2umx7qk"]
+
+[ext_resource type="Texture2D" uid="uid://jog1koyue4lr" path="res://assets/fallingsprite.png" id="1_l0aq0"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uyw7u"]
+radius = 14.0
+height = 60.0
+
+[node name="Exit" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.376471)
+position = Vector2(0, -18)
+scale = Vector2(1, 2)
+texture = ExtResource("1_l0aq0")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -18)
+shape = SubResource("CapsuleShape2D_uyw7u")

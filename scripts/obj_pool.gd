@@ -1,11 +1,11 @@
-# Interface for obj pools, contains functions that need to be implemented for a valid pool
+## Interface for obj pools, contains functions that need to be implemented for a valid pool
 class_name ObjectPool extends Node2D
 
 var obj_spawner: MultiplayerSpawner
 var unowned #keeps a reference of unowned object
 #children of ObjectPool must manage owned on there own if needed
 
-func _ready():
+func _ready() -> void:
 	pass
 
 func create_reserve(count, spawn_data): #creates a number of unowned obj's for the pool
@@ -33,11 +33,9 @@ func request_group(count, spawn_data) -> Variant:
 		res.push_back(request(spawn_data))
 	return res
 
-
 func return_obj(obj) -> void:
 	unowned.push_back(obj)
 
 func return_obj_group(obj_array) -> void:
 	if typeof(obj_array) != TYPE_ARRAY: push_error("return_obj_group expected an array")
-	
 	unowned.append_array(obj_array)

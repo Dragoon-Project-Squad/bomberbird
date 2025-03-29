@@ -11,3 +11,4 @@ class_name LevelGraphData extends Resource
 func _init():
 	self.resource_local_to_scene = true
 
+

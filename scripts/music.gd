@@ -6,7 +6,12 @@ var music_dir_path: String = "res://sound/mus/"
 
 func _ready() -> void:
 	dir_contents(music_dir_path)
+
+func play() -> void:
 	mus_player.play()
+
+func stop() -> void:
+	mus_player.stop()
 
 func dir_contents(path: String):
 	var dir: DirAccess = DirAccess.open(path)
