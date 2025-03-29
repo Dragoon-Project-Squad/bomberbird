@@ -1,16 +1,17 @@
-[gd_scene load_steps=13 format=3 uid="uid://cnh2gm7b6k6qf"]
+[gd_scene load_steps=14 format=3 uid="uid://cnh2gm7b6k6qf"]
 
 [ext_resource type="Script" uid="uid://ddbcnbcl4rnuf" path="res://scripts/game.gd" id="1_vtaks"]
 [ext_resource type="Script" uid="uid://dp514n4ul3op1" path="res://scripts/stage_handler.gd" id="2_vtaks"]
 [ext_resource type="Script" uid="uid://c6ubwejmc188k" path="res://players_manager.gd" id="3_dinhu"]
 [ext_resource type="Script" uid="uid://cc3ogep372v8" path="res://scripts/player_spawner.gd" id="4_kvuet"]
 [ext_resource type="Script" uid="uid://v2bbm1lgibpy" path="res://scripts/misobon_path.gd" id="5_trtic"]
-[ext_resource type="Script" uid="uid://dnxe1mgbr53oo" path="res://scripts/misobon_player_spawner.gd" id="6_ir15t"]
+[ext_resource type="Script" uid="uid://cb0rr8pr2674f" path="res://scripts/misobon_player_spawner.gd" id="6_ir15t"]
 [ext_resource type="PackedScene" uid="uid://c4i5gyl4cut3t" path="res://scenes/bombs/bomb_pool.tscn" id="7_ca42v"]
 [ext_resource type="PackedScene" uid="uid://b22qg08qddy6x" path="res://scenes/pick_up_pool.tscn" id="8_rysoc"]
 [ext_resource type="PackedScene" uid="uid://ywlmyq88jlvj" path="res://scenes/breakable_pool.tscn" id="9_kvpfn"]
-[ext_resource type="Script" uid="uid://gnneqjcybokd" path="res://scripts/game_ui.gd" id="9_ssvqc"]
+[ext_resource type="Script" uid="uid://gnneqjcybokd" path="res://scripts/multiplayer_game_ui.gd" id="9_ssvqc"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="10_264po"]
+[ext_resource type="Script" uid="uid://7d36bqud2y7i" path="res://scripts/win_screen.gd" id="12_dinhu"]
 
 [sub_resource type="Curve2D" id="Curve2D_6r17b"]
 _data = {
@@ -63,15 +64,15 @@ wait_time = 120.0
 one_shot = true
 autostart = true
 
-[node name="GameUI" type="CanvasLayer" parent="."]
+[node name="MultiplayerGameUI" type="CanvasLayer" parent="."]
 script = ExtResource("9_ssvqc")
 
-[node name="Border" type="ColorRect" parent="GameUI"]
+[node name="Border" type="ColorRect" parent="MultiplayerGameUI"]
 offset_right = 1152.0
 offset_bottom = 56.0
 color = Color(0.619608, 0.380392, 0, 1)
 
-[node name="Container" type="ColorRect" parent="GameUI/Border"]
+[node name="Container" type="ColorRect" parent="MultiplayerGameUI/Border"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -86,7 +87,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.14902, 0.168627, 0.266667, 1)
 
-[node name="Players" type="HBoxContainer" parent="GameUI/Border/Container"]
+[node name="Players" type="HBoxContainer" parent="MultiplayerGameUI/Border/Container"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -99,95 +100,95 @@ grow_vertical = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
 
-[node name="Timer" type="HSplitContainer" parent="GameUI/Border/Container/Players"]
+[node name="Timer" type="HSplitContainer" parent="MultiplayerGameUI/Border/Container/Players"]
 layout_mode = 2
 
-[node name="Hourglass" type="Label" parent="GameUI/Border/Container/Players/Timer"]
+[node name="Hourglass" type="Label" parent="MultiplayerGameUI/Border/Container/Players/Timer"]
 layout_mode = 2
 text = "⌛"
 vertical_alignment = 1
 
-[node name="RemainingTime" type="Label" parent="GameUI/Border/Container/Players/Timer"]
+[node name="RemainingTime" type="Label" parent="MultiplayerGameUI/Border/Container/Players/Timer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "2:00"
 
-[node name="SeparatorTimerP1" type="ColorRect" parent="GameUI/Border/Container/Players"]
+[node name="SeparatorTimerP1" type="ColorRect" parent="MultiplayerGameUI/Border/Container/Players"]
 custom_minimum_size = Vector2(4, 0)
 layout_mode = 2
 color = Color(0.619608, 0.380392, 0, 1)
 
-[node name="P1" type="HSplitContainer" parent="GameUI/Border/Container/Players"]
+[node name="P1" type="HSplitContainer" parent="MultiplayerGameUI/Border/Container/Players"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="P1Name" type="Label" parent="GameUI/Border/Container/Players/P1"]
+[node name="P1Name" type="Label" parent="MultiplayerGameUI/Border/Container/Players/P1"]
 layout_mode = 2
 text = "P1"
 vertical_alignment = 1
 
-[node name="P1Score" type="Label" parent="GameUI/Border/Container/Players/P1"]
+[node name="P1Score" type="Label" parent="MultiplayerGameUI/Border/Container/Players/P1"]
 layout_mode = 2
 text = "0"
 horizontal_alignment = 2
 
-[node name="SeparatorP12" type="ColorRect" parent="GameUI/Border/Container/Players"]
+[node name="SeparatorP12" type="ColorRect" parent="MultiplayerGameUI/Border/Container/Players"]
 visible = false
 custom_minimum_size = Vector2(4, 0)
 layout_mode = 2
 color = Color(0.619608, 0.380392, 0, 1)
 
-[node name="P2" type="HSplitContainer" parent="GameUI/Border/Container/Players"]
+[node name="P2" type="HSplitContainer" parent="MultiplayerGameUI/Border/Container/Players"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="P2Name" type="Label" parent="GameUI/Border/Container/Players/P2"]
+[node name="P2Name" type="Label" parent="MultiplayerGameUI/Border/Container/Players/P2"]
 layout_mode = 2
 text = "P2"
 vertical_alignment = 1
 
-[node name="P2Score" type="Label" parent="GameUI/Border/Container/Players/P2"]
+[node name="P2Score" type="Label" parent="MultiplayerGameUI/Border/Container/Players/P2"]
 layout_mode = 2
 text = "0"
 horizontal_alignment = 2
 
-[node name="SeparatorP23" type="ColorRect" parent="GameUI/Border/Container/Players"]
+[node name="SeparatorP23" type="ColorRect" parent="MultiplayerGameUI/Border/Container/Players"]
 visible = false
 custom_minimum_size = Vector2(4, 0)
 layout_mode = 2
 color = Color(0.619608, 0.380392, 0, 1)
 
-[node name="P3" type="HSplitContainer" parent="GameUI/Border/Container/Players"]
+[node name="P3" type="HSplitContainer" parent="MultiplayerGameUI/Border/Container/Players"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="P3Name" type="Label" parent="GameUI/Border/Container/Players/P3"]
+[node name="P3Name" type="Label" parent="MultiplayerGameUI/Border/Container/Players/P3"]
 layout_mode = 2
 vertical_alignment = 1
 
-[node name="P3Score" type="Label" parent="GameUI/Border/Container/Players/P3"]
+[node name="P3Score" type="Label" parent="MultiplayerGameUI/Border/Container/Players/P3"]
 layout_mode = 2
 text = "0"
 horizontal_alignment = 2
 
-[node name="SeparatorP34" type="ColorRect" parent="GameUI/Border/Container/Players"]
+[node name="SeparatorP34" type="ColorRect" parent="MultiplayerGameUI/Border/Container/Players"]
 visible = false
 custom_minimum_size = Vector2(4, 0)
 layout_mode = 2
 color = Color(0.619608, 0.380392, 0, 1)
 
-[node name="P4" type="HSplitContainer" parent="GameUI/Border/Container/Players"]
+[node name="P4" type="HSplitContainer" parent="MultiplayerGameUI/Border/Container/Players"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="P4Name" type="Label" parent="GameUI/Border/Container/Players/P4"]
+[node name="P4Name" type="Label" parent="MultiplayerGameUI/Border/Container/Players/P4"]
 layout_mode = 2
 vertical_alignment = 1
 
-[node name="P4Score" type="Label" parent="GameUI/Border/Container/Players/P4"]
+[node name="P4Score" type="Label" parent="MultiplayerGameUI/Border/Container/Players/P4"]
 layout_mode = 2
 text = "0"
 horizontal_alignment = 2
@@ -208,6 +209,7 @@ text = "THE WINNER IS:
 YOU"
 horizontal_alignment = 1
 vertical_alignment = 1
+script = ExtResource("12_dinhu")
 
 [node name="ExitGame" type="Button" parent="Winner"]
 layout_mode = 1
@@ -225,3 +227,5 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 theme_override_fonts/font = ExtResource("10_264po")
 text = "EXIT GAME"
+
+[connection signal="pressed" from="Winner/ExitGame" to="." method="_on_exit_game_pressed"]

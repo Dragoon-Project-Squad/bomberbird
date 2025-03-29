@@ -3,6 +3,7 @@ class_name BombPool extends ObjectPool
 @export var initial_spawn_count: int #set in the inspector or in the child that inherits ObjectPool
 
 func _ready():
+	globals.game.bomb_pool = self
 	obj_spawner = get_node("BombSpawner")
 	create_reserve(initial_spawn_count)
 	super()

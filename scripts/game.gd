@@ -1,20 +1,23 @@
-extends Node2D
+class_name Game extends Node2D
 
 const LEVEL_GRAPH_PATH: String = "res://resources/level_graph/saved_graphs"
+enum game_type {CAMPAIGN, BATTLE_MODE, SIZE}
 
-@onready var stage_handler: StageHandler = $StageHandler
-@onready var player_manager: PlayerManager = $Players
-@onready var player_spawner: MultiplayerSpawner = player_manager.get_node("PlayerSpawner")
-@onready var misobon_path: MisobonPath = $MisobonPath
-@onready var misobon_player_spawner: MultiplayerSpawner = misobon_path.get_node("MisobonPlayerSpawner")
-@onready var bomb_pool: BombPool = $BombPool
-@onready var pickup_pool: PickupPool = $PickupPool
-@onready var breakable_pool: BreakablePool = $BreakablePool
-@onready var game_ui: CanvasLayer = $GameUI
-@onready var stage: World
+var stage_handler: StageHandler
+var player_manager: PlayerManager
+var player_spawner: MultiplayerSpawner
+var misobon_path: MisobonPath
+var misobon_player_spawner: MultiplayerSpawner
+var bomb_pool: BombPool
+var pickup_pool: PickupPool
+var breakable_pool: BreakablePool
+var game_ui: CanvasLayer
+var win_screen: Label
+var stage: World
 
 var stage_data_arr: Array[StageNodeData]
 var players_are_spawned: bool = false
+var current_game_type: int
 
 func _init():
 	globals.game = self
@@ -48,3 +51,30 @@ func load_level_graph(file_name: String):
 		stage_data_arr = ResourceLoader.load(LEVEL_GRAPH_PATH + "/" + file_name).nodes
 	else:
 		print("No savedata loaded")
+
+func _check_ending_condition(alive_enemies: int):
+	if win_screen.visible: return
+	var alive_players: Array[Player] = globals.player_manager.get_alive_players()
+	assert(0 <= current_game_type && current_game_type < game_type.SIZE)
+	match current_game_type:
+		game_type.CAMPAIGN: _check_campaign_ending_condition(alive_players, alive_enemies)
+		game_type.BATTLE_MODE: _check_battlemode_ending_condition(alive_players)
+		
+func _check_campaign_ending_condition(_alive_players: Array[Player], _alive_enemies: int):
+	assert(false, "NOT YET IMPLEMENTED")
+	pass
+
+func _check_battlemode_ending_condition(alive_players: Array[Player]):
+	print(alive_players)
+	if len(alive_players) == 0:
+		#TODO: make this a nice function that sets up a pretty win screen
+		win_screen.set_text("DRAW GAME")
+		win_screen.show()
+	if len(alive_players) == 1:
+		#TODO: make this a nice function that sets up a pretty win screen
+		win_screen.set_text("THE WINNER IS: \n" + alive_players[0].get_player_name())
+		win_screen.show()
+	return
+
+func _on_exit_game_pressed():
+	gamestate.end_game()

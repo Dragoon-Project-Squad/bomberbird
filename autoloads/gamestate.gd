@@ -156,22 +156,21 @@ func establish_player_counts() -> void:
 	add_ai_players() #Depends on knowing the total player count and human player count to do its job
 	
 @rpc("call_local")
-func load_world():
+func load_world(mode: int):
 	# Change scene.
 	var game = game_scene.instantiate()
 	get_tree().get_root().add_child(game)
+	game.current_game_type = mode
 	game.load_level_graph(graph_name)
 	game.start()
-	var world = game.stage
-	game.stage = world
 	if get_tree().get_root().has_node("Lobby"):
 		get_tree().get_root().get_node("Lobby").hide()
 
 	# Set up score.
 	if is_multiplayer_authority():
-		game.get_node("GameUI").add_player.rpc(multiplayer.get_unique_id(), player_name)
+		game.game_ui.add_player.rpc(multiplayer.get_unique_id(), player_name)
 		for pn in players:
-			game.get_node("GameUI").add_player.rpc(pn, players[pn])
+			game.game_ui.add_player.rpc(pn, players[pn])
 
 	# Unpause and unleash the game!
 	get_tree().set_pause(false) 
@@ -206,13 +205,13 @@ func begin_singleplayer_game():
 
 	add_ai_players()
 
-	load_world.rpc()
+	load_world.rpc(Game.game_type.BATTLE_MODE) #TODO: change this when we have a working wincondition of the CAMPAIGN
 
 func begin_game():
 	if players.size() == 0: # If players disconnected at character select
 		game_error.emit("All other players disconnected")
 		end_game()
-	load_world.rpc()
+	load_world.rpc(Game.game_type.BATTLE_MODE)
 	
 func add_ai_players():
 	var ai_player_count = total_player_count - human_player_count

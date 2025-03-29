@@ -3,6 +3,9 @@ class_name StageHandler extends Node2D
 var current_stage_path: String 
 var loaded_stage_path_map: Dictionary
 
+func _ready() -> void:
+	globals.game.stage_handler = self
+
 func get_stage() -> World:
 	return loaded_stage_path_map[current_stage_path]
 

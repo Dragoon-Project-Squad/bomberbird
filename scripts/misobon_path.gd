@@ -12,6 +12,7 @@ var upper_bound_err: Array[float]
 var curve_len: float
 
 func _ready():
+	globals.game.misobon_path = self
 	curve_len = curve.get_baked_length()
 	var seg_len: float = curve_len / 4
 	lower_bound.resize(4)

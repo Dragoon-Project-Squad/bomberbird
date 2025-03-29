@@ -1,5 +1,8 @@
 class_name Player extends CharacterBody2D
 
+signal player_died
+signal player_revived
+
 const BASE_MOTION_SPEED: float = 100.0
 const MOTION_SPEED_INCREASE: float = 20.0
 const BOMB_RATE: float = 0.5
@@ -40,7 +43,8 @@ var bomb_total: int
 @export var pickups: HeldPickups
 
 func _ready():
-	#These are all needed
+	player_died.connect(globals.player_manager._on_player_died)
+	player_revived.connect(globals.player_manager._on_player_revived)
 	position = synced_position
 	bomb_total = bomb_count
 	bomb_pool = globals.game.bomb_pool
@@ -135,19 +139,19 @@ func enter_death_state():
 	is_dead = true
 	$AnimationPlayer.play("player_animations/death")
 	$Hitbox.set_deferred("disabled", 1)
-	game_ui.player_died()
 	spread_items() #TODO: Check if battlemode
 	pickups.reset()
 	await $AnimationPlayer.animation_finished
+	player_died.emit()
 	hide()
 	process_mode = PROCESS_MODE_DISABLED
 	
 func exit_death_state():
+	player_revived.emit()
 	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
 	$AnimationPlayer.play("player_animations/revive")
 	await $AnimationPlayer.animation_finished
 	$Hitbox.set_deferred("disabled", 0)
-	game_ui.player_revived()
 	lives += 1
 	stunned = false
 	is_dead = false
