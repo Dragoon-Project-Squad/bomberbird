@@ -1,7 +1,7 @@
 [gd_scene load_steps=19 format=4 uid="uid://cweqoqxedyaxv"]
 
 [ext_resource type="Script" uid="uid://c7rrhgeevwtus" path="res://scripts/world/randomized_stage.gd" id="1_ja737"]
-[ext_resource type="Script" uid="uid://bta1elkd6rmla" path="res://scripts/pick_up_table.gd" id="2_k001l"]
+[ext_resource type="Script" uid="uid://bta1elkd6rmla" path="res://resources/gameplay/pick_up_table.gd" id="2_k001l"]
 [ext_resource type="TileSet" uid="uid://cx8n6oa7chiix" path="res://assets/tilesets/lab_tileset.tres" id="3_ja737"]
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/tilesets/desert_tileset.tres" id="4_0rgp3"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="5_0poyn"]
