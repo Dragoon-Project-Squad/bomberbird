@@ -46,6 +46,7 @@ func _ready() -> void:
 	_asserting_world()
 	disable()
 
+## Spawn designated exits in exit_table
 func spawn_exits():
 	assert(exit_table, "exit table is null but trying to spawn exits")
 	var iter: int = 0 
@@ -61,6 +62,7 @@ func spawn_exits():
 		globals.game.exit_pool.request(exit_entry.color).place(exit_pos, children_ids[iter])
 		iter += 1
 
+## Disabled this world so another may be enabled
 func disable():
 	hide()
 	music.stop()
@@ -70,6 +72,11 @@ func disable():
 
 
 @warning_ignore("SHADOWED_VARIABLE")
+## enables the stage s.t. it may be used
+## [param exit_table] overwrite the exit_table preset defaults to null
+## [param enemy_table] overwrite the enemy_table preset defaults to null
+## [param pickup_table] overwrite the pickup_table preset defaults to preset
+## [param spawnpoints] overwrite the spawnpoint_table preset defaults to preset
 func enable(
 	exit_table: ExitTable = null,
 	enemy_table: EnemyTable = null,
@@ -131,7 +138,7 @@ func reset():
 			exit.disable.rpc()
 		globals.game.exit_pool.return_obj(exit)
 
-	
+## used to spawn the enemies given in enemy_table (NOT YET IMPLEMENTED)	
 func _spawn_enemies():
 	assert(enemy_table, "enemy table is null but trying to spawn exits")
 
@@ -143,6 +150,8 @@ func _asserting_world():
 func _generate_breakables():
 	pass
 
+## Spawns a breakable at
+## [param cell] Vector2i
 func _spawn_breakable(cell: Vector2i):
 	world_data.init_breakable(cell)
 	var spawn_coords = world_data.tile_map.map_to_local(cell)
@@ -150,7 +159,7 @@ func _spawn_breakable(cell: Vector2i):
 	globals.game.breakable_pool.request().place.rpc(spawn_coords)
 
 #TODO: This way of randomly choosing spawnpoints is kinda dumb so we have to make a better one
-## sets spawnpoints
+## sets spawnpoints selecting random ones if the are less spawnpoints given then players
 func _set_spawnpoints():
 	var remaining_spawnpoints: int = gamestate.total_player_count - spawnpoints.size()
 	while remaining_spawnpoints > 0:	
@@ -166,6 +175,7 @@ func _set_spawnpoints():
 		remaining_spawnpoints -= 1
 
 @rpc("call_local")
+## places players (assumes players already exist
 func _place_players():
 	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
 	var spawn_points = {}
@@ -179,6 +189,7 @@ func _place_players():
 	for p_id in spawn_points:
 		globals.player_manager.get_node(str(p_id)).position = world_data.tile_map.map_to_local(spawnpoints[spawn_points[p_id]])	
 
+## spawns players (assums players do not yet exist)
 func _spawn_player():
 	globals.game.players_are_spawned = true
 	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.

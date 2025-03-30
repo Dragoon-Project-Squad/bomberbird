@@ -7,6 +7,7 @@ var _obstacles_layer_copy: TileMapLayer
 
 ## Private Functions
 
+## Generate breakable from the obstical layerr replacing each on that layer with an actual breakable
 func _generate_breakables():
 	for current_cell in obstacles_layer.get_used_cells():	
 		if breakable_tile_atlas_coordinates != obstacles_layer.get_cell_atlas_coords(current_cell): continue
@@ -24,12 +25,14 @@ func _generate_breakables():
 func _is_in_spawn_area(pos: Vector2i, size: int, spawn: Vector2i) -> bool: 
 	return (spawn.y - size <= pos.y && pos.y <= spawn.y + size && spawn.x - size <= pos.x && pos.x <= spawn.x + size)
 
+## takes the copied obstacle layer and replaces the old one with it
 func reset():
 	super()
 	remove_child(obstacles_layer)
 	bounds_layer.add_sibling(_obstacles_layer_copy)
 
 @warning_ignore("SHADOWED_VARIABLE_BASE_CLASS")
+##copies the obstical layer to allow for reseting later
 func enable(
 	exit_table: ExitTable = null,
 	enemy_table: EnemyTable = null,

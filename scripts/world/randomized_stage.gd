@@ -3,10 +3,10 @@ extends Zone
 @export_group("Stage")
 @export_range(0, 1) var base_breakable_chance: float = 0.5
 @export_range(0, 1) var level_chance_multiplier: float = 0.01
-## if set to false will use the corners as a spawnpoint
 
 ## Private Functions
 
+## spawns breakables randomly with a change depending on (gamestate.current_level)
 func _generate_breakables():
 	if not is_multiplayer_authority():
 		return

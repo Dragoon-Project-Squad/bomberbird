@@ -45,6 +45,7 @@ func _ready():
 	$TabContainer.current_tab = curr_tab
 
 ## sets all values for a node given a StageNodeData
+## [param stage_node_data] StageNodeData data to load from
 func load_stage_node(stage_node_data: StageNodeData):
 	self.name = stage_node_data.stage_node_name
 	self.title = stage_node_data.stage_node_title
@@ -82,7 +83,9 @@ func save_node(index: int) -> StageNodeData:
 	node_data.children.fill(-1)
 	return node_data
 
-## given an OptionButton and a String searches for that String in the items of the OptionButton and then sets the selection to that Option
+## searches for some String in the items of the OptionButton and then sets the selection to that Option
+## [param option_button] the OptionButton to modify
+## [param item] the string to search for
 func _set_option_button_select(option_button: OptionButton, item: String) -> int:
 	var idx: int
 	for i in range(option_button.item_count):
@@ -105,6 +108,10 @@ static func get_path_to_scene(scene: String, subfolders: Array[String], only_dir
 		ret += "/" + s
 	return ret + ("/" + scene if !only_dir else "")
 
+## recusrive function that given a [param path] to a folder stores all .tscn file and its subfolders into a [param subfolder_dict] dictonary
+## [param path] String path to the top most folder
+## [param subfolders] a temp Array used inbetween recursive calls (if you call this from a non recursive place this argument should be an empty array
+## [param subfolder_dict] The dict to store the results into
 static func get_file_name_from_dir(path: String, subfolders: Array[String], subfolder_dict: Dictionary):
 	var scene_dir = DirAccess.open(path)
 	assert(scene_dir, "stage scene dir not found at: " + path)
@@ -188,6 +195,32 @@ func _setup_exit_from_load():
 		exit.get_node("Position/y").value_changed.connect(changed_function_y)
 		exit.get_node("ExitColor").color_changed.connect(changed_function_color)
 
+<<<<<<< HEAD
+=======
+## only called when node is loaded from a StageNodeData setup all the spawnpoint entries in the tab
+func _setup_spawn_point_from_load():
+	for spawn_point_entry in spawn_point_arr:
+		var spawn_point: HBoxContainer = spawn_point_boiler.duplicate()
+		spawn_point_indx += 1
+		
+		spawn_point_boiler.get_parent().add_child(spawn_point)
+		spawn_point_boiler.get_parent().move_child(spawn_point, spawn_point_indx)
+		
+		spawn_point.name = "SpawnPoint" + str(spawn_point_indx)
+		spawn_point.get_node("SpawnPointNumber").text = str(spawn_point_indx) + ". Spawn Point"
+		spawn_point.get_node("Position/x").value = spawn_point_entry.x
+		spawn_point.get_node("Position/y").value = spawn_point_entry.y
+
+		spawn_point.show()
+		
+		var remove_function: Callable = _on_remove_spawn_point_button_pressed.bind(spawn_point)
+		var changed_function_x: Callable = _on_spawn_point_position_changed.bind(spawn_point, true)
+		var changed_function_y: Callable = _on_spawn_point_position_changed.bind(spawn_point, false)
+		spawn_point.get_node("RemoveSpawnPointButton").pressed.connect(remove_function, ConnectFlags.CONNECT_ONE_SHOT)
+		spawn_point.get_node("Position/x").value_changed.connect(changed_function_x)
+		spawn_point.get_node("Position/y").value_changed.connect(changed_function_y)
+
+>>>>>>> a3a3a40 (documenting stage and graph scripts)
 # ---------------------- signal functions
 
 ## stores the new text of the scene_file
@@ -292,6 +325,118 @@ func _on_exit_color_changed(color: Color, exit: HBoxContainer):
 	)
 	exit_resource.set_color(exit_num - 1, color)
 
+<<<<<<< HEAD
+=======
+## Create a new entry for an Enemy
+func _on_add_enemy_button_pressed() -> void:
+	var enemy: HBoxContainer = enemy_boiler.duplicate()
+	enemy_indx += 1
+	
+	enemy_boiler.get_parent().add_child(enemy)
+	enemy_boiler.get_parent().move_child(enemy, enemy_indx)
+	
+	enemy.name = "Enemy" + str(enemy_indx)
+	enemy.get_node("EnemyNumber").text = str(enemy_indx) + "."
+	_set_enemy_options(enemy.get_node("EnemySelect"))
+	enemy.show()
+	
+	enemy_resource.append(Vector2i.ZERO, "", "")
+	
+	var remove_function: Callable = _on_remove_enemy_button_pressed.bind(enemy)
+	var changed_function_x: Callable = _on_enemy_position_changed.bind(enemy, true)
+	var changed_function_y: Callable = _on_enemy_position_changed.bind(enemy, false)
+	var changed_function_file: Callable = _on_enemy_file_changed.bind(enemy)
+	enemy.get_node("RemoveEnemyButton").pressed.connect(remove_function, ConnectFlags.CONNECT_ONE_SHOT)
+	enemy.get_node("Position/x").value_changed.connect(changed_function_x)
+	enemy.get_node("Position/y").value_changed.connect(changed_function_y)
+	enemy.get_node("EnemySelect").item_selected.connect(changed_function_file)
+
+## removes the enemy and reorders everything as needed
+func _on_remove_enemy_button_pressed(enemy: HBoxContainer):
+	var enemy_num: int = enemy.name.to_int()
+	assert(enemy_num <= enemy_indx, "encountered invalid index for enemy")
+	var enemy_indx_new: int = enemy_num
+
+	# We need to change the name of the enemy that we wish to remove in order to change its sibling's name.
+	enemy.name = "REMOVING_" + enemy.name
+	for i in range(1 + enemy_num, 1 + enemy_indx):
+		var child = enemy_boiler.get_parent().get_child(i)
+		assert(child.has_node("EnemyNumber"), "bad index: " + str(i))
+		child.name = "Enemy" + str(enemy_indx_new)
+		child.get_node("EnemyNumber").text = str(enemy_indx_new) + "."
+		enemy_indx_new += 1
+	
+	enemy_resource.remove_at(enemy_num)
+	enemy.queue_free()
+
+	enemy_indx -= 1
+
+## updates the enemy position in the enemy_resource
+func _on_enemy_position_changed(val: float, enemy: HBoxContainer, is_x: bool,):
+	var enemy_num: int = enemy.name.to_int() - 1
+	if is_x:
+		enemy_resource.set_x(enemy_num, int(val))
+	else:
+		enemy_resource.set_y(enemy_num, int(val))
+
+## updates the enemy file in the enemy_resource
+func _on_enemy_file_changed(index: int, enemy: HBoxContainer):
+	var enemy_num: int = enemy.name.to_int() - 1
+	var file_name: String = enemy.get_node("EnemySelect").get_item_text(index)
+	enemy_resource.set_file(enemy_num, file_name, _get_path_to_scene(file_name, enemy_subfolders[file_name], true))
+
+## Create a new entry for an exit
+func _on_add_spawn_point_button_pressed() -> void:
+	var spawn_point: HBoxContainer = spawn_point_boiler.duplicate()
+	spawn_point_indx += 1
+	
+	spawn_point_boiler.get_parent().add_child(spawn_point)
+	spawn_point_boiler.get_parent().move_child(spawn_point, spawn_point_indx)
+	
+	spawn_point.name = "SpawnPoint" + str(spawn_point_indx)
+	spawn_point.get_node("SpawnPointNumber").text = str(spawn_point_indx) + ". Spawn Point"
+	spawn_point.show()
+	
+	spawn_point_arr.append(Vector2i.ZERO)
+	print(spawn_point_arr)
+	
+	var remove_function: Callable = _on_remove_spawn_point_button_pressed.bind(spawn_point)
+	var changed_function_x: Callable = _on_spawn_point_position_changed.bind(spawn_point, true)
+	var changed_function_y: Callable = _on_spawn_point_position_changed.bind(spawn_point, false)
+	spawn_point.get_node("RemoveSpawnPointButton").pressed.connect(remove_function, ConnectFlags.CONNECT_ONE_SHOT)
+	spawn_point.get_node("Position/x").value_changed.connect(changed_function_x)
+	spawn_point.get_node("Position/y").value_changed.connect(changed_function_y)
+
+## removes a spawnpoint and adjust accordingly
+func _on_remove_spawn_point_button_pressed(spawn_point: HBoxContainer):
+	var spawn_point_num: int = spawn_point.name.to_int()
+	assert(spawn_point_num <= spawn_point_indx, "encountered invalid index for spawn_point")
+	var spawn_point_indx_new: int = spawn_point_num 
+
+	# We need to change the name of the spawn point that we wish to remove in order to change its sibling's name.
+	spawn_point.name = "REMOVING_" + spawn_point.name
+	for i in range(1 + spawn_point_num, 1 + spawn_point_indx):
+		var child = spawn_point.get_parent().get_child(i)
+		assert(child.has_node("SpawnPointNumber"), "bad index: " + str(i))
+		child.name = "Enemy" + str(spawn_point_indx_new)
+		child.get_node("SpawnPointNumber").text = str(spawn_point_indx_new) + ". Spawn Pont"
+		spawn_point_indx_new += 1
+	
+	spawn_point_arr.remove_at(spawn_point_num - 1)
+	spawn_point.queue_free()
+
+	spawn_point_indx -= 1
+
+## Changes the spawn point resource
+func _on_spawn_point_position_changed(value: float, spawn_point: HBoxContainer, is_x: bool):
+	var spawn_point_num: int = spawn_point.name.to_int() - 1
+	if is_x:
+		spawn_point_arr[spawn_point_num].x = int(value)
+	else:
+		spawn_point_arr[spawn_point_num].y = int(value)
+	print(spawn_point_arr)
+
+>>>>>>> a3a3a40 (documenting stage and graph scripts)
 ## updates the pickup_weight in the Pickup_resource
 func _on_pickup_weight_changed(weight: float, pickup: int):
 	if(pickup_resource.pickup_weights.has(pickup)):
