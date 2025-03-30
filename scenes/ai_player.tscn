@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://dcjhrjf3f6csw" path="res://scripts/ai_state/ai_safe.gd" id="12_ulae3"]
 
 [sub_resource type="Resource" id="Resource_2solf"]
+resource_local_to_scene = true
 script = ExtResource("2_xhrxh")
 metadata/_custom_type_script = "uid://dfosda1bstp2m"
 
@@ -62,7 +63,16 @@ properties/1/spawn = true
 properties/1/replication_mode = 0
 properties/2/path = NodePath(".:is_dead")
 properties/2/spawn = true
-properties/2/replication_mode = 1
+properties/2/replication_mode = 2
+properties/3/path = NodePath(".:stunned")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath(".:invulnerable")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+properties/5/path = NodePath(".:visible")
+properties/5/spawn = true
+properties/5/replication_mode = 2
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_w53uu"]
 properties/0/path = NodePath(".:motion")

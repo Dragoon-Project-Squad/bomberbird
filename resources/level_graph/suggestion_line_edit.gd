@@ -69,21 +69,24 @@ func _update_edit(sel_indx: int):
 	self.text_changed.emit(self.text)
 	caret_column = text.length()
 
-func _update_list(in_text: String):
+func _update_list(in_text: String, silent: bool = false):
 	filtered_list = full_list.duplicate()
 	filtered_list.sort_custom(func(arg1: String, arg2: String) -> int:
 		return arg1.similarity(in_text) > arg2.similarity(in_text)
 	)
 
 	filtered_list.resize(min(len(filtered_list), popup_menu_size))
-	_update_popup_menu()
+	_update_popup_menu(silent)
 
-func _update_popup_menu():
+func _update_popup_menu(silent):
 	popup_menu.clear()
 	for item in filtered_list:
 		popup_menu.add_item(item)
-	if not popup_menu.visible:
+	if not popup_menu.visible && !silent:
 		popup_menu.popup(Rect2(position + Vector2(0, size.y + 2), size))
 	idx = 0
 	popup_menu.set_focused_item(idx)
 	
+func _on_graph_edit_saved():
+	_get_file_name_from_dir(SAVE_PATH, full_list)
+	_update_list(text, true)

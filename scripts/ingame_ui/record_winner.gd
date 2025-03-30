@@ -1,19 +1,31 @@
 extends Control
 @onready var winner_declaring_label: Label = $Winner
 
-func _on_game_ui_game_decided(winningplayer: Variant) -> void:
-	if winningplayer == null:
-		draw_game()
-	else:
-		declare_winner(winningplayer)
-		
+func _ready() -> void:
+	globals.game.win_screen = self
+
 func draw_game():
-		winner_declaring_label.set_text("DRAW GAME")
-		self.show()
+	winner_declaring_label.set_text("DRAW GAME")
+	self.show()
+	grab_focus()
 
-func declare_winner(winningplayer: Variant):
-		winner_declaring_label.set_text("THE WINNER IS:\n" + winningplayer.get_player_name())
-		self.show()
+func declare_winner(winningplayer: Player):
+	winner_declaring_label.set_text("THE WINNER IS:\n" + winningplayer.get_player_name())
+	self.show()
+	grab_focus()
 
-func _on_exit_game_pressed() -> void:
+## Temp function for declaring a SP game lost
+func lost_game():
+	winner_declaring_label.set_text("LOST")
+	self.show()
+	grab_focus()
+
+## Temp function for declaring a SP game won
+func won_game():
+	winner_declaring_label.set_text("WON")
+	self.show()
+	grab_focus()
+
+
+func _on_exit_game_pressed():
 	gamestate.end_game()

@@ -6,6 +6,9 @@ var ai_player_scene = preload("res://scenes/ai_player.tscn")
 func _init():
 	spawn_function = _spawn_player
 
+func _ready() -> void:
+	globals.game.player_spawner = self
+
 func _spawn_player(data) -> Player:
 	var spawningplayer: Player
 	if data.playertype == "human":

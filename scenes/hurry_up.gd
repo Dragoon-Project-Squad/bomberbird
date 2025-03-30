@@ -9,14 +9,25 @@ signal hurry_up_start
 var target_tiles: Array[Vector2i]
 var current_tile_index = 0
 
-func _ready() -> void:
+func start() -> void:
 	self.clear()
+	hurry_up_start_timer.start()
+	hurry_up_start.connect(globals.player_manager._on_hurry_up_start)
+	hurry_up_start.connect(globals.game.game_ui._on_hurry_up_start)
+
 	var anim_time: float = falling_unbreakable.get_node("AnimationPlayer").get_animation("slam").length
 	if hurry_up_step_timer.wait_time < anim_time + 0.05:
 		# because of the animation taking 'anim_time' seconds the timer between the waittimes must be slighly higher then that.
 		# If this needs to be changed we need more then one FallingUnbreakable node (so a MultiplayerSpawner then spawns them dynamically at the start of the game) and have logic (a list and an index) to use them sequentially
 		push_error("Time set in the HurryUpStepTimer is ", hurry_up_step_timer.wait_time, " this is not supported as it must be stricly more then the animation time of the slam animation which currently is ", anim_time, " aswell as some tolerance the timer has been automatically reajusted to ", anim_time + 0.05)
 		hurry_up_step_timer.wait_time = anim_time + 0.05
+
+func disable() -> void:
+	hurry_up_start_timer.stop()
+	hurry_up_step_timer.stop()
+	hurry_up_start.disconnect(globals.player_manager._on_hurry_up_start)
+	hurry_up_start.disconnect(globals.game.game_ui._on_hurry_up_start)
+	self.clear()
 
 func generate_spiral(width: int, height: int) -> Array[Vector2i]:
 	var spiral: Array[Vector2i]
@@ -69,6 +80,7 @@ func place(pos: Vector2):
 func _on_hurry_up_start_timer_timeout():
 	hurry_up_start.emit()
 	target_tiles = generate_spiral(world_data.world_width, world_data.world_height)
+	globals.game.game_ui.get_node("%RemainingTime").add_theme_color_override("font_color", Color(255, 0, 0))
 	hurry_up_step_timer.start()
 
 

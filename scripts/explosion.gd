@@ -103,7 +103,8 @@ func do_detonate():
 #reports a kill from a player to the killer s.t. he can be revived if the settings allow it
 func report_kill(killed_player: Player):
 	var killer: Player = get_parent().bomb_root.bomb_owner
-	killer.misobon_player.revive.rpc(killed_player.synced_position)
+	if !is_multiplayer_authority(): return
+	killer.misobon_player.revive.rpc(killed_player.position)
 	
 func _on_body_entered(body: Node2D) -> void:
 	if is_multiplayer_authority() && body.has_method("exploded"):
@@ -116,7 +117,7 @@ func _on_body_entered(body: Node2D) -> void:
 		&& !body.stunned #will the player that got hit die
 		&& !body.invulnerable #will the player that got hit die
 		&& !body.hurry_up_started #has hurry up alread started
-		): #TODO: fix this, this is stupit
+	): #TODO: fix this, this is stupit
 		report_kill(body)
 
 func _on_area_2d_entered(area: Area2D) -> void:

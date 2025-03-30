@@ -8,6 +8,7 @@ var bomb_owner_is_dead: bool
 var fuse_time_passed: float
 # stores the boost s.t. it is remembered even during transition to for example airborn (punched) state
 var boost: int
+var in_use: bool = false
 
 enum {DISABLED, STATIONARY, AIRBORN, SLIDING, SIZE} #all states plus a SIZE constant that has to remain the last entry
 var state: int = DISABLED #this is the authority if ever somehow two state nodes try to execute text_overrun_behavior
@@ -24,7 +25,7 @@ func _ready():
 func set_state(choice: int):
 	assert(0 <= choice && choice < SIZE)
 	if state_map[state] != null:
-		state_map[state].disable()#old state should be disabled
+		state_map[state].disable() #old state should be disabled
 		state_map[state].process_mode = Node.PROCESS_MODE_DISABLED
 	state = choice
 	if state_map[state] != null:
@@ -34,8 +35,10 @@ func set_state(choice: int):
 func disable() -> int:
 	if state == DISABLED:
 		return 1 #it might not be an issue if a disabled node is attempted to be disabled again so we just return an error and let the caller figure that out without giving a project wide error
-	bomb_owner = null
-	bomb_owner_is_dead = false
+	self.in_use = false
+	self.bomb_owner = null
+	self.bomb_owner_is_dead = false
+	self.boost = 2
 	self.position = Vector2.ZERO
 	self.fuse_time_passed = 0
 	set_state(DISABLED)
@@ -43,14 +46,15 @@ func disable() -> int:
 
 @rpc("call_local")
 func set_bomb_owner(player_id: String):
-	bomb_owner = globals.player_manager.get_node(str(player_id))
+	self.bomb_owner = globals.player_manager.get_node(str(player_id))
 
 @rpc("call_local")
-func do_place(bombPos: Vector2, boost: int = boost, is_dead: bool = false) -> int:
+@warning_ignore("SHADOWED_VARIABLE")
+func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) -> int:
 	if bomb_owner == null:
 		printerr("A bomb without an bomb_owner tried to be placed")
 		return 1
-
+	in_use = true
 	var force_collision: bool = false
 
 	match state:
@@ -64,7 +68,7 @@ func do_place(bombPos: Vector2, boost: int = boost, is_dead: bool = false) -> in
 	
 	bomb_owner_is_dead = is_dead
 
-	if boost < 0:
+	if boost < 0: #this is wack
 		boost = self.boost
 	elif self.boost == 0:
 		self.boost = boost
@@ -85,6 +89,7 @@ func do_misobon_throw(origin: Vector2, target: Vector2, direction: Vector2i, is_
 		printerr("a misobon player wanted to throw a bomb that already has an active state")
 		return 2
 
+	in_use = true
 	set_state(AIRBORN)
 	bomb_owner_is_dead = is_dead
 	var bomb_authority: Node2D = state_map[state]
@@ -101,6 +106,7 @@ func do_punch(direction: Vector2i):
 		printerr("a player wanted to punch a bomb that already has an active state")
 		return 2
 
+	in_use = true
 	fuse_time_passed = state_map[state].get_node("AnimationPlayer").current_animation_position
 
 	set_state(AIRBORN)
@@ -127,6 +133,7 @@ func do_kick(target: Vector2, direction: Vector2i):
 	if bomb_owner == null: #this should only be called by a misobon player hence the bomb must have an owner
 		printerr("A bomb without an bomb_owner tried to be thrown")
 		return 1
+	in_use = true
 	#TODO make checks for state and change to ??? state if allowed
 	#TODO call the appropiate function to handle this in state_map[state]
 	return 0 #errorcode 0 mean no error

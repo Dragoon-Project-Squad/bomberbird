@@ -1,4 +1,4 @@
-extends Player
+class_name HumanPlayer extends Player
 
 @onready var inputs = $Inputs
 
@@ -24,7 +24,6 @@ func _physics_process(delta: float):
 	else:
 		# The client simply updates the position to the last known one.
 		position = synced_position
-
 	if not stunned and inputs.punch_ability and not punch_pressed_once:
 		punch_pressed_once = true
 		var direction: Vector2i = Vector2i(inputs.motion.normalized()) if inputs.motion != Vector2.ZERO else Vector2i.DOWN

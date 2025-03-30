@@ -8,10 +8,26 @@ const PICKUP_SPAWN_BASE_CHANCE := 1.0
 @onready var breakable_sfx_player := $BreakableSound
 
 var rng = RandomNumberGenerator.new()
-var pickup_pool: PickupPool
+var in_use: bool = false
 
-func _ready():
-	pickup_pool = globals.current_world.get_node("PickupPool")
+@rpc("call_local")
+func disable_collison_and_hide():
+	in_use = false
+	self.hide()
+	$Shape.set_deferred("disabled", 1)
+
+@rpc("call_local")
+func disable():
+	self.hide()
+	self.position = Vector2.ZERO
+
+@rpc("call_local")
+func place(pos: Vector2):
+	in_use = true
+	$Shape.set_deferred("disabled", 0)
+	self.position = pos
+	self.show()
+	
 
 func decide_pickup_spawn() -> bool:
 	if !PICKUP_ENABLED:
@@ -25,27 +41,29 @@ func decide_pickup_spawn() -> bool:
 		
 func decide_pickup_type() -> int:
 	var pickup_table = globals.current_world.pickup_table
-	var rng_result = rng.randi_range(0, pickup_table.total_weight())
+	var rng_result = rng.randi_range(0, pickup_table.total_weight() - 1)
 	return pickup_table.get_type_from_weight(rng_result)
 	
 @rpc("call_local")
 func exploded(by_who):
 	# breakable_sfx_player.play()
 	$"AnimationPlayer".play("explode")
-	# Spawn a powerup where this rock used to be.
 
+	# Spawn a powerup where this rock used to be.
 	if is_multiplayer_authority():
 		if decide_pickup_spawn() && by_who != gamestate.ENVIRONMENTAL_KILL_PLAYER_ID:
 			var type_of_pickup: int = decide_pickup_type()
-			var pickup: Pickup = pickup_pool.request(type_of_pickup)
+			var pickup: Pickup = globals.game.pickup_pool.request(type_of_pickup)
 			pickup.place.rpc(self.position)
 		else:
 			world_data.set_tile.rpc(world_data.tiles.EMPTY, global_position) #We only wanne delete this cell if no pickup is spawned on it
 			
 	if is_multiplayer_authority():
-		get_node("Shape").queue_free()
+		disable_collison_and_hide.rpc()
 	astargrid_handler.astargrid_set_point(global_position, false)
 	await $"AnimationPlayer".animation_finished #Wait for the animation to finish
 	if is_multiplayer_authority():
-		queue_free()
+		disable.rpc()
+	globals.game.breakable_pool.return_obj(self)
+
 	

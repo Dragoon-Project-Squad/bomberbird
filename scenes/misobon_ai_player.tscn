@@ -1,15 +1,15 @@
 [gd_scene load_steps=14 format=3 uid="uid://bsndu4n0j4hva"]
 
-[ext_resource type="Script" uid="uid://cq3e3rtbp4h66" path="res://scripts/misobon_ai_player.gd" id="1_iupa5"]
+[ext_resource type="Script" uid="uid://lkr38rdo7326" path="res://scripts/misobon_ai_player.gd" id="1_iupa5"]
 [ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_lkx36"]
 [ext_resource type="Texture2D" uid="uid://lckm0mdablaw" path="res://assets/player/chonkgoon_walk.png" id="3_a7ytd"]
 [ext_resource type="Texture2D" uid="uid://cwpnhuimmgdha" path="res://assets/bombcentered.png" id="4_3foh7"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="4_6653n"]
-[ext_resource type="Script" uid="uid://dtyxesh0173d4" path="res://scripts/misobon_ai_state_machine.gd" id="5_e4txw"]
-[ext_resource type="Script" uid="uid://dnmrmhgsrxu3k" path="res://scripts/misobon_player_controls.gd" id="5_j88x1"]
+[ext_resource type="Script" uid="uid://ms5k3xsfttlr" path="res://scripts/misobon_ai_state_machine.gd" id="5_e4txw"]
+[ext_resource type="Script" uid="uid://cnhliehfd1e57" path="res://scripts/misobon_player_controls.gd" id="5_j88x1"]
 [ext_resource type="Script" uid="uid://btqgjox4mbjw8" path="res://scripts/misobon_ai_wander.gd" id="6_wkc6b"]
 [ext_resource type="AnimationLibrary" uid="uid://b7alfxjlq0yvb" path="res://animations/misobon_player_animation.tres" id="7_jqlv8"]
-[ext_resource type="Script" uid="uid://dfr133iaf88gt" path="res://scripts/misobon_ai_bombing.gd" id="7_nvk1q"]
+[ext_resource type="Script" uid="uid://dgin2d2isvodk" path="res://scripts/misobon_ai_bombing.gd" id="7_nvk1q"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_aowd5"]
 outline_size = 8
@@ -122,5 +122,5 @@ replication_config = SubResource("SceneReplicationConfig_ehaou")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"misobon_player_animation": ExtResource("7_jqlv8")
+&"misobon_player_animation": ExtResource("7_jqlv8")
 }

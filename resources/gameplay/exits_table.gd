@@ -25,3 +25,6 @@ func set_y(index: int, y: int):
 
 func remove_at(index: int):
 	exits.remove_at(index)
+
+func size() -> int:
+	return len(exits)

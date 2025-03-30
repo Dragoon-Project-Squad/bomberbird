@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://b3638glthchxv"]
 
-[ext_resource type="Script" uid="uid://gnneqjcybokd" path="res://scripts/ingame_ui/game_ui.gd" id="1_yubou"]
+[ext_resource type="Script" uid="uid://d0xwl8hxp7ycv" path="res://scripts/ingame_ui/battlemode_game_ui.gd" id="1_d60n6"]
 
-[node name="GameUI" type="CanvasLayer"]
-script = ExtResource("1_yubou")
+[node name="MultiplayerGameUI" type="CanvasLayer"]
+script = ExtResource("1_d60n6")
 
 [node name="Border" type="ColorRect" parent="."]
 offset_right = 1152.0

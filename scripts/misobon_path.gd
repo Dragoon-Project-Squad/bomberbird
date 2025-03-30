@@ -1,9 +1,10 @@
 class_name MisobonPath extends Path2D
+## TODO: have the path be adjusted to the world rather than hard set
 
 const GRACE: float = 10 #grace allows for inputs close to a corner to still work
 const GRACE_ERR: float = 10;
 
-#i don't like entire file its freaky
+#i don't like the entire file its freaky
 var lower_bound: Array[float]
 var lower_bound_err: Array[float]
 var upper_bound: Array[float]
@@ -11,6 +12,7 @@ var upper_bound_err: Array[float]
 var curve_len: float
 
 func _ready():
+	globals.game.misobon_path = self
 	curve_len = curve.get_baked_length()
 	var seg_len: float = curve_len / 4
 	lower_bound.resize(4)

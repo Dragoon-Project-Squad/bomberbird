@@ -18,3 +18,6 @@ class_name StageNodeData extends Resource
 
 func _init():
 	self.resource_local_to_scene = true
+
+func get_stage_path() -> String:
+	return selected_scene_path + "/" + selected_scene_file

@@ -4,38 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://b7xhajclwoa2f" path="res://assets/tilesetimages/desert_objects.png" id="2_qd0fb"]
 [ext_resource type="AudioStream" uid="uid://36rjkxoq18ne" path="res://sound/fx/debrisdeath.wav" id="3_8bomw"]
 
-
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(32, 32)
 
 [sub_resource type="Animation" id="2"]
 resource_name = "explode"
-tracks/0/type = "method"
-tracks/0/imported = false
-tracks/0/enabled = false
-tracks/0/path = NodePath(".")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(1),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"queue_free"
-}]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6pqaw"]
 _data = {
@@ -59,7 +32,7 @@ shape = SubResource("1")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_6pqaw")
+&"": SubResource("AnimationLibrary_6pqaw")
 }
 
 [node name="BreakableSound" type="AudioStreamPlayer2D" parent="."]

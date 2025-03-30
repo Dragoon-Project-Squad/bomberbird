@@ -21,12 +21,12 @@ class_name PickupTable extends Resource
 
 
 var pickup_weights: Dictionary = {}
-var initialized: bool = false # This is kinda hacky but _init() doesn't work for this
+var is_uptodate: bool = false # This is kinda hacky but _init() doesn't work for this
 
 func _init():
 	self.resource_local_to_scene = true
 
-func init():
+func update():
 	pickup_weights = {
 		globals.pickups.BOMB_UP: extra_bomb,
 		globals.pickups.FIRE_UP: explosion_boost,
@@ -46,9 +46,9 @@ func init():
 		#globals.pickups.REMOTE: remote_control,
 		#globals.pickups.SEEKER: seeker_bomb,
 		}
-	initialized = true
+	is_uptodate = true
 
-func force_update():
+func reverse_update():
 	extra_bomb = pickup_weights[globals.pickups.BOMB_UP]
 	explosion_boost = pickup_weights[globals.pickups.FIRE_UP]
 	speed_boost = pickup_weights[globals.pickups.SPEED_UP]
@@ -67,11 +67,9 @@ func force_update():
 	#remote_control = pickup_weights[globals.pickups.REMOTE]
 	#seeker_bomb = pickup_weights[globals.pickups.SEEKER]
 
-
-
 func total_weight() -> int:
-	if !initialized:
-		init()
+	if !is_uptodate:
+		update()
 	var sum = 0
 	for key in pickup_weights.keys():
 		sum += pickup_weights[key]

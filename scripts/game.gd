@@ -1,0 +1,49 @@
+class_name Game extends Node2D
+
+var player_manager: PlayerManager
+var player_spawner: MultiplayerSpawner
+var misobon_path: MisobonPath
+var misobon_player_spawner: MultiplayerSpawner
+var bomb_pool: BombPool
+var pickup_pool: PickupPool
+var breakable_pool: BreakablePool
+var game_ui: CanvasLayer
+var win_screen: Control
+var stage: World
+
+var players_are_spawned: bool = false
+
+func _init():
+	globals.game = self
+
+func start():
+	pass
+
+func reset():
+	for player in player_manager.get_alive_players():
+		player.reset_pickups()
+
+	for bomb in bomb_pool.get_children().filter(func (b): return b is BombRoot && b.in_use):
+		if is_multiplayer_authority():
+			bomb.disable.rpc()
+		bomb_pool.return_obj(bomb)
+
+	for pickup in pickup_pool.get_children().filter(func (p): return p is Pickup && p.in_use):
+		if is_multiplayer_authority():
+			pickup.disable_collison_and_hide.rpc()
+			pickup.disable.rpc()
+		pickup_pool.return_obj(pickup)
+
+	for breakable in breakable_pool.get_children().filter(func (b): return b is Breakable && b.in_use):
+		if is_multiplayer_authority():
+			breakable.disable_collison_and_hide.rpc()
+			breakable.disable.rpc()
+		breakable_pool.return_obj(breakable)
+
+
+func load_level_graph(_path: String):
+	pass
+
+func _check_ending_condition(_alive_enemies: int):
+	pass
+	
