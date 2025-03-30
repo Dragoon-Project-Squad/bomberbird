@@ -11,6 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://c3dded4qppq4" path="res://sound/fx/playerhurt.wav" id="7_ho0y0"]
 
 [sub_resource type="Resource" id="Resource_jvckf"]
+resource_local_to_scene = true
 script = ExtResource("2_05k0c")
 metadata/_custom_type_script = "uid://dfosda1bstp2m"
 
@@ -97,7 +98,6 @@ texture = ExtResource("3_lr0sp")
 offset = Vector2(-0.075, -8.236)
 hframes = 6
 vframes = 4
-frame = 6
 
 [node name="kaboom" type="Sprite2D" parent="."]
 visible = false

@@ -77,9 +77,8 @@ func revive(pos: Vector2):
 	player.synced_position = corrected_pos
 	player.position = corrected_pos
 	await $AnimationPlayer.animation_finished
-	player.process_mode = PROCESS_MODE_INHERIT
-	if is_multiplayer_authority():
-		player.exit_death_state()
+	if player.is_multiplayer_authority():
+		player.exit_death_state.rpc()
 		disable.rpc()
 
 func update_animation(segment_index: int):

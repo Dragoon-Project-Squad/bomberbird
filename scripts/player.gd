@@ -159,23 +159,24 @@ func enter_death_state():
 	hide()
 	process_mode = PROCESS_MODE_DISABLED
 	
+@rpc("call_local")
 func exit_death_state():
+	process_mode = PROCESS_MODE_INHERIT
 	player_revived.emit()
 	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
 	$AnimationPlayer.play("player_animations/revive")
-	await $AnimationPlayer.animation_finished
 	$Hitbox.set_deferred("disabled", 0)
-	lives += 1
+	await $AnimationPlayer.animation_finished
 	stunned = false
 	is_dead = false
 	do_invulnerabilty()
 
 func reset_pickups():
-	pickups.reset()
 	movement_speed = movement_speed_reset
 	bomb_count = bomb_count_reset
 	lives = lives_reset
 	explosion_boost_count = explosion_boost_count_reset
+	pickups.reset()
 
 
 

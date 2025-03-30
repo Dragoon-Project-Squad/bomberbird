@@ -265,7 +265,7 @@ func end_game():
 	if globals.game != null: # Game is in progress.
 		# End it
 		globals.game.queue_free()
-		if !multiplayer.is_server():
+		if !multiplayer.is_server(): #BUG: This is likely the culprite for #100 but i don't understand mp enought yet to change it
 			peer.close()
 	game_ended.emit() 
 	players.clear()
