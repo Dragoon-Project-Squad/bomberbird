@@ -1,22 +1,27 @@
 extends CanvasLayer
 
 var player_labels = {}
+var players_left = -1
+var someone_dead = false
 var time
-# Called when the node enters the scene tree for the first time.
+
+@onready var match_timer: Timer = %MatchTimer
+@onready var remaining_time: Label = %RemainingTime
+@onready var player_container: HBoxContainer = $Border/Container/Players
+
 func _ready() -> void:
 	globals.game.game_ui = self
-	set_process(true)
 
 func _process(_delta: float) -> void:
-	time = %MatchTimer.get_time_left()
-	%RemainingTime.set_text(time_to_string())
+	time = match_timer.get_time_left()
+	remaining_time.set_text(time_to_string())
 
 func increase_score(for_who):
 	assert(for_who in player_labels)
 	var pl = player_labels[for_who]
 	pl.score += 1
 	pl.scorelabel.set_text(str(pl.score))
-
+	
 func decrease_score(for_who):
 	assert(for_who in player_labels)
 	var pl = player_labels[for_who]
@@ -26,7 +31,6 @@ func decrease_score(for_who):
 @rpc("call_local")
 func add_player(id: int, new_player_name: String):
 	var order: int = player_labels.size() + 1
-	var player_container: HBoxContainer = get_node("Border/Container/Players")
 
 	player_labels[id] = {
 		namelabel = player_container.get_node("P" + str(order) + "/P" + str(order) + "Name"),
@@ -49,3 +53,7 @@ func time_to_string() -> String:
 
 func _on_exit_game_pressed() -> void:
 	gamestate.end_game()
+
+
+func _on_hurry_up_start() -> void:
+	remaining_time.add_theme_color_override("font_color", Color(255, 0, 0)) # Replace with function body.

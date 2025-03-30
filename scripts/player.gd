@@ -37,19 +37,32 @@ var bomb_total: int
 
 @export_subgroup("player properties") #Set in inspector
 @export var movement_speed: float = BASE_MOTION_SPEED
-@export var bomb_count: int
-@export var lives: int
-@export var explosion_boost_count: int
+@export var bomb_count: int = 2
+@export var lives: int = 1
+@export var explosion_boost_count: int = 0
 @export var pickups: HeldPickups
+
+var movement_speed_reset: float
+var bomb_count_reset: int
+var lives_reset: int
+var explosion_boost_count_reset: int
+
 
 func _ready():
 	player_died.connect(globals.player_manager._on_player_died)
 	player_revived.connect(globals.player_manager._on_player_revived)
+
 	position = synced_position
 	bomb_total = bomb_count
 	bomb_pool = globals.game.bomb_pool
 	pickup_pool = globals.game.pickup_pool
 	game_ui = globals.game.game_ui
+
+	movement_speed_reset = movement_speed
+	bomb_count_reset = bomb_count
+	lives_reset = lives
+	explosion_boost_count_reset = explosion_boost_count
+
 
 func _process(delta: float):
 	if !invulnerable:
@@ -59,12 +72,12 @@ func _process(delta: float):
 	invulnerable_total_time += delta
 	invulnerable_animation_time += delta
 	if invulnerable_total_time >= INVULNERABILITY_TIME:
-		show()
 		invulnerable = false
 	elif invulnerable_animation_time >= INVULNERABILITY_FLASH_TIME:
 		self.visible = !self.visible
 		invulnerable_animation_time = 0
 	
+
 func _physics_process(_delta: float):
 	pass
 
@@ -140,7 +153,7 @@ func enter_death_state():
 	$AnimationPlayer.play("player_animations/death")
 	$Hitbox.set_deferred("disabled", 1)
 	spread_items() #TODO: Check if battlemode
-	pickups.reset()
+	reset_pickups()
 	await $AnimationPlayer.animation_finished
 	player_died.emit()
 	hide()
@@ -156,6 +169,15 @@ func exit_death_state():
 	stunned = false
 	is_dead = false
 	do_invulnerabilty()
+
+func reset_pickups():
+	pickups.reset()
+	movement_speed = movement_speed_reset
+	bomb_count = bomb_count_reset
+	lives = lives_reset
+	explosion_boost_count = explosion_boost_count_reset
+
+
 
 func spread_items():
 	if !is_multiplayer_authority():
@@ -189,7 +211,6 @@ func spread_items():
 			var pos_array: Array = world_data.get_random_empty_tiles(pickup_count[i])
 			for j in range(pos_array.size()):
 				to_place_pickups[pickup_types[i]][j].place.rpc(pos_array[j])
-
 
 func do_invulnerabilty():
 	invulnerable_total_time = 0

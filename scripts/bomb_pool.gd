@@ -15,4 +15,4 @@ func request(spawn_data: Array = []) -> BombRoot:
 	return super(spawn_data)
 
 func request_group(count: int, spawn_data: Array = []) -> Array[BombRoot]:
-	return super(spawn_data, count)
+	return super(count, spawn_data)

@@ -8,11 +8,12 @@ const PICKUP_SPAWN_BASE_CHANCE := 1.0
 @onready var breakable_sfx_player := $BreakableSound
 
 var rng = RandomNumberGenerator.new()
-var pickup_pool: PickupPool
-var breakable_pool: BreakablePool
+var in_use: bool = false
 
 @rpc("call_local")
-func disable_collison():
+func disable_collison_and_hide():
+	in_use = false
+	self.hide()
 	$Shape.set_deferred("disabled", 1)
 
 @rpc("call_local")
@@ -22,10 +23,8 @@ func disable():
 
 @rpc("call_local")
 func place(pos: Vector2):
-	if pickup_pool == null:
-		pickup_pool = globals.game.pickup_pool
-	if breakable_pool == null:
-		breakable_pool = globals.game.breakable_pool
+	in_use = true
+	$Shape.set_deferred("disabled", 0)
 	self.position = pos
 	self.show()
 	
@@ -49,22 +48,22 @@ func decide_pickup_type() -> int:
 func exploded(by_who):
 	# breakable_sfx_player.play()
 	$"AnimationPlayer".play("explode")
-	# Spawn a powerup where this rock used to be.
 
+	# Spawn a powerup where this rock used to be.
 	if is_multiplayer_authority():
 		if decide_pickup_spawn() && by_who != gamestate.ENVIRONMENTAL_KILL_PLAYER_ID:
 			var type_of_pickup: int = decide_pickup_type()
-			var pickup: Pickup = pickup_pool.request(type_of_pickup)
+			var pickup: Pickup = globals.game.pickup_pool.request(type_of_pickup)
 			pickup.place.rpc(self.position)
 		else:
 			world_data.set_tile.rpc(world_data.tiles.EMPTY, global_position) #We only wanne delete this cell if no pickup is spawned on it
 			
 	if is_multiplayer_authority():
-		disable_collison.rpc()
+		disable_collison_and_hide.rpc()
 	astargrid_handler.astargrid_set_point(global_position, false)
 	await $"AnimationPlayer".animation_finished #Wait for the animation to finish
 	if is_multiplayer_authority():
 		disable.rpc()
-	breakable_pool.return_obj(self)
+	globals.game.breakable_pool.return_obj(self)
 
 	

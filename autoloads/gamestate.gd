@@ -47,15 +47,15 @@ signal game_ended()
 signal game_error(what)
 
 # Preloaded Scenes
-var game_scene = preload("res://scenes/game.tscn")
-var graph_name: String = "test_graph_1.res"
+var campaign_game_scene: String = "res://scenes/campaign_game.tscn"
+var battlemode_game_scene: String = "res://scenes/battlemode_game.tscn"
 
 # Singleplayer Vars
-var current_level: int = 205 # Defaults to a high number for battle mode.
+var current_level: int = 1 #205 # Defaults to a high number for battle mode.
 
 # Battle Mode vars
 enum misobon_states {OFF, ON, SUPER}
-var misobon_mode = misobon_states.SUPER #For debugging let state be default to super even in Singleplayer
+var misobon_mode = misobon_states.OFF #For debugging let state be default to super even in Singleplayer
 
 # Callback from SceneTree.
 func _player_connected(id):
@@ -156,12 +156,12 @@ func establish_player_counts() -> void:
 	add_ai_players() #Depends on knowing the total player count and human player count to do its job
 	
 @rpc("call_local")
-func load_world(mode: int):
+func load_world(game_scene):
 	# Change scene.
-	var game = game_scene.instantiate()
+	var game = load(game_scene).instantiate()
 	get_tree().get_root().add_child(game)
-	game.current_game_type = mode
-	game.load_level_graph(graph_name)
+	if has_node("/root/MainMenu/DebugCampaignSelector"):
+		game.load_level_graph(get_node("/root/MainMenu/DebugCampaignSelector").get_graph())
 	game.start()
 	if get_tree().get_root().has_node("Lobby"):
 		get_tree().get_root().get_node("Lobby").hide()
@@ -199,19 +199,19 @@ func get_player_name():
 
 func begin_singleplayer_game():
 	human_player_count = 1
-	total_player_count = human_player_count + 3
+	total_player_count = human_player_count
 
 	characters[1] = DEFAULT_PLAYER_TEXTURE_PATH
 
-	add_ai_players()
-
-	load_world.rpc(Game.game_type.BATTLE_MODE) #TODO: change this when we have a working wincondition of the CAMPAIGN
+	load_world.rpc(campaign_game_scene)
 
 func begin_game():
+	current_level = 205
+	misobon_mode = misobon_states.SUPER
 	if players.size() == 0: # If players disconnected at character select
 		game_error.emit("All other players disconnected")
 		end_game()
-	load_world.rpc(Game.game_type.BATTLE_MODE)
+	load_world.rpc(battlemode_game_scene)
 	
 func add_ai_players():
 	var ai_player_count = total_player_count - human_player_count

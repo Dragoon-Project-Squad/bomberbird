@@ -23,16 +23,16 @@ class_name World
 ## The Rectangle that determans the world_edge hence outside of which items are wrapped around to the other side
 @export var _world_edge_rect: Rect2i
 ## list of spawnpoints (if there are less players then spawnpoints they will be used in order)
-## if there is more players then spawnpoints, spawnpoints will be choosen randomly
+## if there is more players then spawnpoints, more spawnpoints will be added randomly
 @export var spawnpoints: Array[Vector2i]
 @export var exit_table: ExitTable
 @export var enemy_table: EnemyTable
 @export var pickup_table: PickupTable
 
-@onready var floor_layer = $Floor
-@onready var bounds_layer = $Bounds
-@onready var obstacles_layer = $Obstacles
-@onready var hurry_up = $HurryUp
+@onready var floor_layer: TileMapLayer = $Floor
+@onready var bounds_layer: TileMapLayer = $Bounds
+@onready var obstacles_layer: TileMapLayer = $Obstacles
+@onready var hurry_up: TileMapLayer = $HurryUp
 
 @onready var music = $Music
 
@@ -40,26 +40,43 @@ class_name World
 var _unbreakable_tile: Vector2i
 var _rng = RandomNumberGenerator.new()
 
-var breakable_pool: BreakablePool
-
 # PRIVATE FUNCTIONS
 
 func _ready() -> void:
 	_asserting_world()
 	disable()
-	breakable_pool = globals.game.breakable_pool
 
-func stage_ended():
-	pass
+func spawn_exits():
+	assert(exit_table, "exit table is null but trying to spawn exits")
+	var iter: int = 0 
+	var children_ids: Array[int] = globals.game.stage_data_arr[globals.game.curr_stage_idx].children
+	print(globals.game.curr_stage_idx, ", ", children_ids)
+
+	for exit_entry in exit_table.exits:
+		var exit_pos: Vector2 = world_data.tile_map.map_to_local(exit_entry.coords)
+		assert(world_data.is_out_of_bounds(exit_pos) == world_data.bounds.IN,
+			"exit at position " + str(exit_entry.coords) + " is out of bounds for current stage")
+		assert(!world_data.is_tile(world_data.tiles.UNBREAKABLE, exit_pos),
+			"exit at position " + str(exit_entry.coords) + " is ontop of an unbreakable")
+		globals.game.exit_pool.request(exit_entry.color).place(exit_pos, children_ids[iter])
+		iter += 1
 
 func disable():
+	hide()
 	music.stop()
 
 	bounds_layer.collision_enabled = false
 	obstacles_layer.collision_enabled = false
 
+
 @warning_ignore("SHADOWED_VARIABLE")
-func enable(exit_table: ExitTable, enemy_table: EnemyTable, pickup_table: PickupTable, spawnpoints: Array[Vector2i]):
+func enable(
+	exit_table: ExitTable = null,
+	enemy_table: EnemyTable = null,
+	pickup_table: PickupTable = self.pickup_table,
+	spawnpoints: Array[Vector2i] = self.spawnpoints,
+):
+	show()
 	music.play()
 	globals.current_world = self
 
@@ -76,11 +93,15 @@ func enable(exit_table: ExitTable, enemy_table: EnemyTable, pickup_table: Pickup
 	world_data.init_unbreakables(_unbreakable_tile, obstacles_layer)
 	astargrid_handler.setup_astargrid()
 
-	self.enemy_table = enemy_table.duplicate()
-	self.exit_table = exit_table.duplicate()
+	if enemy_table:
+		self.enemy_table = enemy_table.duplicate()
+
+	if exit_table:
+		self.exit_table = exit_table.duplicate()
+
 	self.pickup_table = pickup_table.duplicate()
 	pickup_table.update()
-	print(pickup_table.pickup_weights)
+
 	self.spawnpoints = spawnpoints
 
 	_set_spawnpoints()
@@ -95,16 +116,15 @@ func enable(exit_table: ExitTable, enemy_table: EnemyTable, pickup_table: Pickup
 
 ## resets a stage s.t. it may be reused later
 func reset():
-	for breakable in breakable_pool.get_children():
-		if !(breakable is Breakable): continue
-		if !breakable.visible: continue #If the breakable is visible we may assume it is in use
+	if hurry_up: hurry_up.disable()
+	for exit in globals.game.exit_pool.get_children().filter(func (e): return e is Exit && e.in_use):
 		if is_multiplayer_authority():
-			breakable.disable_collision.rpc()
-			breakable.disable.rpc()
-		breakable_pool.return_obj(breakable)
+			exit.disable.rpc()
+		globals.game.exit_pool.return_obj(exit)
 
+	
 func _spawn_enemies():
-	pass
+	assert(enemy_table, "enemy table is null but trying to spawn exits")
 
 ## Asserts that properties of the world are set correctly
 func _asserting_world():
@@ -118,8 +138,9 @@ func _spawn_breakable(cell: Vector2i):
 	world_data.init_breakable(cell)
 	var spawn_coords = world_data.tile_map.map_to_local(cell)
 	astargrid_handler.astargrid_set_point.rpc(spawn_coords, true)
-	breakable_pool.request().place(spawn_coords)
+	globals.game.breakable_pool.request().place.rpc(spawn_coords)
 
+#TODO: This way of randomly choosing spawnpoints is kinda dumb so we have to make a better one
 ## sets spawnpoints
 func _set_spawnpoints():
 	var remaining_spawnpoints: int = gamestate.total_player_count - spawnpoints.size()
@@ -152,6 +173,7 @@ func _place_players():
 		globals.player_manager.get_node(str(p_id)).position = world_data.tile_map.map_to_local(spawnpoints[spawn_points[p_id]])	
 
 func _spawn_player():
+	globals.game.players_are_spawned = true
 	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
 	var spawn_points = {}
 	var spawn_point_idx = 0
@@ -165,7 +187,6 @@ func _spawn_player():
 
 	for p_id in spawn_points:
 		var spawn_pos: Vector2 = world_data.tile_map.map_to_local(spawnpoints[spawn_points[p_id]])
-		print(p_id, ": ", spawn_pos) 
 		var playerspawner: MultiplayerSpawner = globals.game.player_spawner
 		var misobonspawner: MultiplayerSpawner = globals.game.misobon_player_spawner
 		var spawningdata = {"spawndata": spawn_pos, "pid": p_id, "defaultname": gamestate.player_name, "playerdictionary": gamestate.players, "characterdictionary": gamestate.characters}

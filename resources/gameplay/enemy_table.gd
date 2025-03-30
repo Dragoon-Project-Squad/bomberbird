@@ -32,3 +32,6 @@ func get_coords() -> Array[Vector2i]:
 	return Array(enemies.map(
 		func (entry: Dictionary) -> Vector2i: return entry.coords,
 	), TYPE_VECTOR2I, "", null)
+
+func size() -> int:
+	return len(enemies)

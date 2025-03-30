@@ -4,6 +4,7 @@ class_name Pickup extends Area2D
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var collisionbox: CollisionShape2D = $CollisionShape2D
 
+var in_use: bool = false
 var pickup_type: int = globals.pickups.NONE:
 	set(type): #i don't like setters but it only enforces something here so its okey
 		if pickup_type != globals.pickups.NONE:
@@ -15,6 +16,7 @@ func _ready():
 
 @rpc("call_local")
 func disable_collison_and_hide():
+	in_use = false
 	hide()
 	world_data.set_tile(world_data.tiles.EMPTY, self.global_position)
 	collisionbox.set_deferred("disabled", 1)
@@ -30,6 +32,7 @@ func disable():
 	process_mode = PROCESS_MODE_DISABLED
 
 func enable():
+	in_use = true
 	process_mode = PROCESS_MODE_INHERIT
 	enable_collison()
 	show()

@@ -19,10 +19,10 @@ func _ready():
 
 	# create and add the SuggestionLineEdit
 	var file_name_input: SuggestionLineEdit = SuggestionLineEdit.new()
-	file_name_input.text_changed.connect(func(new_text: String): file_name = new_text)
+	file_name_input.name = "LoadSaveLEdit"
 	get_menu_hbox().add_child(file_name_input)
 
-	# create and add the save button
+	# create and add the load button
 	var load_button: Button = Button.new()
 	load_button.text = "load"
 	load_button.pressed.connect(_on_load_pressed)
@@ -30,9 +30,16 @@ func _ready():
 	
 	# create and add the save button
 	var save_button: Button = Button.new()
-	save_button.text = "Save"
+	save_button.text = "save"
 	save_button.pressed.connect(_on_save_pressed)
 	get_menu_hbox().add_child(save_button)
+
+	# create and add the close button
+	var close_button: Button = Button.new()
+	close_button.text = "close"
+	close_button.pressed.connect(_on_close_pressed)
+	get_menu_hbox().add_child(close_button)
+
 	
 	self.right_disconnects = true
 
@@ -117,10 +124,16 @@ func _on_save_pressed():
 	if start_node != null:
 		_save_bfs(start_node, graph_data.nodes)
 	if ResourceSaver.save(graph_data, SAVE_PATH + "/" + file_name + ".res") == OK:
-		print("Graph saved")
+		print("Graph saved at: ", SAVE_PATH + "/" + file_name + ".res")
 	else:
 		print("saving graph failed")
-	
+
+func _on_close_pressed():
+	if !get_parent(): 
+		get_tree().quit()
+	else:
+		self.queue_free()
+
 ## a Factory that creates StageNodeData's from StageNode
 func _save_node(node: StageNode, index: int) -> StageNodeData:
 	var node_data = StageNodeData.new()
@@ -135,6 +148,10 @@ func _save_node(node: StageNode, index: int) -> StageNodeData:
 	node_data.stage_node_title = node.title
 	node_data.stage_node_pos = node.position_offset
 	node_data.index = index
+
+	#fill the children array with -1 we later only overwrite an index in this array if it leads to a next stage
+	node_data.children.resize(node.exit_resource.size())
+	node_data.children.fill(-1)
 	return node_data
 
 ## A bfs graph traversale inwhich each node will be saved to the StageNodeData array. A bfs is used to also store the array indices of the children to each entry
@@ -155,11 +172,11 @@ func _save_bfs(starting_node: StageNode, node_array: Array[StageNodeData]):
 			var child: StageNode = self.get_node(str(connection.to_node))
 			# If we have seen this child already just tell the resource its connected to it
 			if visited.has(child): 
-				curr_node.children.append(visited[child].index)
+				curr_node.children[connection.from_port] = visited[child].index
 				continue
 			# If we have not seen this child yet create a new resource and append it to the array
 			var child_node_res: StageNodeData = _save_node(child, len(node_array))
-			curr_node.children.append(child_node_res.index)
+			curr_node.children[connection.from_port] = child_node_res.index
 			node_array.append(child_node_res)
 			visited[child] = child_node_res
 			queue.append(child_node_res)

@@ -1,0 +1,75 @@
+[gd_scene load_steps=14 format=3 uid="uid://cnh2gm7b6k6qf"]
+
+[ext_resource type="Script" uid="uid://ddbcnbcl4rnuf" path="res://scripts/campaign_game.gd" id="1_xj4ag"]
+[ext_resource type="PackedScene" uid="uid://c08ari0b7ej0q" path="res://scenes/stage_handler.tscn" id="2_6c1o1"]
+[ext_resource type="Script" uid="uid://c6ubwejmc188k" path="res://players_manager.gd" id="3_1u21r"]
+[ext_resource type="Script" uid="uid://cc3ogep372v8" path="res://scripts/player_spawner.gd" id="4_8ic0x"]
+[ext_resource type="Script" uid="uid://v2bbm1lgibpy" path="res://scripts/misobon_path.gd" id="5_qa6w2"]
+[ext_resource type="Script" uid="uid://cb0rr8pr2674f" path="res://scripts/misobon_player_spawner.gd" id="6_8w4nb"]
+[ext_resource type="PackedScene" uid="uid://ct05gu8w1wo42" path="res://scenes/exit_pool.tscn" id="7_6c1o1"]
+[ext_resource type="PackedScene" uid="uid://ywlmyq88jlvj" path="res://scenes/breakable_pool.tscn" id="7_u5d24"]
+[ext_resource type="PackedScene" uid="uid://c4i5gyl4cut3t" path="res://scenes/bombs/bomb_pool.tscn" id="8_o8wef"]
+[ext_resource type="PackedScene" uid="uid://b22qg08qddy6x" path="res://scenes/pick_up_pool.tscn" id="9_t8ctp"]
+[ext_resource type="PackedScene" uid="uid://b3638glthchxv" path="res://scenes/ingame_ui/battlemode_game_ui.tscn" id="10_tpvnf"]
+[ext_resource type="PackedScene" uid="uid://mjwddadi7v4o" path="res://scenes/ingame_ui/record_winner.tscn" id="11_6b2un"]
+
+[sub_resource type="Curve2D" id="Curve2D_6r17b"]
+_data = {
+"points": PackedVector2Array(0.297315, 2.88107, 0, 0, 240, 16, 0, 0, 0, 0, 464, 16, 0, 0, 0, 0, 464, 464, 0, 0, 0, 0, 16, 464, 0, 0, 0, 0, 16, 16, 0, 0, 0, 0, 240, 16)
+}
+point_count = 6
+
+[node name="CampaignGame" type="Node2D"]
+script = ExtResource("1_xj4ag")
+
+[node name="StageHandler" parent="." instance=ExtResource("2_6c1o1")]
+
+[node name="Players" type="Node2D" parent="."]
+script = ExtResource("3_1u21r")
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="Players"]
+spawn_path = NodePath("..")
+script = ExtResource("4_8ic0x")
+
+[node name="MisobonPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_6r17b")
+script = ExtResource("5_qa6w2")
+
+[node name="MisobonPlayerSpawner" type="MultiplayerSpawner" parent="MisobonPath"]
+spawn_path = NodePath("..")
+script = ExtResource("6_8w4nb")
+
+[node name="ExitPool" parent="." instance=ExtResource("7_6c1o1")]
+
+[node name="BreakablePool" parent="." instance=ExtResource("7_u5d24")]
+
+[node name="BombPool" parent="." instance=ExtResource("8_o8wef")]
+
+[node name="PickupPool" parent="." instance=ExtResource("9_t8ctp")]
+extra_bomb = 15
+explosion_boost = 15
+speed_boost = 15
+max_explosion = 5
+punch_ability = 10
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(250, 250)
+zoom = Vector2(1.3, 1.3)
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="MatchTimer" type="Timer" parent="Timers"]
+unique_name_in_owner = true
+wait_time = 120.0
+one_shot = true
+autostart = true
+
+[node name="MultiplayerGameUI" parent="." instance=ExtResource("10_tpvnf")]
+visible = false
+
+[node name="GameEndState" parent="." instance=ExtResource("11_6b2un")]
+visible = false
+offset_left = -193.0
+offset_top = 1.0
+offset_right = 693.0
+offset_bottom = 499.0

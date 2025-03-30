@@ -73,12 +73,14 @@ func revive(pos: Vector2):
 	if gamestate.misobon_mode != gamestate.misobon_states.SUPER || !player.is_dead:
 		return
 	play_despawn_animation()
-	player.synced_position = pos
-	player.position = pos
+	var corrected_pos: Vector2 = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(pos))
+	player.synced_position = corrected_pos
+	player.position = corrected_pos
 	await $AnimationPlayer.animation_finished
 	player.process_mode = PROCESS_MODE_INHERIT
-	player.exit_death_state()
-	disable()
+	if is_multiplayer_authority():
+		player.exit_death_state()
+		disable.rpc()
 
 func update_animation(segment_index: int):
 	var animations: Array[String] = ["look_down", "look_left", "look_up", "look_right"]
