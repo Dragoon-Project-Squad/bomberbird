@@ -1,5 +1,9 @@
 extends GraphEdit
 
+signal has_loaded
+signal has_saved
+signal has_closed
+
 const SAVE_PATH: String = "res://resources/level_graph/saved_graphs"
 
 @onready var entry_point: GraphNode = $EntryPoint
@@ -20,6 +24,8 @@ func _ready():
 	# create and add the SuggestionLineEdit
 	var file_name_input: SuggestionLineEdit = SuggestionLineEdit.new()
 	file_name_input.name = "LoadSaveLEdit"
+	has_saved.connect(file_name_input._on_graph_edit_saved)
+	file_name_input.text_changed.connect(func (new_text: String): file_name = new_text)
 	get_menu_hbox().add_child(file_name_input)
 
 	# create and add the load button
@@ -106,6 +112,7 @@ func load_graph(graph_data: LevelGraphData):
 func _on_load_pressed():
 	if ResourceLoader.exists(SAVE_PATH + "/" + file_name + ".res"):
 		load_graph(ResourceLoader.load(SAVE_PATH + "/" + file_name + ".res"))
+		has_loaded.emit()
 	else:
 		print("No savedata loaded")
 
@@ -125,6 +132,7 @@ func _on_save_pressed():
 		_save_bfs(start_node, graph_data.nodes)
 	if ResourceSaver.save(graph_data, SAVE_PATH + "/" + file_name + ".res") == OK:
 		print("Graph saved at: ", SAVE_PATH + "/" + file_name + ".res")
+		has_saved.emit()
 	else:
 		print("saving graph failed")
 
@@ -133,6 +141,7 @@ func _on_close_pressed():
 		get_tree().quit()
 	else:
 		self.queue_free()
+	has_closed.emit()
 
 ## a Factory that creates StageNodeData's from StageNode
 func _save_node(node: StageNode, index: int) -> StageNodeData:

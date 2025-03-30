@@ -13,6 +13,7 @@ func get_graph() -> String:
 	return selector.get_item_text(selector.selected)
 
 func _get_file_name_from_dir(path: String):
+	selector.clear()
 	var scene_dir = DirAccess.open(path)
 	assert(scene_dir, "stage scene dir not found at: " + path)
 
@@ -33,9 +34,11 @@ func _on_graph_button_pressed():
 		add_child(level_graph_editor)
 	level_graph_editor.get_menu_hbox().get_node("LoadSaveLEdit").text = get_graph()
 	level_graph_editor.file_name = get_graph()
+	level_graph_editor.has_saved.connect(_get_file_name_from_dir.bind(SAVED_GRAPHS_FOLDER))
 
 	if ResourceLoader.exists(SAVED_GRAPHS_FOLDER+ "/" + get_graph() + ".res"):
 		level_graph_editor.load_graph(ResourceLoader.load(SAVED_GRAPHS_FOLDER + "/" + get_graph() + ".res"))
+		level_graph_editor.has_loaded.emit()
 	else:
 		print("No savedata loaded")
 	
