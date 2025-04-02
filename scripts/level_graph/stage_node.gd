@@ -32,10 +32,10 @@ var exit_in_port_color: Color = Color.SILVER
 # ----------------------------- init functions
 
 func _ready():
-	_get_file_name_from_dir(STAGE_SCENE_DIR, [], stages_subfolders)
+	get_file_name_from_dir(STAGE_SCENE_DIR, [], stages_subfolders)
 	_set_scene_options(stages_subfolders)
 
-	_get_file_name_from_dir(ENEMY_SCENE_DIR, [], enemy_subfolders)
+	get_file_name_from_dir(ENEMY_SCENE_DIR, [], enemy_subfolders)
 
 	set_slot(
 		0,
@@ -104,13 +104,13 @@ func _set_enemy_options(enemy_option: OptionButton):
 	enemy_option.selected = -1
 
 ## given a scene and its subfolders returns the path to that scene (if only_dir == true returns the path to the Directory containing the scene rather then the scene)
-func _get_path_to_scene(scene: String, subfolders: Array[String], only_dir: bool = false):
+static func get_path_to_scene(scene: String, subfolders: Array[String], only_dir: bool = false):
 	var ret: String = STAGE_SCENE_DIR.left(len(STAGE_SCENE_DIR) - 1)
 	for s in subfolders:
 		ret += "/" + s
 	return ret + ("/" + scene if !only_dir else "")
 
-func _get_file_name_from_dir(path: String, subfolders: Array[String], subfolder_dict: Dictionary):
+static func get_file_name_from_dir(path: String, subfolders: Array[String], subfolder_dict: Dictionary):
 	var scene_dir = DirAccess.open(path)
 	assert(scene_dir, "stage scene dir not found at: " + path)
 
@@ -119,11 +119,11 @@ func _get_file_name_from_dir(path: String, subfolders: Array[String], subfolder_
 	while scene_file != "":
 		if scene_file.get_extension() == "tscn":
 			if(subfolder_dict.has(scene_file)):
-				push_error("Same filename for differente stages found: " + _get_path_to_scene(scene_file, subfolders) + " and " + _get_path_to_scene(scene_file, subfolder_dict[scene_file]) + "expect fauty behavior")
+				push_error("Same filename for differente stages found: " + get_path_to_scene(scene_file, subfolders) + " and " + get_path_to_scene(scene_file, subfolder_dict[scene_file]) + "expect fauty behavior")
 			subfolder_dict[scene_file] = subfolders.duplicate()
 		elif scene_file.get_extension() == "":
 			subfolders.append(scene_file)
-			_get_file_name_from_dir(path + scene_file, subfolders, subfolder_dict)
+			get_file_name_from_dir(path + scene_file, subfolders, subfolder_dict)
 			subfolders.pop_back()
 
 		scene_file = scene_dir.get_next()
@@ -250,7 +250,7 @@ func _on_scene_options_item_selected(index: int) -> void:
 	if index < 0:
 		return
 	selected_scene_file = scene_options.get_item_text(index)
-	selected_scene_path = _get_path_to_scene(selected_scene_file, stages_subfolders[selected_scene_file], true)
+	selected_scene_path = get_path_to_scene(selected_scene_file, stages_subfolders[selected_scene_file], true)
 	_reset_enemy_options(enemy_subfolders, stages_subfolders[selected_scene_file])
 
 ## prevents the enemy tab from being selected if no scene is selected
@@ -413,7 +413,7 @@ func _on_enemy_position_changed(val: float, enemy: HBoxContainer, is_x: bool,):
 func _on_enemy_file_changed(index: int, enemy: HBoxContainer):
 	var enemy_num: int = enemy.name.to_int() - 1
 	var file_name: String = enemy.get_node("EnemySelect").get_item_text(index)
-	enemy_resource.set_file(enemy_num, file_name, _get_path_to_scene(file_name, enemy_subfolders[file_name], true))
+	enemy_resource.set_file(enemy_num, file_name, get_path_to_scene(file_name, enemy_subfolders[file_name], true))
 
 ## Create a new entry for an exit
 func _on_add_spawn_point_button_pressed() -> void:
