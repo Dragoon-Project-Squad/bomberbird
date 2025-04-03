@@ -5,6 +5,7 @@ enum tile_type {UNBREAKABLE, BREAKABLE, ENEMY, SPAWNPOINT}
 
 @onready var type_select: OptionButton = get_node("Header/TypeSelect")
 @onready var sub_type_select: OptionButton = get_node("Header/SubTypeSelect")
+@onready var probability_select: SpinBox = get_node("Header/ProbabilitySelect")
 @onready var free_draw: Button = get_node("Header/FreeDraw")
 @onready var line_draw: Button = get_node("Header/LineDraw")
 @onready var rect_draw: Button = get_node("Header/RectDraw")
@@ -12,7 +13,6 @@ enum tile_type {UNBREAKABLE, BREAKABLE, ENEMY, SPAWNPOINT}
 @onready var overwrite_checkmark: CheckBox = get_node("Header/Overwrite")
 @onready var grit_container: GridContainer = $GridContainer
 @onready var curr_cell_label: Label = $CurrentCellLabel
-
 
 @export var map_size: Vector2i = Vector2i(13, 11)
 
@@ -31,6 +31,19 @@ var curr_draw_mode: int = draw_mode.FREE
 var curr_type: int = 0
 var curr_sub_type_id: int = 0
 var curr_sub_type_str: String = ""
+var curr_probability: float = 1.0
+
+var enemy_options: Array[String] = []:
+	set(arr):
+		enemy_options = arr
+		if type_select.get_item_id(type_select.selected) != tile_type.ENEMY:
+			return
+		elif arr != []:
+			arr.map(sub_type_select.add_item)
+			sub_type_select.disabled = false
+		else:
+			sub_type_select.clear()
+			sub_type_select.disabled = true
 
 var _is_drawing: bool = false
 var _eraser_is_selected: bool = false
@@ -45,12 +58,6 @@ static func create(modified_cell: Dictionary):
 func _ready(modified_cells_overwrite: Dictionary = {}):
 	modified_cells = modified_cells_overwrite
 
-	free_draw.pressed.connect(func (): curr_draw_mode = draw_mode.FREE)
-	line_draw.pressed.connect(func (): curr_draw_mode = draw_mode.LINE)
-	rect_draw.pressed.connect(func (): curr_draw_mode = draw_mode.RECT)
-	eraser_button.toggled.connect(func (toggled_on: bool): _eraser_is_selected = toggled_on)
-	overwrite_checkmark.toggled.connect(func (toggled_on: bool): _do_overwrite = toggled_on)
-
 	for type in tile_type_name_str.keys():
 		type_select.add_item(tile_type_name_str[type], type)
 	type_select.item_selected.connect(_on_selected_type)
@@ -61,6 +68,13 @@ func _ready(modified_cells_overwrite: Dictionary = {}):
 	)
 	sub_type_select.clear()
 	sub_type_select.disabled = true
+
+	probability_select.value_changed.connect(func (value: float): curr_probability = value)
+	free_draw.pressed.connect(func (): curr_draw_mode = draw_mode.FREE)
+	line_draw.pressed.connect(func (): curr_draw_mode = draw_mode.LINE)
+	rect_draw.pressed.connect(func (): curr_draw_mode = draw_mode.RECT)
+	eraser_button.toggled.connect(func (toggled_on: bool): _eraser_is_selected = toggled_on)
+	overwrite_checkmark.toggled.connect(func (toggled_on: bool): _do_overwrite = toggled_on)
 
 	cell_ui_elements.resize(map_size.x * map_size.y)
 	for j in range(map_size.y):
@@ -82,13 +96,13 @@ func draw(cell: Vector2i):
 	elif (_do_overwrite || !modified_cells.has(cell)) && !_eraser_is_selected:
 		match curr_type:
 			tile_type.UNBREAKABLE:
-				modified_cells[cell] = [tile_type.UNBREAKABLE]
+				modified_cells[cell] = [tile_type.UNBREAKABLE, null, curr_probability]
 			tile_type.BREAKABLE:
-				modified_cells[cell] = [tile_type.BREAKABLE, curr_sub_type_id]
+				modified_cells[cell] = [tile_type.BREAKABLE, curr_sub_type_id, curr_probability]
 			tile_type.ENEMY:
-				modified_cells[cell] = [tile_type.ENEMY, curr_sub_type_str]
+				modified_cells[cell] = [tile_type.ENEMY, curr_sub_type_str, curr_probability]
 			tile_type.SPAWNPOINT:
-				modified_cells[cell] = [tile_type.SPAWNPOINT]
+				modified_cells[cell] = [tile_type.SPAWNPOINT, null, curr_probability]
 		cell_ui_elements[_get_cell_ui_element_index(cell)].apply_texture(modified_cells[cell])
 
 func _set_border_color_to(cell: Vector2i, color: Color = Color.BLACK):
@@ -100,7 +114,6 @@ func _get_cell_ui_element_index(cell: Vector2i):
 ## sets mouse button state
 func _on_grid_container_gui_input(event: InputEvent) -> void:
 	if draw_pos.x == -1: return
-	# The final boss of if statment
 	if event is InputEventMouseButton && draw_pos.x != -1:
 		match event.button_index:
 			MOUSE_BUTTON_LEFT:
@@ -111,7 +124,8 @@ func _on_grid_container_gui_input(event: InputEvent) -> void:
 					_ended_drawing()
 				_is_drawing = event.pressed
 			MOUSE_BUTTON_RIGHT:
-				pass# Color Picker
+				pass# Implement Color Picker
+
 ## set the current mouse position to invalid if we exit the UI element
 func _on_grid_container_mouse_exited() -> void:
 	_set_border_color_to(draw_pos)
@@ -134,11 +148,14 @@ func _on_mouse_entered_cell(cell: Vector2i, force: bool = false):
 	_set_border_color_to(draw_pos)
 	draw_pos = cell
 	_set_border_color_to(cell, Color.WHITE)
+
 	_set_label(cell)
+
 	if !_is_drawing && !force: return
 	var start: Vector2i = Vector2i(min(draw_start.x, draw_pos.x), min(draw_start.y, draw_pos.y))
 	var end: Vector2i = Vector2i(max(draw_start.x, draw_pos.x), max(draw_start.y, draw_pos.y))
 	var new_selected_cells: Array[Vector2i]
+
 	match curr_draw_mode:
 		draw_mode.FREE: 
 			draw(draw_pos)
@@ -191,8 +208,11 @@ func _on_selected_type(index: int):
 				sub_type_select.add_item(globals.pickup_name_str[pickup], pickup)
 		tile_type.ENEMY:
 			sub_type_select.clear()
-			curr_sub_type_str = "ENEMYS NOT YET IMPLEMENTED"
-			#TODO: add as subtypes the scene files of enemies
+			if enemy_options == []:
+				curr_sub_type_str = "ENEMYS NOT YET IMPLEMENTED"
+				sub_type_select.disabled = true
+			else:
+				enemy_options.map(sub_type_select.add_item)
 		tile_type.SPAWNPOINT:
 			sub_type_select.clear()
 			sub_type_select.disabled = true

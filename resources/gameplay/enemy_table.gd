@@ -5,11 +5,12 @@ class_name EnemyTable extends Resource
 func _init():
 	self.resource_local_to_scene = true
 
-func append(enemy_coordinates: Vector2i, enemy_file: String, enemy_path: String):
+func append(enemy_coordinates: Vector2i, enemy_file: String, enemy_path: String, probability: float):
 	var entry: Dictionary = {
 			"coords": enemy_coordinates,
 			"file": enemy_file,
 			"path": enemy_path,
+			"probability": probability,
 		}
 	enemies.append(entry)
 

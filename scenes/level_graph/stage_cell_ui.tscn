@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://bolrwf2kmf1vr"]
+[gd_scene load_steps=3 format=3 uid="uid://bolrwf2kmf1vr"]
 
 [ext_resource type="Script" uid="uid://d03ybrr8yjq3y" path="res://scripts/level_graph/stage_cell_ui.gd" id="1_hiyc1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_gh5p3"]
+font_size = 12
 
 [node name="StageCellUI" type="ReferenceRect"]
 texture_filter = 1
@@ -36,3 +39,11 @@ offset_right = 49.0
 offset_bottom = 23.0
 expand_mode = 2
 stretch_mode = 3
+
+[node name="Probability" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 17.0
+offset_bottom = 17.0
+text = "0.5"
+label_settings = SubResource("LabelSettings_gh5p3")

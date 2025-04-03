@@ -26,6 +26,13 @@ layout_mode = 2
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 
+[node name="ProbabilitySelect" type="SpinBox" parent="Header"]
+layout_mode = 2
+min_value = 0.05
+max_value = 1.0
+step = 0.05
+value = 1.0
+
 [node name="FreeDraw" type="Button" parent="Header"]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
