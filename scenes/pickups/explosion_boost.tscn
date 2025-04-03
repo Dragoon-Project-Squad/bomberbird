@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://cim10emfhkf7b"]
 
 [ext_resource type="Script" uid="uid://b5cnvujl35rcc" path="res://scripts/pickups/explosion_boost.gd" id="1_mcgtw"]
-[ext_resource type="Texture2D" uid="uid://cpcqguecfwnbv" path="res://assets/powerup.png" id="2_nookq"]
+[ext_resource type="Texture2D" uid="uid://cpcqguecfwnbv" path="res://assets/pickups/powerup.png" id="2_nookq"]
 [ext_resource type="AudioStream" uid="uid://8u70xa4tmhc8" path="res://sound/fx/powerup.wav" id="3_mrjxs"]
 [ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_esqs1"]
 [ext_resource type="AnimationLibrary" uid="uid://deqi1mrq6p7pt" path="res://animations/pickup.res" id="5_4h83f"]
