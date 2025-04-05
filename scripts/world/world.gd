@@ -74,7 +74,7 @@ func enable(
 	exit_table: ExitTable = null,
 	enemy_table: EnemyTable = null,
 	pickup_table: PickupTable = self.pickup_table,
-	spawnpoints: Array[Vector2i] = self.spawnpoints,
+	spawnpoints_table: SpawnpointTable = null
 ):
 	show()
 	music.play()
@@ -95,14 +95,23 @@ func enable(
 
 	if enemy_table:
 		self.enemy_table = enemy_table.duplicate()
+		for enemy in enemy_table.enemies:
+			if _rng.randf_range(0, 1) > enemy.probability: continue
+			enemy.coords += world_data.floor_origin
 
 	if exit_table:
 		self.exit_table = exit_table.duplicate()
+		for exit in self.exit_table.exits:
+			exit.coords += world_data.floor_origin
 
 	self.pickup_table = pickup_table.duplicate()
 	pickup_table.update()
 
-	self.spawnpoints = spawnpoints
+	if spawnpoints_table:
+		spawnpoints.clear()
+		for spawnpoint in spawnpoints_table.spawnpoints:
+			if _rng.randf_range(0, 1) > spawnpoint.probability: continue
+			spawnpoints.append(spawnpoint.coords + world_data.floor_origin)
 
 	_set_spawnpoints()
 	if is_multiplayer_authority():
@@ -151,10 +160,8 @@ func _set_spawnpoints():
 		) + world_data.floor_origin
 		if world_data.is_tile(world_data.tiles.UNBREAKABLE, world_data.tile_map.map_to_local(new_spawnpoint)):
 				continue # Skip cells where solid tiles are placed
-		if new_spawnpoint in spawnpoints:
-			continue
-		if new_spawnpoint in enemy_table.get_coords():
-			continue
+		if new_spawnpoint in spawnpoints: continue
+		if new_spawnpoint in enemy_table.get_coords(): continue
 		spawnpoints.append(new_spawnpoint)
 		remaining_spawnpoints -= 1
 

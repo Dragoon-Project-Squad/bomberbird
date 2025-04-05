@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://6r08478oev3y" path="res://scripts/battlemode_game.gd" id="1_3bvga"]
 [ext_resource type="PackedScene" uid="uid://dfsostr8uaxid" path="res://scenes/stages/desert/desert_rand.tscn" id="2_3bvga"]
-[ext_resource type="Script" uid="uid://cbkglrje78k70" path="res://resources/gameplay/exits_table.gd" id="3_l4xky"]
+[ext_resource type="Script" uid="uid://cbkglrje78k70" path="res://resources/gameplay/spawnpoint_table.gd" id="3_l4xky"]
 [ext_resource type="Script" uid="uid://c6ubwejmc188k" path="res://players_manager.gd" id="3_qmebr"]
 [ext_resource type="Script" uid="uid://nldhq7myw75y" path="res://resources/gameplay/enemy_table.gd" id="4_egtpy"]
 [ext_resource type="Script" uid="uid://cc3ogep372v8" path="res://scripts/player_spawner.gd" id="4_l4xky"]

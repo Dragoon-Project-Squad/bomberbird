@@ -143,29 +143,10 @@ func _on_close_pressed():
 		self.queue_free()
 	has_closed.emit()
 
-## a Factory that creates StageNodeData's from StageNode
-func _save_node(node: StageNode, index: int) -> StageNodeData:
-	var node_data = StageNodeData.new()
-	node_data.curr_enemy_options = node.curr_enemy_options
-	node_data.selected_scene_file = node.selected_scene_file
-	node_data.selected_scene_path = node.selected_scene_path
-	node_data.pickup_resource = node.pickup_resource.duplicate()
-	node_data.enemy_resource = node.enemy_resource.duplicate()
-	node_data.exit_resource = node.exit_resource.duplicate()
-	node_data.spawn_point_arr = node.spawn_point_arr.duplicate()
-	node_data.stage_node_name = node.name
-	node_data.stage_node_title = node.title
-	node_data.stage_node_pos = node.position_offset
-	node_data.index = index
-
-	#fill the children array with -1 we later only overwrite an index in this array if it leads to a next stage
-	node_data.children.resize(node.exit_resource.size())
-	node_data.children.fill(-1)
-	return node_data
 
 ## A bfs graph traversale inwhich each node will be saved to the StageNodeData array. A bfs is used to also store the array indices of the children to each entry
 func _save_bfs(starting_node: StageNode, node_array: Array[StageNodeData]):
-	var start_node_data: StageNodeData = _save_node(starting_node, 0)
+	var start_node_data: StageNodeData = starting_node.save_node(0)
 	node_array.append(start_node_data)
 	var queue: Array[StageNodeData] = [start_node_data]
 	var visited: Dictionary = {starting_node: true}
@@ -184,7 +165,7 @@ func _save_bfs(starting_node: StageNode, node_array: Array[StageNodeData]):
 				curr_node.children[connection.from_port] = visited[child].index
 				continue
 			# If we have not seen this child yet create a new resource and append it to the array
-			var child_node_res: StageNodeData = _save_node(child, len(node_array))
+			var child_node_res: StageNodeData = child.save_node(len(node_array))
 			curr_node.children[connection.from_port] = child_node_res.index
 			node_array.append(child_node_res)
 			visited[child] = child_node_res
@@ -223,7 +204,7 @@ func _on_copy_nodes_request():
 	node_clipboard.clear()
 	node_clipboard.resize(len(selected_nodes.keys()))
 	for node in selected_nodes.keys():
-		node_clipboard[index] = _save_node(node, index)
+		node_clipboard[index] = node.save_node(index)
 		node_clipboard[index].stage_node_pos -= Vector2(200, 200)
 		node_clipboard[index].stage_node_title = "copy of " + node_clipboard[index].stage_node_title
 		index += 1
@@ -233,7 +214,7 @@ func _on_cut_nodes_request() -> void:
 	node_clipboard.clear()
 	node_clipboard.resize(len(selected_nodes.keys()))
 	for node in selected_nodes.keys():
-		node_clipboard[index] = _save_node(node, index)
+		node_clipboard[index] = node.save_node(index)
 		node_clipboard[index].stage_node_pos -= Vector2(200, 200)
 		node_clipboard[index].titel = "copy of " + node_clipboard[index].title
 		index += 1
@@ -258,7 +239,7 @@ func _on_paste_nodes_request():
 func _on_duplicate_nodes_request() -> void:
 	var index: int = 0
 	for node in selected_nodes.keys():
-		var temp_storage: StageNodeData = _save_node(node, index)
+		var temp_storage: StageNodeData = node.save_node(index)
 		temp_storage.stage_node_pos -= Vector2(200, 200)
 		temp_storage.stage_node_title = "copy of " + temp_storage.stage_node_titel
 

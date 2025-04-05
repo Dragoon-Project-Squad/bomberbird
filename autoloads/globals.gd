@@ -23,9 +23,10 @@ enum pickups {
 	SEEKER,
 	GENERIC_BOMB, # A generic value describing a pickup that changes the bomb type (also mutaly exclusive with other bomb types)
 	NONE, # A value describing the absens of a pickup
-	}
+	RANDOME, # A value describing a random pickup
+}
 
-var pickup_name_str: Dictionary = {
+static var pickup_name_str: Dictionary = {
 	pickups.BOMB_UP: "extra_bomb",
 	pickups.FIRE_UP: "explosion_boost",
 	pickups.SPEED_UP: "speed_boost",
@@ -47,7 +48,8 @@ var pickup_name_str: Dictionary = {
 	pickups.REMOTE: "remote_control",
 	pickups.SEEKER: "seeker_bomb",
 	pickups.GENERIC_BOMB: "bomb_type_pickups",
-	pickups.NONE: "NONE",
+	pickups.NONE: "no_pickup",
+	pickups.RANDOME: "random",
 }
 
 var config = Config.new()
