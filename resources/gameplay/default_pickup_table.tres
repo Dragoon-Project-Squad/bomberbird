@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PickupSettings" load_steps=2 format=3 uid="uid://cjd1hm4oboban"]
+
+[ext_resource type="Script" uid="uid://bta1elkd6rmla" path="res://resources/gameplay/pickup_table.gd" id="1_3pm76"]
+
+[resource]
+script = ExtResource("1_3pm76")
+PICKUP_SPAWN_RULE = "All"
+pickup_chance = 100.0
+extra_bomb = 500
+explosion_boost = 500
+speed_boost = 500
+max_explosion = 100
+punch_ability = 200
+metadata/_custom_type_script = "uid://bta1elkd6rmla"
