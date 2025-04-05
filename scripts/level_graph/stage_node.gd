@@ -1,17 +1,16 @@
 class_name StageNode extends GraphNode
 
 const STAGE_SCENE_DIR: String = "res://scenes/stages/"
-const ENEMY_SCENE_DIR: String = "res://scenes/enemies/"
 
 @onready var scene_options: OptionButton = %SceneOptions
 @onready var exit_boiler: HBoxContainer = %ExitBoiler
-@onready var pickups_tab: GridContainer = %PickupWeights
+@onready var pickups_tab: GridContainer = %"Pickup Weights"
+@onready var weights_vs_amount: CheckButton = %WeightsVsAmount
 @onready var stage_tab: StageDataUI = %Stage
 @onready var pickup_boiler: SpinBox = %PickupBoiler
 @onready var stage_name: LineEdit = %StageName
 
 var stages_subfolders: Dictionary = {}
-var enemy_subfolders: Dictionary = {}
 var curr_tab: int = 0
 
 var curr_enemy_options: Array[String] = []
@@ -19,9 +18,7 @@ var selected_scene_file: String = ""
 var selected_scene_path: String = ""
 
 var pickup_resource: PickupTable = PickupTable.new()
-var enemy_resource: EnemyTable = EnemyTable.new()
 var exit_resource: ExitTable = ExitTable.new()
-var spawn_point_arr: Array[Vector2i] = []
 
 var exit_indx: int = 0
 var enemy_indx: int = 0
@@ -34,7 +31,6 @@ func _ready():
 	get_file_name_from_dir(STAGE_SCENE_DIR, [], stages_subfolders)
 	_set_scene_options(stages_subfolders)
 
-	get_file_name_from_dir(ENEMY_SCENE_DIR, [], enemy_subfolders)
 
 	set_slot(
 		0,
@@ -58,13 +54,33 @@ func load_stage_node(stage_node_data: StageNodeData):
 	self.selected_scene_file = stage_node_data.selected_scene_file
 	self.selected_scene_path = stage_node_data.selected_scene_path
 	_set_option_button_select(scene_options, selected_scene_file)
-	self.spawn_point_arr = stage_node_data.spawn_point_arr
 	self.pickup_resource = stage_node_data.pickup_resource
-	self.enemy_resource = stage_node_data.enemy_resource
 	self.exit_resource = stage_node_data.exit_resource
 	pickup_resource.update()
+	stage_tab.load_from_resources(stage_node_data.enemy_resource, stage_node_data.spawnpoint_resource)
 	_setup_pickup_tab()
 	_setup_exit_from_load()
+
+func save_node(index: int) -> StageNodeData:
+	var node_data = StageNodeData.new()
+	node_data.curr_enemy_options = curr_enemy_options
+	node_data.selected_scene_file = selected_scene_file
+	node_data.selected_scene_path = selected_scene_path
+	node_data.pickup_resource = pickup_resource.duplicate()
+	node_data.enemy_resource = EnemyTable.new()
+	node_data.spawnpoint_resource = SpawnpointTable.new()
+	stage_tab.write_to_resources(node_data.enemy_resource, node_data.spawnpoint_resource)
+
+	node_data.exit_resource = exit_resource.duplicate()
+	node_data.stage_node_name = name
+	node_data.stage_node_title = title
+	node_data.stage_node_pos = position_offset
+	node_data.index = index
+
+	#fill the children array with -1 we later only overwrite an index in this array if it leads to a next stage
+	node_data.children.resize(exit_resource.size())
+	node_data.children.fill(-1)
+	return node_data
 
 ## given an OptionButton and a String searches for that String in the items of the OptionButton and then sets the selection to that Option
 func _set_option_button_select(option_button: OptionButton, item: String) -> int:
@@ -81,20 +97,6 @@ func _set_scene_options(stages_subfolders_arg: Dictionary):
 	for key in stages_subfolders_arg.keys():
 		scene_options.add_item(key)
 	scene_options.selected = -1
-
-## resets the enemy option (deselects them all and redoes the option list)
-func _reset_enemy_options(enemy_subfolders_arg: Dictionary, subfolders: Array[String]):
-	curr_enemy_options.clear()
-	for key in enemy_subfolders_arg.keys():
-		if enemy_subfolders_arg[key] != subfolders: continue
-		curr_enemy_options.append(key)
-	print(curr_enemy_options)
-	
-	_set_enemy_options()
-		
-## same as _set_scene_option but for enemies
-func _set_enemy_options():
-	stage_tab.enemy_options = curr_enemy_options
 
 ## given a scene and its subfolders returns the path to that scene (if only_dir == true returns the path to the Directory containing the scene rather then the scene)
 static func get_path_to_scene(scene: String, subfolders: Array[String], only_dir: bool = false):
@@ -188,22 +190,12 @@ func _setup_exit_from_load():
 
 # ---------------------- signal functions
 
-## stores the new text of the scene_file and calls _reset_enemy_options)
+## stores the new text of the scene_file
 func _on_scene_options_item_selected(index: int) -> void:
 	if index < 0:
 		return
 	selected_scene_file = scene_options.get_item_text(index)
 	selected_scene_path = get_path_to_scene(selected_scene_file, stages_subfolders[selected_scene_file], true)
-	_reset_enemy_options(enemy_subfolders, stages_subfolders[selected_scene_file])
-
-## prevents the enemy tab from being selected if no scene is selected
-func _on_tab_container_tab_changed(tab: int) -> void:
-	if tab == 1 && selected_scene_file == "":
-		$TabContainer.current_tab = curr_tab
-		scene_options.disabled = true
-		await get_tree().create_timer(0.2).timeout
-		scene_options.disabled = false
-	else: curr_tab = $TabContainer.current_tab
 
 ## Create a new entry for an exit
 func _on_add_exit_button_pressed() -> void:
@@ -321,3 +313,13 @@ func _on_stage_name_editing_toggled(toggled_on: bool) -> void:
 			stage_name.text = ""
 			return
 	self.title = new_text
+
+
+func _on_weights_vs_amount_toggled(toggled_on: bool) -> void:
+	pickup_resource.are_amounts = toggled_on
+	if toggled_on:
+		weights_vs_amount.text = "amount"
+		pickups_tab.name = "Pickup amount"
+	else:
+		weights_vs_amount.text = "weights"
+		pickups_tab.name = "Pickup weight"

@@ -1,5 +1,6 @@
 class_name StageDataUI extends Control
 
+const ENEMY_SCENE_DIR: String = "res://scenes/enemies/"
 enum draw_mode {FREE, LINE, RECT}
 enum tile_type {UNBREAKABLE, BREAKABLE, ENEMY, SPAWNPOINT}
 
@@ -32,18 +33,7 @@ var curr_type: int = 0
 var curr_sub_type_id: int = 0
 var curr_sub_type_str: String = ""
 var curr_probability: float = 1.0
-
-var enemy_options: Array[String] = []:
-	set(arr):
-		enemy_options = arr
-		if type_select.get_item_id(type_select.selected) != tile_type.ENEMY:
-			return
-		elif arr != []:
-			arr.map(sub_type_select.add_item)
-			sub_type_select.disabled = false
-		else:
-			sub_type_select.clear()
-			sub_type_select.disabled = true
+var enemy_subfolders: Dictionary = {}
 
 var _is_drawing: bool = false
 var _eraser_is_selected: bool = false
@@ -51,13 +41,7 @@ var _do_overwrite: bool = true
 var draw_start: Vector2i = Vector2i(-1, 0)
 var draw_pos: Vector2i = Vector2i(-1, 0) # Starts in an invalid state
 
-static func create(modified_cell: Dictionary):
-	var stage_data_ui: StageDataUI = load("res://scenes/level_graph/stage_data_ui.tscn").instantiate(modified_cell)
-	return stage_data_ui
-
-func _ready(modified_cells_overwrite: Dictionary = {}):
-	modified_cells = modified_cells_overwrite
-
+func _ready():
 	for type in tile_type_name_str.keys():
 		type_select.add_item(tile_type_name_str[type], type)
 	type_select.item_selected.connect(_on_selected_type)
@@ -68,6 +52,7 @@ func _ready(modified_cells_overwrite: Dictionary = {}):
 	)
 	sub_type_select.clear()
 	sub_type_select.disabled = true
+	StageNode.get_file_name_from_dir(ENEMY_SCENE_DIR, [], enemy_subfolders)
 
 	probability_select.value_changed.connect(func (value: float): curr_probability = value)
 	free_draw.pressed.connect(func (): curr_draw_mode = draw_mode.FREE)
@@ -75,12 +60,11 @@ func _ready(modified_cells_overwrite: Dictionary = {}):
 	rect_draw.pressed.connect(func (): curr_draw_mode = draw_mode.RECT)
 	eraser_button.toggled.connect(func (toggled_on: bool): _eraser_is_selected = toggled_on)
 	overwrite_checkmark.toggled.connect(func (toggled_on: bool): _do_overwrite = toggled_on)
-
 	cell_ui_elements.resize(map_size.x * map_size.y)
 	for j in range(map_size.y):
 		for i in range(map_size.x):
 			var cell = Vector2i(i, j)
-			var cell_ui_element: StageCellUI = StageCellUI.create() if !modified_cells.has(cell) else StageCellUI.create(modified_cells[cell])
+			var cell_ui_element: StageCellUI = StageCellUI.create()
 			cell_ui_element.custom_minimum_size = Vector2(50, 50)
 			cell_ui_element.name = "StageCellUI_" + str(i) + "," + str(j)
 			# Connecting the mouse entered signal to update the mouse position when it changes inside the grit
@@ -88,6 +72,31 @@ func _ready(modified_cells_overwrite: Dictionary = {}):
 			cell_ui_elements[_get_cell_ui_element_index(cell)] = cell_ui_element
 			grit_container.add_child(cell_ui_element)
 
+func load_from_resources(enemy_table: EnemyTable = null, spawnpoint_table: SpawnpointTable = null):
+	modified_cells.clear()
+	if enemy_table != null:
+		for entry in enemy_table.enemies:
+			modified_cells[entry.coords] = _create_type_dict(tile_type.ENEMY, entry.file, entry.probability)
+			cell_ui_elements[_get_cell_ui_element_index(entry.coords)].apply_texture(modified_cells[entry.coords])
+	if spawnpoint_table != null:
+		for entry in spawnpoint_table.spawnpoints:
+			modified_cells[entry.coords] = _create_type_dict(tile_type.SPAWNPOINT, null, entry.probability)
+			cell_ui_elements[_get_cell_ui_element_index(entry.coords)].apply_texture(modified_cells[entry.coords])
+	#...
+
+func write_to_resources(enemy_table: EnemyTable, spawnpoint_table: SpawnpointTable):
+	for tile_pos in modified_cells.keys():
+		var tile: Dictionary = modified_cells[tile_pos]
+		match modified_cells[tile_pos].main_type:
+			tile_type.UNBREAKABLE:
+				pass #TODO: have a resource to store this
+			tile_type.BREAKABLE:
+				pass #TODO: have a resource to store this
+			tile_type.ENEMY:
+				if tile.sub_type != "":
+					enemy_table.append(tile_pos, tile.sub_type, StageNode.get_path_to_scene(tile.sub_type, enemy_subfolders[tile.sub_type], true), tile.probability)
+			tile_type.SPAWNPOINT:
+				spawnpoint_table.append(tile_pos, tile.probability)
 
 func draw(cell: Vector2i):
 	if _eraser_is_selected && modified_cells.has(cell):
@@ -244,11 +253,12 @@ func _on_selected_type(index: int):
 			curr_sub_type_str = sub_type_select.get_item_text(globals.pickups.RANDOME)
 		tile_type.ENEMY:
 			sub_type_select.clear()
-			if enemy_options == []:
-				curr_sub_type_str = "ENEMYS NOT YET IMPLEMENTED"
+			if enemy_subfolders.keys() == []:
+				curr_sub_type_str = ""
 				sub_type_select.disabled = true
 			else:
-				enemy_options.map(sub_type_select.add_item)
+				enemy_subfolders.keys().map(sub_type_select.add_item)
+				sub_type_select.select(-1)
 		tile_type.SPAWNPOINT:
 			sub_type_select.clear()
 			sub_type_select.disabled = true

@@ -19,7 +19,7 @@ class_name PickupTable extends Resource
 #@export var remote_control: int = 0
 #@export var seeker_bomb: int = 0
 
-
+var are_amounts: bool = false
 var pickup_weights: Dictionary = {}
 var is_uptodate: bool = false # This is kinda hacky but _init() doesn't work for this
 
