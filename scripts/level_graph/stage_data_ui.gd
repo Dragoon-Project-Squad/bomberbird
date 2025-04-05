@@ -96,14 +96,21 @@ func draw(cell: Vector2i):
 	elif (_do_overwrite || !modified_cells.has(cell)) && !_eraser_is_selected:
 		match curr_type:
 			tile_type.UNBREAKABLE:
-				modified_cells[cell] = [tile_type.UNBREAKABLE, null, curr_probability]
+				modified_cells[cell] = _create_type_dict(curr_type, null, curr_probability)
 			tile_type.BREAKABLE:
-				modified_cells[cell] = [tile_type.BREAKABLE, curr_sub_type_id, curr_probability]
+				modified_cells[cell] = _create_type_dict(curr_type, curr_sub_type_id, curr_probability)
 			tile_type.ENEMY:
-				modified_cells[cell] = [tile_type.ENEMY, curr_sub_type_str, curr_probability]
+				modified_cells[cell] = _create_type_dict(curr_type, curr_sub_type_str, curr_probability)
 			tile_type.SPAWNPOINT:
-				modified_cells[cell] = [tile_type.SPAWNPOINT, null, curr_probability]
+				modified_cells[cell] = _create_type_dict(curr_type, null, curr_probability)
 		cell_ui_elements[_get_cell_ui_element_index(cell)].apply_texture(modified_cells[cell])
+
+static func _create_type_dict(main_type: int, sub_type: Variant, probability: float):
+	return {
+		"main_type": main_type,
+		"sub_type": sub_type,
+		"probability": probability,
+	}
 
 func _set_border_color_to(cell: Vector2i, color: Color = Color.BLACK):
 	cell_ui_elements[_get_cell_ui_element_index(cell)].border_color = color
@@ -113,7 +120,6 @@ func _get_cell_ui_element_index(cell: Vector2i):
 
 ## sets mouse button state
 func _on_grid_container_gui_input(event: InputEvent) -> void:
-	if draw_pos.x == -1: return
 	if event is InputEventMouseButton && draw_pos.x != -1:
 		match event.button_index:
 			MOUSE_BUTTON_LEFT:
@@ -124,25 +130,36 @@ func _on_grid_container_gui_input(event: InputEvent) -> void:
 					_ended_drawing()
 				_is_drawing = event.pressed
 			MOUSE_BUTTON_RIGHT:
-				pass# Implement Color Picker
+				_eraser_is_selected = event.pressed
+				if !_is_drawing && event.pressed:
+					draw_start = draw_pos
+					_on_mouse_entered_cell(draw_pos, true)
+				elif _is_drawing && !event.pressed:
+					_ended_drawing(true)
+				_is_drawing = event.pressed
 
 ## set the current mouse position to invalid if we exit the UI element
 func _on_grid_container_mouse_exited() -> void:
 	_set_border_color_to(draw_pos)
 	draw_pos = Vector2i(-1, 0)
 	_is_drawing = false
+	curr_cell_label.text = ""
 	if selected_cells.is_empty(): return
 	selected_cells.map(_set_border_color_to)
 	selected_cells.clear()
 
 func _set_label(cell: Vector2i):
-	var main_type: String = (tile_type_name_str[modified_cells[cell][0]] if modified_cells.has(cell) else "empty")
+	var coord_is: String = str(cell) + " is"
+	if !modified_cells.has(cell):
+		curr_cell_label.text = coord_is + " empty"
+		return
+	var main_type: String = " " + tile_type_name_str[modified_cells[cell].main_type]
 	var sub_type: String = ""
-	if modified_cells.has(cell) && modified_cells[cell][0] == tile_type.BREAKABLE:
-		sub_type = "" if main_type == "empty" else (" with a " + str(globals.pickup_name_str[modified_cells[cell][1]]) + " pickup")
-	elif modified_cells.has(cell) && modified_cells[cell][0] == tile_type.ENEMY:
-		sub_type = "" if main_type == "empty" else " with file " + modified_cells[cell][1]
-	curr_cell_label.text = str(cell) + " is " + main_type + sub_type
+	if modified_cells[cell].main_type == tile_type.BREAKABLE:
+		sub_type = " with a " + globals.pickup_name_str[modified_cells[cell].sub_type] + " pickup"
+	elif modified_cells[cell].main_type == tile_type.ENEMY:
+		sub_type = " with file " + modified_cells[cell].sub_type
+	curr_cell_label.text = coord_is + main_type + sub_type
 
 func _on_mouse_entered_cell(cell: Vector2i, force: bool = false):
 	_set_border_color_to(draw_pos)
@@ -152,8 +169,6 @@ func _on_mouse_entered_cell(cell: Vector2i, force: bool = false):
 	_set_label(cell)
 
 	if !_is_drawing && !force: return
-	var start: Vector2i = Vector2i(min(draw_start.x, draw_pos.x), min(draw_start.y, draw_pos.y))
-	var end: Vector2i = Vector2i(max(draw_start.x, draw_pos.x), max(draw_start.y, draw_pos.y))
 	var new_selected_cells: Array[Vector2i]
 
 	match curr_draw_mode:
@@ -161,17 +176,32 @@ func _on_mouse_entered_cell(cell: Vector2i, force: bool = false):
 			draw(draw_pos)
 			_set_label(draw_pos)
 		draw_mode.LINE:
-			#TODO: Maybe implement a proper draw line algorithm but pretty low prio imo
-			if (end.x - start.x) <= (end.y - start.y):
-				for j in range (start.y, end.y + 1):
-					new_selected_cells.append(Vector2i(draw_start.x, j))
-					_set_border_color_to(Vector2i(draw_start.x, j), Color.WHITE)
-			else:
-				for i in range (start.x, end.x + 1):
-					new_selected_cells.append(Vector2i(i, draw_start.y))
-					_set_border_color_to(Vector2i(i, draw_start.y), Color.WHITE)
-	
+			var start: Vector2i = draw_start if draw_start.x <= draw_pos.x else draw_pos
+			var end: Vector2i = draw_pos if draw_start.x <= draw_pos.x else draw_start
+			if end.x == start.x:
+				for y in range(start.y, end.y + 1):
+					new_selected_cells.append(Vector2i(start.x, y))
+					_set_border_color_to(Vector2i(start.x, y), Color.WHITE)
+			var m: float = float(end.y - start.y) / float(end.x - start.x)
+			var m_count: float = 0
+			for x in range(start.x, end.x):
+				var y_x: int = floor(m_count) + start.y
+				var y_x_1: int = floor(m_count + m) + start.y
+				var dir: int = 1
+				if y_x == y_x_1: 
+					new_selected_cells.append(Vector2i(x, y_x))
+					_set_border_color_to(Vector2i(x, y_x), Color.WHITE)
+				elif y_x > y_x_1 && m < 0: dir = -1
+				for y in range(y_x, y_x_1, dir):
+					new_selected_cells.append(Vector2i(x, y))
+					_set_border_color_to(Vector2i(x, y), Color.WHITE)
+				m_count += m
+			new_selected_cells.append(Vector2i(end.x, end.y))
+			_set_border_color_to(Vector2i(end.x, end.y), Color.WHITE)
+		
 		draw_mode.RECT:
+			var start: Vector2i = Vector2i(min(draw_start.x, draw_pos.x), min(draw_start.y, draw_pos.y))
+			var end: Vector2i = Vector2i(max(draw_start.x, draw_pos.x), max(draw_start.y, draw_pos.y))
 			for j in range(start.y, end.y + 1):
 				for i in range(start.x, end.x + 1):
 					new_selected_cells.append(Vector2i(i, j))
@@ -179,7 +209,8 @@ func _on_mouse_entered_cell(cell: Vector2i, force: bool = false):
 	selected_cells.filter(func (old_cell: Vector2i): return !(old_cell in new_selected_cells)).map(_set_border_color_to)
 	selected_cells = new_selected_cells
 
-func _ended_drawing():
+func _ended_drawing(is_erasing: bool = false):
+	_eraser_is_selected = is_erasing
 	match curr_draw_mode:
 		draw_mode.LINE:
 			selected_cells.map(draw)
@@ -189,6 +220,8 @@ func _ended_drawing():
 	selected_cells.map(_set_border_color_to)
 	selected_cells.clear()
 	_set_label(draw_pos)
+	if is_erasing:
+		_eraser_is_selected = false
 
 func _on_selected_type(index: int):
 	sub_type_select.disabled = false
@@ -206,6 +239,9 @@ func _on_selected_type(index: int):
 					globals.pickups.GENERIC_EXCLUSIVE: continue
 					globals.pickups.GENERIC_BOMB: continue
 				sub_type_select.add_item(globals.pickup_name_str[pickup], pickup)
+			sub_type_select.select(sub_type_select.get_item_index(globals.pickups.RANDOME))
+			curr_sub_type_id = globals.pickups.RANDOME
+			curr_sub_type_str = sub_type_select.get_item_text(globals.pickups.RANDOME)
 		tile_type.ENEMY:
 			sub_type_select.clear()
 			if enemy_options == []:
