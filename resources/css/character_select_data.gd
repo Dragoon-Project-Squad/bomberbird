@@ -2,7 +2,7 @@ class_name CharacterSelectDataResource
 extends Resource
 
 @export var BHDOKI_SELECT_TEXTURE_PATH = "res://assets/css/dokibh.png"
-@export var BHDOKI_PLAYER_TEXTURE_PATH = "res://assets/css/dokibh.png"
+@export var BHDOKI_PLAYER_TEXTURE_PATH = "res://assets/player/bhdoki_walk.png"
 @export var CHONKGOON_SELECT_TEXTURE_PATH = "res://assets/css/chonkgoon.png"
 @export var CHONKGOON_PLAYER_TEXTURE_PATH = "res://assets/player/chonkgoon_walk.png"
 @export var NORMALGOON_SELECT_TEXTURE_PATH = "res://assets/css/normalgoon.png"

@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_8xxup")
 BHDOKI_SELECT_TEXTURE_PATH = "res://assets/css/dokibh.png"
-BHDOKI_PLAYER_TEXTURE_PATH = "res://assets/css/dokibh.png"
+BHDOKI_PLAYER_TEXTURE_PATH = "res://assets/player/bhdoki_walk.png"
 CHONKGOON_SELECT_TEXTURE_PATH = "res://assets/css/chonkgoon.png"
 CHONKGOON_PLAYER_TEXTURE_PATH = "res://assets/player/chonkgoon_walk.png"
 NORMALGOON_SELECT_TEXTURE_PATH = "res://assets/css/normalgoon.png"

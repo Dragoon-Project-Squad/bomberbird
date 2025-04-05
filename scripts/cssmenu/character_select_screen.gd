@@ -48,10 +48,10 @@ func change_slot_texture(texture_path: String):
 		print("Couldn't find a match.")
 
 func _on_bhdoki_pressed() -> void:
-	#change_slot_texture.rpc_id(1, character_texture_paths.BHDOKI_SELECT_TEXTURE_PATH)
-	#gamestate.change_character_player.rpc_id(1, character_texture_paths.BHDOKI_PLAYER_TEXTURE_PATH)
-	#play_select_audio()
-	play_error_audio() #Not yet available
+	change_slot_texture.rpc_id(1, character_texture_paths.BHDOKI_SELECT_TEXTURE_PATH)
+	gamestate.change_character_player.rpc_id(1, character_texture_paths.BHDOKI_PLAYER_TEXTURE_PATH)
+	play_select_audio()
+	#play_error_audio() #Not yet available
 	
 func _on_dragoon_pressed() -> void:
 	change_slot_texture.rpc_id(1, character_texture_paths.NORMALGOON_SELECT_TEXTURE_PATH)
