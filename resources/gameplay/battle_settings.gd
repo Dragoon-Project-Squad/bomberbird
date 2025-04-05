@@ -3,7 +3,7 @@ class_name BattleSettings
 
 #CPU Settings
 @export_enum ("Stationary", "Easy", "Medium", "Hard") var cpu_dfficulty := "Medium"
-@export_enum ("None", "1", "2", "3", "4", "Fill") var cpu_count := "Fill"
+@export_enum ("Fill", "0", "1", "2", "3", "4") var cpu_count := "Fill"
 
 # Time Settings
 var match_time_in_seconds := 120
