@@ -30,7 +30,7 @@ func next_stage(id: int):
 	# Set and enable the next stage
 	stage_handler.set_stage(stage_data_arr[id].get_stage_path())
 	stage = stage_handler.get_stage()
-	stage.enable(
+	stage.enable.call_deferred(
 		stage_data_arr[id].exit_resource,
 		stage_data_arr[id].enemy_resource,
 		stage_data_arr[id].pickup_resource,
