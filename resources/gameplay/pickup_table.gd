@@ -1,6 +1,6 @@
 class_name PickupTable extends Resource
 
-@export_group("Pickup Weigths")
+@export_group("Pickup Weights")
 @export var extra_bomb: int = 500
 @export var explosion_boost: int = 500
 @export var speed_boost: int = 500
@@ -31,7 +31,7 @@ func update():
 		globals.pickups.BOMB_UP: extra_bomb,
 		globals.pickups.FIRE_UP: explosion_boost,
 		globals.pickups.SPEED_UP: speed_boost,
-		#globals.pickups.HP_UP: hearth,
+		#globals.pickups.HP_UP: health,
 		globals.pickups.FULL_FIRE: max_explosion,
 		globals.pickups.BOMB_PUNCH: punch_ability,
 		#globals.pickups.POWER_GLOVE: throw_ability,

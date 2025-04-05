@@ -1,11 +1,12 @@
 [gd_scene load_steps=9 format=4 uid="uid://b01h67q3oyij0"]
 
 [ext_resource type="Script" uid="uid://bbemf67mj4846" path="res://scripts/world/prebuild_stage.gd" id="1_wy43d"]
-[ext_resource type="Script" uid="uid://bta1elkd6rmla" path="res://resources/gameplay/pick_up_table.gd" id="2_5gmst"]
+[ext_resource type="Script" uid="uid://bta1elkd6rmla" path="res://resources/gameplay/pickup_table.gd" id="2_5gmst"]
 [ext_resource type="TileSet" uid="uid://mxtw88b7dngl" path="res://assets/tilesets/beach_tileset.tres" id="3_o7glb"]
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/tilesets/desert_tileset.tres" id="4_js3kl"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="5_mdbmd"]
 [ext_resource type="Script" uid="uid://dgwlvvxb85sln" path="res://scripts/music.gd" id="10_6qmuc"]
+
 
 [sub_resource type="Resource" id="Resource_xohey"]
 script = ExtResource("2_5gmst")
