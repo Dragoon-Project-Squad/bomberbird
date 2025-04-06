@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_bifw2"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="5_3fscl"]
 [ext_resource type="AnimationLibrary" uid="uid://b6igytp0a077" path="res://animations/player_animations.tres" id="5_aeuj7"]
-[ext_resource type="Script" uid="uid://ctx61c3w8pd35" path="res://scripts/human_player_controls.gd" id="6_ey2ea"]
+[ext_resource type="Script" uid="uid://cvneoqre4h1ct" path="res://scripts/human_player_controls.gd" id="6_ey2ea"]
 [ext_resource type="AudioStream" uid="uid://c3dded4qppq4" path="res://sound/fx/playerhurt.wav" id="7_ho0y0"]
 
 [sub_resource type="Resource" id="Resource_jvckf"]
