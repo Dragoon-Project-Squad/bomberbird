@@ -1,6 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://bolrwf2kmf1vr"]
+[gd_scene load_steps=7 format=3 uid="uid://bolrwf2kmf1vr"]
 
 [ext_resource type="Script" uid="uid://d03ybrr8yjq3y" path="res://scripts/level_graph/stage_cell_ui.gd" id="1_hiyc1"]
+[ext_resource type="Texture2D" uid="uid://bg23qq0jm0n3j" path="res://assets/tilesetimages/deserttileset.png" id="2_hniy2"]
+[ext_resource type="Texture2D" uid="uid://cpcqguecfwnbv" path="res://assets/pickups/powerup.png" id="3_ibnkg"]
+[ext_resource type="Texture2D" uid="uid://bvduv0j3kdwtj" path="res://assets/css/question.png" id="4_aw2om"]
+[ext_resource type="Texture2D" uid="uid://d3cn5or0vkn23" path="res://assets/css/chonkgoon.png" id="5_wmt0x"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_gh5p3"]
 font_size = 12
@@ -20,6 +24,10 @@ mouse_default_cursor_shape = 2
 border_color = Color(0, 0, 0, 1)
 editor_only = false
 script = ExtResource("1_hiyc1")
+tileset_texture = ExtResource("2_hniy2")
+pickup_texture = ExtResource("3_ibnkg")
+unimplementet_texture = ExtResource("4_aw2om")
+spawnpoint_texture = ExtResource("5_wmt0x")
 
 [node name="MainTexture" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(32, 32)
