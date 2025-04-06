@@ -8,7 +8,7 @@ extends Resource
 @export var NORMALGOON_SELECT_TEXTURE_PATH = "res://assets/css/normalgoon.png"
 @export var NORMALGOON_PLAYER_TEXTURE_PATH = "res://assets/player/dragoon_walk.png"
 @export var LONGGOON_SELECT_TEXTURE_PATH = "res://assets/css/longgoon.png"
-@export var LONGGOON_PLAYER_TEXTURE_PATH = "res://assets/css/longgoon.png"
+@export var LONGGOON_PLAYER_TEXTURE_PATH = "res://assets/player/longgoon_walk.png"
 @export var EGGOON_SELECT_TEXTURE_PATH = "res://assets/css/eggoon.png"
 @export var EGGOON_PLAYER_TEXTURE_PATH = "res://assets/css/eggoon.png"
 @export var TOMATODOKI_SELECT_TEXTURE_PATH = "res://assets/css/tomato.png"
