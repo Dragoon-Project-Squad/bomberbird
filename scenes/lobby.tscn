@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://jhdlqsokif5o"]
+[gd_scene load_steps=5 format=3 uid="uid://jhdlqsokif5o"]
 
 [ext_resource type="Script" uid="uid://dlxlkxwbdq3pq" path="res://scripts/lobby.gd" id="1"]
 [ext_resource type="Theme" uid="uid://bgj72vffexht" path="res://assets/styles/panel_theme.tres" id="2_0k5fb"]
 [ext_resource type="PackedScene" uid="uid://fsg6gwfw5fbi" path="res://scenes/cssmenu/character_select_screen.tscn" id="3_q60fs"]
+[ext_resource type="AudioStream" uid="uid://bsv6xvb7bqh1h" path="res://sound/mus/config_dragoon_cafe.ogg" id="4_nqcc7"]
 
 [node name="Lobby" type="Control"]
 layout_mode = 3
@@ -247,7 +248,6 @@ theme_override_font_sizes/font_size = 46
 text = "START!"
 
 [node name="Back" type="Button" parent="."]
-visible = false
 layout_mode = 0
 offset_left = 544.0
 offset_top = 600.0
@@ -261,6 +261,12 @@ text = "Exit
 "
 
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_nqcc7")
+autoplay = true
+bus = &"Music"
+parameters/looping = true
 
 [connection signal="pressed" from="Options/MisobonState" to="." method="_on_misobon_pressed"]
 [connection signal="pressed" from="Players/Ready" to="." method="_on_ready_pressed"]

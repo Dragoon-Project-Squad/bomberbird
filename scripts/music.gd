@@ -2,7 +2,7 @@ extends Node
 
 @onready var mus_player: AudioStreamPlayer2D = $MusicPlayer
 
-var music_dir_path: String = "res://sound/mus/"
+var music_dir_path: String = "res://sound/mus/battle/"
 
 func _ready() -> void:
 	dir_contents(music_dir_path)

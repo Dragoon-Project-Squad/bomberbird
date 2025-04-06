@@ -1,6 +1,7 @@
 extends Control
 
 @export var curr_misobon_state = gamestate.misobon_states.SUPER
+@onready var lobby_music_player: AudioStreamPlayer = $AudioStreamPlayer
 var timeout_timer = null
 
 func _ready():
@@ -24,6 +25,26 @@ func _ready():
 	timeout_timer.one_shot = true
 	timeout_timer.connect("timeout", Callable(self, "_on_connection_timeout"))
 	add_child(timeout_timer)
+	
+
+func refresh_lobby():
+	var players = gamestate.get_player_list()
+	players.sort()
+	$Players/List.clear()
+	$Players/List.add_item(gamestate.get_player_name() + " (You)")
+	for p in players:
+		$Players/List.add_item(p)
+
+	$Players/Ready.disabled = not multiplayer.is_server()
+
+@rpc("call_local")
+func show_css():
+	$Options.hide()
+	$Players.hide()
+	$Connect.hide()
+	$Back.hide()
+	$CharacterSelectScreen.show()
+	$Start.show()
 
 func _on_host_pressed():
 	if $Connect/Name.text == "":
@@ -39,7 +60,6 @@ func _on_host_pressed():
 	globals.config.set_player_name(player_name)
 	gamestate.host_game(player_name)
 	refresh_lobby()
-
 
 func _on_join_pressed():
 	if $Connect/Name.text == "":
@@ -106,31 +126,12 @@ func _on_game_error(errtxt):
 	$Connect/Host.disabled = false
 	$Connect/Join.disabled = false
 
-
-func refresh_lobby():
-	var players = gamestate.get_player_list()
-	players.sort()
-	$Players/List.clear()
-	$Players/List.add_item(gamestate.get_player_name() + " (You)")
-	for p in players:
-		$Players/List.add_item(p)
-
-	$Players/Ready.disabled = not multiplayer.is_server()
-
-@rpc("call_local")
-func show_css():
-	$Options.hide()
-	$Players.hide()
-	$Connect.hide()
-	$Back.hide()
-	$CharacterSelectScreen.show()
-	$Start.show()
-
 func _on_start_pressed():
 	if gamestate.total_player_count < 2:
 		push_warning("Less than two players!")
 	elif gamestate.total_player_count > 4:
-		push_warning("More than four players!")
+		push_error("More than four players!")
+	lobby_music_player.stop()
 	gamestate.begin_game()
 
 
