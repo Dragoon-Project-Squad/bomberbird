@@ -1,4 +1,5 @@
 class_name Player extends CharacterBody2D
+## Base class for the player
 
 signal player_died
 signal player_revived
@@ -81,6 +82,7 @@ func _process(delta: float):
 func _physics_process(_delta: float):
 	pass
 
+## executes the punch_bomb ability iff the player has the appropiate pickup
 func punch_bomb(direction: Vector2i):
 	if !is_multiplayer_authority():
 		return
@@ -98,6 +100,7 @@ func punch_bomb(direction: Vector2i):
 
 	bomb.do_punch.rpc(direction)
 
+## places a bomb iff the current position is valid
 func place_bomb():
 	if(world_data.is_tile(world_data.tiles.BOMB, self.global_position)): return
 	
@@ -113,6 +116,7 @@ func place_bomb():
 		bomb.set_bomb_owner.rpc(self.name)
 		bomb.do_place.rpc(bombPos, explosion_boost_count)
 
+## updates the animation depending on the movement direction
 func update_animation(direction: Vector2):
 	var new_anim: String = "standing"
 	if direction.length() == 0:
@@ -130,6 +134,7 @@ func update_animation(direction: Vector2):
 		current_anim = new_anim
 		$AnimationPlayer.play("player_animations/" + current_anim)
 
+## Eneables this players correspoing misobon player iff misobon is atleast on
 func enter_misobon():
 	if gamestate.misobon_mode == gamestate.misobon_states.OFF || hurry_up_started:
 		return
@@ -171,6 +176,7 @@ func exit_death_state():
 	is_dead = false
 	do_invulnerabilty()
 
+## resets the pickups back to the inital state
 func reset_pickups():
 	movement_speed = movement_speed_reset
 	bomb_count = bomb_count_reset
@@ -178,8 +184,7 @@ func reset_pickups():
 	explosion_boost_count = explosion_boost_count_reset
 	pickups.reset()
 
-
-
+## spreads all pickups the player held on the ground
 func spread_items():
 	if !is_multiplayer_authority():
 		return
@@ -213,6 +218,7 @@ func spread_items():
 			for j in range(pos_array.size()):
 				to_place_pickups[pickup_types[i]][j].place.rpc(pos_array[j])
 
+## starts the invulnerability and its animation
 func do_invulnerabilty():
 	invulnerable_total_time = 0
 	invulnerable = true
@@ -254,6 +260,7 @@ func return_bomb():
 	bomb_count = min(bomb_count+1, bomb_total)
 
 @rpc("call_local")
+## kills this player and awards whoever killed it
 func exploded(by_who):
 	if stunned || invulnerable:
 		return

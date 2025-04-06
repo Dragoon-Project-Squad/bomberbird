@@ -1,4 +1,5 @@
 class_name Game extends Node2D
+## Represents a currently running game (of some game mode) handles the stage and all objects it contains
 
 var player_manager: PlayerManager
 var player_spawner: MultiplayerSpawner

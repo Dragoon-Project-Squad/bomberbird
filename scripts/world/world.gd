@@ -75,8 +75,8 @@ func disable():
 ## enables the stage s.t. it may be used
 ## [param exit_table] overwrite the exit_table preset defaults to null
 ## [param enemy_table] overwrite the enemy_table preset defaults to null
-## [param pickup_table] overwrite the pickup_table preset defaults to preset
-## [param spawnpoints] overwrite the spawnpoint_table preset defaults to preset
+## [param pickup_table] overwrite the pickup_table preset defaults to just the preset
+## [param spawnpoints_table] overwrite the spawnpoints preset appling the probability inside the table defaults to just the preset
 func enable(
 	exit_table: ExitTable = null,
 	enemy_table: EnemyTable = null,

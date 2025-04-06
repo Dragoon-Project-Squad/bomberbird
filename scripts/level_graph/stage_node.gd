@@ -1,4 +1,5 @@
 class_name StageNode extends GraphNode
+## Represents a single Node in a Level Graph
 
 const STAGE_SCENE_DIR: String = "res://scenes/stages/"
 
