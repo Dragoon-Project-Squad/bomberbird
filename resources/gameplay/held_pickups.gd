@@ -43,6 +43,7 @@ func reset():
 
 ## add a pickup to the players "inventory"
 func add(pickup_type: int, virus_type: int = 0):
+	assert(globals.is_valid_pickup(pickup_type))
 	if(virus_type < 0 || virus.SIZE <= virus_type):
 		push_error("Invalid virus type given")
 	match pickup_type:

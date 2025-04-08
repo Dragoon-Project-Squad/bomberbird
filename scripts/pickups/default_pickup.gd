@@ -7,6 +7,7 @@ class_name Pickup extends Area2D
 var in_use: bool = false
 var pickup_type: int = globals.pickups.NONE:
 	set(type): #i don't like setters but it only enforces something here so its okey
+		assert(globals.is_valid_pickup(type))
 		if pickup_type != globals.pickups.NONE:
 			push_error("private member pickup_type should only be overwritten once")
 		pickup_type = type

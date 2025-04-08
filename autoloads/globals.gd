@@ -23,7 +23,7 @@ enum pickups {
 	SEEKER,
 	GENERIC_BOMB, # A generic value describing a pickup that changes the bomb type (also mutaly exclusive with other bomb types)
 	NONE, # A value describing the absens of a pickup
-	RANDOME, # A value describing a random pickup
+	RANDOM, # A value describing a random pickup
 }
 
 static var pickup_name_str: Dictionary = {
@@ -49,10 +49,28 @@ static var pickup_name_str: Dictionary = {
 	pickups.SEEKER: "seeker_bomb",
 	pickups.GENERIC_BOMB: "bomb_type_pickups",
 	pickups.NONE: "no_pickup",
-	pickups.RANDOME: "random",
+	pickups.RANDOM: "random",
 }
 
 var config = Config.new()
 var game: Node2D
 var current_world: World
 var player_manager: PlayerManager
+
+func is_valid_pickup(pickup: int):
+	match pickup:
+		pickups.GENERIC_COUNT: return false
+		pickups.GENERIC_BOOL: return false
+		pickups.GENERIC_BOMB: return false
+		pickups.GENERIC_EXCLUSIVE: return false
+		pickups.NONE: return false
+		pickups.RANDOM: return false
+	return true
+
+func is_not_pickup_seperator(pickup: int):
+	match pickup:
+		pickups.GENERIC_COUNT: return false
+		pickups.GENERIC_BOOL: return false
+		pickups.GENERIC_BOMB: return false
+		pickups.GENERIC_EXCLUSIVE: return false
+	return true

@@ -37,6 +37,8 @@ func next_stage(id: int):
 		stage_data_arr[id].enemy_resource,
 		stage_data_arr[id].pickup_resource,
 		stage_data_arr[id].spawnpoint_resource,
+		stage_data_arr[id].unbreakable_resource,
+		stage_data_arr[id].breakable_resource,
 	)
 	curr_stage_idx = id
 	load_next_stage_set(id)
@@ -84,6 +86,8 @@ func start():
 		stage_data_arr[0].enemy_resource,
 		stage_data_arr[0].pickup_resource,
 		stage_data_arr[0].spawnpoint_resource,
+		stage_data_arr[0].unbreakable_resource,
+		stage_data_arr[0].breakable_resource,
 	)
 	get_tree().create_timer(10).timeout.connect(_check_ending_condition.bind(0), CONNECT_ONE_SHOT) #TEMPORARY ends the stage after 10s (until we have actuall enemies)
 

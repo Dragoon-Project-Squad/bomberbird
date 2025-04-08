@@ -11,6 +11,7 @@ func _init():
 	spawn_function = _spawn_pickup
 	
 func spawn_chosen_pickup(ptype: int) -> Pickup:
+	assert(globals.is_valid_pickup(ptype))
 	var spawned_pickup
 	# TODO: Add other pickup types
 	match ptype:
