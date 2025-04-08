@@ -86,6 +86,10 @@ func done():
 	bomb_root.disable.rpc()
 	bomb_pool.return_obj(get_parent()) # bomb returns itself to the pool
 
+func set_explosion_width_and_size(somewidth: int):
+	explosion_width = clamp(somewidth, 2, MAX_EXPLOSION_WIDTH)
+	bombsprite.set_frame(clamp(somewidth-3, 0, 2))
+
 ## sets the size of the bomb (larger if its range is larger)
 ## im unsure what calls this function since it does not seem to be an animation neither to be in this file bit its effect can clearly be seen in the game
 func set_bomb_size(size: int):
