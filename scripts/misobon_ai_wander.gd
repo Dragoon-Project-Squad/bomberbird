@@ -24,7 +24,7 @@ func _update(delta: float) -> void:
 		player.get_parent().get_segment_id(player.progress)
 	)
 
-	if target_checking_cooldown < TARGET_CHECKING_COOLDOWN:
+	if target_checking_cooldown < TARGET_CHECKING_COOLDOWN: # calling the bomb predicting algorighm is quite expensive if done every frame... so don't do it every frame (also might work well as a difficulty adjuster
 		return
 	target_checking_cooldown = 0
 
@@ -33,10 +33,11 @@ func _update(delta: float) -> void:
 	var pot_bomb_pos = player.position + Vector2(look_direction) * player.TILESIZE * throw_range
 
 	var predicted_bounce = _predict_throw(pot_bomb_pos, look_direction, throw_range)
-	if predicted_bounce == -999: return
+	if predicted_bounce == -999: return # an arbitrary decided error value (hence if predict bounce thinks a bomb may loop infinitly without external changes)
 
-	pot_bomb_pos += Vector2(look_direction) * player.TILESIZE * predicted_bounce
+	pot_bomb_pos += Vector2(look_direction) * player.TILESIZE * predicted_bounce ## 
 	
+	## adjust this new position if its out of bounds
 	if world_data.is_out_of_bounds(pot_bomb_pos) == world_data.bounds.OUT_RIGHT:
 		pot_bomb_pos.x = world_data.tile_map.map_to_local(world_data.floor_origin + Vector2i(world_data.world_width - 1, 0)).x
 	elif world_data.is_out_of_bounds(pot_bomb_pos) == world_data.bounds.OUT_LEFT:
@@ -49,10 +50,11 @@ func _update(delta: float) -> void:
 	raycasts.position = pot_bomb_pos - player.position
 	
 	if _check_raycasts():
-		state_changed.emit(self, "Bombing")
+		state_changed.emit(self, "Bombing") # throw the bomb if a player has been spotted
 
 
 #Private functions
+## predicts the throw of a bomb (more specificaly how many times it would bounce), used to then calculated if actually throwing a bomb is worth while
 func _predict_throw(pos: Vector2, direction: Vector2i, throw_range: int) -> int:
 	if world_data.is_out_of_bounds(pos) == world_data.bounds.OUT_RIGHT:
 		pos.x = world_data.tile_map.map_to_local(world_data.floor_origin + Vector2i(world_data.world_width - 1, 0)).x
@@ -76,6 +78,7 @@ func _predict_throw(pos: Vector2, direction: Vector2i, throw_range: int) -> int:
 			res = -throw_range
 	return res
 
+## checks the raycast of a predicted bomb_throw to see if an enemy player would be hit by this
 func _check_raycasts() -> bool:
 	for ray in raycasts.get_children():
 		ray.force_raycast_update()

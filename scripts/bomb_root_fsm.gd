@@ -22,6 +22,7 @@ func _ready():
 		if state_node != null:
 			state_node.process_mode = Node.PROCESS_MODE_DISABLED
 
+## sets the state to a given state. If the node representing this state in 'state_map' is not null will attempt to call disable on it and set its process_mode to disabled aswell
 func set_state(choice: int):
 	assert(0 <= choice && choice < SIZE)
 	if state_map[state] != null:
@@ -32,6 +33,7 @@ func set_state(choice: int):
 		state_map[state].process_mode = Node.PROCESS_MODE_INHERIT
 
 @rpc("call_local")
+## disables this bomb so that it can be returned to the pool
 func disable() -> int:
 	if state == DISABLED:
 		return 1 #it might not be an issue if a disabled node is attempted to be disabled again so we just return an error and let the caller figure that out without giving a project wide error
@@ -45,11 +47,13 @@ func disable() -> int:
 	return 0
 
 @rpc("call_local")
+## sets the bomb_owner of the bomb s.t. the bomb can later report to that player
 func set_bomb_owner(player_id: String):
 	self.bomb_owner = globals.player_manager.get_node(str(player_id))
 
 @rpc("call_local")
 @warning_ignore("SHADOWED_VARIABLE")
+## sets the state to stationary and tells the corresponding state to start processing
 func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) -> int:
 	if bomb_owner == null:
 		printerr("A bomb without an bomb_owner tried to be placed")
@@ -81,6 +85,7 @@ func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) 
 	return 0
 
 @rpc("call_local")
+## used to throw a bomb as a misobon character, changes the bomb into the throw state with predefind values
 func do_misobon_throw(origin: Vector2, target: Vector2, direction: Vector2i, is_dead: bool = true) -> int:
 	if bomb_owner == null: #this should only be called by a misobon player hence the bomb must have an owner
 		printerr("A bomb without an bomb_owner tried to be thrown")
@@ -128,7 +133,7 @@ func do_punch(direction: Vector2i):
 # ALL FUNCTION FROM THIS POINT ARE EXAMPLES / NOT YET USED BY ANYTHING SO YOU ARE FREE TO COMPLETLY CHANGE THEM IF YOU IMPLEMENT ONE OF THEM PLEASE UPDATE THIS COMMENT TO REFLECT THIS
 #!!!!!
 
-
+## NOT YET IMPLEMENTED
 func do_kick(target: Vector2, direction: Vector2i):
 	if bomb_owner == null: #this should only be called by a misobon player hence the bomb must have an owner
 		printerr("A bomb without an bomb_owner tried to be thrown")
