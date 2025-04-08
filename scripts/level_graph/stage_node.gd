@@ -32,7 +32,6 @@ func _ready():
 	get_file_name_from_dir(STAGE_SCENE_DIR, [], stages_subfolders)
 	_set_scene_options(stages_subfolders)
 	if get_parent() != null:
-		print("hi")
 		exit_boiler.get_node("Position/x").max_value = stage_tab.map_size.x - 1
 		exit_boiler.get_node("Position/y").max_value = stage_tab.map_size.y - 1
 
