@@ -278,7 +278,7 @@ func _on_remove_exit_button_pressed(exit: HBoxContainer):
 		assert(child.has_node("ExitNumber"), "bad index: " + str(i))
 		child.name = "Exit" + str(exit_indx_new)
 		child.get_node("ExitNumber").text = str(exit_indx_new) + "."
-		_on_exit_color_changed(child.get_node("ExitColor").color, child)
+		#_on_exit_color_changed(child.get_node("ExitColor").color, child)
 		exit_indx_new += 1
 	
 	stage_tab.remove_border_color_overwrite(exit_resource.exits[exit_num - 1].coords)
@@ -310,7 +310,7 @@ func _on_exit_color_changed(color: Color, exit: HBoxContainer):
 		exit.get_node("ExitColor").color,
 	)
 	exit_resource.set_color(exit_num - 1, color)
-	stage_tab.add_border_color_overwrite(exit_resource.exits[exit_num - 1].coords, exit_resource.exits[exit_num - 1].color)
+	stage_tab.add_border_color_overwrite(exit_resource.exits[exit_num - 1].coords, color)
 
 ## updates the pickup_weight in the Pickup_resource
 func _on_pickup_weight_changed(weight: float, pickup: int):

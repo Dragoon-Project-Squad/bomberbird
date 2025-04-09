@@ -37,7 +37,9 @@ var curr_probability: float = 1.0
 var enemy_subfolders: Dictionary = {}
 
 var _is_drawing: bool = false
+## The eraser logic is stupid just as a warning
 var _eraser_is_selected: bool = false
+var _right_click_erase: bool = false
 var _do_overwrite: bool = true
 var draw_start: Vector2i = Vector2i(-1, 0)
 var draw_pos: Vector2i = Vector2i(-1, 0) # Starts in an invalid state
@@ -111,10 +113,10 @@ func write_to_resources(enemy_table: EnemyTable, spawnpoint_table: SpawnpointTab
 ## Draws the current selection into the cell
 ## [param cell] Vector2i the cell to draw
 func draw(cell: Vector2i):
-	if _eraser_is_selected && modified_cells.has(cell):
+	if (_eraser_is_selected || _right_click_erase) && modified_cells.has(cell):
 		modified_cells.erase(cell)
 		cell_ui_elements[_get_cell_ui_element_index(cell)].apply_texture()
-	elif (_do_overwrite || !modified_cells.has(cell)) && !_eraser_is_selected:
+	elif (_do_overwrite || !modified_cells.has(cell)) && !(_eraser_is_selected || _right_click_erase):
 		match curr_type:
 			tile_type.UNBREAKABLE:
 				modified_cells[cell] = _create_type_dict(curr_type, null, curr_probability)
@@ -165,7 +167,7 @@ func _on_grid_container_gui_input(event: InputEvent) -> void:
 					_ended_drawing()
 				_is_drawing = event.pressed
 			MOUSE_BUTTON_RIGHT:
-				_eraser_is_selected = event.pressed
+				_right_click_erase = event.pressed
 				if !_is_drawing && event.pressed:
 					draw_start = draw_pos
 					_on_mouse_entered_cell(draw_pos, true)
@@ -202,12 +204,10 @@ func _on_mouse_entered_cell(cell: Vector2i, force: bool = false):
 	_set_border_color_to(draw_pos)
 	draw_pos = cell
 	_set_border_color_to(cell, Color.WHITE)
-
 	_set_label(cell)
 
 	if !_is_drawing && !force: return
 	var new_selected_cells: Array[Vector2i]
-
 	match curr_draw_mode:
 		draw_mode.FREE: 
 			draw(draw_pos)
@@ -247,8 +247,9 @@ func _on_mouse_entered_cell(cell: Vector2i, force: bool = false):
 	selected_cells = new_selected_cells
 
 ## called when a drawing request ends if a selection exists will draw that selection
-func _ended_drawing(is_erasing: bool = false):
-	_eraser_is_selected = is_erasing
+func _ended_drawing(force_erase: bool = false):
+	if force_erase:
+		_right_click_erase = true
 	match curr_draw_mode:
 		draw_mode.LINE:
 			selected_cells.map(draw)
@@ -258,8 +259,8 @@ func _ended_drawing(is_erasing: bool = false):
 	selected_cells.map(_set_border_color_to)
 	selected_cells.clear()
 	_set_label(draw_pos)
-	if is_erasing:
-		_eraser_is_selected = false
+	if force_erase:
+		_right_click_erase = false
 
 ## clears and writes into the sub_type OptionButton depending on the main_type selected
 func _on_selected_type(index: int):
