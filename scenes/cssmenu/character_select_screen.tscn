@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://fsg6gwfw5fbi"]
 
-[ext_resource type="Script" uid="uid://c38ml0k45w55u" path="res://scripts/cssmenu/character_select_screen.gd" id="1_ehcif"]
+[ext_resource type="Script" uid="uid://c38ml0k45w55u" path="res://scripts/ui/cssmenu/character_select_screen.gd" id="1_ehcif"]
 [ext_resource type="Texture2D" uid="uid://d3cn5or0vkn23" path="res://assets/css/chonkgoon.png" id="2_ehcif"]
 [ext_resource type="Texture2D" uid="uid://d06cvn5qmuvfv" path="res://assets/css/dokibh.png" id="4_2bgdj"]
 [ext_resource type="PackedScene" uid="uid://mpfu86h4h7vr" path="res://scenes/cssmenu/css_player_view.tscn" id="6_e6qlr"]

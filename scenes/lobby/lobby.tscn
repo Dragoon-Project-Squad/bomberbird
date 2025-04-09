@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://jhdlqsokif5o"]
 
-[ext_resource type="Script" uid="uid://dlxlkxwbdq3pq" path="res://scripts/lobby.gd" id="1"]
-[ext_resource type="Theme" uid="uid://bgj72vffexht" path="res://assets/styles/panel_theme.tres" id="2_0k5fb"]
-[ext_resource type="PackedScene" uid="uid://fsg6gwfw5fbi" path="res://scenes/cssmenu/character_select_screen.tscn" id="3_q60fs"]
-[ext_resource type="AudioStream" uid="uid://bsv6xvb7bqh1h" path="res://sound/mus/config_dragoon_cafe.ogg" id="4_nqcc7"]
+[ext_resource type="Script" uid="uid://dlxlkxwbdq3pq" path="res://scripts/ui/lobby/lobby.gd" id="1_jekxk"]
+[ext_resource type="Theme" uid="uid://bgj72vffexht" path="res://assets/styles/panel_theme.tres" id="2_i6yme"]
+[ext_resource type="PackedScene" uid="uid://fsg6gwfw5fbi" path="res://scenes/cssmenu/character_select_screen.tscn" id="3_stkcr"]
+[ext_resource type="AudioStream" uid="uid://bsv6xvb7bqh1h" path="res://sound/mus/config_dragoon_cafe.ogg" id="4_2tt0b"]
 
 [node name="Lobby" type="Control"]
 layout_mode = 3
@@ -14,7 +14,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
-script = ExtResource("1")
+script = ExtResource("1_jekxk")
 
 [node name="Options" type="Panel" parent="."]
 visible = false
@@ -26,7 +26,7 @@ offset_top = -177.0
 offset_right = 256.0
 offset_bottom = 178.0
 grow_vertical = 2
-theme = ExtResource("2_0k5fb")
+theme = ExtResource("2_i6yme")
 
 [node name="AIPlayers" type="Label" parent="Options"]
 layout_mode = 2
@@ -85,7 +85,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
-theme = ExtResource("2_0k5fb")
+theme = ExtResource("2_i6yme")
 
 [node name="Label" type="Label" parent="Players"]
 layout_mode = 0
@@ -151,7 +151,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
-theme = ExtResource("2_0k5fb")
+theme = ExtResource("2_i6yme")
 
 [node name="NameLabel" type="Label" parent="Connect"]
 layout_mode = 0
@@ -224,7 +224,7 @@ size_flags_horizontal = 2
 size_flags_vertical = 0
 theme_override_colors/font_color = Color(0.820312, 0.291595, 0.291595, 1)
 
-[node name="CharacterSelectScreen" parent="." instance=ExtResource("3_q60fs")]
+[node name="CharacterSelectScreen" parent="." instance=ExtResource("3_stkcr")]
 visible = false
 
 [node name="Start" type="Button" parent="."]
@@ -243,7 +243,7 @@ grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-theme = ExtResource("2_0k5fb")
+theme = ExtResource("2_i6yme")
 theme_override_font_sizes/font_size = 46
 text = "START!"
 
@@ -255,7 +255,7 @@ offset_right = 614.0
 offset_bottom = 638.0
 focus_neighbor_top = NodePath("../Multiplayer")
 focus_neighbor_bottom = NodePath("../SinglePlayer")
-theme = ExtResource("2_0k5fb")
+theme = ExtResource("2_i6yme")
 theme_override_colors/font_focus_color = Color(1, 0, 0, 1)
 text = "Exit
 "
@@ -263,7 +263,7 @@ text = "Exit
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_nqcc7")
+stream = ExtResource("4_2tt0b")
 autoplay = true
 bus = &"Music"
 parameters/looping = true

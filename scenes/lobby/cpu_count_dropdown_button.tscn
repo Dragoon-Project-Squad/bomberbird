@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ci3vmfjfjjkqt"]
+
+[ext_resource type="PackedScene" uid="uid://m1t8gikjkqge" path="res://scenes/lobby/settings_dropdown_button.tscn" id="1_20361"]
+
+[node name="SettingsDropdownButton" instance=ExtResource("1_20361")]
+
+[node name="Label" parent="HBoxContainer" index="0"]
+text = "CPU COUNT"

@@ -14,7 +14,7 @@ var loaded_data : Dictionary = {}
 func _ready() -> void:
 	handle_signals()
 
-func create_sotrage_dictionary() -> Dictionary:
+func create_storage_dictionary() -> Dictionary:
 	var settings_container_dict : Dictionary = {
 		"window_mode_index" : window_mode_index,
 		"resolution_index" : resolution_index,
