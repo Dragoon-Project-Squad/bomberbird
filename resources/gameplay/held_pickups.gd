@@ -1,4 +1,5 @@
 class_name HeldPickups extends Resource
+## holds information about which pickups a player has.
 
 enum bomb_types {DEFAULT, PIERCING, MINE, REMOTE, SEEKER}
 enum exclusive {DEFAULT, KICK, BOMBTHROUGH}
@@ -23,6 +24,8 @@ var held_pickups: Dictionary = {
 func _init():
 	self.resource_local_to_scene = true
 
+## reset to the starting position of no pickups
+## IMPORTANT: THIS MAY NOT RESET THE EFFECTS CAUSED BY THE PICKUPS SUCH AS A SPEED INCREASE AS THOSE ARE HANDLED SEPERATLY BUT BOOLEAN PICKUPS MAY ALREADY BE RESET BY THIS
 func reset():
 	held_pickups[globals.pickups.GENERIC_BOMB] = bomb_types.DEFAULT
 	held_pickups[globals.pickups.GENERIC_EXCLUSIVE] = exclusive.DEFAULT
@@ -38,6 +41,7 @@ func reset():
 	held_pickups[globals.pickups.FREEZE] = false
 	held_pickups[globals.pickups.INVINCIBILITY_VEST] = false
 
+## add a pickup to the players "inventory"
 func add(pickup_type: int, virus_type: int = 0):
 	if(virus_type < 0 || virus.SIZE <= virus_type):
 		push_error("Invalid virus type given")

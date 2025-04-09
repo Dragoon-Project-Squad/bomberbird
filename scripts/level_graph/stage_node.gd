@@ -1,4 +1,5 @@
 class_name StageNode extends GraphNode
+## Represents a single Node in a Level Graph
 
 const STAGE_SCENE_DIR: String = "res://scenes/stages/"
 
@@ -45,6 +46,7 @@ func _ready():
 	$TabContainer.current_tab = curr_tab
 
 ## sets all values for a node given a StageNodeData
+## [param stage_node_data] StageNodeData data to load from
 func load_stage_node(stage_node_data: StageNodeData):
 	self.name = stage_node_data.stage_node_name
 	self.title = stage_node_data.stage_node_title
@@ -82,7 +84,9 @@ func save_node(index: int) -> StageNodeData:
 	node_data.children.fill(-1)
 	return node_data
 
-## given an OptionButton and a String searches for that String in the items of the OptionButton and then sets the selection to that Option
+## searches for some String in the items of the OptionButton and then sets the selection to that Option
+## [param option_button] the OptionButton to modify
+## [param item] the string to search for
 func _set_option_button_select(option_button: OptionButton, item: String) -> int:
 	var idx: int
 	for i in range(option_button.item_count):
@@ -105,6 +109,10 @@ static func get_path_to_scene(scene: String, subfolders: Array[String], only_dir
 		ret += "/" + s
 	return ret + ("/" + scene if !only_dir else "")
 
+## recusrive function that given a [param path] to a folder stores all .tscn file and its subfolders into a [param subfolder_dict] dictonary
+## [param path] String path to the top most folder
+## [param subfolders] a temp Array used inbetween recursive calls (if you call this from a non recursive place this argument should be an empty array
+## [param subfolder_dict] The dict to store the results into
 static func get_file_name_from_dir(path: String, subfolders: Array[String], subfolder_dict: Dictionary):
 	var scene_dir = DirAccess.open(path)
 	assert(scene_dir, "stage scene dir not found at: " + path)

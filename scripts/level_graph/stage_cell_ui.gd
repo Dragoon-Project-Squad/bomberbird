@@ -1,12 +1,12 @@
 class_name StageCellUI extends ReferenceRect
 
-static var tileset_texture: String = "res://assets/tilesetimages/deserttileset.png"
-static var pickup_texture: String = "res://assets/pickups/powerup.png"
-static var unimplementet_texture: String = "res://assets/css/question.png"
-static var spawnpoint_texture: String = "res://assets/css/chonkgoon.png"
+@export var tileset_texture: Texture2D #"res://assets/tilesetimages/deserttileset.png"
+@export var pickup_texture: Texture2D #"res://assets/pickups/powerup.png"
+@export var unimplementet_texture: Texture2D #"res://assets/css/question.png"
+@export var spawnpoint_texture: Texture2D #"res://assets/css/chonkgoon.png"
 
 ##One hell of a Dictionary containing the information the create a texture for the given type
-static var texture_dict: Dictionary = {
+@onready var texture_dict: Dictionary = {
 	{ "main_type": StageDataUI.tile_type.UNBREAKABLE, "sub_type": null }:
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(192, 0, 32, 32), "sub_texture": null, "sub_texture_area": null},
 	{ "main_type": StageDataUI.tile_type.SPAWNPOINT, "sub_type": null }:
@@ -43,6 +43,7 @@ static func create(start_texture: Dictionary = {}) -> StageCellUI:
 	stage_cell_ui.probability_label.hide()
 	return stage_cell_ui
 
+## applies the texture specified by 'texture_dict' to this cell
 func apply_texture(texture_data: Dictionary = {}) -> void:
 	main_texture.texture = null
 	sub_texture.texture = null
@@ -62,9 +63,10 @@ func apply_texture(texture_data: Dictionary = {}) -> void:
 				sub_texture.texture = arr_2_atlas(texture_dict[texture_data_sliced].sub_texture, texture_dict[texture_data_sliced].sub_texture_area)
 			return
 
-static func arr_2_atlas(path: String, rect: Variant) -> AtlasTexture:
+## takes a texture and a rect and constructs an AtlasTexture
+static func arr_2_atlas(texture: Texture2D, rect: Variant) -> AtlasTexture:
 	var atlas_tex: AtlasTexture = AtlasTexture.new()
-	atlas_tex.atlas = ImageTexture.create_from_image(Image.load_from_file(path))
+	atlas_tex.atlas = texture
 	if rect != null:
 		atlas_tex.region = rect
 	return atlas_tex

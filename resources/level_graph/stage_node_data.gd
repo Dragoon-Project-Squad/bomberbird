@@ -16,8 +16,10 @@ class_name StageNodeData extends Resource
 @export var index: int
 @export var children: Array[int]
 
+## make sure this is not a shared resource
 func _init():
 	self.resource_local_to_scene = true
 
+## returns the full path to the stage this data file corresponts to
 func get_stage_path() -> String:
 	return selected_scene_path + "/" + selected_scene_file

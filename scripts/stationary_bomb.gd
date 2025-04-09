@@ -1,5 +1,6 @@
 extends StaticBody2D
 class_name Bomb
+## Handles the most basic bomb behaviore of a bomb just sitting and waiting to explode
 
 @onready var bomb_root: Node2D = get_parent()
 @onready var bomb_pool: Node2D = get_parent().get_parent()
@@ -47,6 +48,7 @@ func place(bombPos: Vector2, fuse_time_passed: float = 0):
 	$AnimationPlayer.play("fuse_and_call_detonate()")
 	$AnimationPlayer.advance(fuse_time_passed) #continue the animation from where it was left of
 	
+## started the detonation call chain, calculates the true range of the explosion by checking for any breakables in its path, destroys those and corrects its exposion size before telling the exposion child to activate
 func detonate():
 	explosion_sfx_player.stop()
 	explosion_sfx_player.position = bomb_root.position #Monsto Fix
@@ -71,6 +73,7 @@ func detonate():
 		if(!get_parent().bomb_owner.is_dead):
 			get_parent().bomb_owner.return_bomb.rpc()
 	
+## called when a bomb has detonated and hence is done, clears it of the arena both in world_data and for the AI then returns the root back to the bomb_pool
 func done():
 	world_data.set_tile(world_data.tiles.EMPTY, bomb_root.global_position)
 	
@@ -83,22 +86,12 @@ func done():
 	bomb_root.disable.rpc()
 	bomb_pool.return_obj(get_parent()) # bomb returns itself to the pool
 
-#Probably Deprecated
-func is_out_of_bounds(pos: Vector2):
-	if pos.x < 33 || pos.x > 447:
-		return true
-	if pos.y < 97 || pos.y > 447:
-		return true
-	return false
-
 func set_explosion_width_and_size(somewidth: int):
 	explosion_width = clamp(somewidth, 2, MAX_EXPLOSION_WIDTH)
 	bombsprite.set_frame(clamp(somewidth-3, 0, 2))
 
-#Either this or the above function are also probably Deprecated
-func set_explosion_width(somewidth: int):
-	explosion_width = clamp(somewidth, 2, MAX_EXPLOSION_WIDTH)
-	
+## sets the size of the bomb (larger if its range is larger)
+## im unsure what calls this function since it does not seem to be an animation neither to be in this file bit its effect can clearly be seen in the game
 func set_bomb_size(size: int):
 	bombsprite.set_frame(clamp(size-1, 0, 2))
 	

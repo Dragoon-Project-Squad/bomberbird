@@ -8,6 +8,7 @@ class_name LevelGraphData extends Resource
 
 @export var entry_point_pos: Vector2
 
+## make sure this resource is not shared
 func _init():
 	self.resource_local_to_scene = true
 

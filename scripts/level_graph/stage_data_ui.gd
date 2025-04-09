@@ -72,6 +72,7 @@ func _ready():
 			cell_ui_elements[_get_cell_ui_element_index(cell)] = cell_ui_element
 			grit_container.add_child(cell_ui_element)
 
+## readed the data from the handed resources and inputs them into the UI
 func load_from_resources(enemy_table: EnemyTable = null, spawnpoint_table: SpawnpointTable = null):
 	modified_cells.clear()
 	if enemy_table != null:
@@ -84,6 +85,7 @@ func load_from_resources(enemy_table: EnemyTable = null, spawnpoint_table: Spawn
 			cell_ui_elements[_get_cell_ui_element_index(entry.coords)].apply_texture(modified_cells[entry.coords])
 	#...
 
+## stores the data inputed into the UI into the table resources handed to it
 func write_to_resources(enemy_table: EnemyTable, spawnpoint_table: SpawnpointTable):
 	for tile_pos in modified_cells.keys():
 		var tile: Dictionary = modified_cells[tile_pos]
@@ -98,6 +100,8 @@ func write_to_resources(enemy_table: EnemyTable, spawnpoint_table: SpawnpointTab
 			tile_type.SPAWNPOINT:
 				spawnpoint_table.append(tile_pos, tile.probability)
 
+## Draws the current selection into the cell
+## [param cell] Vector2i the cell to draw
 func draw(cell: Vector2i):
 	if _eraser_is_selected && modified_cells.has(cell):
 		modified_cells.erase(cell)
@@ -114,6 +118,7 @@ func draw(cell: Vector2i):
 				modified_cells[cell] = _create_type_dict(curr_type, null, curr_probability)
 		cell_ui_elements[_get_cell_ui_element_index(cell)].apply_texture(modified_cells[cell])
 
+## static function that creates a valid entry for 'modified_cells' 
 static func _create_type_dict(main_type: int, sub_type: Variant, probability: float):
 	return {
 		"main_type": main_type,
@@ -121,9 +126,11 @@ static func _create_type_dict(main_type: int, sub_type: Variant, probability: fl
 		"probability": probability,
 	}
 
+## sets the border color of a cell, defaults to black
 func _set_border_color_to(cell: Vector2i, color: Color = Color.BLACK):
 	cell_ui_elements[_get_cell_ui_element_index(cell)].border_color = color
 
+## given a cell returns the index of this cells 'modified_cells' entry
 func _get_cell_ui_element_index(cell: Vector2i):
 	return cell.x + cell.y * map_size.x
 
@@ -157,6 +164,7 @@ func _on_grid_container_mouse_exited() -> void:
 	selected_cells.map(_set_border_color_to)
 	selected_cells.clear()
 
+## sets the string for the label to inform the user of the contents of the cell they are hovering over
 func _set_label(cell: Vector2i):
 	var coord_is: String = str(cell) + " is"
 	if !modified_cells.has(cell):
@@ -170,6 +178,7 @@ func _set_label(cell: Vector2i):
 		sub_type = " with file " + modified_cells[cell].sub_type
 	curr_cell_label.text = coord_is + main_type + sub_type
 
+## makes this cell as hovered and if needed draws or adds it to the selection
 func _on_mouse_entered_cell(cell: Vector2i, force: bool = false):
 	_set_border_color_to(draw_pos)
 	draw_pos = cell
@@ -218,6 +227,7 @@ func _on_mouse_entered_cell(cell: Vector2i, force: bool = false):
 	selected_cells.filter(func (old_cell: Vector2i): return !(old_cell in new_selected_cells)).map(_set_border_color_to)
 	selected_cells = new_selected_cells
 
+## called when a drawing request ends if a selection exists will draw that selection
 func _ended_drawing(is_erasing: bool = false):
 	_eraser_is_selected = is_erasing
 	match curr_draw_mode:
@@ -232,6 +242,7 @@ func _ended_drawing(is_erasing: bool = false):
 	if is_erasing:
 		_eraser_is_selected = false
 
+## clears and writes into the sub_type OptionButton depending on the main_type selected
 func _on_selected_type(index: int):
 	sub_type_select.disabled = false
 	curr_type = type_select.get_item_id(index)

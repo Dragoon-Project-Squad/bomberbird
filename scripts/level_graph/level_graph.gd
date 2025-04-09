@@ -49,7 +49,10 @@ func _ready():
 	
 	self.right_disconnects = true
 
-## all ports with an index larger them 'from' will be reindexed to + 'step'
+## when called all ports with an index larger them [param from] will be reindexed to + [param step]
+## [param node] StringName of the node whos port should be reindexed
+## [param from] int Port index from which all after will be reindexed
+## [param step] int the step that wil be reindex to (e.g. -1 to subtract 1 from each port)
 func reindex_ports(node: StringName, from: int, step: int):
 	for i in range(len(self.connections) -1, -1, -1):
 		var from_node: StringName = self.connections[i].from_node
@@ -60,7 +63,9 @@ func reindex_ports(node: StringName, from: int, step: int):
 			disconnect_node(from_node, from_port, to_node, to_port)
 			connect_node(from_node, from_port + step, to_node, to_port)
 
-## removes all connection to the given 'port' from the node 'node'
+## removes all connection to the given [param port] from the node [param node]
+## [param node] StringName of the node whos port should be removed
+## [param port] int of the port removed
 func remove_ports(node: StringName, port: int):
 	for i in range(len(self.connections) -1, -1, -1):
 		var from_node: StringName = self.connections[i].from_node
@@ -70,7 +75,7 @@ func remove_ports(node: StringName, port: int):
 		if from_node == node && from_port == port:
 			disconnect_node(from_node, from_port, to_node, to_port)
 
-## adds a new & empty StageNode
+## adds a new & empty StageNode (called by signal)
 func _add_stage_node():
 	var stage_node: StageNode = stage_node_preload.instantiate()
 	stage_node_indx += 1
@@ -85,6 +90,7 @@ func _add_stage_node():
 	stage_node.pickup_resource.update()
 	stage_node._setup_pickup_tab()
 	
+## clears the graph (removing all nodes and connections with the exeption of the starting node)
 func clear_graph():
 	for child in get_children():
 		if !child is StageNode: continue
@@ -93,6 +99,7 @@ func clear_graph():
 	stage_node_indx = 0
 
 ## loads the graph stored in graph_data
+## [param graph_data] LevelGraphData the resource to load the data from
 func load_graph(graph_data: LevelGraphData):
 	self.clear_connections()
 	clear_graph()
@@ -109,6 +116,7 @@ func load_graph(graph_data: LevelGraphData):
 
 		
 ## loads the selected graph if it exists
+## takes the global value file_name to check if such a LevelGraphData file exists and if it does load it
 func _on_load_pressed():
 	if ResourceLoader.exists(SAVE_PATH + "/" + file_name + ".res"):
 		load_graph(ResourceLoader.load(SAVE_PATH + "/" + file_name + ".res"))
@@ -136,6 +144,7 @@ func _on_save_pressed():
 	else:
 		print("saving graph failed")
 
+## removes itself
 func _on_close_pressed():
 	if !get_parent(): 
 		get_tree().quit()
@@ -143,8 +152,10 @@ func _on_close_pressed():
 		self.queue_free()
 	has_closed.emit()
 
-
 ## A bfs graph traversale inwhich each node will be saved to the StageNodeData array. A bfs is used to also store the array indices of the children to each entry
+## The reason for a bfs rather then just looping through the node is so we can also store a children array that contains the indices of all of a node children inside the saved array
+## [param starting_node] StageNode Node on which the bfs should start
+## [param node_array] the array inwhich the algoritm will save StageNodeData resources
 func _save_bfs(starting_node: StageNode, node_array: Array[StageNodeData]):
 	var start_node_data: StageNodeData = starting_node.save_node(0)
 	node_array.append(start_node_data)
@@ -190,15 +201,18 @@ func _on_delete_nodes_request(nodes: Array[StringName]):
 		if node_name == "EntryPoint": continue
 		get_node(str(node_name)).queue_free()
 
+## Adds a selected node to the selected_nodes set for later processing if needed
 func _on_node_selected(node: Node) -> void:
 	if node.name == "EntryPoint": return
 	selected_nodes[node] = null
 
+## removes a selected node to the selected_nodes set
 func _on_node_deselected(node: Node) -> void:
 	if node.name == "EntryPoint": return
 
 	selected_nodes.erase(node)
 
+## stores all nodes in the selected_nodes set as resources into its own clipboard to allow for later pasting
 func _on_copy_nodes_request():
 	var index: int = 0
 	node_clipboard.clear()
@@ -209,6 +223,7 @@ func _on_copy_nodes_request():
 		node_clipboard[index].stage_node_title = "copy of " + node_clipboard[index].stage_node_title
 		index += 1
 
+## stores and removes all nodes in the selected_nodes set as resources into its own clipboard to allow for later pasting
 func _on_cut_nodes_request() -> void:
 	var index: int = 0
 	node_clipboard.clear()
@@ -221,6 +236,7 @@ func _on_cut_nodes_request() -> void:
 		node.queue_free()
 		selected_nodes.erase(node)
 
+## rebuilds all nodes in the clipboard
 func _on_paste_nodes_request():
 	for node in selected_nodes.keys():
 		node.selected = false
@@ -236,6 +252,7 @@ func _on_paste_nodes_request():
 		selected_nodes[stage_node] = null
 		stage_node.selected = true
 
+## duplicates all nodes in the selected_nodes set
 func _on_duplicate_nodes_request() -> void:
 	var index: int = 0
 	for node in selected_nodes.keys():

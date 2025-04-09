@@ -1,4 +1,5 @@
 class_name WorldData extends Node
+## A datastructure for tracking the state of the current stage ensures each tile only contains one object and also gives easy and fast access to the contends of each tile
 
 enum tiles {EMPTY, UNBREAKABLE, BREAKABLE, BOMB, PICKUP}
 enum bounds {IN = -1, OUT_TOP = 0, OUT_RIGHT = 1, OUT_DOWN = 2, OUT_LEFT = 3}
@@ -27,12 +28,17 @@ var tile_map: TileMapLayer
 
 ## private functions
 
+## returns the index of a vector corresponding the the _world_matrix entry of this vector
+## [param vec]
 func _vec_to_index(vec: Vector2i) -> int:
 	assert(0 <= vec.x && vec.x < world_width && 0 <= vec.y && vec.y <= world_height, "index " + str(vec) + " out of bounds for world_data")
 	var indx: int = vec.x + vec.y * self.world_width
 	assert(indx < self._world_matrix.size(), "index" + str(vec) + " <-> " + str(indx) + " out of bounds for world_data")
 	return indx
 
+## adds a tile to a position ensuring that that tile is valid
+## [param tile] ENUM corresponding to the tile that should be placed
+## [param pos] Vector2i
 func _add_tile(tile: int, pos: Vector2i):
 	var index = _vec_to_index(pos)
 	assert(self._world_matrix[index] != tile, "attempted to place " + _int_to_enum_name(tile)	+ " on a cell already occupied by that cell")
@@ -42,6 +48,8 @@ func _add_tile(tile: int, pos: Vector2i):
 	if self._world_matrix[index] == tiles.EMPTY: return
 	self._world_empty_cells.erase(pos)
 
+## removes a tile to a position
+## [param pos] Vector2i
 func _remove_tile(pos: Vector2i):
 	var index = _vec_to_index(pos)
 	self._world_matrix[index] = tiles.EMPTY
@@ -69,6 +77,8 @@ func _sync_test() -> bool:
 			res = res && _world_empty_cells[matrix_pos]
 	return res
 
+## returns a name string of the tile enum
+## [param tile]
 func _int_to_enum_name(tile: int) -> String:
 	match tile:
 		0: return "EMPTY"

@@ -13,6 +13,8 @@ func _init():
 	globals.game = self
 
 @rpc("call_local")
+## starts the complete reset for all stage related states and then loads the next stage given by
+## [param id] int -1 if the game should terminate with a player win else the index of the next stage in the stage_data_arr
 func next_stage(id: int):
 	if id == -1:
 		#TODO: proper won game screen
@@ -40,6 +42,8 @@ func next_stage(id: int):
 	load_next_stage_set(id)
 	get_tree().create_timer(10).timeout.connect(_check_ending_condition.bind(0), CONNECT_ONE_SHOT) #TEMPORARY ends the stage after 10s (until we have actuall enemies)
 
+## for a given stage loads the next stages into the tree with a lookahead in a BDS approach
+## [param id] int index of the choosen stage in the stage_data_arr
 func load_next_stage_set(id: int):
 	# delete stages we will never use again
 	var unreachable_stages: Dictionary = GraphHelper.bfs_are_unreachable(
@@ -60,7 +64,6 @@ func load_next_stage_set(id: int):
 		_stage_lookahead,
 	)
 	stage_handler.load_stages(next_stage_set)
-
 
 func start():
 	assert(stage_data_arr != [], "stage_data not loaded")

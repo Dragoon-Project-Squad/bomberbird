@@ -43,9 +43,11 @@ func place(pos: Vector2):
 	world_data.set_tile(world_data.tiles.PICKUP, self.global_position)
 	enable()
 
+## applies the power up to the player handed to it
 func apply_power_up(_pickup_owner: Player):
 	pass #default pickup has no effect
 
+## if the body is a player proceed to cause the effect this pickup causes
 func _on_body_entered(body: Node2D) -> void:
 	if !is_multiplayer_authority():
 		# Activate only on authority.
@@ -66,6 +68,7 @@ func _on_body_entered(body: Node2D) -> void:
 	disable.rpc()
 
 @rpc("call_local")
+## called when this pickup is destroyed by an explosion players the corresponding animation and sound
 func exploded(_from_player):
 	globals.game.pickup_pool.return_obj(self) #Pickup returns itself to the pool
 	disable_collison_and_hide()
@@ -75,6 +78,7 @@ func exploded(_from_player):
 	disable()
 
 @rpc("call_local")
+## called when a pickup is destroyed by something that is not an explosion
 func crush():
 	disable_collison_and_hide()
 	globals.game.pickup_pool.return_obj(self) #Pickup returns itself to the pool

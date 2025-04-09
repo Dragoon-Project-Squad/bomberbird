@@ -1,4 +1,6 @@
 class_name PickupTable extends Resource
+## contains probabilistic weight for each pickup that should spawn on a specific stage
+## TODO: also allow this to handle total amounts instead of probabalistic weights
 
 @export_group("Pickup Weights")
 @export var extra_bomb: int = 500
@@ -26,6 +28,7 @@ var is_uptodate: bool = false # This is kinda hacky but _init() doesn't work for
 func _init():
 	self.resource_local_to_scene = true
 
+## writes the weight variables into the pickup_weight dictunaty
 func update():
 	pickup_weights = {
 		globals.pickups.BOMB_UP: extra_bomb,
@@ -48,6 +51,7 @@ func update():
 		}
 	is_uptodate = true
 
+## writes the pickup_weight dictonary into the variables
 func reverse_update():
 	extra_bomb = pickup_weights[globals.pickups.BOMB_UP]
 	explosion_boost = pickup_weights[globals.pickups.FIRE_UP]
@@ -67,6 +71,7 @@ func reverse_update():
 	#remote_control = pickup_weights[globals.pickups.REMOTE]
 	#seeker_bomb = pickup_weights[globals.pickups.SEEKER]
 
+## calulates the total weight of all weights in the dict
 func total_weight() -> int:
 	if !is_uptodate:
 		update()
@@ -75,7 +80,10 @@ func total_weight() -> int:
 		sum += pickup_weights[key]
 	return sum
 
+## given a weight from 0 to 'total_weight()' returns the pickup this weight corresponts to
+## ERROR behavior: if given a weight larger then total_weight() 
 func get_type_from_weight(weight: int) -> int:
+	# Note that according to the godot Doc a dictunary preserves the insertion order which makes this code valid
 	for key in pickup_weights.keys():
 		if pickup_weights[key] == 0: continue
 		weight -= pickup_weights[key]

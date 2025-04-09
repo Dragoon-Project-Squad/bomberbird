@@ -1,4 +1,5 @@
 class_name Game extends Node2D
+## Represents a currently running game (of some game mode) handles the stage and all objects it contains
 
 var player_manager: PlayerManager
 var player_spawner: MultiplayerSpawner
@@ -16,9 +17,11 @@ var players_are_spawned: bool = false
 func _init():
 	globals.game = self
 
+## starts the game is only called once
 func start():
 	pass
 
+## resets the game s.t. a new stage can be loaded
 func reset():
 	for player in player_manager.get_alive_players():
 		player.reset_pickups()
@@ -40,10 +43,13 @@ func reset():
 			breakable.disable.rpc()
 		breakable_pool.return_obj(breakable)
 
-
+## loaded the level_graph given as a path 
+## [param path] String the path to the choosen level_graph
 func load_level_graph(_path: String):
 	pass
 
+## checks whenever the current stage has ended
+## [param alive_enemies] The number of alive NPC enemies
 func _check_ending_condition(_alive_enemies: int):
 	pass
 	

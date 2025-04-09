@@ -29,6 +29,7 @@ func _process(_delta: float) -> void:
 		#The client updates their progess to the last know one
 		progress = synced_progress
 
+## set the given player to the owner of this misobon player
 func set_player(player_id: int):
 	self.player = get_node("../../Players/" + str(player_id))
 
@@ -48,6 +49,7 @@ func disable(do_wait: bool = false):
 	current_anim = ""
 	process_mode = PROCESS_MODE_DISABLED
 	
+## called to spawn and throw a bomb
 func throw_bomb():
 	last_bomb_time = 0
 	$BombSprite.hide()
@@ -81,6 +83,7 @@ func revive(pos: Vector2):
 		player.exit_death_state.rpc()
 		disable.rpc()
 
+## updates the looking direction animation
 func update_animation(segment_index: int):
 	var animations: Array[String] = ["look_down", "look_left", "look_up", "look_right"]
 	if animations[segment_index] != current_anim && controlable:

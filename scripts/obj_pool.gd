@@ -2,13 +2,17 @@
 class_name ObjectPool extends Node2D
 
 var obj_spawner: MultiplayerSpawner
-var unowned #keeps a reference of unowned object
-#children of ObjectPool must manage owned on there own if needed
+## keeps a reference of unowned object
+## children of ObjectPool must manage owned on there own if needed
+var unowned 
 
 func _ready() -> void:
 	pass
 
-func create_reserve(count, spawn_data): #creates a number of unowned obj's for the pool
+## creates a number of unowned obj's for the pool
+## [param count] a data structure indicating an amount (default int)
+## [param spawn_data] a data structure use to spawn the desired obj (used by the spawn function of the obj_spawner)
+func create_reserve(count, spawn_data): 
 	if !is_multiplayer_authority(): return
 	unowned = []
 	unowned.resize(count)
@@ -16,8 +20,9 @@ func create_reserve(count, spawn_data): #creates a number of unowned obj's for t
 	for i in range(count):
 		unowned[i] = obj_spawner.spawn(spawn_data)
 	
-
-func request(spawn_data) -> Variant: #This function is called if a caller needs a obj from the pool
+## Returns an Obj
+## [param spawn_data] a data structure use to spawn the desired obj (used by the spawn function of the obj_spawner)
+func request(spawn_data) -> Variant: 
 	if !is_multiplayer_authority(): return
 	if spawn_data == null: push_error("spawn_data is not allowed to be null")
 	var obj = unowned.pop_front()
@@ -26,6 +31,9 @@ func request(spawn_data) -> Variant: #This function is called if a caller needs 
 	
 	return obj
 
+## Returns a data_structure containing Obj (default an Array)
+## [param count] a data structure indicating an amount (default int)
+## [param spawn_data] a data structure use to spawn the desired obj (used by the spawn function of the obj_spawner)
 func request_group(count, spawn_data) -> Variant:
 	if !is_multiplayer_authority(): return
 	if spawn_data == null: push_error("spawn_data is not allowed to be null")
@@ -34,10 +42,14 @@ func request_group(count, spawn_data) -> Variant:
 		res.push_back(request(spawn_data))
 	return res
 
+## returns an obj to the pool
+## [param obj] the obj to return
 func return_obj(obj) -> void:
 	if !is_multiplayer_authority(): return
 	unowned.push_back(obj)
 
+## returns an ammount of obj to the pool
+## [param obj_array] a data structure of obj to return
 func return_obj_group(obj_array) -> void:
 	if !is_multiplayer_authority(): return
 	if typeof(obj_array) != TYPE_ARRAY: push_error("return_obj_group expected an array")
