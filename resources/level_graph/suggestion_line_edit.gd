@@ -12,6 +12,9 @@ var full_list: Array[String] = []
 var focus_pop: bool = false
 
 func _ready() -> void:
+	var read_only_stylebox: StyleBoxFlat = StyleBoxFlat.new()
+	read_only_stylebox.bg_color = Color(1.0, 0.173, 0.125, 0.51)
+	self.add_theme_stylebox_override("read_only", read_only_stylebox)
 	add_child(popup_menu)
 	tooltip_text = "Press Arrow down to get suggestions"
 	placeholder_text = "Press Arrow down when focused"

@@ -8,6 +8,8 @@ class_name StageNodeData extends Resource
 @export var enemy_resource: EnemyTable
 @export var exit_resource: ExitTable
 @export var spawnpoint_resource: SpawnpointTable
+@export var unbreakable_resource: UnbreakableTable
+@export var breakable_resource: BreakableTable
 
 @export var stage_node_name: String
 @export var stage_node_title: String

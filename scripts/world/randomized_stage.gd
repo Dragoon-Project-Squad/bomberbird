@@ -7,7 +7,7 @@ extends Zone
 ## Private Functions
 
 ## spawns breakables randomly with a change depending on (gamestate.current_level)
-func _generate_breakables():
+func _generate_breakables(_breakable_table: BreakableTable = null):
 	if not is_multiplayer_authority():
 		return
 	for x in range(0, world_data.world_width):	
@@ -22,7 +22,7 @@ func _generate_breakables():
 			if enemy_table && enemy_table.get_coords().any(skip_checker): continue
 
 			if _rng.randf() < breakable_spawn_chance:
-				_spawn_breakable(current_cell)
+				_spawn_breakable(current_cell, globals.pickups.RANDOM)
 
 ## returns true iff [param pos] is in a designated area around [param spawn] of size [param size] [br]
 ## [param size] Size of the area [br]

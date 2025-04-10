@@ -28,6 +28,7 @@ var cell_ui_elements: Array[ReferenceRect]
 var selected_cells: Array[Vector2i]
 
 var modified_cells: Dictionary = {}
+var cell_border_color_overwrite: Dictionary = {}
 var curr_draw_mode: int = draw_mode.FREE
 var curr_type: int = 0
 var curr_sub_type_id: int = 0
@@ -36,7 +37,9 @@ var curr_probability: float = 1.0
 var enemy_subfolders: Dictionary = {}
 
 var _is_drawing: bool = false
+## The eraser logic is stupid just as a warning
 var _eraser_is_selected: bool = false
+var _right_click_erase: bool = false
 var _do_overwrite: bool = true
 var draw_start: Vector2i = Vector2i(-1, 0)
 var draw_pos: Vector2i = Vector2i(-1, 0) # Starts in an invalid state
@@ -73,7 +76,7 @@ func _ready():
 			grit_container.add_child(cell_ui_element)
 
 ## readed the data from the handed resources and inputs them into the UI
-func load_from_resources(enemy_table: EnemyTable = null, spawnpoint_table: SpawnpointTable = null):
+func load_from_resources(enemy_table: EnemyTable = null, spawnpoint_table: SpawnpointTable = null, unbreakable_table: UnbreakableTable = null, breakable_table: BreakableTable = null):
 	modified_cells.clear()
 	if enemy_table != null:
 		for entry in enemy_table.enemies:
@@ -83,17 +86,24 @@ func load_from_resources(enemy_table: EnemyTable = null, spawnpoint_table: Spawn
 		for entry in spawnpoint_table.spawnpoints:
 			modified_cells[entry.coords] = _create_type_dict(tile_type.SPAWNPOINT, null, entry.probability)
 			cell_ui_elements[_get_cell_ui_element_index(entry.coords)].apply_texture(modified_cells[entry.coords])
-	#...
+	if unbreakable_table != null:
+		for entry in unbreakable_table.unbreakables:
+			modified_cells[entry.coords] = _create_type_dict(tile_type.UNBREAKABLE, null, entry.probability)
+			cell_ui_elements[_get_cell_ui_element_index(entry.coords)].apply_texture(modified_cells[entry.coords])
+	if breakable_table != null:
+		for entry in breakable_table.breakables:
+			modified_cells[entry.coords] = _create_type_dict(tile_type.BREAKABLE, entry.contained_pickup, entry.probability)
+			cell_ui_elements[_get_cell_ui_element_index(entry.coords)].apply_texture(modified_cells[entry.coords])
 
 ## stores the data inputed into the UI into the table resources handed to it
-func write_to_resources(enemy_table: EnemyTable, spawnpoint_table: SpawnpointTable):
+func write_to_resources(enemy_table: EnemyTable, spawnpoint_table: SpawnpointTable, unbreakable_table: UnbreakableTable, breakable_table: BreakableTable):
 	for tile_pos in modified_cells.keys():
 		var tile: Dictionary = modified_cells[tile_pos]
 		match modified_cells[tile_pos].main_type:
 			tile_type.UNBREAKABLE:
-				pass #TODO: have a resource to store this
+				unbreakable_table.append(tile_pos, tile.probability)
 			tile_type.BREAKABLE:
-				pass #TODO: have a resource to store this
+				breakable_table.append(tile_pos, tile.sub_type, tile.probability)
 			tile_type.ENEMY:
 				if tile.sub_type != "":
 					enemy_table.append(tile_pos, tile.sub_type, StageNode.get_path_to_scene(tile.sub_type, enemy_subfolders[tile.sub_type], true), tile.probability)
@@ -103,10 +113,10 @@ func write_to_resources(enemy_table: EnemyTable, spawnpoint_table: SpawnpointTab
 ## Draws the current selection into the cell
 ## [param cell] Vector2i the cell to draw
 func draw(cell: Vector2i):
-	if _eraser_is_selected && modified_cells.has(cell):
+	if (_eraser_is_selected || _right_click_erase) && modified_cells.has(cell):
 		modified_cells.erase(cell)
 		cell_ui_elements[_get_cell_ui_element_index(cell)].apply_texture()
-	elif (_do_overwrite || !modified_cells.has(cell)) && !_eraser_is_selected:
+	elif (_do_overwrite || !modified_cells.has(cell)) && !(_eraser_is_selected || _right_click_erase):
 		match curr_type:
 			tile_type.UNBREAKABLE:
 				modified_cells[cell] = _create_type_dict(curr_type, null, curr_probability)
@@ -126,8 +136,19 @@ static func _create_type_dict(main_type: int, sub_type: Variant, probability: fl
 		"probability": probability,
 	}
 
+func add_border_color_overwrite(cell: Vector2i, color: Color):
+	cell_border_color_overwrite[cell] = color
+	_set_border_color_to(cell)
+
+func remove_border_color_overwrite(cell: Vector2i):
+	if cell_border_color_overwrite.has(cell):
+		cell_border_color_overwrite.erase(cell)
+		_set_border_color_to(cell)
+
 ## sets the border color of a cell, defaults to black
 func _set_border_color_to(cell: Vector2i, color: Color = Color.BLACK):
+	if color == Color.BLACK && cell_border_color_overwrite.has(cell):
+		color = cell_border_color_overwrite[cell]
 	cell_ui_elements[_get_cell_ui_element_index(cell)].border_color = color
 
 ## given a cell returns the index of this cells 'modified_cells' entry
@@ -146,7 +167,7 @@ func _on_grid_container_gui_input(event: InputEvent) -> void:
 					_ended_drawing()
 				_is_drawing = event.pressed
 			MOUSE_BUTTON_RIGHT:
-				_eraser_is_selected = event.pressed
+				_right_click_erase = event.pressed
 				if !_is_drawing && event.pressed:
 					draw_start = draw_pos
 					_on_mouse_entered_cell(draw_pos, true)
@@ -183,12 +204,10 @@ func _on_mouse_entered_cell(cell: Vector2i, force: bool = false):
 	_set_border_color_to(draw_pos)
 	draw_pos = cell
 	_set_border_color_to(cell, Color.WHITE)
-
 	_set_label(cell)
 
 	if !_is_drawing && !force: return
 	var new_selected_cells: Array[Vector2i]
-
 	match curr_draw_mode:
 		draw_mode.FREE: 
 			draw(draw_pos)
@@ -228,8 +247,9 @@ func _on_mouse_entered_cell(cell: Vector2i, force: bool = false):
 	selected_cells = new_selected_cells
 
 ## called when a drawing request ends if a selection exists will draw that selection
-func _ended_drawing(is_erasing: bool = false):
-	_eraser_is_selected = is_erasing
+func _ended_drawing(force_erase: bool = false):
+	if force_erase:
+		_right_click_erase = true
 	match curr_draw_mode:
 		draw_mode.LINE:
 			selected_cells.map(draw)
@@ -239,8 +259,8 @@ func _ended_drawing(is_erasing: bool = false):
 	selected_cells.map(_set_border_color_to)
 	selected_cells.clear()
 	_set_label(draw_pos)
-	if is_erasing:
-		_eraser_is_selected = false
+	if force_erase:
+		_right_click_erase = false
 
 ## clears and writes into the sub_type OptionButton depending on the main_type selected
 func _on_selected_type(index: int):
@@ -252,16 +272,16 @@ func _on_selected_type(index: int):
 			sub_type_select.disabled = true
 		tile_type.BREAKABLE:
 			sub_type_select.clear()
-			for pickup in range(globals.pickups.RANDOME + 1):
+			for pickup in range(globals.pickups.RANDOM + 1):
 				match pickup:
 					globals.pickups.GENERIC_COUNT: continue
 					globals.pickups.GENERIC_BOOL: continue
 					globals.pickups.GENERIC_EXCLUSIVE: continue
 					globals.pickups.GENERIC_BOMB: continue
 				sub_type_select.add_item(globals.pickup_name_str[pickup], pickup)
-			sub_type_select.select(sub_type_select.get_item_index(globals.pickups.RANDOME))
-			curr_sub_type_id = globals.pickups.RANDOME
-			curr_sub_type_str = sub_type_select.get_item_text(globals.pickups.RANDOME)
+			sub_type_select.select(sub_type_select.get_item_index(globals.pickups.RANDOM))
+			curr_sub_type_id = globals.pickups.RANDOM
+			curr_sub_type_str = sub_type_select.get_item_text(globals.pickups.RANDOM)
 		tile_type.ENEMY:
 			sub_type_select.clear()
 			if enemy_subfolders.keys() == []:

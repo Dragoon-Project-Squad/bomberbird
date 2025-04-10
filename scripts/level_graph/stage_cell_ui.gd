@@ -13,7 +13,7 @@ class_name StageCellUI extends ReferenceRect
 		{"main_texture": spawnpoint_texture, "main_texture_area": null, "sub_texture": null, "sub_texture_area": null},
 	{ "main_type": StageDataUI.tile_type.ENEMY, "sub_type": "" }:
 		{"main_texture": unimplementet_texture, "main_texture_area": null, "sub_texture": null, "sub_texture_area": null},
-	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.RANDOME }:
+	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.RANDOM }:
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": null, "sub_texture_area": null},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.NONE }:
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": null, "sub_texture_area": null}, #TODO make this a special subtexture

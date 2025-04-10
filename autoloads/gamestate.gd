@@ -165,6 +165,9 @@ func load_world(game_scene):
 	game.start()
 	if get_tree().get_root().has_node("Lobby"):
 		get_tree().get_root().get_node("Lobby").hide()
+	else:
+		get_node("/root/MainMenu").pause_main_menu_music()
+
 
 	# Set up score.
 	if is_multiplayer_authority():
@@ -267,6 +270,8 @@ func end_game():
 		globals.game.queue_free()
 		if !multiplayer.is_server(): #BUG: This is likely the culprite for #100 but i don't understand mp enought yet to change it
 			peer.close()
+	if has_node("/root/MainMenu"):
+		get_node("/root/MainMenu").unpause_main_menu_music()
 	game_ended.emit() 
 	players.clear()
 	resetvars()

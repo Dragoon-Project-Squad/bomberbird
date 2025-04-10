@@ -2,6 +2,9 @@ class_name PickupTable extends Resource
 ## contains probabilistic weight for each pickup that should spawn on a specific stage
 ## TODO: also allow this to handle total amounts instead of probabalistic weights
 
+const PICKUP_ENABLED := true
+const PICKUP_SPAWN_BASE_CHANCE := 1.0
+
 @export_group("Pickup Weights")
 @export var extra_bomb: int = 500
 @export var explosion_boost: int = 500
@@ -24,6 +27,7 @@ class_name PickupTable extends Resource
 var are_amounts: bool = false
 var pickup_weights: Dictionary = {}
 var is_uptodate: bool = false # This is kinda hacky but _init() doesn't work for this
+var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 func _init():
 	self.resource_local_to_scene = true
@@ -90,3 +94,14 @@ func get_type_from_weight(weight: int) -> int:
 		if weight <= 0: return key
 	push_error("invalid weight value given to pickup_table")
 	return globals.pickups.NONE
+
+func decide_pickup_spawn() -> bool:
+	if !PICKUP_ENABLED:
+		return false
+	
+	return _rng.randf_range(0.0,1.0) <= PICKUP_SPAWN_BASE_CHANCE
+
+func decide_pickup_type() -> int:
+	var rng_result = _rng.randi_range(0, total_weight() - 1)
+	return get_type_from_weight(rng_result)
+	

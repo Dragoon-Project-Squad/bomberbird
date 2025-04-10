@@ -8,6 +8,7 @@ const SAVE_PATH: String = "res://resources/level_graph/saved_graphs"
 
 @onready var entry_point: GraphNode = $EntryPoint
 
+var file_name_input: SuggestionLineEdit
 var stage_node_preload := preload("res://scenes/level_graph/stage_node.tscn")
 var stage_node_indx: int = 0
 var selected_nodes: Dictionary = {}
@@ -22,7 +23,7 @@ func _ready():
 	get_menu_hbox().add_child(add_stage_node_button)
 
 	# create and add the SuggestionLineEdit
-	var file_name_input: SuggestionLineEdit = SuggestionLineEdit.new()
+	file_name_input = SuggestionLineEdit.new()
 	file_name_input.name = "LoadSaveLEdit"
 	has_saved.connect(file_name_input._on_graph_edit_saved)
 	file_name_input.text_changed.connect(func (new_text: String): file_name = new_text)
@@ -126,6 +127,11 @@ func _on_load_pressed():
 
 ## saves the current graph
 func _on_save_pressed():
+	if file_name == "": # stops saving a graph as ".res"
+		file_name_input.editable = 0
+		await get_tree().create_timer(0.2).timeout
+		file_name_input.editable = 1
+		return
 	var graph_data = LevelGraphData.new()
 	graph_data.setup_local_to_scene()
 	graph_data.connections = self.get_connection_list()
