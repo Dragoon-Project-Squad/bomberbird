@@ -26,8 +26,6 @@ func _ready():
 	explosion_sfx_player.set_stream(explosion_audio)
 	bomb_placement_sfx_player.set_stream(bomb_place_audio)
 	self.visible = false
-	$DetectArea.set_deferred("disabled", 1)
-	$CollisionShape2D.set_deferred("disabled", 1) # This line of code thinks it knows better so it just kinda doesn't do what it should... also doesn't give an error tho...
 
 func disable():
 	explosion_sfx_player.position = Vector2.ZERO #Mmonsto Fix
@@ -36,17 +34,14 @@ func disable():
 	self.visible = false
 	explosion.reset()
 	$AnimationPlayer.stop()
-	$DetectArea.set_deferred("disabled", 1)
-	$CollisionShape2D.set_deferred("disabled", 1)
 
 func place(bombPos: Vector2, fuse_time_passed: float = 0):
 	bomb_placement_sfx_player.play()
 	bomb_root.position = bombPos
 	self.visible = true
-	$CollisionShape2D.set_deferred("disabled", 1)
-	$DetectArea.set_deferred("disabled", 0)
 	$AnimationPlayer.play("fuse_and_call_detonate()")
 	$AnimationPlayer.advance(fuse_time_passed) #continue the animation from where it was left of
+	add_collision_exception_with(bomb_root.bomb_owner)
 	
 ## started the detonation call chain, calculates the true range of the explosion by checking for any breakables in its path, destroys those and corrects its exposion size before telling the exposion child to activate
 func detonate():
@@ -67,6 +62,7 @@ func detonate():
 			
 			exp_range[ray_direction] = explosion.get_node("SpriteTileMap").local_to_map(col_point).length() - 1 #find the distance from bomb.position to the last tile that should be blown up (in number of tiles)
 			if target.has_method("exploded") && is_multiplayer_authority(): target.exploded.rpc(str(get_parent().bomb_owner.name).to_int()) #if an object stopped the bomb and can be blown up... blow it up!
+	remove_collision_exception_with(bomb_root.bomb_owner)
 	if is_multiplayer_authority(): #multiplayer auth. now starts the transition to the explosion
 		explosion.init_detonate.rpc(exp_range[Vector2i.RIGHT], exp_range[Vector2i.DOWN], exp_range[Vector2i.LEFT], exp_range[Vector2i.UP])
 		explosion.do_detonate.rpc()
@@ -95,9 +91,8 @@ func set_explosion_width_and_size(somewidth: int):
 func set_bomb_size(size: int):
 	bombsprite.set_frame(clamp(size-1, 0, 2))
 	
-func _on_detect_area_body_exit(_body: Node2D) -> void:
-	#BUG: This likely causes other players to be abled to walk over the bomb aslong as the player that placed it remains on the bomb
-	$CollisionShape2D.set_deferred("disabled", 0)
+func _on_detect_area_body_exit(_body: Node2D):
+	remove_collision_exception_with(bomb_root.bomb_owner)
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name != "idle":
