@@ -12,7 +12,7 @@ func _update(delta):
 	detect_stuck(delta)
 	_idle_and_detect(delta)
 	
-func _physics_update(delta):
+func _physics_update(_delta):
 	if !idle:
 		set_next_point()
 	elif (idle and detect):
@@ -20,8 +20,8 @@ func _physics_update(delta):
 		detect = false
 	move_to_next_point()
 
-func _set_target():
-	randomize_target()
+func _set_target() -> bool:
+	return randomize_target()
 
 func _detect_surroundings() -> void:
 	if is_bomb_near():
@@ -35,18 +35,22 @@ func _detect_surroundings() -> void:
 		return
 
 ## Choose random point to wander to and create pathing
-func randomize_target():
+func randomize_target() -> bool:
+	#BUG: this is calculated by each client but only the multiplayer authorities result is actually used.
+	# This is normaly no problem as predicting the next move for each client is usually a good idea but
+	# since this function contains randomisation each client will get a potentialy vastly different result causeing
+	# unnessessary calculations.
 	var offset = area.position
 	var end = area.end
 	var current_cell = get_cell_position(aiplayer.global_position)
 	var valid_point = false
 	var number_generator = RandomNumberGenerator.new()
 	var new_target : Vector2i
-	var range = 4
+	var max_target_range = 4
 	while !valid_point:
 		# Generate random cell to move to
-		var posx = clamp(number_generator.randi_range(current_cell.x-range, current_cell.x+range+1), offset.x, end.y-1)
-		var posy = clamp(number_generator.randi_range(current_cell.y-range, current_cell.y+range+1), offset.y, end.y-1)
+		var posx = clamp(number_generator.randi_range(current_cell.x-max_target_range, current_cell.x+max_target_range+1), offset.x, end.y-1)
+		var posy = clamp(number_generator.randi_range(current_cell.y-max_target_range, current_cell.y+max_target_range+1), offset.y, end.y-1)
 		new_target = Vector2i(posx, posy)
 		# If the point is valid, finish
 		if (!world_data.is_tile(world_data.tiles.UNBREAKABLE, world_data.tile_map.map_to_local(new_target)) and new_target != current_cell):
@@ -54,15 +58,15 @@ func randomize_target():
 		else:
 			continue
 		path = astargrid_handler.create_path_no_breakables(aiplayer, new_target)
-		if world_data.is_tile(world_data.tiles.BREAKABLE, world_data.tile_map.map_to_local(path[1])):
+		if len(path) > 1 && world_data.is_tile(world_data.tiles.BREAKABLE, world_data.tile_map.map_to_local(path[1])):
 			valid_point = false
 			path = []
 	
 	# Remove first point in path which is the current position
 	path.pop_front()
-	#if aiplayer.name == "2":
-	#	print("Wander path: "+str(path))
-	
+	#print("AiPlayer " + aiplayer.name + "'s Wander path: "+str(path))
+	return !path.is_empty()
+
 #func is_unbreakable(point : Vector2i, offset : Vector2i) -> bool:
 #	return (point.x-offset.x+1)%2==0 and (point.y-offset.y+1)%2==0
 #

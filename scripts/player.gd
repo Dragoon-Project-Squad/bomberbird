@@ -112,7 +112,7 @@ func place_bomb():
 	astargrid_handler.astargrid_set_point(synced_position, true)
 	
 	if is_multiplayer_authority():
-		var bomb: BombRoot = bomb_pool.request([])
+		var bomb: BombRoot = bomb_pool.request()
 		bomb.set_bomb_owner.rpc(self.name)
 		bomb.do_place.rpc(bombPos, explosion_boost_count)
 

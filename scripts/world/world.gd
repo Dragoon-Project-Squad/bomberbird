@@ -39,6 +39,7 @@ class_name World
 ## The Atlas coordinate of the unbreakable tile in this stages tileset
 var _unbreakable_tile: Vector2i
 var _rng = RandomNumberGenerator.new()
+var _exit_spawned_barrier: bool = false
 
 # PRIVATE FUNCTIONS
 
@@ -49,6 +50,8 @@ func _ready() -> void:
 ## Spawn designated exits in exit_table
 func spawn_exits():
 	assert(exit_table, "exit table is null but trying to spawn exits")
+	if _exit_spawned_barrier: return
+	_exit_spawned_barrier = true
 	var iter: int = 0 
 	var children_ids: Array[int] = globals.game.stage_data_arr[globals.game.curr_stage_idx].children
 	print(globals.game.curr_stage_idx, ", ", children_ids)
@@ -92,11 +95,12 @@ func enable(
 	if hurry_up: ##SP stages may not have a hurry up node
 		hurry_up.start()
 
+	_exit_spawned_barrier = false
 	bounds_layer.collision_enabled = true
 	obstacles_layer.collision_enabled = true
 
 	world_data.reset()
-	astargrid_handler.astargrid.clear()
+	astargrid_handler.reset_astargrid()
 	world_data.begin_init(_arena_rect, _world_edge_rect, floor_layer)
 	_spawn_unbreakables(unbreakable_table)
 	world_data.init_unbreakables(_unbreakable_tile, obstacles_layer)

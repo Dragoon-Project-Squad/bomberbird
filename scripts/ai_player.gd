@@ -7,7 +7,7 @@ var bombs_near : Array[Bomb]
 var players_near : Array[Player]
 
 # World node to obtain grid pathfinding
-var movement_vector = Vector2(0,0)
+@export var movement_vector = Vector2(0,0)
 
 func _ready():
 	player_type = "ai"

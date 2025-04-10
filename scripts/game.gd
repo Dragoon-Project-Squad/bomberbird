@@ -1,6 +1,8 @@
 class_name Game extends Node2D
 ## Represents a currently running game (of some game mode) handles the stage and all objects it contains
 
+signal stage_has_changed
+
 var player_manager: PlayerManager
 var player_spawner: MultiplayerSpawner
 var misobon_path: MisobonPath

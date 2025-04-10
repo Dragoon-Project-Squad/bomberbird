@@ -13,6 +13,7 @@ func _ready():
 			child.state_changed.connect(_on_state_changed)
 			child.aiplayer = get_parent() # This is arguably fine because its within its own scene tree imo
 			child.world = globals.current_world
+			globals.game.stage_has_changed.connect(child._on_new_stage)
 	
 	if initial_state:
 		initial_state._enter()

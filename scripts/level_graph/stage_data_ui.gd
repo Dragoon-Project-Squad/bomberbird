@@ -281,7 +281,7 @@ func _on_selected_type(index: int):
 				sub_type_select.add_item(globals.pickup_name_str[pickup], pickup)
 			sub_type_select.select(sub_type_select.get_item_index(globals.pickups.RANDOM))
 			curr_sub_type_id = globals.pickups.RANDOM
-			curr_sub_type_str = sub_type_select.get_item_text(globals.pickups.RANDOM)
+			curr_sub_type_str = sub_type_select.get_item_text(sub_type_select.get_item_index(globals.pickups.RANDOM))
 		tile_type.ENEMY:
 			sub_type_select.clear()
 			if enemy_subfolders.keys() == []:

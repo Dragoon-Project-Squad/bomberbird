@@ -71,9 +71,7 @@ func request(pickup_type: int) -> Pickup:
 	return pickup
 
 func request_group(counts: Array[int], pickup_types: Array[int]) -> Dictionary:
-	if counts.size() != pickup_types.size():
-		push_error("pickup_type list must be as big as the count array")
-		return {}
+	assert(counts.size() == pickup_types.size(), "pickup_type list must be as big as the count array")
 	
 	var size: int = 0
 	for count in counts: size += count
@@ -84,28 +82,38 @@ func request_group(counts: Array[int], pickup_types: Array[int]) -> Dictionary:
 		
 		var count: int = counts[type_index]
 		var pickup_type = pickup_types[type_index]
+		assert(initial_spawn_counts.has(pickup_type), "pickup_type no a valid type, Type: " + str(pickup_type))
 		
-		if !initial_spawn_counts.has(pickup_type):
-			push_error("pickup_type no a valid type, Type: ", pickup_type)
-			continue
-		return_dict[pickup_type] = unowned[pickup_type].slice(0, count)
-		
-		for _i in range(counts[type_index] - return_dict[pickup_type].size()):
+		var take: int = 0
+		if unowned.has(pickup_type):
+			take = min(count, unowned[pickup_type].size())
+		return_dict[pickup_type] = []
+		for _i in range(take):
+			return_dict[pickup_type].push_back(unowned[pickup_type].pop_front())
+
+		for _i in range(count - return_dict[pickup_type].size()):
 			return_dict[pickup_type].push_back(obj_spawner.spawn(pickup_type))
 	
 	return return_dict
 
 func return_obj(pickup: Pickup) -> void:
+	assert(pickup, "null was attempted to be returned to the pickup_pool")
+	assert(!pickup.visible)
+	assert(pickup.position == Vector2.ZERO)
 	if !initial_spawn_counts.has(pickup.pickup_type):
 		push_error("a pickup of unknown type has been return to the pool, Type: ", globals.pickup_name_str[pickup.pickup_type])
 		return
 	if !unowned.has(pickup.pickup_type):
 		unowned[pickup.pickup_type] = []
+	assert(!(pickup in unowned[pickup.pickup_type]))
 	unowned[pickup.pickup_type].push_back(pickup)
 
 func return_obj_group(pickup_dict: Dictionary) -> void:
 	for pickup_type in pickup_dict.keys():
-		if !unowned.has(pickup_type):
+		assert(pickup_dict[pickup_type].all(func (p: Pickup): return p != null), "null was attempted to be returned to the pickup_pool")
+		assert(pickup_dict[pickup_type].all(func (p: Pickup): return !p.visible))
+		assert(pickup_dict[pickup_type].all(func (p: Pickup): return p.position == Vector2.ZERO))
+		if !initial_spawn_counts.has(pickup_type):
 			push_error("a pickup of unknown type has been return to the pool, Type: ", globals.pickup_name_str[pickup_type])
 			continue
 		if !unowned.has(pickup_type):

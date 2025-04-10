@@ -61,7 +61,6 @@ explosion_audio = ExtResource("2_gmoi6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_6btgv")
-disabled = true
 
 [node name="DetectArea" type="Area2D" parent="."]
 collision_layer = 128

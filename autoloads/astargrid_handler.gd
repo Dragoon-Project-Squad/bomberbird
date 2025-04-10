@@ -15,6 +15,10 @@ func setup_astargrid():
 	astargrid_no_breakables.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
 	astargrid_no_breakables.update()
 
+func reset_astargrid():
+	astargrid.clear()
+	astargrid_no_breakables.clear()
+
 ## sets unbeakables as solidpoints
 func astargrid_set_initial_solidpoints() -> void:
 	for unbreakable_cell in world_data.get_tiles(world_data.tiles.UNBREAKABLE, true):

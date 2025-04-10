@@ -9,7 +9,14 @@ func place(pos: Vector2):
 func crush_colliding_obj(objs: Array):
 	for obj in objs:
 		### Explode only on authority.
-		if is_multiplayer_authority() && obj.has_method("exploded"):
+		if !is_multiplayer_authority(): return
+		if obj.has_method("crush"):
+			var floor_tile_layer: TileMapLayer = world_data.tile_map
+			# Check if body is on same tile
+			if floor_tile_layer.local_to_map(obj.position) == floor_tile_layer.local_to_map(self.position):
+				obj.crush.rpc()
+
+		elif obj.has_method("exploded"):
 			var floor_tile_layer: TileMapLayer = world_data.tile_map
 			# Check if body is on same tile
 			if floor_tile_layer.local_to_map(obj.position) == floor_tile_layer.local_to_map(self.position):

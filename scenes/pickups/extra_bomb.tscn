@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://djocn7u0s7h48" path="res://scripts/pickups/extra_bomb.gd" id="1_11sqp"]
 [ext_resource type="Texture2D" uid="uid://cpcqguecfwnbv" path="res://assets/pickups/powerup.png" id="2_vov7d"]
-[ext_resource type="AudioStream" uid="uid://8u70xa4tmhc8" path="res://sound/fx/powerup.wav" id="3_p5ojm"]
+[ext_resource type="AudioStream" uid="uid://boidckhyrna5i" path="res://sound/fx/explosion.wav" id="3_uawrh"]
 [ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_xl82w"]
 [ext_resource type="AnimationLibrary" uid="uid://deqi1mrq6p7pt" path="res://animations/pickup.res" id="5_mojkf"]
 
@@ -39,7 +39,7 @@ sprite_frames = SubResource("SpriteFrames_0hn6b")
 animation = &"idle"
 
 [node name="PickupSoundPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_p5ojm")
+stream = ExtResource("3_uawrh")
 bus = &"SFX"
 
 [node name="kaboom" type="Sprite2D" parent="."]
@@ -51,7 +51,7 @@ hframes = 9
 
 [node name="anim" type="AnimationPlayer" parent="."]
 libraries = {
-"pickup": ExtResource("5_mojkf")
+&"pickup": ExtResource("5_mojkf")
 }
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
