@@ -96,7 +96,7 @@ func enable(
 	obstacles_layer.collision_enabled = true
 
 	world_data.reset()
-	astargrid_handler.astargrid.clear()
+	astargrid_handler.reset_astargrid()
 	world_data.begin_init(_arena_rect, _world_edge_rect, floor_layer)
 	_spawn_unbreakables(unbreakable_table)
 	world_data.init_unbreakables(_unbreakable_tile, obstacles_layer)

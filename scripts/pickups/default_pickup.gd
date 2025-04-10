@@ -4,6 +4,7 @@ class_name Pickup extends Area2D
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var collisionbox: CollisionShape2D = $CollisionShape2D
 
+var _pickup_pick_up_barrier: bool = false
 var in_use: bool = false
 var pickup_type: int = globals.pickups.NONE:
 	set(type): #i don't like setters but it only enforces something here so its okey
@@ -35,6 +36,7 @@ func disable():
 func enable():
 	in_use = true
 	process_mode = PROCESS_MODE_INHERIT
+	_pickup_pick_up_barrier = false
 	enable_collison()
 	show()
 
@@ -50,9 +52,9 @@ func apply_power_up(_pickup_owner: Player):
 
 ## if the body is a player proceed to cause the effect this pickup causes
 func _on_body_entered(body: Node2D) -> void:
-	if !is_multiplayer_authority():
-		# Activate only on authority.
-		return
+	if !is_multiplayer_authority(): return # Activate only on authority.
+	if _pickup_pick_up_barrier: return
+	_pickup_pick_up_barrier = true
 	if !body.is_in_group("player") && !body.is_in_group("ai_player"): return
 	#Prevent anyone else from colliding with this pickup
 	pickup_sfx_player.play()

@@ -31,7 +31,7 @@ func place(pos: Vector2, pickup: int):
 	
 @rpc("call_local")
 func exploded(by_who):
-	if _exploded_barrier: return
+	if _exploded_barrier: return #prevents a racecondition of the game attempting to spawn a pickup twice
 	_exploded_barrier = true
 	# breakable_sfx_player.play()
 	$"AnimationPlayer".play("explode")
