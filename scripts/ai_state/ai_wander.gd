@@ -64,8 +64,7 @@ func randomize_target() -> bool:
 	
 	# Remove first point in path which is the current position
 	path.pop_front()
-	#if aiplayer.name == "2":
-	#	print("Wander path: "+str(path))
+	#print("AiPlayer " + aiplayer.name + "'s Wander path: "+str(path))
 	return !path.is_empty()
 
 #func is_unbreakable(point : Vector2i, offset : Vector2i) -> bool:

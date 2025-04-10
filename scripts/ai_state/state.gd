@@ -20,6 +20,7 @@ var stuck_time = default_stuck_time
 var idle : bool
 var prev_pos : Vector2
 var detect : bool
+var arrival_tolerance: float = 1
 
 # Overwrite "_" functions as needed
 func _enter() -> void:
@@ -125,7 +126,7 @@ func _on_new_stage() -> void:
 
 func move_to_next_point() -> void:
 	if !is_multiplayer_authority(): return
-	if next_point:
+	if next_point && aiplayer.global_position.distance_to(next_point) > arrival_tolerance:
 		aiplayer.movement_vector = Vector2(next_point.x - aiplayer.global_position.x, next_point.y - aiplayer.global_position.y)
 	else:
 		aiplayer.movement_vector = Vector2(0, 0)
@@ -135,6 +136,4 @@ func move_to_next_point() -> void:
 # This function is so it detects that variation and treats it as if it already
 # the next point.
 func reached_next_point() -> bool:
-	var validate_x = aiplayer.global_position.x<next_point.x+1 and aiplayer.global_position.x>next_point.x-1
-	var validate_y = aiplayer.global_position.y<next_point.y+1 and aiplayer.global_position.y>next_point.y-1
-	return validate_x and validate_y
+	return aiplayer.global_position.distance_to(next_point) < arrival_tolerance
