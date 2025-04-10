@@ -36,6 +36,10 @@ func _detect_surroundings() -> void:
 
 ## Choose random point to wander to and create pathing
 func randomize_target() -> bool:
+	#BUG: this is calculated by each client but only the multiplayer authorities result is actually used.
+	# This is normaly no problem as predicting the next move for each client is usually a good idea but
+	# since this function contains randomisation each client will get a potentialy vastly different result causeing
+	# unnessessary calculations.
 	var offset = area.position
 	var end = area.end
 	var current_cell = get_cell_position(aiplayer.global_position)

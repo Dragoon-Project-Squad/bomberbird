@@ -124,6 +124,7 @@ func _on_new_stage() -> void:
 	state_changed.emit(self, "Wander")
 
 func move_to_next_point() -> void:
+	if !is_multiplayer_authority(): return
 	if next_point:
 		aiplayer.movement_vector = Vector2(next_point.x - aiplayer.global_position.x, next_point.y - aiplayer.global_position.y)
 	else:
