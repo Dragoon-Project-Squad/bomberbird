@@ -92,7 +92,8 @@ func set_bomb_size(size: int):
 	bombsprite.set_frame(clamp(size-1, 0, 2))
 	
 func _on_detect_area_body_exit(_body: Node2D):
-	remove_collision_exception_with(bomb_root.bomb_owner)
+	if bomb_root.bomb_owner:
+		remove_collision_exception_with(bomb_root.bomb_owner)
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name != "idle":

@@ -25,7 +25,6 @@ func next_stage(id: int):
 		win_screen.won_game()
 		stage.reset() #deletes exits and stops hurry up
 		return
-	print("next stage is ", id)
 	gamestate.current_level += 1
 	
 	# disable the old stage
@@ -45,6 +44,7 @@ func next_stage(id: int):
 		stage_data_arr[id].breakable_resource,
 	)
 	curr_stage_idx = id
+	stage_has_changed.emit()
 	load_next_stage_set(id)
 	get_tree().create_timer(10).timeout.connect(_check_ending_condition.bind(0), CONNECT_ONE_SHOT) #TEMPORARY ends the stage after 10s (until we have actuall enemies)
 

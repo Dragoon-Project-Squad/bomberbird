@@ -5,6 +5,7 @@ class_name Breakable
 
 var in_use: bool = false
 var contained_pickup: int
+var _exploded_barrier: bool = false
 
 @rpc("call_local")
 func disable_collison_and_hide():
@@ -23,12 +24,15 @@ func place(pos: Vector2, pickup: int):
 	assert(pickup != globals.pickups.RANDOM)
 	contained_pickup = pickup
 	in_use = true
+	_exploded_barrier = false
 	$Shape.set_deferred("disabled", 0)
 	self.position = pos
 	self.show()
 	
 @rpc("call_local")
 func exploded(by_who):
+	if _exploded_barrier: return
+	_exploded_barrier = true
 	# breakable_sfx_player.play()
 	$"AnimationPlayer".play("explode")
 

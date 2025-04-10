@@ -34,14 +34,14 @@ func _exit() -> void:
 	stuck_time = default_stuck_time
 	idle = false
 
-func _update(delta : float) -> void:
+func _update(_delta : float) -> void:
 	pass
 
 func _physics_update(_delta : float) -> void:
 	pass
 
-func _set_target() -> void:
-	pass
+func _set_target() -> bool:
+	return false
 
 # *****General utility*****
 func get_cell_position(position : Vector2) -> Vector2i:
@@ -103,9 +103,10 @@ func set_next_point() -> void:
 	# then follow the next point
 	elif !currently_moving:
 		currently_moving = true
-		if path.size()==0:
-			if _on_player_finished_path():
+		if path.size() == 0:
+			if !_on_player_finished_path():
 				return
+		assert(!path.is_empty())
 		next_point = get_global_position(path.pop_front())
 
 func _on_player_reached_next_point() -> bool:
@@ -114,8 +115,13 @@ func _on_player_reached_next_point() -> bool:
 	stuck_time = default_stuck_time
 	return false
 
-func _on_player_finished_path():
+func _on_player_finished_path() -> bool:
+	return _set_target()
+
+func _on_new_stage() -> void:
+	idle = true
 	_set_target()
+	state_changed.emit(self, "Wander")
 
 func move_to_next_point() -> void:
 	if next_point:
