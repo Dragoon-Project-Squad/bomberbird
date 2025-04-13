@@ -8,7 +8,7 @@ func _ready() -> void:
 	load_data()
 	
 func load_data() -> void:
-	_on_value_changed(SettingsContainer.get_breakable_chance())
+	_on_value_changed(SettingsContainer.get_pickup_chance())
 	set_chance_num_label_text()
 	
 func set_chance_num_label_text() -> void:
@@ -16,4 +16,4 @@ func set_chance_num_label_text() -> void:
 
 func _on_value_changed(value: float) -> void:
 	set_chance_num_label_text()
-	SettingsSignalBus.emit_on_breakable_chance_set(value)
+	SettingsSignalBus.emit_on_pickup_chance_set(value)

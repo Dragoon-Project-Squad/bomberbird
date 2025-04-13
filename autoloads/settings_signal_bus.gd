@@ -10,6 +10,10 @@ signal on_music_sound_set(value : float)
 
 signal on_sfx_sound_set(value : float)
 
+signal on_breakable_chance_set(value : float)
+
+signal on_pickup_chance_set(value : float)
+
 signal set_settings_dictionary(settings_dict : Dictionary)
 
 signal load_settings_data(settings_dict: Dictionary)
@@ -31,6 +35,12 @@ func emit_on_music_sound_set(value : float) -> void:
 	
 func emit_on_sfx_sound_set(value : float) -> void:
 	on_sfx_sound_set.emit(value)
+	
+func emit_on_breakable_chance_set(value : float) -> void:
+	on_breakable_chance_set.emit(value)
+	
+func emit_on_pickup_chance_set(value : float) -> void:
+	on_pickup_chance_set.emit(value)
 	
 func emit_set_settings_dictionary(settings_dict : Dictionary) -> void:
 	set_settings_dictionary.emit(settings_dict)
