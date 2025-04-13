@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://ci3vmfjfjjkqt"]
 
-[ext_resource type="PackedScene" uid="uid://m1t8gikjkqge" path="res://scenes/lobby/abstraction/settings_dropdown_button.tscn" id="1_20361"]
+[ext_resource type="PackedScene" uid="uid://m1t8gikjkqge" path="res://scenes/lobby/abstract/settings_dropdown_button.tscn" id="1_20361"]
 [ext_resource type="Script" uid="uid://betyeqtlgtqom" path="res://scripts/ui/lobby/cpu_count_dropdown_button.gd" id="2_pocbu"]
 
 [node name="CPUCountDropdownButton" instance=ExtResource("1_20361")]

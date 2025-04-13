@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://nr52rw0c4lpv"]
+
+[ext_resource type="PackedScene" uid="uid://di3rwef8o4pc4" path="res://scenes/lobby/abstract/settings_checkbox_button.tscn" id="1_h7dvg"]
+[ext_resource type="Script" uid="uid://d1d6xj2yr4wuh" path="res://scripts/ui/lobby/hurry_up_state_button.gd" id="2_75yrr"]
+
+[node name="HurryUpStateButton" instance=ExtResource("1_h7dvg")]
+script = ExtResource("2_75yrr")
+
+[node name="Label" parent="HBoxContainer" index="0"]
+text = "Hurry UP"
+
+[connection signal="toggled" from="HBoxContainer/Checkbox" to="." method="_on_checkbox_toggled"]

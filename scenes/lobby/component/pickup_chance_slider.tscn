@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bg5mje2fpj71k"]
 
-[ext_resource type="PackedScene" uid="uid://vkvvg68aml2h" path="res://scenes/lobby/abstraction/battle_settings_slider.tscn" id="1_joaum"]
+[ext_resource type="PackedScene" uid="uid://vkvvg68aml2h" path="res://scenes/lobby/abstract/battle_settings_slider.tscn" id="1_joaum"]
 [ext_resource type="Script" uid="uid://c43gxhvx63glt" path="res://scripts/ui/lobby/pickup_chance_slider.gd" id="2_lo2h4"]
 
 [node name="PickupChanceSlider" instance=ExtResource("1_joaum")]

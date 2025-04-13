@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c0v6opy31s5gv"]
 
-[ext_resource type="PackedScene" uid="uid://m1t8gikjkqge" path="res://scenes/lobby/abstraction/settings_dropdown_button.tscn" id="1_dw7ex"]
+[ext_resource type="PackedScene" uid="uid://m1t8gikjkqge" path="res://scenes/lobby/abstract/settings_dropdown_button.tscn" id="1_dw7ex"]
 [ext_resource type="Script" uid="uid://c0246a4lls5fi" path="res://scripts/ui/lobby/pickup_spawn_rule_dropdown_button.gd" id="2_cpj3h"]
 
 [node name="PickupSpawnRuleDropdownButton" instance=ExtResource("1_dw7ex")]

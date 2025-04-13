@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3 uid="uid://di3rwef8o4pc4"]
+
+[ext_resource type="Theme" uid="uid://m30a0nncwbm0" path="res://assets/styles/options_menu.tres" id="1_4ov3p"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r4ugf"]
+
+[node name="SettingsCheckboxButton" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -512.0
+offset_right = 512.0
+offset_bottom = 64.0
+grow_horizontal = 2
+theme = ExtResource("1_4ov3p")
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+custom_minimum_size = Vector2(264, 0)
+layout_mode = 2
+text = "BASE_LABEL"
+vertical_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 160
+theme_override_styles/separator = SubResource("StyleBoxEmpty_r4ugf")
+
+[node name="Checkbox" type="CheckBox" parent="HBoxContainer"]
+custom_minimum_size = Vector2(256, 64)
+layout_mode = 2
+size_flags_horizontal = 8
+text = "OFF"
+alignment = 1

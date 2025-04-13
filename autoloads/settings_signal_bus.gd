@@ -14,6 +14,10 @@ signal on_match_time_set(value : float)
 
 signal on_hurry_up_time_set(value : float)
 
+signal on_hurry_up_state_set(value : bool)
+
+signal on_sudden_death_state_set(value : bool)
+
 signal on_breakable_chance_set(value : float)
 
 signal on_pickup_chance_set(value : float)
@@ -45,6 +49,12 @@ func emit_on_match_time_set(value : float) -> void:
 	
 func emit_on_hurry_up_time_set(value : float) -> void:
 	on_hurry_up_time_set.emit(value)
+	
+func emit_on_hurry_up_state_set(toggled_on : bool) -> void:
+	on_hurry_up_state_set.emit(toggled_on)
+	
+func emit_on_sudden_death_state_set(toggled_on : bool) -> void:
+	on_sudden_death_state_set.emit(toggled_on)
 	
 func emit_on_breakable_chance_set(value : float) -> void:
 	on_breakable_chance_set.emit(value)
