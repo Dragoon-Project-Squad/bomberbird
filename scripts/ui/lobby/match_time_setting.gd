@@ -8,12 +8,12 @@ func _ready() -> void:
 	load_data()
 	
 func load_data() -> void:
-	_on_value_changed(SettingsContainer.get_breakable_chance())
+	_on_value_changed(SettingsContainer.get_match_time())
 	set_chance_num_label_text()
 	
 func set_chance_num_label_text() -> void:
-	slider_number_label.text = str(int(h_slider.value)) + "%"
+	slider_number_label.text = str(int(h_slider.value)) + " seconds"
 
 func _on_value_changed(value: float) -> void:
 	set_chance_num_label_text()
-	SettingsSignalBus.emit_on_breakable_chance_set(value)
+	SettingsSignalBus.emit_on_match_time_set(value)

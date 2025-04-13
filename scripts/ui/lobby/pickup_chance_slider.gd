@@ -12,7 +12,7 @@ func load_data() -> void:
 	set_chance_num_label_text()
 	
 func set_chance_num_label_text() -> void:
-	slider_number_label.text = str(h_slider.value) + "%"
+	slider_number_label.text = str(int(h_slider.value)) + "%"
 
 func _on_value_changed(value: float) -> void:
 	set_chance_num_label_text()
