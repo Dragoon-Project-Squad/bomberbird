@@ -3,7 +3,6 @@
 [ext_resource type="PackedScene" uid="uid://buu1prw7bd2xo" path="res://scenes/options_menu/options_display_button.tscn" id="1_54k1y"]
 [ext_resource type="Script" uid="uid://b748u0qwow0jd" path="res://scripts/ui/options_menu/resolution_mode_button.gd" id="2_1ifoh"]
 
-
 [node name="ResolutionModeButton" instance=ExtResource("1_54k1y")]
 script = ExtResource("2_1ifoh")
 
