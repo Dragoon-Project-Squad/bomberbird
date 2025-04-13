@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://m1t8gikjkqge"]
+[gd_scene load_steps=3 format=3 uid="uid://m1t8gikjkqge"]
 
-[ext_resource type="Theme" uid="uid://m30a0nncwbm0" path="res://assets/styles/options_menu.tres" id="1_r4ugf"]
+[ext_resource type="Theme" uid="uid://m30a0nncwbm0" path="res://assets/styles/options_menu.tres" id="1_g0d8j"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r4ugf"]
 
 [node name="SettingsDropdownButton" type="Control"]
 layout_mode = 3
@@ -11,10 +13,15 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_right = 1152.0
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -512.0
+offset_right = 512.0
 offset_bottom = 64.0
-theme = ExtResource("1_r4ugf")
+grow_horizontal = 2
+theme = ExtResource("1_g0d8j")
 
 [node name="Label" type="Label" parent="HBoxContainer"]
 custom_minimum_size = Vector2(264, 0)
@@ -26,6 +33,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 160
+theme_override_styles/separator = SubResource("StyleBoxEmpty_r4ugf")
 
 [node name="Dropdown" type="OptionButton" parent="HBoxContainer"]
 custom_minimum_size = Vector2(256, 64)

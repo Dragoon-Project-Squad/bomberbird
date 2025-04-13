@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cy8fm4pl76ffi"]
+
+[ext_resource type="PackedScene" uid="uid://m1t8gikjkqge" path="res://scenes/lobby/abstraction/settings_dropdown_button.tscn" id="1_sbqbd"]
+[ext_resource type="Script" uid="uid://dj7p1xbbhcxhb" path="res://scripts/ui/lobby/cpu_difficulty_dropdown_button.gd" id="2_j2jra"]
+
+[node name="CPUDifficultyDropdownButton" instance=ExtResource("1_sbqbd")]
+script = ExtResource("2_j2jra")
+
+[node name="Label" parent="HBoxContainer" index="0"]
+text = "CPU_DIFFICULTY"
