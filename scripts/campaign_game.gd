@@ -8,7 +8,8 @@ var exit_pool: ExitPool
 var stage_data_arr: Array[StageNodeData]
 var curr_stage_idx: int = 0
 var _stage_lookahead: int = 3
-var _exit_barrier: bool = false
+var _exit_entered_barrier: bool = false
+var _exit_spawned_barrier: bool = false
 
 func _init():
 	globals.game = self
@@ -17,15 +18,14 @@ func _init():
 ## starts the complete reset for all stage related states and then loads the next stage given by
 ## [param id] int -1 if the game should terminate with a player win else the index of the next stage in the stage_data_arr
 func next_stage(id: int):
-	if _exit_barrier: return
+	if _exit_entered_barrier: return
 	# prevents two exits from triggering (Tho in general we proabily should not have 2 exits close enought next to each other to trigger that)
-	_exit_barrier = true
+	_exit_entered_barrier = true
 	if id == -1:
 		#TODO: proper won game screen
 		win_screen.won_game()
 		stage.reset() #deletes exits and stops hurry up
 		return
-	print("next stage is ", id)
 	gamestate.current_level += 1
 	
 	# disable the old stage
@@ -45,6 +45,9 @@ func next_stage(id: int):
 		stage_data_arr[id].breakable_resource,
 	)
 	curr_stage_idx = id
+	_exit_entered_barrier = false
+	_exit_spawned_barrier = false
+	stage_has_changed.emit()
 	load_next_stage_set(id)
 	get_tree().create_timer(10).timeout.connect(_check_ending_condition.bind(0), CONNECT_ONE_SHOT) #TEMPORARY ends the stage after 10s (until we have actuall enemies)
 
@@ -106,5 +109,4 @@ func _check_ending_condition(alive_enemies: int):
 		#TODO: proper lost game screen (with restart option)
 		win_screen.lost_game()
 	if len(alive_players) > 0 && alive_enemies == 0:
-		_exit_barrier = false
 		stage.spawn_exits()

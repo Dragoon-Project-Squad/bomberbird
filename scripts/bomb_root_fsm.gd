@@ -55,9 +55,7 @@ func set_bomb_owner(player_id: String):
 @warning_ignore("SHADOWED_VARIABLE")
 ## sets the state to stationary and tells the corresponding state to start processing
 func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) -> int:
-	if bomb_owner == null:
-		printerr("A bomb without an bomb_owner tried to be placed")
-		return 1
+	assert(bomb_owner, "A bomb without an bomb_owner tried to be placed")
 	in_use = true
 	var force_collision: bool = false
 
