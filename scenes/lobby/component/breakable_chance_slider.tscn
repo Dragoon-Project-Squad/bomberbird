@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://23f6rcekl1pe"]
+
+[ext_resource type="PackedScene" uid="uid://vkvvg68aml2h" path="res://scenes/lobby/abstract/battle_settings_slider.tscn" id="1_7jnm1"]
+[ext_resource type="Script" uid="uid://rfl55dibjbue" path="res://scripts/ui/lobby/breakable_chance_slider.gd" id="2_mfmbb"]
+
+[node name="BreakableChanceSlider" instance=ExtResource("1_7jnm1")]
+script = ExtResource("2_mfmbb")
+
+[node name="SliderNameLabel" parent="HBoxContainer" index="0"]
+text = "Breakable chance"
+
+[node name="HSlider" parent="HBoxContainer" index="2"]
+step = 0.0

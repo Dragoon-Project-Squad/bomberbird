@@ -1,6 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://b3638glthchxv"]
 
-[ext_resource type="Script" uid="uid://d0xwl8hxp7ycv" path="res://scripts/ingame_ui/battlemode_game_ui.gd" id="1_d60n6"]
+[ext_resource type="Script" uid="uid://d0xwl8hxp7ycv" path="res://scripts/ui/ingame_ui/battlemode_game_ui.gd" id="1_d60n6"]
+
 
 [node name="MultiplayerGameUI" type="CanvasLayer"]
 script = ExtResource("1_d60n6")

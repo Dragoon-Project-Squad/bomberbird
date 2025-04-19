@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=3 uid="uid://mjwddadi7v4o"]
 
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="1_jmf8r"]
-[ext_resource type="Script" uid="uid://bxg0l2q7coj01" path="res://scripts/ingame_ui/record_winner.gd" id="2_k3rde"]
+[ext_resource type="Script" uid="uid://bxg0l2q7coj01" path="res://scripts/ui/ingame_ui/record_winner.gd" id="2_k3rde"]
+
 
 [node name="GameEndState" type="Control"]
 layout_mode = 3

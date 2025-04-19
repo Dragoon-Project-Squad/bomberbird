@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=3 uid="uid://vkvvg68aml2h"]
+
+[ext_resource type="Theme" uid="uid://m30a0nncwbm0" path="res://assets/styles/options_menu.tres" id="2_js5oc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4k2yx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wum3u"]
+
+[node name="BattleSliderSettings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+offset_right = 1024.0
+offset_bottom = 64.0
+theme = ExtResource("2_js5oc")
+theme_override_constants/separation = 42
+
+[node name="SliderNameLabel" type="Label" parent="HBoxContainer"]
+custom_minimum_size = Vector2(264, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Meme Count"
+
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_4k2yx")
+
+[node name="HSlider" type="HSlider" parent="HBoxContainer"]
+custom_minimum_size = Vector2(200, 32)
+layout_mode = 2
+size_flags_vertical = 1
+rounded = true
+
+[node name="VSeparator2" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_wum3u")
+
+[node name="SliderNumberLabel" type="Label" parent="HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "999"
+
+[connection signal="value_changed" from="HBoxContainer/HSlider" to="." method="_on_value_changed"]

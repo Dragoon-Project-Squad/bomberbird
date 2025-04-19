@@ -2,26 +2,52 @@ extends Node
 
 @onready var DEFAULT_SETTINGS : DefaultSettingsResource = preload("res://resources/settings/default_settings.tres")
 @onready var KEYBIND_RESOURCE : PlayerKeybindResource = preload("res://resources/settings/player_keybind_default.tres")
+@onready var BATTLE_SETTINGS : BattleSettingsResource = preload("res://resources/gameplay/default_battle_settings.tres")
 
+#Settings
 var window_mode_index := 0
 var resolution_index := 0
 var master_volume := 0.0
 var music_volume := 0.0
 var sfx_volume := 0.0
 
+#Multiplayer
+var cpu_difficulty := "Medium"
+var cpu_count := "Fill"
+var match_time := 120
+var hurry_up_time := 60
+var hurry_up_state := true
+var sudden_death_state := false
+var misobon_setting := "ON"
+var breakable_spawn_rule := "Stage"
+var breakable_chance := 100.0
+var pickup_spawn_rule := "Stage"
+var pickup_chance := 100.0
+
 var loaded_data : Dictionary = {}
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	handle_signals()
 
-func create_sotrage_dictionary() -> Dictionary:
+func create_storage_dictionary() -> Dictionary:
 	var settings_container_dict : Dictionary = {
 		"window_mode_index" : window_mode_index,
 		"resolution_index" : resolution_index,
 		"master_volume" : master_volume,
 		"music_volume" : music_volume,
 		"sfx_volume" : sfx_volume,
-		"keybinds" : create_keybinds_dictionary()
+		"keybinds" : create_keybinds_dictionary(),
+		"cpu_difficulty" : cpu_difficulty,
+		"cpu_count" : cpu_count,
+		"match_time" : match_time,
+		"hurry_up_time" : hurry_up_time,
+		"hurry_up_state" : hurry_up_state,
+		"sudden_death_state" : sudden_death_state,
+		"misobon_setting" : misobon_setting,
+		"breakable_spawn_rule" : breakable_spawn_rule,
+		"breakable_chance" : breakable_chance,
+		"pickup_spawn_rule" : pickup_spawn_rule,
+		"pickup_chance" : pickup_chance
 	}
 	return settings_container_dict
 
@@ -114,6 +140,61 @@ func retrieve_default_keybind(action : String):
 		KEYBIND_RESOURCE.PAUSE:
 			return KEYBIND_RESOURCE.DEFAULT_PAUSE_KEY
 	
+func get_cpu_difficulty() -> String:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_CPU_DIFFICULTY
+	return cpu_difficulty
+	
+func get_cpu_count() -> String:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_CPU_COUNT
+	return cpu_count
+
+func get_match_time() -> int:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_MATCH_TIME
+	return match_time
+	
+func get_hurry_up_time() -> int:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_HURRY_UP_TIME
+	return hurry_up_time
+	
+func get_hurry_up_state() -> bool:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_HURRY_UP_STATE
+	return hurry_up_state
+	
+func get_sudden_death_state() -> bool:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_SUDDEN_DEATH_STATE
+	return sudden_death_state
+	
+func get_misobon_setting() -> String:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_MISOBON_SETTING
+	return misobon_setting
+
+func get_breakable_spawn_rule() -> String:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_MISOBON_SETTING
+	return breakable_spawn_rule
+
+func get_breakable_chance() -> float:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_BREAKABLE_CHANCE
+	return breakable_chance
+	
+func get_pickup_spawn_rule() -> String:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_MISOBON_SETTING
+	return pickup_spawn_rule
+
+func get_pickup_chance() -> float:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_PICKUP_CHANCE
+	return pickup_chance
+	
 func set_window_mode(index : int) -> void:
 	window_mode_index = index
 
@@ -184,6 +265,38 @@ func set_keybinds_loaded(data : Dictionary) -> void:
 	KEYBIND_RESOURCE.secondary_action_key = loaded_secondary_action
 	KEYBIND_RESOURCE.pause_key = loaded_pause
 
+func set_cpu_difficulty(input : String) -> void:
+	cpu_difficulty = input
+	
+func set_cpu_count(input : String) -> void:
+	cpu_count = input
+
+func set_match_time(seconds : int) -> void:
+	match_time = seconds
+	
+func set_hurry_up_time(seconds : int) -> void:
+	hurry_up_time = seconds
+	
+func set_hurry_up_state(ison : bool) -> void:
+	hurry_up_state = ison
+	
+func set_sudden_death_state(ison : bool) -> void:
+	sudden_death_state = ison
+	
+func set_misobon_setting(input : String) -> void:
+	misobon_setting = input
+
+func set_breakable_spawn_rule(input : String) -> void:
+	breakable_spawn_rule = input
+
+func set_breakable_chance(value : float) -> void:
+	breakable_chance = value
+	
+func set_pickup_spawn_rule(input : String) -> void:
+	pickup_spawn_rule = input
+
+func set_pickup_chance(value : float) -> void:
+	pickup_chance = value
 
 func on_settings_data_loaded(data : Dictionary) -> void:
 	loaded_data = data
@@ -201,7 +314,3 @@ func handle_signals() -> void:
 	SettingsSignalBus.on_music_sound_set.connect(set_music_vol)
 	SettingsSignalBus.on_sfx_sound_set.connect(set_sfx_vol)
 	SettingsSignalBus.load_settings_data.connect(on_settings_data_loaded)
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass

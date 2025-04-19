@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BattleSettings" load_steps=2 format=3 uid="uid://cc2467fko6ov5"]
+
+[ext_resource type="Script" uid="uid://b3752hk5m1huy" path="res://resources/gameplay/battle_settings.gd" id="1_bs7y0"]
+
+[resource]
+script = ExtResource("1_bs7y0")
+cpu_dfficulty = "Medium"
+cpu_count = "Fill"
+MISOBON_SETTING = "ON"
+BREAKABLE_SPAWN_RULE = "Preset"
+breakable_chance = 100.0
+PICKUP_SPAWN_RULE = "Preset"
+pickup_chance = 100.0
+metadata/_custom_type_script = "uid://b3752hk5m1huy"

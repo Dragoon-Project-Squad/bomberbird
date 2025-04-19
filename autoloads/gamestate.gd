@@ -4,6 +4,8 @@ extends Node
 # Not on the list of registered or common ports as of November 2020:
 # https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
 const DEFAULT_PORT := 10567
+var is_game_online := true 
+#TODO: Create VSCOM option, then set this to false and enable ONLY if Online
 
 # Multiplayer vars
 const MAX_PEERS := 4
