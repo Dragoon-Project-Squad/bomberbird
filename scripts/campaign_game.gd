@@ -3,11 +3,12 @@ extends Game
 const LEVEL_GRAPH_PATH: String = "res://resources/level_graph/saved_graphs"
 
 var stage_handler: StageHandler
-var exit_pool
+var exit_pool: ExitPool
 
 var stage_data_arr: Array[StageNodeData]
 var curr_stage_idx: int = 0
 var _stage_lookahead: int = 3
+var _exit_barrier: bool = false
 
 func _init():
 	globals.game = self
@@ -16,6 +17,9 @@ func _init():
 ## starts the complete reset for all stage related states and then loads the next stage given by
 ## [param id] int -1 if the game should terminate with a player win else the index of the next stage in the stage_data_arr
 func next_stage(id: int):
+	if _exit_barrier: return
+	# prevents two exits from triggering (Tho in general we proabily should not have 2 exits close enought next to each other to trigger that)
+	_exit_barrier = true
 	if id == -1:
 		#TODO: proper won game screen
 		win_screen.won_game()
@@ -37,6 +41,8 @@ func next_stage(id: int):
 		stage_data_arr[id].enemy_resource,
 		stage_data_arr[id].pickup_resource,
 		stage_data_arr[id].spawnpoint_resource,
+		stage_data_arr[id].unbreakable_resource,
+		stage_data_arr[id].breakable_resource,
 	)
 	curr_stage_idx = id
 	load_next_stage_set(id)
@@ -84,6 +90,8 @@ func start():
 		stage_data_arr[0].enemy_resource,
 		stage_data_arr[0].pickup_resource,
 		stage_data_arr[0].spawnpoint_resource,
+		stage_data_arr[0].unbreakable_resource,
+		stage_data_arr[0].breakable_resource,
 	)
 	get_tree().create_timer(10).timeout.connect(_check_ending_condition.bind(0), CONNECT_ONE_SHOT) #TEMPORARY ends the stage after 10s (until we have actuall enemies)
 
@@ -98,4 +106,5 @@ func _check_ending_condition(alive_enemies: int):
 		#TODO: proper lost game screen (with restart option)
 		win_screen.lost_game()
 	if len(alive_players) > 0 && alive_enemies == 0:
+		_exit_barrier = false
 		stage.spawn_exits()

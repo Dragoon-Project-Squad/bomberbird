@@ -1,14 +1,10 @@
 extends CharacterBody2D
 class_name Breakable
 
-
-const PICKUP_ENABLED := true
-const PICKUP_SPAWN_BASE_CHANCE := 1.0
-
 @onready var breakable_sfx_player := $BreakableSound
 
-var rng = RandomNumberGenerator.new()
 var in_use: bool = false
+var contained_pickup: int
 
 @rpc("call_local")
 func disable_collison_and_hide():
@@ -22,27 +18,14 @@ func disable():
 	self.position = Vector2.ZERO
 
 @rpc("call_local")
-func place(pos: Vector2):
+func place(pos: Vector2, pickup: int):
+	assert(globals.is_not_pickup_seperator(pickup))
+	assert(pickup != globals.pickups.RANDOM)
+	contained_pickup = pickup
 	in_use = true
 	$Shape.set_deferred("disabled", 0)
 	self.position = pos
 	self.show()
-	
-
-func decide_pickup_spawn() -> bool:
-	if !PICKUP_ENABLED:
-		return false
-	
-	var rng_result = rng.randf_range(0.0,1.0)
-	if rng_result <= PICKUP_SPAWN_BASE_CHANCE:
-		return true
-	else:
-		return false
-		
-func decide_pickup_type() -> int:
-	var pickup_table = globals.current_world.pickup_table
-	var rng_result = rng.randi_range(0, pickup_table.total_weight() - 1)
-	return pickup_table.get_type_from_weight(rng_result)
 	
 @rpc("call_local")
 func exploded(by_who):
@@ -51,9 +34,8 @@ func exploded(by_who):
 
 	# Spawn a powerup where this rock used to be.
 	if is_multiplayer_authority():
-		if decide_pickup_spawn() && by_who != gamestate.ENVIRONMENTAL_KILL_PLAYER_ID:
-			var type_of_pickup: int = decide_pickup_type()
-			var pickup: Pickup = globals.game.pickup_pool.request(type_of_pickup)
+		if contained_pickup != globals.pickups.NONE && by_who != gamestate.ENVIRONMENTAL_KILL_PLAYER_ID:
+			var pickup: Pickup = globals.game.pickup_pool.request(contained_pickup)
 			pickup.place.rpc(self.position)
 		else:
 			world_data.set_tile.rpc(world_data.tiles.EMPTY, global_position) #We only wanne delete this cell if no pickup is spawned on it

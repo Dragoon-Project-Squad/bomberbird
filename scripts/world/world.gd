@@ -81,7 +81,9 @@ func enable(
 	exit_table: ExitTable = null,
 	enemy_table: EnemyTable = null,
 	pickup_table: PickupTable = self.pickup_table,
-	spawnpoints_table: SpawnpointTable = null
+	spawnpoints_table: SpawnpointTable = null,
+	unbreakable_table: UnbreakableTable = null,
+	breakable_table: BreakableTable = null,
 ):
 	show()
 	music.play()
@@ -95,8 +97,8 @@ func enable(
 
 	world_data.reset()
 	astargrid_handler.astargrid.clear()
-
 	world_data.begin_init(_arena_rect, _world_edge_rect, floor_layer)
+	_spawn_unbreakables(unbreakable_table)
 	world_data.init_unbreakables(_unbreakable_tile, obstacles_layer)
 	astargrid_handler.setup_astargrid()
 
@@ -125,10 +127,11 @@ func enable(
 		if !globals.game.players_are_spawned: _spawn_player()
 		else: _place_players.rpc()
 		_spawn_enemies()
-	_generate_breakables()
+	_generate_breakables(breakable_table)
 
 	world_data.finish_init()
 	astargrid_handler.astargrid_set_initial_solidpoints()
+
 
 ## resets a stage s.t. it may be reused later
 func reset():
@@ -138,6 +141,11 @@ func reset():
 			exit.disable.rpc()
 		globals.game.exit_pool.return_obj(exit)
 
+## spawns unbreakables from given table
+## NOTE: Some children may completly ignore the table given if unbreakable are generated in a different way
+func _spawn_unbreakables(_unbreakable_table: UnbreakableTable):
+	pass
+	
 ## used to spawn the enemies given in enemy_table (NOT YET IMPLEMENTED)	
 func _spawn_enemies():
 	assert(enemy_table, "enemy table is null but trying to spawn exits")
@@ -146,17 +154,24 @@ func _spawn_enemies():
 func _asserting_world():
 	assert(_arena_rect.size != Vector2i.ZERO, "area_rect must be set properly and cannot have size ZERO")
 
-## Generates all the breakables
-func _generate_breakables():
+## Generates all the breakables from the handed table
+## NOTE: Some children may completly ignore the table given if breakable are generated in a different way
+func _generate_breakables(_breakable_table: BreakableTable):
 	pass
 
 ## Spawns a breakable at
 ## [param cell] Vector2i
-func _spawn_breakable(cell: Vector2i):
+func _spawn_breakable(cell: Vector2i, pickup_type: int):
+	assert(globals.is_not_pickup_seperator(pickup_type))
+	assert(!world_data.is_tile(world_data.tiles.UNBREAKABLE, world_data.tile_map.map_to_local(cell)), "attempted to spawn a breakable where there already was an unbreakable")
+	var pickup: int = pickup_type
+	if pickup_type == globals.pickups.RANDOM:
+		if !pickup_table.decide_pickup_spawn(): pickup = globals.pickups.NONE
+		else: pickup = pickup_table.decide_pickup_type()
 	world_data.init_breakable(cell)
 	var spawn_coords = world_data.tile_map.map_to_local(cell)
 	astargrid_handler.astargrid_set_point.rpc(spawn_coords, true)
-	globals.game.breakable_pool.request().place.rpc(spawn_coords)
+	globals.game.breakable_pool.request().place.rpc(spawn_coords, pickup)
 
 #TODO: This way of randomly choosing spawnpoints is kinda dumb so we have to make a better one
 ## sets spawnpoints selecting random ones if the are less spawnpoints given then players

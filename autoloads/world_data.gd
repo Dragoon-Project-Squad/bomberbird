@@ -1,6 +1,8 @@
 class_name WorldData extends Node
 ## A datastructure for tracking the state of the current stage ensures each tile only contains one object and also gives easy and fast access to the contends of each tile
 
+signal world_data_changed 
+
 enum tiles {EMPTY, UNBREAKABLE, BREAKABLE, BOMB, PICKUP}
 enum bounds {IN = -1, OUT_TOP = 0, OUT_RIGHT = 1, OUT_DOWN = 2, OUT_LEFT = 3}
 
@@ -8,6 +10,7 @@ enum bounds {IN = -1, OUT_TOP = 0, OUT_RIGHT = 1, OUT_DOWN = 2, OUT_LEFT = 3}
 var _world_matrix: Array[int]
 var _world_empty_cells: Dictionary
 var _is_initialized: bool = false
+var _signal_dict: Dictionary
 
 ## public members
 
@@ -130,6 +133,7 @@ func finish_init():
 ## Set a tile at global_po in world_data to 'tile' throwing an error if that tile is already occupied
 func set_tile(tile: int, global_pos: Vector2):
 	var matrix_pos: Vector2i = tile_map.local_to_map(global_pos) - floor_origin
+	world_data_changed.emit(tile, matrix_pos + floor_origin)
 	if tile == tiles.EMPTY:
 		_remove_tile(matrix_pos)
 	else:
@@ -177,7 +181,6 @@ func is_out_of_world_edge(global_pos: Vector2) -> bool:
 
 ## returns a singular randomly choosen empty tile or null if non are awailable
 func get_random_empty_tile(in_cells: bool = false) -> Variant:
-
 	var temp: Array = _world_empty_cells.keys()
 	temp.filter(func(key): return _world_empty_cells[key])
 
@@ -191,7 +194,6 @@ func get_random_empty_tile(in_cells: bool = false) -> Variant:
 
 ## gets an Array of size count (or less if less are awailable) of randomly choosen empty cells
 func get_random_empty_tiles(count: int, in_cells: bool = false) -> Array:
-
 	#There is probably a more efficient way to do this
 	var temp: Array = _world_empty_cells.keys()
 	temp.filter(func(key): return _world_empty_cells[key])
@@ -219,3 +221,5 @@ func reset():
 	world_height = 0
 	floor_origin = Vector2i.ZERO	
 	tile_map = null
+	for conn in world_data_changed.get_connections():
+		world_data_changed.disconnect(conn.callable)

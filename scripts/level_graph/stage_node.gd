@@ -31,6 +31,9 @@ var exit_in_port_color: Color = Color.SILVER
 func _ready():
 	get_file_name_from_dir(STAGE_SCENE_DIR, [], stages_subfolders)
 	_set_scene_options(stages_subfolders)
+	if get_parent() != null:
+		exit_boiler.get_node("Position/x").max_value = stage_tab.map_size.x - 1
+		exit_boiler.get_node("Position/y").max_value = stage_tab.map_size.y - 1
 
 
 	set_slot(
@@ -59,30 +62,32 @@ func load_stage_node(stage_node_data: StageNodeData):
 	self.pickup_resource = stage_node_data.pickup_resource
 	self.exit_resource = stage_node_data.exit_resource
 	pickup_resource.update()
-	stage_tab.load_from_resources(stage_node_data.enemy_resource, stage_node_data.spawnpoint_resource)
+	stage_tab.load_from_resources(stage_node_data.enemy_resource, stage_node_data.spawnpoint_resource, stage_node_data.unbreakable_resource, stage_node_data.breakable_resource)
 	_setup_pickup_tab()
 	_setup_exit_from_load()
 
 func save_node(index: int) -> StageNodeData:
-	var node_data = StageNodeData.new()
-	node_data.curr_enemy_options = curr_enemy_options
-	node_data.selected_scene_file = selected_scene_file
-	node_data.selected_scene_path = selected_scene_path
-	node_data.pickup_resource = pickup_resource.duplicate()
-	node_data.enemy_resource = EnemyTable.new()
-	node_data.spawnpoint_resource = SpawnpointTable.new()
-	stage_tab.write_to_resources(node_data.enemy_resource, node_data.spawnpoint_resource)
+	var stage_node_data = StageNodeData.new()
+	stage_node_data.curr_enemy_options = curr_enemy_options
+	stage_node_data.selected_scene_file = selected_scene_file
+	stage_node_data.selected_scene_path = selected_scene_path
+	stage_node_data.pickup_resource = pickup_resource.duplicate()
+	stage_node_data.enemy_resource = EnemyTable.new()
+	stage_node_data.spawnpoint_resource = SpawnpointTable.new()
+	stage_node_data.unbreakable_resource = UnbreakableTable.new()
+	stage_node_data.breakable_resource = BreakableTable.new()
+	stage_tab.write_to_resources(stage_node_data.enemy_resource, stage_node_data.spawnpoint_resource, stage_node_data.unbreakable_resource, stage_node_data.breakable_resource)
 
-	node_data.exit_resource = exit_resource.duplicate()
-	node_data.stage_node_name = name
-	node_data.stage_node_title = title
-	node_data.stage_node_pos = position_offset
-	node_data.index = index
+	stage_node_data.exit_resource = exit_resource.duplicate()
+	stage_node_data.stage_node_name = name
+	stage_node_data.stage_node_title = title
+	stage_node_data.stage_node_pos = position_offset
+	stage_node_data.index = index
 
 	#fill the children array with -1 we later only overwrite an index in this array if it leads to a next stage
-	node_data.children.resize(exit_resource.size())
-	node_data.children.fill(-1)
-	return node_data
+	stage_node_data.children.resize(exit_resource.size())
+	stage_node_data.children.fill(-1)
+	return stage_node_data
 
 ## searches for some String in the items of the OptionButton and then sets the selection to that Option
 ## [param option_button] the OptionButton to modify
@@ -174,6 +179,7 @@ func _setup_exit_from_load():
 		exit.get_node("ExitColor").color = exit_entry.color
 		exit.get_node("Position/x").value = exit_entry.coords.x
 		exit.get_node("Position/y").value = exit_entry.coords.y
+		stage_tab.add_border_color_overwrite(exit_entry.coords, exit_entry.color)
 		exit.show()
 			
 
@@ -224,6 +230,7 @@ func _on_add_exit_button_pressed() -> void:
 	
 	exit_resource.append(Vector2i.ZERO, exit.get_node("ExitColor").color)
 	
+	stage_tab.add_border_color_overwrite(Vector2i.ZERO, exit.get_node("ExitColor").color)
 	set_slot(
 		exit_indx + 1,
 		false,
@@ -271,9 +278,10 @@ func _on_remove_exit_button_pressed(exit: HBoxContainer):
 		assert(child.has_node("ExitNumber"), "bad index: " + str(i))
 		child.name = "Exit" + str(exit_indx_new)
 		child.get_node("ExitNumber").text = str(exit_indx_new) + "."
-		_on_exit_color_changed(child.get_node("ExitColor").color, child)
+		#_on_exit_color_changed(child.get_node("ExitColor").color, child)
 		exit_indx_new += 1
 	
+	stage_tab.remove_border_color_overwrite(exit_resource.exits[exit_num - 1].coords)
 	exit_resource.remove_at(exit_num - 1)
 	exit.queue_free()
 	exit_indx -= 1
@@ -281,10 +289,13 @@ func _on_remove_exit_button_pressed(exit: HBoxContainer):
 ## updates the exit position in the exit_resource
 func _on_exit_position_changed(val: float, exit: HBoxContainer, is_x: bool,):
 	var exit_num: int = exit.name.to_int() - 1
+
+	stage_tab.remove_border_color_overwrite(exit_resource.exits[exit_num].coords)
 	if is_x:
 		exit_resource.set_x(exit_num, int(val))
 	else:
 		exit_resource.set_y(exit_num, int(val))
+	stage_tab.add_border_color_overwrite(exit_resource.exits[exit_num].coords, exit_resource.exits[exit_num].color)
 	
 ## updates the exit color in the exit_resource
 func _on_exit_color_changed(color: Color, exit: HBoxContainer):
@@ -299,6 +310,7 @@ func _on_exit_color_changed(color: Color, exit: HBoxContainer):
 		exit.get_node("ExitColor").color,
 	)
 	exit_resource.set_color(exit_num - 1, color)
+	stage_tab.add_border_color_overwrite(exit_resource.exits[exit_num - 1].coords, color)
 
 ## updates the pickup_weight in the Pickup_resource
 func _on_pickup_weight_changed(weight: float, pickup: int):
