@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://gr0y4uy0hk5k"]
+[gd_scene load_steps=4 format=3 uid="uid://gr0y4uy0hk5k"]
 
 [ext_resource type="Script" uid="uid://kng0dxrh6x2c" path="res://scripts/ui/lobby/battle_settings.gd" id="1_dogy7"]
 [ext_resource type="Theme" uid="uid://d2oqlxohwao3c" path="res://assets/styles/battle_settings_menu.tres" id="2_ljws0"]
+[ext_resource type="PackedScene" uid="uid://c1n3nkeu1hl0i" path="res://scenes/lobby/battle_settings_container.tscn" id="3_ljws0"]
 
 [node name="BattleSettings" type="Control"]
 layout_mode = 3
@@ -22,22 +23,16 @@ theme = ExtResource("2_ljws0")
 layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "BATTLE SETTINGS"
+vertical_alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+[node name="BattleSettingsContainer" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_ljws0")]
+custom_minimum_size = Vector2(1088, 512)
 layout_mode = 2
-size_flags_vertical = 3
-
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/MarginContainer"]
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer/ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 128
+size_flags_horizontal = 4
 
 [node name="ConfirmButton" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

@@ -8,3 +8,5 @@ script = ExtResource("2_pocbu")
 
 [node name="Label" parent="HBoxContainer" index="0"]
 text = "CPU COUNT"
+
+[connection signal="item_selected" from="HBoxContainer/Dropdown" to="." method="_on_dropdown_item_selected"]

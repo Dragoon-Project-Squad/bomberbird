@@ -16,24 +16,20 @@ grow_vertical = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -448.0
-offset_right = 448.0
+offset_right = 1024.0
 offset_bottom = 64.0
-grow_horizontal = 2
 theme = ExtResource("2_js5oc")
 theme_override_constants/separation = 42
 
 [node name="SliderNameLabel" type="Label" parent="HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(264, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Meme Count"
 
 [node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_4k2yx")
 
 [node name="HSlider" type="HSlider" parent="HBoxContainer"]

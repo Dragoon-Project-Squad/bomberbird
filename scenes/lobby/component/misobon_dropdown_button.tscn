@@ -1,10 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://ueukryhm8qtl"]
 
 [ext_resource type="PackedScene" uid="uid://m1t8gikjkqge" path="res://scenes/lobby/abstract/settings_dropdown_button.tscn" id="1_27ky2"]
-[ext_resource type="Script" uid="uid://betyeqtlgtqom" path="res://scripts/ui/lobby/cpu_count_dropdown_button.gd" id="2_ejhr7"]
+[ext_resource type="Script" uid="uid://cgw0sfjocxt82" path="res://scripts/ui/lobby/misobon_dropdown_button.gd" id="2_8q3x8"]
 
 [node name="MisobonDropdownButton" instance=ExtResource("1_27ky2")]
-script = ExtResource("2_ejhr7")
+script = ExtResource("2_8q3x8")
 
 [node name="Label" parent="HBoxContainer" index="0"]
 text = "RAIL LAUNCHER"
+
+[connection signal="item_selected" from="HBoxContainer/Dropdown" to="." method="_on_dropdown_item_selected"]

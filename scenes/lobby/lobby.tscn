@@ -248,6 +248,7 @@ theme_override_font_sizes/font_size = 46
 text = "START!"
 
 [node name="Back" type="Button" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 544.0
 offset_top = 600.0

@@ -14,13 +14,8 @@ grow_vertical = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -512.0
-offset_right = 512.0
+offset_right = 1024.0
 offset_bottom = 64.0
-grow_horizontal = 2
 theme = ExtResource("1_g0d8j")
 
 [node name="Label" type="Label" parent="HBoxContainer"]
