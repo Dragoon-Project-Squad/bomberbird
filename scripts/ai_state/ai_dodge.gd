@@ -16,7 +16,7 @@ func _enter():
 func _update(delta):
 	_idle_and_detect(delta)
 
-func _physics_update(delta):
+func _physics_update(_delta):
 	if just_entered:
 		_set_target()
 		just_entered=false
@@ -29,19 +29,19 @@ func _physics_update(delta):
 
 func _on_player_finished_path() -> bool:
 	state_changed.emit(self, "Safe")
-	return true
+	return false
 
-func _set_target():
-	safe_target()
+func _set_target() -> bool:
+	return safe_target()
 
-func safe_target() -> void:
+func safe_target() -> bool:
 	var unsafe_cells = get_unsafe_cells(aiplayer.bombs_near)
 	var found = false
 	var current_pos = get_cell_position(aiplayer.global_position)
 	var iteration = 1
 	# Will consider it's own explosion rate to get out of danger
-	var range = 6
-	while !found and iteration < range:
+	var max_target_range = 6
+	while !found and iteration < max_target_range:
 		for x in range(current_pos.x-iteration, current_pos.x+iteration+1):
 			var y1 = current_pos.y - iteration
 			var y2 = current_pos.y + iteration
@@ -80,9 +80,11 @@ func safe_target() -> void:
 	if found:
 		path = astargrid_handler.create_path(aiplayer, target)
 		path.pop_front()
+		return !path.is_empty()
 	else:
 		#print("No safe was found")
 		state_changed.emit(self, "Safe")
+		return false
 
 func set_valid_new_target(new_target : Vector2i, unsafe_cells : Array[Vector2i]) -> bool:
 	if is_new_target_valid(new_target, unsafe_cells):
