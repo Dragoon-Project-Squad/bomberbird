@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="BattleSettings" load_steps=2 format=3 uid="uid://cc2467fko6ov5"]
+[gd_resource type="Resource" script_class="BattleSettingsResource" load_steps=2 format=3 uid="uid://cc2467fko6ov5"]
 
 [ext_resource type="Script" uid="uid://b3752hk5m1huy" path="res://resources/gameplay/battle_settings.gd" id="1_bs7y0"]
 

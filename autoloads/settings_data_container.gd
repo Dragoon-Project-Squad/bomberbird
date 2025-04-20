@@ -12,16 +12,16 @@ var music_volume := 0.0
 var sfx_volume := 0.0
 
 #Multiplayer
-var cpu_difficulty := "Medium"
-var cpu_count := "Fill"
+var cpu_difficulty := 2 #The dropdown is set to a dictionary.
+var cpu_count := 6 #The dropdown is set to a dictionary.
 var match_time := 120
 var hurry_up_time := 60
 var hurry_up_state := true
 var sudden_death_state := false
-var misobon_setting := "ON"
-var breakable_spawn_rule := "Stage"
+var misobon_setting := 1 #The dropdown is set to a dictionary.
+var breakable_spawn_rule := 0 #The dropdown is set to a dictionary.
 var breakable_chance := 100.0
-var pickup_spawn_rule := "Stage"
+var pickup_spawn_rule := 0 #The dropdown is set to a dictionary.
 var pickup_chance := 100.0
 
 var loaded_data : Dictionary = {}
@@ -140,12 +140,12 @@ func retrieve_default_keybind(action : String):
 		KEYBIND_RESOURCE.PAUSE:
 			return KEYBIND_RESOURCE.DEFAULT_PAUSE_KEY
 	
-func get_cpu_difficulty() -> String:
+func get_cpu_difficulty() -> int:
 	if loaded_data == {}:
 		return BATTLE_SETTINGS.DEFAULT_CPU_DIFFICULTY
 	return cpu_difficulty
 	
-func get_cpu_count() -> String:
+func get_cpu_count() -> int:
 	if loaded_data == {}:
 		return BATTLE_SETTINGS.DEFAULT_CPU_COUNT
 	return cpu_count
@@ -170,12 +170,12 @@ func get_sudden_death_state() -> bool:
 		return BATTLE_SETTINGS.DEFAULT_SUDDEN_DEATH_STATE
 	return sudden_death_state
 	
-func get_misobon_setting() -> String:
+func get_misobon_setting() -> int:
 	if loaded_data == {}:
 		return BATTLE_SETTINGS.DEFAULT_MISOBON_SETTING
 	return misobon_setting
 
-func get_breakable_spawn_rule() -> String:
+func get_breakable_spawn_rule() -> int:
 	if loaded_data == {}:
 		return BATTLE_SETTINGS.DEFAULT_MISOBON_SETTING
 	return breakable_spawn_rule
@@ -185,7 +185,7 @@ func get_breakable_chance() -> float:
 		return BATTLE_SETTINGS.DEFAULT_BREAKABLE_CHANCE
 	return breakable_chance
 	
-func get_pickup_spawn_rule() -> String:
+func get_pickup_spawn_rule() -> int:
 	if loaded_data == {}:
 		return BATTLE_SETTINGS.DEFAULT_MISOBON_SETTING
 	return pickup_spawn_rule
@@ -265,11 +265,11 @@ func set_keybinds_loaded(data : Dictionary) -> void:
 	KEYBIND_RESOURCE.secondary_action_key = loaded_secondary_action
 	KEYBIND_RESOURCE.pause_key = loaded_pause
 
-func set_cpu_difficulty(input : String) -> void:
-	cpu_difficulty = input
+func set_cpu_difficulty(index : int) -> void:
+	cpu_difficulty = index
 	
-func set_cpu_count(input : String) -> void:
-	cpu_count = input
+func set_cpu_count(index : int) -> void:
+	cpu_count = index
 
 func set_match_time(seconds : int) -> void:
 	match_time = seconds
@@ -277,23 +277,23 @@ func set_match_time(seconds : int) -> void:
 func set_hurry_up_time(seconds : int) -> void:
 	hurry_up_time = seconds
 	
-func set_hurry_up_state(ison : bool) -> void:
-	hurry_up_state = ison
+func set_hurry_up_state(isOn : bool) -> void:
+	hurry_up_state = isOn
 	
-func set_sudden_death_state(ison : bool) -> void:
-	sudden_death_state = ison
+func set_sudden_death_state(isOn : bool) -> void:
+	sudden_death_state = isOn
 	
-func set_misobon_setting(input : String) -> void:
-	misobon_setting = input
+func set_misobon_setting(index : int) -> void:
+	misobon_setting = index
 
-func set_breakable_spawn_rule(input : String) -> void:
-	breakable_spawn_rule = input
+func set_breakable_spawn_rule(index : int) -> void:
+	breakable_spawn_rule = index
 
 func set_breakable_chance(value : float) -> void:
 	breakable_chance = value
 	
-func set_pickup_spawn_rule(input : String) -> void:
-	pickup_spawn_rule = input
+func set_pickup_spawn_rule(index : int) -> void:
+	pickup_spawn_rule = index
 
 func set_pickup_chance(value : float) -> void:
 	pickup_chance = value
@@ -306,7 +306,18 @@ func on_settings_data_loaded(data : Dictionary) -> void:
 	set_music_vol(loaded_data.music_volume)
 	set_sfx_vol(loaded_data.sfx_volume)
 	set_keybinds_loaded(loaded_data.keybinds)
-
+	set_cpu_difficulty(loaded_data.cpu_difficulty)
+	set_cpu_count(loaded_data.cpu_count)
+	set_match_time(loaded_data.match_time)
+	set_hurry_up_time(loaded_data.hurry_up_time)
+	set_hurry_up_state(loaded_data.hurry_up_state)
+	set_sudden_death_state(loaded_data.sudden_death_state)
+	set_misobon_setting(loaded_data.misobon_setting)
+	set_breakable_spawn_rule(loaded_data.breakable_spawn_rule)
+	set_breakable_chance(loaded_data.breakable_chance)
+	set_pickup_spawn_rule(loaded_data.pickup_spawn_rule)
+	set_pickup_chance(loaded_data.pickup_chance)
+	
 func handle_signals() -> void:
 	SettingsSignalBus.on_window_mode_selected.connect(set_window_mode)
 	SettingsSignalBus.on_resolution_selected.connect(set_resolution)
@@ -314,3 +325,14 @@ func handle_signals() -> void:
 	SettingsSignalBus.on_music_sound_set.connect(set_music_vol)
 	SettingsSignalBus.on_sfx_sound_set.connect(set_sfx_vol)
 	SettingsSignalBus.load_settings_data.connect(on_settings_data_loaded)
+	SettingsSignalBus.on_cpu_difficulty_set.connect(set_cpu_difficulty)
+	SettingsSignalBus.on_cpu_count_set.connect(set_cpu_count)
+	SettingsSignalBus.on_match_time_set.connect(set_match_time)
+	SettingsSignalBus.on_hurry_up_time_set.connect(set_hurry_up_time)
+	SettingsSignalBus.on_hurry_up_state_set.connect(set_hurry_up_state)
+	SettingsSignalBus.on_sudden_death_state_set.connect(set_sudden_death_state)
+	SettingsSignalBus.on_misobon_mode_set.connect(set_misobon_setting)
+	SettingsSignalBus.on_breakable_spawn_rule_set.connect(set_breakable_spawn_rule)
+	SettingsSignalBus.on_breakable_chance_set.connect(set_breakable_chance)
+	SettingsSignalBus.on_pickup_spawn_rule_set.connect(set_pickup_spawn_rule)
+	SettingsSignalBus.on_pickup_chance_set.connect(set_pickup_chance)
