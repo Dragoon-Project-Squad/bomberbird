@@ -4,11 +4,11 @@
 
 [resource]
 script = ExtResource("1_bs7y0")
-cpu_dfficulty = "Medium"
-cpu_count = "Fill"
-MISOBON_SETTING = "ON"
-BREAKABLE_SPAWN_RULE = "Preset"
+cpu_dfficulty = 2
+cpu_count = 5
+MISOBON_SETTING = 1
+BREAKABLE_SPAWN_RULE = 0
 breakable_chance = 100.0
-PICKUP_SPAWN_RULE = "Preset"
+PICKUP_SPAWN_RULE = 0
 pickup_chance = 100.0
 metadata/_custom_type_script = "uid://b3752hk5m1huy"
