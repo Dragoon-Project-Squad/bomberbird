@@ -38,7 +38,7 @@ func _on_single_player_pressed() -> void:
 func _on_multiplayer_pressed() -> void:
 	#if a game is already running do not allow to open lobby
 	if globals.current_world == null:
-		get_tree().change_scene_to_file("res://scenes/lobby.tscn")
+		get_tree().change_scene_to_file("res://scenes/lobby/lobby.tscn")
 
 func _on_options_pressed() -> void:
 	#if a game is already running do not allow to open menu
