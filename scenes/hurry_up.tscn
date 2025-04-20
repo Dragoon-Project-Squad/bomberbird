@@ -1,11 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://c6pfxs37rwloc"]
 
 [ext_resource type="PackedScene" uid="uid://ceopux65oftsk" path="res://scenes/falling_unbreakable.tscn" id="1_hvxub"]
-[ext_resource type="Script" uid="uid://clawdpv2sloom" path="res://scripts/world/hurry_up.gd" id="1_lahts"]
-
+[ext_resource type="Script" uid="uid://clawdpv2sloom" path="res://scripts/world/hurry_up.gd" id="1_ilwci"]
 
 [node name="HurryUp" type="TileMapLayer" groups=["bombstop", "thrown_bomb_bounces"]]
-script = ExtResource("1_lahts")
+script = ExtResource("1_ilwci")
 
 [node name="FallingUnbreakable" parent="." instance=ExtResource("1_hvxub")]
 
