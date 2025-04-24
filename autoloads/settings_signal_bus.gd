@@ -8,6 +8,7 @@ signal on_sfx_sound_set(value : float)
 signal load_settings_data(settings_dict: Dictionary)
 signal set_settings_dictionary(settings_dict : Dictionary)
 # Multiplayer
+signal on_points_to_win_set(value : int)
 signal on_cpu_difficulty_set(value : int)
 signal on_cpu_count_set(value : int)
 signal on_match_time_set(value : float)
@@ -47,6 +48,9 @@ func emit_set_settings_dictionary(settings_dict : Dictionary) -> void:
 
 func emit_on_cpu_difficulty_set(value : int) -> void:
 	on_cpu_difficulty_set.emit(value)
+
+func emit_on_points_to_win_set(value : int) -> void:
+	on_points_to_win_set.emit(value)
 	
 func emit_on_cpu_count_set(value : int) -> void:
 	on_cpu_count_set.emit(value)
