@@ -51,7 +51,7 @@ theme_override_constants/separation = 12
 theme_override_styles/separator = SubResource("StyleBoxEmpty_3pm30")
 
 [node name="General" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(1024, 0)
+custom_minimum_size = Vector2(1152, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "General"
@@ -70,7 +70,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Time" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(1024, 0)
+custom_minimum_size = Vector2(1152, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Time"
@@ -89,7 +89,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Breakable" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(1024, 0)
+custom_minimum_size = Vector2(1152, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Breakable"
@@ -103,7 +103,7 @@ layout_mode = 2
 script = ExtResource("12_osahb")
 
 [node name="Pickup" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(1024, 0)
+custom_minimum_size = Vector2(1152, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Pickup"
