@@ -185,7 +185,7 @@ func get_misobon_setting() -> int:
 
 func get_breakable_spawn_rule() -> int:
 	if loaded_data == {}:
-		return BATTLE_SETTINGS.DEFAULT_MISOBON_SETTING
+		return BATTLE_SETTINGS.DEFAULT_BREAKABLE_SPAWN_RULE
 	return breakable_spawn_rule
 
 func get_breakable_chance() -> float:
@@ -195,7 +195,7 @@ func get_breakable_chance() -> float:
 	
 func get_pickup_spawn_rule() -> int:
 	if loaded_data == {}:
-		return BATTLE_SETTINGS.DEFAULT_MISOBON_SETTING
+		return BATTLE_SETTINGS.DEFAULT_PICKUP_SPAWN_RULE
 	return pickup_spawn_rule
 
 func get_pickup_chance() -> float:
