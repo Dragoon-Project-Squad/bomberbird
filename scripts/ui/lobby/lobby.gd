@@ -1,6 +1,6 @@
 extends Control
 
-@export var curr_misobon_state = gamestate.misobon_states.SUPER
+@export var curr_misobon_state = SettingsContainer.misobon_setting
 @onready var lobby_music_player: AudioStreamPlayer = $AudioStreamPlayer
 var timeout_timer = null
 
@@ -13,10 +13,6 @@ func _ready():
 	gamestate.game_error.connect(_on_game_error)
 	# Set the player name according to the system username. Fallback to the path.
 	$Connect/Name.text = globals.config.get_player_name()
-
-	# sets the misobon button text to the correct state
-	var button_label = ["off", "on", "super"]
-	get_node("Options/MisobonState").set_text(button_label[curr_misobon_state])
 
 	# Connection timeout timer
 	timeout_timer = Timer.new()
@@ -39,7 +35,6 @@ func refresh_lobby():
 
 @rpc("call_local")
 func show_css():
-	$Options.hide()
 	$Players.hide()
 	$Connect.hide()
 	$Back.hide()
@@ -53,7 +48,6 @@ func _on_host_pressed():
 
 	$Connect.hide()
 	$Players.show()
-	$Options.show()
 	$Connect/ErrorLabel.text = ""
 	
 	var player_name = $Connect/Name.text
@@ -89,14 +83,6 @@ func _on_connection_timeout():
 		$Connect/Join.release_focus()
 		$Connect/ErrorLabel.text = "Connection timed out"
 
-func _on_misobon_pressed():
-	#toggels through the 3 options for misobon and changing the text on the button to reflect the state
-	var button = get_node("Options/MisobonState")
-	var button_label = ["off", "on", "super"]
-	curr_misobon_state = (curr_misobon_state + 1) % 3 as gamestate.misobon_states
-	gamestate.misobon_mode = curr_misobon_state
-	button.set_text(button_label[curr_misobon_state])
-
 func _on_connection_success():
 	$Connect.hide()
 	$Players.show()
@@ -113,7 +99,6 @@ func _on_game_ended():
 	$Connect.show()
 	$Players.hide()
 	$Back.show()
-	$Options.hide()
 	$CharacterSelectScreen.hide()
 	$Start.hide()
 	$Connect/Host.disabled = false
@@ -145,7 +130,6 @@ func _on_back_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
 func _on_ready_pressed() -> void:
-	gamestate.ai_players_chosen_in_lobby = $Options/AIPlayerCount.value
 	gamestate.establish_player_counts()
 	gamestate.assign_player_numbers()
 	# Tell CSS with a signal of some kind to capture gamestate player nums

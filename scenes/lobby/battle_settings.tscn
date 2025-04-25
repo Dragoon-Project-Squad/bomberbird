@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://gr0y4uy0hk5k"]
+[gd_scene load_steps=5 format=3 uid="uid://gr0y4uy0hk5k"]
 
 [ext_resource type="Script" uid="uid://kng0dxrh6x2c" path="res://scripts/ui/lobby/battle_settings.gd" id="1_dogy7"]
 [ext_resource type="Theme" uid="uid://d2oqlxohwao3c" path="res://assets/styles/battle_settings_menu.tres" id="2_ljws0"]
 [ext_resource type="PackedScene" uid="uid://c1n3nkeu1hl0i" path="res://scenes/lobby/battle_settings_container.tscn" id="3_ljws0"]
+[ext_resource type="AudioStream" uid="uid://bsv6xvb7bqh1h" path="res://sound/mus/config_dragoon_cafe.ogg" id="4_ea14i"]
 
 [node name="BattleSettings" type="Control"]
 layout_mode = 3
@@ -38,3 +39,11 @@ size_flags_horizontal = 4
 layout_mode = 2
 size_flags_horizontal = 4
 text = "CONFIRM"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_ea14i")
+autoplay = true
+bus = &"Music"
+parameters/looping = true
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ConfirmButton" to="." method="_on_confirm_button_pressed"]

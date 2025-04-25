@@ -27,7 +27,7 @@ func _on_player_revived():
 
 
 func _on_hurry_up_start() -> void:
-	if gamestate.misobon_mode == gamestate.misobon_states.OFF:
+	if SettingsContainer.misobon_setting == SettingsContainer.misobon_setting_states.OFF:
 		return
 	for player in get_children():
 		if player is MultiplayerSpawner: continue

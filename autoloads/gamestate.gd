@@ -17,7 +17,6 @@ const ENVIRONMENTAL_KILL_PLAYER_ID := -69
 # Player count variables
 var total_player_count := 1
 var human_player_count := 1 #Every game must have at least 1 human or two AI
-var ai_players_chosen_in_lobby := 0 #Set when Ready! is pressed in the lobby.
 
 # Name for my player.
 var player_name = globals.config.get_player_name()
@@ -56,8 +55,6 @@ var battlemode_game_scene: String = "res://scenes/battlemode_game.tscn"
 var current_level: int = 1 #205 # Defaults to a high number for battle mode.
 
 # Battle Mode vars
-enum misobon_states {OFF, ON, SUPER}
-var misobon_mode = misobon_states.OFF #For debugging let state be default to super even in Singleplayer
 
 # Callback from SceneTree.
 func _player_connected(id):
@@ -154,7 +151,7 @@ func assign_player_numbers():
 func establish_player_counts() -> void:
 	human_player_count = 1 + players.size()
 	assert(multiplayer.is_server())
-	total_player_count = human_player_count + ai_players_chosen_in_lobby
+	total_player_count = human_player_count + SettingsContainer.cpu_count
 	add_ai_players() #Depends on knowing the total player count and human player count to do its job
 	
 @rpc("call_local")
@@ -214,7 +211,7 @@ func begin_singleplayer_game():
 
 func begin_game():
 	current_level = 205
-	misobon_mode = misobon_states.SUPER
+	SettingsContainer.misobon_setting = SettingsContainer.misobon_setting_states.SUPER
 	if players.size() == 0: # If players disconnected at character select
 		game_error.emit("All other players disconnected")
 		end_game()

@@ -19,7 +19,8 @@ var match_time := 120
 var hurry_up_time := 60
 var hurry_up_state := true
 var sudden_death_state := false
-var misobon_setting := 1 #The dropdown is set to a dictionary.
+enum misobon_setting_states {OFF, ON, SUPER}
+var misobon_setting := misobon_setting_states.ON #The dropdown is set to a dictionary.
 var breakable_spawn_rule := 0 #The dropdown is set to a dictionary.
 var breakable_chance := 100.0
 var pickup_spawn_rule := 0 #The dropdown is set to a dictionary.
