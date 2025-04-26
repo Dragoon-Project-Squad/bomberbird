@@ -239,6 +239,6 @@ func _spawn_player():
 			misobondata.player_type = "ai"
 
 		player = playerspawner.spawn(spawningdata)
-		if gamestate.misobon_mode != gamestate.misobon_states.OFF:
+		if SettingsContainer.misobon_setting != SettingsContainer.misobon_setting_states.OFF:
 			misobondata.name = player.get_player_name()
 			misobonspawner.spawn(misobondata)

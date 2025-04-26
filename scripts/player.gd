@@ -136,13 +136,12 @@ func update_animation(direction: Vector2):
 
 ## Eneables this players correspoing misobon player iff misobon is atleast on
 func enter_misobon():
-	if gamestate.misobon_mode == gamestate.misobon_states.OFF || hurry_up_started:
+	if SettingsContainer.misobon_setting == SettingsContainer.misobon_setting_states.OFF || hurry_up_started:
 		return
-	
 	
 	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
 	#Check if nothing changed in the meantime
-	if gamestate.misobon_mode == gamestate.misobon_states.OFF || hurry_up_started:
+	if SettingsContainer.misobon_setting == SettingsContainer.misobon_setting_states.OFF || hurry_up_started:
 		return
 	
 	if is_multiplayer_authority():

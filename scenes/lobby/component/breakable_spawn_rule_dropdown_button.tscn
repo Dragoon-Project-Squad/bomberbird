@@ -8,3 +8,5 @@ script = ExtResource("2_juoqk")
 
 [node name="Label" parent="HBoxContainer" index="0"]
 text = "BREAKABLE SPAWN RULE"
+
+[connection signal="item_selected" from="HBoxContainer/Dropdown" to="." method="_on_dropdown_item_selected"]

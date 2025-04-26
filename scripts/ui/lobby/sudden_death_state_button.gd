@@ -8,6 +8,7 @@ func _ready() -> void:
 	
 func load_data() -> void:
 	_on_checkbox_toggled(SettingsContainer.get_sudden_death_state())
+	set_initial_button_state()
 
 func set_initial_button_state() -> void:
 	checkbox.button_pressed = SettingsContainer.get_sudden_death_state()

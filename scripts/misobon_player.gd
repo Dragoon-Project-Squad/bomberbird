@@ -72,7 +72,7 @@ func throw_bomb():
 
 @rpc("call_local")
 func revive(pos: Vector2):
-	if gamestate.misobon_mode != gamestate.misobon_states.SUPER || !player.is_dead:
+	if SettingsContainer.misobon_setting != SettingsContainer.misobon_setting_states.SUPER || !player.is_dead:
 		return
 	play_despawn_animation()
 	var corrected_pos: Vector2 = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(pos))

@@ -9,6 +9,9 @@ signal hurry_up_start
 var target_tiles: Array[Vector2i]
 var current_tile_index = 0
 
+func _ready() -> void:
+	hurry_up_start_timer.wait_time = SettingsContainer.get_match_time() - SettingsContainer.get_hurry_up_time()
+
 func start() -> void:
 	self.clear()
 	hurry_up_start_timer.start()

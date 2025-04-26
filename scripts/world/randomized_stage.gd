@@ -7,6 +7,20 @@ extends Zone
 ## Private Functions
 
 ## spawns breakables randomly with a change depending on (gamestate.current_level)
+
+func _ready():
+	determine_base_breakable_rate()	
+	
+func determine_base_breakable_rate():
+	if SettingsContainer.get_breakable_spawn_rule() == 0:
+		return # Use the value decided by the STAGE
+	elif SettingsContainer.get_breakable_spawn_rule() == 1:
+		base_breakable_chance = 0 # NONE
+	elif SettingsContainer.get_breakable_spawn_rule() == 2:
+		base_breakable_chance = 1 # ALL
+	else: # Custom Mode, use the Global Percent
+		base_breakable_chance = SettingsContainer.get_breakable_chance()
+	
 func _generate_breakables(_breakable_table: BreakableTable = null):
 	if not is_multiplayer_authority():
 		return

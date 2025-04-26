@@ -8,8 +8,11 @@ func _ready() -> void:
 	load_data()
 	
 func load_data() -> void:
+	set_slider_value(SettingsContainer.get_breakable_chance())
 	_on_value_changed(SettingsContainer.get_breakable_chance())
-	set_chance_num_label_text()
+	
+func set_slider_value(newval : int) -> void:
+	h_slider.value = newval
 	
 func set_chance_num_label_text() -> void:
 	slider_number_label.text = str(int(h_slider.value)) + "%"

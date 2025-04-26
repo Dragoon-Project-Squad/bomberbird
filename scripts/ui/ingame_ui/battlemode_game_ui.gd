@@ -10,7 +10,9 @@ var time
 @onready var player_container: HBoxContainer = $Border/Container/Players
 
 func _ready() -> void:
+	match_timer.start(SettingsContainer.get_match_time())
 	globals.game.game_ui = self
+	
 
 func _process(_delta: float) -> void:
 	time = match_timer.get_time_left()
