@@ -4,6 +4,7 @@ class_name PickupTable extends Resource
 
 const PICKUP_ENABLED := true
 const PICKUP_SPAWN_BASE_CHANCE := 1.0
+var pickup_spawn_chance = PICKUP_SPAWN_BASE_CHANCE
 
 @export_group("Pickup Weights")
 @export var extra_bomb: int = 500
@@ -98,10 +99,19 @@ func get_type_from_weight(weight: int) -> int:
 func decide_pickup_spawn() -> bool:
 	if !PICKUP_ENABLED:
 		return false
-	
-	return _rng.randf_range(0.0,1.0) <= PICKUP_SPAWN_BASE_CHANCE
+	determine_base_pickup_rate()
+	return _rng.randf_range(0.0,1.0) <= pickup_spawn_chance
 
 func decide_pickup_type() -> int:
 	var rng_result = _rng.randi_range(0, total_weight() - 1)
 	return get_type_from_weight(rng_result)
 	
+func determine_base_pickup_rate() -> void:
+	if SettingsContainer.get_pickup_spawn_rule() == 0:
+		return # Use the value decided by the STAGE
+	elif SettingsContainer.get_pickup_spawn_rule() == 1:
+		pickup_spawn_chance = 0 # NONE
+	elif SettingsContainer.get_pickup_spawn_rule() == 2:
+		pickup_spawn_chance = 1 # ALL
+	else: # Custom Mode, use the Global Percent
+		pickup_spawn_chance = SettingsContainer.get_pickup_chance()

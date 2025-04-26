@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://d0xwl8hxp7ycv" path="res://scripts/ui/ingame_ui/battlemode_game_ui.gd" id="1_d60n6"]
 
-
 [node name="MultiplayerGameUI" type="CanvasLayer"]
 script = ExtResource("1_d60n6")
 
@@ -136,4 +135,3 @@ horizontal_alignment = 2
 unique_name_in_owner = true
 wait_time = 120.0
 one_shot = true
-autostart = true
