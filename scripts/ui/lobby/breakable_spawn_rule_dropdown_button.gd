@@ -2,8 +2,6 @@ extends Control
 
 @onready var dropdown: OptionButton = $HBoxContainer/Dropdown
 
-enum BREAKABLE_SPAWN_RULE_OPTIONS {STAGE, NONE, ALL, CUSTOM}
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	add_breakable_spawn_rule_items()
@@ -14,7 +12,7 @@ func load_data() -> void:
 	dropdown.select(SettingsContainer.get_breakable_spawn_rule())
 	
 func add_breakable_spawn_rule_items() -> void:
-	for breakable_spawn_rule_option in BREAKABLE_SPAWN_RULE_OPTIONS:
+	for breakable_spawn_rule_option in SettingsContainer.breakable_spawn_rule_setting_states:
 		dropdown.add_item(breakable_spawn_rule_option)
 
 func _on_dropdown_item_selected(index: int) -> void:

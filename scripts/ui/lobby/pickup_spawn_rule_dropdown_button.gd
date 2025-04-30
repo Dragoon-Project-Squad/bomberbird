@@ -2,8 +2,6 @@ extends Control
 
 @onready var dropdown: OptionButton = $HBoxContainer/Dropdown
 
-enum PICKUP_SPAWN_RULE_OPTIONS {STAGE, NONE, ALL, CUSTOM}
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	add_pickup_spawn_rule_items()
@@ -14,7 +12,7 @@ func load_data() -> void:
 	dropdown.select(SettingsContainer.get_pickup_spawn_rule())
 	
 func add_pickup_spawn_rule_items() -> void:
-	for pickup_spawn_rule_option in PICKUP_SPAWN_RULE_OPTIONS:
+	for pickup_spawn_rule_option in SettingsContainer.pickup_spawn_rule_setting_states:
 		dropdown.add_item(pickup_spawn_rule_option)
 
 func _on_dropdown_item_selected(index: int) -> void:

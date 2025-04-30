@@ -52,6 +52,15 @@ static var pickup_name_str: Dictionary = {
 	pickups.RANDOM: "random",
 }
 
+const BEACH_FULL_STAGE_PATH = "res://scenes/stages/beach_stages/beach_full.tscn"
+const BEACH_RAND_STAGE_PATH = "res://scenes/stages/beach_stages/beach_rand.tscn"
+const DESERT_FULL_STAGE_PATH = "res://scenes/stages/desert/desert_full.tscn"
+const DESERT_RAND_STAGE_PATH = "res://scenes/stages/desert/desert_rand.tscn"
+const DUNGEON_FULL_STAGE_PATH = "res://scenes/stages/dungeon_stages/dungeon_full.tscn"
+const DUNGEON_RAND_STAGE_PATH = "res://scenes/stages/dungeon_stages/dungeon_rand.tscn"
+const LAB_FULL_STAGE_PATH = "res://scenes/stages/lab_stages/lab_full.tscn"
+const LAB_RAND_STAGE_PATH = "res://scenes/stages/lab_stages/lab_rand.tscn"
+
 var config = Config.new()
 var game: Node2D
 var current_world: World

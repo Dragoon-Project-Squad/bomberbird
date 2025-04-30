@@ -11,19 +11,25 @@ var master_volume := 0.0
 var music_volume := 0.0
 var sfx_volume := 0.0
 
-#Multiplayer
+#Multiplayer Enums
+enum cpu_difficulty_setting_states {STATIONARY, EASY, MEDIUM, HARD}
+enum cpu_count_setting_states {ZERO, ONE, TWO, THREE, FOUR, FILL}
+enum misobon_setting_states {OFF, ON, SUPER}
+enum breakable_spawn_rule_setting_states {STAGE, NONE, FULL, CUSTOM}
+enum pickup_spawn_rule_setting_states {STAGE, NONE, ALL, CUSTOM}
+
+# Multiplayer
 var points_to_win := 3
-var cpu_difficulty := 2 #The dropdown is set to a dictionary.
-var cpu_count := 6 #The dropdown is set to a dictionary.
+var cpu_difficulty := cpu_difficulty_setting_states.MEDIUM #The dropdown is set to a dictionary.
+var cpu_count := cpu_count_setting_states.FILL #The dropdown is set to a dictionary.
 var match_time := 120
 var hurry_up_time := 60
 var hurry_up_state := true
 var sudden_death_state := false
-enum misobon_setting_states {OFF, ON, SUPER}
 var misobon_setting := misobon_setting_states.ON #The dropdown is set to a dictionary.
-var breakable_spawn_rule := 0 #The dropdown is set to a dictionary.
+var breakable_spawn_rule := breakable_spawn_rule_setting_states.STAGE #The dropdown is set to a dictionary.
 var breakable_chance := 100.0
-var pickup_spawn_rule := 0 #The dropdown is set to a dictionary.
+var pickup_spawn_rule := pickup_spawn_rule_setting_states.STAGE #The dropdown is set to a dictionary.
 var pickup_chance := 100.0
 
 var loaded_data : Dictionary = {}
