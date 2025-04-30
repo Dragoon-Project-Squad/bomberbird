@@ -10,6 +10,7 @@ extends Zone
 
 func _ready():
 	determine_base_breakable_rate()	
+	super()
 	
 func determine_base_breakable_rate():
 	if SettingsContainer.get_breakable_spawn_rule() == 0:
