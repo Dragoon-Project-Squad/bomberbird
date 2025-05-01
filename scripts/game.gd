@@ -19,6 +19,8 @@ var players_are_spawned: bool = false
 func _init():
 	globals.game = self
 
+func _ready():
+	pass
 ## starts the game is only called once
 func start():
 	pass
