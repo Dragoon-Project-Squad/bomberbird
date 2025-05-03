@@ -46,4 +46,5 @@ bus = &"SFX"
 
 [node name="CrushedSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_kwo4r")
+volume_db = 3.0
 bus = &"SFX"
