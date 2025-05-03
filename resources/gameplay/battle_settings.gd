@@ -34,10 +34,10 @@ var is_sudden_death_enabled := false # Sudden Death Mode makes the Hurry Up bloc
 # Breakable Settings
 # PRESET - Use the default settings for this map.
 # NONE - Spawn no breakables.
-# ALL - Fill almost all spaces with breakables.
+# FULL - Fill almost all spaces with breakables.
 # CUSTOM - Breakables will appear randomly according to player taste.
 @export_group("Breakable Settings")
-@export_enum ("Stage", "None", "All", "Custom") var BREAKABLE_SPAWN_RULE := 0
+@export_enum ("Stage", "None", "Full", "Custom") var BREAKABLE_SPAWN_RULE := 0
 @export var breakable_chance := 100.0
 #Use the BreakablePreset resource to manage Breakable Presets.
 

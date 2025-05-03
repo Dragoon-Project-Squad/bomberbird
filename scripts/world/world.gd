@@ -130,7 +130,7 @@ func enable(
 	if is_multiplayer_authority():
 		if !globals.game.players_are_spawned: _spawn_player()
 		else: _place_players.rpc()
-		_spawn_enemies()
+		# _spawn_enemies() raaaah unimplemented methods
 	_generate_breakables(breakable_table)
 
 	world_data.finish_init()
