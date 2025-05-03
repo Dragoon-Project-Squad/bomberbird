@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://j3ujhpqy6ufm"]
 
 [ext_resource type="Script" uid="uid://djocn7u0s7h48" path="res://scripts/pickups/extra_bomb.gd" id="1_11sqp"]
-[ext_resource type="Texture2D" uid="uid://cpcqguecfwnbv" path="res://assets/pickups/powerup.png" id="2_vov7d"]
+[ext_resource type="Texture2D" uid="uid://quoe0b8jbau3" path="res://assets/pickups/powerupsprites.png" id="2_uawrh"]
 [ext_resource type="AudioStream" uid="uid://boidckhyrna5i" path="res://sound/fx/explosion.wav" id="3_uawrh"]
 [ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_xl82w"]
 [ext_resource type="AnimationLibrary" uid="uid://deqi1mrq6p7pt" path="res://animations/pickup.res" id="5_mojkf"]
@@ -9,15 +9,15 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3ywok"]
 size = Vector2(32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_l7d1k"]
-atlas = ExtResource("2_vov7d")
-region = Rect2(32, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_3xbx3"]
+atlas = ExtResource("2_uawrh")
+region = Rect2(48, 24, 24, 24)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_0hn6b"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_l7d1k")
+"texture": SubResource("AtlasTexture_3xbx3")
 }],
 "loop": false,
 "name": &"idle",
@@ -25,7 +25,6 @@ animations = [{
 }]
 
 [node name="ExtraBomb" type="Area2D"]
-visible = false
 texture_filter = 1
 collision_layer = 16
 collision_mask = 2
