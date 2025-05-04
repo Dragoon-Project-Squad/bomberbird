@@ -275,5 +275,14 @@ func exploded(by_who):
 	else:
 		do_stun()
 
+@rpc("call_local")
+func crush():
+	hurt_sfx_player.play()
+	is_dead = true
+	$Hitbox.set_deferred("disabled", 1)
+	player_died.emit()
+	hide()
+	process_mode = PROCESS_MODE_DISABLED
+
 func set_selected_character(value_path : String):
 	$sprite.texture = load(value_path)
