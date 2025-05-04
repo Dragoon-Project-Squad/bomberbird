@@ -31,6 +31,7 @@ a = Vector2(0, 16)
 b = Vector2(0, 32)
 
 [sub_resource type="Animation" id="Animation_2ljjh"]
+resource_name = "RESET"
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
