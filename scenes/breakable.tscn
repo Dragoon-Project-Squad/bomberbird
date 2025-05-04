@@ -1,17 +1,22 @@
-[gd_scene load_steps=7 format=3 uid="uid://bao3yernlglws"]
+[gd_scene load_steps=9 format=3 uid="uid://bao3yernlglws"]
 
 [ext_resource type="Script" uid="uid://bq0qs07pxk3mm" path="res://scripts/breakable.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://b7xhajclwoa2f" path="res://assets/tilesetimages/desert_objects.png" id="2_qd0fb"]
 [ext_resource type="AudioStream" uid="uid://36rjkxoq18ne" path="res://sound/fx/debrisdeath.wav" id="3_8bomw"]
+[ext_resource type="AudioStream" uid="uid://o46gs6drr81c" path="res://sound/fx/crushed.wav" id="4_kwo4r"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(32, 32)
+
+[sub_resource type="Animation" id="Animation_u38ci"]
+resource_name = "crush"
 
 [sub_resource type="Animation" id="2"]
 resource_name = "explode"
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6pqaw"]
 _data = {
+&"crush": SubResource("Animation_u38ci"),
 &"explode": SubResource("2")
 }
 
@@ -37,4 +42,9 @@ libraries = {
 
 [node name="BreakableSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_8bomw")
+bus = &"SFX"
+
+[node name="CrushedSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_kwo4r")
+volume_db = 3.0
 bus = &"SFX"
