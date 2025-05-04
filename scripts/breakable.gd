@@ -59,9 +59,11 @@ func crush():
 	$AnimationPlayer.play("crush")
 	if is_multiplayer_authority():
 		disable_collison_and_hide.rpc()
+		world_data.set_tile.rpc(world_data.tiles.EMPTY, global_position)
 	astargrid_handler.astargrid_set_point(global_position, false)
 	await $"AnimationPlayer".animation_finished #Wait for the animation to finish
 	if is_multiplayer_authority():
 		disable.rpc()
 	globals.game.breakable_pool.return_obj(self)
+	world_data._debug_print_matrix()
 	

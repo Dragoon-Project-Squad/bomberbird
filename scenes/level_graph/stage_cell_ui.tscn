@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://bolrwf2kmf1vr"]
+[gd_scene load_steps=8 format=3 uid="uid://bolrwf2kmf1vr"]
 
 [ext_resource type="Script" uid="uid://d03ybrr8yjq3y" path="res://scripts/level_graph/stage_cell_ui.gd" id="1_hiyc1"]
 [ext_resource type="Texture2D" uid="uid://bg23qq0jm0n3j" path="res://assets/tilesetimages/deserttileset.png" id="2_hniy2"]
-[ext_resource type="Texture2D" uid="uid://cpcqguecfwnbv" path="res://assets/pickups/powerup.png" id="3_ibnkg"]
+[ext_resource type="Texture2D" uid="uid://quoe0b8jbau3" path="res://assets/pickups/powerupsprites.png" id="3_hniy2"]
 [ext_resource type="Texture2D" uid="uid://bvduv0j3kdwtj" path="res://assets/css/question.png" id="4_aw2om"]
 [ext_resource type="Texture2D" uid="uid://d3cn5or0vkn23" path="res://assets/css/chonkgoon.png" id="5_wmt0x"]
+[ext_resource type="Texture2D" uid="uid://t64vkd8wb6n1" path="res://assets/pickups/genericpowerup.png" id="6_ibnkg"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_gh5p3"]
 font_size = 12
@@ -25,9 +26,10 @@ border_color = Color(0, 0, 0, 1)
 editor_only = false
 script = ExtResource("1_hiyc1")
 tileset_texture = ExtResource("2_hniy2")
-pickup_texture = ExtResource("3_ibnkg")
+pickup_texture = ExtResource("3_hniy2")
 unimplementet_texture = ExtResource("4_aw2om")
 spawnpoint_texture = ExtResource("5_wmt0x")
+random_pickup_texture = ExtResource("6_ibnkg")
 
 [node name="MainTexture" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(32, 32)
@@ -39,12 +41,11 @@ offset_bottom = 41.0
 expand_mode = 1
 
 [node name="SubTexture" type="TextureRect" parent="."]
-custom_minimum_size = Vector2(22, 22)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 0
-offset_left = 27.0
-offset_top = 1.0
-offset_right = 49.0
-offset_bottom = 23.0
+offset_left = 26.0
+offset_right = 50.0
+offset_bottom = 24.0
 expand_mode = 2
 stretch_mode = 3
 
