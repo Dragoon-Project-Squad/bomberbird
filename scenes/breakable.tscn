@@ -8,11 +8,11 @@
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(32, 32)
 
-[sub_resource type="Animation" id="2"]
-resource_name = "explode"
-
 [sub_resource type="Animation" id="Animation_u38ci"]
 resource_name = "crush"
+
+[sub_resource type="Animation" id="2"]
+resource_name = "explode"
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6pqaw"]
 _data = {

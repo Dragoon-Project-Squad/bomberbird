@@ -1,5 +1,6 @@
 class_name FallingUnbreakable extends Node2D
 @onready var unbreakable_sfx_player := $UnbreakableSound
+var empty_tile = true
 
 @rpc("call_local")
 func place(pos: Vector2):
@@ -9,7 +10,6 @@ func place(pos: Vector2):
 func crush_colliding_obj(objs: Array):
 	if objs.is_empty():
 		return
-	var empty_tile = true
 	for obj in objs:
 		### Explode only on authority.
 		if !is_multiplayer_authority(): return
@@ -18,14 +18,14 @@ func crush_colliding_obj(objs: Array):
 			# Check if body is on same tile
 			if floor_tile_layer.local_to_map(obj.position) == floor_tile_layer.local_to_map(self.position):
 				obj.crush.rpc()
-				empty_tile = false
+				self.empty_tile = false
 
 		elif obj.has_method("exploded"):
 			var floor_tile_layer: TileMapLayer = world_data.tile_map
 			# Check if body is on same tile
 			if floor_tile_layer.local_to_map(obj.position) == floor_tile_layer.local_to_map(self.position):
 				obj.exploded.rpc(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID)
-	if empty_tile:
+	if self.empty_tile:
 		unbreakable_sfx_player.play()
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
@@ -36,3 +36,4 @@ func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	hurry_up_tilemap.place(self.position)
 	
 	self.position = Vector2.ZERO
+	self.empty_tile = true
