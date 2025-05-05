@@ -134,7 +134,7 @@ func update_animation(direction: Vector2):
 		current_anim = new_anim
 		$AnimationPlayer.play("player_animations/" + current_anim)
 
-## Eneables this players correspoing misobon player iff misobon is atleast on
+## Enables this players correspoing misobon player if misobon is atleast on
 func enter_misobon():
 	if SettingsContainer.misobon_setting == SettingsContainer.misobon_setting_states.OFF || hurry_up_started:
 		return
@@ -151,6 +151,17 @@ func enter_misobon():
 			misobon_player.get_parent().get_progress_from_vector(position) 
 			)
 		misobon_player.play_spawn_animation.rpc()
+
+## Do crushed specific things to player
+func do_crushed_state():
+	is_dead = true
+	hide()
+	$AnimationPlayer.play("player_animations/crush")
+	$Hitbox.set_deferred("disabled", 1)
+	await $AnimationPlayer.animation_finished
+	player_died.emit()
+	process_mode = PROCESS_MODE_DISABLED
+
 
 func enter_death_state():
 	is_dead = true
@@ -277,12 +288,7 @@ func exploded(by_who):
 
 @rpc("call_local")
 func crush():
-	hurt_sfx_player.play()
-	is_dead = true
-	$Hitbox.set_deferred("disabled", 1)
-	player_died.emit()
-	hide()
-	process_mode = PROCESS_MODE_DISABLED
+	do_crushed_state()
 
 func set_selected_character(value_path : String):
 	$sprite.texture = load(value_path)
