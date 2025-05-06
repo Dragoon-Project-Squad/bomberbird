@@ -76,29 +76,34 @@ func create_keybinds_dictionary() -> Dictionary:
 	return keybinds_container_dict
 
 func get_window_mode_index() -> int:
-	if loaded_data == {}:
+	if not loaded_data.has('window_mode_index'):
 		return DEFAULT_SETTINGS.DEFAULT_WINDOW_MODE_INDEX
-	return window_mode_index
+	return loaded_data.window_mode_index
 	
 func get_resolution_index() -> int:
-	if loaded_data == {}:
+	if not loaded_data.has('resolution_index'):
 		return DEFAULT_SETTINGS.DEFAULT_RESOLUTION_INDEX
-	return resolution_index
+	return loaded_data.resolution_index
 	
 func get_master_volume() -> float:
-	if loaded_data == {}:
+	if not loaded_data.has('master_volume'):
 		return DEFAULT_SETTINGS.DEFAULT_MASTER_VOLUME
-	return master_volume
+	return loaded_data.master_volume
 	
 func get_music_volume() -> float:
-	if loaded_data == {}:
+	if not loaded_data.has('music_volume'):
 		return DEFAULT_SETTINGS.DEFAULT_MUSIC_VOLUME
-	return music_volume
+	return loaded_data.music_volume
 	
 func get_sfx_volume() -> float:
-	if loaded_data == {}:
+	if not loaded_data.has('sfx_volume'):
 		return DEFAULT_SETTINGS.DEFAULT_SFX_VOLUME
-	return sfx_volume
+	return loaded_data.sfx_volume
+
+func get_all_keybinds() -> Dictionary:
+	if not loaded_data.has('keybinds'):
+		return create_keybinds_dictionary();
+	return loaded_data.keybinds
 	
 func get_keybind(action: String):
 	if not loaded_data.has("keybinds"): #If there is no keybinds...
@@ -150,64 +155,64 @@ func retrieve_default_keybind(action : String):
 			return KEYBIND_RESOURCE.DEFAULT_PAUSE_KEY
 	
 func get_points_to_win() -> int:
-	if loaded_data == {}:
+	if not loaded_data.has('points_to_win'):
 		return BATTLE_SETTINGS.DEFAULT_POINTS_TO_WIN
-	return points_to_win
+	return loaded_data.points_to_win
 	
 func get_cpu_difficulty() -> int:
-	if loaded_data == {}:
+	if not loaded_data.has('cpu_difficulty'):
 		return BATTLE_SETTINGS.DEFAULT_CPU_DIFFICULTY
-	return cpu_difficulty
+	return loaded_data.cpu_difficulty
 	
 func get_cpu_count() -> int:
-	if loaded_data == {}:
+	if not loaded_data.has('cpu_count'):
 		return BATTLE_SETTINGS.DEFAULT_CPU_COUNT
-	return cpu_count
+	return loaded_data.cpu_count
 
 func get_match_time() -> int:
-	if loaded_data == {}:
+	if not loaded_data.has('match_time'):
 		return BATTLE_SETTINGS.DEFAULT_MATCH_TIME
-	return match_time
+	return loaded_data.match_time
 	
 func get_hurry_up_time() -> int:
-	if loaded_data == {}:
+	if not loaded_data.has('hurry_up_time'):
 		return BATTLE_SETTINGS.DEFAULT_HURRY_UP_TIME
-	return hurry_up_time
+	return loaded_data.hurry_up_time
 	
 func get_hurry_up_state() -> bool:
-	if loaded_data == {}:
+	if not loaded_data.has('hurry_up_state'):
 		return BATTLE_SETTINGS.DEFAULT_HURRY_UP_STATE
-	return hurry_up_state
+	return loaded_data.hurry_up_state
 	
 func get_sudden_death_state() -> bool:
-	if loaded_data == {}:
+	if not loaded_data.has('sudden_death_state'):
 		return BATTLE_SETTINGS.DEFAULT_SUDDEN_DEATH_STATE
-	return sudden_death_state
+	return loaded_data.sudden_death_state
 	
 func get_misobon_setting() -> int:
-	if loaded_data == {}:
+	if not loaded_data.has('misobon_setting'):
 		return BATTLE_SETTINGS.DEFAULT_MISOBON_SETTING
-	return misobon_setting
+	return loaded_data.misobon_setting
 
 func get_breakable_spawn_rule() -> int:
-	if loaded_data == {}:
+	if not loaded_data.has('breakable_spawn_rule'):
 		return BATTLE_SETTINGS.DEFAULT_BREAKABLE_SPAWN_RULE
-	return breakable_spawn_rule
+	return loaded_data.breakable_spawn_rule
 
 func get_breakable_chance() -> float:
-	if loaded_data == {}:
+	if not loaded_data.has('breakable_chance'):
 		return BATTLE_SETTINGS.DEFAULT_BREAKABLE_CHANCE
-	return breakable_chance
+	return loaded_data.breakable_chance
 	
 func get_pickup_spawn_rule() -> int:
-	if loaded_data == {}:
+	if not loaded_data.has('pickup_spawn_rule'):
 		return BATTLE_SETTINGS.DEFAULT_PICKUP_SPAWN_RULE
-	return pickup_spawn_rule
+	return loaded_data.pickup_spawn_rule
 
 func get_pickup_chance() -> float:
-	if loaded_data == {}:
+	if not loaded_data.has('pickup_chance'):
 		return BATTLE_SETTINGS.DEFAULT_PICKUP_CHANCE
-	return pickup_chance
+	return loaded_data.pickup_chance
 	
 func set_window_mode(index : int) -> void:
 	window_mode_index = index
@@ -317,24 +322,7 @@ func set_pickup_chance(value : float) -> void:
 
 func on_settings_data_loaded(data : Dictionary) -> void:
 	loaded_data = data
-	set_window_mode(loaded_data.window_mode_index)
-	set_resolution(loaded_data.resolution_index)
-	set_master_vol(loaded_data.master_volume)
-	set_music_vol(loaded_data.music_volume)
-	set_sfx_vol(loaded_data.sfx_volume)
-	set_keybinds_loaded(loaded_data.keybinds)
-	set_points_to_win(loaded_data.points_to_win)
-	set_cpu_difficulty(loaded_data.cpu_difficulty)
-	set_cpu_count(loaded_data.cpu_count)
-	set_misobon_setting(loaded_data.misobon_setting)
-	set_match_time(loaded_data.match_time)
-	set_hurry_up_time(loaded_data.hurry_up_time)
-	set_hurry_up_state(loaded_data.hurry_up_state)
-	set_sudden_death_state(loaded_data.sudden_death_state)
-	set_breakable_spawn_rule(loaded_data.breakable_spawn_rule)
-	set_breakable_chance(loaded_data.breakable_chance)
-	set_pickup_spawn_rule(loaded_data.pickup_spawn_rule)
-	set_pickup_chance(loaded_data.pickup_chance)
+	set_keybinds_loaded(get_all_keybinds())
 	
 func handle_signals() -> void:
 	SettingsSignalBus.on_window_mode_selected.connect(set_window_mode)
