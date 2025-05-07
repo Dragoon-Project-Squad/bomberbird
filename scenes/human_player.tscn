@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dviwgv2ty8v6u"]
+[gd_scene load_steps=18 format=3 uid="uid://dviwgv2ty8v6u"]
 
 [ext_resource type="Script" uid="uid://b6ouubp062irj" path="res://scripts/human_player.gd" id="1_u11j4"]
 [ext_resource type="Script" uid="uid://dfosda1bstp2m" path="res://resources/gameplay/held_pickups.gd" id="2_05k0c"]
@@ -8,6 +8,7 @@
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="5_3fscl"]
 [ext_resource type="AnimationLibrary" uid="uid://b6igytp0a077" path="res://animations/player_animations.tres" id="5_aeuj7"]
 [ext_resource type="Script" uid="uid://cvneoqre4h1ct" path="res://scripts/human_player_controls.gd" id="6_ey2ea"]
+[ext_resource type="AudioStream" uid="uid://c3dded4qppq4" path="res://sound/fx/playerhurt.wav" id="7_ho0y0"]
 
 [sub_resource type="Resource" id="Resource_jvckf"]
 resource_local_to_scene = true
@@ -144,3 +145,4 @@ script = ExtResource("6_ey2ea")
 replication_config = SubResource("SceneReplicationConfig_w53uu")
 
 [node name="HurtSoundPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_ho0y0")
