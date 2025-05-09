@@ -22,14 +22,14 @@ func load_settings_data() -> void:
 		return
 	
 	var save_settings_data_file = FileAccess.open(SETTINGS_SAVE_PATH, FileAccess.READ)
-	var loaded_data : Dictionary = {}
+	var loaded_json : Dictionary = {}
 	
 	while save_settings_data_file.get_position() < save_settings_data_file.get_length():
 		var json_string = save_settings_data_file.get_line()
 		var json = JSON.new()
 		var _parsed_result = json.parse(json_string)
 		
-		loaded_data = json.get_data()
+		loaded_json = json.get_data()
 		
-	SettingsSignalBus.emit_load_settings_data(loaded_data)
-	loaded_data = {}
+	SettingsSignalBus.emit_load_settings_data(loaded_json)
+	loaded_json = {}
