@@ -1,4 +1,6 @@
-[gd_resource type="AnimationLibrary" load_steps=10 format=3 uid="uid://b6igytp0a077"]
+[gd_resource type="AnimationLibrary" load_steps=12 format=3 uid="uid://b6igytp0a077"]
+
+[ext_resource type="AudioStream" uid="uid://cpniotmerpu5f" path="res://sound/fx/playercrush.wav" id="1_m2tnj"]
 
 [sub_resource type="Animation" id="Animation_cfor6"]
 length = 0.001
@@ -98,6 +100,24 @@ tracks/7/keys = {
 "update": 1,
 "values": [true]
 }
+
+[sub_resource type="Animation" id="Animation_mullw"]
+length = 0.2
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HurtSoundPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("1_m2tnj")
+}],
+"times": PackedFloat32Array(0.0333333)
+}
+tracks/0/use_blend = false
 
 [sub_resource type="Animation" id="Animation_ivjsy"]
 resource_name = "death"
@@ -448,6 +468,7 @@ tracks/1/keys = {
 [resource]
 _data = {
 &"RESET": SubResource("Animation_cfor6"),
+&"crush": SubResource("Animation_mullw"),
 &"death": SubResource("Animation_ivjsy"),
 &"revive": SubResource("Animation_uhsui"),
 &"standing": SubResource("2"),

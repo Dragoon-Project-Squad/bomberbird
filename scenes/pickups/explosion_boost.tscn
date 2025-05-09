@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://cim10emfhkf7b"]
 
 [ext_resource type="Script" uid="uid://b5cnvujl35rcc" path="res://scripts/pickups/explosion_boost.gd" id="1_mcgtw"]
-[ext_resource type="Texture2D" uid="uid://cpcqguecfwnbv" path="res://assets/pickups/powerup.png" id="2_nookq"]
+[ext_resource type="Texture2D" uid="uid://quoe0b8jbau3" path="res://assets/pickups/powerupsprites.png" id="2_aj30u"]
 [ext_resource type="AudioStream" uid="uid://8u70xa4tmhc8" path="res://sound/fx/powerup.wav" id="3_mrjxs"]
 [ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_esqs1"]
 [ext_resource type="AnimationLibrary" uid="uid://deqi1mrq6p7pt" path="res://animations/pickup.res" id="5_4h83f"]
@@ -9,15 +9,15 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3ywok"]
 size = Vector2(32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_kuvy3"]
-atlas = ExtResource("2_nookq")
-region = Rect2(32, 32, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_r2a7f"]
+atlas = ExtResource("2_aj30u")
+region = Rect2(168, 24, 24, 24)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_0hn6b"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_kuvy3")
+"texture": SubResource("AtlasTexture_r2a7f")
 }],
 "loop": false,
 "name": &"idle",
@@ -51,7 +51,7 @@ bus = &"SFX"
 
 [node name="anim" type="AnimationPlayer" parent="."]
 libraries = {
-"pickup": ExtResource("5_4h83f")
+&"pickup": ExtResource("5_4h83f")
 }
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

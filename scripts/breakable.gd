@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name Breakable
 
 @onready var breakable_sfx_player := $BreakableSound
+@onready var crushed_sfx_player := $CrushedSound
 
 var in_use: bool = false
 var contained_pickup: int
@@ -33,7 +34,7 @@ func place(pos: Vector2, pickup: int):
 func exploded(by_who):
 	if _exploded_barrier: return #prevents a racecondition of the game attempting to spawn a pickup twice
 	_exploded_barrier = true
-	# breakable_sfx_player.play()
+	breakable_sfx_player.play()
 	$"AnimationPlayer".play("explode")
 
 	# Spawn a powerup where this rock used to be.
@@ -52,4 +53,17 @@ func exploded(by_who):
 		disable.rpc()
 	globals.game.breakable_pool.return_obj(self)
 
+@rpc("call_local")
+func crush():
+	crushed_sfx_player.play()
+	$AnimationPlayer.play("crush")
+	if is_multiplayer_authority():
+		disable_collison_and_hide.rpc()
+		world_data.set_tile.rpc(world_data.tiles.EMPTY, global_position)
+	astargrid_handler.astargrid_set_point(global_position, false)
+	await $"AnimationPlayer".animation_finished #Wait for the animation to finish
+	if is_multiplayer_authority():
+		disable.rpc()
+	globals.game.breakable_pool.return_obj(self)
+	world_data._debug_print_matrix()
 	

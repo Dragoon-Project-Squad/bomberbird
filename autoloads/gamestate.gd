@@ -272,7 +272,9 @@ func end_game():
 		if !multiplayer.is_server(): #BUG: This is likely the culprite for #100 but i don't understand mp enought yet to change it
 			peer.close()
 	if has_node("/root/MainMenu"):
-		get_node("/root/MainMenu").unpause_main_menu_music()
+		var main_menu: Control = get_node("/root/MainMenu")
+		main_menu.show()
+		main_menu.unpause_main_menu_music()
 	game_ended.emit() 
 	players.clear()
 	resetvars()
