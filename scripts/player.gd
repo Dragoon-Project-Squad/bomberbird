@@ -47,6 +47,7 @@ var movement_speed_reset: float
 var bomb_count_reset: int
 var lives_reset: int
 var explosion_boost_count_reset: int
+var piercing: bool = true
 
 
 func _ready():
@@ -100,7 +101,7 @@ func punch_bomb(direction: Vector2i):
 
 	bomb.do_punch.rpc(direction)
 
-## places a bomb iff the current position is valid
+## places a bomb if the current position is valid
 func place_bomb():
 	if(world_data.is_tile(world_data.tiles.BOMB, self.global_position)): return
 	
@@ -114,6 +115,7 @@ func place_bomb():
 	if is_multiplayer_authority():
 		var bomb: BombRoot = bomb_pool.request()
 		bomb.set_bomb_owner.rpc(self.name)
+		bomb.set_pierce_addon.rpc(piercing)
 		bomb.do_place.rpc(bombPos, explosion_boost_count)
 
 ## updates the animation depending on the movement direction
@@ -192,6 +194,7 @@ func reset_pickups():
 	bomb_count = bomb_count_reset
 	lives = lives_reset
 	explosion_boost_count = explosion_boost_count_reset
+	piercing = false
 	pickups.reset()
 
 ## spreads all pickups the player held on the ground
@@ -263,7 +266,10 @@ func increase_speed():
 func increment_bomb_count():
 	bomb_total = min(bomb_total+1, MAX_BOMBS_OWNABLE)
 	bomb_count = min(bomb_count+1, bomb_total)
-	
+
+@rpc("call_local")
+func pierce_bomb():
+	piercing = true
 
 @rpc("call_local")
 func return_bomb():
