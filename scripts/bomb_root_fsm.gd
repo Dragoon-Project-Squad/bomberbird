@@ -10,6 +10,9 @@ var fuse_time_passed: float
 var boost: int
 var in_use: bool = false
 
+# other bomb addons
+var addons: Dictionary
+
 enum {DISABLED, STATIONARY, AIRBORN, SLIDING, SIZE} #all states plus a SIZE constant that has to remain the last entry
 var state: int = DISABLED #this is the authority if ever somehow two state nodes try to execute text_overrun_behavior
 
@@ -46,14 +49,19 @@ func disable() -> int:
 	set_state(DISABLED)
 	return 0
 
-@rpc("call_local")
 ## sets the bomb_owner of the bomb s.t. the bomb can later report to that player
+@rpc("call_local")
 func set_bomb_owner(player_id: String):
 	self.bomb_owner = globals.player_manager.get_node(str(player_id))
 
+## sets the addon for piercing
+@rpc("call_local")
+func set_pierce_addon(toggle: bool):
+	self.addons["pierce"] = toggle
+
+## sets the state to stationary and tells the corresponding state to start processing
 @rpc("call_local")
 @warning_ignore("SHADOWED_VARIABLE")
-## sets the state to stationary and tells the corresponding state to start processing
 func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) -> int:
 	assert(bomb_owner, "A bomb without an bomb_owner tried to be placed")
 	in_use = true
@@ -77,6 +85,7 @@ func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) 
 
 	var bomb_authority: Node2D = state_map[state]
 	bomb_authority.set_explosion_width_and_size(min(boost + bomb_authority.explosion_width, bomb_authority.MAX_EXPLOSION_WIDTH))
+	bomb_authority.set_addons(addons)
 	bomb_authority.place(bombPos, fuse_time_passed)
 	world_data.set_tile(world_data.tiles.BOMB, self.global_position)
 	if force_collision: bomb_authority._on_detect_area_body_exit(bomb_owner) # This sucks but i haven't found a better way to solve this... I think we need to rework how bombs stay collision less for the placing player at some point
