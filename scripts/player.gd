@@ -47,7 +47,7 @@ var movement_speed_reset: float
 var bomb_count_reset: int
 var lives_reset: int
 var explosion_boost_count_reset: int
-var piercing: bool = true
+var piercing: bool = false
 
 
 func _ready():
