@@ -3,7 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://d06cvn5qmuvfv" path="res://assets/css/dokibh.png" id="1_h2qhd"]
 [ext_resource type="Script" uid="uid://bjpx5g5vjrgde" path="res://scripts/ui/cssmenu/character_select_button.gd" id="2_6pw2k"]
 
-
 [node name="dokibird" type="TextureButton"]
 size_flags_horizontal = 6
 size_flags_vertical = 6
