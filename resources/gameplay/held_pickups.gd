@@ -17,7 +17,7 @@ var held_pickups: Dictionary = {
 	globals.pickups.BOMB_PUNCH: false,
 	globals.pickups.POWER_GLOVE: false,
 	globals.pickups.WALLTHROUGH: false,
-	globals.pickups.PIERCING: bomb_types.PIERCING,
+	globals.pickups.PIERCING: false,
 	globals.pickups.FREEZE: false,
 	globals.pickups.INVINCIBILITY_VEST: false,
 	}
@@ -39,7 +39,7 @@ func reset():
 	held_pickups[globals.pickups.BOMB_PUNCH] = false
 	held_pickups[globals.pickups.POWER_GLOVE] = false
 	held_pickups[globals.pickups.WALLTHROUGH] = false
-	held_pickups[globals.pickups.PIERCING] = bomb_types.PIERCING
+	held_pickups[globals.pickups.PIERCING] = false
 	held_pickups[globals.pickups.FREEZE] = false
 	held_pickups[globals.pickups.INVINCIBILITY_VEST] = false
 
@@ -78,7 +78,7 @@ func add(pickup_type: int, virus_type: int = 0):
 		globals.pickups.WALLTHROUGH:
 			held_pickups[pickup_type] = true
 		globals.pickups.PIERCING:
-			held_pickups.bomb_type = bomb_types.PIERCING
+			held_pickups[globals.pickups.PIERCING] = true
 		globals.pickups.FREEZE:
 			held_pickups[pickup_type] = true
 		globals.pickups.INVINCIBILITY_VEST:
