@@ -49,7 +49,9 @@ func _physics_update(delta):
 func get_next_pos() -> bool:
 	var old_movement_vector: Vector2 = self.enemy.movement_vector
 	for i in range(0, 3): #Try each direction
-		self.next_position = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.enemy.position) + self.enemy.movement_vector)
+		print("enemy_pos:", self.enemy.position)
+		self.next_position = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.enemy.position) + Vector2i(self.enemy.movement_vector))
+		print("next_pos", self.next_position)
 		if(world_data.is_tile(world_data.tiles.EMPTY, self.next_position)): return true
 		self.enemy.movement_vector = Vector2(-self.enemy.movement_vector.y, self.enemy.movement_vector.x) #rotate pi/2 CW
 	self.enemy.movement_vector = old_movement_vector

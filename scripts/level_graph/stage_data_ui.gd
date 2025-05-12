@@ -106,7 +106,7 @@ func write_to_resources(enemy_table: EnemyTable, spawnpoint_table: SpawnpointTab
 				breakable_table.append(tile_pos, tile.sub_type, tile.probability)
 			tile_type.ENEMY:
 				if tile.sub_type != "":
-					enemy_table.append(tile_pos, tile.sub_type, StageNode.get_path_to_scene(tile.sub_type, enemy_subfolders[tile.sub_type], true), tile.probability)
+					enemy_table.append(tile_pos, tile.sub_type, StageNode.get_path_to_scene(tile.sub_type, ENEMY_SCENE_DIR, enemy_subfolders[tile.sub_type], true), tile.probability)
 			tile_type.SPAWNPOINT:
 				spawnpoint_table.append(tile_pos, tile.probability)
 

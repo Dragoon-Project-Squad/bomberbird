@@ -3,3 +3,9 @@ class_name DetectionHandler extends Node2D
 
 func check_for_priority_target():
 	return false #Type A is no target hence we always just return false
+
+func on():
+	pass # Type A doesn't do anything anyway
+
+func off():
+	pass # Type A doesn't do anything anyway

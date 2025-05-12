@@ -18,3 +18,6 @@ func _update(_delta : float) -> void:
 
 func _physics_update(_delta : float) -> void:
 	pass
+
+func _on_new_stage():
+	pass

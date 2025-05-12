@@ -130,7 +130,7 @@ func enable(
 	if is_multiplayer_authority():
 		if !globals.game.players_are_spawned: _spawn_player()
 		else: _place_players.rpc()
-		# _spawn_enemies() raaaah unimplemented methods
+		_spawn_enemies.rpc()
 	_generate_breakables(breakable_table)
 
 	world_data.finish_init()
@@ -150,9 +150,26 @@ func reset():
 func _spawn_unbreakables(_unbreakable_table: UnbreakableTable):
 	pass
 	
-## used to spawn the enemies given in enemy_table (NOT YET IMPLEMENTED)	
+## used to spawn the enemies given in enemy_table
+@rpc("call_local")
 func _spawn_enemies():
+	if(!is_multiplayer_authority()): return 1
 	assert(enemy_table, "enemy table is null but trying to spawn exits")
+	var enemy_dict: Dictionary = {}
+	# count enemies
+	enemy_table.enemies.map(
+		func (e: Dictionary):
+			var whole_path: String = e.path + "/" + e.file
+			if !enemy_dict.has(whole_path): enemy_dict[whole_path] = 1
+			else: enemy_dict[whole_path] += 1
+			)
+	# place enemies
+	var enemys: Dictionary = globals.game.enemy_pool.request_group(enemy_dict);
+	enemy_table.enemies.map(
+		func (e: Dictionary):
+			var whole_path: String = e.path + "/" + e.file
+			enemys[whole_path].pop_front().place.rpc(world_data.tile_map.map_to_local(e.coords), whole_path)
+			)
 
 ## Asserts that properties of the world are set correctly
 func _asserting_world():

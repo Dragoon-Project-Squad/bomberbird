@@ -83,7 +83,21 @@ func start():
 		0,
 		_stage_lookahead,
 	)
+	# using the bfs fold function find the maximal number of every enemy type used per stage
+	var max_enemy_dict: Dictionary = GraphHelper.bfs_fold(
+		stage_data_arr,
+		{},
+		func (curr_dict: Dictionary, s: StageNodeData):
+			var enemy_dict: Dictionary = s.enemy_resource.get_enemy_dictionary()
+			for enemy_path in enemy_dict:
+				if !curr_dict.has(enemy_path): curr_dict[enemy_path] = len(enemy_dict[enemy_path])
+				else: curr_dict[enemy_dict] = max(curr_dict[enemy_path], len(enemy_dict[enemy_path]))
+			return curr_dict,
+		func (s: StageNodeData): return s.children,
+		0,
+	)
 
+	enemy_pool.initialize(max_enemy_dict)
 	stage_handler.load_stages(init_stage_set)
 	stage_handler.set_stage(stage_data_arr[0].selected_scene_path + "/" + stage_data_arr[0].selected_scene_file)
 	stage = stage_handler.get_stage()
