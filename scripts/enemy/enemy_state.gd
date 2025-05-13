@@ -4,7 +4,6 @@ signal state_changed
 
 var enemy: Enemy
 var world: World
-var idle: bool
 
 # Overwrite "_" functions as needed
 func _enter() -> void:

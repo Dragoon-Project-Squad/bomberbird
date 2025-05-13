@@ -44,13 +44,11 @@ func _on_state_changed(state, new_state):
 	current_state = next_state
 
 func enable():
-	print("enabled_state")
 	if current_state: current_state._exit()
 	enabled_state._enter();
 	current_state = enabled_state
 
 func disable():
-	print("disabled_state")
 	if current_state: current_state._exit()
 	disabled_state._enter();
 	current_state = disabled_state

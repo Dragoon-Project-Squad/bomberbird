@@ -36,12 +36,12 @@ func get_next_pos() -> Vector2:
 
 	var valid_pos_arr: Array[Vector2] = []
 	var temp_movement_vector: Vector2 = self.enemy.movement_vector if self.enemy.movement_vector != Vector2.ZERO else Vector2.RIGHT
-	var do_backtracking: bool = false
 	for i in range(0, 4): #Try each direction
 		var pos: Vector2 = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.enemy.position) + Vector2i(temp_movement_vector))
 		if(world_data.is_out_of_bounds(pos) == -1 && world_data.is_tile(world_data.tiles.EMPTY, pos)): 
-			if i != 2 || do_backtracking: valid_pos_arr.append(pos)
-		elif i == 0: do_backtracking = true
+			if i == 0: return pos
+			if i == 2: return pos # this implements the main behaviour of type 3 always U-turn if possible
+			valid_pos_arr.append(pos)
 		temp_movement_vector = Vector2(-temp_movement_vector.y, temp_movement_vector.x) #rotate pi/2 CW
 
 	if len(valid_pos_arr) == 0: return self.enemy.position

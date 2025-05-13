@@ -7,7 +7,7 @@ class_name Enemy extends CharacterBody2D
 @onready var hitbox = $Hitbox
 
 @export_group("Enemy Settings")
-@export var movement_speed: float = 50.0
+@export var movement_speed: float = 30.0
 @export_group("Multiplayer Variables")
 @export var movement_vector = Vector2(0,0)
 @export var synced_position := Vector2()
@@ -43,6 +43,7 @@ func update_animation(direction: Vector2):
 @rpc("call_local")
 func place(pos: Vector2, path: String):
 	if(!is_multiplayer_authority()): return 1
+	await get_tree().create_timer(0.2).timeout
 	hitbox.set_deferred("disabled", 0)
 	self.show()
 	self.anim_player.play("base_enemy/standing")

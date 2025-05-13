@@ -1,14 +1,15 @@
-[gd_scene load_steps=20 format=3 uid="uid://bf5kbfse4ev5"]
+[gd_scene load_steps=21 format=3 uid="uid://dge6qedq441yr"]
 
-[ext_resource type="Script" uid="uid://dibr3o26b8gcx" path="res://scripts/enemy/enemy.gd" id="1_n763p"]
-[ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_ylyo2"]
-[ext_resource type="Texture2D" uid="uid://bh1l2e7chjr7x" path="res://assets/player/longgoon_walk.png" id="3_2t7ph"]
-[ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_n2ebm"]
-[ext_resource type="Script" uid="uid://do40x4uveegjg" path="res://scripts/enemy/detection_handler_type_A.gd" id="5_i1su5"]
-[ext_resource type="Script" uid="uid://bct3b1gr0upgg" path="res://scripts/enemy/enemy_state_machine.gd" id="5_n2ebm"]
-[ext_resource type="Script" uid="uid://bg5lo5t5l74do" path="res://scripts/enemy/enemy_wander_type_2.gd" id="6_i1su5"]
-[ext_resource type="Script" uid="uid://csvsv8imec47s" path="res://scripts/enemy/enemy_target_type_A.gd" id="7_hwcqj"]
-[ext_resource type="Script" uid="uid://xpsl7bku1ra4" path="res://scripts/enemy/enemy_state.gd" id="9_hwcqj"]
+[ext_resource type="Script" uid="uid://dibr3o26b8gcx" path="res://scripts/enemy/enemy.gd" id="1_8rxir"]
+[ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_fmktr"]
+[ext_resource type="Texture2D" uid="uid://qrwh86jvxmjp" path="res://assets/player/tomatodoki_walk.png" id="3_8rxir"]
+[ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_gggu0"]
+[ext_resource type="Script" uid="uid://do40x4uveegjg" path="res://scripts/enemy/detection_handler_type_A.gd" id="5_b7vqu"]
+[ext_resource type="Script" uid="uid://bct3b1gr0upgg" path="res://scripts/enemy/enemy_state_machine.gd" id="6_5uj8h"]
+[ext_resource type="Script" uid="uid://coxnx1n60xt62" path="res://scripts/enemy/enemy_wander_type_4.gd" id="7_8rxir"]
+[ext_resource type="Script" uid="uid://csvsv8imec47s" path="res://scripts/enemy/enemy_target_type_A.gd" id="8_vvule"]
+[ext_resource type="Script" uid="uid://xpsl7bku1ra4" path="res://scripts/enemy/enemy_state.gd" id="9_ecogq"]
+[ext_resource type="Texture2D" uid="uid://jog1koyue4lr" path="res://assets/fallingsprite.png" id="10_tykd3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_i1su5"]
 radius = 15.9
@@ -154,6 +155,23 @@ tracks/5/keys = {
 "values": [false]
 }
 
+[sub_resource type="Animation" id="Animation_h4c3k"]
+resource_name = "standing"
+length = 0.001
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
 [sub_resource type="Animation" id="Animation_n2ebm"]
 resource_name = "walk_down"
 loop_mode = 1
@@ -221,23 +239,6 @@ tracks/0/keys = {
 "values": [6, 7, 8, 9, 10, 11]
 }
 
-[sub_resource type="Animation" id="Animation_h4c3k"]
-resource_name = "standing"
-length = 0.001
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ylyo2"]
 _data = {
 &"RESET": SubResource("Animation_hwcqj"),
@@ -253,18 +254,18 @@ _data = {
 
 [node name="BaseEnemy" type="CharacterBody2D"]
 texture_filter = 1
-collision_layer = 2
-collision_mask = 15
-script = ExtResource("1_n763p")
+collision_layer = 32
+collision_mask = 13
+script = ExtResource("1_8rxir")
 
 [node name="shadowsprite" type="Sprite2D" parent="."]
 position = Vector2(0, 8)
 scale = Vector2(1, 0.5)
-texture = ExtResource("2_ylyo2")
+texture = ExtResource("2_fmktr")
 
 [node name="sprite" type="Sprite2D" parent="."]
 position = Vector2(0.0750351, 6.23615)
-texture = ExtResource("3_2t7ph")
+texture = ExtResource("3_8rxir")
 offset = Vector2(-0.075, -8.536)
 hframes = 6
 vframes = 4
@@ -273,14 +274,14 @@ vframes = 4
 visible = false
 position = Vector2(-1.07288e-06, 3.57628e-07)
 scale = Vector2(0.333333, 0.351648)
-texture = ExtResource("4_n2ebm")
+texture = ExtResource("4_gggu0")
 hframes = 9
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_i1su5")
 
 [node name="DetectionHandler" type="Node2D" parent="."]
-script = ExtResource("5_i1su5")
+script = ExtResource("5_b7vqu")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -292,17 +293,22 @@ root_path = NodePath("../StateMachine")
 replication_config = SubResource("SceneReplicationConfig_hwcqj")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("enabled_state", "disabled_state")]
-script = ExtResource("5_n2ebm")
+script = ExtResource("6_5uj8h")
 enabled_state = NodePath("Wander")
 disabled_state = NodePath("Disabled")
 
 [node name="Wander" type="Node" parent="StateMachine"]
-script = ExtResource("6_i1su5")
+script = ExtResource("7_8rxir")
 
 [node name="Target" type="Node" parent="StateMachine"]
-script = ExtResource("7_hwcqj")
+script = ExtResource("8_vvule")
 
 [node name="Ability" type="Node" parent="StateMachine"]
 
 [node name="Disabled" type="Node" parent="StateMachine"]
-script = ExtResource("9_hwcqj")
+script = ExtResource("9_ecogq")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+top_level = true
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("10_tykd3")

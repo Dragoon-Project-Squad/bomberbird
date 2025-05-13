@@ -1,5 +1,5 @@
 extends EnemyState
-## Implements the wander behavior '2' described in https://gamefaqs.gamespot.com/snes/562899-super-bomberman-5/faqs/79457
+## Implements the wander behavior '4' described in https://gamefaqs.gamespot.com/snes/562899-super-bomberman-5/faqs/79457
 
 const ARRIVAL_TOLARANCE: float = 1
 
@@ -34,26 +34,29 @@ func _physics_update(_delta):
 
 func get_next_pos() -> Vector2:
 
-	var valid_pos_arr: Array[Vector2] = []
+	var valid_pos_arr: Dictionary = {}
 	var temp_movement_vector: Vector2 = self.enemy.movement_vector if self.enemy.movement_vector != Vector2.ZERO else Vector2.RIGHT
-	var do_backtracking: bool = false
 	for i in range(0, 4): #Try each direction
 		var pos: Vector2 = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.enemy.position) + Vector2i(temp_movement_vector))
 		if(world_data.is_out_of_bounds(pos) == -1 && world_data.is_tile(world_data.tiles.EMPTY, pos)): 
-			if i != 2 || do_backtracking: valid_pos_arr.append(pos)
-		elif i == 0: do_backtracking = true
+			valid_pos_arr[i] = pos
 		temp_movement_vector = Vector2(-temp_movement_vector.y, temp_movement_vector.x) #rotate pi/2 CW
 
 	if len(valid_pos_arr) == 0: return self.enemy.position
-	# weigthed picking of random direction (weigthed in favor or the rightmost choice)
-	var rand_val = _rng.randi_range(1, 2 ** len(valid_pos_arr))
-	for i in range(len(valid_pos_arr)):
-		if 2 ** (len(valid_pos_arr) - 1 - i) <= rand_val: 
-			self.enemy.get_node("Sprite2D").position = valid_pos_arr[i]
-			return valid_pos_arr[i]
-	push_error("get_next_pos does not return a valid vector")
+	# This is stupit but idk better
+	if valid_pos_arr.has(1) && valid_pos_arr.has(3):
+		match _rng.randi_range(0, 1):
+			0: return valid_pos_arr[1]
+			1: return valid_pos_arr[3]
+	elif valid_pos_arr.has(3):
+		return valid_pos_arr[3]
+	elif valid_pos_arr.has(1):
+		return valid_pos_arr[1]
+	elif valid_pos_arr.has(0):
+		return valid_pos_arr[0]
+	else:
+		return valid_pos_arr[2]
 	return self.enemy.position
-
 
 func check_arrival() -> bool:
 	if self.enemy.position.distance_to(self.next_position) <= ARRIVAL_TOLARANCE:
