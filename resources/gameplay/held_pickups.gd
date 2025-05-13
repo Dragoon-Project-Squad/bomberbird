@@ -67,9 +67,9 @@ func add(pickup_type: int, virus_type: int = 0):
 		globals.pickups.FULL_FIRE:
 			held_pickups[pickup_type] = true
 		globals.pickups.BOMB_PUNCH:
-			held_pickups[pickup_type] = true
+			held_pickups[globals.pickups.BOMB_PUNCH] = true
 		globals.pickups.POWER_GLOVE:
-			held_pickups[pickup_type] = true
+			held_pickups[globals.pickups.POWER_GLOVE] = true
 		globals.pickups.KICK:
 			held_pickups[globals.pickups.GENERIC_EXCLUSIVE] = exclusive.KICK
 		globals.pickups.BOMBTHROUGH:
