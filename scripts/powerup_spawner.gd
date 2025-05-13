@@ -8,6 +8,7 @@ const WALL_CLIP_PICKUP_SCENE_PATH : String = "res://scenes/pickups/wall_clip.tsc
 const BOMB_CLIP_PICKUP_SCENE_PATH : String = "res://scenes/pickups/bomb_clip.tscn"
 const PIERCING_BOMB_PICKUP_SCENE_PATH : String = "res://scenes/pickups/piercing_bomb.tscn"
 const LAND_MINE_PICKUP_SCENE_PATH : String = "res://scenes/pickups/land_mine.tscn"
+const THROW_BOMB_PICKUP_SCENE_PATH : String = "res://scenes/pickups/throw_bomb.tscn"
 const PICKUP_SPAWN_RATE = 0.1
 
 
@@ -37,6 +38,8 @@ func spawn_chosen_pickup(ptype: int) -> Pickup:
 			spawned_pickup = preload(PIERCING_BOMB_PICKUP_SCENE_PATH).instantiate()
 		globals.pickups.MINE:
 			spawned_pickup = preload(LAND_MINE_PICKUP_SCENE_PATH).instantiate()
+		globals.pickups.POWER_GLOVE:
+			spawned_pickup = preload(THROW_BOMB_PICKUP_SCENE_PATH).instantiate()
 		_:
 			push_error("invalid pickup type passed to the spawn function")
 			spawned_pickup = preload(EXPLOSION_BOOST_PICKUP_SCENE_PATH).instantiate()

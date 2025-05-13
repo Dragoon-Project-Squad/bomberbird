@@ -106,6 +106,27 @@ func punch_bomb(direction: Vector2i):
 
 	bomb.do_punch.rpc(direction)
 
+func throw_bomb(direction: Vector2i):
+	if !is_multiplayer_authority():
+		return
+	if !pickups.held_pickups[globals.pickups.POWER_GLOVE]:
+		return
+	
+	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
+	var bomb: BombRoot
+	for body in bodies:
+		if body is Bomb:
+			bomb = body.get_parent()
+			break
+	
+	if bomb == null:
+		return
+		
+	if direction == Vector2i.MIN:
+		pass
+	else:
+		bomb.do_punch.rpc(direction)
+
 ## places a bomb if the current position is valid
 func place_bomb():
 	if(world_data.is_tile(world_data.tiles.BOMB, self.global_position)): return
