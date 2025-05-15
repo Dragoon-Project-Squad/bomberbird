@@ -105,7 +105,7 @@ autoplay = true
 bus = &"Music"
 parameters/looping = true
 
-[connection signal="pressed" from="ButtonBox/Singleplayer" to="." method="_on_singleplayer_pressed"]
+[connection signal="pressed" from="ButtonBox/Singleplayer" to="." method="_on_single_player_pressed"]
 [connection signal="pressed" from="ButtonBox/Multiplayer" to="." method="_on_multiplayer_pressed"]
 [connection signal="pressed" from="ButtonBox/Options" to="." method="_on_options_pressed"]
 [connection signal="options_menu_exited" from="OptionsMenu" to="." method="_on_options_menu_options_menu_exited"]

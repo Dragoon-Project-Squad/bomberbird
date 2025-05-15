@@ -46,7 +46,3 @@ func _on_options_pressed() -> void:
 func _on_options_menu_options_menu_exited() -> void:
 	reveal_main_menu()
 	unpause_main_menu_music()
-
-
-func _on_singleplayer_pressed() -> void:
-	pass # Replace with function body.
