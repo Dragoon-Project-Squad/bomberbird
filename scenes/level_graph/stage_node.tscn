@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://b8dbifwnhhigl"]
+[gd_scene load_steps=6 format=3 uid="uid://b8dbifwnhhigl"]
 
 [ext_resource type="Script" uid="uid://c1rwqjvquyov8" path="res://scripts/level_graph/stage_node.gd" id="1_0h5ea"]
 [ext_resource type="PackedScene" uid="uid://c44mtjtbl10s2" path="res://scenes/level_graph/stage_data_ui.tscn" id="2_p3l6l"]
+[ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="2_vd0m5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0h5ea"]
 bg_color = Color(1, 0.172549, 0.12549, 0.509804)
@@ -117,13 +118,17 @@ rounded = true
 alignment = 3
 prefix = "y:"
 
-[node name="RemoveExitButton" type="Button" parent="ExitBoiler"]
+[node name="RemoveExitButton" type="Button" parent="ExitBoiler" groups=["ui_button"]]
 layout_mode = 2
 text = "Remove"
+script = ExtResource("2_vd0m5")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
 
-[node name="AddExitButton" type="Button" parent="."]
+[node name="AddExitButton" type="Button" parent="." groups=["ui_button"]]
 layout_mode = 2
 text = "Add Exit"
+script = ExtResource("2_vd0m5")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
 
 [node name="TabContainer" type="TabContainer" parent="."]
 custom_minimum_size = Vector2(0, 200)

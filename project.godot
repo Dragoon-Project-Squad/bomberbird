@@ -27,6 +27,7 @@ astargrid_handler="*res://autoloads/astargrid_handler.gd"
 SettingsSignalBus="*res://autoloads/settings_signal_bus.gd"
 SettingsContainer="*res://autoloads/settings_data_container.gd"
 SaveManager="*res://autoloads/save_manager.gd"
+AudioManager="*res://autoloads/audio_manager.gd"
 
 [display]
 
@@ -38,6 +39,7 @@ player="human players"
 ai_player="cpu players"
 bombstop="stops bombs on impact"
 thrown_bomb_bounces="When a thrown bomb land on a member of this group, it causes the bomb to bounce further"
+ui_button=""
 
 [input]
 

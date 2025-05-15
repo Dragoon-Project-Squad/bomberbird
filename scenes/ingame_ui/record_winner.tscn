@@ -1,8 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://mjwddadi7v4o"]
+[gd_scene load_steps=4 format=3 uid="uid://mjwddadi7v4o"]
 
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="1_jmf8r"]
 [ext_resource type="Script" uid="uid://bxg0l2q7coj01" path="res://scripts/ui/ingame_ui/record_winner.gd" id="2_k3rde"]
-
+[ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="3_sh22i"]
 
 [node name="GameEndState" type="Control"]
 layout_mode = 3
@@ -11,7 +11,7 @@ offset_right = 1152.0
 offset_bottom = 648.0
 script = ExtResource("2_k3rde")
 
-[node name="ExitGame" type="Button" parent="."]
+[node name="ExitGame" type="Button" parent="." groups=["ui_button"]]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -28,6 +28,8 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 theme_override_fonts/font = ExtResource("1_jmf8r")
 text = "EXIT GAME"
+script = ExtResource("3_sh22i")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
 
 [node name="Winner" type="Label" parent="."]
 z_index = 5

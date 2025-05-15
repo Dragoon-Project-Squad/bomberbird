@@ -33,7 +33,7 @@ max_value = 1.0
 step = 0.05
 value = 1.0
 
-[node name="FreeDraw" type="Button" parent="Header"]
+[node name="FreeDraw" type="Button" parent="Header" groups=["ui_button"]]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 toggle_mode = true
@@ -41,21 +41,21 @@ button_pressed = true
 button_group = ExtResource("2_xu0k1")
 text = "D"
 
-[node name="LineDraw" type="Button" parent="Header"]
+[node name="LineDraw" type="Button" parent="Header" groups=["ui_button"]]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("2_xu0k1")
 text = "L"
 
-[node name="RectDraw" type="Button" parent="Header"]
+[node name="RectDraw" type="Button" parent="Header" groups=["ui_button"]]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("2_xu0k1")
 text = "R"
 
-[node name="Eraser" type="Button" parent="Header"]
+[node name="Eraser" type="Button" parent="Header" groups=["ui_button"]]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 toggle_mode = true

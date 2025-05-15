@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://drj31ll2cuftl"]
+[gd_scene load_steps=7 format=3 uid="uid://drj31ll2cuftl"]
 
 [ext_resource type="Script" uid="uid://chv663cf634ry" path="res://scripts/ui/options_menu/options.gd" id="1_rs434"]
 [ext_resource type="Texture2D" uid="uid://bsu1o1vymo51p" path="res://assets/aesprite/Domber doki cenario1.png" id="2_mqvme"]
 [ext_resource type="Theme" uid="uid://m30a0nncwbm0" path="res://assets/styles/options_menu.tres" id="3_4bifj"]
 [ext_resource type="PackedScene" uid="uid://cuslig6cjmt18" path="res://scenes/options_menu/settings_tab_container.tscn" id="4_pbji6"]
 [ext_resource type="AudioStream" uid="uid://bsv6xvb7bqh1h" path="res://sound/mus/config_dragoon_cafe.ogg" id="5_7inox"]
+[ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="5_8eue1"]
 
 [node name="OptionsMenu" type="Control"]
 layout_mode = 3
@@ -48,13 +49,15 @@ vertical_alignment = 1
 [node name="SettingsTabContainer" parent="MarginContainer/VBoxContainer" instance=ExtResource("4_pbji6")]
 layout_mode = 2
 
-[node name="Exit" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="Exit" type="Button" parent="MarginContainer/VBoxContainer" groups=["ui_button"]]
 custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 theme = ExtResource("3_4bifj")
 text = "Exit"
+script = ExtResource("5_8eue1")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_7inox")
