@@ -2,12 +2,12 @@ class_name Enemy extends CharacterBody2D
 
 
 @onready var anim_player = $AnimationPlayer
-@onready var detection_handler = $DetectionHandler
-@onready var statemachine = $StateMachine
+@onready var statemachine: Node= $StateMachine
 @onready var hitbox = $Hitbox
 
 @export_group("Enemy Settings")
 @export var movement_speed: float = 30.0
+@export var detection_handler: Node2D
 @export_group("Multiplayer Variables")
 @export var movement_vector = Vector2(0,0)
 @export var synced_position := Vector2()
@@ -16,11 +16,14 @@ var current_anim: String = ""
 var enemy_path: String = ""
 
 func _ready() -> void:
+	assert(detection_handler, "please make sure a detectionhandler is selected for the enemy: " + self.name)
+	assert(detection_handler.has_method("check_for_priority_target"), "please make sure the detectionhandler has a method called check_for_priority_target")
+	assert(detection_handler.has_method("on"), "please make sure the detectionhandler has a method called on")
+	assert(detection_handler.has_method("off"), "please make sure the detectionhandler has a method called off")
 	self.disable()
 
-func _physics_process(delta):
-	statemachine.current_state._physics_update(delta)
-	# Also update the animation based on the last known player input state
+func _physics_process(_delta):
+	# update the animation based on the last known player input state
 	update_animation(movement_vector.normalized())
 
 func update_animation(direction: Vector2):

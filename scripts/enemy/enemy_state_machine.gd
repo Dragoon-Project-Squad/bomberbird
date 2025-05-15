@@ -1,10 +1,11 @@
 class_name EnemyStateMachine extends Node
 
 @export var enabled_state: EnemyState
-@export var disabled_state : EnemyState
+@export var disabled_state: EnemyState
 
-var current_state : EnemyState
-var states : Dictionary = {}
+var current_state: EnemyState
+var states: Dictionary = {}
+var target: Node2D = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -20,7 +21,6 @@ func _ready():
 		disabled_state._enter()
 		current_state = disabled_state 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if current_state:
 		current_state._update(delta)
@@ -29,19 +29,21 @@ func _physics_process(delta):
 	if current_state:
 		current_state._physics_update(delta)
 
-func _on_state_changed(state, new_state):
+func _on_state_changed(state: EnemyState, new_state: String) -> void:
 	if(state != current_state):
+		push_error("enemy state machine failed as a state tried to change that is not the current state")
 		return
 	
 	var next_state = states.get(new_state.to_lower())
-	if !new_state:
+	if !next_state:
+		push_error("enemy state machine failed state: " + new_state + " does not exists")
 		return
 	
 	if current_state:
 		current_state._exit()
 	
-	next_state._enter()
 	current_state = next_state
+	next_state._enter()
 
 func enable():
 	if current_state: current_state._exit()

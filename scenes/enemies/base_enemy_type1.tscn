@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://do40x4uveegjg" path="res://scripts/enemy/detection_handler_type_A.gd" id="5_d2by1"]
 [ext_resource type="Script" uid="uid://bct3b1gr0upgg" path="res://scripts/enemy/enemy_state_machine.gd" id="6_vpqjr"]
 [ext_resource type="Script" uid="uid://dfa6r3k8yvrsi" path="res://scripts/enemy/enemy_wander_type_1.gd" id="7_0st1u"]
-[ext_resource type="Script" uid="uid://csvsv8imec47s" path="res://scripts/enemy/enemy_target_type_A.gd" id="8_hjqox"]
+[ext_resource type="Script" uid="uid://vwdld30j7ykj" path="res://scripts/enemy/enemy_no_ability.gd" id="8_a0h30"]
 [ext_resource type="Script" uid="uid://xpsl7bku1ra4" path="res://scripts/enemy/enemy_state.gd" id="9_f83yc"]
 [ext_resource type="Texture2D" uid="uid://jog1koyue4lr" path="res://assets/fallingsprite.png" id="10_5qlqk"]
 
@@ -252,11 +252,12 @@ _data = {
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hwcqj"]
 
-[node name="BaseEnemy" type="CharacterBody2D"]
+[node name="BaseEnemy" type="CharacterBody2D" node_paths=PackedStringArray("detection_handler")]
 texture_filter = 1
 collision_layer = 32
 collision_mask = 13
 script = ExtResource("1_a0h30")
+detection_handler = NodePath("DetectionHandler_A")
 
 [node name="shadowsprite" type="Sprite2D" parent="."]
 position = Vector2(0, 8)
@@ -280,7 +281,7 @@ hframes = 9
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_i1su5")
 
-[node name="DetectionHandler" type="Node2D" parent="."]
+[node name="DetectionHandler_A" type="Node2D" parent="."]
 script = ExtResource("5_d2by1")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -300,10 +301,8 @@ disabled_state = NodePath("Disabled")
 [node name="Wander" type="Node" parent="StateMachine"]
 script = ExtResource("7_0st1u")
 
-[node name="Target" type="Node" parent="StateMachine"]
-script = ExtResource("8_hjqox")
-
 [node name="Ability" type="Node" parent="StateMachine"]
+script = ExtResource("8_a0h30")
 
 [node name="Disabled" type="Node" parent="StateMachine"]
 script = ExtResource("9_f83yc")

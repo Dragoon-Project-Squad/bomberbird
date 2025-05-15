@@ -63,4 +63,4 @@ func check_arrival() -> bool:
 
 func detect():
 	if(self.enemy.detection_handler.check_for_priority_target()):
-		state_changed.emit(self, "target")
+		state_changed.emit(self, "ability")

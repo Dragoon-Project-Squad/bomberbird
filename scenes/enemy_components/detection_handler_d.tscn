@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cmqo0m5o7jngg"]
+
+[ext_resource type="Script" uid="uid://cmlwc2j3sfc2y" path="res://scripts/enemy/detection_handler_type_D.gd" id="1_kva50"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kva50"]
+radius = 64.0
+
+[node name="DetectionHandler_D" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_kva50")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_kva50")

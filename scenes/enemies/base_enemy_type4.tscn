@@ -1,13 +1,14 @@
-[gd_scene load_steps=21 format=3 uid="uid://dge6qedq441yr"]
+[gd_scene load_steps=22 format=3 uid="uid://dge6qedq441yr"]
 
 [ext_resource type="Script" uid="uid://dibr3o26b8gcx" path="res://scripts/enemy/enemy.gd" id="1_8rxir"]
 [ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_fmktr"]
 [ext_resource type="Texture2D" uid="uid://qrwh86jvxmjp" path="res://assets/player/tomatodoki_walk.png" id="3_8rxir"]
 [ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_gggu0"]
-[ext_resource type="Script" uid="uid://do40x4uveegjg" path="res://scripts/enemy/detection_handler_type_A.gd" id="5_b7vqu"]
+[ext_resource type="PackedScene" uid="uid://cmqo0m5o7jngg" path="res://scenes/enemy_components/detection_handler_d.tscn" id="5_8rxir"]
 [ext_resource type="Script" uid="uid://bct3b1gr0upgg" path="res://scripts/enemy/enemy_state_machine.gd" id="6_5uj8h"]
+[ext_resource type="Script" uid="uid://cmlwc2j3sfc2y" path="res://scripts/enemy/detection_handler_type_D.gd" id="6_fmktr"]
 [ext_resource type="Script" uid="uid://coxnx1n60xt62" path="res://scripts/enemy/enemy_wander_type_4.gd" id="7_8rxir"]
-[ext_resource type="Script" uid="uid://csvsv8imec47s" path="res://scripts/enemy/enemy_target_type_A.gd" id="8_vvule"]
+[ext_resource type="Script" uid="uid://vwdld30j7ykj" path="res://scripts/enemy/enemy_no_ability.gd" id="8_8rxir"]
 [ext_resource type="Script" uid="uid://xpsl7bku1ra4" path="res://scripts/enemy/enemy_state.gd" id="9_ecogq"]
 [ext_resource type="Texture2D" uid="uid://jog1koyue4lr" path="res://assets/fallingsprite.png" id="10_tykd3"]
 
@@ -252,11 +253,12 @@ _data = {
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hwcqj"]
 
-[node name="BaseEnemy" type="CharacterBody2D"]
+[node name="BaseEnemy" type="CharacterBody2D" node_paths=PackedStringArray("detection_handler")]
 texture_filter = 1
 collision_layer = 32
 collision_mask = 13
 script = ExtResource("1_8rxir")
+detection_handler = NodePath("DetectionHandler_D")
 
 [node name="shadowsprite" type="Sprite2D" parent="."]
 position = Vector2(0, 8)
@@ -280,8 +282,8 @@ hframes = 9
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_i1su5")
 
-[node name="DetectionHandler" type="Node2D" parent="."]
-script = ExtResource("5_b7vqu")
+[node name="DetectionHandler_D" parent="." instance=ExtResource("5_8rxir")]
+script = ExtResource("6_fmktr")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -300,10 +302,8 @@ disabled_state = NodePath("Disabled")
 [node name="Wander" type="Node" parent="StateMachine"]
 script = ExtResource("7_8rxir")
 
-[node name="Target" type="Node" parent="StateMachine"]
-script = ExtResource("8_vvule")
-
 [node name="Ability" type="Node" parent="StateMachine"]
+script = ExtResource("8_8rxir")
 
 [node name="Disabled" type="Node" parent="StateMachine"]
 script = ExtResource("9_ecogq")
