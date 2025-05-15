@@ -21,13 +21,13 @@ class_name StageCellUI extends ReferenceRect
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.BOMB_UP }:
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(48, 24, 24, 24)},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.BOMB_PUNCH }:
-		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(120, 0, 24, 24)},
-	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.FULL_FIRE }:
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(144, 0, 24, 24)},
+	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.FULL_FIRE }:
+		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(168, 0, 24, 24)},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.FIRE_UP }:
-		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(168, 24, 24, 24)},
+		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(192, 24, 24, 24)},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.SPEED_UP }:
-		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(192, 25, 24, 24)},
+		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(216, 24, 24, 24)},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": -1 }:
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": unimplementet_texture, "sub_texture_area": null},
 }
