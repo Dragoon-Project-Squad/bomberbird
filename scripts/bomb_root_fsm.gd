@@ -88,9 +88,10 @@ func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) 
 	var bomb_authority: Node2D = state_map[state]
 	bomb_authority.set_explosion_width_and_size(min(boost + bomb_authority.explosion_width, bomb_authority.MAX_EXPLOSION_WIDTH))
 	bomb_authority.set_addons(addons)
-	bomb_authority.place(bombPos, fuse_time_passed)
+	bomb_authority.place(bombPos, fuse_time_passed, force_collision)
+	bomb_authority.place(bombPos, fuse_time_passed, force_collision)
 	world_data.set_tile(world_data.tiles.BOMB, self.global_position)
-	if force_collision: bomb_authority._on_detect_area_body_exit(bomb_owner) # This sucks but i haven't found a better way to solve this... I think we need to rework how bombs stay collision less for the placing player at some point
+	if force_collision: return 0
 	return 0
 
 @rpc("call_local")

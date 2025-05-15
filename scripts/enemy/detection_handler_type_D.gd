@@ -11,7 +11,6 @@ func check_for_priority_target():
 		enemy.statemachine.target = null
 		return false
 
-	print("WYHWYWYWYHW")
 	for body in self.get_overlapping_bodies():
 		if !(body is Player): continue
 		self.enemy.statemachine.target = body

@@ -14,6 +14,7 @@ class_name Enemy extends CharacterBody2D
 
 var current_anim: String = ""
 var enemy_path: String = ""
+var stunned: bool = false
 
 func _ready() -> void:
 	assert(detection_handler, "please make sure a detectionhandler is selected for the enemy: " + self.name)
@@ -24,6 +25,7 @@ func _ready() -> void:
 
 func _physics_process(_delta):
 	# update the animation based on the last known player input state
+	if stunned: return
 	update_animation(movement_vector.normalized())
 
 func update_animation(direction: Vector2):
@@ -41,7 +43,13 @@ func update_animation(direction: Vector2):
 		
 	if new_anim != current_anim:
 		current_anim = new_anim
-		$AnimationPlayer.play("base_enemy/" + current_anim)
+		$AnimationPlayer.play("enemy/" + current_anim)
+
+func do_stun():
+	stunned = true
+	$AnimationPlayer.play("enemy/stunned")
+	await $AnimationPlayer.animation_finished
+	stunned = false
 
 @rpc("call_local")
 func place(pos: Vector2, path: String):
@@ -49,7 +57,7 @@ func place(pos: Vector2, path: String):
 	await get_tree().create_timer(0.2).timeout
 	hitbox.set_deferred("disabled", 0)
 	self.show()
-	self.anim_player.play("base_enemy/standing")
+	self.anim_player.play("enemy/standing")
 	self.position = pos
 	self.enemy_path = path
 	self.detection_handler.on()

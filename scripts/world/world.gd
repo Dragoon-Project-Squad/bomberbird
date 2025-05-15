@@ -130,7 +130,8 @@ func enable(
 	if is_multiplayer_authority():
 		if !globals.game.players_are_spawned: _spawn_player()
 		else: _place_players.rpc()
-		_spawn_enemies.rpc()
+		if enemy_table:
+			_spawn_enemies.rpc()
 	_generate_breakables(breakable_table)
 
 	world_data.finish_init()
@@ -154,7 +155,7 @@ func _spawn_unbreakables(_unbreakable_table: UnbreakableTable):
 @rpc("call_local")
 func _spawn_enemies():
 	if(!is_multiplayer_authority()): return 1
-	assert(enemy_table, "enemy table is null but trying to spawn exits")
+	assert(enemy_table, "enemy table is null but trying to spawn enemies")
 	var enemy_dict: Dictionary = {}
 	# count enemies
 	enemy_table.enemies.map(
@@ -206,7 +207,7 @@ func _set_spawnpoints():
 		if world_data.is_tile(world_data.tiles.UNBREAKABLE, world_data.tile_map.map_to_local(new_spawnpoint)):
 				continue # Skip cells where solid tiles are placed
 		if new_spawnpoint in spawnpoints: continue
-		if new_spawnpoint in enemy_table.get_coords(): continue
+		if enemy_table && (new_spawnpoint in enemy_table.get_coords()): continue
 		spawnpoints.append(new_spawnpoint)
 		remaining_spawnpoints -= 1
 
