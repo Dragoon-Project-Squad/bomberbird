@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://jhdlqsokif5o"]
+[gd_scene load_steps=6 format=3 uid="uid://jhdlqsokif5o"]
 
 [ext_resource type="Script" uid="uid://dlxlkxwbdq3pq" path="res://scripts/ui/lobby/lobby.gd" id="1_jekxk"]
 [ext_resource type="Theme" uid="uid://bgj72vffexht" path="res://assets/styles/panel_theme.tres" id="2_i6yme"]
+[ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="3_i6yme"]
 [ext_resource type="PackedScene" uid="uid://fsg6gwfw5fbi" path="res://scenes/cssmenu/character_select_screen.tscn" id="3_stkcr"]
 [ext_resource type="AudioStream" uid="uid://bsv6xvb7bqh1h" path="res://sound/mus/config_dragoon_cafe.ogg" id="4_2tt0b"]
 
@@ -45,15 +46,17 @@ size_flags_vertical = 0
 text = "Awaiting Players..."
 horizontal_alignment = 1
 
-[node name="Ready" type="Button" parent="Players"]
+[node name="Ready" type="Button" parent="Players" groups=["ui_button"]]
 layout_mode = 0
 offset_left = 68.0
 offset_top = 307.0
 offset_right = 193.0
-offset_bottom = 336.0
+offset_bottom = 345.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "READY!"
+script = ExtResource("3_i6yme")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
 
 [node name="List" type="ItemList" parent="Players"]
 layout_mode = 0
@@ -141,25 +144,29 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "127.0.0.1"
 
-[node name="Host" type="Button" parent="Connect"]
+[node name="Host" type="Button" parent="Connect" groups=["ui_button"]]
 layout_mode = 0
 offset_left = 181.0
 offset_top = 38.0
-offset_right = 246.0
-offset_bottom = 69.0
+offset_right = 251.0
+offset_bottom = 76.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Host"
+script = ExtResource("3_i6yme")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
 
-[node name="Join" type="Button" parent="Connect"]
+[node name="Join" type="Button" parent="Connect" groups=["ui_button"]]
 layout_mode = 0
 offset_left = 181.0
 offset_top = 102.0
 offset_right = 246.0
-offset_bottom = 133.0
+offset_bottom = 140.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Join"
+script = ExtResource("3_i6yme")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
 
 [node name="ErrorLabel" type="Label" parent="Connect"]
 layout_mode = 0
@@ -174,7 +181,7 @@ theme_override_colors/font_color = Color(0.820312, 0.291595, 0.291595, 1)
 [node name="CharacterSelectScreen" parent="." instance=ExtResource("3_stkcr")]
 visible = false
 
-[node name="Start" type="Button" parent="."]
+[node name="Start" type="Button" parent="." groups=["ui_button"]]
 visible = false
 layout_mode = 1
 anchors_preset = 7
@@ -193,8 +200,10 @@ size_flags_vertical = 2
 theme = ExtResource("2_i6yme")
 theme_override_font_sizes/font_size = 46
 text = "START!"
+script = ExtResource("3_i6yme")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
 
-[node name="Back" type="Button" parent="."]
+[node name="Back" type="Button" parent="." groups=["ui_button"]]
 visible = false
 layout_mode = 0
 offset_left = 544.0
@@ -207,6 +216,8 @@ theme = ExtResource("2_i6yme")
 theme_override_colors/font_focus_color = Color(1, 0, 0, 1)
 text = "Exit
 "
+script = ExtResource("3_i6yme")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
 
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
 
