@@ -54,10 +54,12 @@ func disable() -> int:
 func set_bomb_owner(player_id: String):
 	self.bomb_owner = globals.player_manager.get_node(str(player_id))
 
-## sets the addon for piercing
+## sets the addon
 @rpc("call_local")
-func set_pierce_addon(toggle: bool):
-	self.addons["pierce"] = toggle
+func set_bomb_type(type: int):
+	match type:
+		HeldPickups.bomb_types.PIERCING:
+			self.addons["pierce"] = true
 
 ## sets the state to stationary and tells the corresponding state to start processing
 @rpc("call_local")

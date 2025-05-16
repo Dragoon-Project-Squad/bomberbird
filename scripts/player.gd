@@ -114,7 +114,7 @@ func place_bomb():
 	if is_multiplayer_authority():
 		var bomb: BombRoot = bomb_pool.request()
 		bomb.set_bomb_owner.rpc(self.name)
-		bomb.set_pierce_addon.rpc(pickups.held_pickups[globals.pickups.PIERCING])
+		bomb.set_bomb_type.rpc(pickups.held_pickups[globals.pickups.GENERIC_BOMB])
 		bomb.do_place.rpc(bombPos, explosion_boost_count)
 
 ## updates the animation depending on the movement direction
