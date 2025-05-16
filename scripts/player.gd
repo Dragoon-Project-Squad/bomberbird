@@ -100,7 +100,7 @@ func punch_bomb(direction: Vector2i):
 
 	bomb.do_punch.rpc(direction)
 
-## places a bomb iff the current position is valid
+## places a bomb if the current position is valid
 func place_bomb():
 	if(world_data.is_tile(world_data.tiles.BOMB, self.global_position)): return
 	
@@ -114,6 +114,7 @@ func place_bomb():
 	if is_multiplayer_authority():
 		var bomb: BombRoot = bomb_pool.request()
 		bomb.set_bomb_owner.rpc(self.name)
+		bomb.set_bomb_type.rpc(pickups.held_pickups[globals.pickups.GENERIC_BOMB])
 		bomb.do_place.rpc(bombPos, explosion_boost_count)
 
 ## updates the animation depending on the movement direction
@@ -271,7 +272,6 @@ func enable_bombclip():
 func increment_bomb_count():
 	bomb_total = min(bomb_total+1, MAX_BOMBS_OWNABLE)
 	bomb_count = min(bomb_count+1, bomb_total)
-	
 
 @rpc("call_local")
 func return_bomb():
