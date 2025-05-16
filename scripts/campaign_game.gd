@@ -49,7 +49,6 @@ func next_stage(id: int):
 	_exit_spawned_barrier = false
 	stage_has_changed.emit()
 	load_next_stage_set(id)
-	get_tree().create_timer(10).timeout.connect(_check_ending_condition.bind(0), CONNECT_ONE_SHOT) #TEMPORARY ends the stage after 10s (until we have actuall enemies)
 
 ## for a given stage loads the next stages into the tree with a lookahead in a BDS approach
 ## [param id] int index of the choosen stage in the stage_data_arr
@@ -91,7 +90,7 @@ func start():
 			var enemy_dict: Dictionary = s.enemy_resource.get_enemy_dictionary()
 			for enemy_path in enemy_dict:
 				if !curr_dict.has(enemy_path): curr_dict[enemy_path] = len(enemy_dict[enemy_path])
-				else: curr_dict[enemy_dict] = max(curr_dict[enemy_path], len(enemy_dict[enemy_path]))
+				else: curr_dict[enemy_path] = max(curr_dict[enemy_path], len(enemy_dict[enemy_path]))
 			return curr_dict,
 		func (s: StageNodeData): return s.children,
 		0,
@@ -110,7 +109,6 @@ func start():
 		stage_data_arr[0].unbreakable_resource,
 		stage_data_arr[0].breakable_resource,
 	)
-	get_tree().create_timer(10).timeout.connect(_check_ending_condition.bind(0), CONNECT_ONE_SHOT) #TEMPORARY ends the stage after 10s (until we have actuall enemies)
 
 func load_level_graph(file_name: String):
 	assert(ResourceLoader.exists(LEVEL_GRAPH_PATH + "/" + file_name + ".res"), "failed to find graph: " + LEVEL_GRAPH_PATH + "/" + file_name + ".res")
@@ -119,7 +117,7 @@ func load_level_graph(file_name: String):
 func _check_ending_condition(alive_enemies: int):
 	if win_screen.visible: return
 	var alive_players: Array[Player] = globals.player_manager.get_alive_players()
-	if len(alive_players) == 0:
+	if len(alive_players) == 0 && alive_enemies == -1:
 		#TODO: proper lost game screen (with restart option)
 		win_screen.lost_game()
 	if len(alive_players) > 0 && alive_enemies == 0:

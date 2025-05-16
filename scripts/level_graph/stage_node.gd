@@ -256,7 +256,6 @@ func _on_remove_exit_button_pressed(exit: HBoxContainer):
 	assert(exit_num <= exit_indx, "encountered invalid index for exit")
 	var exit_indx_new: int = exit_num
 
-	print(exit_num, ", ", exit_indx)
 	if exit_num < exit_indx:
 		# Readjust the slots to behave correctly
 		get_parent().remove_ports(self.name, exit_num - 1)

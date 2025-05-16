@@ -24,7 +24,7 @@ func dir_contents(path: String):
 				loadstream(index, load(path + file_name))
 			file_name = dir.get_next()
 	else:
-		print("An error occurred when trying to access the music path.")
+		printerr("An error occurred when trying to access the music path.")
 
 func loadstream(index: int, this_stream: AudioStreamOggVorbis):
 	if this_stream == null:

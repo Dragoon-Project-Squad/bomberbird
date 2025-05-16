@@ -1,5 +1,6 @@
 class_name Enemy extends CharacterBody2D
 
+signal enemy_died
 
 @onready var anim_player = $AnimationPlayer
 @onready var statemachine: Node= $StateMachine
@@ -66,12 +67,12 @@ func place(pos: Vector2, path: String):
 @rpc("call_local")
 func exploded(_by_whom: int):
 	if(!is_multiplayer_authority()): return 1
+	enemy_died.emit()
 	self.disable()
 	
 @rpc("call_local")
 func disable():
 	if(!is_multiplayer_authority()): return 1
-	print("disabled")
 	hitbox.set_deferred("disabled", 1)
 	hide()
 	self.position = Vector2.ZERO
