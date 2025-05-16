@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cwpnhuimmgdha" path="res://assets/bombcentered.png" id="8_1u1d1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6btgv"]
-size = Vector2(32, 32)
+size = Vector2(30, 30)
 
 [sub_resource type="Animation" id="Animation_oq2m5"]
 length = 0.001
@@ -55,7 +55,7 @@ _data = {
 [node name="Bomb" type="StaticBody2D"]
 texture_filter = 1
 collision_layer = 8
-collision_mask = 6
+collision_mask = 38
 script = ExtResource("1")
 explosion_audio = ExtResource("2_gmoi6")
 
@@ -63,8 +63,8 @@ explosion_audio = ExtResource("2_gmoi6")
 shape = SubResource("RectangleShape2D_6btgv")
 
 [node name="DetectArea" type="Area2D" parent="."]
-collision_layer = 128
-collision_mask = 6
+collision_layer = 0
+collision_mask = 38
 input_pickable = false
 
 [node name="DetectShape" type="CollisionShape2D" parent="DetectArea"]
@@ -113,5 +113,6 @@ region_rect = Rect2(0, 0, 96, 32)
 stream = ExtResource("4_nrvts")
 bus = &"SFX"
 
+[connection signal="body_entered" from="DetectArea" to="." method="_on_detect_area_body_entered"]
 [connection signal="body_exited" from="DetectArea" to="." method="_on_detect_area_body_exit"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

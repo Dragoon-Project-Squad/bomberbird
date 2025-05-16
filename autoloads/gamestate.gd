@@ -201,7 +201,7 @@ func get_player_name():
 
 func begin_singleplayer_game():
 	human_player_count = 1
-	total_player_count = human_player_count + 2
+	total_player_count = human_player_count
 	if total_player_count > 1:
 		add_ai_players()
 

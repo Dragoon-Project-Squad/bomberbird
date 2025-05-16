@@ -76,14 +76,14 @@ func check_space():
 	# Why in the name of Mint Fantome herself does Monitorable have to be one to detect collisions with TileMap I hate collisions
 	# I've been at this for Hours :Grieve:
 	$CollisionShape2D.set_deferred("Disabled", 0)
-	if !has_overlapping_areas() && !has_overlapping_bodies():	
+	if !has_overlapping_areas() && !has_overlapping_bodies():
 		set_state(PLACING)
 		return
 	var place: bool = true
 	for collision in get_overlapping_bodies():
 		if collision.is_in_group("thrown_bomb_bounces"):
 			place = false
-		if collision is Player:
+		if collision is Player || collision is Enemy:
 			collision.do_stun()
 
 	for collision in get_overlapping_areas():

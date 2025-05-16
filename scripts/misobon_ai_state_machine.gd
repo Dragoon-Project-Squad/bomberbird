@@ -3,7 +3,7 @@ extends Node
 @export var initial_state : MisobonAiState
 
 var current_state : MisobonAiState
-var states : Dictionary = {}
+var states: Dictionary = {}
 
 func _ready():
 	for state_node in get_children():
