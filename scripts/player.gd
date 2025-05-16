@@ -260,6 +260,14 @@ func increase_speed():
 	movement_speed = movement_speed + 20
 
 @rpc("call_local")
+func enable_wallclip():
+	self.set_collision_mask_value(3, false)
+
+@rpc("call_local")
+func enable_bombclip():
+	self.set_collision_mask_value(4, false)
+
+@rpc("call_local")
 func increment_bomb_count():
 	bomb_total = min(bomb_total+1, MAX_BOMBS_OWNABLE)
 	bomb_count = min(bomb_count+1, bomb_total)

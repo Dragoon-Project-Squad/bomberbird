@@ -1,18 +1,17 @@
-[gd_scene load_steps=23 format=3 uid="uid://eulpjfeboeur"]
+[gd_scene load_steps=22 format=3 uid="uid://eulpjfeboeur"]
 
-[ext_resource type="Script" uid="uid://bbolv85umxm0a" path="res://scripts/ai_player.gd" id="1_b6x6g"]
+[ext_resource type="Script" uid="uid://tf4lqf0ig6p4" path="res://scripts/ai_player.gd" id="1_b6x6g"]
 [ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_pc5q3"]
 [ext_resource type="Texture2D" uid="uid://lckm0mdablaw" path="res://assets/player/chonkgoon_walk.png" id="3_1goyl"]
 [ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_gh1q5"]
 [ext_resource type="AnimationLibrary" uid="uid://b6igytp0a077" path="res://animations/player_animations.tres" id="5_g5cmx"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="6_f5q0p"]
-[ext_resource type="Script" uid="uid://ctx61c3w8pd35" path="res://scripts/human_player_controls.gd" id="7_n1qvi"]
-[ext_resource type="AudioStream" uid="uid://c3dded4qppq4" path="res://sound/fx/playerhurt.wav" id="8_qgndc"]
+[ext_resource type="Script" uid="uid://cvneoqre4h1ct" path="res://scripts/human_player_controls.gd" id="7_n1qvi"]
 [ext_resource type="Script" uid="uid://cj45k03q8plvf" path="res://scripts/ai_state/ai_state_machine.gd" id="9_dsyhv"]
 [ext_resource type="Script" uid="uid://cic1u132cjhpf" path="res://scripts/ai_state/ai_wander.gd" id="10_ojjf0"]
 [ext_resource type="Script" uid="uid://boifqm64sjt73" path="res://scripts/ai_state/ai_dodge.gd" id="11_svsbf"]
-[ext_resource type="Script" uid="uid://0ywunhnh15xu" path="res://scripts/ai_state/ai_bomb.gd" id="12_ooj4o"]
-[ext_resource type="Script" uid="uid://dcjhrjf3f6csw" path="res://scripts/ai_state/ai_safe.gd" id="13_7oelw"]
+[ext_resource type="Script" uid="uid://b27rh453d1gqt" path="res://scripts/ai_state/ai_bomb.gd" id="12_ooj4o"]
+[ext_resource type="Script" uid="uid://dprat677sf6sb" path="res://scripts/ai_state/ai_safe.gd" id="13_7oelw"]
 
 [sub_resource type="Resource" id="Resource_2solf"]
 metadata/_custom_type_script = "uid://dfosda1bstp2m"
@@ -151,7 +150,6 @@ script = ExtResource("7_n1qvi")
 replication_config = SubResource("SceneReplicationConfig_w53uu")
 
 [node name="HurtSoundPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("8_qgndc")
 bus = &"SFX"
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
