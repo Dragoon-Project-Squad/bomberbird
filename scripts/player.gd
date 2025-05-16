@@ -100,7 +100,7 @@ func punch_bomb(direction: Vector2i):
 
 	bomb.do_punch.rpc(direction)
 
-## places a bomb iff the current position is valid
+## places a bomb if the current position is valid
 func place_bomb():
 	if(world_data.is_tile(world_data.tiles.BOMB, self.global_position)): return
 	
@@ -114,6 +114,7 @@ func place_bomb():
 	if is_multiplayer_authority():
 		var bomb: BombRoot = bomb_pool.request()
 		bomb.set_bomb_owner.rpc(self.name)
+		bomb.set_bomb_type.rpc(pickups.held_pickups[globals.pickups.GENERIC_BOMB])
 		bomb.do_place.rpc(bombPos, explosion_boost_count)
 
 ## updates the animation depending on the movement direction
@@ -213,9 +214,31 @@ func spread_items():
 			if !pickups.held_pickups[key]: continue
 			pickup_types.push_back(key)
 			pickup_count.push_back(1)
+		
+		if key == globals.pickups.GENERIC_BOMB:
+			var pickup_type: int
+			match pickups.held_pickups[key]:
+				pickups.bomb_types.DEFAULT: continue
+				pickups.bomb_types.PIERCING: pickup_type = globals.pickups.PIERCING
+				#pickups.bomb_types.MINE: pickup_type = globals.pickups.MINE
+				#pickups.bomb_types.REMOTE: pickup_type = globals.pickups.REMOTE
+				#pickups.bomb_types.SEEKER: pickup_type = globals.pickups.SEEKER
+				_: 	push_error("invalid bomb_type on item spread") # this will crash the game so this bad
+			pickup_types.push_back(pickup_type)
+			pickup_count.push_back(1)
+
+		if key == globals.pickups.GENERIC_EXCLUSIVE:
+			var pickup_type: int
+			match pickups.held_pickups[key]:
+				pickups.exclusive.DEFAULT: continue
+				#pickups.exclusive.KICK: pickup_type = globals.pickups.KICK
+				#pickups.exclusive.BOMBTHROUGH: pickup_type = globals.pickups.BOMBTHROUGH
+				_: push_error("invalid exclusive on item spread")
+			pickup_types.push_back(pickup_type)
+			pickup_count.push_back(1)
 	
-	#TODO: add pickups for exclusive pickups
-	
+	print(pickup_types)
+	print(pickup_count)
 	var to_place_pickups: Dictionary = pickup_pool.request_group(pickup_count, pickup_types)
 	for i in range(pickup_types.size()):
 		if pickup_count[i] == 1:
@@ -260,10 +283,17 @@ func increase_speed():
 	movement_speed = movement_speed + 20
 
 @rpc("call_local")
+func enable_wallclip():
+	self.set_collision_mask_value(3, false)
+
+@rpc("call_local")
+func enable_bombclip():
+	self.set_collision_mask_value(4, false)
+
+@rpc("call_local")
 func increment_bomb_count():
 	bomb_total = min(bomb_total+1, MAX_BOMBS_OWNABLE)
 	bomb_count = min(bomb_count+1, bomb_total)
-	
 
 @rpc("call_local")
 func return_bomb():

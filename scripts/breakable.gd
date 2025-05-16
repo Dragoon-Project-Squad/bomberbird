@@ -36,6 +36,7 @@ func exploded(by_who):
 	_exploded_barrier = true
 	breakable_sfx_player.play()
 	$"AnimationPlayer".play("explode")
+	await $"AnimationPlayer".animation_finished #Wait for the animation to finish
 
 	# Spawn a powerup where this rock used to be.
 	if is_multiplayer_authority():
@@ -48,7 +49,6 @@ func exploded(by_who):
 	if is_multiplayer_authority():
 		disable_collison_and_hide.rpc()
 	astargrid_handler.astargrid_set_point(global_position, false)
-	await $"AnimationPlayer".animation_finished #Wait for the animation to finish
 	if is_multiplayer_authority():
 		disable.rpc()
 	globals.game.breakable_pool.return_obj(self)

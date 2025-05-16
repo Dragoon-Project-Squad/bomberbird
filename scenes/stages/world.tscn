@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://by3f5o7dyoqx4"]
+[gd_scene load_steps=14 format=4 uid="uid://by3f5o7dyoqx4"]
 
 [ext_resource type="TileSet" uid="uid://do2l6lpuotti8" path="res://assets/tilesets/origtileset.tres" id="1"]
 [ext_resource type="Script" uid="uid://c7rrhgeevwtus" path="res://scripts/world/randomized_stage.gd" id="1_q8w2t"]
@@ -8,9 +8,9 @@
 [ext_resource type="Theme" uid="uid://wfdn1qbkwu46" path="res://assets/styles/main_menu_theme.tres" id="5_6aw7n"]
 [ext_resource type="Script" uid="uid://6fqhmpwvmglv" path="res://scripts/bomb_spawner.gd" id="6_ac5ja"]
 [ext_resource type="AudioStream" uid="uid://kkul2topsufx" path="res://sound/fx/bombdrop.wav" id="6_men6a"]
+[ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="7_0u05o"]
 [ext_resource type="Script" uid="uid://c5jpcx64c0x0s" path="res://scripts/powerup_spawner.gd" id="8_2nlye"]
 [ext_resource type="PackedScene" uid="uid://cim10emfhkf7b" path="res://scenes/pickups/explosion_boost.tscn" id="9_7eckx"]
-
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_to18j"]
 
@@ -300,7 +300,7 @@ theme_override_font_sizes/font_size = 40
 text = "THE WINNER IS:
 YOU"
 
-[node name="ExitGame" type="Button" parent="Winner"]
+[node name="ExitGame" type="Button" parent="Winner" groups=["ui_button"]]
 layout_mode = 0
 offset_left = 384.0
 offset_top = 408.0
@@ -310,6 +310,8 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 theme_override_fonts/font = ExtResource("4")
 text = "EXIT GAME"
+script = ExtResource("7_0u05o")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2(512, 300)
