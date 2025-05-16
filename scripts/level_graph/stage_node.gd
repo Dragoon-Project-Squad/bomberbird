@@ -108,8 +108,8 @@ func _set_scene_options(stages_subfolders_arg: Dictionary):
 	scene_options.selected = -1
 
 ## given a scene and its subfolders returns the path to that scene (if only_dir == true returns the path to the Directory containing the scene rather then the scene)
-static func get_path_to_scene(scene: String, subfolders: Array[String], only_dir: bool = false):
-	var ret: String = STAGE_SCENE_DIR.left(len(STAGE_SCENE_DIR) - 1)
+static func get_path_to_scene(scene: String, base_dir: String, subfolders: Array[String], only_dir: bool = false):
+	var ret: String = base_dir.left(len(base_dir) - 1)
 	for s in subfolders:
 		ret += "/" + s
 	return ret + ("/" + scene if !only_dir else "")
@@ -127,7 +127,7 @@ static func get_file_name_from_dir(path: String, subfolders: Array[String], subf
 	while scene_file != "":
 		if scene_file.get_extension() == "tscn":
 			if(subfolder_dict.has(scene_file)):
-				push_error("Same filename for differente stages found: " + get_path_to_scene(scene_file, subfolders) + " and " + get_path_to_scene(scene_file, subfolder_dict[scene_file]) + "expect fauty behavior")
+				push_error("Same filename for differente objects found: " + get_path_to_scene(scene_file, path, subfolders) + " and " + get_path_to_scene(scene_file, path, subfolder_dict[scene_file]) + "expect fauty behavior")
 			subfolder_dict[scene_file] = subfolders.duplicate()
 		elif scene_file.get_extension() == "":
 			subfolders.append(scene_file)
@@ -209,7 +209,7 @@ func _on_scene_options_item_selected(index: int) -> void:
 	if index < 0:
 		return
 	selected_scene_file = scene_options.get_item_text(index)
-	selected_scene_path = get_path_to_scene(selected_scene_file, stages_subfolders[selected_scene_file], true)
+	selected_scene_path = get_path_to_scene(selected_scene_file, STAGE_SCENE_DIR, stages_subfolders[selected_scene_file], true)
 
 ## Create a new entry for an exit
 func _on_add_exit_button_pressed() -> void:
@@ -256,7 +256,6 @@ func _on_remove_exit_button_pressed(exit: HBoxContainer):
 	assert(exit_num <= exit_indx, "encountered invalid index for exit")
 	var exit_indx_new: int = exit_num
 
-	print(exit_num, ", ", exit_indx)
 	if exit_num < exit_indx:
 		# Readjust the slots to behave correctly
 		get_parent().remove_ports(self.name, exit_num - 1)

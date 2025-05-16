@@ -23,6 +23,7 @@ func disable():
 func place(pos: Vector2, pickup: int):
 	assert(globals.is_not_pickup_seperator(pickup))
 	assert(pickup != globals.pickups.RANDOM)
+	$AnimationPlayer.play("RESET")
 	contained_pickup = pickup
 	in_use = true
 	_exploded_barrier = false
@@ -35,8 +36,8 @@ func exploded(by_who):
 	if _exploded_barrier: return #prevents a racecondition of the game attempting to spawn a pickup twice
 	_exploded_barrier = true
 	breakable_sfx_player.play()
-	$"AnimationPlayer".play("explode")
-	await $"AnimationPlayer".animation_finished #Wait for the animation to finish
+	$AnimationPlayer.play("explode")
+	await $AnimationPlayer.animation_finished #Wait for the animation to finish
 
 	# Spawn a powerup where this rock used to be.
 	if is_multiplayer_authority():
@@ -61,9 +62,8 @@ func crush():
 		disable_collison_and_hide.rpc()
 		world_data.set_tile.rpc(world_data.tiles.EMPTY, global_position)
 	astargrid_handler.astargrid_set_point(global_position, false)
-	await $"AnimationPlayer".animation_finished #Wait for the animation to finish
+	await $AnimationPlayer.animation_finished #Wait for the animation to finish
 	if is_multiplayer_authority():
 		disable.rpc()
 	globals.game.breakable_pool.return_obj(self)
-	world_data._debug_print_matrix()
 	

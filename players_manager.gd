@@ -19,8 +19,7 @@ func get_alive_players() -> Array[Player]:
 func _on_player_died():
 	#If SUPER and killer is dead he would be revived so nothing meaningfull has actualy changed
 	players_left -= 1
-	#TODO: pass actuall alive enemy number to this emit
-	alive_players_changed.emit(0)
+	alive_players_changed.emit(-1)
 
 func _on_player_revived():
 	players_left += 1

@@ -9,15 +9,6 @@ enum Type {
 	POSITIONAL_2D,
 }
 
-func _ready()->void:
-	#var buttons: Array = get_tree().get_nodes_in_group("ui_button")
-	#for inst in buttons:
-	#	inst.connect("pressed", func(): self.on_button_pressed())
-	var tree = get_tree()
-	print(tree)
-	tree.connect("node_entered", func(): print("QQQ"))
-	pass
-	
 func on_button_pressed()->void:
 	AudioManager.play(0, self, AudioStreamWAV.load_from_file("res://sound/fx/click.wav"), 10)
 

@@ -17,6 +17,8 @@ class_name World
 ## - PlayerSpawner
 ## - MisobonPlayerSpawner
 
+signal all_enemied_died
+
 @export_group("World Settings")
 ## The Rectangle that covers the playable area where (x,y) are the top left corner and (w, h) the size of the rectangle all in tile coordinates
 @export var _arena_rect: Rect2i
@@ -40,6 +42,7 @@ class_name World
 var _unbreakable_tile: Vector2i
 var _rng = RandomNumberGenerator.new()
 var _exit_spawned_barrier: bool = false
+var alive_enemies: int
 
 # PRIVATE FUNCTIONS
 
@@ -54,7 +57,6 @@ func spawn_exits():
 	_exit_spawned_barrier = true
 	var iter: int = 0 
 	var children_ids: Array[int] = globals.game.stage_data_arr[globals.game.curr_stage_idx].children
-	print(globals.game.curr_stage_idx, ", ", children_ids)
 
 	for exit_entry in exit_table.exits:
 		var exit_pos: Vector2 = world_data.tile_map.map_to_local(exit_entry.coords)
@@ -91,6 +93,8 @@ func enable(
 	show()
 	music.play()
 	globals.current_world = self
+	all_enemied_died.connect(globals.game._check_ending_condition, CONNECT_ONE_SHOT)
+
 
 	if hurry_up: ##SP stages may not have a hurry up node
 		hurry_up.start()
@@ -130,7 +134,8 @@ func enable(
 	if is_multiplayer_authority():
 		if !globals.game.players_are_spawned: _spawn_player()
 		else: _place_players.rpc()
-		# _spawn_enemies() raaaah unimplemented methods
+		if enemy_table:
+			_spawn_enemies.rpc()
 	_generate_breakables(breakable_table)
 
 	world_data.finish_init()
@@ -150,9 +155,35 @@ func reset():
 func _spawn_unbreakables(_unbreakable_table: UnbreakableTable):
 	pass
 	
-## used to spawn the enemies given in enemy_table (NOT YET IMPLEMENTED)	
+## used to spawn the enemies given in enemy_table
+@rpc("call_local")
 func _spawn_enemies():
-	assert(enemy_table, "enemy table is null but trying to spawn exits")
+	if(!is_multiplayer_authority()): return 1
+	assert(enemy_table, "enemy table is null but trying to spawn enemies")
+	var enemy_dict: Dictionary = {}
+	# count enemies
+	enemy_table.enemies.map(
+		func (e: Dictionary):
+			var whole_path: String = e.path + "/" + e.file
+			if !enemy_dict.has(whole_path): enemy_dict[whole_path] = 1
+			else: enemy_dict[whole_path] += 1
+			)
+	# place enemies
+	var enemys: Dictionary = globals.game.enemy_pool.request_group(enemy_dict);
+	alive_enemies = len(enemy_table.enemies)
+	enemy_table.enemies.map(
+		func (e: Dictionary):
+			var whole_path: String = e.path + "/" + e.file
+			var enemy: Enemy = enemys[whole_path].pop_front()
+			enemy.place.rpc(world_data.tile_map.map_to_local(e.coords), whole_path)
+			enemy.enemy_died.connect(
+				func () -> void:
+					alive_enemies -= 1
+					if alive_enemies == 0:
+						all_enemied_died.emit(0),
+				CONNECT_ONE_SHOT
+				)
+			)
 
 ## Asserts that properties of the world are set correctly
 func _asserting_world():
@@ -189,7 +220,7 @@ func _set_spawnpoints():
 		if world_data.is_tile(world_data.tiles.UNBREAKABLE, world_data.tile_map.map_to_local(new_spawnpoint)):
 				continue # Skip cells where solid tiles are placed
 		if new_spawnpoint in spawnpoints: continue
-		if new_spawnpoint in enemy_table.get_coords(): continue
+		if enemy_table && (new_spawnpoint in enemy_table.get_coords()): continue
 		spawnpoints.append(new_spawnpoint)
 		remaining_spawnpoints -= 1
 

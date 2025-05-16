@@ -23,6 +23,8 @@ var pierce := false
 @onready var explosion = $Explosion
 @onready var tileMap = world_data.tile_map
 
+var force_collision: bool = false
+
 func _ready():
 	explosion_sfx_player = bomb_pool.get_node("BombGlobalAudioPlayers/ExplosionSoundPlayer")
 	bomb_placement_sfx_player = get_node("BombPlacementPlayer")
@@ -43,13 +45,13 @@ func set_addons(addons: Dictionary):
 		return
 	pierce = addons.get("pierce", false)
 
-func place(bombPos: Vector2, fuse_time_passed: float = 0):
+func place(bombPos: Vector2, fuse_time_passed: float = 0, force_collision: bool = false):
 	bomb_placement_sfx_player.play()
 	bomb_root.position = bombPos
 	self.visible = true
+	self.force_collision = force_collision
 	$AnimationPlayer.play("fuse_and_call_detonate()")
 	$AnimationPlayer.advance(fuse_time_passed) #continue the animation from where it was left of
-	add_collision_exception_with(bomb_root.bomb_owner)
 	
 ## started the detonation call chain, calculates the true range of the explosion by checking for any breakables in its path, destroys those and corrects its exposion size before telling the exposion child to activate
 func detonate():
@@ -88,6 +90,7 @@ func detonate():
 ## called when a bomb has detonated and hence is done, clears it of the arena both in world_data and for the AI then returns the root back to the bomb_pool
 func done():
 	world_data.set_tile(world_data.tiles.EMPTY, bomb_root.global_position)
+	force_collision = false
 	
 	# Frees collision from astargrid when done
 	# Revise for posible implementation on world_data
@@ -107,9 +110,14 @@ func set_explosion_width_and_size(somewidth: int):
 func set_bomb_size(size: int):
 	bombsprite.set_frame(clamp(size-1, 0, 2))
 	
-func _on_detect_area_body_exit(_body: Node2D):
-	if bomb_root.bomb_owner:
-		remove_collision_exception_with(bomb_root.bomb_owner)
+func _on_detect_area_body_entered(body: Node2D):
+	if force_collision: return
+	if !(body in get_collision_exceptions()):
+		add_collision_exception_with(body)
+
+func _on_detect_area_body_exit(body: Node2D):
+	if body in get_collision_exceptions():
+		remove_collision_exception_with(body)
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name != "idle":

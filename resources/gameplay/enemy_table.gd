@@ -36,3 +36,12 @@ func get_coords() -> Array[Vector2i]:
 
 func size() -> int:
 	return len(enemies)
+
+func get_enemy_dictionary() -> Dictionary:
+	var ret: Dictionary = {}
+	for entry in enemies:
+		var full_path: String = entry.path + "/" + entry.file
+		if(!ret.has(full_path)): ret[full_path] = []
+		ret[full_path].append({ "coords": entry.coords, "probability": entry.probability })
+	return ret
+
