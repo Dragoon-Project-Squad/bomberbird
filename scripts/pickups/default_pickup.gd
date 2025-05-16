@@ -73,7 +73,7 @@ func _on_body_entered(body: Node2D) -> void:
 	await pickup_sfx_player.finished
 	disable_collison_and_hide.rpc()
 	disable.rpc()
-	globals.game.pickup_pool.return_obj(self) #Pickup returns itself to the pool
+	globals.game.pickup_pool.return_obj.call_deferred(self) #Pickup returns itself to the pool
 
 @rpc("call_local")
 ## called when this pickup is destroyed by an explosion players the corresponding animation and sound

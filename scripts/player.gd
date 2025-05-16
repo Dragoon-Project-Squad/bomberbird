@@ -214,9 +214,31 @@ func spread_items():
 			if !pickups.held_pickups[key]: continue
 			pickup_types.push_back(key)
 			pickup_count.push_back(1)
+		
+		if key == globals.pickups.GENERIC_BOMB:
+			var pickup_type: int
+			match pickups.held_pickups[key]:
+				pickups.bomb_types.DEFAULT: continue
+				pickups.bomb_types.PIERCING: pickup_type = globals.pickups.PIERCING
+				#pickups.bomb_types.MINE: pickup_type = globals.pickups.MINE
+				#pickups.bomb_types.REMOTE: pickup_type = globals.pickups.REMOTE
+				#pickups.bomb_types.SEEKER: pickup_type = globals.pickups.SEEKER
+				_: 	push_error("invalid bomb_type on item spread") # this will crash the game so this bad
+			pickup_types.push_back(pickup_type)
+			pickup_count.push_back(1)
+
+		if key == globals.pickups.GENERIC_EXCLUSIVE:
+			var pickup_type: int
+			match pickups.held_pickups[key]:
+				pickups.exclusive.DEFAULT: continue
+				#pickups.exclusive.KICK: pickup_type = globals.pickups.KICK
+				#pickups.exclusive.BOMBTHROUGH: pickup_type = globals.pickups.BOMBTHROUGH
+				_: push_error("invalid exclusive on item spread")
+			pickup_types.push_back(pickup_type)
+			pickup_count.push_back(1)
 	
-	#TODO: add pickups for exclusive pickups
-	
+	print(pickup_types)
+	print(pickup_count)
 	var to_place_pickups: Dictionary = pickup_pool.request_group(pickup_count, pickup_types)
 	for i in range(pickup_types.size()):
 		if pickup_count[i] == 1:
