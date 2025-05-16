@@ -14,7 +14,7 @@ var pickup_spawn_chance = PICKUP_SPAWN_BASE_CHANCE
 @export var max_explosion: int = 100
 @export var punch_ability: int = 200
 #@export var throw_ability: int = 0
-#@export var wallthrough: int = 0
+@export var wallthrough: int = 999
 #@export var timer: int = 0
 #@export var invincibility_vest: int = 0
 #@export var virus: int = 0
@@ -43,12 +43,14 @@ func update():
 		globals.pickups.FULL_FIRE: max_explosion,
 		globals.pickups.BOMB_PUNCH: punch_ability,
 		#globals.pickups.POWER_GLOVE: throw_ability,
-		#globals.pickups.WALLTHROUGH: wallthrough,
+		globals.pickups.WALLTHROUGH: wallthrough,
 		#globals.pickups.FREEZE: timer,
 		#globals.pickups.INVINCIBILITY_VEST: invincibility_vest,
 		#globals.pickups.VIRUS: virus,
 		#globals.pickups.KICK: kick,
-		#globals.pickups.BOMBTHROUGH: bombthrough,
+		globals.pickups.BOMBTHROUGH: bombthrough,
+		#globals.pickups.PIERCING: piercing_bomb,
+		globals.pickups.BOMBTHROUGH: bombthrough,
 		globals.pickups.PIERCING: piercing_bomb,
 		#globals.pickups.MINE: land_mine,
 		#globals.pickups.REMOTE: remote_control,
@@ -65,12 +67,12 @@ func reverse_update():
 	max_explosion = pickup_weights[globals.pickups.FULL_FIRE]
 	punch_ability = pickup_weights[globals.pickups.BOMB_PUNCH]
 	#throw_ability = pickup_weights[globals.pickups.POWER_GLOVE]
-	#wallthrough = pickup_weights[globals.pickups.WALLTHROUGH]
+	wallthrough = pickup_weights[globals.pickups.WALLTHROUGH]
 	#timer = pickup_weights[globals.pickups.FREEZE]
 	#invincibility_vest = pickup_weights[globals.pickups.INVINCIBILITY_VEST]
 	#virus = pickup_weights[globals.pickups.VIRUS]
 	#kick = pickup_weights[globals.pickups.KICK]
-	#bombthrough = pickup_weights[globals.pickups.BOMBTHROUGH]
+	bombthrough = pickup_weights[globals.pickups.BOMBTHROUGH]
 	piercing_bomb = pickup_weights[globals.pickups.PIERCING]
 	#land_mine = pickup_weights[globals.pickups.MINE]
 	#remote_control = pickup_weights[globals.pickups.REMOTE]

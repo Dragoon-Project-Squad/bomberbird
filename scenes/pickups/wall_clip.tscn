@@ -1,0 +1,66 @@
+[gd_scene load_steps=10 format=3 uid="uid://bimjgl82p3x1b"]
+
+[ext_resource type="Script" uid="uid://b8e7x73qbfv1d" path="res://scripts/pickups/wall_clip.gd" id="1_l6h8x"]
+[ext_resource type="Texture2D" uid="uid://quoe0b8jbau3" path="res://assets/pickups/powerupsprites.png" id="2_ollpj"]
+[ext_resource type="AudioStream" uid="uid://8u70xa4tmhc8" path="res://sound/fx/powerup.wav" id="3_j4kyk"]
+[ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_kw3cl"]
+[ext_resource type="AnimationLibrary" uid="uid://deqi1mrq6p7pt" path="res://animations/pickup.res" id="5_vaapk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3ywok"]
+size = Vector2(32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1gjte"]
+atlas = ExtResource("2_ollpj")
+region = Rect2(216, 24, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0hn6b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1gjte")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 1.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l6h8x"]
+atlas = ExtResource("2_ollpj")
+region = Rect2(96, 24, 24, 24)
+
+[node name="WallClip" type="Area2D"]
+collision_layer = 16
+collision_mask = 2
+script = ExtResource("1_l6h8x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3ywok")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_0hn6b")
+animation = &"idle"
+
+[node name="PickupSoundPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_j4kyk")
+bus = &"SFX"
+
+[node name="kaboom" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-1.07288e-06, 3.57628e-07)
+scale = Vector2(0.333333, 0.351648)
+texture = ExtResource("4_kw3cl")
+hframes = 9
+
+[node name="anim" type="AnimationPlayer" parent="."]
+libraries = {
+&"pickup": ExtResource("5_vaapk")
+}
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 1
+texture = SubResource("AtlasTexture_l6h8x")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
