@@ -14,13 +14,13 @@ var pickup_spawn_chance = PICKUP_SPAWN_BASE_CHANCE
 @export var max_explosion: int = 100
 @export var punch_ability: int = 200
 #@export var throw_ability: int = 0
-@export var wallthrough: int = 999
+@export var wallthrough: int = 50
 #@export var timer: int = 0
 #@export var invincibility_vest: int = 0
 #@export var virus: int = 0
 #@export var kick: int = 0
-#@export var bombthrough: int = 0
-@export var piercing_bomb: int = 500
+@export var bombthrough: int = 50
+@export var piercing_bomb: int = 50
 #@export var land_mine: int = 0
 #@export var remote_control: int = 0
 #@export var seeker_bomb: int = 0
@@ -48,8 +48,6 @@ func update():
 		#globals.pickups.INVINCIBILITY_VEST: invincibility_vest,
 		#globals.pickups.VIRUS: virus,
 		#globals.pickups.KICK: kick,
-		globals.pickups.BOMBTHROUGH: bombthrough,
-		#globals.pickups.PIERCING: piercing_bomb,
 		globals.pickups.BOMBTHROUGH: bombthrough,
 		globals.pickups.PIERCING: piercing_bomb,
 		#globals.pickups.MINE: land_mine,
