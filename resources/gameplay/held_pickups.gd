@@ -47,8 +47,6 @@ func add(pickup_type: int, virus_type: int = 0):
 	if(virus_type < 0 || virus.SIZE <= virus_type):
 		push_error("Invalid virus type given")
 	match pickup_type:
-		globals.pickups.PIERCING:
-			held_pickups.bomb_type = bomb_types.PIERCING	
 		globals.pickups.MINE:
 			held_pickups[globals.pickups.GENERIC_BOMB] = bomb_types.MINE
 		globals.pickups.REMOTE:
@@ -77,6 +75,8 @@ func add(pickup_type: int, virus_type: int = 0):
 			held_pickups[globals.pickups.GENERIC_EXCLUSIVE] = exclusive.BOMBTHROUGH
 		globals.pickups.WALLTHROUGH:
 			held_pickups[pickup_type] = true
+		globals.pickups.PIERCING:
+			held_pickups[globals.pickups.GENERIC_BOMB] = bomb_types.PIERCING
 		globals.pickups.FREEZE:
 			held_pickups[pickup_type] = true
 		globals.pickups.INVINCIBILITY_VEST:

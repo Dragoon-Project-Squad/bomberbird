@@ -11,11 +11,14 @@ var animation_finish := false
 const TILE_SIZE = 32 #Primitive method of assigning correct tile size
 #var TILE_SIZE: int = get_node("/root/World/Unbreakale").get_tileset().get_tile_size() #Would be cool but the match doesn't like non constants
 
+# bomb addons
+var pierce := false
+
 @export var bomb_place_audio: AudioStreamWAV = load("res://sound/fx/bombdrop.wav")
 @onready var bomb_placement_sfx_player: AudioStreamPlayer
 @export var explosion_audio : AudioStreamWAV = load("res://sound/fx/explosion.wav")
 @onready var explosion_sfx_player: AudioStreamPlayer2D #Left 2D for Monsto fix
-@onready var rays = $Raycasts
+@onready var rays: Node2D = $Raycasts
 @onready var bombsprite := $BombSprite
 @onready var explosion = $Explosion
 @onready var tileMap = world_data.tile_map
@@ -35,6 +38,11 @@ func disable():
 	explosion.reset()
 	$AnimationPlayer.stop()
 
+func set_addons(addons: Dictionary):
+	if addons.is_empty():
+		return
+	pierce = addons.get("pierce", false)
+
 func place(bombPos: Vector2, fuse_time_passed: float = 0):
 	bomb_placement_sfx_player.play()
 	bomb_root.position = bombPos
@@ -49,19 +57,27 @@ func detonate():
 	explosion_sfx_player.position = bomb_root.position #Monsto Fix
 	explosion_sfx_player.play()
 	var exp_range = {Vector2i.RIGHT: explosion_width, Vector2i.DOWN: explosion_width, Vector2i.LEFT: explosion_width, Vector2i.UP: explosion_width}
-	for ray in rays.get_children():
+	for ray: RayCast2D in rays.get_children():
 		var ray_direction = ray.get_meta("direction")
 		ray.target_position = ray_direction * explosion_width * TILE_SIZE
 		ray.force_raycast_update()
 		if !ray.is_colliding():
 			continue
-		var target: Node2D = ray.get_collider()
-		if target.is_in_group("bombstop"):
-			@warning_ignore("INTEGER_DIVISION") #Note this integer division is fine idk why godot feels like it needs to warn for int divisions anyway?
-			var col_point = to_local(ray.get_collision_point()) + Vector2(ray_direction * (TILE_SIZE / 2))
-			
-			exp_range[ray_direction] = explosion.get_node("SpriteTileMap").local_to_map(col_point).length() - 1 #find the distance from bomb.position to the last tile that should be blown up (in number of tiles)
-			if target.has_method("exploded") && is_multiplayer_authority(): target.exploded.rpc(str(get_parent().bomb_owner.name).to_int()) #if an object stopped the bomb and can be blown up... blow it up!
+		var targets: Array[Node2D] = []
+		while ray.is_colliding():
+			targets.append(ray.get_collider())
+			if !pierce || ray.get_collider().is_class("TileMapLayer"):
+				break
+			ray.add_exception_rid(ray.get_collider_rid())
+			ray.force_raycast_update()
+		for target in targets:
+			if target.is_in_group("bombstop"):
+				@warning_ignore("INTEGER_DIVISION") #Note this integer division is fine idk why godot feels like it needs to warn for int divisions anyway?
+				var col_point = to_local(ray.get_collision_point()) + Vector2(ray_direction * (TILE_SIZE / 2))
+				#find the distance from bomb.position to the last tile that should be blown up (in number of tiles)
+				exp_range[ray_direction] = explosion.get_node("SpriteTileMap").local_to_map(col_point).length() - 1 
+				if target.has_method("exploded") && is_multiplayer_authority():
+					target.exploded.rpc(str(get_parent().bomb_owner.name).to_int()) #if an object stopped the bomb and can be blown up... blow it up!
 	remove_collision_exception_with(bomb_root.bomb_owner)
 	if is_multiplayer_authority(): #multiplayer auth. now starts the transition to the explosion
 		explosion.init_detonate.rpc(exp_range[Vector2i.RIGHT], exp_range[Vector2i.DOWN], exp_range[Vector2i.LEFT], exp_range[Vector2i.UP])
