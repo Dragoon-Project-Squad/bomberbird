@@ -2,6 +2,8 @@ extends Game
 
 const LEVEL_GRAPH_PATH: String = "res://resources/level_graph/saved_graphs"
 
+@onready var stage_announce_label: Label = get_node("StageAnnouncement")
+
 var stage_handler: StageHandler
 var exit_pool: ExitPool
 
@@ -17,10 +19,13 @@ func _init():
 @rpc("call_local")
 ## starts the complete reset for all stage related states and then loads the next stage given by
 ## [param id] int -1 if the game should terminate with a player win else the index of the next stage in the stage_data_arr
-func next_stage(id: int):
+func next_stage(id: int, player: HumanPlayer):
 	if _exit_entered_barrier: return
-	# prevents two exits from triggering (Tho in general we proabily should not have 2 exits close enought next to each other to trigger that)
 	_exit_entered_barrier = true
+	# prevents two exits from triggering (Tho in general we proabily should not have 2 exits close enought next to each other to trigger that)
+
+	await player.play_victory(true)
+
 	if id == -1:
 		#TODO: proper won game screen
 		win_screen.won_game()
@@ -28,6 +33,9 @@ func next_stage(id: int):
 		return
 	gamestate.current_level += 1
 	
+	fade.play("fade_out")
+	await fade.animation_finished
+
 	# disable the old stage
 	reset()
 	stage.reset()
@@ -36,6 +44,9 @@ func next_stage(id: int):
 	# Set and enable the next stage
 	stage_handler.set_stage(stage_data_arr[id].get_stage_path())
 	stage = stage_handler.get_stage()
+
+	await get_tree().create_timer(1).timeout
+
 	stage.enable.call_deferred(
 		stage_data_arr[id].exit_resource,
 		stage_data_arr[id].enemy_resource,
@@ -44,6 +55,13 @@ func next_stage(id: int):
 		stage_data_arr[id].unbreakable_resource,
 		stage_data_arr[id].breakable_resource,
 	)
+	stage_announce_label.text = stage_data_arr[id].stage_node_title
+	stage_announce_label.show()
+
+	fade.play("fade_in")
+	await fade.animation_finished
+	get_tree().create_timer(0.5).timeout.connect(func (): stage_announce_label.hide())
+
 	curr_stage_idx = id
 	_exit_entered_barrier = false
 	_exit_spawned_barrier = false
@@ -75,6 +93,13 @@ func load_next_stage_set(id: int):
 
 func start():
 	assert(stage_data_arr != [], "stage_data not loaded")
+
+	stage_announce_label.text = stage_data_arr[0].stage_node_title
+	stage_announce_label.show()
+	fade.get_node("FadeInOutRect").show()
+	await get_tree().create_timer(0.1).timeout
+
+	fade.play("fade_in")
 	var init_stage_set: Dictionary = GraphHelper.bfs_get_values(
 		stage_data_arr, 
 		func (s: StageNodeData): return s.get_stage_path(),
@@ -101,7 +126,7 @@ func start():
 	stage_handler.set_stage(stage_data_arr[0].selected_scene_path + "/" + stage_data_arr[0].selected_scene_file)
 	stage = stage_handler.get_stage()
 	
-	stage.enable(
+	stage.enable.call_deferred(
 		stage_data_arr[0].exit_resource,
 		stage_data_arr[0].enemy_resource,
 		stage_data_arr[0].pickup_resource,
@@ -109,6 +134,10 @@ func start():
 		stage_data_arr[0].unbreakable_resource,
 		stage_data_arr[0].breakable_resource,
 	)
+	await fade.animation_finished
+	stage_has_changed.emit.call_deferred()
+	get_tree().create_timer(0.5).timeout.connect(func (): stage_announce_label.hide())
+
 
 func load_level_graph(file_name: String):
 	assert(ResourceLoader.exists(LEVEL_GRAPH_PATH + "/" + file_name + ".res"), "failed to find graph: " + LEVEL_GRAPH_PATH + "/" + file_name + ".res")

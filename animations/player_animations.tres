@@ -1,4 +1,4 @@
-[gd_resource type="AnimationLibrary" load_steps=12 format=3 uid="uid://b6igytp0a077"]
+[gd_resource type="AnimationLibrary" load_steps=13 format=3 uid="uid://b6igytp0a077"]
 
 [ext_resource type="AudioStream" uid="uid://cpniotmerpu5f" path="res://sound/fx/playercrush.wav" id="1_m2tnj"]
 
@@ -465,6 +465,21 @@ tracks/1/keys = {
 "values": [3.14159]
 }
 
+[sub_resource type="Animation" id="Animation_m2tnj"]
+length = 1.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.00833333, 0.2, 0.4, 0.608333, 0.8, 0.991667, 1.19167, 1.4, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 16, 11, 18, 0, 16, 11, 18, 0]
+}
+
 [resource]
 _data = {
 &"RESET": SubResource("Animation_cfor6"),
@@ -473,6 +488,7 @@ _data = {
 &"revive": SubResource("Animation_uhsui"),
 &"standing": SubResource("2"),
 &"stunned": SubResource("3"),
+&"victory": SubResource("Animation_m2tnj"),
 &"walk_down": SubResource("4"),
 &"walk_left": SubResource("5"),
 &"walk_right": SubResource("6"),
