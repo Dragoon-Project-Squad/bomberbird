@@ -41,7 +41,7 @@ func get_next_pos() -> Vector2:
 		var pos: Vector2 = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.enemy.position) + Vector2i(temp_movement_vector))
 		if(world_data.is_out_of_bounds(pos) == -1 && world_data.is_tile(world_data.tiles.EMPTY, pos)): 
 			if i == 0: 
-				self.enemy.get_node("Sprite2D").position = pos
+				self.enemy.get_node("DebugMarker").position = pos
 				return pos # If we can go straight always go straight (behabiour of type 1)
 			valid_pos_arr.append(pos)
 		temp_movement_vector = Vector2(-temp_movement_vector.y, temp_movement_vector.x) #rotate pi/2 CW
@@ -50,7 +50,7 @@ func get_next_pos() -> Vector2:
 	var rand_val = _rng.randi_range(1, 2 ** len(valid_pos_arr))
 	for i in range(len(valid_pos_arr)):
 		if 2 ** (len(valid_pos_arr) - 1 - i) <= rand_val: 
-			self.enemy.get_node("Sprite2D").position = valid_pos_arr[i]
+			self.enemy.get_node("DebugMarker").position = valid_pos_arr[i]
 			return valid_pos_arr[i]
 	push_error("get_next_pos does not return a valid vector")
 	return self.enemy.position

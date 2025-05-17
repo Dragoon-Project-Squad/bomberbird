@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_bifw2"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="5_3fscl"]
 [ext_resource type="AnimationLibrary" uid="uid://b6igytp0a077" path="res://animations/player_animations.tres" id="5_aeuj7"]
-[ext_resource type="Script" uid="uid://cvneoqre4h1ct" path="res://scripts/human_player_controls.gd" id="6_ey2ea"]
+[ext_resource type="Script" uid="uid://ctx61c3w8pd35" path="res://scripts/human_player_controls.gd" id="6_ey2ea"]
 
 [sub_resource type="Resource" id="Resource_jvckf"]
 resource_local_to_scene = true
@@ -34,6 +34,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_v8ypd"]

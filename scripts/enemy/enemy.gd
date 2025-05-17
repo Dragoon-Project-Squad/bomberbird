@@ -61,6 +61,8 @@ func place(pos: Vector2, path: String):
 	self.anim_player.play("enemy/standing")
 	self.position = pos
 	self.enemy_path = path
+
+func enable():
 	self.detection_handler.on()
 	self.statemachine.enable()
 

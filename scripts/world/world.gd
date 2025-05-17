@@ -176,6 +176,7 @@ func _spawn_enemies():
 			var whole_path: String = e.path + "/" + e.file
 			var enemy: Enemy = enemys[whole_path].pop_front()
 			enemy.place.rpc(world_data.tile_map.map_to_local(e.coords), whole_path)
+			globals.game.stage_has_changed.connect(enemy.enable, CONNECT_ONE_SHOT)
 			enemy.enemy_died.connect(
 				func () -> void:
 					alive_enemies -= 1

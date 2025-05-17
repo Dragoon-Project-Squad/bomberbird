@@ -72,7 +72,8 @@ script = ExtResource("8_8rxir")
 [node name="Disabled" type="Node" parent="StateMachine"]
 script = ExtResource("9_ecogq")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="DebugMarker" type="Sprite2D" parent="."]
+self_modulate = Color(1, 0, 0, 1)
 top_level = true
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("10_tykd3")

@@ -3,8 +3,9 @@
 [ext_resource type="Texture2D" uid="uid://jog1koyue4lr" path="res://assets/fallingsprite.png" id="1_l0aq0"]
 [ext_resource type="Script" uid="uid://dmskqj8kc6a22" path="res://scripts/exit.gd" id="1_uyw7u"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_uyw7u"]
-size = Vector2(30, 30)
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_uyw7u"]
+a = Vector2(0, -2.5)
+b = Vector2(0, 2.5)
 
 [node name="Exit" type="Node2D"]
 script = ExtResource("1_uyw7u")
@@ -20,7 +21,7 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="ExitCollisionShape" type="CollisionShape2D" parent="ExitArea"]
-shape = SubResource("RectangleShape2D_uyw7u")
+shape = SubResource("SegmentShape2D_uyw7u")
 disabled = true
 
 [connection signal="body_entered" from="ExitArea" to="." method="_on_exit_body_entered"]

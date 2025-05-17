@@ -20,4 +20,5 @@ func _check_ending_condition(_alive_enemies: int = 0):
 	if len(alive_players) == 0:
 		win_screen.draw_game()
 	if len(alive_players) == 1:
+		alive_players[0].play_victory(false)
 		win_screen.declare_winner(alive_players[0])
