@@ -50,7 +50,7 @@ func get_next_pos() -> Vector2:
 	var rand_val = _rng.randi_range(1, 2 ** len(valid_pos_arr))
 	for i in range(len(valid_pos_arr)):
 		if 2 ** (len(valid_pos_arr) - 1 - i) <= rand_val: 
-			self.enemy.get_node("Sprite2D").position = valid_pos_arr[i]
+			self.enemy.get_node("DebugMarker").position = valid_pos_arr[i]
 			return valid_pos_arr[i]
 	push_error("get_next_pos does not return a valid vector")
 	return self.enemy.position

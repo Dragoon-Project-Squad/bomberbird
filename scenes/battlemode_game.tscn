@@ -1,7 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://cqqhrm2734wfv"]
+[gd_scene load_steps=17 format=3 uid="uid://cqqhrm2734wfv"]
 
 [ext_resource type="Script" uid="uid://6r08478oev3y" path="res://scripts/battlemode_game.gd" id="1_3bvga"]
-[ext_resource type="Script" uid="uid://c6ubwejmc188k" path="res://players_manager.gd" id="3_qmebr"]
+[ext_resource type="Script" uid="uid://c6ubwejmc188k" path="res://scripts/players_manager.gd" id="3_qmebr"]
 [ext_resource type="Script" uid="uid://cc3ogep372v8" path="res://scripts/player_spawner.gd" id="4_l4xky"]
 [ext_resource type="Script" uid="uid://v2bbm1lgibpy" path="res://scripts/misobon_path.gd" id="5_egtpy"]
 [ext_resource type="PackedScene" uid="uid://ddtb3ctgal4ok" path="res://scenes/pools/enemy_pool.tscn" id="6_3bvga"]
@@ -18,17 +18,100 @@ _data = {
 }
 point_count = 6
 
+[sub_resource type="Animation" id="Animation_8ic0x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FadeInOut/FadeInOutRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FadeInOut/FadeInOutRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_1u21r"]
+resource_name = "fade_in"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FadeInOut/FadeInOutRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FadeInOut/FadeInOutRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_qa6w2"]
+resource_name = "fade_out"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FadeInOut/FadeInOutRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FadeInOut/FadeInOutRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qa6w2"]
+_data = {
+&"RESET": SubResource("Animation_8ic0x"),
+&"fade_in": SubResource("Animation_1u21r"),
+&"fade_out": SubResource("Animation_qa6w2")
+}
+
 [node name="Game" type="Node2D"]
 script = ExtResource("1_3bvga")
 
 [node name="StageLoader" type="Node2D" parent="."]
-
-[node name="Players" type="Node2D" parent="."]
-script = ExtResource("3_qmebr")
-
-[node name="PlayerSpawner" type="MultiplayerSpawner" parent="Players"]
-spawn_path = NodePath("..")
-script = ExtResource("4_l4xky")
 
 [node name="MisobonPath" type="Path2D" parent="."]
 curve = SubResource("Curve2D_6r17b")
@@ -51,6 +134,13 @@ speed_boost = 15
 max_explosion = 5
 punch_ability = 10
 
+[node name="Players" type="Node2D" parent="."]
+script = ExtResource("3_qmebr")
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="Players"]
+spawn_path = NodePath("..")
+script = ExtResource("4_l4xky")
+
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2(250, 250)
 zoom = Vector2(1.3, 1.3)
@@ -71,3 +161,14 @@ offset_left = -193.0
 offset_top = 1.0
 offset_right = 693.0
 offset_bottom = 499.0
+
+[node name="FadeInOut" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_qa6w2")
+}
+
+[node name="FadeInOutRect" type="ColorRect" parent="FadeInOut"]
+visible = false
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 1)

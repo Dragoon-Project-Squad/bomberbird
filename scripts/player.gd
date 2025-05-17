@@ -19,9 +19,11 @@ const INVULNERABILITY_FLASH_TIME: float = 0.125
 @export var invulnerable: bool = false
 
 @onready var hurt_sfx_player := $HurtSoundPlayer
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 var current_anim: String = ""
 var is_dead: bool = false
+var is_victory_dance: bool = false
 var player_type: String
 var hurry_up_started: bool = false 
 var misobon_player: MisobonPlayer
@@ -133,7 +135,7 @@ func update_animation(direction: Vector2):
 		
 	if new_anim != current_anim:
 		current_anim = new_anim
-		$AnimationPlayer.play("player_animations/" + current_anim)
+		animation_player.play("player_animations/" + current_anim)
 
 ## Enables this players correspoing misobon player if misobon is atleast on
 func enter_misobon():
@@ -157,20 +159,20 @@ func enter_misobon():
 func do_crushed_state():
 	is_dead = true
 	hide()
-	$AnimationPlayer.play("player_animations/crush")
+	animation_player.play("player_animations/crush")
 	$Hitbox.set_deferred("disabled", 1)
-	await $AnimationPlayer.animation_finished
+	await animation_player.animation_finished
 	player_died.emit()
 	process_mode = PROCESS_MODE_DISABLED
 
 
 func enter_death_state():
 	is_dead = true
-	$AnimationPlayer.play("player_animations/death")
+	animation_player.play("player_animations/death")
 	$Hitbox.set_deferred("disabled", 1)
 	spread_items() #TODO: Check if battlemode
 	reset_pickups()
-	await $AnimationPlayer.animation_finished
+	await animation_player.animation_finished
 	player_died.emit()
 	hide()
 	process_mode = PROCESS_MODE_DISABLED
@@ -180,9 +182,9 @@ func exit_death_state():
 	process_mode = PROCESS_MODE_INHERIT
 	player_revived.emit()
 	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
-	$AnimationPlayer.play("player_animations/revive")
+	animation_player.play("player_animations/revive")
 	$Hitbox.set_deferred("disabled", 0)
-	await $AnimationPlayer.animation_finished
+	await animation_player.animation_finished
 	stunned = false
 	is_dead = false
 	do_invulnerabilty()
@@ -258,7 +260,7 @@ func do_invulnerabilty():
 	set_process(true)
 	
 func do_stun():
-	$AnimationPlayer.play("player_animations/stunned") #Note this animation sets stunned automatically
+	animation_player.play("player_animations/stunned") #Note this animation sets stunned automatically
 
 @rpc("call_local")
 func set_misobon():
@@ -298,6 +300,14 @@ func increment_bomb_count():
 @rpc("call_local")
 func return_bomb():
 	bomb_count = min(bomb_count+1, bomb_total)
+
+@rpc("call_local")
+## plays the victory animation and stops the player from moving
+func play_victory(reenable: bool) -> Signal:
+	is_victory_dance = true
+	animation_player.play("player_animations/victory")
+	if reenable: animation_player.animation_finished.connect(func (_x): is_victory_dance = false, CONNECT_ONE_SHOT)
+	return animation_player.animation_finished
 
 @rpc("call_local")
 ## kills this player and awards whoever killed it

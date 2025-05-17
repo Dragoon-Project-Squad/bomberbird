@@ -41,5 +41,5 @@ func place(pos: Vector2, exit_id: int):
 func _on_exit_body_entered(body: Node2D):
 	if used: return
 	elif body is HumanPlayer:
-		globals.game.next_stage(exit_id)
 		used = true
+		globals.game.next_stage(exit_id, body)
