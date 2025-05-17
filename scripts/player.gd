@@ -4,8 +4,8 @@ class_name Player extends CharacterBody2D
 signal player_died
 signal player_revived
 
-const BASE_MOTION_SPEED: float = 100.0
-const MOTION_SPEED_INCREASE: float = 20.0
+const BASE_MOTION_SPEED: float = 110.0
+const MOTION_SPEED_INCREASE: float = 15.0
 const BOMB_RATE: float = 0.5
 const MAX_BOMBS_OWNABLE: int = 8
 const MAX_EXPLOSION_BOOSTS_PERMITTED: int = 6
