@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dge6qedq441yr"]
+[gd_scene load_steps=15 format=3 uid="uid://dge6qedq441yr"]
 
 [ext_resource type="Script" uid="uid://dibr3o26b8gcx" path="res://scripts/enemy/enemy.gd" id="1_8rxir"]
 [ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_fmktr"]
@@ -13,6 +13,9 @@
 [ext_resource type="Texture2D" uid="uid://jog1koyue4lr" path="res://assets/fallingsprite.png" id="10_tykd3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_i1su5"]
+radius = 15.9
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fmktr"]
 radius = 15.9
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hwcqj"]
@@ -46,6 +49,14 @@ hframes = 9
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_i1su5")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="HurtboxShape" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_fmktr")
+debug_color = Color(1, 0, 0, 0.419608)
 
 [node name="DetectionHandler_D" parent="." instance=ExtResource("5_8rxir")]
 

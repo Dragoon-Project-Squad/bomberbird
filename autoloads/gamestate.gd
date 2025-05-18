@@ -200,6 +200,7 @@ func get_player_name():
 	return player_name
 
 func begin_singleplayer_game():
+	globals.current_gamemode = globals.gamemode.CAMPAIGN
 	human_player_count = 1
 	total_player_count = human_player_count
 	if total_player_count > 1:
@@ -210,6 +211,7 @@ func begin_singleplayer_game():
 	load_world.rpc(campaign_game_scene)
 
 func begin_game():
+	globals.current_gamemode = globals.gamemode.BATTLEMODE
 	current_level = 205
 	SettingsContainer.misobon_setting = SettingsContainer.misobon_setting_states.SUPER
 	if players.size() == 0: # If players disconnected at character select

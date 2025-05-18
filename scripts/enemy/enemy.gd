@@ -2,9 +2,10 @@ class_name Enemy extends CharacterBody2D
 
 signal enemy_died
 
-@onready var anim_player = $AnimationPlayer
-@onready var statemachine: Node= $StateMachine
-@onready var hitbox = $Hitbox
+@onready var anim_player: AnimationPlayer = $AnimationPlayer
+@onready var statemachine: Node = $StateMachine
+@onready var hitbox: CollisionShape2D = $Hitbox
+@onready var hurtbox: Area2D = $Hurtbox
 
 @export_group("Enemy Settings")
 @export var movement_speed: float = 30.0
@@ -63,6 +64,7 @@ func place(pos: Vector2, path: String):
 	self.enemy_path = path
 
 func enable():
+	self.hurtbox.body_entered.connect(func (player: Player): player.exploded(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID))
 	self.detection_handler.on()
 	self.statemachine.enable()
 
@@ -77,6 +79,8 @@ func disable():
 	if(!is_multiplayer_authority()): return 1
 	hitbox.set_deferred("disabled", 1)
 	hide()
+	for connection in self.hurtbox.body_entered.get_connections():
+		self.hurtbox.body_entered.disconnect(connection.callable)
 	self.position = Vector2.ZERO
 	self.detection_handler.off()
 	self.statemachine.disable()

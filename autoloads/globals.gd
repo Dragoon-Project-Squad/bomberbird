@@ -1,5 +1,11 @@
 extends Node
 
+enum gamemode {
+	NONE,
+	CAMPAIGN,
+	BATTLEMODE
+}
+
 enum pickups {
 	BOMB_UP = 0,
 	FIRE_UP,
@@ -61,6 +67,7 @@ const DUNGEON_RAND_STAGE_PATH = "res://scenes/stages/dungeon_stages/dungeon_rand
 const LAB_FULL_STAGE_PATH = "res://scenes/stages/lab_stages/lab_full.tscn"
 const LAB_RAND_STAGE_PATH = "res://scenes/stages/lab_stages/lab_rand.tscn"
 
+var current_gamemode := gamemode.NONE
 var config = Config.new()
 var game: Node2D
 var current_world: World
