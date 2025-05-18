@@ -63,12 +63,12 @@ func _ready():
 
 	movement_speed_reset = movement_speed
 	bomb_count_reset = bomb_count
-	lives_reset = lives
 	explosion_boost_count_reset = explosion_boost_count
 	match globals.current_gamemode:
 		globals.gamemode.CAMPAIGN: lives = 3
 		globals.gamemode.BATTLEMODE: lives = 1
 		_: lives = 1
+	lives_reset = lives
 
 
 func _process(delta: float):
@@ -318,11 +318,11 @@ func do_hurt() -> void:
 	stop_movement = true
 	animation_player.play("player_animations/hurt")
 	await animation_player.animation_finished
-	stop_movement = false
 	animation_player.play("RESET")
 	await animation_player.animation_finished
 	self.position = world_data.tile_map.map_to_local(globals.current_world.spawnpoints[int(self.name) - 1])
 	do_invulnerabilty()
+	stop_movement = false
 
 @rpc("call_local")
 ## kills this player and awards whoever killed it

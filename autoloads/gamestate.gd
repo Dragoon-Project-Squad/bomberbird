@@ -201,6 +201,7 @@ func get_player_name():
 
 func begin_singleplayer_game():
 	globals.current_gamemode = globals.gamemode.CAMPAIGN
+	SettingsContainer.misobon_setting = SettingsContainer.misobon_setting_states.OFF
 	human_player_count = 1
 	total_player_count = human_player_count
 	if total_player_count > 1:
@@ -213,7 +214,6 @@ func begin_singleplayer_game():
 func begin_game():
 	globals.current_gamemode = globals.gamemode.BATTLEMODE
 	current_level = 205
-	SettingsContainer.misobon_setting = SettingsContainer.misobon_setting_states.SUPER
 	if players.size() == 0: # If players disconnected at character select
 		game_error.emit("All other players disconnected")
 		end_game()
