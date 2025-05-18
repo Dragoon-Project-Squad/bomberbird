@@ -24,7 +24,6 @@ func _on_player_died():
 func _on_player_revived():
 	players_left += 1
 
-
 func _on_hurry_up_start() -> void:
 	if SettingsContainer.misobon_setting == SettingsContainer.misobon_setting_states.OFF:
 		return

@@ -96,7 +96,7 @@ func enable(
 	all_enemied_died.connect(globals.game._check_ending_condition, CONNECT_ONE_SHOT)
 
 
-	if hurry_up: ##SP stages may not have a hurry up node
+	if hurry_up && globals.current_gamemode != globals.gamemode.CAMPAIGN:
 		hurry_up.start()
 
 	_exit_spawned_barrier = false
@@ -226,7 +226,7 @@ func _set_spawnpoints():
 		remaining_spawnpoints -= 1
 
 @rpc("call_local")
-## places players (assumes players already exist
+## places players (assumes players already exist)
 func _place_players():
 	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
 	var spawn_points = {}

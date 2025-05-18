@@ -46,6 +46,14 @@ hframes = 9
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_i1su5")
 
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="HurtboxShape" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_i1su5")
+debug_color = Color(1, 0, 0, 0.419608)
+
 [node name="DetectionHandler_A" type="Node2D" parent="."]
 script = ExtResource("5_d2by1")
 

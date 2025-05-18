@@ -23,7 +23,7 @@ const INVULNERABILITY_FLASH_TIME: float = 0.125
 
 var current_anim: String = ""
 var is_dead: bool = false
-var is_victory_dance: bool = false
+var stop_movement: bool = false
 var player_type: String
 var hurry_up_started: bool = false 
 var misobon_player: MisobonPlayer
@@ -65,6 +65,10 @@ func _ready():
 	bomb_count_reset = bomb_count
 	lives_reset = lives
 	explosion_boost_count_reset = explosion_boost_count
+	match globals.current_gamemode:
+		globals.gamemode.CAMPAIGN: lives = 3
+		globals.gamemode.BATTLEMODE: lives = 1
+		_: lives = 1
 
 
 func _process(delta: float):
@@ -170,7 +174,8 @@ func enter_death_state():
 	is_dead = true
 	animation_player.play("player_animations/death")
 	$Hitbox.set_deferred("disabled", 1)
-	spread_items() #TODO: Check if battlemode
+	if globals.current_gamemode == globals.gamemode.BATTLEMODE:
+		spread_items()
 	reset_pickups()
 	await animation_player.animation_finished
 	player_died.emit()
@@ -304,10 +309,20 @@ func return_bomb():
 @rpc("call_local")
 ## plays the victory animation and stops the player from moving
 func play_victory(reenable: bool) -> Signal:
-	is_victory_dance = true
+	stop_movement = true
 	animation_player.play("player_animations/victory")
-	if reenable: animation_player.animation_finished.connect(func (_x): is_victory_dance = false, CONNECT_ONE_SHOT)
+	if reenable: animation_player.animation_finished.connect(func (_x): stop_movement = false, CONNECT_ONE_SHOT)
 	return animation_player.animation_finished
+
+func do_hurt() -> void:
+	stop_movement = true
+	animation_player.play("player_animations/hurt")
+	await animation_player.animation_finished
+	stop_movement = false
+	animation_player.play("RESET")
+	await animation_player.animation_finished
+	self.position = world_data.tile_map.map_to_local(globals.current_world.spawnpoints[int(self.name) - 1])
+	do_invulnerabilty()
 
 @rpc("call_local")
 ## kills this player and awards whoever killed it
@@ -324,7 +339,10 @@ func exploded(by_who):
 		enter_death_state()
 		enter_misobon()
 	else:
-		do_stun()
+		match globals.current_gamemode:
+			globals.gamemode.BATTLEMODE: do_stun()
+			globals.gamemode.CAMPAIGN: do_hurt()
+			_: push_error("A player died while no gamemode was active")
 
 @rpc("call_local")
 func crush():
