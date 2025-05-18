@@ -8,6 +8,7 @@ signal enemy_died
 @onready var hurtbox: Area2D = $Hurtbox
 
 @export_group("Enemy Settings")
+@export var score_points: int = 100
 @export var movement_speed: float = 30.0
 @export var detection_handler: Node2D
 @export_group("Multiplayer Variables")

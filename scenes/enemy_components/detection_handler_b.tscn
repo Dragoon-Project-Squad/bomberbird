@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://deysh2082n3dn"]
 
-[ext_resource type="Script" uid="uid://cd0y5hcqxmhdo" path="res://scripts/enemy/detection_handler_type_B.gd" id="1_k4p53"]
+[ext_resource type="Script" uid="uid://cd0y5hcqxmhdo" path="res://scripts/enemy/detection_handlers/detection_handler_type_B.gd" id="1_k4p53"]
 
 [node name="DetectionHandler_B" type="Node2D"]
 script = ExtResource("1_k4p53")
