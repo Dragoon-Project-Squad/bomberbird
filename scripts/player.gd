@@ -194,6 +194,17 @@ func exit_death_state():
 	is_dead = false
 	do_invulnerabilty()
 
+@rpc("call_local")
+func reset():
+	process_mode = PROCESS_MODE_INHERIT
+	player_revived.emit()
+	animation_player.play("player_animations/revive")
+	$Hitbox.set_deferred("disabled", 0)
+	await animation_player.animation_finished
+	stunned = false
+	is_dead = false
+	show()
+	
 ## resets the pickups back to the inital state
 func reset_pickups():
 	movement_speed = movement_speed_reset

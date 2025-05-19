@@ -151,7 +151,7 @@ func assign_player_numbers():
 func establish_player_counts() -> void:
 	human_player_count = 1 + players.size()
 	assert(multiplayer.is_server())
-	total_player_count = human_player_count + SettingsContainer.cpu_count
+	total_player_count = min(4, human_player_count + SettingsContainer.get_cpu_count())
 	add_ai_players() #Depends on knowing the total player count and human player count to do its job
 	
 @rpc("call_local")

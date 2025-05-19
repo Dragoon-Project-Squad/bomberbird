@@ -12,7 +12,7 @@ var bomb_pool: BombPool
 var player: Player
 var last_bomb_time: float = BOMB_RATE
 var current_anim: String = ""
-var controlable: bool = false
+var controllable: bool = false
 
 func _ready() -> void:
 	bomb_pool = globals.game.bomb_pool
@@ -44,7 +44,14 @@ func enable(starting_progress: float):
 @rpc("call_local")
 func disable(do_wait: bool = false):
 	if do_wait: await $AnimationPlayer.animation_finished
-	controlable = false
+	controllable = false
+	hide()
+	current_anim = ""
+	process_mode = PROCESS_MODE_DISABLED
+	
+@rpc("call_local")
+func disable_at_end_of_round():
+	controllable = false
 	hide()
 	current_anim = ""
 	process_mode = PROCESS_MODE_DISABLED
@@ -82,11 +89,21 @@ func revive(pos: Vector2):
 	if player.is_multiplayer_authority():
 		player.exit_death_state.rpc()
 		disable.rpc()
+		
+func reset(pos: Vector2):
+	if SettingsContainer.misobon_setting != SettingsContainer.misobon_setting_states.SUPER || !player.is_dead:
+		return
+	var corrected_pos: Vector2 = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(pos))
+	player.synced_position = corrected_pos
+	player.position = corrected_pos
+	if player.is_multiplayer_authority():
+		player.reset.rpc()
+		disable.rpc()
 
 ## updates the looking direction animation
 func update_animation(segment_index: int):
 	var animations: Array[String] = ["look_down", "look_left", "look_up", "look_right"]
-	if animations[segment_index] != current_anim && controlable:
+	if animations[segment_index] != current_anim && controllable:
 		current_anim = animations[segment_index]
 		$AnimationPlayer.play("misobon_player_animation/" + current_anim)
 
@@ -100,11 +117,11 @@ func play_spawn_animation():
 		current_anim = "spawn_left"
 	$AnimationPlayer.play("misobon_player_animation/" + current_anim)
 	await $AnimationPlayer.animation_finished
-	controlable = true
+	controllable = true
 
 @rpc("call_local")
 func play_despawn_animation():
-	controlable = false
+	controllable = false
 	var seg_index: int = get_parent().get_segment_id(progress)
 	var animations = ["despawn_top", "despawn_right", "despawn_bottom", "despawn_left"]
 	current_anim = animations[seg_index]
