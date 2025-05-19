@@ -1,5 +1,11 @@
 extends Node
 
+enum gamemode {
+	NONE,
+	CAMPAIGN,
+	BATTLEMODE
+}
+
 enum pickups {
 	BOMB_UP = 0,
 	FIRE_UP,
@@ -62,6 +68,7 @@ const LAB_FULL_STAGE_PATH = "res://scenes/stages/lab_stages/lab_full.tscn"
 const LAB_RAND_STAGE_PATH = "res://scenes/stages/lab_stages/lab_rand.tscn"
 const MULTIPLAYER_VICTORY_SCREEN_PATH = "res://scenes/victory_screen.tscn"
 
+var current_gamemode := gamemode.NONE
 var config = Config.new()
 var game: Node2D
 var current_world: World
