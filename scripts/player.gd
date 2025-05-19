@@ -203,7 +203,8 @@ func reset():
 	await animation_player.animation_finished
 	stunned = false
 	is_dead = false
-
+	show()
+	
 ## resets the pickups back to the inital state
 func reset_pickups():
 	movement_speed = movement_speed_reset

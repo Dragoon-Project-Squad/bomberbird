@@ -49,6 +49,13 @@ func disable(do_wait: bool = false):
 	current_anim = ""
 	process_mode = PROCESS_MODE_DISABLED
 	
+@rpc("call_local")
+func disable_at_end_of_round():
+	controlable = false
+	hide()
+	current_anim = ""
+	process_mode = PROCESS_MODE_DISABLED
+	
 ## called to spawn and throw a bomb
 func throw_bomb():
 	last_bomb_time = 0

@@ -20,6 +20,12 @@ func wipe_stage():
 	reset()
 	stage.disable()
 	
+func lock_misobon():
+	var misoplayers: Array[MisobonPlayer] = Array($MisobonPath.get_children().filter(func (p): return (p is MisobonPlayer)), TYPE_OBJECT, "PathFollow2D", MisobonPlayer)
+	if is_multiplayer_authority():
+		for misoplayer in misoplayers:
+			misoplayer.disable_at_end_of_round.rpc()
+
 func reset_players():
 	var misoplayers: Array[MisobonPlayer] = Array($MisobonPath.get_children().filter(func (p): return (p is MisobonPlayer)), TYPE_OBJECT, "PathFollow2D", MisobonPlayer)
 	var deadplayers: Array[Player] = globals.player_manager.get_dead_players()
@@ -43,6 +49,7 @@ func _check_ending_condition(_alive_enemies: int = 0):
 		# If we can still confirm only 1 or 0 players are alive after one second...
 		stageMusic.stop()
 		%MatchTimer.stop()
+		lock_misobon()
 	if len(alive_players) == 0:
 		#fade_in_out.play("fade_out")
 		#await fade_in_out.animation_finished
