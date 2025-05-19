@@ -44,4 +44,3 @@ func get_enemy_dictionary() -> Dictionary:
 		if(!ret.has(full_path)): ret[full_path] = []
 		ret[full_path].append({ "coords": entry.coords, "probability": entry.probability })
 	return ret
-

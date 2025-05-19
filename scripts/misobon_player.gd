@@ -82,6 +82,16 @@ func revive(pos: Vector2):
 	if player.is_multiplayer_authority():
 		player.exit_death_state.rpc()
 		disable.rpc()
+		
+func reset(pos: Vector2):
+	if SettingsContainer.misobon_setting != SettingsContainer.misobon_setting_states.SUPER || !player.is_dead:
+		return
+	var corrected_pos: Vector2 = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(pos))
+	player.synced_position = corrected_pos
+	player.position = corrected_pos
+	if player.is_multiplayer_authority():
+		player.reset.rpc()
+		disable.rpc()
 
 ## updates the looking direction animation
 func update_animation(segment_index: int):

@@ -60,6 +60,7 @@ const DUNGEON_FULL_STAGE_PATH = "res://scenes/stages/dungeon_stages/dungeon_full
 const DUNGEON_RAND_STAGE_PATH = "res://scenes/stages/dungeon_stages/dungeon_rand.tscn"
 const LAB_FULL_STAGE_PATH = "res://scenes/stages/lab_stages/lab_full.tscn"
 const LAB_RAND_STAGE_PATH = "res://scenes/stages/lab_stages/lab_rand.tscn"
+const MULTIPLAYER_VICTORY_SCREEN_PATH = "res://scenes/victory_screen.tscn"
 
 var config = Config.new()
 var game: Node2D

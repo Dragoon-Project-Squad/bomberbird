@@ -14,7 +14,21 @@ func _ready() -> void:
 	alive_players_changed.connect(globals.game._check_ending_condition, CONNECT_DEFERRED)
 
 func get_alive_players() -> Array[Player]:
-	return Array(get_children().filter(func (p): return (p is HumanPlayer || p is AIPlayer) && !p.is_dead), TYPE_OBJECT, "CharacterBody2D", Player)
+	return get_players("alive")
+	
+func get_dead_players() -> Array[Player]:
+	return get_players("dead")	
+
+func get_players(type: String = "all") -> Array[Player]:
+	match type:
+		"all":
+			return Array(get_children().filter(func (p): return (p is HumanPlayer || p is AIPlayer)), TYPE_OBJECT, "CharacterBody2D", Player)
+		"dead":
+			return Array(get_children().filter(func (p): return (p is HumanPlayer || p is AIPlayer) && p.is_dead), TYPE_OBJECT, "CharacterBody2D", Player)
+		"alive":
+			return Array(get_children().filter(func (p): return (p is HumanPlayer || p is AIPlayer) && !p.is_dead), TYPE_OBJECT, "CharacterBody2D", Player)
+		_:
+			return Array(get_children().filter(func (p): return (p is HumanPlayer || p is AIPlayer)), TYPE_OBJECT, "CharacterBody2D", Player)
 
 func _on_player_died():
 	#If SUPER and killer is dead he would be revived so nothing meaningfull has actualy changed

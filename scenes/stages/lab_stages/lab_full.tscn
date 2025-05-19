@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="5_2ugnq"]
 [ext_resource type="Script" uid="uid://dgwlvvxb85sln" path="res://scripts/music.gd" id="10_pwdjc"]
 
-
 [sub_resource type="Resource" id="Resource_xohey"]
 script = ExtResource("2_sf2cf")
 extra_bomb = 500
@@ -15,6 +14,9 @@ explosion_boost = 500
 speed_boost = 500
 max_explosion = 20
 punch_ability = 50
+wallthrough = 50
+bombthrough = 50
+piercing_bomb = 50
 metadata/_custom_type_script = "uid://bta1elkd6rmla"
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_7j1x2"]

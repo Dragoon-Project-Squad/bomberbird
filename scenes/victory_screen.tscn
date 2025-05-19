@@ -1,0 +1,119 @@
+[gd_scene load_steps=7 format=3 uid="uid://26kd3qfwd0p4"]
+
+[ext_resource type="Texture2D" uid="uid://dcumjmw5e76e0" path="res://assets/black.png" id="1_ujlt3"]
+[ext_resource type="Script" uid="uid://bvpa4dbxnunbg" path="res://scripts/victory_screen.gd" id="1_wdgif"]
+
+[sub_resource type="Animation" id="Animation_8ic0x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FadeInOut/FadeInOutRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FadeInOut/FadeInOutRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_1u21r"]
+resource_name = "fade_in"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FadeInOut/FadeInOutRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FadeInOut/FadeInOutRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_qa6w2"]
+resource_name = "fade_out"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FadeInOut/FadeInOutRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FadeInOut/FadeInOutRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qa6w2"]
+_data = {
+&"RESET": SubResource("Animation_8ic0x"),
+&"fade_in": SubResource("Animation_1u21r"),
+&"fade_out": SubResource("Animation_qa6w2")
+}
+
+[node name="VictoryScreen" type="Node2D"]
+script = ExtResource("1_wdgif")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(576, 324)
+scale = Vector2(36, 20.25)
+texture = ExtResource("1_ujlt3")
+
+[node name="FadeInOut" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_qa6w2")
+}
+
+[node name="FadeInOutRect" type="ColorRect" parent="FadeInOut"]
+visible = false
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="."]
+offset_right = 1144.0
+offset_bottom = 208.0
+theme_override_font_sizes/font_size = 80
+text = "peanus weanus"
