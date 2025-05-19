@@ -44,7 +44,7 @@ func _check_ending_condition(_alive_enemies: int = 0):
 	if win_screen.visible: return
 	var alive_players: Array[Player] = globals.player_manager.get_alive_players()
 	if len(alive_players) < 2:
-		await get_tree().create_timer(1).timeout
+		await get_tree().create_timer(0.5).timeout
 	if len(alive_players) < 2:
 		# If we can still confirm only 1 or 0 players are alive after one second...
 		stageMusic.stop()
