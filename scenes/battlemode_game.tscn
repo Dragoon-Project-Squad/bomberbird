@@ -208,3 +208,12 @@ color = Color(0, 0, 0, 1)
 libraries = {
 &"": SubResource("AnimationLibrary_qa6w2")
 }
+
+[node name="MatchAudio" type="Node" parent="."]
+
+[node name="Announcer" type="AudioStreamPlayer" parent="MatchAudio"]
+bus = &"Announcer"
+playback_type = 2
+
+[node name="MatchSound" type="AudioStreamPlayer" parent="MatchAudio"]
+bus = &"SFX"

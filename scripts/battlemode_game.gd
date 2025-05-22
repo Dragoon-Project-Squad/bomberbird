@@ -3,6 +3,7 @@ extends Game
 @onready var stage_loader: Node = $StageLoader
 @onready var fade_in_out: AnimationPlayer = $FadeInOut
 var stageMusic: AudioStreamPlayer2D
+@onready var announcer: AudioStreamPlayer = $MatchAudio/Announcer
 
 func _ready():
 	super()
@@ -38,19 +39,26 @@ func reset_players():
 func load_new_stage():
 	stage.queue_free()
 	start()
-			
+
+func stop_the_match():
+	stageMusic.stop()
+	%MatchTimer.stop()
+	lock_misobon()
+	
 ## checks if there is only 1 alive player if so makes that player win, if there is no player is draws the game and for any other state this function does nothing
 func _check_ending_condition(_alive_enemies: int = 0):
 	if win_screen.visible: return
 	var alive_players: Array[Player] = globals.player_manager.get_alive_players()
 	if len(alive_players) < 2:
 		await get_tree().create_timer(0.5).timeout
-	if len(alive_players) < 2:
+		# Give the last player 0.5s to somehow fumble into a Draw
+	if len(alive_players) == 1:
 		# If we can still confirm only 1 or 0 players are alive after one second...
-		stageMusic.stop()
-		%MatchTimer.stop()
-		lock_misobon()
+		stop_the_match()
+		# WE HAVE A WINNER
+		
 	if len(alive_players) == 0:
+		stop_the_match()
 		#fade_in_out.play("fade_out")
 		#await fade_in_out.animation_finished
 		#DO WIN SCREEN STUFF
