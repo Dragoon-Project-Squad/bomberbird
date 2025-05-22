@@ -61,7 +61,7 @@ tile_set = ExtResource("2_544pj")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 50
+collision_mask = 58
 
 [node name="x-line" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("SegmentShape2D_5as2d")
