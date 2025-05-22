@@ -101,6 +101,10 @@ func done():
 	bomb_root.disable.rpc()
 	bomb_pool.return_obj(get_parent()) # bomb returns itself to the pool
 
+@rpc("call_local")
+func exploded(by_who):
+	$AnimationPlayer.advance(2.79)
+
 func set_explosion_width_and_size(somewidth: int):
 	explosion_width = clamp(somewidth, 2, MAX_EXPLOSION_WIDTH)
 	bombsprite.set_frame(clamp(somewidth-3, 0, 2))
