@@ -108,7 +108,8 @@ func report_kill(killed_player: Player):
 	
 func _on_body_entered(body: Node2D) -> void:
 	if is_multiplayer_authority() && body.has_method("exploded"):
-		body.exploded.rpc(str(get_parent().bomb_root.bomb_owner.name).to_int())	
+		if self not in body.get_children():
+			body.exploded.rpc(str(get_parent().bomb_root.bomb_owner.name).to_int())
 	if (
 		body is Player
 		&& get_parent().bomb_root.bomb_owner_is_dead #was the bomb owner dead when the bomb was created?
