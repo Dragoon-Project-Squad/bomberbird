@@ -7,6 +7,7 @@ enum virus {DEFAULT, SPEEDDOWN, SPEEDUP, FIREDOWN, SLOWFUSE_A, SLOWFUSE_B, FASTF
 
 var held_pickups: Dictionary = {
 	globals.pickups.GENERIC_BOMB: bomb_types.DEFAULT,
+	globals.pickups.MINE: bomb_types.MINE,
 	globals.pickups.GENERIC_EXCLUSIVE: exclusive.DEFAULT,
 	globals.pickups.VIRUS: virus.DEFAULT,
 	globals.pickups.BOMB_UP: 0,

@@ -13,6 +13,7 @@ const TILE_SIZE = 32 #Primitive method of assigning correct tile size
 
 # bomb addons
 var pierce := false
+var mine := false
 
 @export var bomb_place_audio: AudioStreamWAV = load("res://sound/fx/bombdrop.wav")
 @onready var bomb_placement_sfx_player: AudioStreamPlayer
@@ -24,6 +25,7 @@ var pierce := false
 @onready var tileMap = world_data.tile_map
 
 var force_collision: bool = false
+var armed: bool = false
 
 func _ready():
 	explosion_sfx_player = bomb_pool.get_node("BombGlobalAudioPlayers/ExplosionSoundPlayer")
@@ -44,15 +46,28 @@ func set_addons(addons: Dictionary):
 	if addons.is_empty():
 		return
 	pierce = addons.get("pierce", false)
+	mine = addons.get("mine", false)
 
 func place(bombPos: Vector2, fuse_time_passed: float = 0, force_collision: bool = false):
 	bomb_placement_sfx_player.play()
 	bomb_root.position = bombPos
 	self.visible = true
 	self.force_collision = force_collision
-	$AnimationPlayer.play("fuse_and_call_detonate()")
+	if mine:
+		armed = false
+		$AnimationPlayer.play("hide")
+	else:
+		$AnimationPlayer.play("fuse_and_call_detonate()")
 	$AnimationPlayer.advance(fuse_time_passed) #continue the animation from where it was left of
-	
+
+func hide_mine():
+	hide()
+	set_collision_layer_value(4, false)
+	astargrid_handler.astargrid_set_point(bomb_root.global_position, false)
+	world_data.set_tile(world_data.tiles.EMPTY, bomb_root.global_position)
+	armed = true
+	return
+
 ## started the detonation call chain, calculates the true range of the explosion by checking for any breakables in its path, destroys those and corrects its exposion size before telling the exposion child to activate
 func detonate():
 	explosion_sfx_player.stop()
@@ -116,6 +131,9 @@ func set_bomb_size(size: int):
 	
 func _on_detect_area_body_entered(body: Node2D):
 	if force_collision: return
+	if (body is Player || body is Enemy) && armed && mine:
+		show()
+		$AnimationPlayer.play("mine_explode")
 	if !(body in get_collision_exceptions()):
 		add_collision_exception_with(body)
 

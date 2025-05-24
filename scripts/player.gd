@@ -49,6 +49,7 @@ var movement_speed_reset: float
 var bomb_count_reset: int
 var lives_reset: int
 var explosion_boost_count_reset: int
+var bomb_count_locked: bool = false
 
 func _ready():
 	player_died.connect(globals.player_manager._on_player_died)
@@ -237,7 +238,7 @@ func spread_items():
 			match pickups.held_pickups[key]:
 				pickups.bomb_types.DEFAULT: continue
 				pickups.bomb_types.PIERCING: pickup_type = globals.pickups.PIERCING
-				#pickups.bomb_types.MINE: pickup_type = globals.pickups.MINE
+				pickups.bomb_types.MINE: pickup_type = globals.pickups.MINE
 				#pickups.bomb_types.REMOTE: pickup_type = globals.pickups.REMOTE
 				#pickups.bomb_types.SEEKER: pickup_type = globals.pickups.SEEKER
 				_: 	push_error("invalid bomb_type on item spread") # this will crash the game so this bad
@@ -309,8 +310,21 @@ func enable_bombclip():
 
 @rpc("call_local")
 func increment_bomb_count():
+	if (bomb_count_locked):
+		return
+	
 	bomb_total = min(bomb_total+1, MAX_BOMBS_OWNABLE)
 	bomb_count = min(bomb_count+1, bomb_total)
+
+@rpc("call_local")
+func lock_bomb_count(target_bomb_count: int):
+	bomb_count_locked = true
+	bomb_total = target_bomb_count
+	bomb_count = min(bomb_count+1, bomb_total)
+
+@rpc("call_local")
+func unlock_bomb_count():
+	bomb_count_locked = false
 
 @rpc("call_local")
 func return_bomb():
