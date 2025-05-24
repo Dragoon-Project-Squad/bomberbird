@@ -21,7 +21,7 @@ var pickup_spawn_chance = PICKUP_SPAWN_BASE_CHANCE
 #@export var kick: int = 0
 @export var bombthrough: int = 50
 @export var piercing_bomb: int = 50
-#@export var land_mine: int = 0
+@export var land_mine: int = 50
 #@export var remote_control: int = 0
 #@export var seeker_bomb: int = 0
 
@@ -50,7 +50,7 @@ func update():
 		#globals.pickups.KICK: kick,
 		globals.pickups.BOMBTHROUGH: bombthrough,
 		globals.pickups.PIERCING: piercing_bomb,
-		#globals.pickups.MINE: land_mine,
+		globals.pickups.MINE: land_mine,
 		#globals.pickups.REMOTE: remote_control,
 		#globals.pickups.SEEKER: seeker_bomb,
 		}
@@ -72,7 +72,7 @@ func reverse_update():
 	#kick = pickup_weights[globals.pickups.KICK]
 	bombthrough = pickup_weights[globals.pickups.BOMBTHROUGH]
 	piercing_bomb = pickup_weights[globals.pickups.PIERCING]
-	#land_mine = pickup_weights[globals.pickups.MINE]
+	land_mine = pickup_weights[globals.pickups.MINE]
 	#remote_control = pickup_weights[globals.pickups.REMOTE]
 	#seeker_bomb = pickup_weights[globals.pickups.SEEKER]
 

@@ -60,6 +60,8 @@ func set_bomb_type(type: int):
 	match type:
 		HeldPickups.bomb_types.PIERCING:
 			self.addons["pierce"] = true
+		HeldPickups.bomb_types.MINE:
+			self.addons["mine"] = true
 
 ## sets the state to stationary and tells the corresponding state to start processing
 @rpc("call_local")
