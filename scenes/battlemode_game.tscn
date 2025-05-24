@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cqqhrm2734wfv"]
+[gd_scene load_steps=22 format=3 uid="uid://cqqhrm2734wfv"]
 
 [ext_resource type="Script" uid="uid://6r08478oev3y" path="res://scripts/battlemode_game.gd" id="1_3bvga"]
 [ext_resource type="Script" uid="uid://c6ubwejmc188k" path="res://scripts/players_manager.gd" id="3_qmebr"]
@@ -11,6 +11,10 @@
 [ext_resource type="PackedScene" uid="uid://b22qg08qddy6x" path="res://scenes/pools/pick_up_pool.tscn" id="9_bsfbc"]
 [ext_resource type="PackedScene" uid="uid://b3638glthchxv" path="res://scenes/ingame_ui/battlemode_game_ui.tscn" id="10_3qosu"]
 [ext_resource type="PackedScene" uid="uid://mjwddadi7v4o" path="res://scenes/ingame_ui/record_winner.tscn" id="11_166ep"]
+[ext_resource type="AudioStream" uid="uid://cn7pj3ye8doko" path="res://sound/announcerfemale/3.ogg" id="12_egtpy"]
+[ext_resource type="AudioStream" uid="uid://d2yy8xjs43qrc" path="res://sound/announcerfemale/2.ogg" id="13_a5m7k"]
+[ext_resource type="AudioStream" uid="uid://deiituag5pcd8" path="res://sound/announcerfemale/1.ogg" id="14_vrcl4"]
+[ext_resource type="AudioStream" uid="uid://dqttax0kd8ds2" path="res://sound/announcerfemale/go.ogg" id="15_hvhk6"]
 
 [sub_resource type="Curve2D" id="Curve2D_6r17b"]
 _data = {
@@ -55,6 +59,65 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_bsfbc"]
+resource_name = "countdown"
+length = 3.6
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MatchAudio/Announcer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("12_egtpy")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("13_a5m7k")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("14_vrcl4")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("15_hvhk6")
+}],
+"times": PackedFloat32Array(0, 1, 2, 3)
+}
+tracks/0/use_blend = true
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"unfreeze_players"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"activate_ui_and_music"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_1u21r"]
@@ -140,6 +203,7 @@ tracks/2/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qa6w2"]
 _data = {
 &"RESET": SubResource("Animation_8ic0x"),
+&"countdown": SubResource("Animation_bsfbc"),
 &"fade_in": SubResource("Animation_1u21r"),
 &"fade_out": SubResource("Animation_qa6w2")
 }
@@ -187,7 +251,6 @@ zoom = Vector2(1.3, 1.3)
 unique_name_in_owner = true
 wait_time = 120.0
 one_shot = true
-autostart = true
 
 [node name="MultiplayerGameUI" parent="." instance=ExtResource("10_3qosu")]
 
@@ -200,11 +263,13 @@ offset_bottom = 499.0
 
 [node name="FadeInOutRect" type="ColorRect" parent="."]
 visible = false
+offset_left = -193.0
+offset_top = 1.0
 offset_right = 1152.0
 offset_bottom = 648.0
 color = Color(0, 0, 0, 1)
 
-[node name="FadeInOut" type="AnimationPlayer" parent="."]
+[node name="AnimPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_qa6w2")
 }
@@ -213,7 +278,6 @@ libraries = {
 
 [node name="Announcer" type="AudioStreamPlayer" parent="MatchAudio"]
 bus = &"Announcer"
-playback_type = 2
 
 [node name="MatchSound" type="AudioStreamPlayer" parent="MatchAudio"]
 bus = &"SFX"

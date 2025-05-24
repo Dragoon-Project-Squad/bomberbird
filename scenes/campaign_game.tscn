@@ -31,7 +31,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("FadeInOut/FadeInOutRect:color")
+tracks/0/path = NodePath("AnimPlayer/FadeInOutRect:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -43,7 +43,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("FadeInOut/FadeInOutRect:visible")
+tracks/1/path = NodePath("AnimPlayer/FadeInOutRect:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -59,7 +59,7 @@ length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("FadeInOut/FadeInOutRect:color")
+tracks/0/path = NodePath("AnimPlayer/FadeInOutRect:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -71,7 +71,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("FadeInOut/FadeInOutRect:visible")
+tracks/1/path = NodePath("AnimPlayer/FadeInOutRect:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -87,7 +87,7 @@ length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("FadeInOut/FadeInOutRect:color")
+tracks/0/path = NodePath("AnimPlayer/FadeInOutRect:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -99,7 +99,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("FadeInOut/FadeInOutRect:visible")
+tracks/1/path = NodePath("AnimPlayer/FadeInOutRect:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -189,12 +189,12 @@ label_settings = SubResource("LabelSettings_qa6w2")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="FadeInOut" type="AnimationPlayer" parent="."]
+[node name="AnimPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_qa6w2")
 }
 
-[node name="FadeInOutRect" type="ColorRect" parent="FadeInOut"]
+[node name="FadeInOutRect" type="ColorRect" parent="AnimPlayer"]
 visible = false
 z_index = 100
 offset_left = -194.0

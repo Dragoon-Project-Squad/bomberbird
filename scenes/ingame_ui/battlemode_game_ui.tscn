@@ -48,6 +48,7 @@ vertical_alignment = 1
 
 [node name="RemainingTime" type="Label" parent="Border/Container/Players/Timer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 text = "2:00"
 
