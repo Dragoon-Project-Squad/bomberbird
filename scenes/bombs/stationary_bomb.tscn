@@ -63,7 +63,7 @@ explosion_audio = ExtResource("2_gmoi6")
 shape = SubResource("RectangleShape2D_6btgv")
 
 [node name="DetectArea" type="Area2D" parent="."]
-collision_layer = 0
+collision_layer = 128
 collision_mask = 38
 input_pickable = false
 
