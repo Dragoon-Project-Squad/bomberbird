@@ -201,7 +201,7 @@ func reset():
 	animation_player.play("player_animations/revive")
 	$Hitbox.set_deferred("disabled", 0)
 	await animation_player.animation_finished
-	stunned = false
+	stunned = true
 	is_dead = false
 	show()
 	
@@ -355,10 +355,6 @@ func exploded(by_who):
 		return
 	lives -= 1
 	hurt_sfx_player.play()
-	if by_who != gamestate.ENVIRONMENTAL_KILL_PLAYER_ID && str(by_who) == name: 
-		game_ui.decrease_score(by_who) # Take away a point for blowing yourself up
-	elif by_who != gamestate.ENVIRONMENTAL_KILL_PLAYER_ID:
-		game_ui.increase_score(by_who) # Award a point to the person who blew you up
 	if lives <= 0:
 		enter_death_state()
 		enter_misobon()
