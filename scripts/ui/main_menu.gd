@@ -8,8 +8,10 @@ signal options_menu_entered
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	main_menu_music_player.play()
+	main_menu_music_player.autoplay = true
 	$ButtonBox/Singleplayer.grab_focus()
-	
+
 func switch_to_options_menu() -> void:
 	hide_main_menu()
 	options_menu.visible = true
