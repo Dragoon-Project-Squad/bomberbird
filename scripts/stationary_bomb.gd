@@ -134,6 +134,8 @@ func _on_detect_area_body_entered(body: Node2D):
 	if (body is Player || body is Enemy) && armed && mine:
 		show()
 		$AnimationPlayer.play("mine_explode")
+	if body is Breakable:
+		body.crush()
 	if !(body in get_collision_exceptions()):
 		add_collision_exception_with(body)
 
