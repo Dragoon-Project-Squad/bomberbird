@@ -12,8 +12,8 @@ var pickup_spawn_chance = PICKUP_SPAWN_BASE_CHANCE
 @export var speed_boost: int = 500
 #@export var hearth: int = 0
 @export var max_explosion: int = 100
-@export var punch_ability: int = 200
-#@export var throw_ability: int = 0
+@export var punch_ability: int = 50
+@export var throw_ability: int = 50
 @export var wallthrough: int = 50
 #@export var timer: int = 0
 #@export var invincibility_vest: int = 0
@@ -42,7 +42,7 @@ func update():
 		#globals.pickups.HP_UP: health,
 		globals.pickups.FULL_FIRE: max_explosion,
 		globals.pickups.BOMB_PUNCH: punch_ability,
-		#globals.pickups.POWER_GLOVE: throw_ability,
+		globals.pickups.POWER_GLOVE: throw_ability,
 		globals.pickups.WALLTHROUGH: wallthrough,
 		#globals.pickups.FREEZE: timer,
 		#globals.pickups.INVINCIBILITY_VEST: invincibility_vest,
@@ -64,7 +64,7 @@ func reverse_update():
 	#hearth = pickup_weights[globals.pickups.HP_UP]
 	max_explosion = pickup_weights[globals.pickups.FULL_FIRE]
 	punch_ability = pickup_weights[globals.pickups.BOMB_PUNCH]
-	#throw_ability = pickup_weights[globals.pickups.POWER_GLOVE]
+	throw_ability = pickup_weights[globals.pickups.POWER_GLOVE]
 	wallthrough = pickup_weights[globals.pickups.WALLTHROUGH]
 	#timer = pickup_weights[globals.pickups.FREEZE]
 	#invincibility_vest = pickup_weights[globals.pickups.INVINCIBILITY_VEST]

@@ -136,9 +136,39 @@ func do_punch(direction: Vector2i):
 		0.4
 	)
 	world_data.set_tile(world_data.tiles.EMPTY, self.global_position)
-
 	return 0
 
+@rpc("call_local")
+func do_throw(direction: Vector2i, new_position: Vector2):
+	if bomb_owner == null: #this should only be called by a misobon player hence the bomb must have an owner
+		printerr("A bomb without an bomb_owner tried to be thrown")
+		return 1
+	if state != AIRBORN: #this bomb has should just have been taken from the player pool. if not a fatal error has occured
+		printerr("a player wanted to throw a bomb that already has an active state")
+		return 2
+	
+	self.position = new_position
+	in_use = true
+	bomb_owner_is_dead = false
+	var bomb_authority: Node2D = state_map[state]
+	bomb_authority.throw(
+		self.position,
+		self.position + 3 * world_data.tile_map.tile_set.tile_size.x * Vector2(direction),
+		direction,
+		-PI / 6,
+		0.4
+	)
+	world_data.set_tile(world_data.tiles.EMPTY, self.global_position)
+	return 0
+
+@rpc("call_local")
+func carry() -> int:
+	if state == DISABLED:
+		return 1
+	fuse_time_passed = state_map[state].get_node("AnimationPlayer").current_animation_position
+	self.in_use = false
+	set_state(AIRBORN)
+	return 0
 
 #!!!!!
 # ALL FUNCTION FROM THIS POINT ARE EXAMPLES / NOT YET USED BY ANYTHING SO YOU ARE FREE TO COMPLETLY CHANGE THEM IF YOU IMPLEMENT ONE OF THEM PLEASE UPDATE THIS COMMENT TO REFLECT THIS

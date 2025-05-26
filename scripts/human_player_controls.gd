@@ -1,15 +1,13 @@
 extends Node
 
-@export
 var motion = Vector2():
 	set(value):
 		# This will be sent by players, make sure values are within limits.
 		motion = clamp(value, Vector2(-1, -1), Vector2(1, 1))
 
-@export
-var bombing = false
-@export
-var punch_ability = false
+var bombing := false
+var punch_ability := false
+var secondary_ability := false
 
 func update():
 	var m = Vector2()
@@ -25,3 +23,4 @@ func update():
 	motion = m
 	bombing = Input.is_action_pressed("set_bomb")
 	punch_ability = Input.is_action_pressed("punch_action")
+	secondary_ability = Input.is_action_just_pressed("secondary_action")
