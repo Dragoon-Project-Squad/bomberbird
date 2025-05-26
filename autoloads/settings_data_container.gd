@@ -32,7 +32,10 @@ var breakable_chance := 100.0
 var pickup_spawn_rule := pickup_spawn_rule_setting_states.STAGE #The dropdown is set to a dictionary.
 var pickup_chance := 100.0
 
+# Held Data Dictionaries
+var personal_loaded_data : Dictionary = {}
 var loaded_data : Dictionary = {}
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	handle_signals()
@@ -315,26 +318,40 @@ func set_pickup_spawn_rule(index : int) -> void:
 func set_pickup_chance(value : float) -> void:
 	pickup_chance = value
 
+func set_options_settings_vars_from_dict(datadict : Dictionary) -> void:
+	set_window_mode(datadict.window_mode_index if datadict.has('window_mode_index') else DEFAULT_SETTINGS.DEFAULT_WINDOW_MODE_INDEX)
+	set_resolution(datadict.resolution_index if datadict.has('resolution_index') else DEFAULT_SETTINGS.DEFAULT_RESOLUTION_INDEX)
+	set_master_vol(datadict.master_volume if datadict.has('master_volume') else DEFAULT_SETTINGS.DEFAULT_MASTER_VOLUME)
+	set_music_vol(datadict.music_volume if datadict.has('music_volume') else DEFAULT_SETTINGS.DEFAULT_MUSIC_VOLUME)
+	set_sfx_vol(datadict.sfx_volume if datadict.has('sfx_volume') else DEFAULT_SETTINGS.DEFAULT_SFX_VOLUME)
+	set_keybinds_loaded(datadict.keybinds if datadict.has('keybinds') else create_keybinds_dictionary())
+
+@rpc("call_local")
+func set_battle_settings_vars_from_dict(datadict : Dictionary) -> void:
+	set_points_to_win(datadict.points_to_win if datadict.has('points_to_win') else BATTLE_SETTINGS.DEFAULT_POINTS_TO_WIN)
+	set_cpu_difficulty(datadict.cpu_difficulty if datadict.has('cpu_difficulty') else BATTLE_SETTINGS.DEFAULT_CPU_DIFFICULTY)
+	set_cpu_count(datadict.cpu_count if datadict.has('cpu_count') else BATTLE_SETTINGS.DEFAULT_CPU_COUNT)
+	set_misobon_setting(datadict.misobon_setting if datadict.has('misobon_setting') else BATTLE_SETTINGS.DEFAULT_MISOBON_SETTING)
+	set_match_time(datadict.match_time if datadict.has('match_time') else BATTLE_SETTINGS.DEFAULT_MATCH_TIME)
+	set_hurry_up_time(datadict.hurry_up_time if datadict.has('hurry_up_time') else BATTLE_SETTINGS.DEFAULT_HURRY_UP_TIME)
+	set_hurry_up_state(datadict.hurry_up_state if datadict.has('hurry_up_state') else BATTLE_SETTINGS.DEFAULT_HURRY_UP_STATE)
+	set_sudden_death_state(datadict.sudden_death_state if datadict.has('sudden_death_state') else BATTLE_SETTINGS.DEFAULT_SUDDEN_DEATH_STATE)
+	set_breakable_spawn_rule(datadict.breakable_spawn_rule if datadict.has('breakable_spawn_rule') else BATTLE_SETTINGS.DEFAULT_BREAKABLE_SPAWN_RULE)
+	set_breakable_chance(datadict.breakable_chance if datadict.has('breakable_chance') else BATTLE_SETTINGS.DEFAULT_BREAKABLE_CHANCE)
+	set_pickup_spawn_rule(datadict.pickup_spawn_rule if datadict.has('pickup_spawn_rule') else BATTLE_SETTINGS.DEFAULT_PICKUP_SPAWN_RULE)
+	set_pickup_chance(datadict.pickup_chance if datadict.has('pickup_chance') else BATTLE_SETTINGS.DEFAULT_PICKUP_CHANCE)
+
+func set_all_vars_from_dict(datadict : Dictionary) -> void:
+	set_options_settings_vars_from_dict(datadict)
+	set_battle_settings_vars_from_dict(datadict)
+	
 func on_settings_data_loaded(data : Dictionary) -> void:
+	#Set Actual Data
 	loaded_data = data
-	set_window_mode(loaded_data.window_mode_index if loaded_data.has('window_mode_index') else DEFAULT_SETTINGS.DEFAULT_WINDOW_MODE_INDEX)
-	set_resolution(loaded_data.resolution_index if loaded_data.has('resolution_index') else DEFAULT_SETTINGS.DEFAULT_RESOLUTION_INDEX)
-	set_master_vol(loaded_data.master_volume if loaded_data.has('master_volume') else DEFAULT_SETTINGS.DEFAULT_MASTER_VOLUME)
-	set_music_vol(loaded_data.music_volume if loaded_data.has('music_volume') else DEFAULT_SETTINGS.DEFAULT_MUSIC_VOLUME)
-	set_sfx_vol(loaded_data.sfx_volume if loaded_data.has('sfx_volume') else DEFAULT_SETTINGS.DEFAULT_SFX_VOLUME)
-	set_keybinds_loaded(loaded_data.keybinds if loaded_data.has('keybinds') else create_keybinds_dictionary())
-	set_points_to_win(loaded_data.points_to_win if loaded_data.has('points_to_win') else BATTLE_SETTINGS.DEFAULT_POINTS_TO_WIN)
-	set_cpu_difficulty(loaded_data.cpu_difficulty if loaded_data.has('cpu_difficulty') else BATTLE_SETTINGS.DEFAULT_CPU_DIFFICULTY)
-	set_cpu_count(loaded_data.cpu_count if loaded_data.has('cpu_count') else BATTLE_SETTINGS.DEFAULT_CPU_COUNT)
-	set_misobon_setting(loaded_data.misobon_setting if loaded_data.has('misobon_setting') else BATTLE_SETTINGS.DEFAULT_MISOBON_SETTING)
-	set_match_time(loaded_data.match_time if loaded_data.has('match_time') else BATTLE_SETTINGS.DEFAULT_MATCH_TIME)
-	set_hurry_up_time(loaded_data.hurry_up_time if loaded_data.has('hurry_up_time') else BATTLE_SETTINGS.DEFAULT_HURRY_UP_TIME)
-	set_hurry_up_state(loaded_data.hurry_up_state if loaded_data.has('hurry_up_state') else BATTLE_SETTINGS.DEFAULT_HURRY_UP_STATE)
-	set_sudden_death_state(loaded_data.sudden_death_state if loaded_data.has('sudden_death_state') else BATTLE_SETTINGS.DEFAULT_SUDDEN_DEATH_STATE)
-	set_breakable_spawn_rule(loaded_data.breakable_spawn_rule if loaded_data.has('breakable_spawn_rule') else BATTLE_SETTINGS.DEFAULT_BREAKABLE_SPAWN_RULE)
-	set_breakable_chance(loaded_data.breakable_chance if loaded_data.has('breakable_chance') else BATTLE_SETTINGS.DEFAULT_BREAKABLE_CHANCE)
-	set_pickup_spawn_rule(loaded_data.pickup_spawn_rule if loaded_data.has('pickup_spawn_rule') else BATTLE_SETTINGS.DEFAULT_PICKUP_SPAWN_RULE)
-	set_pickup_chance(loaded_data.pickup_chance if loaded_data.has('pickup_chance') else BATTLE_SETTINGS.DEFAULT_PICKUP_CHANCE)
+	#Set Personal Data
+	personal_loaded_data = data
+	set_all_vars_from_dict(personal_loaded_data)
+	
 	
 func handle_signals() -> void:
 	SettingsSignalBus.on_window_mode_selected.connect(set_window_mode)

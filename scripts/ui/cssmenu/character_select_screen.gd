@@ -7,11 +7,13 @@ var select_sound: AudioStreamWAV = load("res://sound/fx/click.wav")
 func play_error_audio() -> void:
 	css_audio.stream = error_sound
 	css_audio.play()
-	
+
+@rpc("any_peer", "call_local")
 func play_select_audio() -> void:
 	css_audio.stream = select_sound
 	css_audio.play()
-	
+
+@rpc("call_local")
 func disable_unused_player_slots() -> void:
 	var slots_to_disable = 4 - gamestate.total_player_count
 	if slots_to_disable < 0:
@@ -38,7 +40,7 @@ func change_slot_texture(texture_path: String):
 	if id == 1:
 		$Players/Player1.set_texture.rpc(texture_path)
 	elif id == gamestate.player_numbers.p2:
-		print("Match 2!")
+		print("Player 2 switched character!")
 		$Players/Player2.set_texture.rpc(texture_path)
 	elif id == gamestate.player_numbers.p3:
 		$Players/Player3.set_texture.rpc(texture_path)
@@ -50,32 +52,32 @@ func change_slot_texture(texture_path: String):
 func _on_dragoon_pressed() -> void:
 	change_slot_texture.rpc_id(1, character_texture_paths.NORMALGOON_SELECT_TEXTURE_PATH)
 	gamestate.change_character_player.rpc_id(1, character_texture_paths.NORMALGOON_PLAYER_TEXTURE_PATH)
-	play_select_audio()
+	play_select_audio.rpc()
 	
 func _on_chonkgoon_pressed() -> void:
 	change_slot_texture.rpc_id(1, character_texture_paths.CHONKGOON_SELECT_TEXTURE_PATH)
 	gamestate.change_character_player.rpc_id(1, character_texture_paths.CHONKGOON_PLAYER_TEXTURE_PATH)
-	play_select_audio()
+	play_select_audio.rpc()
 	
 func _on_longoon_pressed() -> void:
 	change_slot_texture.rpc_id(1, character_texture_paths.LONGGOON_SELECT_TEXTURE_PATH)
 	gamestate.change_character_player.rpc_id(1, character_texture_paths.LONGGOON_PLAYER_TEXTURE_PATH)
-	play_select_audio()
+	play_select_audio.rpc()
 	
 func _on_eggoon_pressed() -> void:
 	change_slot_texture.rpc_id(1, character_texture_paths.EGGOON_SELECT_TEXTURE_PATH)
 	gamestate.change_character_player.rpc_id(1, character_texture_paths.EGGOON_PLAYER_TEXTURE_PATH)
-	play_select_audio()
+	play_select_audio.rpc()
 	
 func _on_tomato_pressed() -> void:
 	change_slot_texture.rpc_id(1, character_texture_paths.TOMATODOKI_SELECT_TEXTURE_PATH)
 	gamestate.change_character_player.rpc_id(1, character_texture_paths.TOMATODOKI_PLAYER_TEXTURE_PATH)
-	play_select_audio()
+	play_select_audio.rpc()
 
 func _on_bhdoki_pressed() -> void:
 	change_slot_texture.rpc_id(1, character_texture_paths.BHDOKI_SELECT_TEXTURE_PATH)
 	gamestate.change_character_player.rpc_id(1, character_texture_paths.BHDOKI_PLAYER_TEXTURE_PATH)
-	play_select_audio()
+	play_select_audio.rpc()
 	
 func _on_secret_1_pressed() -> void:
 	play_error_audio() #Not yet available
