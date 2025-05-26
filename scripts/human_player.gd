@@ -35,13 +35,17 @@ func _physics_process(delta: float):
 	if not stunned and inputs.secondary_ability:
 		if not throw_pressed_once:
 			throw_pressed_once = true
-			throw_bomb(Vector2i.MIN)
+			if carry_bomb() == 1:
+				throw_pressed_once = false
 		else:
+			throw_pressed_once = false
 			var direction: Vector2i = (
 					Vector2i(inputs.motion.normalized()) if inputs.motion != Vector2.ZERO 
 					else Vector2i.DOWN
 			)
-			throw_bomb(direction)
+			if throw_bomb(direction) == 1:
+				push_error("something went wrong with bomb throwing")
+				throw_pressed_once = false
 
 	if not stunned and inputs.bombing and bomb_count > 0 and not set_bomb_pressed_once and not stop_movement:
 		set_bomb_pressed_once = true
