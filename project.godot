@@ -31,7 +31,10 @@ AudioManager="*res://autoloads/audio_manager.gd"
 
 [display]
 
-window/stretch/mode="canvas_items"
+window/size/viewport_width=960
+window/size/viewport_height=640
+window/stretch/mode="viewport"
+window/stretch/scale_mode="integer"
 
 [global_group]
 
@@ -118,10 +121,12 @@ pause={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true
 textures/default_filters/use_nearest_mipmap_filter=true
+2d/snap/snap_2d_transforms_to_pixel=true
 
 [replication]
 
