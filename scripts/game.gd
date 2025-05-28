@@ -3,7 +3,7 @@ class_name Game extends Node2D
 
 signal stage_has_changed
 
-@onready var fade: AnimationPlayer = get_node("FadeInOut")
+@onready var fade: AnimationPlayer = get_node("AnimPlayer")
 
 var player_manager: PlayerManager
 var player_spawner: MultiplayerSpawner

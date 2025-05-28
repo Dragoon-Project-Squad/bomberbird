@@ -91,7 +91,6 @@ func enable(
 	breakable_table: BreakableTable = null,
 ):
 	show()
-	music.play()
 	globals.current_world = self
 	all_enemied_died.connect(globals.game._check_ending_condition, CONNECT_ONE_SHOT)
 
@@ -142,6 +141,9 @@ func enable(
 	astargrid_handler.astargrid_set_initial_solidpoints()
 
 
+func start_music():
+	music.play()
+	
 ## resets a stage s.t. it may be reused later
 func reset():
 	if hurry_up: hurry_up.disable()
