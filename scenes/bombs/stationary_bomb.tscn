@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://bqtpsqboowpbk" path="res://scripts/stationary_bomb.gd" id="1"]
 [ext_resource type="AudioStream" uid="uid://boidckhyrna5i" path="res://sound/fx/explosion.wav" id="2_gmoi6"]
+[ext_resource type="Texture2D" uid="uid://colmsqhmxnr47" path="res://assets/egg_bomb.png" id="3_0y1f5"]
 [ext_resource type="PackedScene" uid="uid://c3row0thknslo" path="res://scenes/explosion.tscn" id="4_4i8os"]
 [ext_resource type="AudioStream" uid="uid://kkul2topsufx" path="res://sound/fx/bombdrop.wav" id="4_nrvts"]
-[ext_resource type="Texture2D" uid="uid://cwpnhuimmgdha" path="res://assets/bombcentered.png" id="8_1u1d1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6btgv"]
 size = Vector2(30, 30)
@@ -188,7 +188,7 @@ libraries = {
 }
 
 [node name="BombSprite" type="Sprite2D" parent="."]
-texture = ExtResource("8_1u1d1")
+texture = ExtResource("3_0y1f5")
 hframes = 3
 region_enabled = true
 region_rect = Rect2(0, 0, 96, 32)
