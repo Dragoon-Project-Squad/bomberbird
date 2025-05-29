@@ -34,8 +34,8 @@ var player_numbers = {
 
 # Character Textures in id:texture2D format.
 var characters = {}
-const DEFAULT_PLAYER_TEXTURE_PATH = "res://assets/player/chonkgoon_walk.png"
-
+var character_texture_paths: CharacterSelectDataResource = preload("res://resources/css/character_texture_paths_default.tres")
+var DEFAULT_PLAYER_TEXTURE_PATH = character_texture_paths.NORMALGOON_PLAYER_TEXTURE_PATH
 # AI Handling variables
 const MAX_ID_COLLISION_RESCUE_ATTEMPTS = 4
 const MAX_NAME_COLLISION_RESCUE_ATTEMPTS = 4
@@ -236,22 +236,37 @@ func register_ai_player():
 			id = i
 			if is_id_free(id):
 				break
-	characters[id] = DEFAULT_PLAYER_TEXTURE_PATH
+	assign_ai_character_sprite(id)
 	player_list_changed.emit()
-	players[id] = "LikeBot" #TODO: Generate CPU name from list resource here
-	if not is_name_free(players[id]):
-		players[id] = "CommentBot"
-	else:
-		return
-	if not is_name_free(players[id]):
-		players[id] = "SubscribeBot"
-	else:
-		return
-	if not is_name_free(players[id]):
-		players[id] = "MembershipBot"
-	else:
-		return
+	name_ai_player(id)
 
+func name_ai_player(pid: int):
+	players[pid] = "LikeBot" #TODO: Generate CPU name from list resource here
+	if not is_name_free(players[pid]):
+		players[pid] = "CommentBot"
+	else:
+		return
+	if not is_name_free(players[pid]):
+		players[pid] = "SubscribeBot"
+	else:
+		return
+	if not is_name_free(players[pid]):
+		players[pid] = "MembershipBot"
+	else:
+		return
+		
+func assign_ai_character_sprite(pid: int):
+	match pid:
+		2:
+			characters[pid] = character_texture_paths.NORMALGOON_PLAYER_TEXTURE_PATH
+		3:
+			characters[pid] = character_texture_paths.CHONKGOON_PLAYER_TEXTURE_PATH
+		4:
+			characters[pid] = character_texture_paths.LONGGOON_PLAYER_TEXTURE_PATH
+		_:
+			characters[pid] = character_texture_paths.DAD_PLAYER_TEXTURE_PATH
+	return
+	
 func is_id_free(chosen_ai_id) -> bool:
 	for p in players:
 		if p == chosen_ai_id:

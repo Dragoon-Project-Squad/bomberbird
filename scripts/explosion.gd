@@ -34,29 +34,29 @@ func reset():
 	process_mode = PROCESS_MODE_DISABLED
 
 ## draws all tiles for the horizontal part of the explosion
-@warning_ignore("SHADOWED_VARIABLE")
-func set_cell_hori(pos: Vector2i, left: int, right: int, step: int = 0):
+
+func set_cell_hori(pos: Vector2i, cell_left: int, cell_right: int, step: int = 0):
 	if pos == Vector2i.ZERO: return
 	var edge_tile: Vector2i = Vector2i(step, 2)
 	var line_tile: Vector2i = Vector2i(step, 1)
 	match pos.x:
-		left:
+		cell_left:
 			tilemap.set_cell(pos, 0, edge_tile, 1)
-		right:
+		cell_right:
 			tilemap.set_cell(pos, 0, edge_tile, 0)
 		_:
 			tilemap.set_cell(pos, 0, line_tile, 0)
 
 ## draws all tiles for the vertical part of the explosion
-@warning_ignore("SHADOWED_VARIABLE")
-func set_cell_vert(pos: Vector2i, up: int, down: int, step: int = 0):
+
+func set_cell_vert(pos: Vector2i, cell_up: int, cell_down: int, step: int = 0):
 	if pos == Vector2i.ZERO: return
 	var edge_tile: Vector2i = Vector2i(step, 2)
 	var line_tile: Vector2i = Vector2i(step, 1)
 	match pos.y:
-		up:
+		cell_up:
 			tilemap.set_cell(pos, 0, edge_tile, 3)
-		down:
+		cell_down:
 			tilemap.set_cell(pos, 0, edge_tile, 2)
 		_:
 			tilemap.set_cell(pos, 0, line_tile, 1)
