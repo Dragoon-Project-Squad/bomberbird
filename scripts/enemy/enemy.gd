@@ -18,6 +18,7 @@ signal enemy_died
 var current_anim: String = ""
 var enemy_path: String = ""
 var stunned: bool = false
+var stop_moving: bool = false
 
 func _ready() -> void:
 	assert(detection_handler, "please make sure a detectionhandler is selected for the enemy: " + self.name)
@@ -28,7 +29,7 @@ func _ready() -> void:
 
 func _physics_process(_delta):
 	# update the animation based on the last known player input state
-	if stunned: return
+	if stunned || stop_moving: return
 	update_animation(movement_vector.normalized())
 
 func update_animation(direction: Vector2):
