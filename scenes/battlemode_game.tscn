@@ -221,11 +221,7 @@ script = ExtResource("5_egtpy")
 spawn_path = NodePath("..")
 script = ExtResource("6_a5m7k")
 
-[node name="EnemyPool" parent="." instance=ExtResource("6_3bvga")]
-
 [node name="BreakablePool" parent="." instance=ExtResource("7_vrcl4")]
-
-[node name="BombPool" parent="." instance=ExtResource("8_hvhk6")]
 
 [node name="PickupPool" parent="." instance=ExtResource("9_bsfbc")]
 extra_bomb = 15
@@ -233,6 +229,10 @@ explosion_boost = 15
 speed_boost = 15
 max_explosion = 5
 punch_ability = 10
+
+[node name="EnemyPool" parent="." instance=ExtResource("6_3bvga")]
+
+[node name="BombPool" parent="." instance=ExtResource("8_hvhk6")]
 
 [node name="Players" type="Node2D" parent="."]
 script = ExtResource("3_qmebr")

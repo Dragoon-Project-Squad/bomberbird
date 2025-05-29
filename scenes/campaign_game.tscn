@@ -121,13 +121,9 @@ script = ExtResource("1_xj4ag")
 
 [node name="StageHandler" parent="." instance=ExtResource("2_6c1o1")]
 
-[node name="EnemyPool" parent="." instance=ExtResource("7_1u21r")]
-
 [node name="ExitPool" parent="." instance=ExtResource("7_6c1o1")]
 
 [node name="BreakablePool" parent="." instance=ExtResource("7_u5d24")]
-
-[node name="BombPool" parent="." instance=ExtResource("8_o8wef")]
 
 [node name="PickupPool" parent="." instance=ExtResource("9_t8ctp")]
 extra_bomb = 15
@@ -135,6 +131,10 @@ explosion_boost = 15
 speed_boost = 15
 max_explosion = 5
 punch_ability = 10
+
+[node name="EnemyPool" parent="." instance=ExtResource("7_1u21r")]
+
+[node name="BombPool" parent="." instance=ExtResource("8_o8wef")]
 
 [node name="Players" type="Node2D" parent="."]
 script = ExtResource("3_1u21r")
