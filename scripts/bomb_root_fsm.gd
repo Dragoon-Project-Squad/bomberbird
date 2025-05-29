@@ -1,6 +1,8 @@
 #BombRoot is responsible the handle any outside interaction with bombs or in otherwords if any outside object want to interact with a bomb it must call to a function in this file. BombRoot then may or may not change its state if nessessary (hence hand authority to another child node) and give the appropiate information to the appropiate child to handle the interaction.
 class_name BombRoot extends Node2D
 
+signal bomb_finished
+
 var bomb_owner: Node2D
 # checks if the player has been dead at the time they placed the bomb
 var bomb_owner_is_dead: bool
@@ -52,6 +54,9 @@ func disable() -> int:
 ## sets the bomb_owner of the bomb s.t. the bomb can later report to that player
 @rpc("call_local")
 func set_bomb_owner(player_id: String):
+	if player_id == "": 
+		self.bomb_owner = null
+		return
 	self.bomb_owner = globals.player_manager.get_node(str(player_id))
 
 ## sets the addon
@@ -67,7 +72,6 @@ func set_bomb_type(type: int):
 @rpc("call_local")
 @warning_ignore("SHADOWED_VARIABLE")
 func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) -> int:
-	assert(bomb_owner, "A bomb without an bomb_owner tried to be placed")
 	in_use = true
 	var force_collision: bool = false
 
@@ -115,9 +119,6 @@ func do_misobon_throw(origin: Vector2, target: Vector2, direction: Vector2i, is_
 
 @rpc("call_local")
 func do_punch(direction: Vector2i):
-	if bomb_owner == null: #this should only be called by a misobon player hence the bomb must have an owner
-		printerr("A bomb without an bomb_owner tried to be thrown")
-		return 1
 	if state != STATIONARY: #this bomb has should just have been taken from the player pool. if not a fatal error has occured
 		printerr("a player wanted to punch a bomb that already has an active state")
 		return 2
@@ -176,9 +177,6 @@ func carry() -> int:
 
 ## NOT YET IMPLEMENTED
 func do_kick(target: Vector2, direction: Vector2i):
-	if bomb_owner == null: #this should only be called by a misobon player hence the bomb must have an owner
-		printerr("A bomb without an bomb_owner tried to be thrown")
-		return 1
 	in_use = true
 	#TODO make checks for state and change to ??? state if allowed
 	#TODO call the appropiate function to handle this in state_map[state]

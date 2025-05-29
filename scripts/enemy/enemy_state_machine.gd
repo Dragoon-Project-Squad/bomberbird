@@ -14,7 +14,6 @@ func _ready():
 			states[child.name.to_lower()] = child
 			child.state_changed.connect(_on_state_changed)
 			child.enemy = get_parent() # This is arguably fine because its within its own scene tree imo
-			child.world = globals.current_world
 			child.state_machine = self
 			globals.game.stage_has_changed.connect(child._on_new_stage)
 	

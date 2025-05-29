@@ -3,7 +3,6 @@ class_name EnemyState extends Node
 signal state_changed
 
 var enemy: Enemy
-var world: World
 var state_machine: EnemyStateMachine
 
 # Overwrite "_" functions as needed

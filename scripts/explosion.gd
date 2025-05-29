@@ -101,16 +101,20 @@ func do_detonate():
 
 ## reports a kill from a player to the killer s.t. he can be revived if the settings allow it
 func report_kill(killed_player: Player):
+	if(!get_parent().bomb_root.bomb_owner): return
 	var killer: Player = get_parent().bomb_root.bomb_owner
 	if !is_multiplayer_authority(): return
 	killer.misobon_player.revive.rpc(killed_player.position)
 	
 func _on_body_entered(body: Node2D) -> void:
 	if is_multiplayer_authority() && body.has_method("exploded"):
-		if self not in body.get_children():
+		if self not in body.get_children() && get_parent().bomb_root.bomb_owner:
 			body.exploded.rpc(str(get_parent().bomb_root.bomb_owner.name).to_int())
+		elif self not in body.get_children():
+			body.exploded.rpc(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID)
 	if (
 		body is Player
+		&& get_parent().bomb_root.bomb_owner
 		&& get_parent().bomb_root.bomb_owner_is_dead #was the bomb owner dead when the bomb was created?
 		&& get_parent().bomb_root.bomb_owner.is_dead #is the bomb owner still dead?
 		&& body.lives - 1 <= 0 #will the player that got hit die
@@ -122,4 +126,7 @@ func _on_body_entered(body: Node2D) -> void:
 
 func _on_area_2d_entered(area: Area2D) -> void:
 	if is_multiplayer_authority() && area.has_method("exploded"):
-		area.exploded.rpc(str(get_parent().bomb_root.bomb_owner.name).to_int())
+		if get_parent().bomb_root.bomb_owner:
+			area.exploded.rpc(str(get_parent().bomb_root.bomb_owner.name).to_int())
+		else:
+			area.exploded.rpc(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID)

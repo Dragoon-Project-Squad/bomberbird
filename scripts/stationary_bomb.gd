@@ -94,16 +94,21 @@ func detonate():
 				#find the distance from bomb.position to the last tile that should be blown up (in number of tiles)
 				exp_range[ray_direction] = explosion.get_node("SpriteTileMap").local_to_map(col_point).length() - 1 
 				if target.has_method("exploded") && is_multiplayer_authority():
-					target.exploded.rpc(str(get_parent().bomb_owner.name).to_int()) #if an object stopped the bomb and can be blown up... blow it up!
-	remove_collision_exception_with(bomb_root.bomb_owner)
+					if(bomb_root.bomb_owner):
+						target.exploded.rpc(str(get_parent().bomb_owner.name).to_int()) #if an object stopped the bomb and can be blown up... blow it up!
+					else:
+						target.exploded.rpc(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID) #if an object stopped the bomb and can be blown up... blow it up!
+	if(bomb_root.bomb_owner):
+		remove_collision_exception_with(bomb_root.bomb_owner)
 	if is_multiplayer_authority(): #multiplayer auth. now starts the transition to the explosion
 		explosion.init_detonate.rpc(exp_range[Vector2i.RIGHT], exp_range[Vector2i.DOWN], exp_range[Vector2i.LEFT], exp_range[Vector2i.UP])
 		explosion.do_detonate.rpc()
-		if(!get_parent().bomb_owner.is_dead):
+		if(get_parent().bomb_owner && !get_parent().bomb_owner.is_dead):
 			get_parent().bomb_owner.return_bomb.rpc()
 	
 ## called when a bomb has detonated and hence is done, clears it of the arena both in world_data and for the AI then returns the root back to the bomb_pool
 func done():
+	bomb_root.bomb_finished.emit()
 	world_data.set_tile(world_data.tiles.EMPTY, bomb_root.global_position)
 	force_collision = false
 	
