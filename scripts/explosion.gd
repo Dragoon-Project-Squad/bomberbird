@@ -34,41 +34,40 @@ func reset():
 	process_mode = PROCESS_MODE_DISABLED
 
 ## draws all tiles for the horizontal part of the explosion
-@warning_ignore("SHADOWED_VARIABLE")
-func set_cell_hori(pos: Vector2i, left: int, right: int, step: int = 0):
+
+func set_cell_hori(pos: Vector2i, cell_left: int, cell_right: int, step: int = 0):
 	if pos == Vector2i.ZERO: return
 	var edge_tile: Vector2i = Vector2i(step, 2)
 	var line_tile: Vector2i = Vector2i(step, 1)
 	match pos.x:
-		left:
-			tilemap.set_cell(pos, 0, edge_tile, 1)
-		right:
+		cell_left:
+			tilemap.set_cell(pos, 0, edge_tile, TileSetAtlasSource.TRANSFORM_FLIP_H | TileSetAtlasSource.TRANSFORM_FLIP_V)
+		cell_right:
 			tilemap.set_cell(pos, 0, edge_tile, 0)
 		_:
 			tilemap.set_cell(pos, 0, line_tile, 0)
 
 ## draws all tiles for the vertical part of the explosion
-@warning_ignore("SHADOWED_VARIABLE")
-func set_cell_vert(pos: Vector2i, up: int, down: int, step: int = 0):
+
+func set_cell_vert(pos: Vector2i, cell_up: int, cell_down: int, step: int = 0):
 	if pos == Vector2i.ZERO: return
 	var edge_tile: Vector2i = Vector2i(step, 2)
 	var line_tile: Vector2i = Vector2i(step, 1)
 	match pos.y:
-		up:
-			tilemap.set_cell(pos, 0, edge_tile, 3)
-		down:
-			tilemap.set_cell(pos, 0, edge_tile, 2)
+		cell_up:
+			tilemap.set_cell(pos, 0, edge_tile, TileSetAtlasSource.TRANSFORM_TRANSPOSE | TileSetAtlasSource.TRANSFORM_FLIP_V)
+		cell_down:
+			tilemap.set_cell(pos, 0, edge_tile, TileSetAtlasSource.TRANSFORM_TRANSPOSE | TileSetAtlasSource.TRANSFORM_FLIP_H)
 		_:
-			tilemap.set_cell(pos, 0, line_tile, 1)
+			tilemap.set_cell(pos, 0, line_tile, TileSetAtlasSource.TRANSFORM_TRANSPOSE | TileSetAtlasSource.TRANSFORM_FLIP_H)
 
 ## sets up all values for the explosition that the bomb calculated.
 @rpc("call_local")
-@warning_ignore("SHADOWED_VARIABLE")
-func init_detonate(right: int, down: int = right, left: int = right, up: int = right):
-	self.right = right
-	self.down = down
-	self.left = left
-	self.up = up
+func init_detonate(right_score: int, down_score: int = right, left_score: int = right, up_score: int = right):
+	self.right = right_score
+	self.down = down_score
+	self.left = left_score
+	self.up = up_score
 
 	next_detonate()
 	var tile_size: float = tilemap.tile_set.tile_size.x
