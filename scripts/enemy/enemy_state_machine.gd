@@ -13,7 +13,7 @@ func _ready():
 		if child is EnemyState:
 			states[child.name.to_lower()] = child
 			child.state_changed.connect(_on_state_changed)
-			child.enemy = get_parent() # This is arguably fine because its within its own scene tree imo
+			child.enemy = get_parent()
 			child.state_machine = self
 			globals.game.stage_has_changed.connect(child._on_new_stage)
 	
@@ -34,16 +34,15 @@ func _on_state_changed(state: EnemyState, new_state: String) -> void:
 		push_error("enemy state machine failed as a state tried to change that is not the current state")
 		return
 	
-	var next_state = states.get(new_state.to_lower())
-	if !next_state:
+	if current_state:
+		current_state._exit()
+
+	current_state = states.get(new_state.to_lower())
+	if !current_state:
 		push_error("enemy state machine failed state: " + new_state + " does not exists")
 		return
 	
-	if current_state:
-		current_state._exit()
-	
-	current_state = next_state
-	next_state._enter()
+	current_state._enter()
 
 func enable():
 	if current_state: current_state._exit()

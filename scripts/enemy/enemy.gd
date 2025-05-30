@@ -18,6 +18,8 @@ const INVULNERABILITY_FLASH_TIME: float = 0.125
 @export var health_ability: Node
 @export var animation_sub: String = "enemy"
 @export var health: int = 1
+@export var wallthrought: bool = false
+@export var bombthrought: bool = false
 @export_group("Multiplayer Variables")
 @export var movement_vector = Vector2(0,0)
 @export var synced_position := Vector2()
@@ -106,7 +108,8 @@ func exploded(_by_whom: int):
 		damage_invulnerable = true
 		set_process(true)
 		self.health -= 1
-		self.health_ability.apply()
+		if self.health_ability:
+			self.health_ability.apply()
 		return 1
 	enemy_died.emit()
 	self.disable()
@@ -114,6 +117,8 @@ func exploded(_by_whom: int):
 @rpc("call_local")
 func disable():
 	if(!is_multiplayer_authority()): return 1
+	if health_ability:
+		health_ability.reset()
 	set_process(false)
 	hitbox.set_deferred("disabled", 1)
 	self.hide()

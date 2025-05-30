@@ -146,7 +146,7 @@ func start_music():
 	
 ## resets a stage s.t. it may be reused later
 func reset():
-	if hurry_up: hurry_up.disable()
+	if hurry_up && globals.current_gamemode != globals.gamemode.CAMPAIGN: hurry_up.disable()
 	for exit in globals.game.exit_pool.get_children().filter(func (e): return e is Exit && e.in_use):
 		if is_multiplayer_authority():
 			exit.disable.rpc()
