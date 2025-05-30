@@ -21,10 +21,7 @@ const INVULNERABILITY_FLASH_TIME: float = 0.125
 @export var wallthrought: bool = false
 @export var bombthrought: bool = false
 @export_group("Multiplayer Variables")
-@export var movement_vector = Vector2(0,0):
-	set(value):
-		print("set movement_vector of ", self.name, " to: ", value)
-		movement_vector = value
+@export var movement_vector = Vector2(0,0)
 @export var synced_position := Vector2()
 
 var current_anim: String = ""
