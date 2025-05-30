@@ -125,6 +125,12 @@ func done():
 func exploded(by_who):
 	$AnimationPlayer.advance(2.79)
 
+func crush():
+	if(get_parent().bomb_owner && !get_parent().bomb_owner.is_dead):
+		get_parent().bomb_owner.return_bomb.rpc()
+	$AnimationPlayer.stop()
+	done()
+
 func set_explosion_width_and_size(somewidth: int):
 	explosion_width = clamp(somewidth, 2, MAX_EXPLOSION_WIDTH)
 	bombsprite.set_frame(clamp(somewidth-3, 0, 2))

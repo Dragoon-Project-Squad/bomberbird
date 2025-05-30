@@ -33,13 +33,19 @@ func _physics_update(_delta):
 		self.next_position = get_next_pos()
 		self.enemy.movement_vector = self.enemy.position.direction_to(self.next_position) if (self.next_position != self.enemy.position) else Vector2.ZERO
 
-func get_next_pos() -> Vector2:
+func valid_tile(pos: Vector2) -> bool:
+	if world_data.is_out_of_bounds(pos) != -1: return false
+	var ret: bool = world_data.is_tile(world_data.tiles.EMPTY, pos) || world_data.is_tile(world_data.tiles.PICKUP, pos)
+	ret = ret || self.enemy.wallthrought && world_data.is_tile(world_data.tiles.BREAKABLE, pos)
+	ret = ret || self.enemy.bombthrought && world_data.is_tile(world_data.tiles.BOMB, pos)
+	return ret
 
+func get_next_pos() -> Vector2:
 	var valid_pos_arr: Dictionary = {}
 	var temp_movement_vector: Vector2 = self.enemy.movement_vector if self.enemy.movement_vector != Vector2.ZERO else Vector2.RIGHT
 	for i in range(0, 4): #Try each direction
 		var pos: Vector2 = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.enemy.position) + Vector2i(temp_movement_vector))
-		if(world_data.is_out_of_bounds(pos) == -1 && (world_data.is_tile(world_data.tiles.EMPTY, pos) || world_data.is_tile(world_data.tiles.PICKUP, pos))): 
+		if(valid_tile(pos)): 
 			valid_pos_arr[i] = pos
 		temp_movement_vector = Vector2(-temp_movement_vector.y, temp_movement_vector.x) #rotate pi/2 CW
 

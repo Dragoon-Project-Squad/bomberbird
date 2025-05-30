@@ -28,7 +28,26 @@ func _physics_update(_delta: float) -> void:
 	self.enemy.velocity = self.enemy.movement_vector.normalized() * self.enemy.movement_speed * speed_boost
 	self.enemy.move_and_slide()
 	if _check_if_on_tile() && !self.enemy.detection_handler.recheck_priority_target(self.enemy.movement_vector):
+		print(self.name, " lost target")
 		state_changed.emit(self, "wander")
+	elif _check_if_on_tile() && !check_arrival():
+		do_crush()
 
 func _check_if_on_tile() -> bool:
 	return self.enemy.position.distance_to(world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.enemy.position))) <= ARRIVAL_TOLARANCE
+
+func check_arrival():
+	return self.enemy.position.distance_to(world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.target.position))) <= ARRIVAL_TOLARANCE
+func do_crush():
+	self.enemy.stop_moving = true
+	self.enemy.anim_player.play("hammer/punch")
+	await self.enemy.anim_player.animation_finished
+	self.enemy.stop_moving = false
+	state_changed.emit(self, "wander")
+
+func change_bomb():
+	assert(self.state_machine.target.has_method("crush"))
+	self.state_machine.target.crush()
+	var pickup: int = globals.current_world.pickup_table.decide_pickup_type()
+	var pickup_obj: Pickup = globals.game.pickup_pool.request(pickup)
+	pickup_obj.place.rpc(self.target.position)
