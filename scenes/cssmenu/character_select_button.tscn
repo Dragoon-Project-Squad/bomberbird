@@ -1,12 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://j82uc33jjfko"]
 
-[ext_resource type="Texture2D" uid="uid://d06cvn5qmuvfv" path="res://assets/css/dokibh.png" id="1_h2qhd"]
+[ext_resource type="Texture2D" uid="uid://che0qovasljj7" path="res://assets/css/bhdoki.png" id="1_6pw2k"]
 [ext_resource type="Script" uid="uid://bjpx5g5vjrgde" path="res://scripts/ui/cssmenu/character_select_button.gd" id="2_6pw2k"]
 
 [node name="dokibird" type="TextureButton"]
 size_flags_horizontal = 6
 size_flags_vertical = 6
-texture_normal = ExtResource("1_h2qhd")
+texture_normal = ExtResource("1_6pw2k")
 stretch_mode = 0
 script = ExtResource("2_6pw2k")
 

@@ -11,7 +11,7 @@ extends Resource
 @export var LONGGOON_PLAYER_TEXTURE_PATH = "res://assets/player/longgoon_walk.png"
 @export var DAD_SELECT_TEXTURE_PATH = "res://assets/css/dad.png"
 @export var DAD_PLAYER_TEXTURE_PATH = "res://assets/player/dad_walk.png"
-@export var BHDOKI_SELECT_TEXTURE_PATH = "res://assets/css/dokibh.png"
+@export var BHDOKI_SELECT_TEXTURE_PATH = "res://assets/css/bhdoki.png"
 @export var BHDOKI_PLAYER_TEXTURE_PATH = "res://assets/player/bhdoki_walk.png"
 @export var RETRODOKI_SELECT_TEXTURE_PATH = "res://assets/css/retrodoki.png"
 @export var RETRODOKI_PLAYER_TEXTURE_PATH = "res://assets/player/retrodoki_walk.png"

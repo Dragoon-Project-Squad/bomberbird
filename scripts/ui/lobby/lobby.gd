@@ -31,7 +31,7 @@ func refresh_lobby():
 	for p in players:
 		$Players/List.add_item(p)
 
-	$Players/Ready.disabled = not multiplayer.is_server()
+	$Players/CSSReady.disabled = not multiplayer.is_server()
 
 @rpc("call_local")
 func show_css():
@@ -39,6 +39,16 @@ func show_css():
 	$Connect.hide()
 	$Back.hide()
 	$CharacterSelectScreen.show()
+	$StageSelect.hide()
+	$Start.hide()
+
+@rpc("call_local")
+func show_sss():
+	$Players.hide()
+	$Connect.hide()
+	$Back.hide()
+	$CharacterSelectScreen.hide()
+	$StageSelect.show()
 	$Start.show()
 
 func _on_host_pressed():
@@ -112,11 +122,14 @@ func _on_game_error(errtxt):
 	$Connect/Join.disabled = false
 
 func _on_start_pressed():
+	if not is_multiplayer_authority():
+		return
 	if gamestate.total_player_count < 2:
 		push_warning("Less than two players!")
 	elif gamestate.total_player_count > 4:
 		push_error("More than four players!")
 	lobby_music_player.stop()
+	# THE FIGHT IS ON
 	gamestate.begin_game()
 
 
@@ -135,3 +148,7 @@ func _on_ready_pressed() -> void:
 	# Tell CSS with a signal of some kind to capture gamestate player nums
 	$CharacterSelectScreen.disable_unused_player_slots()
 	show_css.rpc()
+
+
+func _on_stage_select_ready_pressed() -> void:
+	show_sss.rpc()
