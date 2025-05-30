@@ -9,7 +9,7 @@ var explosion_width := 2
 const MAX_EXPLOSION_WIDTH := 8
 var animation_finish := false
 const TILE_SIZE = 32 #Primitive method of assigning correct tile size
-#var TILE_SIZE: int = get_node("/root/World/Unbreakale").get_tileset().get_tile_size() #Would be cool but the match doesn't like non constants
+var is_exploded: bool = false
 
 # bomb addons
 var pierce := false
@@ -49,6 +49,7 @@ func set_addons(addons: Dictionary):
 	mine = addons.get("mine", false)
 
 func place(bombPos: Vector2, fuse_time_passed: float = 0, force_collision: bool = false):
+	is_exploded = true
 	bomb_placement_sfx_player.play()
 	bomb_root.position = bombPos
 	self.visible = true
@@ -70,6 +71,7 @@ func hide_mine():
 
 ## started the detonation call chain, calculates the true range of the explosion by checking for any breakables in its path, destroys those and corrects its exposion size before telling the exposion child to activate
 func detonate():
+	is_exploded = true
 	explosion_sfx_player.stop()
 	explosion_sfx_player.position = bomb_root.position #Monsto Fix
 	explosion_sfx_player.play()
@@ -126,6 +128,7 @@ func exploded(by_who):
 	$AnimationPlayer.advance(2.79)
 
 func crush():
+	if is_exploded: return
 	if(get_parent().bomb_owner && !get_parent().bomb_owner.is_dead):
 		get_parent().bomb_owner.return_bomb.rpc()
 	$AnimationPlayer.stop()
