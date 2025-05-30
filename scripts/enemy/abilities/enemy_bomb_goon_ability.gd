@@ -2,18 +2,19 @@ extends EnemyState
 # Handles enemies without ability
 
 func _enter() -> void:
+	print(self.name, " entered ability")
 	if(world_data.is_tile(world_data.tiles.BOMB, self.enemy.position)): return
 	self.enemy.stop_moving = true
 	self.enemy.invulnerable = true
 
 	if self.enemy.movement_vector.y < 0:
 		self.enemy.anim_player.play("bomb_goon/close_up")
-	elif self.enemy.movement_vector.y > 0:
-		self.enemy.anim_player.play("bomb_goon/close_down")
 	elif self.enemy.movement_vector.x < 0:
 		self.enemy.anim_player.play("bomb_goon/close_left")
 	elif self.enemy.movement_vector.x > 0:
 		self.enemy.anim_player.play("bomb_goon/close_right")
+	else:
+		self.enemy.anim_player.play("bomb_goon/close_down")
 	var bombPos = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.enemy.position))
 
 	await self.enemy.anim_player.animation_finished
@@ -30,12 +31,12 @@ func _enter() -> void:
 
 	if self.enemy.movement_vector.y < 0:
 		self.enemy.anim_player.play_backwards("bomb_goon/close_up")
-	elif self.enemy.movement_vector.y > 0:
-		self.enemy.anim_player.play_backwards("bomb_goon/close_down")
 	elif self.enemy.movement_vector.x < 0:
 		self.enemy.anim_player.play_backwards("bomb_goon/close_left")
 	elif self.enemy.movement_vector.x > 0:
 		self.enemy.anim_player.play_backwards("bomb_goon/close_right")
+	else:
+		self.enemy.anim_player.play_backwards("bomb_goon/close_down")
 
 	await self.enemy.anim_player.animation_finished
 	self.enemy.anim_player.play("bomb_goon/RESET")
