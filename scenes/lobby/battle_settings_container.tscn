@@ -87,6 +87,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="SuddenDeathStateButton" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("6_pe2mp")]
+visible = false
 layout_mode = 2
 
 [node name="Breakable" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer"]

@@ -130,6 +130,7 @@ func register_player(new_player_name, id):
 	players[id] = new_player_name
 	player_list_changed.emit()
 	
+@rpc("authority", "call_local")
 func unregister_player(id):
 	players.erase(id)
 	player_list_changed.emit()
@@ -178,7 +179,7 @@ func assign_player_numbers():
 
 
 func establish_player_counts() -> void:
-	#players actually contains ai's already
+	#players actually contains ais already
 	#+1 here to count ourselves
 	human_player_count = 1 + players.size() - SettingsContainer.get_cpu_count()
 	assert(multiplayer.is_server())

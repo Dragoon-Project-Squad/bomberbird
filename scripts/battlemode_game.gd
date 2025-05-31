@@ -135,6 +135,7 @@ func stop_the_match():
 	multiplayer_game_ui.stop_timer()
 	lock_misobon()
 	defuse_all_bombs()
+	# Halt Hurry Up
 	
 func play_fade_out():
 	game_anim_player.play("fade_out")
