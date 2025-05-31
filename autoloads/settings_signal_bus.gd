@@ -20,6 +20,7 @@ signal on_breakable_spawn_rule_set(value : int)
 signal on_breakable_chance_set(value : float)
 signal on_pickup_spawn_rule_set(value : int)
 signal on_pickup_chance_set(value : float)
+signal on_stage_choice_set(value : int)
 signal on_any_set
 
 # Options Emit Functions
@@ -99,4 +100,8 @@ func emit_on_pickup_spawn_rule_set(value : int) -> void:
 	
 func emit_on_pickup_chance_set(value : float) -> void:
 	on_pickup_chance_set.emit(value)
+	on_any_set.emit()
+
+func emit_on_stage_set(value : int) -> void:
+	on_stage_choice_set.emit(value)
 	on_any_set.emit()

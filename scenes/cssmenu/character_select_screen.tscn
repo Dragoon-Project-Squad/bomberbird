@@ -105,7 +105,7 @@ offset_bottom = 69.0
 grow_horizontal = 2
 theme = ExtResource("7_mfnxv")
 theme_override_font_sizes/font_size = 75
-text = "CHARACTER SELECT"
+text = "CHOOSE YOUR CHARACTER"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -230,11 +230,11 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 theme = ExtResource("7_mfnxv")
 theme_override_font_sizes/font_size = 46
-text = "START!"
+text = "Confirm"
 script = ExtResource("12_7kvbo")
 metadata/_custom_type_script = "uid://boq3i75yls51h"
 
-[node name="Back" type="Button" parent="." groups=["ui_button"]]
+[node name="Exit" type="Button" parent="." groups=["ui_button"]]
 layout_mode = 0
 offset_left = 544.0
 offset_top = 600.0
@@ -274,30 +274,15 @@ offset_right = 229.0
 offset_bottom = 30.0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-text = "Awaiting Players..."
+text = "PLAYERS"
 horizontal_alignment = 1
-
-[node name="Ready" type="Button" parent="PlayerList" groups=["ui_button"]]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -67.0
-offset_top = 127.0
-offset_right = 58.0
-offset_bottom = 165.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-text = "READY!"
-script = ExtResource("12_7kvbo")
-metadata/_custom_type_script = "uid://boq3i75yls51h"
 
 [node name="List" type="ItemList" parent="PlayerList"]
 layout_mode = 0
 offset_left = 25.0
 offset_top = 32.0
 offset_right = 229.0
-offset_bottom = 118.0
+offset_bottom = 151.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 
@@ -346,6 +331,6 @@ auto_translate_mode = 1
 [connection signal="pressed" from="SkinBG/CharacterGrid/tomato" to="." method="_on_tomato_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/secret1" to="." method="_on_secret_1_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/secret2" to="." method="_on_secret_2_pressed"]
-[connection signal="pressed" from="Start" to="." method="_on_start_pressed"]
-[connection signal="pressed" from="Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="Start" to="." method="_on_confirm_pressed"]
+[connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
 [connection signal="confirmed" from="ErrorDialog" to="." method="_on_error_dialog_confirmed"]

@@ -7,6 +7,8 @@ extends Control
 
 @export var supersecretvisible := false
 
+signal characters_confirmed
+
 var error_sound: AudioStreamWAV = load("res://sound/fx/error.wav")
 var select_sound: AudioStreamWAV = load("res://sound/fx/click.wav")
 
@@ -16,17 +18,18 @@ func _ready() -> void:
 		secret_2.show()
 	setup_default_character_select_paths()
 	gamestate.player_list_changed.connect(refresh_lobby_panel)
-	gamestate.game_ended.connect(_on_game_ended)
-	gamestate.game_error.connect(_on_game_error)
-	if not is_multiplayer_authority():
-		$Start.disabled = true
-	else:
-		refresh_lobby_panel()
 
 func setup_default_character_select_paths() -> void:
 	$Players/Player2.set_texture(character_texture_paths.DEFAULT_PLAYER_2_SELECT)
 	$Players/Player3.set_texture(character_texture_paths.DEFAULT_PLAYER_3_SELECT)
 	$Players/Player4.set_texture(character_texture_paths.DEFAULT_PLAYER_4_SELECT)
+
+func setup_for_host() -> void:
+	refresh_lobby_panel()
+
+@rpc("call_remote")
+func setup_for_peers() -> void:
+	$Start.disabled = true
 
 @rpc("call_local")
 func update_char_screen(total_player_count: int) -> void:
@@ -45,7 +48,7 @@ func play_select_audio() -> void:
 func refresh_lobby_panel():
 	var players = gamestate.get_player_list()
 	#player list is exactly as on host, so it contains client name but not server name
-	if not multiplayer.is_server():
+	if not is_multiplayer_authority():
 		players.set(
 			players.find(gamestate.get_player_name()),
 			gamestate.host_player_name
@@ -159,31 +162,19 @@ func _on_secret_2_pressed() -> void:
 		play_select_audio.rpc()
 	play_error_audio() #Not yet available
 
-func _on_back_pressed() -> void:
+func _on_exit_pressed() -> void:
 	gamestate.end_game()
 	if gamestate.peer:
 		gamestate.peer.close()
 
-func _on_start_pressed() -> void:
+func _on_confirm_pressed() -> void:
 	if gamestate.total_player_count < 2:
 		push_warning("Less than two players!")
 	elif gamestate.total_player_count > 4:
 		push_error("More than four players!")
-	proceed_to_next_screen.rpc()
+	if is_multiplayer_authority():
+		proceed_to_next_screen.rpc()
 	
 @rpc("call_local")
 func proceed_to_next_screen():
-	get_tree().change_scene_to_file("res://scenes/lobby/battle_settings.tscn")
-
-
-func _on_game_ended():
-	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
-
-
-func _on_game_error(errtxt):
-	$ErrorDialog.dialog_text = errtxt
-	$ErrorDialog.popup_centered()
-
-
-func _on_error_dialog_confirmed():
-	get_tree().change_scene_to_file("res://scenes/lobby/lobby.tscn")
+	characters_confirmed.emit()
