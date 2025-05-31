@@ -9,7 +9,7 @@ var explosion_width := 2
 const MAX_EXPLOSION_WIDTH := 8
 var animation_finish := false
 const TILE_SIZE = 32 #Primitive method of assigning correct tile size
-#var TILE_SIZE: int = get_node("/root/World/Unbreakale").get_tileset().get_tile_size() #Would be cool but the match doesn't like non constants
+var is_exploded: bool = false
 
 # bomb addons
 var pierce := false
@@ -20,8 +20,8 @@ var mine := false
 @export var explosion_audio : AudioStreamWAV = load("res://sound/fx/explosion.wav")
 @onready var explosion_sfx_player: AudioStreamPlayer2D #Left 2D for Monsto fix
 @onready var rays: Node2D = $Raycasts
-@onready var bombsprite := $BombSprite
-@onready var explosion = $Explosion
+@onready var bombsprite: Sprite2D = $BombSprite
+@onready var explosion: Explosion = $Explosion
 @onready var tileMap = world_data.tile_map
 
 var force_collision: bool = false
@@ -32,6 +32,8 @@ func _ready():
 	bomb_placement_sfx_player = get_node("BombPlacementPlayer")
 	explosion_sfx_player.set_stream(explosion_audio)
 	bomb_placement_sfx_player.set_stream(bomb_place_audio)
+	self.explosion.is_finished_exploding.connect(done)
+	self.explosion.has_killed.connect(_kill)
 	self.visible = false
 
 func disable():
@@ -49,6 +51,7 @@ func set_addons(addons: Dictionary):
 	mine = addons.get("mine", false)
 
 func place(bombPos: Vector2, fuse_time_passed: float = 0, force_collision: bool = false):
+	is_exploded = true
 	bomb_placement_sfx_player.play()
 	bomb_root.position = bombPos
 	self.visible = true
@@ -70,6 +73,7 @@ func hide_mine():
 
 ## started the detonation call chain, calculates the true range of the explosion by checking for any breakables in its path, destroys those and corrects its exposion size before telling the exposion child to activate
 func detonate():
+	is_exploded = true
 	explosion_sfx_player.stop()
 	explosion_sfx_player.position = bomb_root.position #Monsto Fix
 	explosion_sfx_player.play()
@@ -124,6 +128,44 @@ func done():
 @rpc("call_local")
 func exploded(by_who):
 	$AnimationPlayer.advance(2.79)
+
+func _kill(obj):
+	if obj is Area2D:
+		if bomb_root.bomb_owner:
+			obj.exploded.rpc(str(bomb_root.bomb_owner.name).to_int())
+		else:
+			obj.exploded.rpc(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID)
+		return
+
+	if self != obj && bomb_root.bomb_owner:
+		obj.exploded.rpc(str(bomb_root.bomb_owner.name).to_int())
+	elif self != obj:
+		obj.exploded.rpc(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID)
+	if (
+		obj is Player
+		&& bomb_root.bomb_owner
+		&& bomb_root.bomb_owner_is_dead #was the bomb owner dead when the bomb was created?
+		&& bomb_root.bomb_owner.is_dead #is the bomb owner still dead?
+		&& obj.lives - 1 <= 0 #will the player that got hit die
+		&& !obj.stunned #will the player that got hit die
+		&& !obj.invulnerable #will the player that got hit die
+		&& !obj.hurry_up_started #has hurry up alread started
+	): #TODO: fix this, this is stupit
+		report_kill(obj)
+
+## reports a kill from a player to the killer s.t. he can be revived if the settings allow it
+func report_kill(killed_player: Player):
+	if(!bomb_root.bomb_owner): return
+	var killer: Player = bomb_root.bomb_owner
+	if !is_multiplayer_authority(): return
+	killer.misobon_player.revive.rpc(killed_player.position)
+
+func crush():
+	if is_exploded: return
+	if(get_parent().bomb_owner && !get_parent().bomb_owner.is_dead):
+		get_parent().bomb_owner.return_bomb.rpc()
+	$AnimationPlayer.stop()
+	done()
 
 func set_explosion_width_and_size(somewidth: int):
 	explosion_width = clamp(somewidth, 2, MAX_EXPLOSION_WIDTH)

@@ -1,15 +1,11 @@
-extends Control
+extends BattleSettingControl
 
 @onready var h_slider: HSlider = $HBoxContainer/HSlider
 @onready var slider_number_label: Label = $HBoxContainer/SliderNumberLabel
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	load_data()
 	
 func load_data() -> void:
 	set_slider_value(SettingsContainer.get_hurry_up_time())
-	_on_value_changed(SettingsContainer.get_hurry_up_time())
+	set_chance_num_label_text()
 	
 func set_slider_value(newval : int) -> void:
 	h_slider.value = newval
@@ -20,3 +16,6 @@ func set_chance_num_label_text() -> void:
 func _on_value_changed(value: float) -> void:
 	set_chance_num_label_text()
 	SettingsSignalBus.emit_on_hurry_up_time_set(value)
+
+func disable() -> void:
+	h_slider.editable = false

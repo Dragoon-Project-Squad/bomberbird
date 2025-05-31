@@ -8,9 +8,6 @@ func _ready():
 	# Called every time the node is added to the scene.
 	gamestate.connection_failed.connect(_on_connection_failed)
 	gamestate.connection_succeeded.connect(_on_connection_success)
-	gamestate.player_list_changed.connect(refresh_lobby)
-	gamestate.game_ended.connect(_on_game_ended)
-	gamestate.game_error.connect(_on_game_error)
 	# Set the player name according to the system username. Fallback to the path.
 	$Connect/Name.text = globals.config.get_player_name()
 
@@ -21,49 +18,19 @@ func _ready():
 	timeout_timer.one_shot = true
 	timeout_timer.connect("timeout", Callable(self, "_on_connection_timeout"))
 	add_child(timeout_timer)
-	
 
-func refresh_lobby():
-	var players = gamestate.get_player_list()
-	players.sort()
-	$Players/List.clear()
-	$Players/List.add_item(gamestate.get_player_name() + " (You)")
-	for p in players:
-		$Players/List.add_item(p)
-
-	$Players/CSSReady.disabled = not multiplayer.is_server()
-
-@rpc("call_local")
-func show_css():
-	$Players.hide()
-	$Connect.hide()
-	$Back.hide()
-	$CharacterSelectScreen.show()
-	$StageSelect.hide()
-	$Start.hide()
-
-@rpc("call_local")
-func show_sss():
-	$Players.hide()
-	$Connect.hide()
-	$Back.hide()
-	$CharacterSelectScreen.hide()
-	$StageSelect.show()
-	$Start.show()
 
 func _on_host_pressed():
 	if $Connect/Name.text == "":
 		$Connect/ErrorLabel.text = "Invalid name!"
 		return
 
-	$Connect.hide()
-	$Players.show()
 	$Connect/ErrorLabel.text = ""
 	
 	var player_name = $Connect/Name.text
 	globals.config.set_player_name(player_name)
-	gamestate.host_game(player_name)
-	refresh_lobby()
+	gamestate.host_game(globals.config.get_player_name())
+	get_tree().change_scene_to_file("res://scenes/cssmenu/character_select_screen.tscn")
 
 func _on_join_pressed():
 	if $Connect/Name.text == "":
@@ -94,8 +61,7 @@ func _on_connection_timeout():
 		$Connect/ErrorLabel.text = "Connection timed out"
 
 func _on_connection_success():
-	$Connect.hide()
-	$Players.show()
+	get_tree().change_scene_to_file("res://scenes/cssmenu/character_select_screen.tscn")
 
 
 func _on_connection_failed():
@@ -104,51 +70,5 @@ func _on_connection_failed():
 	$Connect/ErrorLabel.set_text("Connection failed.")
 
 
-func _on_game_ended():
-	show()
-	$Connect.show()
-	$Players.hide()
-	$Back.show()
-	$CharacterSelectScreen.hide()
-	$Start.hide()
-	$Connect/Host.disabled = false
-	$Connect/Join.disabled = false
-
-
-func _on_game_error(errtxt):
-	$ErrorDialog.dialog_text = errtxt
-	$ErrorDialog.popup_centered()
-	$Connect/Host.disabled = false
-	$Connect/Join.disabled = false
-
-func _on_start_pressed():
-	if not is_multiplayer_authority():
-		return
-	if gamestate.total_player_count < 2:
-		push_warning("Less than two players!")
-	elif gamestate.total_player_count > 4:
-		push_error("More than four players!")
-	lobby_music_player.stop()
-	# THE FIGHT IS ON
-	gamestate.begin_game()
-
-
 func _on_find_public_ip_pressed():
 	OS.shell_open("https://icanhazip.com/")
-	
-func _on_back_pressed() -> void:
-	if gamestate.peer:
-		gamestate.peer.close()
-		await get_tree().process_frame
-	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
-
-func _on_ready_pressed() -> void:
-	gamestate.establish_player_counts()
-	gamestate.assign_player_numbers()
-	# Tell CSS with a signal of some kind to capture gamestate player nums
-	$CharacterSelectScreen.disable_unused_player_slots()
-	show_css.rpc()
-
-
-func _on_stage_select_ready_pressed() -> void:
-	show_sss.rpc()

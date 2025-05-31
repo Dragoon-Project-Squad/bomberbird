@@ -64,6 +64,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="CPUCountDropdownButton" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_jp62n")]
+visible = false
 layout_mode = 2
 
 [node name="MisobonDropdownButton" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("7_ya37g")]

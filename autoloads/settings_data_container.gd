@@ -363,7 +363,6 @@ func on_settings_data_loaded(data : Dictionary) -> void:
 	personal_loaded_data = data
 	set_all_vars_from_dict(personal_loaded_data)
 	
-	
 func handle_signals() -> void:
 	SettingsSignalBus.on_window_mode_selected.connect(set_window_mode)
 	SettingsSignalBus.on_resolution_selected.connect(set_resolution)
