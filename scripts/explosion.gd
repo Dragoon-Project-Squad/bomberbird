@@ -1,4 +1,7 @@
-extends Node2D
+class_name Explosion extends Node2D
+
+signal is_finished_exploding
+signal has_killed
 
 @onready var tilemap = get_node("SpriteTileMap")
 @onready var detection_area = get_node("Area2D")
@@ -97,36 +100,13 @@ func do_detonate():
 	detection_area.get_child(0).set_deferred("disabled", 0)
 	detection_area.get_child(1).set_deferred("disabled", 0)
 	await $AnimationPlayer.animation_finished
-	get_parent().done()
+	self.is_finished_exploding.emit()
 
-## reports a kill from a player to the killer s.t. he can be revived if the settings allow it
-func report_kill(killed_player: Player):
-	if(!get_parent().bomb_root.bomb_owner): return
-	var killer: Player = get_parent().bomb_root.bomb_owner
-	if !is_multiplayer_authority(): return
-	killer.misobon_player.revive.rpc(killed_player.position)
 	
 func _on_body_entered(body: Node2D) -> void:
 	if is_multiplayer_authority() && body.has_method("exploded"):
-		if self not in body.get_children() && get_parent().bomb_root.bomb_owner:
-			body.exploded.rpc(str(get_parent().bomb_root.bomb_owner.name).to_int())
-		elif self not in body.get_children():
-			body.exploded.rpc(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID)
-	if (
-		body is Player
-		&& get_parent().bomb_root.bomb_owner
-		&& get_parent().bomb_root.bomb_owner_is_dead #was the bomb owner dead when the bomb was created?
-		&& get_parent().bomb_root.bomb_owner.is_dead #is the bomb owner still dead?
-		&& body.lives - 1 <= 0 #will the player that got hit die
-		&& !body.stunned #will the player that got hit die
-		&& !body.invulnerable #will the player that got hit die
-		&& !body.hurry_up_started #has hurry up alread started
-	): #TODO: fix this, this is stupit
-		report_kill(body)
+		has_killed.emit(body)
 
 func _on_area_2d_entered(area: Area2D) -> void:
 	if is_multiplayer_authority() && area.has_method("exploded"):
-		if get_parent().bomb_root.bomb_owner:
-			area.exploded.rpc(str(get_parent().bomb_root.bomb_owner.name).to_int())
-		else:
-			area.exploded.rpc(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID)
+		has_killed.emit(area)

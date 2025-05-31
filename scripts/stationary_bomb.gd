@@ -20,8 +20,8 @@ var mine := false
 @export var explosion_audio : AudioStreamWAV = load("res://sound/fx/explosion.wav")
 @onready var explosion_sfx_player: AudioStreamPlayer2D #Left 2D for Monsto fix
 @onready var rays: Node2D = $Raycasts
-@onready var bombsprite := $BombSprite
-@onready var explosion = $Explosion
+@onready var bombsprite: Sprite2D = $BombSprite
+@onready var explosion: Explosion = $Explosion
 @onready var tileMap = world_data.tile_map
 
 var force_collision: bool = false
@@ -32,6 +32,8 @@ func _ready():
 	bomb_placement_sfx_player = get_node("BombPlacementPlayer")
 	explosion_sfx_player.set_stream(explosion_audio)
 	bomb_placement_sfx_player.set_stream(bomb_place_audio)
+	self.explosion.is_finished_exploding.connect(done)
+	self.explosion.has_killed.connect(_kill)
 	self.visible = false
 
 func disable():
@@ -126,6 +128,37 @@ func done():
 @rpc("call_local")
 func exploded(by_who):
 	$AnimationPlayer.advance(2.79)
+
+func _kill(obj):
+	if obj is Area2D:
+		if bomb_root.bomb_owner:
+			obj.exploded.rpc(str(bomb_root.bomb_owner.name).to_int())
+		else:
+			obj.exploded.rpc(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID)
+		return
+
+	if self != obj && bomb_root.bomb_owner:
+		obj.exploded.rpc(str(bomb_root.bomb_owner.name).to_int())
+	elif self != obj:
+		obj.exploded.rpc(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID)
+	if (
+		obj is Player
+		&& bomb_root.bomb_owner
+		&& bomb_root.bomb_owner_is_dead #was the bomb owner dead when the bomb was created?
+		&& bomb_root.bomb_owner.is_dead #is the bomb owner still dead?
+		&& obj.lives - 1 <= 0 #will the player that got hit die
+		&& !obj.stunned #will the player that got hit die
+		&& !obj.invulnerable #will the player that got hit die
+		&& !obj.hurry_up_started #has hurry up alread started
+	): #TODO: fix this, this is stupit
+		report_kill(obj)
+
+## reports a kill from a player to the killer s.t. he can be revived if the settings allow it
+func report_kill(killed_player: Player):
+	if(!bomb_root.bomb_owner): return
+	var killer: Player = bomb_root.bomb_owner
+	if !is_multiplayer_authority(): return
+	killer.misobon_player.revive.rpc(killed_player.position)
 
 func crush():
 	if is_exploded: return

@@ -9,7 +9,7 @@ const INVULNERABILITY_FLASH_TIME: float = 0.125
 @onready var statemachine: Node = $StateMachine
 @onready var hitbox: CollisionShape2D = $Hitbox
 @onready var hurtbox: Area2D = $Hurtbox
-@onready var sprite: Sprite2D = $sprite
+@onready var sprite := $sprite
 
 @export_group("Enemy Settings")
 @export var score_points: int = 100
@@ -113,6 +113,7 @@ func exploded(_by_whom: int):
 		return 1
 	enemy_died.emit()
 	self.disable()
+	globals.game.enemy_pool.return_obj(self)
 	
 @rpc("call_local")
 func disable():
