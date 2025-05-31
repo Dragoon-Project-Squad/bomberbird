@@ -53,8 +53,8 @@ func set_is_participating(participation_flag: bool) -> void:
 
 func _on_button_pressed():
 	if is_multiplayer_authority():
-		gamestate.establish_player_counts()
+		SettingsContainer.set_cpu_count(SettingsContainer.get_cpu_count()+1)
 		gamestate.assign_player_numbers()
 		gamestate.register_ai_player()
-		SettingsContainer.set_cpu_count(SettingsContainer.get_cpu_count()+1)
+		gamestate.establish_player_counts()
 		gamestate.player_list_changed.emit()

@@ -73,11 +73,13 @@ func request_client_player_name():
 @rpc("call_remote", 'any_peer')
 func update_server_player_lists(client_player_name):
 	var id = multiplayer.get_remote_sender_id()
+	var ai_count = SettingsContainer.get_cpu_count()
+	clear_ai_players()
 	register_player(client_player_name, id)
 	establish_player_counts()
-	clear_ai_players()
+	add_ai_players(ai_count)
+	establish_player_counts()
 	assign_player_numbers()
-	add_ai_players()
 	sync_gamestate_across_players.rpc(players, player_numbers, host_player_name)
 
 @rpc("call_local")
@@ -89,6 +91,7 @@ func sync_gamestate_across_players(in_players, in_player_numbers, in_host_player
 
 # Callback from SceneTree.
 func _player_disconnected(id):
+	var ai_count = SettingsContainer.get_cpu_count()
 	if multiplayer.is_server():
 		clear_ai_players()
 		unregister_player(id)
@@ -101,7 +104,7 @@ func _player_disconnected(id):
 			game_error.emit("All other players disconnected")
 			end_game()
 	if multiplayer.is_server():
-		add_ai_players()
+		add_ai_players(ai_count)
 		establish_player_counts()
 		assign_player_numbers()
 	player_list_changed.emit()
@@ -182,6 +185,7 @@ func establish_player_counts() -> void:
 	#players actually contains ais already
 	#+1 here to count ourselves
 	human_player_count = 1 + players.size() - SettingsContainer.get_cpu_count()
+	print("epc: cpus: ", SettingsContainer.get_cpu_count(), ", players: ", players.size())
 	assert(multiplayer.is_server())
 	total_player_count = min(4, human_player_count + SettingsContainer.get_cpu_count())
 	
@@ -195,7 +199,6 @@ func load_world(game_scene):
 	game.start()
 	if has_node("/root/MainMenu"):
 		get_node("/root/MainMenu").pause_main_menu_music()
-
 
 	# Set up score.
 	if is_multiplayer_authority():
@@ -236,7 +239,7 @@ func begin_singleplayer_game():
 	human_player_count = 1
 	total_player_count = human_player_count
 	if total_player_count > 1:
-		add_ai_players()
+		add_ai_players(total_player_count - human_player_count)
 
 	characters[1] = DEFAULT_PLAYER_TEXTURE_PATH
 
@@ -250,19 +253,19 @@ func begin_game():
 		end_game()
 	load_world.rpc(battlemode_game_scene)
 	
-func add_ai_players():
-	var ai_player_count = total_player_count - human_player_count
-	print("total player count: ", total_player_count, " human player count: ", human_player_count)
-	if ai_player_count <= 0: # No robots allowed
-		print("No robots allowed")
-		pass
-	for n in range(0, ai_player_count, 1):
+func add_ai_players(ai_players_to_add: int):
+	var ai_players_count = min(
+		ai_players_to_add, 
+		MAX_PEERS-human_player_count)
+	SettingsContainer.set_cpu_count(ai_players_count)
+	for n in range(0, SettingsContainer.get_cpu_count(), 1):
 		register_ai_player()
 	pass
 
 func clear_ai_players():
-	for n in range(human_player_count, total_player_count, 1):
+	for n in range(human_player_count, total_player_count+1, 1):
 		players.erase(n)
+	SettingsContainer.set_cpu_count(0)
 	pass
 
 func register_ai_player():
