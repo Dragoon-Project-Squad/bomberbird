@@ -14,6 +14,7 @@ func check_for_priority_target():
 		if !ray.is_colliding(): continue
 		var target = ray.get_collider()
 		if !(target is Player): continue
+		if target.stop_movement: continue #if the player is in the hurt animation (or victory tho that should not happen)
 		self.enemy.statemachine.target = target
 		return true
 	self.enemy.statemachine.target = null

@@ -10,25 +10,43 @@ var time
 @onready var player_container: HBoxContainer = $Border/Container/Players
 
 func _ready() -> void:
-	match_timer.start(SettingsContainer.get_match_time())
 	globals.game.game_ui = self
 	
 
+func start_timer(gametime := SettingsContainer.get_match_time()):
+	match_timer.start(gametime)
+	$Border/Container/Players/Timer/RemainingTime.visible = true
+	
+func stop_timer():
+	match_timer.stop()
+	$Border/Container/Players/Timer/RemainingTime.visible = false
+	
 func _process(_delta: float) -> void:
 	time = match_timer.get_time_left()
 	remaining_time.set_text(time_to_string())
 
-func increase_score(for_who):
-	assert(for_who in player_labels)
-	var pl = player_labels[for_who]
+func increase_score(playername : String):
+	assert(playername.to_int())
+	var pid : int = playername.to_int()
+	assert(pid in player_labels)
+	var pl = player_labels[pid]
 	pl.score += 1
 	pl.scorelabel.set_text(str(pl.score))
 	
-func decrease_score(for_who):
-	assert(for_who in player_labels)
-	var pl = player_labels[for_who]
+func decrease_score(playername : String):
+	assert(playername.to_int())
+	var pid : int = playername.to_int()
+	assert(pid in player_labels)
+	var pl = player_labels[pid]
 	pl.score -= 1
 	pl.scorelabel.set_text(str(pl.score))
+
+func get_player_score(playername : String):
+	assert(playername.to_int())
+	var pid : int = playername.to_int()
+	assert(pid in player_labels)
+	var pl = player_labels[pid]
+	return pl.score
 
 @rpc("call_local")
 func add_player(id: int, new_player_name: String):

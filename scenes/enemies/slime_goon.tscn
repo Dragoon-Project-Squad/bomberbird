@@ -1,0 +1,223 @@
+[gd_scene load_steps=20 format=3 uid="uid://bwtayhw3negvo"]
+
+[ext_resource type="Script" uid="uid://dibr3o26b8gcx" path="res://scripts/enemy/enemy.gd" id="1_ifc2u"]
+[ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_l7gwj"]
+[ext_resource type="Texture2D" uid="uid://bt626afy1iwuj" path="res://assets/enemies/dragoon_blue_walk.png" id="3_ifc2u"]
+[ext_resource type="Texture2D" uid="uid://nhrt84x47q1w" path="res://assets/enemies/egg_shell_blue.png" id="4_l7gwj"]
+[ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_ntjrv"]
+[ext_resource type="Script" uid="uid://bvgrl2f42tmdb" path="res://scripts/enemy/detection_handlers/detection_handler_type_rand.gd" id="5_l7gwj"]
+[ext_resource type="AnimationLibrary" uid="uid://dvi33f4r6k5nh" path="res://animations/enemy.res" id="6_44cg4"]
+[ext_resource type="Script" uid="uid://bct3b1gr0upgg" path="res://scripts/enemy/enemy_state_machine.gd" id="7_713vf"]
+[ext_resource type="Script" uid="uid://bg5lo5t5l74do" path="res://scripts/enemy/wander_types/enemy_wander_type_2.gd" id="8_ifc2u"]
+[ext_resource type="Script" uid="uid://il2iqktgoyyo" path="res://scripts/enemy/abilities/enemy_slime_ability.gd" id="9_ifc2u"]
+[ext_resource type="Script" uid="uid://xpsl7bku1ra4" path="res://scripts/enemy/enemy_state.gd" id="10_pqiti"]
+[ext_resource type="Texture2D" uid="uid://jog1koyue4lr" path="res://assets/fallingsprite.png" id="11_npuxn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_i1su5"]
+radius = 9.0
+
+[sub_resource type="Animation" id="Animation_6f11t"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Shell:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Shell:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ntjrv"]
+_data = {
+&"RESET": SubResource("Animation_6f11t")
+}
+
+[sub_resource type="Animation" id="Animation_r6q4p"]
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0001, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Shell:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2, 0.275, 0.35, 0.425, 0.5, 0.575, 0.65, 0.725, 0.8, 0.875),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 3, 4, 5, 6, 7, 8, 9, 10]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Shell:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_l7gwj"]
+resource_name = "show"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Shell:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2, 0.275, 0.35, 0.425, 0.5, 0.575, 0.65, 0.725, 0.8, 0.875),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Shell:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_44cg4"]
+_data = {
+&"hide": SubResource("Animation_r6q4p"),
+&"show": SubResource("Animation_l7gwj")
+}
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hwcqj"]
+
+[node name="SlimeGoon" type="CharacterBody2D" node_paths=PackedStringArray("detection_handler") groups=["thrown_bomb_bounces"]]
+texture_filter = 1
+collision_layer = 32
+collision_mask = 13
+script = ExtResource("1_ifc2u")
+detection_handler = NodePath("DetectionHandler_rand")
+
+[node name="shadowsprite" type="Sprite2D" parent="."]
+position = Vector2(0, 8)
+scale = Vector2(1, 0.5)
+texture = ExtResource("2_l7gwj")
+
+[node name="sprite" type="Sprite2D" parent="."]
+position = Vector2(0.0750351, 6.23615)
+texture = ExtResource("3_ifc2u")
+offset = Vector2(-0.075, -8.536)
+hframes = 6
+vframes = 4
+
+[node name="Shell" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("4_l7gwj")
+hframes = 11
+
+[node name="kaboom" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-1.07288e-06, 3.57628e-07)
+scale = Vector2(0.333333, 0.351648)
+texture = ExtResource("4_ntjrv")
+hframes = 9
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_i1su5")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="HurtboxShape" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_i1su5")
+debug_color = Color(1, 0, 0, 0.419608)
+
+[node name="DetectionHandler_rand" type="Node2D" parent="."]
+script = ExtResource("5_l7gwj")
+trigger_chance = 0.1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ntjrv"),
+&"enemy": ExtResource("6_44cg4"),
+&"slime": SubResource("AnimationLibrary_44cg4")
+}
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+root_path = NodePath("../StateMachine")
+replication_config = SubResource("SceneReplicationConfig_hwcqj")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("enabled_state", "disabled_state")]
+script = ExtResource("7_713vf")
+enabled_state = NodePath("Wander")
+disabled_state = NodePath("Disabled")
+
+[node name="Wander" type="Node" parent="StateMachine"]
+script = ExtResource("8_ifc2u")
+
+[node name="Ability" type="Node" parent="StateMachine"]
+script = ExtResource("9_ifc2u")
+
+[node name="Disabled" type="Node" parent="StateMachine"]
+script = ExtResource("10_pqiti")
+
+[node name="DebugMarker" type="Sprite2D" parent="."]
+self_modulate = Color(1, 0, 0, 1)
+top_level = true
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("11_npuxn")

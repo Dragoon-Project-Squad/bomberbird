@@ -166,7 +166,7 @@ func _save_bfs(starting_node: StageNode, node_array: Array[StageNodeData]):
 	var start_node_data: StageNodeData = starting_node.save_node(0)
 	node_array.append(start_node_data)
 	var queue: Array[StageNodeData] = [start_node_data]
-	var visited: Dictionary = {starting_node: true}
+	var visited: Dictionary = {starting_node: start_node_data}
 	while !queue.is_empty():
 		var curr_node: StageNodeData = queue.pop_front()
 		for connection in connections:

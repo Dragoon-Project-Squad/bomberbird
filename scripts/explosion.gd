@@ -1,4 +1,7 @@
-extends Node2D
+class_name Explosion extends Node2D
+
+signal is_finished_exploding
+signal has_killed
 
 @onready var tilemap = get_node("SpriteTileMap")
 @onready var detection_area = get_node("Area2D")
@@ -34,41 +37,40 @@ func reset():
 	process_mode = PROCESS_MODE_DISABLED
 
 ## draws all tiles for the horizontal part of the explosion
-@warning_ignore("SHADOWED_VARIABLE")
-func set_cell_hori(pos: Vector2i, left: int, right: int, step: int = 0):
+
+func set_cell_hori(pos: Vector2i, cell_left: int, cell_right: int, step: int = 0):
 	if pos == Vector2i.ZERO: return
 	var edge_tile: Vector2i = Vector2i(step, 2)
 	var line_tile: Vector2i = Vector2i(step, 1)
 	match pos.x:
-		left:
-			tilemap.set_cell(pos, 0, edge_tile, 1)
-		right:
+		cell_left:
+			tilemap.set_cell(pos, 0, edge_tile, TileSetAtlasSource.TRANSFORM_FLIP_H | TileSetAtlasSource.TRANSFORM_FLIP_V)
+		cell_right:
 			tilemap.set_cell(pos, 0, edge_tile, 0)
 		_:
 			tilemap.set_cell(pos, 0, line_tile, 0)
 
 ## draws all tiles for the vertical part of the explosion
-@warning_ignore("SHADOWED_VARIABLE")
-func set_cell_vert(pos: Vector2i, up: int, down: int, step: int = 0):
+
+func set_cell_vert(pos: Vector2i, cell_up: int, cell_down: int, step: int = 0):
 	if pos == Vector2i.ZERO: return
 	var edge_tile: Vector2i = Vector2i(step, 2)
 	var line_tile: Vector2i = Vector2i(step, 1)
 	match pos.y:
-		up:
-			tilemap.set_cell(pos, 0, edge_tile, 3)
-		down:
-			tilemap.set_cell(pos, 0, edge_tile, 2)
+		cell_up:
+			tilemap.set_cell(pos, 0, edge_tile, TileSetAtlasSource.TRANSFORM_TRANSPOSE | TileSetAtlasSource.TRANSFORM_FLIP_V)
+		cell_down:
+			tilemap.set_cell(pos, 0, edge_tile, TileSetAtlasSource.TRANSFORM_TRANSPOSE | TileSetAtlasSource.TRANSFORM_FLIP_H)
 		_:
-			tilemap.set_cell(pos, 0, line_tile, 1)
+			tilemap.set_cell(pos, 0, line_tile, TileSetAtlasSource.TRANSFORM_TRANSPOSE | TileSetAtlasSource.TRANSFORM_FLIP_H)
 
 ## sets up all values for the explosition that the bomb calculated.
 @rpc("call_local")
-@warning_ignore("SHADOWED_VARIABLE")
-func init_detonate(right: int, down: int = right, left: int = right, up: int = right):
-	self.right = right
-	self.down = down
-	self.left = left
-	self.up = up
+func init_detonate(right_score: int, down_score: int = right, left_score: int = right, up_score: int = right):
+	self.right = right_score
+	self.down = down_score
+	self.left = left_score
+	self.up = up_score
 
 	next_detonate()
 	var tile_size: float = tilemap.tile_set.tile_size.x
@@ -98,29 +100,13 @@ func do_detonate():
 	detection_area.get_child(0).set_deferred("disabled", 0)
 	detection_area.get_child(1).set_deferred("disabled", 0)
 	await $AnimationPlayer.animation_finished
-	get_parent().done()
+	self.is_finished_exploding.emit()
 
-## reports a kill from a player to the killer s.t. he can be revived if the settings allow it
-func report_kill(killed_player: Player):
-	var killer: Player = get_parent().bomb_root.bomb_owner
-	if !is_multiplayer_authority(): return
-	killer.misobon_player.revive.rpc(killed_player.position)
 	
 func _on_body_entered(body: Node2D) -> void:
 	if is_multiplayer_authority() && body.has_method("exploded"):
-		if self not in body.get_children():
-			body.exploded.rpc(str(get_parent().bomb_root.bomb_owner.name).to_int())
-	if (
-		body is Player
-		&& get_parent().bomb_root.bomb_owner_is_dead #was the bomb owner dead when the bomb was created?
-		&& get_parent().bomb_root.bomb_owner.is_dead #is the bomb owner still dead?
-		&& body.lives - 1 <= 0 #will the player that got hit die
-		&& !body.stunned #will the player that got hit die
-		&& !body.invulnerable #will the player that got hit die
-		&& !body.hurry_up_started #has hurry up alread started
-	): #TODO: fix this, this is stupit
-		report_kill(body)
+		has_killed.emit(body)
 
 func _on_area_2d_entered(area: Area2D) -> void:
 	if is_multiplayer_authority() && area.has_method("exploded"):
-		area.exploded.rpc(str(get_parent().bomb_root.bomb_owner.name).to_int())
+		has_killed.emit(area)

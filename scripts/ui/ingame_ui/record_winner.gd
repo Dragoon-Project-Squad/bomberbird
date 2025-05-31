@@ -5,13 +5,11 @@ func _ready() -> void:
 	globals.game.win_screen = self
 
 func draw_game():
-	get_tree().change_scene_to_file(globals.MULTIPLAYER_VICTORY_SCREEN_PATH)
 	winner_declaring_label.set_text("DRAW GAME")
 	self.show()
 	grab_focus()
 
 func declare_winner(winningplayer: Player):
-	get_tree().change_scene_to_file(globals.MULTIPLAYER_VICTORY_SCREEN_PATH)
 	winner_declaring_label.set_text("THE WINNER IS:\n" + winningplayer.get_player_name())
 	self.show()
 	grab_focus()

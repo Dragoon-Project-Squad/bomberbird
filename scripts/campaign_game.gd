@@ -98,8 +98,8 @@ func start():
 	stage_announce_label.show()
 	fade.get_node("FadeInOutRect").show()
 	await get_tree().create_timer(0.1).timeout
-
 	fade.play("fade_in")
+
 	var init_stage_set: Dictionary = GraphHelper.bfs_get_values(
 		stage_data_arr, 
 		func (s: StageNodeData): return s.get_stage_path(),

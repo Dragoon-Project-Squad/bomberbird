@@ -38,7 +38,7 @@ func _on_single_player_pressed() -> void:
 	hide();
 
 func _on_multiplayer_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/lobby/battle_settings.tscn")
+	get_tree().change_scene_to_file("res://scenes/lobby/lobby.tscn")
 	hide();
 
 func _on_options_pressed() -> void:

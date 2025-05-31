@@ -1,5 +1,5 @@
 extends Node2D
-@onready var fade_in_out: AnimationPlayer = $FadeInOut
+@onready var fade_in_out: AnimationPlayer = $AnimPlayer
 
 
 func _ready() -> void:

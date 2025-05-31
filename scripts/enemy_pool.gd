@@ -19,7 +19,9 @@ func create_reserve(count: int, enemy_path: String): #creates a number of unowne
 		unowned[enemy_path][i] = obj_spawner.spawn(enemy_path)
 
 func request(enemy_path: String) -> Enemy:
-	var enemy: Enemy = unowned[enemy_path].pop_front()
+	var enemy: Enemy = null
+	if unowned.has(enemy_path):
+		enemy = unowned[enemy_path].pop_front()
 		
 	if enemy == null: #no obj hence spawn one
 		enemy = obj_spawner.spawn(enemy_path)

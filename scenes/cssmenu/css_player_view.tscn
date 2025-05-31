@@ -46,3 +46,32 @@ theme_override_font_sizes/font_size = 40
 text = "PLAYER_NUM"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ClickPrompt" type="Label" parent="PlayerPanel"]
+modulate = Color(0.513726, 0.52549, 0.537255, 1)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -68.0
+offset_top = 12.0
+offset_right = 70.0
+offset_bottom = 129.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "CLICK TO
+ADD
+CPU"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="PlayerPanel"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.028
+anchor_bottom = 0.028
+offset_right = 139.968
+offset_bottom = 139.968
+
+[connection signal="pressed" from="PlayerPanel/Button" to="." method="_on_button_pressed"]

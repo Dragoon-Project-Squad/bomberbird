@@ -12,7 +12,6 @@ func _enter() -> void:
 		).direction_to(world_data.tile_map.map_to_local(
 			world_data.tile_map.local_to_map(self.state_machine.target.position)
 			))
-	print("attacking in: ", self.enemy.movement_vector)
 
 
 func _physics_update(_delta: float) -> void:
