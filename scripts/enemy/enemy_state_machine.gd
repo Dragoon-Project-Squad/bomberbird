@@ -6,6 +6,7 @@ class_name EnemyStateMachine extends Node
 var current_state: EnemyState
 var states: Dictionary = {}
 var target: Node2D = null
+var stop_process: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -22,11 +23,11 @@ func _ready():
 		current_state = disabled_state 
 
 func _process(delta):
-	if current_state:
+	if current_state && !stop_process:
 		current_state._update(delta)
 
 func _physics_process(delta):
-	if current_state:
+	if current_state && !stop_process:
 		current_state._physics_update(delta)
 
 func _on_state_changed(state: EnemyState, new_state: String) -> void:
