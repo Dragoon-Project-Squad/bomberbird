@@ -24,9 +24,9 @@ func start():
 func load_stage() -> void:
 	var stage_path := globals.LAB_RAND_STAGE_PATH
 	if SettingsContainer.get_breakable_spawn_rule() == 2:
-		load_full_stage()
+		stage_path = load_full_stage()
 	else:
-		load_custom_stage()
+		stage_path = load_custom_stage()
 	stage = load(stage_path).instantiate()
 	stage_loader.add_child(stage)
 	stageMusic = stage.get_node("Music/MusicPlayer")

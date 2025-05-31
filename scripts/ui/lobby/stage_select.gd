@@ -8,8 +8,8 @@ func _ready() -> void:
 	load_data()
 
 func load_data() -> void:
-	_on_dropdown_item_selected(SettingsContainer.get_cpu_count())
-	dropdown.select(SettingsContainer.get_cpu_count())
+	_on_dropdown_item_selected(SettingsContainer.get_stage_choice())
+	dropdown.select(SettingsContainer.get_stage_choice())
 	
 func add_stage_options() -> void:
 	for stage_option in SettingsContainer.multiplayer_stages:
