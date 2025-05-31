@@ -38,6 +38,7 @@ func _check_if_on_tile() -> bool:
 
 func check_arrival():
 	return self.enemy.position.distance_to(world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.state_machine.target.bomb_root.position))) <= ARRIVAL_TOLARANCE
+
 func do_crush():
 	self.enemy.stop_moving = true
 	self.enemy.anim_player.play("hammer/punch")
@@ -47,6 +48,7 @@ func do_crush():
 
 func change_bomb():
 	assert(self.state_machine.target.has_method("crush"))
+	if self.state_machine.target.is_exploded: return
 	self.state_machine.target.crush()
 	var pickup: int = globals.current_world.pickup_table.decide_pickup_type()
 	var pickup_obj: Pickup = globals.game.pickup_pool.request(pickup)
