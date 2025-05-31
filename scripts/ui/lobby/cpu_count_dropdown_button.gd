@@ -1,14 +1,13 @@
-extends Control
+extends BattleSettingControl
 
 @onready var dropdown: OptionButton = $HBoxContainer/Dropdown 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	add_cpu_count_items()
-	load_data()
+	super._ready()
 
 func load_data() -> void:
-	_on_dropdown_item_selected(SettingsContainer.get_cpu_count())
 	dropdown.select(SettingsContainer.get_cpu_count())
 	
 func add_cpu_count_items() -> void:

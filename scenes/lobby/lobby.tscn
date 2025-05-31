@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://jhdlqsokif5o"]
+[gd_scene load_steps=5 format=3 uid="uid://jhdlqsokif5o"]
 
 [ext_resource type="Script" uid="uid://dlxlkxwbdq3pq" path="res://scripts/ui/lobby/lobby.gd" id="1_jekxk"]
 [ext_resource type="Theme" uid="uid://bgj72vffexht" path="res://assets/styles/panel_theme.tres" id="2_i6yme"]
 [ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="3_i6yme"]
-[ext_resource type="PackedScene" uid="uid://fsg6gwfw5fbi" path="res://scenes/cssmenu/character_select_screen.tscn" id="3_stkcr"]
 [ext_resource type="AudioStream" uid="uid://bsv6xvb7bqh1h" path="res://sound/mus/config_dragoon_cafe.ogg" id="4_2tt0b"]
 
 [node name="Lobby" type="Control"]
@@ -16,75 +15,6 @@ grow_vertical = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
 script = ExtResource("1_jekxk")
-
-[node name="Players" type="Panel" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -126.0
-offset_top = -177.5
-offset_right = 126.0
-offset_bottom = 177.5
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 2
-size_flags_vertical = 2
-theme = ExtResource("2_i6yme")
-
-[node name="Label" type="Label" parent="Players"]
-layout_mode = 0
-offset_left = 26.0
-offset_top = 7.0
-offset_right = 229.0
-offset_bottom = 30.0
-size_flags_horizontal = 2
-size_flags_vertical = 0
-text = "Awaiting Players..."
-horizontal_alignment = 1
-
-[node name="Ready" type="Button" parent="Players" groups=["ui_button"]]
-layout_mode = 0
-offset_left = 68.0
-offset_top = 307.0
-offset_right = 193.0
-offset_bottom = 345.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-text = "READY!"
-script = ExtResource("3_i6yme")
-metadata/_custom_type_script = "uid://boq3i75yls51h"
-
-[node name="List" type="ItemList" parent="Players"]
-layout_mode = 0
-offset_left = 25.0
-offset_top = 37.0
-offset_right = 229.0
-offset_bottom = 296.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-
-[node name="PortForward" type="Label" parent="Players"]
-layout_mode = 0
-offset_left = -124.0
-offset_top = 375.0
-offset_right = 128.0
-offset_bottom = 429.0
-theme_override_constants/line_spacing = 6
-text = "If you want non-LAN clients to connect,
-make sure the port 10567 in UDP
-is forwarded on your router."
-
-[node name="FindPublicIP" type="LinkButton" parent="Players"]
-layout_mode = 0
-offset_left = 200.0
-offset_top = 409.5
-offset_right = 408.0
-offset_bottom = 432.5
-text = "Find your public IP address"
 
 [node name="Connect" type="Panel" parent="."]
 layout_mode = 1
@@ -178,47 +108,6 @@ size_flags_horizontal = 2
 size_flags_vertical = 0
 theme_override_colors/font_color = Color(0.820312, 0.291595, 0.291595, 1)
 
-[node name="CharacterSelectScreen" parent="." instance=ExtResource("3_stkcr")]
-visible = false
-
-[node name="Start" type="Button" parent="." groups=["ui_button"]]
-visible = false
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -120.0
-offset_top = -200.0
-offset_right = 120.0
-offset_bottom = -136.0
-grow_horizontal = 2
-grow_vertical = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-theme = ExtResource("2_i6yme")
-theme_override_font_sizes/font_size = 46
-text = "START!"
-script = ExtResource("3_i6yme")
-metadata/_custom_type_script = "uid://boq3i75yls51h"
-
-[node name="Back" type="Button" parent="." groups=["ui_button"]]
-visible = false
-layout_mode = 0
-offset_left = 544.0
-offset_top = 600.0
-offset_right = 614.0
-offset_bottom = 638.0
-focus_neighbor_top = NodePath("../Multiplayer")
-focus_neighbor_bottom = NodePath("../SinglePlayer")
-theme = ExtResource("2_i6yme")
-theme_override_colors/font_focus_color = Color(1, 0, 0, 1)
-text = "Exit
-"
-script = ExtResource("3_i6yme")
-metadata/_custom_type_script = "uid://boq3i75yls51h"
-
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
@@ -227,9 +116,5 @@ autoplay = true
 bus = &"Music"
 parameters/looping = true
 
-[connection signal="pressed" from="Players/Ready" to="." method="_on_ready_pressed"]
-[connection signal="pressed" from="Players/FindPublicIP" to="." method="_on_find_public_ip_pressed"]
 [connection signal="pressed" from="Connect/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="Connect/Join" to="." method="_on_join_pressed"]
-[connection signal="pressed" from="Start" to="." method="_on_start_pressed"]
-[connection signal="pressed" from="Back" to="." method="_on_back_pressed"]

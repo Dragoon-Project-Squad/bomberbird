@@ -23,6 +23,8 @@ var player_name = globals.config.get_player_name()
 # Names for remote players in id:name format.
 var players = {}
 var players_ready = []
+# Name for player who hosts game
+var host_player_name = ""
 
 # Player Numbers in string:id format.
 var player_numbers = {
@@ -58,13 +60,39 @@ var current_level: int = 1 #205 # Defaults to a high number for battle mode.
 
 # Callback from SceneTree.
 func _player_connected(id):
-	# Registration of a client beings here, tell the connected player that we are here.
-	register_player.rpc_id(id, player_name)
+	# This func called withing client and server
+	if multiplayer.is_server():
+		request_client_player_name.rpc_id(id) #this also triggering crossclient gamestate update
+
+#this called from server to client
+@rpc("call_remote")
+func request_client_player_name():
+	update_server_player_lists.rpc(player_name)
+
+#this called from client to server
+@rpc("call_remote", 'any_peer')
+func update_server_player_lists(client_player_name):
+	var id = multiplayer.get_remote_sender_id()
+	register_player(client_player_name, id)
+	establish_player_counts()
+	clear_ai_players()
+	assign_player_numbers()
+	add_ai_players()
+	sync_gamestate_across_players.rpc(players, player_numbers, host_player_name)
+
+@rpc("call_local")
+func sync_gamestate_across_players(in_players, in_player_numbers, in_host_player_name):
+	players = in_players
+	player_numbers = in_player_numbers
+	host_player_name = in_host_player_name
+	player_list_changed.emit()
 
 # Callback from SceneTree.
 func _player_disconnected(id):
-	total_player_count -= 1
-	human_player_count -= 1
+	if multiplayer.is_server():
+		clear_ai_players()
+		unregister_player(id)
+		establish_player_counts()
 	if globals.current_world != null: # Game is in progress.
 		# Remove from world
 		remove_player_from_world.rpc(id)
@@ -72,8 +100,11 @@ func _player_disconnected(id):
 		if total_player_count == 1:
 			game_error.emit("All other players disconnected")
 			end_game()
-	# Unregister this player.
-	unregister_player(id)
+	if multiplayer.is_server():
+		add_ai_players()
+		establish_player_counts()
+		assign_player_numbers()
+	player_list_changed.emit()
 
 # Callback from SceneTree, only for clients (not server).
 func _connected_ok():
@@ -85,7 +116,6 @@ func _connected_ok():
 func _server_disconnected():
 	# Gets called by the server if all players disconnect, this is to prevent that
 	game_error.emit("Server disconnected")
-	end_game()
 
 
 # Callback from SceneTree, only for clients (not server).
@@ -95,8 +125,7 @@ func _connected_fail():
 
 # Lobby management functions.
 @rpc("any_peer")
-func register_player(new_player_name):
-	var id = multiplayer.get_remote_sender_id()
+func register_player(new_player_name, id):
 	characters[id] = DEFAULT_PLAYER_TEXTURE_PATH
 	players[id] = new_player_name
 	player_list_changed.emit()
@@ -149,10 +178,11 @@ func assign_player_numbers():
 
 
 func establish_player_counts() -> void:
-	human_player_count = 1 + players.size()
+	#players actually contains ai's already
+	#+1 here to count ourselves
+	human_player_count = 1 + players.size() - SettingsContainer.get_cpu_count()
 	assert(multiplayer.is_server())
 	total_player_count = min(4, human_player_count + SettingsContainer.get_cpu_count())
-	add_ai_players() #Depends on knowing the total player count and human player count to do its job
 	
 @rpc("call_local")
 func load_world(game_scene):
@@ -162,9 +192,7 @@ func load_world(game_scene):
 	if has_node("/root/MainMenu/DebugCampaignSelector"):
 		game.load_level_graph(get_node("/root/MainMenu/DebugCampaignSelector").get_graph())
 	game.start()
-	if get_tree().get_root().has_node("Lobby"):
-		get_tree().get_root().get_node("Lobby").hide()
-	else:
+	if has_node("/root/MainMenu"):
 		get_node("/root/MainMenu").pause_main_menu_music()
 
 
@@ -179,10 +207,13 @@ func load_world(game_scene):
 
 func host_game(new_player_name):
 	player_name = new_player_name
+	host_player_name = new_player_name
 	peer = ENetMultiplayerPeer.new()
 	peer.create_server(DEFAULT_PORT, MAX_PEERS)
 	multiplayer.set_multiplayer_peer(peer)
 	characters[1] = DEFAULT_PLAYER_TEXTURE_PATH
+	SettingsContainer.set_cpu_count(0)
+	gamestate.establish_player_counts()
 
 
 func join_game(ip, new_player_name):
@@ -195,8 +226,7 @@ func join_game(ip, new_player_name):
 func get_player_list():
 	return players.values()
 
-
-func get_player_name():
+func get_player_name() -> String:
 	return player_name
 
 func begin_singleplayer_game():
@@ -229,6 +259,11 @@ func add_ai_players():
 		register_ai_player()
 	pass
 
+func clear_ai_players():
+	for n in range(human_player_count, total_player_count, 1):
+		players.erase(n)
+	pass
+
 func register_ai_player():
 	var id = 2 #TODO: Generate CPU ID here, ensure it does not clash
 	if not is_id_free(id):
@@ -237,8 +272,8 @@ func register_ai_player():
 			if is_id_free(id):
 				break
 	assign_ai_character_sprite(id)
-	player_list_changed.emit()
 	name_ai_player(id)
+	player_list_changed.emit()
 
 func name_ai_player(pid: int):
 	players[pid] = "LikeBot" #TODO: Generate CPU name from list resource here

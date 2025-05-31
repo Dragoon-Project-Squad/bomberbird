@@ -1,4 +1,4 @@
-extends Control
+extends BattleSettingControl
 
 @onready var dropdown: OptionButton = $HBoxContainer/Dropdown
 
@@ -8,7 +8,6 @@ func _ready() -> void:
 	load_data()
 
 func load_data() -> void:
-	_on_dropdown_item_selected(SettingsContainer.get_pickup_spawn_rule())
 	dropdown.select(SettingsContainer.get_pickup_spawn_rule())
 	
 func add_pickup_spawn_rule_items() -> void:
@@ -17,3 +16,6 @@ func add_pickup_spawn_rule_items() -> void:
 
 func _on_dropdown_item_selected(index: int) -> void:
 	SettingsSignalBus.emit_on_pickup_spawn_rule_set(index)
+
+func disable() -> void:
+	dropdown.disabled = true
