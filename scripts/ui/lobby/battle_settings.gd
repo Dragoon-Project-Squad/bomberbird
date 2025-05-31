@@ -18,6 +18,7 @@ func _ready():
 func _on_confirm_button_pressed() -> void:
 	var options = battle_settings_container.get_children()
 	apply_battle_settings.rpc()
+	hide()
 	gamestate.begin_game()
 
 @rpc("call_local")
