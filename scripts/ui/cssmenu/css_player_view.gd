@@ -4,6 +4,8 @@ class_name PlayerControl
 @onready var player_label: Label = $PlayerPanel/Text
 @onready var player_panel: Panel = $PlayerPanel
 @onready var player_image: TextureRect = $PlayerPanel/Image
+@onready var cpu_button: Button = $PlayerPanel/Button
+@onready var cpu_button_label: Label = $PlayerPanel/ClickPrompt
 var is_participating := true
 
 func _ready() -> void:
@@ -47,8 +49,12 @@ func set_is_participating(participation_flag: bool) -> void:
 	is_participating = participation_flag
 	player_image.visible = participation_flag
 	player_label.visible = participation_flag
-	$PlayerPanel/Button.disabled = participation_flag
-	$PlayerPanel/ClickPrompt.visible = !participation_flag
+	if is_multiplayer_authority():
+		cpu_button.disabled = participation_flag
+		cpu_button_label.visible = !participation_flag
+	else:
+		cpu_button_label.hide()
+		cpu_button.hide()
 
 
 func _on_button_pressed():

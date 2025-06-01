@@ -70,7 +70,3 @@ func _on_connection_failed():
 	$Host.disabled = false
 	$Join.disabled = false
 	$ErrorLabel.set_text("Connection failed.")
-
-
-func _on_find_public_ip_pressed():
-	OS.shell_open("https://icanhazip.com/")
