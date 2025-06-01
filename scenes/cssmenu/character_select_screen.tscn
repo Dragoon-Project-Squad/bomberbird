@@ -333,4 +333,5 @@ auto_translate_mode = 1
 [connection signal="pressed" from="SkinBG/CharacterGrid/secret2" to="." method="_on_secret_2_pressed"]
 [connection signal="pressed" from="Start" to="." method="_on_confirm_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="PlayerList/FindPublicIP" to="." method="_on_find_public_ip_pressed"]
 [connection signal="confirmed" from="ErrorDialog" to="." method="_on_error_dialog_confirmed"]
