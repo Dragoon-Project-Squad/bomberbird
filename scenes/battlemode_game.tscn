@@ -254,13 +254,6 @@ one_shot = true
 
 [node name="MultiplayerGameUI" parent="." instance=ExtResource("10_3qosu")]
 
-[node name="GameEndState" parent="." instance=ExtResource("11_166ep")]
-visible = false
-offset_left = -193.0
-offset_top = 1.0
-offset_right = 693.0
-offset_bottom = 499.0
-
 [node name="FadeInOutRect" type="ColorRect" parent="."]
 visible = false
 offset_left = -193.0
@@ -268,6 +261,13 @@ offset_top = 1.0
 offset_right = 1152.0
 offset_bottom = 648.0
 color = Color(0, 0, 0, 1)
+
+[node name="GameEndState" parent="." instance=ExtResource("11_166ep")]
+visible = false
+offset_left = -193.0
+offset_top = 1.0
+offset_right = 693.0
+offset_bottom = 499.0
 
 [node name="AnimPlayer" type="AnimationPlayer" parent="."]
 libraries = {
