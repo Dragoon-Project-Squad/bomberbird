@@ -36,6 +36,7 @@ func _physics_update(_delta):
 func valid_tile(pos: Vector2) -> bool:
 	if world_data.is_out_of_bounds(pos) != -1: return false
 	var ret: bool = world_data.is_tile(world_data.tiles.EMPTY, pos) || world_data.is_tile(world_data.tiles.PICKUP, pos)
+	ret = ret || world_data.is_tile(world_data.tiles.MINE, pos)
 	ret = ret || self.enemy.wallthrought && world_data.is_tile(world_data.tiles.BREAKABLE, pos)
 	ret = ret || self.enemy.bombthrought && world_data.is_tile(world_data.tiles.BOMB, pos)
 	return ret

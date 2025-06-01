@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=4 uid="uid://d4ep51hwr8uxd"]
+[gd_scene load_steps=10 format=4 uid="uid://d4ep51hwr8uxd"]
 
 [ext_resource type="Script" uid="uid://c7rrhgeevwtus" path="res://scripts/world/randomized_stage.gd" id="1_5v275"]
 [ext_resource type="Script" uid="uid://bta1elkd6rmla" path="res://resources/gameplay/pickup_table.gd" id="2_vhk3c"]
 [ext_resource type="TileSet" uid="uid://mxtw88b7dngl" path="res://assets/tilesets/beach_tileset.tres" id="3_5v275"]
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/tilesets/desert_tileset.tres" id="4_1svj4"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="5_cn8oy"]
+[ext_resource type="PackedScene" uid="uid://b6dt0n45ca8vi" path="res://scenes/enemy_components/firebreath.tscn" id="6_6mhws"]
 [ext_resource type="Script" uid="uid://dgwlvvxb85sln" path="res://scripts/music.gd" id="10_pwwwe"]
 
 [sub_resource type="Resource" id="Resource_6r5we"]
@@ -14,6 +15,11 @@ explosion_boost = 500
 speed_boost = 500
 max_explosion = 20
 punch_ability = 50
+throw_ability = 50
+wallthrough = 50
+bombthrough = 50
+piercing_bomb = 50
+land_mine = 50
 metadata/_custom_type_script = "uid://bta1elkd6rmla"
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_7j1x2"]
@@ -41,6 +47,9 @@ tile_set = ExtResource("4_1svj4")
 
 [node name="HurryUp" parent="." instance=ExtResource("5_cn8oy")]
 tile_set = ExtResource("4_1svj4")
+
+[node name="Firebreath" parent="." instance=ExtResource("6_6mhws")]
+position = Vector2(176, 272)
 
 [node name="Music" type="Node" parent="."]
 script = ExtResource("10_pwwwe")

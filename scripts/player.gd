@@ -292,10 +292,12 @@ func spread_items():
 			if pos == null: return
 			pos = pos as Vector2 #This is a hack and also the reason to burn anything pythonic
 			to_place_pickups[pickup_types[i]][0].place.rpc(pos)
+			world_data.reset_empty_cells.call_deferred([pos])
 		else:
 			var pos_array: Array = world_data.get_random_empty_tiles(pickup_count[i])
 			for j in range(pos_array.size()):
 				to_place_pickups[pickup_types[i]][j].place.rpc(pos_array[j])
+			world_data.reset_empty_cells.call_deferred(pos_array)
 
 ## starts the invulnerability and its animation
 func do_invulnerabilty():

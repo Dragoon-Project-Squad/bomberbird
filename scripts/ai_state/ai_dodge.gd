@@ -78,7 +78,7 @@ func safe_target() -> bool:
 			break
 		iteration += 1
 	if found:
-		path = astargrid_handler.create_path(aiplayer, target)
+		path = astargrid_handler.create_path(aiplayer.position, target)
 		path.pop_front()
 		return !path.is_empty()
 	else:
@@ -88,7 +88,7 @@ func safe_target() -> bool:
 
 func set_valid_new_target(new_target : Vector2i, unsafe_cells : Array[Vector2i]) -> bool:
 	if is_new_target_valid(new_target, unsafe_cells):
-		path = astargrid_handler.create_path(aiplayer, new_target)
+		path = astargrid_handler.create_path(aiplayer.position, new_target)
 		#if aiplayer.name == "2":
 		#	print("New target valid, path:",str(path))
 		if path.size() > 0:
