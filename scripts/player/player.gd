@@ -82,6 +82,7 @@ func _process(delta: float):
 	invulnerable_animation_time += delta
 	if invulnerable_remaining_time <= 0:
 		invulnerable = false
+		pickups.held_pickups[globals.pickups.INVINCIBILITY_VEST] = false
 	elif invulnerable_animation_time <= INVULNERABILITY_FLASH_TIME:
 		self.visible = !self.visible
 		invulnerable_animation_time = 0	

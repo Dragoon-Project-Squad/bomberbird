@@ -33,7 +33,7 @@ var stop_moving: bool = false
 var _health: int
 
 var invulnerable_animation_time: float = 0
-var invulnerable_total_time: float = 0
+var invulnerable_remaining_time: float = 0
 
 func _ready() -> void:
 	assert(detection_handler, "please make sure a detectionhandler is selected for the enemy: " + self.name)
@@ -48,14 +48,13 @@ func _process(delta: float):
 		show()
 		set_process(false)
 		return
-	invulnerable_total_time += delta
+	invulnerable_remaining_time -= delta
 	invulnerable_animation_time += delta
-	if invulnerable_total_time >= INVULNERABILITY_TIME:
+	if invulnerable_remaining_time <= 0:
 		damage_invulnerable = false
-		invulnerable_total_time = 0
-	elif invulnerable_animation_time >= INVULNERABILITY_FLASH_TIME:
+	elif invulnerable_animation_time <= INVULNERABILITY_FLASH_TIME:
 		self.visible = !self.visible
-		invulnerable_animation_time = 0
+		invulnerable_animation_time = 0	
 
 func _physics_process(_delta):
 	# update the animation based on the last known player input state

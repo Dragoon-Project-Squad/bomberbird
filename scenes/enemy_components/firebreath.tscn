@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://b6dt0n45ca8vi"]
 
-[ext_resource type="Script" uid="uid://bnvier3b2bxkb" path="res://firebreath.gd" id="1_vphwq"]
+[ext_resource type="Script" uid="uid://bnvier3b2bxkb" path="res://scripts/enemy/firebreath.gd" id="1_vphwq"]
 [ext_resource type="Texture2D" uid="uid://bd1om1dlgdyft" path="res://assets/enemies/fireball.png" id="2_u18ms"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gdpki"]

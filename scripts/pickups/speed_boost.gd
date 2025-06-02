@@ -4,9 +4,9 @@ func _ready():
 	super()
 	animated_sprite.play("idle")
 
-func apply_power_up(pickup_owner: Player):
-	if pickup_owner.is_in_group("player"): #If this is a human
+func apply_power_up(pickup_owner):
+	if pickup_owner is HumanPlayer:
 		# Increase the bomb level ONLY for the person who obtained it
 		pickup_owner.increase_speed.rpc()
-	else: #This is an AI
+	elif pickup_owner is AIPlayer:
 		pickup_owner.increase_speed()

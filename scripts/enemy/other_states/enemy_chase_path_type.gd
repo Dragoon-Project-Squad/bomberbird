@@ -68,7 +68,6 @@ func get_chase_path() -> Array[Vector2]:
 	if self.enemy.bombthrought || self.enemy.pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] == HeldPickups.exclusive.BOMBTHROUGH:
 		safe_tiles.append(world_data.tiles.BOMB)
 	var path: Array[Vector2] = world_data.get_target_path(self.enemy.position, self.enemy.curr_target.position, true, safe_tiles)
-	print("chasing path for ", self.enemy.position, " -> ", self.enemy.curr_target.position, ": ", path)
 
 	if !path.is_empty():
 		self.enemy.get_node("DebugMarker").position = path[-1]

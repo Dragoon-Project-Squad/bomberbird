@@ -67,8 +67,7 @@ func _on_body_entered(body: Node2D) -> void:
 	
 	var pickup_owner = body
 	pickup_owner.pickups.add(pickup_type)
-	if body is Player:
-		apply_power_up(pickup_owner)
+	apply_power_up(pickup_owner)
 	
 	# Ensure powerup has time to play before pickup is destroyed
 	await pickup_sfx_player.finished
