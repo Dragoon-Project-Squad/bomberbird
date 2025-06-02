@@ -1,16 +1,16 @@
-[gd_scene load_steps=10 format=3 uid="uid://c7uq8kiptnrye"]
+[gd_scene load_steps=10 format=3 uid="uid://d33wmr7vndrss"]
 
-[ext_resource type="Script" uid="uid://de365gf8ehjsn" path="res://scripts/pickups/virus.gd" id="1_fqgox"]
-[ext_resource type="Texture2D" uid="uid://quoe0b8jbau3" path="res://assets/pickups/powerupsprites.png" id="2_sont1"]
-[ext_resource type="AudioStream" uid="uid://8u70xa4tmhc8" path="res://sound/fx/powerup.wav" id="3_ilvwd"]
-[ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_mjr51"]
-[ext_resource type="AnimationLibrary" uid="uid://deqi1mrq6p7pt" path="res://animations/pickup.res" id="5_pu6ab"]
+[ext_resource type="Script" uid="uid://de365gf8ehjsn" path="res://scripts/pickups/virus.gd" id="1_jjitg"]
+[ext_resource type="Texture2D" uid="uid://quoe0b8jbau3" path="res://assets/pickups/powerupsprites.png" id="2_frvkq"]
+[ext_resource type="AudioStream" uid="uid://8u70xa4tmhc8" path="res://sound/fx/powerup.wav" id="3_j45c2"]
+[ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_pqb8b"]
+[ext_resource type="AnimationLibrary" uid="uid://deqi1mrq6p7pt" path="res://animations/pickup.res" id="5_f1g7u"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3ywok"]
 size = Vector2(32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1gjte"]
-atlas = ExtResource("2_sont1")
+atlas = ExtResource("2_frvkq")
 region = Rect2(216, 24, 24, 24)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_0hn6b"]
@@ -25,13 +25,13 @@ animations = [{
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l6h8x"]
-atlas = ExtResource("2_sont1")
-region = Rect2(216, 0, 24, 24)
+atlas = ExtResource("2_frvkq")
+region = Rect2(96, 0, 24, 24)
 
-[node name="Speed Down" type="Area2D"]
+[node name="SpeedDown" type="Area2D"]
 collision_layer = 16
 collision_mask = 2
-script = ExtResource("1_fqgox")
+script = ExtResource("1_jjitg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_3ywok")
@@ -43,19 +43,19 @@ sprite_frames = SubResource("SpriteFrames_0hn6b")
 animation = &"idle"
 
 [node name="PickupSoundPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_ilvwd")
+stream = ExtResource("3_j45c2")
 bus = &"SFX"
 
 [node name="kaboom" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(-1.07288e-06, 3.57628e-07)
 scale = Vector2(0.333333, 0.351648)
-texture = ExtResource("4_mjr51")
+texture = ExtResource("4_pqb8b")
 hframes = 9
 
 [node name="anim" type="AnimationPlayer" parent="."]
 libraries = {
-&"pickup": ExtResource("5_pu6ab")
+&"pickup": ExtResource("5_f1g7u")
 }
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

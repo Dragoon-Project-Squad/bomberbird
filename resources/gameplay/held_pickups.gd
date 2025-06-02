@@ -13,6 +13,7 @@ var held_pickups: Dictionary = {
 	globals.pickups.BOMB_UP: 0,
 	globals.pickups.FIRE_UP: 0,
 	globals.pickups.SPEED_UP: 0,
+	globals.pickups.SPEED_DOWN: 0,
 	globals.pickups.HP_UP: 0,
 	globals.pickups.FULL_FIRE: false,
 	globals.pickups.BOMB_PUNCH: false,
@@ -34,6 +35,7 @@ func reset():
 	held_pickups[globals.pickups.BOMB_UP] = 0
 	held_pickups[globals.pickups.FIRE_UP] = 0
 	held_pickups[globals.pickups.SPEED_UP] = 0
+	held_pickups[globals.pickups.SPEED_DOWN] = 0
 	held_pickups[globals.pickups.HP_UP] = 0
 	held_pickups[globals.pickups.FULL_FIRE] = false
 	held_pickups[globals.pickups.BOMB_PUNCH] = false
@@ -61,6 +63,8 @@ func add(pickup_type: int, virus_type: int = 0):
 		globals.pickups.FIRE_UP:
 			held_pickups[pickup_type] += 1
 		globals.pickups.SPEED_UP:
+			held_pickups[pickup_type] += 1
+		globals.pickups.SPEED_DOWN:
 			held_pickups[pickup_type] += 1
 		globals.pickups.HP_UP:
 			held_pickups[pickup_type] += 1

@@ -6,6 +6,8 @@ signal player_revived
 
 const BASE_MOTION_SPEED: float = 100.0
 const MOTION_SPEED_INCREASE: float = 20.0
+const MOTION_SPEED_DECREASE: float = BASE_MOTION_SPEED / 8
+const MIN_MOTION_SPEED: float = BASE_MOTION_SPEED / 2
 const BOMB_RATE: float = 0.5
 const MAX_BOMBS_OWNABLE: int = 8
 const MAX_EXPLOSION_BOOSTS_PERMITTED: int = 6
@@ -428,12 +430,16 @@ func start_invul():
 	set_process(true)
 	
 @rpc("call_local")
+func decrease_speed():	
+	movement_speed = max(movement_speed - MOTION_SPEED_DECREASE, MIN_MOTION_SPEED)
+	
+@rpc("call_local")
 func virus():
 	is_virus = true
 	var r = randi() % 50
 	r = 4
 	if r == 0:
-		movement_speed = BASE_MOTION_SPEED / 2 # Set MIN?
+		movement_speed = MIN_MOTION_SPEED
 	if r == 1:
 		movement_speed = BASE_MOTION_SPEED * 5	# Set MAX?
 	if r == 2:
