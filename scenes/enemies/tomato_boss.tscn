@@ -1,17 +1,20 @@
-[gd_scene load_steps=16 format=3 uid="uid://dmii5181hdusk"]
+[gd_scene load_steps=23 format=3 uid="uid://dmii5181hdusk"]
 
-[ext_resource type="Script" uid="uid://c2f6wib7o63aw" path="res://scenes/enemies/boss.gd" id="1_81bpp"]
+[ext_resource type="Script" uid="uid://c2f6wib7o63aw" path="res://scripts/enemy/boss.gd" id="1_81bpp"]
 [ext_resource type="Script" uid="uid://dfosda1bstp2m" path="res://resources/gameplay/held_pickups.gd" id="2_rwxvx"]
 [ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_taub5"]
 [ext_resource type="Texture2D" uid="uid://qrwh86jvxmjp" path="res://assets/player/tomatodoki_walk.png" id="3_taub5"]
 [ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_0x7uk"]
-[ext_resource type="Script" uid="uid://bvgrl2f42tmdb" path="res://scripts/enemy/detection_handlers/detection_handler_type_rand.gd" id="5_81bpp"]
 [ext_resource type="AnimationLibrary" uid="uid://dvi33f4r6k5nh" path="res://animations/enemy.res" id="6_2xdfq"]
+[ext_resource type="Script" uid="uid://dg4jyhwldomqp" path="res://scripts/enemy/detection_handlers/detection_handler_type_tomato_boss.gd" id="6_taub5"]
 [ext_resource type="Script" uid="uid://bct3b1gr0upgg" path="res://scripts/enemy/enemy_state_machine.gd" id="7_020hn"]
 [ext_resource type="Script" uid="uid://ds673o5kb2vee" path="res://scripts/enemy/wander_types/enemy_wander_path_type.gd" id="8_81bpp"]
 [ext_resource type="Script" uid="uid://dvxvp8133eth1" path="res://scripts/enemy/abilities/enemy_tomato_boss_ability.gd" id="9_81bpp"]
 [ext_resource type="Script" uid="uid://xpsl7bku1ra4" path="res://scripts/enemy/enemy_state.gd" id="10_y38ve"]
 [ext_resource type="Texture2D" uid="uid://jog1koyue4lr" path="res://assets/fallingsprite.png" id="11_1utc4"]
+[ext_resource type="Script" uid="uid://ci02bb4ldf005" path="res://scripts/enemy/other_states/enemy_dodge_path_type.gd" id="12_0x7uk"]
+[ext_resource type="Script" uid="uid://dymov0ubmjnt4" path="res://scripts/enemy/other_states/idle_state.gd" id="13_0x7uk"]
+[ext_resource type="Script" uid="uid://dmg4ks5be84w7" path="res://scripts/enemy/other_states/enemy_chase_path_type.gd" id="14_irj8q"]
 
 [sub_resource type="Resource" id="Resource_0x7uk"]
 resource_local_to_scene = true
@@ -21,6 +24,47 @@ metadata/_custom_type_script = "uid://dfosda1bstp2m"
 [sub_resource type="CircleShape2D" id="CircleShape2D_i1su5"]
 radius = 9.0
 
+[sub_resource type="Animation" id="Animation_taub5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rwxvx"]
+_data = {
+&"RESET": SubResource("Animation_taub5")
+}
+
+[sub_resource type="Animation" id="Animation_0x7uk"]
+resource_name = "victory"
+length = 1.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 16, 11, 18, 0, 16, 11, 18, 0, 16, 11, 18, 0, 16, 11, 18, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_irj8q"]
+_data = {
+&"burry": SubResource("Animation_0x7uk")
+}
+
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hwcqj"]
 
 [node name="TomatoBoss" type="CharacterBody2D" node_paths=PackedStringArray("detection_handler") groups=["thrown_bomb_bounces"]]
@@ -29,8 +73,8 @@ collision_layer = 32
 collision_mask = 13
 script = ExtResource("1_81bpp")
 pickups = SubResource("Resource_0x7uk")
-movement_speed = 60.0
-detection_handler = NodePath("DetectionHandler_Rand")
+movement_speed = 80.0
+detection_handler = NodePath("DetectionHandler")
 health = 2
 
 [node name="shadowsprite" type="Sprite2D" parent="."]
@@ -39,7 +83,7 @@ scale = Vector2(1, 0.5)
 texture = ExtResource("2_taub5")
 
 [node name="sprite" type="Sprite2D" parent="."]
-position = Vector2(0.0750351, 6.23615)
+position = Vector2(0.075, 6.236)
 texture = ExtResource("3_taub5")
 offset = Vector2(-0.075, -8.536)
 hframes = 6
@@ -61,14 +105,17 @@ collision_mask = 2
 
 [node name="HurtboxShape" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("CircleShape2D_i1su5")
+disabled = true
 debug_color = Color(1, 0, 0, 0.419608)
 
-[node name="DetectionHandler_Rand" type="Node2D" parent="."]
-script = ExtResource("5_81bpp")
-trigger_chance = 1.0
+[node name="DetectionHandler" type="Node2D" parent="."]
+script = ExtResource("6_taub5")
+trigger_chance = 0.5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
+&"": SubResource("AnimationLibrary_rwxvx"),
+&"TomatoBoss": SubResource("AnimationLibrary_irj8q"),
 &"enemy": ExtResource("6_2xdfq")
 }
 
@@ -89,6 +136,15 @@ script = ExtResource("9_81bpp")
 
 [node name="Disabled" type="Node" parent="StateMachine"]
 script = ExtResource("10_y38ve")
+
+[node name="Dodge" type="Node" parent="StateMachine"]
+script = ExtResource("12_0x7uk")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("13_0x7uk")
+
+[node name="Chase" type="Node" parent="StateMachine"]
+script = ExtResource("14_irj8q")
 
 [node name="DebugMarker" type="Sprite2D" parent="."]
 self_modulate = Color(1, 0, 0, 1)

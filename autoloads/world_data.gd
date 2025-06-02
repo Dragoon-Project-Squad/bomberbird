@@ -156,7 +156,6 @@ func set_tile(tile: int, global_pos: Vector2, danger_range: int = 0, pierce: boo
 		_remove_tile(matrix_pos)
 	else:
 		_add_tile(tile, matrix_pos, danger_range, pierce)
-	_debug_print_matrix()
 
 ## checks if the tile at 'global_pos' is 'tile'
 func is_tile(tile: int, global_pos: Vector2):
@@ -269,7 +268,9 @@ func get_random_path(start_pos: Vector2, max_range: int, safe: bool = true, vali
 	var path_queue: Array[Array] = [[start_matrix_pos]]
 	while !path_queue.is_empty():
 		var path = path_queue.pop_front()
-		if len(path) == max_range: break
+		if len(path) == max_range:
+			path_queue.append(path)
+			break
 		for dir in [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP]:
 			var next_pos: Vector2i = path[-1] + dir
 			if len(path) > 1 && next_pos == path[-2]: continue
@@ -281,13 +282,29 @@ func get_random_path(start_pos: Vector2, max_range: int, safe: bool = true, vali
 		if path_queue.is_empty():
 			return _to_real_path(path)
 
-	if path_queue.is_empty(): return []
-	print(path_queue.pick_random())
+	if path_queue.is_empty():
+		return []
 	var choosen_path: Array = path_queue.pick_random()
 	return _to_real_path(choosen_path)
 
 func get_path_to_safe(start_pos: Vector2, valid_tiles: Array[int] = [tiles.EMPTY, tiles.PICKUP]) -> Array[Vector2]:
-	pass #TODO
+	var start_matrix_pos: Vector2i = tile_map.local_to_map(start_pos) - floor_origin
+
+	var path_queue: Array[Array] = [[start_matrix_pos]]
+	while !path_queue.is_empty():
+		var path = path_queue.pop_front()
+		for dir in [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP]:
+			var next_pos: Vector2i = path[-1] + dir
+			if next_pos in path: continue
+			if !_is_walkable(next_pos, valid_tiles): continue
+			if _is_safe_cell(next_pos): 
+				path.append(next_pos)
+				return _to_real_path(path)
+			var new_path = path.duplicate() 
+			new_path.append(next_pos)
+			path_queue.append(new_path)
+
+	return []
 
 func get_target_path(start_pos: Vector2, end_pos: Vector2, safe: bool = true, valid_tiles: Array[int] = [tiles.EMPTY, tiles.PICKUP]) -> Array[Vector2]:
 	var start_matrix_pos: Vector2i = tile_map.local_to_map(start_pos) - floor_origin
@@ -304,15 +321,36 @@ func get_target_path(start_pos: Vector2, end_pos: Vector2, safe: bool = true, va
 			if !_is_walkable(next_pos, valid_tiles): continue
 			if !safe || !_is_safe_cell(next_pos): continue
 			if visisted.has(next_pos): continue
-			path.append(next_pos)
-			if next_pos == end_matrix_pos: return _to_real_path(path)
-			path_queue.push_back(path)
+			var new_path = path.duplicate() 
+			new_path.append(next_pos)
+			if next_pos == end_matrix_pos: return _to_real_path(new_path)
+			path_queue.push_back(new_path)
 	return []
+
+func get_shortest_path_to(start_pos: Vector2, end_pos: Vector2, safe: bool = true, valid_tiles: Array[int] = [tiles.EMPTY, tiles.PICKUP]) -> int:
+	var start_matrix_pos: Vector2i = tile_map.local_to_map(start_pos) - floor_origin
+	var end_matrix_pos: Vector2i = tile_map.local_to_map(end_pos) - floor_origin
+
+	var path_queue: Array = [start_matrix_pos]
+	var visisted: Dictionary = {}
+	var distances: Dictionary = {start_matrix_pos: 0}
+	while !path_queue.is_empty():
+		var node = path_queue.pop_front()
+		visisted[node] = null
+		for dir in [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP]:
+			var next_pos: Vector2i = node + dir
+			if !_is_walkable(next_pos, valid_tiles): continue
+			if !safe || !_is_safe_cell(next_pos): continue
+			if visisted.has(next_pos): continue
+			distances[next_pos] = distances[node] + 1
+			if next_pos == end_matrix_pos: return distances[next_pos]
+			path_queue.push_back(next_pos)
+	return -1
 
 func _is_safe_cell(pos: Vector2i, do_mine: bool = true) -> bool:
 	for dir in [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP]:
-		var curr_pos: Vector2i = pos + dir
-		var distance: int = 1
+		var curr_pos: Vector2i = pos
+		var distance: int = 0
 		var is_pierce: bool = false
 		var seen_breakable: bool = false
 		while (

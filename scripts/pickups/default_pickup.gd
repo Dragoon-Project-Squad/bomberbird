@@ -57,9 +57,9 @@ func apply_power_up(_pickup_owner: Player):
 ## if the body is a player proceed to cause the effect this pickup causes
 func _on_body_entered(body: Node2D) -> void:
 	if !is_multiplayer_authority(): return # Activate only on authority.
+	if !(body is Player) && !(body is Boss): return
 	if _pickup_pick_up_barrier: return
 	_pickup_pick_up_barrier = true
-	if !(body is Player) && !(body is Boss): return
 	#Prevent anyone else from colliding with this pickup
 	pickup_sfx_player.stream = pickup_sfx
 	pickup_sfx_player.play()

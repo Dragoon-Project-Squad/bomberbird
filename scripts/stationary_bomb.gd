@@ -187,12 +187,10 @@ func _on_detect_area_body_entered(body: Node2D):
 	if body is Breakable:
 		body.crush()
 	if !(body in get_collision_exceptions()):
-		print("add exeption with: ", body.name)
 		add_collision_exception_with(body)
 
 func _on_detect_area_body_exit(body: Node2D):
 	if body in get_collision_exceptions():
-		print("remove exeption with: ", body.name)
 		remove_collision_exception_with(body)
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:

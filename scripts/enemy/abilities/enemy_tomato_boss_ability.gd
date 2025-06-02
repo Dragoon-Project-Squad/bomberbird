@@ -3,19 +3,26 @@ extends EnemyState
 
 const MINE_COUNT: int = 4
 const BOMB_RATE: float = 0.5
+const BOMB_COOLDOWN: float = 0.5
 
 var bomb_placed: int = 0
 var mine_placed: int = 0
 
 func _enter() -> void:
 	#TODO play burry animation
+	self.enemy.stop_moving = true
+	self.enemy.anim_player.play("TomatoBoss/burry")
+	await self.enemy.anim_player.animation_finished
+	self.enemy.cooldown_done = false
 	if mine_placed < MINE_COUNT:
 		place_mine()
 	elif bomb_placed < self.enemy.get_current_bomb_count():
 		place_bomb()
 
-	await get_tree().create_timer(0.5).timeout #change this to animation_finished
-	state_changed.emit(self, "wander")
+	self.enemy.stop_moving = false
+	await get_tree().create_timer(0.05).timeout # Idk why this is needed but the collisions freak the frick out if its not here
+	get_tree().create_timer(BOMB_COOLDOWN).timeout.connect(func (): self.enemy.cooldown_done = true, CONNECT_ONE_SHOT)
+	state_changed.emit(self, "dodge")
 
 
 ## places a bomb if the current position is valid

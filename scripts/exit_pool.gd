@@ -13,7 +13,8 @@ func create_reserve(count: int, color: Color = Color.WHITE):
 
 func request(color: Color) -> Exit:
 	var exit: Exit = super(color)
-	exit.modulate = color 
+	exit.hide.call_deferred()
+	exit.set_deferred("modulate", color)
 	return exit
 
 func request_group(count: int, color: Color) -> Array[Exit]:

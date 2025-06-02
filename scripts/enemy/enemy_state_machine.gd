@@ -5,7 +5,7 @@ class_name EnemyStateMachine extends Node
 
 var current_state: EnemyState
 var states: Dictionary = {}
-var target: Node2D = null
+var target = null
 var stop_process: bool = false
 
 # Called when the node enters the scene tree for the first time.
@@ -34,6 +34,8 @@ func _on_state_changed(state: EnemyState, new_state: String) -> void:
 	if(state != current_state):
 		push_error("enemy state machine failed as a state tried to change that is not the current state")
 		return
+
+	print("changing state from: ", state.name, " to: ", new_state)
 	
 	if current_state:
 		current_state._exit()

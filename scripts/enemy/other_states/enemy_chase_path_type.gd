@@ -1,55 +1,57 @@
 extends EnemyState
 ## Implements the wander behavior '1' described in https://gamefaqs.gamespot.com/snes/562899-super-bomberman-5/faqs/79457
 
-const DEFAULT_PATH_FINDING_TIMEOUT: float = 0.5
 const ARRIVAL_TOLARANCE: float = 1
 const STARTING_CLOSENESS: int = 2
 
-@export_group("Wander Variables")
-@export var idle_chance: float = 0.4
-@export var wander_distance: int = 4
-@export var distance_triggering_chase: int = 6
+@export var chase_stop_distance: int = 3
+@export var recheck_distance: int = 4
 
 var next_position: Vector2
 var curr_path: Array[Vector2] = []
-var path_finding_timeout: float = 0
-var _rand: RandomNumberGenerator = RandomNumberGenerator.new()
+var distance: int = 0
 
 func _enter():
 	assert(self.enemy is Boss)
-	self.curr_path = get_next_path()
+	assert(self.enemy.curr_target)
+	self.distance = 0
+	self.curr_path = get_chase_path()
 	self.next_position = get_next_pos(self.curr_path)
 	self.enemy.movement_vector = self.enemy.position.direction_to(self.next_position) if (self.next_position != self.enemy.position) else Vector2.ZERO
 
 func _exit():
 	curr_path = []
-	path_finding_timeout = DEFAULT_PATH_FINDING_TIMEOUT
+	self.distance = 0
+	self.enemy.curr_target = null
+
 
 func _physics_update(delta):
 	_move(delta)
 
-	path_finding_timeout += delta
-
 	if self.enemy.stunned: return
 	var arrived: bool = check_arrival()
-	if arrived && !world_data.is_safe(self.enemy.position):
+	if arrived && !world_data.is_safe(self.enemy.position): #dodge again
 		state_changed.emit(self, "dodge")
 		return
-	elif arrived && self.curr_path.is_empty() && self.path_finding_timeout >= DEFAULT_PATH_FINDING_TIMEOUT:
-		if chase(): return
+	elif arrived && len(self.curr_path) <= self.chase_stop_distance: #change to wander
 		if detect(): return
-		if idle(): return
-		self.curr_path = get_next_path()
-		self.path_finding_timeout = 0
+		state_changed.emit(self, "wander")
+		return
+	elif arrived && self.distance >= self.recheck_distance:
+		self.distance = 0
+		self.curr_path = get_chase_path()
 		self.next_position = get_next_pos(self.curr_path)
 		self.enemy.movement_vector = self.enemy.position.direction_to(self.next_position) if (self.next_position != self.enemy.position) else Vector2.ZERO
 	elif arrived:
 		self.next_position = get_next_pos(self.curr_path)
 		if !world_data.is_safe(self.next_position, false):
-			self.curr_path = get_next_path()
-			self.path_finding_timeout = 0
+			self.curr_path = get_chase_path()
+			self.distance = 0
 			self.next_position = get_next_pos(self.curr_path)
+		else:
+			self.distance += 1
 		self.enemy.movement_vector = self.enemy.position.direction_to(self.next_position) if (self.next_position != self.enemy.position) else Vector2.ZERO
+
 
 func valid_tile(pos: Vector2) -> bool:
 	if world_data.is_out_of_bounds(pos) != -1: return false
@@ -59,13 +61,14 @@ func valid_tile(pos: Vector2) -> bool:
 	ret = ret || (self.enemy.bombthrought || self.enemy.pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] == HeldPickups.exclusive.BOMBTHROUGH) && world_data.is_tile(world_data.tiles.BOMB, pos)
 	return ret
 
-func get_next_path() -> Array[Vector2]:
+func get_chase_path() -> Array[Vector2]:
 	var safe_tiles: Array[int] = [world_data.tiles.EMPTY, world_data.tiles.PICKUP]
 	if self.enemy.wallthrought || self.enemy.pickups.held_pickups[globals.pickups.WALLTHROUGH]:
 		safe_tiles.append(world_data.tiles.BREAKABLE)
 	if self.enemy.bombthrought || self.enemy.pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] == HeldPickups.exclusive.BOMBTHROUGH:
 		safe_tiles.append(world_data.tiles.BOMB)
-	var path: Array[Vector2] = world_data.get_random_path(self.enemy.position, self.wander_distance, true, safe_tiles)
+	var path: Array[Vector2] = world_data.get_target_path(self.enemy.position, self.enemy.curr_target.position, true, safe_tiles)
+	print("chasing path for ", self.enemy.position, " -> ", self.enemy.curr_target.position, ": ", path)
 
 	if !path.is_empty():
 		self.enemy.get_node("DebugMarker").position = path[-1]
@@ -89,29 +92,6 @@ func check_arrival() -> bool:
 		self.enemy.synced_position = self.next_position
 		return 1
 	return 0
-
-func chase() -> bool:
-	self.enemy.curr_target = self.enemy.statemachine.target.pick_random()
-	var safe_tiles: Array[int] = [world_data.tiles.EMPTY, world_data.tiles.PICKUP]
-	if self.enemy.wallthrought || self.enemy.pickups.held_pickups[globals.pickups.WALLTHROUGH]:
-		safe_tiles.append(world_data.tiles.BREAKABLE)
-	if self.enemy.bombthrought || self.enemy.pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] == HeldPickups.exclusive.BOMBTHROUGH:
-		safe_tiles.append(world_data.tiles.BOMB)
-	var dist: int = world_data.get_shortest_path_to(self.enemy.position, self.enemy.curr_target.position, true, safe_tiles)
-	print(dist)
-	if dist >= self.distance_triggering_chase :
-		state_changed.emit(self, "chase")
-		return true
-	self.enemy.curr_target = null
-	return false
-
-
-func idle() -> bool:
-	if _rand.randf() < self.idle_chance:
-		state_changed.emit(self, "idle")
-		return true
-	return false
-	
 
 func detect() -> bool:
 	if(self.enemy.detection_handler.check_for_priority_target()):
