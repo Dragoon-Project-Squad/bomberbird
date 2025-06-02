@@ -40,6 +40,8 @@ func disable():
 	explosion_sfx_player.position = Vector2.ZERO #Mmonsto Fix
 	animation_finish = false
 	explosion_width = 2
+	set_collision_layer_value(4, true)
+	set_collision_layer_value(6, true)
 	self.visible = false
 	explosion.reset()
 	$AnimationPlayer.stop()
@@ -66,8 +68,9 @@ func place(bombPos: Vector2, fuse_time_passed: float = 0, force_collision: bool 
 func hide_mine():
 	hide()
 	set_collision_layer_value(4, false)
+	set_collision_layer_value(6, false)
 	astargrid_handler.astargrid_set_point(bomb_root.global_position, false)
-	world_data.set_tile(world_data.tiles.EMPTY, bomb_root.global_position)
+	world_data.set_tile(world_data.tiles.MINE, bomb_root.global_position)
 	armed = true
 	return
 
@@ -102,7 +105,7 @@ func detonate():
 						target.exploded.rpc(str(get_parent().bomb_owner.name).to_int()) #if an object stopped the bomb and can be blown up... blow it up!
 					else:
 						target.exploded.rpc(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID) #if an object stopped the bomb and can be blown up... blow it up!
-	if(bomb_root.bomb_owner):
+	if bomb_root.bomb_owner:
 		remove_collision_exception_with(bomb_root.bomb_owner)
 	if is_multiplayer_authority(): #multiplayer auth. now starts the transition to the explosion
 		explosion.init_detonate.rpc(exp_range[Vector2i.RIGHT], exp_range[Vector2i.DOWN], exp_range[Vector2i.LEFT], exp_range[Vector2i.UP])
@@ -126,7 +129,7 @@ func done():
 	bomb_pool.return_obj(get_parent()) # bomb returns itself to the pool
 
 @rpc("call_local")
-func exploded(by_who):
+func exploded(_by_who):
 	$AnimationPlayer.advance(2.79)
 
 func _kill(obj):

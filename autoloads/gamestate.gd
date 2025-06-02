@@ -13,6 +13,7 @@ var peer = null
 
 #Environmental damage vars
 const ENVIRONMENTAL_KILL_PLAYER_ID := -69
+const ENEMY_KILL_PLAYER_ID := -42
 
 # Player count variables
 var total_player_count := 1

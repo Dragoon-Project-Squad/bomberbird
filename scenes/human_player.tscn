@@ -149,7 +149,7 @@ properties/2/path = NodePath(".:punch_ability")
 properties/2/spawn = true
 properties/2/replication_mode = 1
 
-[node name="player" type="CharacterBody2D" groups=["player", "thrown_bomb_bounces"]]
+[node name="player" type="CharacterBody2D" groups=["thrown_bomb_bounces"]]
 z_index = 10
 texture_filter = 1
 collision_layer = 2
