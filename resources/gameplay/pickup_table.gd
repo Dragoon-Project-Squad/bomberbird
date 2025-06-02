@@ -16,8 +16,8 @@ var pickup_spawn_chance = PICKUP_SPAWN_BASE_CHANCE
 @export var throw_ability: int = 50
 @export var wallthrough: int = 50
 #@export var timer: int = 0
-@export var invincibility_vest: int = 15000
-#@export var virus: int = 0
+@export var invincibility_vest: int = 50
+@export var virus: int = 15000
 #@export var kick: int = 0
 @export var bombthrough: int = 50
 @export var piercing_bomb: int = 50
@@ -46,7 +46,7 @@ func update():
 		globals.pickups.WALLTHROUGH: wallthrough,
 		#globals.pickups.FREEZE: timer,
 		globals.pickups.INVINCIBILITY_VEST: invincibility_vest,
-		#globals.pickups.VIRUS: virus,
+		globals.pickups.VIRUS: virus,
 		#globals.pickups.KICK: kick,
 		globals.pickups.BOMBTHROUGH: bombthrough,
 		globals.pickups.PIERCING: piercing_bomb,
@@ -68,7 +68,7 @@ func reverse_update():
 	wallthrough = pickup_weights[globals.pickups.WALLTHROUGH]
 	#timer = pickup_weights[globals.pickups.FREEZE]
 	invincibility_vest = pickup_weights[globals.pickups.INVINCIBILITY_VEST]
-	#virus = pickup_weights[globals.pickups.VIRUS]
+	virus = pickup_weights[globals.pickups.VIRUS]
 	#kick = pickup_weights[globals.pickups.KICK]
 	bombthrough = pickup_weights[globals.pickups.BOMBTHROUGH]
 	piercing_bomb = pickup_weights[globals.pickups.PIERCING]

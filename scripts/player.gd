@@ -53,6 +53,20 @@ var explosion_boost_count_reset: int
 var bomb_count_locked: bool = false
 var bomb_to_throw: BombRoot
 
+@export var NORMAL_FUSE_SPEED = 0
+@export var FAST_FUSE_SPEED = 1.5
+@export var SLOW_FUSE_SPEED = -2
+
+var is_virus = false
+@export var fire_range = 3
+@export var fuse_speed = NORMAL_FUSE_SPEED
+var is_autodrop = false
+var is_reverse = false
+var is_nonstop = false
+var is_unbomb = false
+var drop_timer = 0
+const AUTODROP_INTERVAL = 3
+
 func _ready():
 	player_died.connect(globals.player_manager._on_player_died)
 	player_revived.connect(globals.player_manager._on_player_revived)
@@ -74,18 +88,24 @@ func _ready():
 
 
 func _process(delta: float):
-	if !invulnerable:
+	if !invulnerable and !is_autodrop:
 		show()
 		set_process(false)
 		return
-	invulnerable_remaining_time -= delta
-	invulnerable_animation_time += delta
-	if invulnerable_remaining_time <= 0:
-		invulnerable = false
-	elif invulnerable_animation_time <= INVULNERABILITY_FLASH_TIME:
-		self.visible = !self.visible
-		invulnerable_animation_time = 0	
-
+	if invulnerable:
+		invulnerable_remaining_time -= delta
+		invulnerable_animation_time += delta
+		if invulnerable_remaining_time <= 0:
+			invulnerable = false
+		elif invulnerable_animation_time <= INVULNERABILITY_FLASH_TIME:
+			self.visible = !self.visible
+			invulnerable_animation_time = 0	
+	if is_autodrop:
+		drop_timer -= delta
+		if drop_timer <= 0:
+			drop_timer = AUTODROP_INTERVAL
+			place_bomb()
+			
 func _physics_process(_delta: float):
 	pass
 
@@ -238,8 +258,10 @@ func reset_pickups():
 	lives = lives_reset
 	self.set_collision_mask_value(4, true)
 	self.set_collision_mask_value(3, true)
+	unvirus()
 	explosion_boost_count = explosion_boost_count_reset
 	pickups.reset()
+
 
 ## spreads all pickups the player held on the ground
 func spread_items():
@@ -405,6 +427,42 @@ func start_invul():
 	invulnerable = true
 	set_process(true)
 	
-
+@rpc("call_local")
+func virus():
+	is_virus = true
+	var r = randi() % 50
+	r = 4
+	if r == 0:
+		movement_speed = BASE_MOTION_SPEED / 2 # Set MIN?
+	if r == 1:
+		movement_speed = BASE_MOTION_SPEED * 5	# Set MAX?
+	if r == 2:
+		explosion_boost_count = -1
+	if r == 3:
+		fuse_speed = FAST_FUSE_SPEED
+	if r == 4:
+		fuse_speed = SLOW_FUSE_SPEED
+	if r == 5:
+		is_autodrop = true
+		drop_timer = AUTODROP_INTERVAL
+		set_process(true)
+	if r == 6:
+		is_reverse = true
+	if r == 7:
+		is_nonstop = true
+	if r == 8:
+		is_unbomb = true
+		
+@rpc("call_local")	
+func unvirus():
+	is_virus = false
+	explosion_boost_count = explosion_boost_count_reset
+	fuse_speed = NORMAL_FUSE_SPEED
+	is_autodrop = false
+	is_reverse = false
+	is_nonstop = false
+	is_unbomb = false
+	set_process(false)
+	
 	
 	

@@ -86,15 +86,19 @@ func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) 
 	
 	bomb_owner_is_dead = is_dead
 
-	if boost < 0: #this is wack
-		boost = self.boost
+	if boost < 0: #this is wack ## THIS IS TOMATOTOWN
+		boost = -1
 	elif self.boost == 0:
 		self.boost = boost
 
 	var bomb_authority: Node2D = state_map[state]
 	bomb_authority.set_explosion_width_and_size(min(boost + bomb_authority.explosion_width, bomb_authority.MAX_EXPLOSION_WIDTH))
 	bomb_authority.set_addons(addons)
-	bomb_authority.place(bombPos, fuse_time_passed, force_collision)
+	var time_passed = fuse_time_passed
+	if bomb_owner:
+		if bomb_owner.fuse_speed != 0:
+			time_passed = bomb_owner.fuse_speed
+	bomb_authority.place(bombPos, time_passed, force_collision)
 	world_data.set_tile(world_data.tiles.BOMB, self.global_position)
 	if force_collision: return 0
 	return 0
