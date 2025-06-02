@@ -52,6 +52,7 @@ var lives_reset: int
 var explosion_boost_count_reset: int
 var bomb_count_locked: bool = false
 var bomb_to_throw: BombRoot
+var bomb_kicked: BombRoot
 
 func _ready():
 	player_died.connect(globals.player_manager._on_player_died)
@@ -132,6 +133,20 @@ func throw_bomb(direction: Vector2i) -> int:
 	bomb_to_throw.do_throw.rpc(direction, self.position)
 	bomb_to_throw = null
 	return 0
+
+func kick_bomb(direction: Vector2i):
+	if !is_multiplayer_authority():
+		return 1
+	
+	if bomb_kicked == null:
+		var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
+		for body in bodies:
+			if body is Bomb:
+				bomb_kicked = body.get_parent()
+				break
+		bomb_kicked.do_kick.rpc(direction)
+	else:
+		pass
 
 ## places a bomb if the current position is valid
 func place_bomb():

@@ -21,7 +21,7 @@ var state: int = DISABLED #this is the authority if ever somehow two state nodes
 var state_map: Array[Node2D]
 
 func _ready():
-	state_map = [null, get_node("%StationaryBomb"), get_node("%AirbornBomb"), null] #Whenever a future state is implemented update this (for e.g. if someone implements push into a new childmake sure this child is loaded into state_map[SLIDING]
+	state_map = [null, get_node("%StationaryBomb"), get_node("%AirbornBomb"), get_node("%SlidingBomb"), null] #Whenever a future state is implemented update this (for e.g. if someone implements push into a new childmake sure this child is loaded into state_map[SLIDING]
 	set_state(DISABLED)	
 	for state_node in state_map:
 		if state_node != null:
@@ -132,7 +132,7 @@ func do_punch(direction: Vector2i):
 	var bomb_authority: Node2D = state_map[state]
 	bomb_authority.throw(
 		self.position,
-		self.position + 3 * world_data.tile_map.tile_set.tile_size.x * Vector2(direction),
+		self.position + 1 * world_data.tile_map.tile_set.tile_size.x * Vector2(direction),
 		direction,
 		-PI / 6,
 		0.4
@@ -172,16 +172,25 @@ func carry() -> int:
 	set_state(AIRBORN)
 	return 0
 
-#!!!!!
-# ALL FUNCTION FROM THIS POINT ARE EXAMPLES / NOT YET USED BY ANYTHING SO YOU ARE FREE TO COMPLETLY CHANGE THEM IF YOU IMPLEMENT ONE OF THEM PLEASE UPDATE THIS COMMENT TO REFLECT THIS
-#!!!!!
-
-## NOT YET IMPLEMENTED
-func do_kick(target: Vector2, direction: Vector2i):
+@rpc("call_local")
+func do_kick(direction: Vector2i):
+	if bomb_owner == null:
+		printerr("Bomb has no owner")
+		return 1
+	if state != STATIONARY:
+		printerr("Bomb already active")
+		return 2
+	
 	in_use = true
-	#TODO make checks for state and change to ??? state if allowed
-	#TODO call the appropiate function to handle this in state_map[state]
-	return 0 #errorcode 0 mean no error
+	bomb_owner_is_dead = false
+	set_state(SLIDING)
+	var bomb_auth := state_map[state]
+	bomb_auth.slides(self.position, direction)
+	world_data.set_tile(world_data.tiles.EMPTY, self.global_position)	
+	return 0
 
-
-#And so on...
+@rpc("call_local")
+func stop_kick():
+	var bomb_auth: Node2D = state_map[state]
+	bomb_auth.halt()
+	return 0

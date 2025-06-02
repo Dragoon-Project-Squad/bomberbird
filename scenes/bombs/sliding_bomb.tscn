@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://nvwyn5bi81k6"]
+
+[ext_resource type="Script" uid="uid://ba7f4upkgsds6" path="res://scripts/sliding_bomb.gd" id="1_gx5yh"]
+[ext_resource type="Texture2D" uid="uid://colmsqhmxnr47" path="res://assets/egg_bomb.png" id="2_tauhd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3a627"]
+size = Vector2(24, 24)
+
+[node name="bomb_sliding" type="Area2D"]
+texture_filter = 1
+collision_layer = 47
+collision_mask = 63
+input_pickable = false
+script = ExtResource("1_gx5yh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3a627")
+
+[node name="BombSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_tauhd")
+hframes = 3
+region_enabled = true
+region_rect = Rect2(0, 0, 96, 32)

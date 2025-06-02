@@ -6,6 +6,7 @@ var motion = Vector2():
 		motion = clamp(value, Vector2(-1, -1), Vector2(1, 1))
 
 var bombing := false
+var throw_ability := false
 var punch_ability := false
 var secondary_ability := false
 
@@ -22,5 +23,6 @@ func update():
 
 	motion = m
 	bombing = Input.is_action_pressed("set_bomb")
+	throw_ability = Input.is_action_just_released("set_bomb")
 	punch_ability = Input.is_action_pressed("punch_action")
-	secondary_ability = Input.is_action_just_pressed("secondary_action")
+	secondary_ability = Input.is_action_pressed("secondary_action")
