@@ -98,7 +98,6 @@ func chase() -> bool:
 	if self.enemy.bombthrought || self.enemy.pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] == HeldPickups.exclusive.BOMBTHROUGH:
 		safe_tiles.append(world_data.tiles.BOMB)
 	var dist: int = world_data.get_shortest_path_to(self.enemy.position, self.enemy.curr_target.position, true, safe_tiles)
-	print(dist)
 	if dist >= self.distance_triggering_chase :
 		state_changed.emit(self, "chase")
 		return true

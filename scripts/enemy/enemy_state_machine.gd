@@ -35,8 +35,6 @@ func _on_state_changed(state: EnemyState, new_state: String) -> void:
 		push_error("enemy state machine failed as a state tried to change that is not the current state")
 		return
 
-	print("changing state from: ", state.name, " to: ", new_state)
-	
 	if current_state:
 		current_state._exit()
 
