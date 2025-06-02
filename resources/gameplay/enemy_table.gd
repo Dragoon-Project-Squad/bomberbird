@@ -44,3 +44,26 @@ func get_enemy_dictionary() -> Dictionary:
 		if(!ret.has(full_path)): ret[full_path] = []
 		ret[full_path].append({ "coords": entry.coords, "probability": entry.probability })
 	return ret
+
+func to_json() -> Array[Dictionary]:
+	var res: Array[Dictionary]
+	for entry in enemies:
+		var new_entry: Dictionary = {
+			"coords": var_to_str(entry.coords),
+			"file": entry.file,
+			"path": entry.path,
+			"probability": entry.probability,
+			}
+		res.append(new_entry)
+	return res
+
+func from_json(json_data: Array):
+	enemies = []
+	for entry in json_data:
+		var new_entry: Dictionary = {
+			"coords": str_to_var(entry.coords),
+			"file": entry.file,
+			"path": entry.path,
+			"probability": entry.probability,
+			}
+		enemies.append(new_entry)

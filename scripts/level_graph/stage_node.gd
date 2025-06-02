@@ -14,7 +14,6 @@ const STAGE_SCENE_DIR: String = "res://scenes/stages/"
 var stages_subfolders: Dictionary = {}
 var curr_tab: int = 0
 
-var curr_enemy_options: Array[String] = []
 var selected_scene_file: String = ""
 var selected_scene_path: String = ""
 
@@ -50,43 +49,56 @@ func _ready():
 
 ## sets all values for a node given a StageNodeData
 ## [param stage_node_data] StageNodeData data to load from
-func load_stage_node(stage_node_data: StageNodeData):
+func load_stage_node(stage_node_data: Dictionary):
 	self.name = stage_node_data.stage_node_name
 	self.title = stage_node_data.stage_node_title
 	self.stage_name.text = stage_node_data.stage_node_title
-	self.position_offset = stage_node_data.stage_node_pos
-	self.curr_enemy_options = stage_node_data.curr_enemy_options
+	self.position_offset = str_to_var(stage_node_data.stage_node_pos)
 	self.selected_scene_file = stage_node_data.selected_scene_file
 	self.selected_scene_path = stage_node_data.selected_scene_path
 	_set_option_button_select(scene_options, selected_scene_file)
-	self.pickup_resource = stage_node_data.pickup_resource
-	self.exit_resource = stage_node_data.exit_resource
-	pickup_resource.update()
-	stage_tab.load_from_resources(stage_node_data.enemy_resource, stage_node_data.spawnpoint_resource, stage_node_data.unbreakable_resource, stage_node_data.breakable_resource)
+	self.pickup_resource = PickupTable.new()
+	self.pickup_resource.from_json(stage_node_data.pickup_table)
+	self.exit_resource = ExitTable.new()
+	self.exit_resource.from_json(stage_node_data.exit_table)
+	var enemy_resource: EnemyTable = EnemyTable.new()
+	enemy_resource.from_json(stage_node_data.enemy_table)
+	var spawnpoint_resource: SpawnpointTable = SpawnpointTable.new()
+	spawnpoint_resource.from_json(stage_node_data.spawnpoint_table)
+	var unbreakable_resource: UnbreakableTable = UnbreakableTable.new()
+	unbreakable_resource.from_json(stage_node_data.unbreakable_table)
+	var breakable_resource: BreakableTable = BreakableTable.new()
+	breakable_resource.from_json(stage_node_data.breakable_table)
+	stage_tab.load_from_resources(enemy_resource, spawnpoint_resource, unbreakable_resource, breakable_resource)
 	_setup_pickup_tab()
 	_setup_exit_from_load()
 
-func save_node(index: int) -> StageNodeData:
-	var stage_node_data = StageNodeData.new()
-	stage_node_data.curr_enemy_options = curr_enemy_options
-	stage_node_data.selected_scene_file = selected_scene_file
-	stage_node_data.selected_scene_path = selected_scene_path
-	stage_node_data.pickup_resource = pickup_resource.duplicate()
-	stage_node_data.enemy_resource = EnemyTable.new()
-	stage_node_data.spawnpoint_resource = SpawnpointTable.new()
-	stage_node_data.unbreakable_resource = UnbreakableTable.new()
-	stage_node_data.breakable_resource = BreakableTable.new()
-	stage_tab.write_to_resources(stage_node_data.enemy_resource, stage_node_data.spawnpoint_resource, stage_node_data.unbreakable_resource, stage_node_data.breakable_resource)
+func save_node(index: int) -> Dictionary:
+	var stage_node_data: Dictionary = {}
+	stage_node_data["selected_scene_file"] = selected_scene_file
+	stage_node_data["selected_scene_path"] = selected_scene_path
+	stage_node_data["pickup_table"] = pickup_resource.to_json()
+	var enemy_resource: EnemyTable = EnemyTable.new()
+	var spawnpoint_resource: SpawnpointTable = SpawnpointTable.new()
+	var unbreakable_resource: UnbreakableTable = UnbreakableTable.new()
+	var breakable_resource: BreakableTable = BreakableTable.new()
+	stage_tab.write_to_resources(enemy_resource, spawnpoint_resource, unbreakable_resource, breakable_resource)
+	stage_node_data["enemy_table"] = enemy_resource.to_json()
+	stage_node_data["spawnpoint_table"] = spawnpoint_resource.to_json()
+	stage_node_data["unbreakable_table"] = unbreakable_resource.to_json()
+	stage_node_data["breakable_table"] = breakable_resource.to_json()
 
-	stage_node_data.exit_resource = exit_resource.duplicate()
-	stage_node_data.stage_node_name = name
-	stage_node_data.stage_node_title = title
-	stage_node_data.stage_node_pos = position_offset
-	stage_node_data.index = index
+	stage_node_data["exit_table"] = exit_resource.to_json()
+	stage_node_data["stage_node_name"] = name
+	stage_node_data["stage_node_title"] = title
+	stage_node_data["stage_node_pos"] = var_to_str(position_offset)
+	stage_node_data["index"] = index
 
 	#fill the children array with -1 we later only overwrite an index in this array if it leads to a next stage
-	stage_node_data.children.resize(exit_resource.size())
-	stage_node_data.children.fill(-1)
+	stage_node_data["children"] = []
+	stage_node_data["children"].resize(exit_resource.size())
+	stage_node_data["children"].fill(-1)
+
 	return stage_node_data
 
 ## searches for some String in the items of the OptionButton and then sets the selection to that Option

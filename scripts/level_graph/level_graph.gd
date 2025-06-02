@@ -1,4 +1,4 @@
-extends GraphEdit
+class_name LevelGraph extends GraphEdit
 
 signal has_loaded
 signal has_saved
@@ -12,7 +12,7 @@ var file_name_input: SuggestionLineEdit
 var stage_node_preload := preload("res://scenes/level_graph/stage_node.tscn")
 var stage_node_indx: int = 0
 var selected_nodes: Dictionary = {}
-var node_clipboard: Array[StageNodeData] = []
+var node_clipboard: Array[Dictionary] = []
 var file_name: String
 
 func _ready():
@@ -101,7 +101,7 @@ func clear_graph():
 
 ## loads the graph stored in graph_data
 ## [param graph_data] LevelGraphData the resource to load the data from
-func load_graph(graph_data: LevelGraphData):
+func load_graph(graph_data: Dictionary):
 	self.clear_connections()
 	clear_graph()
 	for node in graph_data.nodes:
@@ -119,11 +119,7 @@ func load_graph(graph_data: LevelGraphData):
 ## loads the selected graph if it exists
 ## takes the global value file_name to check if such a LevelGraphData file exists and if it does load it
 func _on_load_pressed():
-	if ResourceLoader.exists(SAVE_PATH + "/" + file_name + ".res"):
-		load_graph(ResourceLoader.load(SAVE_PATH + "/" + file_name + ".res"))
-		has_loaded.emit()
-	else:
-		print("No savedata loaded")
+	load_graph(load_json_file(file_name))
 
 ## saves the current graph
 func _on_save_pressed():
@@ -132,23 +128,27 @@ func _on_save_pressed():
 		await get_tree().create_timer(0.2).timeout
 		file_name_input.editable = 1
 		return
-	var graph_data = LevelGraphData.new()
-	graph_data.setup_local_to_scene()
-	graph_data.connections = self.get_connection_list()
-	graph_data.stage_node_indx = self.stage_node_indx
-	graph_data.entry_point_pos = entry_point.position
+	var graph_data: Dictionary = {}
+	graph_data["connections"] = self.get_connection_list()
+	graph_data["stage_node_indx"] = self.stage_node_indx
+	graph_data["entry_point_pos"] = entry_point.position
+	var node_arr: Array[Dictionary] = []
+	graph_data["nodes"] = node_arr
 	var start_node: StageNode
 	for connection in connections:
 		if connection.from_node != "EntryPoint": continue
 		start_node = get_node(str(connection.to_node))
 		break
 	if start_node != null:
-		_save_bfs(start_node, graph_data.nodes)
-	if ResourceSaver.save(graph_data, SAVE_PATH + "/" + file_name + ".res") == OK:
-		print("Graph saved at: ", SAVE_PATH + "/" + file_name + ".res")
-		has_saved.emit()
-	else:
-		print("saving graph failed")
+		_save_bfs(start_node, graph_data["nodes"])
+
+	var file_access := FileAccess.open(SAVE_PATH + "/" + file_name + ".json", FileAccess.WRITE)
+	if not file_access:
+		print("An error happened while saving data: ", FileAccess.get_open_error())
+		return
+
+	file_access.store_line(JSON.stringify(graph_data))
+	file_access.close()
 
 ## removes itself
 func _on_close_pressed():
@@ -162,27 +162,26 @@ func _on_close_pressed():
 ## The reason for a bfs rather then just looping through the node is so we can also store a children array that contains the indices of all of a node children inside the saved array
 ## [param starting_node] StageNode Node on which the bfs should start
 ## [param node_array] the array inwhich the algoritm will save StageNodeData resources
-func _save_bfs(starting_node: StageNode, node_array: Array[StageNodeData]):
-	var start_node_data: StageNodeData = starting_node.save_node(0)
+func _save_bfs(starting_node: StageNode, node_array: Array[Dictionary]):
+	var start_node_data: Dictionary = starting_node.save_node(0)
 	node_array.append(start_node_data)
-	var queue: Array[StageNodeData] = [start_node_data]
+	var queue: Array[Dictionary] = [start_node_data]
 	var visited: Dictionary = {starting_node: start_node_data}
 	while !queue.is_empty():
-		var curr_node: StageNodeData = queue.pop_front()
+		var curr_node: Dictionary = queue.pop_front()
 		for connection in connections:
 			if connection.from_node != curr_node.stage_node_name: continue
-			# connectes to nothing so indicate this
+			# connectes to nothing
 			if connection.to_node == "":
-				curr_node.children.append(-1)
 				continue
 			
 			var child: StageNode = self.get_node(str(connection.to_node))
 			# If we have seen this child already just tell the resource its connected to it
 			if visited.has(child): 
-				curr_node.children[connection.from_port] = visited[child].index
+				curr_node["children"][connection.from_port] = visited[child].index
 				continue
 			# If we have not seen this child yet create a new resource and append it to the array
-			var child_node_res: StageNodeData = child.save_node(len(node_array))
+			var child_node_res: Dictionary = child.save_node(len(node_array))
 			curr_node.children[connection.from_port] = child_node_res.index
 			node_array.append(child_node_res)
 			visited[child] = child_node_res
@@ -205,7 +204,10 @@ func _on_disconnect_request(from_node: StringName, from_port: int, to_node: Stri
 func _on_delete_nodes_request(nodes: Array[StringName]):
 	for node_name in nodes:
 		if node_name == "EntryPoint": continue
-		get_node(str(node_name)).queue_free()
+		var node := get_node(str(node_name))
+		if selected_nodes.has(node):
+			selected_nodes.erase(node)
+		node.queue_free()
 
 ## Adds a selected node to the selected_nodes set for later processing if needed
 func _on_node_selected(node: Node) -> void:
@@ -225,7 +227,7 @@ func _on_copy_nodes_request():
 	node_clipboard.resize(len(selected_nodes.keys()))
 	for node in selected_nodes.keys():
 		node_clipboard[index] = node.save_node(index)
-		node_clipboard[index].stage_node_pos -= Vector2(200, 200)
+		node_clipboard[index].stage_node_pos = var_to_str(str_to_var(node_clipboard[index].stage_node_pos) - Vector2(-50, 50))
 		node_clipboard[index].stage_node_title = "copy of " + node_clipboard[index].stage_node_title
 		index += 1
 
@@ -236,8 +238,7 @@ func _on_cut_nodes_request() -> void:
 	node_clipboard.resize(len(selected_nodes.keys()))
 	for node in selected_nodes.keys():
 		node_clipboard[index] = node.save_node(index)
-		node_clipboard[index].stage_node_pos -= Vector2(200, 200)
-		node_clipboard[index].titel = "copy of " + node_clipboard[index].title
+		node_clipboard[index].stage_node_pos = var_to_str(str_to_var(node_clipboard[index].stage_node_pos) - Vector2(-50, 50))
 		index += 1
 		node.queue_free()
 		selected_nodes.erase(node)
@@ -262,9 +263,9 @@ func _on_paste_nodes_request():
 func _on_duplicate_nodes_request() -> void:
 	var index: int = 0
 	for node in selected_nodes.keys():
-		var temp_storage: StageNodeData = node.save_node(index)
-		temp_storage.stage_node_pos -= Vector2(200, 200)
-		temp_storage.stage_node_title = "copy of " + temp_storage.stage_node_titel
+		var temp_storage: Dictionary = node.save_node(index)
+		temp_storage.stage_node_pos = var_to_str(str_to_var(temp_storage.stage_node_pos) - Vector2(-50, 50))
+		temp_storage.stage_node_title = "copy of " + temp_storage.stage_node_title
 
 		var stage_node: StageNode = stage_node_preload.instantiate()
 		stage_node_indx += 1
@@ -280,3 +281,25 @@ func _on_duplicate_nodes_request() -> void:
 		stage_node.load_stage_node(temp_storage)
 		selected_nodes[stage_node] = true
 		stage_node.selected = true
+
+static func load_json_file(file_name: String) -> Dictionary:
+	if !FileAccess.file_exists(LevelGraph.SAVE_PATH + "/" + file_name + ".json"):
+		return {}
+	var file_access := FileAccess.open(LevelGraph.SAVE_PATH + "/" + file_name + ".json", FileAccess.READ)
+	var json_string := file_access.get_line()
+	file_access.close()
+	
+	var json: JSON = JSON.new()
+	var error := json.parse(json_string)
+	if error:
+		print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
+		return {}
+	return json.data
+
+static func load_graph_to_stage_node_data_arr(json_data: Dictionary):
+	var res: Array[StageNodeData] = []
+	for node_data in json_data.nodes:
+		var stage_node_data: StageNodeData = StageNodeData.new()
+		stage_node_data.from_json(node_data)
+		res.append(stage_node_data)
+	return res
