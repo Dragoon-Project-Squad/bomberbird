@@ -11,8 +11,9 @@ const MAX_BOMBS_OWNABLE: int = 8
 const MAX_EXPLOSION_BOOSTS_PERMITTED: int = 6
 ## NOTE: MISOBON_RESPAWN_TIME is additive to the animation time for both spawning and despawning the misobon player
 const MISOBON_RESPAWN_TIME: float = 0.5 
-const INVULNERABILITY_TIME: float = 2
+const INVULNERABILITY_SPAWN_TIME: float = 2
 const INVULNERABILITY_FLASH_TIME: float = 0.125
+const INVULNERABILITY_POWERUP_TIME: float = 16.0
 
 @export var synced_position := Vector2()
 @export var stunned: bool = false
@@ -31,7 +32,7 @@ var misobon_player: MisobonPlayer
 var game_ui: CanvasLayer
 
 var invulnerable_animation_time: float
-var invulnerable_total_time: float = 2
+var invulnerable_remaining_time: float = 2
 
 var pickup_pool: PickupPool
 var bomb_pool: BombPool
@@ -77,14 +78,13 @@ func _process(delta: float):
 		show()
 		set_process(false)
 		return
-	invulnerable_total_time += delta
+	invulnerable_remaining_time -= delta
 	invulnerable_animation_time += delta
-	if invulnerable_total_time >= INVULNERABILITY_TIME:
+	if invulnerable_remaining_time <= 0:
 		invulnerable = false
-	elif invulnerable_animation_time >= INVULNERABILITY_FLASH_TIME:
+	elif invulnerable_animation_time <= INVULNERABILITY_FLASH_TIME:
 		self.visible = !self.visible
-		invulnerable_animation_time = 0
-	
+		invulnerable_animation_time = 0	
 
 func _physics_process(_delta: float):
 	pass
@@ -299,7 +299,7 @@ func spread_items():
 
 ## starts the invulnerability and its animation
 func do_invulnerabilty():
-	invulnerable_total_time = 0
+	invulnerable_remaining_time = INVULNERABILITY_SPAWN_TIME
 	invulnerable = true
 	set_process(true)
 	
@@ -398,3 +398,13 @@ func crush():
 
 func set_selected_character(value_path : String):
 	$sprite.texture = load(value_path)
+
+@rpc("call_local")
+func start_invul():
+	invulnerable_remaining_time = INVULNERABILITY_POWERUP_TIME
+	invulnerable = true
+	set_process(true)
+	
+
+	
+	
