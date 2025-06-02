@@ -1,18 +1,37 @@
 extends Control
 
-const DEFAULT_GRAPH_NAME: String = "test_campaign_1"
+const DEFAULT_GRAPH_NAME: String = "campaign"
 const LEVEL_GRAPH_SCENE := preload("res://scenes/level_graph/level_graph.tscn")
 
 @onready var selector: OptionButton = get_node("HBoxContainer/CampaignSelector")
 @onready var button: Button = get_node("HBoxContainer/GraphButton")
 
 func _ready() -> void:
+	var camp_dir = DirAccess.open(LevelGraph.PERMANENT_SAVE_PATH)
+	assert(camp_dir, "campaign dir not found at: " + LevelGraph.PERMANENT_SAVE_PATH)
+	for perm_camp_file in camp_dir.get_files():
+		if perm_camp_file.get_extension() != "json":
+			perm_camp_file = camp_dir.get_next()
+			continue
+		if !FileAccess.file_exists(LevelGraph.SAVE_PATH + "/" + perm_camp_file):
+			DirAccess.make_dir_recursive_absolute(LevelGraph.SAVE_PATH)
+			var res_file := FileAccess.open(LevelGraph.PERMANENT_SAVE_PATH + "/" + perm_camp_file, FileAccess.READ)
+			assert(res_file)
+			var user_file := FileAccess.open(LevelGraph.SAVE_PATH + "/" + perm_camp_file, FileAccess.WRITE)
+			assert(user_file)
+
+			var json_str = res_file.get_as_text()
+			user_file.store_string(json_str)
+
+			user_file.close()
+			res_file.close()
+
 	_update_and_set(DEFAULT_GRAPH_NAME)
 
-func _update_and_set(item_name: String):
+func _update_and_set(item_name: String = DEFAULT_GRAPH_NAME):
 	_get_file_name_from_dir(LevelGraph.SAVE_PATH)
 	for idx in range(selector.item_count):
-		if selector.get_item_text(idx) == DEFAULT_GRAPH_NAME:
+		if selector.get_item_text(idx) == item_name:
 			selector.select(idx)
 			return
 

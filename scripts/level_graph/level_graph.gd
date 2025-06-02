@@ -4,7 +4,8 @@ signal has_loaded
 signal has_saved
 signal has_closed
 
-const SAVE_PATH: String = "res://resources/level_graph/saved_graphs"
+const SAVE_PATH: String = "user://user_campaigns"
+const PERMANENT_SAVE_PATH: String = "res://campaign"
 
 @onready var entry_point: GraphNode = $EntryPoint
 
@@ -149,6 +150,7 @@ func _on_save_pressed():
 
 	file_access.store_line(JSON.stringify(graph_data))
 	file_access.close()
+	has_saved.emit()
 
 ## removes itself
 func _on_close_pressed():
@@ -283,9 +285,8 @@ func _on_duplicate_nodes_request() -> void:
 		stage_node.selected = true
 
 static func load_json_file(file_name: String) -> Dictionary:
-	if !FileAccess.file_exists(LevelGraph.SAVE_PATH + "/" + file_name + ".json"):
-		return {}
-	var file_access := FileAccess.open(LevelGraph.SAVE_PATH + "/" + file_name + ".json", FileAccess.READ)
+	print(SAVE_PATH + "/" + file_name + ".json")
+	var file_access := FileAccess.open(SAVE_PATH + "/" + file_name + ".json", FileAccess.READ)
 	var json_string := file_access.get_line()
 	file_access.close()
 	
@@ -296,7 +297,7 @@ static func load_json_file(file_name: String) -> Dictionary:
 		return {}
 	return json.data
 
-static func load_graph_to_stage_node_data_arr(json_data: Dictionary):
+static func load_graph_to_stage_node_data_arr(json_data: Dictionary) -> Array[StageNodeData]:
 	var res: Array[StageNodeData] = []
 	for node_data in json_data.nodes:
 		var stage_node_data: StageNodeData = StageNodeData.new()

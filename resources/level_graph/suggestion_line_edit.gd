@@ -1,7 +1,5 @@
 class_name SuggestionLineEdit extends LineEdit
 
-const SAVE_PATH: String = "res://resources/level_graph/saved_graphs"
-
 @onready var popup_menu: PopupMenu = PopupMenu.new()
 
 @export var popup_menu_size: int = 10
@@ -19,7 +17,7 @@ func _ready() -> void:
 	tooltip_text = "Press Arrow down to get suggestions"
 	placeholder_text = "Press Arrow down when focused"
 
-	_get_file_name_from_dir(SAVE_PATH, full_list)
+	_get_file_name_from_dir(LevelGraph.SAVE_PATH, full_list)
 	popup_menu.unfocusable = true
 	custom_minimum_size.x = 300
 	
@@ -91,5 +89,5 @@ func _update_popup_menu(silent):
 	popup_menu.set_focused_item(idx)
 	
 func _on_graph_edit_saved():
-	_get_file_name_from_dir(SAVE_PATH, full_list)
+	_get_file_name_from_dir(LevelGraph.SAVE_PATH, full_list)
 	_update_list(text, true)

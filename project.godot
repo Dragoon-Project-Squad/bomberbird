@@ -16,7 +16,7 @@ config/version="0.3.0.1"
 config/tags=PackedStringArray("2d", "network")
 run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.4")
-config/icon="res://assets/gameart/icon.webp"
+config/icon="uid://b8rtom4rpycik"
 
 [autoload]
 
