@@ -47,7 +47,7 @@ func _physics_process(delta: float):
 				push_error("something went wrong with bomb throwing")
 				throw_pressed_once = false
 
-	if not stunned and inputs.bombing and bomb_count > 0 and not set_bomb_pressed_once and not stop_movement:
+	if not stunned and inputs.bombing and bomb_count > 0 and not set_bomb_pressed_once and not stop_movement and not is_unbomb:
 		set_bomb_pressed_once = true
 		place_bomb()
 	elif !inputs.bombing and set_bomb_pressed_once:
