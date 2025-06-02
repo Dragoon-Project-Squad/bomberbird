@@ -3,6 +3,13 @@ class_name StageNode extends GraphNode
 
 const STAGE_SCENE_DIR: String = "res://scenes/stages/"
 
+const STAGE_DIR: Dictionary = {
+	"Saloon": "desert/desert_runtime.tscn",
+	"Beach": "beach_stages/beach_runtime.tscn",
+	"Dungeon": "dungeon_stages/dungeon_runtime.tscn",
+	"Lab": "lab_stages/lab_runtime.tscn",
+	}
+
 @onready var scene_options: OptionButton = %SceneOptions
 @onready var exit_boiler: HBoxContainer = %ExitBoiler
 @onready var pickups_tab: GridContainer = %"Pickup Weights"
@@ -11,7 +18,6 @@ const STAGE_SCENE_DIR: String = "res://scenes/stages/"
 @onready var pickup_boiler: SpinBox = %PickupBoiler
 @onready var stage_name: LineEdit = %StageName
 
-var stages_subfolders: Dictionary = {}
 var curr_tab: int = 0
 
 var selected_scene_file: String = ""
@@ -28,8 +34,7 @@ var exit_in_port_color: Color = Color.SILVER
 # ----------------------------- init functions
 
 func _ready():
-	get_file_name_from_dir(STAGE_SCENE_DIR, [], stages_subfolders)
-	_set_scene_options(stages_subfolders)
+	_set_scene_options(STAGE_DIR)
 	if get_parent() != null:
 		exit_boiler.get_node("Position/x").max_value = stage_tab.map_size.x - 1
 		exit_boiler.get_node("Position/y").max_value = stage_tab.map_size.y - 1
@@ -56,7 +61,7 @@ func load_stage_node(stage_node_data: Dictionary):
 	self.position_offset = str_to_var(stage_node_data.stage_node_pos)
 	self.selected_scene_file = stage_node_data.selected_scene_file
 	self.selected_scene_path = stage_node_data.selected_scene_path
-	_set_option_button_select(scene_options, selected_scene_file)
+	_set_option_button_select(scene_options, STAGE_DIR.find_key(selected_scene_file))
 	self.pickup_resource = PickupTable.new()
 	self.pickup_resource.from_json(stage_node_data.pickup_table)
 	self.exit_resource = ExitTable.new()
@@ -114,39 +119,15 @@ func _set_option_button_select(option_button: OptionButton, item: String) -> int
 	return idx
 
 ## Given the subfolders Dictonary for scene adds the option to the SceneOption
-func _set_scene_options(stages_subfolders_arg: Dictionary):
-	for key in stages_subfolders_arg.keys():
+func _set_scene_options(stage_options: Dictionary):
+	for key in stage_options.keys():
 		scene_options.add_item(key)
 	scene_options.selected = -1
 
 ## given a scene and its subfolders returns the path to that scene (if only_dir == true returns the path to the Directory containing the scene rather then the scene)
-static func get_path_to_scene(scene: String, base_dir: String, subfolders: Array[String], only_dir: bool = false):
+static func get_path_to_scene(scene: String, base_dir: String, file_dir: Dictionary, only_dir: bool = false):
 	var ret: String = base_dir.left(len(base_dir) - 1)
-	for s in subfolders:
-		ret += "/" + s
-	return ret + ("/" + scene if !only_dir else "")
-
-## recusrive function that given a [param path] to a folder stores all .tscn file and its subfolders into a [param subfolder_dict] dictonary
-## [param path] String path to the top most folder
-## [param subfolders] a temp Array used inbetween recursive calls (if you call this from a non recursive place this argument should be an empty array
-## [param subfolder_dict] The dict to store the results into
-static func get_file_name_from_dir(path: String, subfolders: Array[String], subfolder_dict: Dictionary):
-	var scene_dir = DirAccess.open(path)
-	assert(scene_dir, "stage scene dir not found at: " + path)
-
-	scene_dir.list_dir_begin()
-	var scene_file: String = scene_dir.get_next()
-	while scene_file != "":
-		if scene_file.get_extension() == "tscn":
-			if(subfolder_dict.has(scene_file)):
-				push_error("Same filename for differente objects found: " + get_path_to_scene(scene_file, path, subfolders) + " and " + get_path_to_scene(scene_file, path, subfolder_dict[scene_file]) + "expect fauty behavior")
-			subfolder_dict[scene_file] = subfolders.duplicate()
-		elif scene_file.get_extension() == "":
-			subfolders.append(scene_file)
-			get_file_name_from_dir(path + scene_file, subfolders, subfolder_dict)
-			subfolders.pop_back()
-
-		scene_file = scene_dir.get_next()
+	return ret + (("/" + file_dir[scene]) if !only_dir else "")
 
 ## setup the pickup tab hence loops throught all pickup enums in global and creates a UI element for it
 func _setup_pickup_tab():
@@ -220,8 +201,8 @@ func _setup_exit_from_load():
 func _on_scene_options_item_selected(index: int) -> void:
 	if index < 0:
 		return
-	selected_scene_file = scene_options.get_item_text(index)
-	selected_scene_path = get_path_to_scene(selected_scene_file, STAGE_SCENE_DIR, stages_subfolders[selected_scene_file], true)
+	selected_scene_file = STAGE_DIR[scene_options.get_item_text(index)]
+	selected_scene_path = get_path_to_scene(scene_options.get_item_text(index), STAGE_SCENE_DIR, STAGE_DIR, true)
 
 ## Create a new entry for an exit
 func _on_add_exit_button_pressed() -> void:

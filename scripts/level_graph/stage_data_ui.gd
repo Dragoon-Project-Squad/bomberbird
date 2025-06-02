@@ -1,6 +1,24 @@
 class_name StageDataUI extends Control
 
 const ENEMY_SCENE_DIR: String = "res://scenes/enemies/"
+
+const ENEMY_DIR: Dictionary = {
+	"Egg Goon 1": "egg_enemy_type1.tscn",
+	"Egg Goon 2": "egg_enemy_type2.tscn",
+	"Egg Goon 3": "egg_enemy_type3.tscn",
+	"Egg Goon 4": "egg_enemy_type4.tscn",
+	"R2 Goon": "egg_R2_enemy.tscn",
+	"Knight Goon": "knight_enemy.tscn",
+	"Slime Goon": "slime_goon.tscn",
+	"Tank Goon": "tank_goon.tscn",
+	"Skunk Goon": "skunk_goon.tscn",
+	"Bomb Eater Goon": "bomb_eater_goon.tscn",
+	"Hammer Goon": "hammer_goon.tscn",
+	"Bomb Goon 1": "bomb_goon_type1.tscn",
+	"Bomb Goon 2": "bomb_goon_type2.tscn",
+	"Tomato Doki Boss": "tomato_boss.tscn",
+	}
+
 enum draw_mode {FREE, LINE, RECT}
 enum tile_type {UNBREAKABLE, BREAKABLE, ENEMY, SPAWNPOINT}
 
@@ -34,7 +52,6 @@ var curr_type: int = 0
 var curr_sub_type_id: int = 0
 var curr_sub_type_str: String = ""
 var curr_probability: float = 1.0
-var enemy_subfolders: Dictionary = {}
 
 var _is_drawing: bool = false
 ## The eraser logic is stupid just as a warning
@@ -55,7 +72,6 @@ func _ready():
 	)
 	sub_type_select.clear()
 	sub_type_select.disabled = true
-	StageNode.get_file_name_from_dir(ENEMY_SCENE_DIR, [], enemy_subfolders)
 
 	probability_select.value_changed.connect(func (value: float): curr_probability = value)
 	free_draw.pressed.connect(func (): curr_draw_mode = draw_mode.FREE)
@@ -80,7 +96,8 @@ func load_from_resources(enemy_table: EnemyTable = null, spawnpoint_table: Spawn
 	modified_cells.clear()
 	if enemy_table != null:
 		for entry in enemy_table.enemies:
-			modified_cells[entry.coords] = _create_type_dict(tile_type.ENEMY, entry.file, entry.probability)
+			var enemy_name: String = ENEMY_DIR.find_key(entry.file)
+			modified_cells[entry.coords] = _create_type_dict(tile_type.ENEMY, enemy_name, entry.probability)
 			cell_ui_elements[_get_cell_ui_element_index(entry.coords)].apply_texture(modified_cells[entry.coords])
 	if spawnpoint_table != null:
 		for entry in spawnpoint_table.spawnpoints:
@@ -106,7 +123,7 @@ func write_to_resources(enemy_table: EnemyTable, spawnpoint_table: SpawnpointTab
 				breakable_table.append(tile_pos, tile.sub_type, tile.probability)
 			tile_type.ENEMY:
 				if tile.sub_type != "":
-					enemy_table.append(tile_pos, tile.sub_type, StageNode.get_path_to_scene(tile.sub_type, ENEMY_SCENE_DIR, enemy_subfolders[tile.sub_type], true), tile.probability)
+					enemy_table.append(tile_pos, ENEMY_DIR[tile.sub_type], StageNode.get_path_to_scene(tile.sub_type, ENEMY_SCENE_DIR, ENEMY_DIR, true), tile.probability)
 			tile_type.SPAWNPOINT:
 				spawnpoint_table.append(tile_pos, tile.probability)
 
@@ -284,11 +301,11 @@ func _on_selected_type(index: int):
 			curr_sub_type_str = sub_type_select.get_item_text(sub_type_select.get_item_index(globals.pickups.RANDOM))
 		tile_type.ENEMY:
 			sub_type_select.clear()
-			if enemy_subfolders.keys() == []:
+			if ENEMY_DIR.keys() == []:
 				curr_sub_type_str = ""
 				sub_type_select.disabled = true
 			else:
-				enemy_subfolders.keys().map(sub_type_select.add_item)
+				ENEMY_DIR.keys().map(sub_type_select.add_item)
 				sub_type_select.select(-1)
 		tile_type.SPAWNPOINT:
 			sub_type_select.clear()

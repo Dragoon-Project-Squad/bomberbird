@@ -34,15 +34,12 @@ func _ready() -> void:
 
 func _get_file_name_from_dir(path: String, list: Array[String]):
 	list.clear()
-	var res_dir = DirAccess.open(path)
-	assert(res_dir, "res dir not found at: " + path)
+	var camp_dir = DirAccess.open(path)
+	assert(camp_dir, "res dir not found at: " + path)
 
-	res_dir.list_dir_begin()
-	var res_file: String = res_dir.get_next()
-	while res_file != "":
-		if res_file.get_extension() == "res":
-			list.append(res_file.get_basename())
-		res_file = res_dir.get_next()
+	for camp_file in camp_dir.get_files():
+		if camp_file.get_extension() == "json":
+			list.append(camp_file.get_basename())
 
 func _gui_input(event: InputEvent) -> void:
 	if not popup_menu.visible:
@@ -88,6 +85,6 @@ func _update_popup_menu(silent):
 	idx = 0
 	popup_menu.set_focused_item(idx)
 	
-func _on_graph_edit_saved():
+func _on_graph_edit_saved(_name: String):
 	_get_file_name_from_dir(LevelGraph.SAVE_PATH, full_list)
 	_update_list(text, true)

@@ -1,7 +1,7 @@
 class_name LevelGraph extends GraphEdit
 
-signal has_loaded
-signal has_saved
+signal has_loaded(file_name: String)
+signal has_saved(file_name: String)
 signal has_closed
 
 const SAVE_PATH: String = "user://user_campaigns"
@@ -121,6 +121,7 @@ func load_graph(graph_data: Dictionary):
 ## takes the global value file_name to check if such a LevelGraphData file exists and if it does load it
 func _on_load_pressed():
 	load_graph(load_json_file(file_name))
+	has_loaded.emit(file_name)
 
 ## saves the current graph
 func _on_save_pressed():
@@ -150,7 +151,7 @@ func _on_save_pressed():
 
 	file_access.store_line(JSON.stringify(graph_data))
 	file_access.close()
-	has_saved.emit()
+	has_saved.emit(file_name)
 
 ## removes itself
 func _on_close_pressed():
@@ -158,7 +159,7 @@ func _on_close_pressed():
 		get_tree().quit()
 	else:
 		self.queue_free()
-	has_closed.emit()
+	has_closed.emit(file_name)
 
 ## A bfs graph traversale inwhich each node will be saved to the StageNodeData array. A bfs is used to also store the array indices of the children to each entry
 ## The reason for a bfs rather then just looping through the node is so we can also store a children array that contains the indices of all of a node children inside the saved array
@@ -285,7 +286,6 @@ func _on_duplicate_nodes_request() -> void:
 		stage_node.selected = true
 
 static func load_json_file(file_name: String) -> Dictionary:
-	print(SAVE_PATH + "/" + file_name + ".json")
 	var file_access := FileAccess.open(SAVE_PATH + "/" + file_name + ".json", FileAccess.READ)
 	var json_string := file_access.get_line()
 	file_access.close()
