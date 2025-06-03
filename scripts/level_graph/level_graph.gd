@@ -23,6 +23,7 @@ func _ready():
 	add_stage_node_button.pressed.connect(_add_stage_node)
 	get_menu_hbox().add_child(add_stage_node_button)
 
+
 	# create and add the SuggestionLineEdit
 	file_name_input = SuggestionLineEdit.new()
 	file_name_input.name = "LoadSaveLEdit"
@@ -47,7 +48,15 @@ func _ready():
 	close_button.text = "close"
 	close_button.pressed.connect(_on_close_pressed)
 	get_menu_hbox().add_child(close_button)
+	var contr: Control = get_menu_hbox().add_spacer(false)
+	contr.custom_minimum_size = Vector2(10, 0)
+	contr.update_minimum_size()
 
+	# create and add the clear_all button
+	var clear_all_button: Button = Button.new()
+	clear_all_button.text = "CLEAR"
+	clear_all_button.pressed.connect(_on_clear_all_pressed)
+	get_menu_hbox().add_child(clear_all_button)
 	
 	self.right_disconnects = true
 
@@ -160,6 +169,9 @@ func _on_close_pressed():
 	else:
 		self.queue_free()
 	has_closed.emit(file_name)
+
+func _on_clear_all_pressed():
+	clear_graph()
 
 ## A bfs graph traversale inwhich each node will be saved to the StageNodeData array. A bfs is used to also store the array indices of the children to each entry
 ## The reason for a bfs rather then just looping through the node is so we can also store a children array that contains the indices of all of a node children inside the saved array
@@ -284,6 +296,7 @@ func _on_duplicate_nodes_request() -> void:
 		stage_node.load_stage_node(temp_storage)
 		selected_nodes[stage_node] = true
 		stage_node.selected = true
+
 
 static func load_json_file(file_name: String) -> Dictionary:
 	var file_access := FileAccess.open(SAVE_PATH + "/" + file_name + ".json", FileAccess.READ)

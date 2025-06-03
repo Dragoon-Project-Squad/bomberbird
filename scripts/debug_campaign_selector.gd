@@ -29,7 +29,6 @@ func _ready() -> void:
 	_update_and_set(DEFAULT_GRAPH_NAME)
 
 func _update_and_set(item_name: String = DEFAULT_GRAPH_NAME):
-	print("updated to file_name: ", item_name)
 	_get_file_name_from_dir(LevelGraph.SAVE_PATH)
 	for idx in range(selector.item_count):
 		if selector.get_item_text(idx) == item_name:
