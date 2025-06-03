@@ -32,5 +32,8 @@ func _move(_delta):
 	
 	# Also update the animation based on the last known player input state
 	if self.enemy.stunned: return
-	self.enemy.velocity = self.enemy.movement_vector.normalized() * (self.enemy.movement_speed + 20 * self.enemy.pickups.held_pickups[globals.pickups.SPEED_UP])
+	if self.enemy is Boss:
+		self.enemy.velocity = self.enemy.movement_vector.normalized() * (self.enemy.movement_speed + 20 * self.enemy.pickups.held_pickups[globals.pickups.SPEED_UP])
+	else:
+		self.enemy.velocity = self.enemy.movement_vector.normalized() * self.enemy.movement_speed
 	self.enemy.move_and_slide()

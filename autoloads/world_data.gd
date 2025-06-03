@@ -290,6 +290,8 @@ func get_random_path(start_pos: Vector2, max_range: int, safe: bool = true, vali
 func get_path_to_safe(start_pos: Vector2, valid_tiles: Array[int] = [tiles.EMPTY, tiles.PICKUP]) -> Array[Vector2]:
 	var start_matrix_pos: Vector2i = tile_map.local_to_map(start_pos) - floor_origin
 
+	var found_safe: bool = false
+	var safe_paths: Array[Array]
 	var path_queue: Array[Array] = [[start_matrix_pos]]
 	while !path_queue.is_empty():
 		var path = path_queue.pop_front()
@@ -298,11 +300,14 @@ func get_path_to_safe(start_pos: Vector2, valid_tiles: Array[int] = [tiles.EMPTY
 			if next_pos in path: continue
 			if !_is_walkable(next_pos, valid_tiles): continue
 			if _is_safe_cell(next_pos): 
+				found_safe = true
 				path.append(next_pos)
-				return _to_real_path(path)
+				safe_paths.append(_to_real_path(path))
 			var new_path = path.duplicate() 
 			new_path.append(next_pos)
 			path_queue.append(new_path)
+		if found_safe:
+			return safe_paths.pick_random()
 
 	return []
 

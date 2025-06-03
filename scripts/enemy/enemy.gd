@@ -54,7 +54,7 @@ func _process(delta: float):
 		damage_invulnerable = false
 	elif invulnerable_animation_time <= INVULNERABILITY_FLASH_TIME:
 		self.visible = !self.visible
-		invulnerable_animation_time = 0	
+		invulnerable_animation_time = 0
 
 func _physics_process(_delta):
 	# update the animation based on the last known player input state
@@ -104,6 +104,7 @@ func exploded(_by_whom: int):
 	if(!is_multiplayer_authority()): return 1
 	if invulnerable || damage_invulnerable: return 1
 	if(self.health > 1):
+		invulnerable_remaining_time = INVULNERABILITY_TIME
 		damage_invulnerable = true
 		set_process(true)
 		self.health -= 1

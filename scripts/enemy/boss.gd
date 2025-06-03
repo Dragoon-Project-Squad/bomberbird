@@ -29,6 +29,7 @@ func _process(delta: float):
 		pickups.held_pickups[globals.pickups.INVINCIBILITY_VEST] = false
 	elif invulnerable_animation_time <= INVULNERABILITY_FLASH_TIME:
 		self.visible = !self.visible
+		invulnerable_animation_time = 0
 
 func get_current_bomb_count():
 	return init_bomb_count + pickups.held_pickups[globals.pickups.BOMB_UP]
