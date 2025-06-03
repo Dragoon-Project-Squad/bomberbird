@@ -4,8 +4,10 @@ extends EnemyState
 const ARRIVAL_TOLARANCE: float = 1
 
 var _rng = RandomNumberGenerator.new()
-var next_position: Vector2
-
+var next_position: Vector2:
+	set(val):
+		self.enemy.get_node("DebugMarker").position = val
+		next_position = val
 func _enter():
 	match _rng.randi_range(0, 3):
 		0: self.enemy.movement_vector = Vector2.RIGHT
@@ -32,6 +34,9 @@ func _physics_update(_delta):
 		if !detect():
 			self.next_position = get_next_pos()
 			self.enemy.movement_vector = self.enemy.position.direction_to(self.next_position) if (self.next_position != self.enemy.position) else Vector2.ZERO
+	if !valid_tile(self.next_position):
+		self.next_position = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.enemy.position))
+		self.enemy.movement_vector = self.enemy.position.direction_to(self.next_position) if (self.next_position != self.enemy.position) else Vector2.ZERO
 
 func valid_tile(pos: Vector2) -> bool:
 	if world_data.is_out_of_bounds(pos) != -1: return false
@@ -56,9 +61,7 @@ func get_next_pos() -> Vector2:
 	# weigthed picking of random direction (weigthed in favor or the rightmost choice)
 	var rand_val = _rng.randi_range(1, 2 ** len(valid_pos_arr))
 	for i in range(len(valid_pos_arr)):
-		if 2 ** (len(valid_pos_arr) - 1 - i) <= rand_val: 
-			self.enemy.get_node("DebugMarker").position = valid_pos_arr[i]
-			return valid_pos_arr[i]
+		if 2 ** (len(valid_pos_arr) - 1 - i) <= rand_val: return valid_pos_arr[i]
 	push_error("get_next_pos does not return a valid vector")
 	return self.enemy.position
 

@@ -10,6 +10,9 @@ var mine_placed: int = 0
 
 func _enter() -> void:
 	#TODO play burry animation
+	if bomb_placed >= self.enemy.get_current_bomb_count(): 
+		state_changed.emit(self, "wander")
+		return
 	self.enemy.stop_moving = true
 	self.enemy.anim_player.play("TomatoBoss/burry")
 	await self.enemy.anim_player.animation_finished

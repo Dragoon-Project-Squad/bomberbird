@@ -329,7 +329,7 @@ func maximize_bomb_level():
 	
 @rpc("call_local")
 func increase_speed():
-	movement_speed = movement_speed + 20
+	movement_speed = movement_speed + MOTION_SPEED_INCREASE
 
 @rpc("call_local")
 func enable_wallclip():
@@ -382,7 +382,7 @@ func do_hurt() -> void:
 @rpc("call_local")
 ## kills this player and awards whoever killed it
 func exploded(by_who):
-	if stunned || invulnerable:
+	if stunned || invulnerable || stop_movement:
 		return
 	lives -= 1
 	hurt_sfx_player.play()

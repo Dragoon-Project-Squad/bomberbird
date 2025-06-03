@@ -4,7 +4,10 @@ extends EnemyState
 const ARRIVAL_TOLARANCE: float = 1
 
 var _rng = RandomNumberGenerator.new()
-var next_position: Vector2
+var next_position: Vector2:
+	set(val):
+		self.enemy.get_node("DebugMarker").position = val
+		next_position = val
 
 func _enter():
 	match _rng.randi_range(0, 3):
@@ -32,6 +35,9 @@ func _physics_update(_delta):
 		if !detect():
 			self.next_position = get_next_pos()
 			self.enemy.movement_vector = self.enemy.position.direction_to(self.next_position) if (self.next_position != self.enemy.position) else Vector2.ZERO
+	if !valid_tile(self.next_position):
+		self.next_position = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.enemy.position))
+		self.enemy.movement_vector = self.enemy.position.direction_to(self.next_position) if (self.next_position != self.enemy.position) else Vector2.ZERO
 
 func valid_tile(pos: Vector2) -> bool:
 	if world_data.is_out_of_bounds(pos) != -1: return false
@@ -56,14 +62,10 @@ func get_next_pos() -> Vector2:
 		match _rng.randi_range(0, 1):
 			0: return valid_pos_arr[1]
 			1: return valid_pos_arr[3]
-	elif valid_pos_arr.has(3):
-		return valid_pos_arr[3]
-	elif valid_pos_arr.has(1):
-		return valid_pos_arr[1]
-	elif valid_pos_arr.has(0):
-		return valid_pos_arr[0]
-	else:
-		return valid_pos_arr[2]
+	elif valid_pos_arr.has(3): return valid_pos_arr[3]
+	elif valid_pos_arr.has(1): return valid_pos_arr[1]
+	elif valid_pos_arr.has(0): return valid_pos_arr[0]
+	else: return valid_pos_arr[2]
 	return self.enemy.position
 
 func check_arrival() -> bool:

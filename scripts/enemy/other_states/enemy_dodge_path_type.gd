@@ -4,8 +4,15 @@ extends EnemyState
 const ARRIVAL_TOLARANCE: float = 1
 const STARTING_CLOSENESS: int = 2
 
-var next_position: Vector2
-var curr_path: Array[Vector2] = []
+var next_position: Vector2:
+	set(val):
+		self.enemy.get_node("DebugMarker2").position = val
+		next_position = val
+var curr_path: Array[Vector2] = []:
+	set(val):
+		if !val.is_empty():
+			self.enemy.get_node("DebugMarker").position = val[-1]
+		curr_path = val
 
 func _enter():
 	assert(self.enemy is Boss)
@@ -44,24 +51,18 @@ func get_dodge_path() -> Array[Vector2]:
 		safe_tiles.append(world_data.tiles.BOMB)
 	var path: Array[Vector2] = world_data.get_path_to_safe(self.enemy.position, safe_tiles)
 
-	if !path.is_empty():
-		self.enemy.get_node("DebugMarker").position = path[-1]
-		path.pop_front()
-	else:
-		self.enemy.get_node("DebugMarker").position = self.enemy.position
+	if !path.is_empty(): path.pop_front()
 
 	return path 
 
 func get_next_pos(path: Array[Vector2]) -> Vector2:
 	if !path.is_empty() && valid_tile(path[0]): 
 		var pos: Vector2 = path.pop_front()
-		self.enemy.get_node("DebugMarker2").position = pos
 		return pos
-	self.enemy.get_node("DebugMarker2").position = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.enemy.position))
 	return world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.enemy.position))
 
 func check_arrival() -> bool:
-	if self.enemy.position.distance_to(self.next_position) <= ARRIVAL_TOLARANCE:
+	if self.enemy.position.distance_to(self.next_position) <= ARRIVAL_TOLARANCE * (1 + self.enemy.pickups.held_pickups[globals.pickups.SPEED_UP]):
 		self.enemy.position = self.next_position
 		self.enemy.synced_position = self.next_position
 		return 1

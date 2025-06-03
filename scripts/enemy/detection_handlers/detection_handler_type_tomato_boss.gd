@@ -12,11 +12,12 @@ func make_ready() -> void:
 		if !(child is Player): continue
 		enemy.statemachine.target.append(child)
 
-func check_for_priority_target():
+func check_for_priority_target(force: bool = false):
 	assert(self.enemy is Boss)
-	var verify_path: Array[Vector2] = world_data.get_random_path(self.enemy.position, 6)
+	if(world_data.is_tile(world_data.tiles.BOMB, self.enemy.position)): return false
+	if(world_data.is_tile(world_data.tiles.MINE, self.enemy.position)): return false
 	var rand_val = _rand.randf()
-	return on && self.enemy.cooldown_done && rand_val < trigger_chance && len(verify_path) == 6
+	return on && self.enemy.cooldown_done && (force || rand_val < trigger_chance)
 
 func on():
 	is_on = true

@@ -1,6 +1,6 @@
 extends EnemyState
 
-@export var idle_time: float = 2
+@export var idle_time: float = 1.2
 @export var safe_check_time: float = 0.1
 
 var idle_timeout: float = 0
