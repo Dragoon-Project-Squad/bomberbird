@@ -364,9 +364,9 @@ func return_bomb():
 @rpc("call_local")
 ## plays the victory animation and stops the player from moving
 func play_victory(reenable: bool) -> Signal:
-	stop_movement = true
+	stunned = true
 	animation_player.play("player_animations/victory")
-	if reenable: animation_player.animation_finished.connect(func (_x): stop_movement = false, CONNECT_ONE_SHOT)
+	if reenable: animation_player.animation_finished.connect(func (_x): stunned = false, CONNECT_ONE_SHOT)
 	return animation_player.animation_finished
 
 func do_hurt() -> void:

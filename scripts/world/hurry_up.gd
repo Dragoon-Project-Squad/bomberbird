@@ -14,7 +14,8 @@ func _ready() -> void:
 
 func start() -> void:
 	self.clear()
-	hurry_up_start_timer.start()
+	if SettingsContainer.get_hurry_up_state():
+		hurry_up_start_timer.start()
 	hurry_up_start.connect(globals.player_manager._on_hurry_up_start)
 	hurry_up_start.connect(globals.game.game_ui._on_hurry_up_start)
 
