@@ -12,7 +12,7 @@ class_name PickupPool extends ObjectPool
 #@export var timer: int = 0
 @export var invincibility_vest: int = 0
 #@export var virus: int = 0
-#@export var kick: int = 0
+@export var kick: int = 0
 @export var bombthrough: int = 0
 @export var piercing_bomb: int = 0
 @export var land_mine: int = 0
@@ -32,7 +32,7 @@ class_name PickupPool extends ObjectPool
 	#globals.pickups.FREEZE: timer,
 	globals.pickups.INVINCIBILITY_VEST: invincibility_vest,
 	#globals.pickups.VIRUS: virus,
-	#globals.pickups.KICK: kick,
+	globals.pickups.KICK: kick,
 	globals.pickups.BOMBTHROUGH: bombthrough,
 	globals.pickups.PIERCING: piercing_bomb,
 	globals.pickups.MINE: land_mine,

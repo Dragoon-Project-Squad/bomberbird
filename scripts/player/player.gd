@@ -86,10 +86,13 @@ func _process(delta: float):
 		pickups.held_pickups[globals.pickups.INVINCIBILITY_VEST] = false
 	elif invulnerable_animation_time <= INVULNERABILITY_FLASH_TIME:
 		self.visible = !self.visible
-		invulnerable_animation_time = 0	
+		invulnerable_animation_time = 0
 
 func _physics_process(_delta: float):
-	pass
+	if pickups.held_pickups[pickups.exclusive.BOMBTHROUGH]:
+		self.set_collision_mask_value(4, false)
+	else:
+		self.set_collision_mask_value(4, true)
 
 ## executes the punch_bomb ability iff the player has the appropiate pickup
 func punch_bomb(direction: Vector2i):
@@ -355,6 +358,10 @@ func enable_bombclip():
 	self.set_collision_mask_value(4, false)
 
 @rpc("call_local")
+func disable_bombclip():
+	self.set_collision_mask_value(4, true)
+
+@rpc("call_local")
 func increment_bomb_count():
 	if (bomb_count_locked):
 		return
@@ -396,7 +403,7 @@ func do_hurt() -> void:
 
 @rpc("call_local")
 ## kills this player and awards whoever killed it
-func exploded(by_who):
+func exploded(_by_who):
 	if stunned || invulnerable || stop_movement:
 		return
 	lives -= 1
@@ -422,7 +429,3 @@ func start_invul():
 	invulnerable_remaining_time = INVULNERABILITY_POWERUP_TIME
 	invulnerable = true
 	set_process(true)
-	
-
-	
-	
