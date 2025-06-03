@@ -13,6 +13,7 @@ func _ready():
 	super()
 	
 func start():
+	#load_preselected_stage() DEBUG ONLY
 	load_stage()
 	stage.enable() #Set up the stage.
 	call_deferred("freeze_players") #Lock all players movement.
@@ -21,6 +22,10 @@ func start():
 	await start_stage_start_countdown() #
 	game_ended = false
 	
+func load_preselected_stage() -> void:
+	stage = $StageLoader/Preselected
+	stageMusic = stage.get_node("Music/MusicPlayer")
+
 func load_stage() -> void:
 	var stage_path := globals.LAB_RAND_STAGE_PATH
 	if SettingsContainer.get_breakable_spawn_rule() == 2:
@@ -162,7 +167,7 @@ func _check_ending_condition(_alive_enemies: int = 0):
 		if len(alive_players) == 1:
 			# SHOW EM WHAT THEY'VE WON
 			multiplayer_game_ui.increase_score(alive_players[0].name)
-			await alive_players[0].play_victory(true)
+			await alive_players[0].play_victory(false)
 		await play_fade_out()
 		await get_tree().create_timer(2).timeout
 		#DO WIN SCREEN STUFF

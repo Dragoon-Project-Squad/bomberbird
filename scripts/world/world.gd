@@ -94,7 +94,6 @@ func enable(
 	globals.current_world = self
 	all_enemied_died.connect(globals.game._check_ending_condition, CONNECT_ONE_SHOT)
 
-
 	if hurry_up && globals.current_gamemode != globals.gamemode.CAMPAIGN:
 		hurry_up.start()
 
