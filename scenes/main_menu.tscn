@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dgfv37m0j3grk"]
+[gd_scene load_steps=13 format=3 uid="uid://dgfv37m0j3grk"]
 
 [ext_resource type="Script" uid="uid://bq6xc0g4f6lhf" path="res://scripts/ui/main_menu.gd" id="1_qmksv"]
 [ext_resource type="Texture2D" uid="uid://bsu1o1vymo51p" path="res://assets/aesprite/Domber doki cenario1.png" id="2_u3scb"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://drj31ll2cuftl" path="res://scenes/options_menu/options_menu.tscn" id="8_m4i44"]
 [ext_resource type="PackedScene" uid="uid://c7x6djajavw8b" path="res://scenes/debug_campaign_selector.tscn" id="9_jk1qb"]
 [ext_resource type="AudioStream" uid="uid://dblrdj6byp4o6" path="res://sound/mus/menu_doki_doki_comes_home.ogg" id="10_5dd4i"]
+[ext_resource type="PackedScene" uid="uid://c6osao13wt47c" path="res://scenes/doki_subscribe_link.tscn" id="11_flqon"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -44,17 +45,16 @@ texture = ExtResource("4_jitsi")
 
 [node name="ButtonBox" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -148.0
-offset_top = -351.0
-offset_right = 148.0
-offset_bottom = -159.0
-grow_horizontal = 2
-grow_vertical = 0
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -296.0
+offset_top = -54.0
+offset_bottom = 138.0
+grow_horizontal = 0
+grow_vertical = 2
 
 [node name="Singleplayer" type="Button" parent="ButtonBox" groups=["ui_button"]]
 layout_mode = 2
@@ -88,16 +88,42 @@ text = "Options
 script = ExtResource("5_lgwnu")
 metadata/_custom_type_script = "uid://boq3i75yls51h"
 
+[node name="Exit" type="Button" parent="ButtonBox" groups=["ui_button"]]
+texture_filter = 1
+layout_mode = 2
+focus_neighbor_top = NodePath("../Options")
+focus_neighbor_bottom = NodePath("../Singleplayer")
+theme = ExtResource("6_hrcjh")
+theme_override_styles/hover = ExtResource("7_2iy8e")
+theme_override_styles/normal = ExtResource("7_nrhvf")
+text = "Exit"
+script = ExtResource("5_lgwnu")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
+
 [node name="OptionsMenu" parent="." instance=ExtResource("8_m4i44")]
 visible = false
 layout_mode = 1
 
 [node name="DebugCampaignSelector" parent="." instance=ExtResource("9_jk1qb")]
 layout_mode = 1
-offset_left = 730.0
+offset_left = 8.0
 offset_top = 300.0
-offset_right = -51.0
+offset_right = -773.0
 offset_bottom = -317.0
+
+[node name="DokiSubscribeLink" parent="." instance=ExtResource("11_flqon")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -224.0
+offset_top = -16.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_5dd4i")
@@ -107,4 +133,5 @@ parameters/looping = true
 [connection signal="pressed" from="ButtonBox/Singleplayer" to="." method="_on_single_player_pressed"]
 [connection signal="pressed" from="ButtonBox/Multiplayer" to="." method="_on_multiplayer_pressed"]
 [connection signal="pressed" from="ButtonBox/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="ButtonBox/Exit" to="." method="_on_exit_pressed"]
 [connection signal="options_menu_exited" from="OptionsMenu" to="." method="_on_options_menu_options_menu_exited"]
