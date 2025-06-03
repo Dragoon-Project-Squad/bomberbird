@@ -293,13 +293,13 @@ func set_points_to_win(value : int) -> void:
 	points_to_win = value
 
 func set_cpu_difficulty(index : int) -> void:
-	cpu_difficulty = index
+	cpu_difficulty = index as cpu_difficulty_setting_states
 	
 func set_cpu_count(index : int) -> void:
-	cpu_count = index
+	cpu_count = index as cpu_count_setting_states
 	
 func set_misobon_setting(index : int) -> void:
-	misobon_setting = index
+	misobon_setting = index as misobon_setting_states
 
 func set_match_time(seconds : int) -> void:
 	match_time = seconds
@@ -314,19 +314,19 @@ func set_sudden_death_state(isOn : bool) -> void:
 	sudden_death_state = isOn
 
 func set_breakable_spawn_rule(index : int) -> void:
-	breakable_spawn_rule = index
+	breakable_spawn_rule = index as breakable_spawn_rule_setting_states
 
 func set_breakable_chance(value : float) -> void:
 	breakable_chance = value
 	
 func set_pickup_spawn_rule(index : int) -> void:
-	pickup_spawn_rule = index
+	pickup_spawn_rule = index as pickup_spawn_rule_setting_states
 
 func set_pickup_chance(value : float) -> void:
 	pickup_chance = value
 	
 func set_stage_choice(index : int) -> void:
-	stage_choice = index
+	stage_choice = index as multiplayer_stages
 
 func set_options_settings_vars_from_dict(datadict : Dictionary) -> void:
 	set_window_mode(datadict.window_mode_index if datadict.has('window_mode_index') else DEFAULT_SETTINGS.DEFAULT_WINDOW_MODE_INDEX)

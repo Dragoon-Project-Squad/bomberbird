@@ -4,7 +4,6 @@ extends Control
 @onready var options_menu: Control = $OptionsMenu
 @onready var graph_selection: Control = $DebugCampaignSelector
 @onready var main_menu_music_player: AudioStreamPlayer = $AudioStreamPlayer
-signal options_menu_entered
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

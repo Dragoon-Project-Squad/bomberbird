@@ -6,7 +6,7 @@ extends Control
 signal options_menu_exited
 
 func _ready():
-	settings_tab_container.Exit_options_menu.connect(_on_exit_pressed)
+	settings_tab_container.options_menu_exited.connect(_on_exit_pressed)
 
 func stop_options_menu_music() -> void:
 	options_music_player.stop()
