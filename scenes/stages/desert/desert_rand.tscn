@@ -15,6 +15,7 @@ max_explosion = 100
 punch_ability = 50
 throw_ability = 50
 wallthrough = 50
+invincibility_vest = 15000
 bombthrough = 50
 piercing_bomb = 50
 land_mine = 50

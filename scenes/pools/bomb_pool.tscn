@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c4i5gyl4cut3t"]
 
-[ext_resource type="Script" uid="uid://dbi64eigxq6b" path="res://scripts/bomb_pool.gd" id="1_hpd1g"]
-[ext_resource type="Script" uid="uid://6fqhmpwvmglv" path="res://scripts/bomb_spawner.gd" id="2_iuuoa"]
+[ext_resource type="Script" uid="uid://dbi64eigxq6b" path="res://scripts/bomb/bomb_pool.gd" id="1_hpd1g"]
+[ext_resource type="Script" uid="uid://6fqhmpwvmglv" path="res://scripts/bomb/bomb_spawner.gd" id="2_iuuoa"]
 
 [node name="BombPool" type="Node2D"]
 script = ExtResource("1_hpd1g")

@@ -5,6 +5,11 @@ enum bomb_types {DEFAULT, PIERCING, MINE, REMOTE, SEEKER}
 enum exclusive {DEFAULT, KICK, BOMBTHROUGH}
 enum virus {DEFAULT, SPEEDDOWN, SPEEDUP, FIREDOWN, SLOWFUSE_A, SLOWFUSE_B, FASTFUSE, AUTOBOMB, INVERSE_CONTROL, NON_STOP_MOTION, NOBOMBS, SIZE}
 
+const MAX_BOMB_UPGRADE_PERMITTED: int = 6
+const MAX_EXPLOSION_BOOSTS_PERMITTED: int = 6
+const MAX_SPEED_UP_PERMITTED: int = 99
+
+
 var held_pickups: Dictionary = {
 	globals.pickups.GENERIC_BOMB: bomb_types.DEFAULT,
 	globals.pickups.MINE: bomb_types.MINE,
@@ -26,7 +31,6 @@ func _init():
 	self.resource_local_to_scene = true
 
 ## reset to the starting position of no pickups
-## IMPORTANT: THIS MAY NOT RESET THE EFFECTS CAUSED BY THE PICKUPS SUCH AS A SPEED INCREASE AS THOSE ARE HANDLED SEPERATLY BUT BOOLEAN PICKUPS MAY ALREADY BE RESET BY THIS
 func reset():
 	held_pickups[globals.pickups.GENERIC_BOMB] = bomb_types.DEFAULT
 	held_pickups[globals.pickups.GENERIC_EXCLUSIVE] = exclusive.DEFAULT
@@ -57,11 +61,11 @@ func add(pickup_type: int, virus_type: int = 0):
 		globals.pickups.VIRUS:
 			held_pickups[pickup_type] = virus_type
 		globals.pickups.BOMB_UP:
-			held_pickups[pickup_type] += 1
+			held_pickups[pickup_type] = min(held_pickups[pickup_type] + 1, MAX_BOMB_UPGRADE_PERMITTED)
 		globals.pickups.FIRE_UP:
-			held_pickups[pickup_type] += 1
+			held_pickups[pickup_type] = min(held_pickups[pickup_type] + 1, MAX_EXPLOSION_BOOSTS_PERMITTED)
 		globals.pickups.SPEED_UP:
-			held_pickups[pickup_type] += 1
+			held_pickups[pickup_type] = min(held_pickups[pickup_type] + 1, MAX_SPEED_UP_PERMITTED)
 		globals.pickups.HP_UP:
 			held_pickups[pickup_type] += 1
 		globals.pickups.FULL_FIRE:

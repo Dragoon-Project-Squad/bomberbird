@@ -57,7 +57,7 @@ func randomize_target() -> bool:
 			valid_point = true
 		else:
 			continue
-		path = astargrid_handler.create_path_no_breakables(aiplayer, new_target)
+		path = astargrid_handler.create_path_no_breakables(aiplayer.position, new_target)
 		if len(path) > 1 && world_data.is_tile(world_data.tiles.BREAKABLE, world_data.tile_map.map_to_local(path[1])):
 			valid_point = false
 			path = []

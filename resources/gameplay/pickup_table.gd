@@ -16,7 +16,7 @@ var pickup_spawn_chance = PICKUP_SPAWN_BASE_CHANCE
 @export var throw_ability: int = 50
 @export var wallthrough: int = 50
 #@export var timer: int = 0
-#@export var invincibility_vest: int = 0
+@export var invincibility_vest: int = 50
 #@export var virus: int = 0
 #@export var kick: int = 0
 @export var bombthrough: int = 50
@@ -45,7 +45,7 @@ func update():
 		globals.pickups.POWER_GLOVE: throw_ability,
 		globals.pickups.WALLTHROUGH: wallthrough,
 		#globals.pickups.FREEZE: timer,
-		#globals.pickups.INVINCIBILITY_VEST: invincibility_vest,
+		globals.pickups.INVINCIBILITY_VEST: invincibility_vest,
 		#globals.pickups.VIRUS: virus,
 		#globals.pickups.KICK: kick,
 		globals.pickups.BOMBTHROUGH: bombthrough,
@@ -67,7 +67,7 @@ func reverse_update():
 	throw_ability = pickup_weights[globals.pickups.POWER_GLOVE]
 	wallthrough = pickup_weights[globals.pickups.WALLTHROUGH]
 	#timer = pickup_weights[globals.pickups.FREEZE]
-	#invincibility_vest = pickup_weights[globals.pickups.INVINCIBILITY_VEST]
+	invincibility_vest = pickup_weights[globals.pickups.INVINCIBILITY_VEST]
 	#virus = pickup_weights[globals.pickups.VIRUS]
 	#kick = pickup_weights[globals.pickups.KICK]
 	bombthrough = pickup_weights[globals.pickups.BOMBTHROUGH]
@@ -115,3 +115,13 @@ func determine_base_pickup_rate() -> void:
 		pickup_spawn_chance = 1 # ALL
 	else: # Custom Mode, use the Global Percent
 		pickup_spawn_chance = SettingsContainer.get_pickup_chance()
+
+func to_json() -> Dictionary:
+	self.update()
+	return pickup_weights
+
+func from_json(weights: Dictionary):
+	for key in weights.keys():
+		self.pickup_weights[int(key)] = weights[key]
+	self.reverse_update()
+	self.is_uptodate = true

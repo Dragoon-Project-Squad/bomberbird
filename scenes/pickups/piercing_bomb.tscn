@@ -26,7 +26,7 @@ animations = [{
 
 [node name="PiercingBomb" type="Area2D"]
 collision_layer = 16
-collision_mask = 2
+collision_mask = 34
 script = ExtResource("1_2hgec")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

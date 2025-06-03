@@ -11,8 +11,9 @@ const MAX_BOMBS_OWNABLE: int = 8
 const MAX_EXPLOSION_BOOSTS_PERMITTED: int = 6
 ## NOTE: MISOBON_RESPAWN_TIME is additive to the animation time for both spawning and despawning the misobon player
 const MISOBON_RESPAWN_TIME: float = 0.5 
-const INVULNERABILITY_TIME: float = 2
+const INVULNERABILITY_SPAWN_TIME: float = 2
 const INVULNERABILITY_FLASH_TIME: float = 0.125
+const INVULNERABILITY_POWERUP_TIME: float = 16.0
 
 @export var synced_position := Vector2()
 @export var stunned: bool = false
@@ -31,7 +32,7 @@ var misobon_player: MisobonPlayer
 var game_ui: CanvasLayer
 
 var invulnerable_animation_time: float
-var invulnerable_total_time: float = 2
+var invulnerable_remaining_time: float = 2
 
 var pickup_pool: PickupPool
 var bomb_pool: BombPool
@@ -77,14 +78,14 @@ func _process(delta: float):
 		show()
 		set_process(false)
 		return
-	invulnerable_total_time += delta
+	invulnerable_remaining_time -= delta
 	invulnerable_animation_time += delta
-	if invulnerable_total_time >= INVULNERABILITY_TIME:
+	if invulnerable_remaining_time <= 0:
 		invulnerable = false
-	elif invulnerable_animation_time >= INVULNERABILITY_FLASH_TIME:
+		pickups.held_pickups[globals.pickups.INVINCIBILITY_VEST] = false
+	elif invulnerable_animation_time <= INVULNERABILITY_FLASH_TIME:
 		self.visible = !self.visible
-		invulnerable_animation_time = 0
-	
+		invulnerable_animation_time = 0	
 
 func _physics_process(_delta: float):
 	pass
@@ -292,14 +293,16 @@ func spread_items():
 			if pos == null: return
 			pos = pos as Vector2 #This is a hack and also the reason to burn anything pythonic
 			to_place_pickups[pickup_types[i]][0].place.rpc(pos)
+			world_data.reset_empty_cells.call_deferred([pos])
 		else:
 			var pos_array: Array = world_data.get_random_empty_tiles(pickup_count[i])
 			for j in range(pos_array.size()):
 				to_place_pickups[pickup_types[i]][j].place.rpc(pos_array[j])
+			world_data.reset_empty_cells.call_deferred(pos_array)
 
 ## starts the invulnerability and its animation
 func do_invulnerabilty():
-	invulnerable_total_time = 0
+	invulnerable_remaining_time = INVULNERABILITY_SPAWN_TIME
 	invulnerable = true
 	set_process(true)
 	
@@ -326,7 +329,7 @@ func maximize_bomb_level():
 	
 @rpc("call_local")
 func increase_speed():
-	movement_speed = movement_speed + 20
+	movement_speed = movement_speed + MOTION_SPEED_INCREASE
 
 @rpc("call_local")
 func enable_wallclip():
@@ -379,7 +382,7 @@ func do_hurt() -> void:
 @rpc("call_local")
 ## kills this player and awards whoever killed it
 func exploded(by_who):
-	if stunned || invulnerable:
+	if stunned || invulnerable || stop_movement:
 		return
 	lives -= 1
 	hurt_sfx_player.play()
@@ -398,3 +401,13 @@ func crush():
 
 func set_selected_character(value_path : String):
 	$sprite.texture = load(value_path)
+
+@rpc("call_local")
+func start_invul():
+	invulnerable_remaining_time = INVULNERABILITY_POWERUP_TIME
+	invulnerable = true
+	set_process(true)
+	
+
+	
+	
