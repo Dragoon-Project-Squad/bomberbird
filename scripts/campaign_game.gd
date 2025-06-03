@@ -140,8 +140,8 @@ func start():
 
 
 func load_level_graph(file_name: String):
-	assert(ResourceLoader.exists(LEVEL_GRAPH_PATH + "/" + file_name + ".res"), "failed to find graph: " + LEVEL_GRAPH_PATH + "/" + file_name + ".res")
-	stage_data_arr = ResourceLoader.load(LEVEL_GRAPH_PATH + "/" + file_name + ".res").nodes
+	var campaign_data: Dictionary = LevelGraph.load_json_file(file_name)
+	stage_data_arr = LevelGraph.load_graph_to_stage_node_data_arr(campaign_data)
 
 func _check_ending_condition(alive_enemies: int):
 	if win_screen.visible: return

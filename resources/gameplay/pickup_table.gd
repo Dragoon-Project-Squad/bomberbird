@@ -115,3 +115,13 @@ func determine_base_pickup_rate() -> void:
 		pickup_spawn_chance = 1 # ALL
 	else: # Custom Mode, use the Global Percent
 		pickup_spawn_chance = SettingsContainer.get_pickup_chance()
+
+func to_json() -> Dictionary:
+	self.update()
+	return pickup_weights
+
+func from_json(weights: Dictionary):
+	for key in weights.keys():
+		self.pickup_weights[int(key)] = weights[key]
+	self.reverse_update()
+	self.is_uptodate = true
