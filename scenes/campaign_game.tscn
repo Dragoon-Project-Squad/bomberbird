@@ -168,6 +168,7 @@ autostart = true
 visible = false
 
 [node name="GameEndState" parent="." instance=ExtResource("13_qa6w2")]
+visible = false
 offset_left = -193.0
 offset_top = -1.0
 offset_right = 959.0
