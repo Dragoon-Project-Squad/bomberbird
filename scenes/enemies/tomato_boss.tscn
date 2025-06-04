@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dmii5181hdusk"]
+[gd_scene load_steps=32 format=3 uid="uid://dmii5181hdusk"]
 
 [ext_resource type="Script" uid="uid://c2f6wib7o63aw" path="res://scripts/enemy/boss.gd" id="1_81bpp"]
 [ext_resource type="Script" uid="uid://dfosda1bstp2m" path="res://resources/gameplay/held_pickups.gd" id="2_rwxvx"]
@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://qrwh86jvxmjp" path="res://assets/player/tomatodoki_walk.png" id="3_taub5"]
 [ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_0x7uk"]
 [ext_resource type="AnimationLibrary" uid="uid://dvi33f4r6k5nh" path="res://animations/enemy.res" id="6_2xdfq"]
+[ext_resource type="Script" uid="uid://bkteqnsoemxqf" path="res://scripts/enemy/ability_detector.gd" id="6_020hn"]
+[ext_resource type="Texture2D" uid="uid://colmsqhmxnr47" path="res://assets/egg_bomb.png" id="6_peqa2"]
 [ext_resource type="Script" uid="uid://dg4jyhwldomqp" path="res://scripts/enemy/detection_handlers/detection_handler_type_tomato_boss.gd" id="6_taub5"]
 [ext_resource type="Script" uid="uid://bct3b1gr0upgg" path="res://scripts/enemy/enemy_state_machine.gd" id="7_020hn"]
 [ext_resource type="Script" uid="uid://ds673o5kb2vee" path="res://scripts/enemy/wander_types/enemy_wander_path_type.gd" id="8_81bpp"]
@@ -15,18 +17,45 @@
 [ext_resource type="Script" uid="uid://ci02bb4ldf005" path="res://scripts/enemy/other_states/enemy_dodge_path_type.gd" id="12_0x7uk"]
 [ext_resource type="Script" uid="uid://dymov0ubmjnt4" path="res://scripts/enemy/other_states/idle_state.gd" id="13_0x7uk"]
 [ext_resource type="Script" uid="uid://dmg4ks5be84w7" path="res://scripts/enemy/other_states/enemy_chase_path_type.gd" id="14_irj8q"]
+[ext_resource type="Script" uid="uid://b51q2q8mxodcs" path="res://scripts/enemy/other_states/boss_punch.gd" id="16_peqa2"]
+[ext_resource type="Script" uid="uid://d2rjjmwpxojk2" path="res://scripts/enemy/other_states/boss_kick.gd" id="18_y38ve"]
+[ext_resource type="Script" uid="uid://bw76gls3vwdo3" path="res://scripts/enemy/other_states/boss_carry.gd" id="19_1utc4"]
 
 [sub_resource type="Resource" id="Resource_0x7uk"]
 resource_local_to_scene = true
 script = ExtResource("2_rwxvx")
+initial_bomb_type = 0
+initial_exlusive = 0
+initial_bomb_up = 0
+initial_fire_up = 0
+initial_speed_up = 0
+initial_hp_up = 0
+initial_full_fire = false
+initial_bomb_punch = false
+initial_power_glove = false
+initial_wallthrough = false
+initial_freeze = false
+initial_invincibility_vest = false
 metadata/_custom_type_script = "uid://dfosda1bstp2m"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_i1su5"]
 radius = 9.0
 
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_2xdfq"]
+a = Vector2(16, 0)
+b = Vector2(24, 0)
+
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_irj8q"]
 a = Vector2(0, 16)
 b = Vector2(0, 24)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_020hn"]
+a = Vector2(-16, 0)
+b = Vector2(-24, 0)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_peqa2"]
+a = Vector2(0, -16)
+b = Vector2(0, -24)
 
 [sub_resource type="Animation" id="Animation_taub5"]
 length = 0.001
@@ -71,12 +100,13 @@ _data = {
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hwcqj"]
 
-[node name="TomatoBoss" type="CharacterBody2D" node_paths=PackedStringArray("detection_handler") groups=["thrown_bomb_bounces"]]
+[node name="TomatoBoss" type="CharacterBody2D" node_paths=PackedStringArray("ability_detector", "detection_handler") groups=["thrown_bomb_bounces"]]
 texture_filter = 1
 collision_layer = 32
 collision_mask = 13
 script = ExtResource("1_81bpp")
 pickups = SubResource("Resource_0x7uk")
+ability_detector = NodePath("AbilityDetector")
 movement_speed = 100.0
 detection_handler = NodePath("DetectionHandler")
 health = 2
@@ -100,15 +130,34 @@ scale = Vector2(0.333333, 0.351648)
 texture = ExtResource("4_0x7uk")
 hframes = 9
 
+[node name="BombSprite" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -30)
+texture = ExtResource("6_peqa2")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 32)
+
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_i1su5")
 
-[node name="FrontArea" type="Area2D" parent="."]
+[node name="AbilityDetector" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 8
+script = ExtResource("6_020hn")
+stop_kick = 0.3
+do_throw = 0.4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="FrontArea"]
+[node name="Right" type="CollisionShape2D" parent="AbilityDetector"]
+shape = SubResource("SegmentShape2D_2xdfq")
+
+[node name="Down" type="CollisionShape2D" parent="AbilityDetector"]
 shape = SubResource("SegmentShape2D_irj8q")
+
+[node name="Left" type="CollisionShape2D" parent="AbilityDetector"]
+shape = SubResource("SegmentShape2D_020hn")
+
+[node name="Up" type="CollisionShape2D" parent="AbilityDetector"]
+shape = SubResource("SegmentShape2D_peqa2")
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 0
@@ -156,6 +205,15 @@ script = ExtResource("13_0x7uk")
 
 [node name="Chase" type="Node" parent="StateMachine"]
 script = ExtResource("14_irj8q")
+
+[node name="Punch" type="Node" parent="StateMachine"]
+script = ExtResource("16_peqa2")
+
+[node name="Kick" type="Node" parent="StateMachine"]
+script = ExtResource("18_y38ve")
+
+[node name="Carry" type="Node" parent="StateMachine"]
+script = ExtResource("19_1utc4")
 
 [node name="DebugMarker" type="Sprite2D" parent="."]
 self_modulate = Color(1, 0, 0, 1)

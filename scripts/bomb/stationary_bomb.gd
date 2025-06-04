@@ -53,7 +53,7 @@ func set_addons(addons: Dictionary):
 	mine = addons.get("mine", false)
 
 func place(bombPos: Vector2, fuse_time_passed: float = 0, force_collision: bool = false):
-	is_exploded = true
+	is_exploded = false 
 	bomb_placement_sfx_player.play()
 	bomb_root.position = bombPos
 	self.visible = true

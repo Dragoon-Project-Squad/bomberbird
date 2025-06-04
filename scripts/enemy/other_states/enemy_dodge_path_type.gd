@@ -1,5 +1,5 @@
 extends EnemyState
-## Implements the wander behavior '1' described in https://gamefaqs.gamespot.com/snes/562899-super-bomberman-5/faqs/79457
+## Implements the custom dodge pathing for bosses
 
 const ARRIVAL_TOLARANCE: float = 1
 
@@ -27,6 +27,30 @@ func _physics_update(delta):
 
 	if self.enemy.stunned: return
 	var arrived: bool = check_arrival()
+
+	if arrived:
+		var ability: int = self.enemy.ability_detector.check_ability_usage()
+		match ability:
+			enemy.ability_detector.ability.PUNCH:
+				state_changed.emit(self, "punch")
+				return
+			enemy.ability_detector.ability.KICK:
+				state_changed.emit(self, "kick")
+				return
+			enemy.ability_detector.ability.THROW:
+				state_changed.emit(self, "carry")
+				return
+
+	if arrived && self.enemy.kicked_bomb && self.enemy.ability_detector.check_stop_kick():
+		if self.enemy.kicked_bomb.state == BombRoot.SLIDING:
+			self.enemy.kicked_bomb.stop_kick()
+			self.enemy.kicked_bomb = null
+
+	if arrived && self.enemy.bomb_to_throw && self.enemy.ability_detector.check_throw():
+		self.enemy.bomb_carry_sprite.hide()
+		self.enemy.bomb_to_throw.do_throw(self.enemy.movement_vector, self.enemy.position)
+		self.enemy.bomb_to_throw = null
+
 	if arrived && !world_data.is_safe(self.enemy.position): #dodge again
 		self.curr_path = get_dodge_path()
 		self.next_position = get_next_pos(self.curr_path)
@@ -57,7 +81,19 @@ func get_dodge_path() -> Array[Vector2]:
 		safe_tiles.append(world_data.tiles.BREAKABLE)
 	if self.enemy.bombthrought || self.enemy.pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] == HeldPickups.exclusive.BOMBTHROUGH:
 		safe_tiles.append(world_data.tiles.BOMB)
-	var path: Array[Vector2] = world_data.get_path_to_safe(self.enemy.position, safe_tiles)
+	var paths: Array[Array] = world_data.get_paths_to_safe(self.enemy.position, safe_tiles)
+	if paths.is_empty(): return []
+	
+	paths.sort_custom(
+		func (v1, v2):
+			if len(v1) < 2: return false
+			if len(v2) < 2: return true
+			return self.enemy.statemachine.target[0].position.distance_to(v1[1]) > self.enemy.statemachine.target[0].position.distance_to(v2[1])
+	)
+	var path: Array[Vector2]
+	for pos in paths[0]:
+		path.append(pos)
+
 
 	if !path.is_empty(): path.pop_front()
 

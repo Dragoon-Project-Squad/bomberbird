@@ -36,6 +36,33 @@ func _physics_update(delta):
 
 	if self.enemy.stunned: return
 	var arrived: bool = check_arrival()
+	if arrived:
+		var ability: int = self.enemy.ability_detector.check_ability_usage()
+		match ability:
+			enemy.ability_detector.ability.PUNCH:
+				state_changed.emit(self, "punch")
+				return
+			enemy.ability_detector.ability.KICK:
+				state_changed.emit(self, "kick")
+				return
+			enemy.ability_detector.ability.THROW:
+				state_changed.emit(self, "carry")
+				return
+
+	if arrived && self.enemy.kicked_bomb && self.enemy.ability_detector.check_stop_kick():
+		if self.enemy.kicked_bomb.state == BombRoot.SLIDING:
+			self.enemy.kicked_bomb.stop_kick()
+			self.enemy.kicked_bomb = null
+
+	if arrived && self.enemy.bomb_to_throw && self.enemy.ability_detector.check_throw():
+		self.enemy.bomb_carry_sprite.hide()
+		self.enemy.bomb_to_throw.do_throw(self.enemy.movement_vector, self.enemy.position)
+		self.enemy.bomb_to_throw = null
+
+	if arrived && self.enemy.kicked_bomb && self.enemy.ability_detector.check_stop_kick():
+		if self.enemy.kicked_bomb.state == BombRoot.SLIDING:
+			self.enemy.kicked_bomb.stop_kick()
+
 	if arrived && !world_data.is_safe(self.enemy.position): #dodge again
 		state_changed.emit(self, "dodge")
 		return

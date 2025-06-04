@@ -26,12 +26,13 @@ func check_for_priority_target(force: bool = false) -> int:
 	if self.enemy.bombthrought || self.enemy.pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] == HeldPickups.exclusive.BOMBTHROUGH:
 		safe_tiles.append(world_data.tiles.BOMB)
 	var is_safe_to: bool = world_data.is_safe_placement(self.enemy.position, 3, safe_tiles)
-	if on && self.enemy.cooldown_done && is_safe_to && (force || rand_val < trigger_chance_bomb): 
-		curr_ability = abiltiy.BOMB
-		return abiltiy.BOMB
 	if on && self.enemy.cooldown_done && is_safe_to && (force || rand_val < trigger_chance_bomb + trigger_chance_breakable):
-		curr_ability = abiltiy.BREAKABLE
-		return abiltiy.BREAKABLE
+		if rand_val < trigger_chance_bomb:
+			curr_ability = abiltiy.BOMB
+			return abiltiy.BOMB
+		else:
+			curr_ability = abiltiy.BREAKABLE
+			return abiltiy.BREAKABLE
 	curr_ability = abiltiy.NONE	
 	return abiltiy.NONE
 
