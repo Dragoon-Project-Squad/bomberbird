@@ -13,7 +13,6 @@ func _ready():
 	super()
 	
 func start():
-	#load_preselected_stage() DEBUG ONLY
 	load_stage()
 	stage.enable() #Set up the stage.
 	call_deferred("freeze_players") #Lock all players movement.
@@ -21,10 +20,6 @@ func start():
 	show_all_players()
 	await start_stage_start_countdown() #
 	game_ended = false
-	
-func load_preselected_stage() -> void:
-	stage = $StageLoader/Preselected
-	stageMusic = stage.get_node("Music/MusicPlayer")
 
 func load_stage() -> void:
 	var stage_path := globals.LAB_RAND_STAGE_PATH
