@@ -25,7 +25,6 @@ var held_pickups: Dictionary = {
 	globals.pickups.WALLTHROUGH: false,
 	globals.pickups.FREEZE: false,
 	globals.pickups.INVINCIBILITY_VEST: false,
-	globals.pickups.KICK: false,
 	}
 
 func _init():

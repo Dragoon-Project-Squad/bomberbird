@@ -8,5 +8,5 @@ func apply_power_up(pickup_owner):
 	if pickup_owner is HumanPlayer: #If this is a human
 		# ONLY for the person who obtained it
 		pickup_owner.disable_bombclip.rpc()
-	elif pickup_owner is AIPlayer: #This is an AI
+	elif pickup_owner is AIPlayer or pickup_owner is Boss: #This is an AI
 		pickup_owner.disable_bombclip()

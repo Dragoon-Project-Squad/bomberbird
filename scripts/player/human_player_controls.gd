@@ -25,4 +25,4 @@ func update():
 	bombing = Input.is_action_pressed("set_bomb")
 	throw_ability = Input.is_action_just_released("set_bomb")
 	punch_ability = Input.is_action_pressed("punch_action")
-	secondary_ability = Input.is_action_pressed("secondary_action")
+	secondary_ability = Input.is_action_just_pressed("secondary_action")

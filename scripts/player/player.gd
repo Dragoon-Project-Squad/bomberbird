@@ -89,10 +89,7 @@ func _process(delta: float):
 		invulnerable_animation_time = 0
 
 func _physics_process(_delta: float):
-	if pickups.held_pickups[pickups.exclusive.BOMBTHROUGH]:
-		self.set_collision_mask_value(4, false)
-	else:
-		self.set_collision_mask_value(4, true)
+	pass
 
 ## executes the punch_bomb ability iff the player has the appropiate pickup
 func punch_bomb(direction: Vector2i):
@@ -140,16 +137,24 @@ func throw_bomb(direction: Vector2i) -> int:
 func kick_bomb(direction: Vector2i):
 	if !is_multiplayer_authority():
 		return 1
-	
-	if bomb_kicked == null:
-		var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
-		for body in bodies:
-			if body is Bomb:
-				bomb_kicked = body.get_parent()
-				break
+	if pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] != pickups.exclusive.KICK:
+		return 1
+
+	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
+	for body in bodies:
+		if body is Bomb:
+			bomb_kicked = body.get_parent()
+			break
+	if bomb_kicked == null or (bodies.is_empty() and bomb_kicked.state == bomb_kicked.STATIONARY):
+		return 1
+
+	if bomb_kicked.bomb_owner != null and bomb_kicked.state == bomb_kicked.STATIONARY:
 		bomb_kicked.do_kick.rpc(direction)
+	elif bomb_kicked.state == bomb_kicked.SLIDING:
+		bomb_kicked.stop_kick.rpc()
+		bomb_kicked = null
 	else:
-		pass
+		bomb_kicked = null
 
 ## places a bomb if the current position is valid
 func place_bomb():
@@ -363,7 +368,7 @@ func disable_bombclip():
 
 @rpc("call_local")
 func increment_bomb_count():
-	if (bomb_count_locked):
+	if bomb_count_locked:
 		return
 	
 	bomb_total = min(bomb_total+1, MAX_BOMBS_OWNABLE)
@@ -378,6 +383,8 @@ func lock_bomb_count(target_bomb_count: int):
 @rpc("call_local")
 func unlock_bomb_count():
 	bomb_count_locked = false
+	bomb_total = 2
+	bomb_count = min(bomb_count+1, bomb_total)
 
 @rpc("call_local")
 func return_bomb():

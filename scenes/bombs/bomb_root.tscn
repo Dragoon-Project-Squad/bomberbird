@@ -15,5 +15,5 @@ z_index = 1
 [node name="AirbornBomb" parent="." groups=["should_be_wrapped"] instance=ExtResource("3_mn2mc")]
 unique_name_in_owner = true
 
-[node name="SlidingBomb" parent="." instance=ExtResource("4_rr0ry")]
+[node name="SlidingBomb" parent="." groups=["should_be_wrapped"] instance=ExtResource("4_rr0ry")]
 unique_name_in_owner = true

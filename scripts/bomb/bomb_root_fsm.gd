@@ -82,6 +82,8 @@ func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) 
 			return 2
 		AIRBORN:
 			force_collision = true #If it state is airborn we do now want the collision ignore logic to work rather we want the bomb to collied immediately
+		SLIDING:
+			force_collision = true
 
 	set_state(STATIONARY)
 	
@@ -183,6 +185,7 @@ func do_kick(direction: Vector2i):
 	
 	in_use = true
 	bomb_owner_is_dead = false
+	fuse_time_passed = state_map[state].get_node("AnimationPlayer").current_animation_position
 	set_state(SLIDING)
 	var bomb_auth := state_map[state]
 	bomb_auth.slides(self.position, direction)
@@ -191,6 +194,6 @@ func do_kick(direction: Vector2i):
 
 @rpc("call_local")
 func stop_kick():
-	var bomb_auth: Node2D = state_map[state]
+	var bomb_auth := state_map[state]
 	bomb_auth.halt()
 	return 0
