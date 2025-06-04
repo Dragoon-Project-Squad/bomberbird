@@ -16,6 +16,7 @@ func _enter() -> void:
 	self.enemy.stop_moving = true
 	self.enemy.anim_player.play("TomatoBoss/burry")
 	await self.enemy.anim_player.animation_finished
+	if self.enemy.health == 0: return
 	self.enemy.cooldown_done = false
 	if mine_placed < MINE_COUNT:
 		place_mine()

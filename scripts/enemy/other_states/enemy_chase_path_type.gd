@@ -14,7 +14,6 @@ var curr_path: Array[Vector2] = []:
 	set(val):
 		if !val.is_empty():
 			self.enemy.get_node("DebugMarker").position = val[-1]
-			print("chasing to position: ", val[-1])
 		curr_path = val
 var distance: int = 0
 
@@ -57,6 +56,9 @@ func _physics_update(delta):
 			self.next_position = get_next_pos(self.curr_path)
 		else:
 			self.distance += 1
+		self.enemy.movement_vector = self.enemy.position.direction_to(self.next_position) if (self.next_position != self.enemy.position) else Vector2.ZERO
+	if !valid_tile(self.next_position):
+		self.next_position = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.enemy.position))
 		self.enemy.movement_vector = self.enemy.position.direction_to(self.next_position) if (self.next_position != self.enemy.position) else Vector2.ZERO
 
 

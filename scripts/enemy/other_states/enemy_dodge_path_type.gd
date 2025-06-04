@@ -2,7 +2,6 @@ extends EnemyState
 ## Implements the wander behavior '1' described in https://gamefaqs.gamespot.com/snes/562899-super-bomberman-5/faqs/79457
 
 const ARRIVAL_TOLARANCE: float = 1
-const STARTING_CLOSENESS: int = 2
 
 var next_position: Vector2:
 	set(val):
@@ -34,6 +33,15 @@ func _physics_update(delta):
 		self.enemy.movement_vector = self.enemy.position.direction_to(self.next_position) if (self.next_position != self.enemy.position) else Vector2.ZERO
 	elif arrived && self.curr_path.is_empty(): #change to wander
 		state_changed.emit(self, "wander")
+
+	elif arrived:
+		self.next_position = get_next_pos(self.curr_path)
+		self.enemy.movement_vector = self.enemy.position.direction_to(self.next_position) if (self.next_position != self.enemy.position) else Vector2.ZERO
+
+	if !valid_tile(self.next_position):
+		self.next_position = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.enemy.position))
+		self.enemy.movement_vector = self.enemy.position.direction_to(self.next_position) if (self.next_position != self.enemy.position) else Vector2.ZERO
+
 
 func valid_tile(pos: Vector2) -> bool:
 	if world_data.is_out_of_bounds(pos) != -1: return false

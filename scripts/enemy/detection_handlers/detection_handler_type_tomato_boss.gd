@@ -7,10 +7,7 @@ var _rand: RandomNumberGenerator = RandomNumberGenerator.new()
 var is_on: bool = false
 
 func make_ready() -> void:
-	enemy.statemachine.target = []
-	for child in globals.player_manager.get_children():
-		if !(child is Player): continue
-		enemy.statemachine.target.append(child)
+	enemy.statemachine.target = globals.player_manager.get_children().filter(func (c): return c is Player)
 
 func check_for_priority_target(force: bool = false):
 	assert(self.enemy is Boss)
