@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://ul0n27wk45l7"]
+
+[ext_resource type="Script" uid="uid://dgwlvvxb85sln" path="res://scripts/music.gd" id="1_dftng"]
+[ext_resource type="AudioStream" uid="uid://cuav7tr5b2c1q" path="res://sound/mus/battle/battle1_bountyhunter_jam.ogg" id="2_dftng"]
+
+[node name="Music" type="Node"]
+script = ExtResource("1_dftng")
+
+[node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_dftng")
+volume_db = -4.685
+bus = &"Music"
+parameters/looping = true
