@@ -20,6 +20,7 @@ var stuck_time = default_stuck_time
 var idle : bool
 var prev_pos : Vector2
 var detect : bool
+var arrival_tolerance: float = 1
 
 # Overwrite "_" functions as needed
 func _enter() -> void:
@@ -34,22 +35,22 @@ func _exit() -> void:
 	stuck_time = default_stuck_time
 	idle = false
 
-func _update(delta : float) -> void:
+func _update(_delta : float) -> void:
 	pass
 
 func _physics_update(_delta : float) -> void:
 	pass
 
-func _set_target() -> void:
-	pass
+func _set_target() -> bool:
+	return false
 
 # *****General utility*****
 func get_cell_position(position : Vector2) -> Vector2i:
-	var cell_index = world.floor_layer.local_to_map(position)
+	var cell_index = world_data.tile_map.local_to_map(position)
 	return cell_index
 
 func get_global_position(cell : Vector2i) -> Vector2:
-	var position = world.floor_layer.map_to_local(cell)
+	var position = world_data.tile_map.map_to_local(cell)
 	position = Vector2i(position.x, position.y)
 	return position
 
@@ -90,7 +91,7 @@ func detect_stuck(delta) -> void:
 
 # *****Setting*****
 func set_area() -> void:
-	area = world.floor_layer.get_used_rect()
+	area = world_data.get_arena_rect()
 
 # *****Movement***** 
 func set_next_point() -> void:
@@ -103,9 +104,10 @@ func set_next_point() -> void:
 	# then follow the next point
 	elif !currently_moving:
 		currently_moving = true
-		if path.size()==0:
-			if _on_player_finished_path():
+		if path.size() == 0:
+			if !_on_player_finished_path():
 				return
+		assert(!path.is_empty())
 		next_point = get_global_position(path.pop_front())
 
 func _on_player_reached_next_point() -> bool:
@@ -114,11 +116,17 @@ func _on_player_reached_next_point() -> bool:
 	stuck_time = default_stuck_time
 	return false
 
-func _on_player_finished_path():
+func _on_player_finished_path() -> bool:
+	return _set_target()
+
+func _on_new_stage() -> void:
+	idle = true
 	_set_target()
+	state_changed.emit(self, "Wander")
 
 func move_to_next_point() -> void:
-	if next_point:
+	if !is_multiplayer_authority(): return
+	if next_point && aiplayer.global_position.distance_to(next_point) > arrival_tolerance:
 		aiplayer.movement_vector = Vector2(next_point.x - aiplayer.global_position.x, next_point.y - aiplayer.global_position.y)
 	else:
 		aiplayer.movement_vector = Vector2(0, 0)
@@ -128,6 +136,4 @@ func move_to_next_point() -> void:
 # This function is so it detects that variation and treats it as if it already
 # the next point.
 func reached_next_point() -> bool:
-	var validate_x = aiplayer.global_position.x<next_point.x+1 and aiplayer.global_position.x>next_point.x-1
-	var validate_y = aiplayer.global_position.y<next_point.y+1 and aiplayer.global_position.y>next_point.y-1
-	return validate_x and validate_y
+	return aiplayer.global_position.distance_to(next_point) < arrival_tolerance

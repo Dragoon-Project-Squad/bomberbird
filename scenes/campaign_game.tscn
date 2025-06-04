@@ -1,0 +1,205 @@
+[gd_scene load_steps=22 format=3 uid="uid://cnh2gm7b6k6qf"]
+
+[ext_resource type="Script" uid="uid://ddbcnbcl4rnuf" path="res://scripts/campaign_game.gd" id="1_xj4ag"]
+[ext_resource type="PackedScene" uid="uid://c08ari0b7ej0q" path="res://scenes/stage_handler.tscn" id="2_6c1o1"]
+[ext_resource type="Script" uid="uid://c6ubwejmc188k" path="res://scripts/player/players_manager.gd" id="3_1u21r"]
+[ext_resource type="Script" uid="uid://cc3ogep372v8" path="res://scripts/player/player_spawner.gd" id="4_8ic0x"]
+[ext_resource type="Script" uid="uid://v2bbm1lgibpy" path="res://scripts/player/misobon/misobon_path.gd" id="5_qa6w2"]
+[ext_resource type="Script" uid="uid://cb0rr8pr2674f" path="res://scripts/player/misobon/misobon_player_spawner.gd" id="6_8w4nb"]
+[ext_resource type="PackedScene" uid="uid://ddtb3ctgal4ok" path="res://scenes/pools/enemy_pool.tscn" id="7_1u21r"]
+[ext_resource type="PackedScene" uid="uid://ct05gu8w1wo42" path="res://scenes/pools/exit_pool.tscn" id="7_6c1o1"]
+[ext_resource type="PackedScene" uid="uid://ywlmyq88jlvj" path="res://scenes/pools/breakable_pool.tscn" id="7_u5d24"]
+[ext_resource type="PackedScene" uid="uid://c4i5gyl4cut3t" path="res://scenes/pools/bomb_pool.tscn" id="8_o8wef"]
+[ext_resource type="PackedScene" uid="uid://b22qg08qddy6x" path="res://scenes/pools/pick_up_pool.tscn" id="9_t8ctp"]
+[ext_resource type="PackedScene" uid="uid://b3638glthchxv" path="res://scenes/ingame_ui/battlemode_game_ui.tscn" id="10_tpvnf"]
+[ext_resource type="PackedScene" uid="uid://cfxr8qiemjg2j" path="res://scenes/ingame_ui/singleplayer_win_status.tscn" id="13_qa6w2"]
+[ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="14_8ic0x"]
+[ext_resource type="Script" uid="uid://e23rbm3rrddh" path="res://scripts/ui/ingame_ui/singleplayer_victory_status.gd" id="14_8w4nb"]
+
+[sub_resource type="Curve2D" id="Curve2D_6r17b"]
+_data = {
+"points": PackedVector2Array(0.297315, 2.88107, 0, 0, 240, 16, 0, 0, 0, 0, 464, 16, 0, 0, 0, 0, 464, 464, 0, 0, 0, 0, 16, 464, 0, 0, 0, 0, 16, 16, 0, 0, 0, 0, 240, 16)
+}
+point_count = 6
+
+[sub_resource type="LabelSettings" id="LabelSettings_qa6w2"]
+font_size = 28
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_8ic0x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimPlayer/FadeInOutRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimPlayer/FadeInOutRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_1u21r"]
+resource_name = "fade_in"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimPlayer/FadeInOutRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimPlayer/FadeInOutRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_qa6w2"]
+resource_name = "fade_out"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimPlayer/FadeInOutRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimPlayer/FadeInOutRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qa6w2"]
+_data = {
+&"RESET": SubResource("Animation_8ic0x"),
+&"fade_in": SubResource("Animation_1u21r"),
+&"fade_out": SubResource("Animation_qa6w2")
+}
+
+[node name="CampaignGame" type="Node2D"]
+script = ExtResource("1_xj4ag")
+
+[node name="StageHandler" parent="." instance=ExtResource("2_6c1o1")]
+
+[node name="ExitPool" parent="." instance=ExtResource("7_6c1o1")]
+
+[node name="BreakablePool" parent="." instance=ExtResource("7_u5d24")]
+
+[node name="PickupPool" parent="." instance=ExtResource("9_t8ctp")]
+extra_bomb = 15
+explosion_boost = 15
+speed_boost = 15
+max_explosion = 5
+punch_ability = 10
+
+[node name="EnemyPool" parent="." instance=ExtResource("7_1u21r")]
+
+[node name="BombPool" parent="." instance=ExtResource("8_o8wef")]
+
+[node name="Players" type="Node2D" parent="."]
+script = ExtResource("3_1u21r")
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="Players"]
+spawn_path = NodePath("..")
+script = ExtResource("4_8ic0x")
+
+[node name="MisobonPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_6r17b")
+script = ExtResource("5_qa6w2")
+
+[node name="MisobonPlayerSpawner" type="MultiplayerSpawner" parent="MisobonPath"]
+spawn_path = NodePath("..")
+script = ExtResource("6_8w4nb")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(250, 250)
+zoom = Vector2(1.3, 1.3)
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="MatchTimer" type="Timer" parent="Timers"]
+unique_name_in_owner = true
+wait_time = 120.0
+one_shot = true
+autostart = true
+
+[node name="MultiplayerGameUI" parent="." instance=ExtResource("10_tpvnf")]
+visible = false
+
+[node name="GameEndState" parent="." instance=ExtResource("13_qa6w2")]
+offset_left = -193.0
+offset_top = -1.0
+offset_right = 959.0
+offset_bottom = 647.0
+script = ExtResource("14_8w4nb")
+
+[node name="StageAnnouncement" type="Label" parent="."]
+visible = false
+z_index = 200
+offset_left = 78.0
+offset_top = 91.0
+offset_right = 404.0
+offset_bottom = 157.0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("14_8ic0x")
+theme_override_font_sizes/font_size = 16
+text = "Stage"
+label_settings = SubResource("LabelSettings_qa6w2")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_qa6w2")
+}
+
+[node name="FadeInOutRect" type="ColorRect" parent="AnimPlayer"]
+visible = false
+z_index = 100
+offset_left = -194.0
+offset_right = 694.0
+offset_bottom = 500.0
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true

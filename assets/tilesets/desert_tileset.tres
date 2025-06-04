@@ -1,0 +1,48 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://c5k358s71dvg7"]
+
+[ext_resource type="Texture2D" uid="uid://bg23qq0jm0n3j" path="res://assets/tilesetimages/deserttileset.png" id="1_iurnb"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dg3ks"]
+resource_name = "dungeon"
+texture = ExtResource("1_iurnb")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(16, -16, -16, -16, -16, 16, 16, 16)
+3:0/0 = 0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+4:0/0 = 0
+4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+5:0/0 = 0
+5:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+6:0/0 = 0
+6:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+0:1/0 = 0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+1:1/0 = 0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+2:1/next_alternative_id = 2
+2:1/0 = 0
+2:1/0/terrain_set = 0
+2:1/0/terrain = 0
+3:1/next_alternative_id = 2
+3:1/0 = 0
+3:1/0/terrain_set = 0
+3:1/0/terrain = 0
+4:1/next_alternative_id = 2
+4:1/0 = 0
+4:1/0/terrain_set = 0
+4:1/0/terrain = 0
+5:1/0 = 0
+6:1/0 = 0
+
+[resource]
+tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 1
+terrain_set_0/mode = 0
+terrain_set_0/terrain_0/name = "Terrain 0"
+terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
+sources/3 = SubResource("TileSetAtlasSource_dg3ks")

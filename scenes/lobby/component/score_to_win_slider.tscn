@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dcejelqenxfkc"]
+
+[ext_resource type="PackedScene" uid="uid://vkvvg68aml2h" path="res://scenes/lobby/abstract/battle_settings_slider.tscn" id="1_3fm64"]
+[ext_resource type="Script" uid="uid://yndq1frxxwqq" path="res://scripts/ui/lobby/points_to_win_slider.gd" id="2_6fxbm"]
+
+[node name="VictoryPointSlider" instance=ExtResource("1_3fm64")]
+script = ExtResource("2_6fxbm")
+
+[node name="SliderNameLabel" parent="HBoxContainer" index="0"]
+text = "Points to Win"
+
+[node name="HSlider" parent="HBoxContainer" index="2"]
+min_value = 1.0
+max_value = 10.0
+value = 1.0

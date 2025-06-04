@@ -1,55 +1,69 @@
 extends CharacterBody2D
 class_name Breakable
 
-
-const PICKUP_ENABLED := true
-const PICKUP_SPAWN_BASE_CHANCE := 1.0
-
 @onready var breakable_sfx_player := $BreakableSound
-@onready var pickup_pool: PickupPool = get_node("/root/World/PickupPool")
+@onready var crushed_sfx_player := $CrushedSound
 
-var rng = RandomNumberGenerator.new()
+var in_use: bool = false
+var contained_pickup: int
+var _exploded_barrier: bool = false
 
-var world : World
+@rpc("call_local")
+func disable_collison_and_hide():
+	in_use = false
+	self.hide()
+	$Shape.set_deferred("disabled", 1)
 
-func decide_pickup_spawn() -> bool:
-	if !PICKUP_ENABLED:
-		return false
-	
-	var rng_result = rng.randf_range(0.0,1.0)
-	if rng_result <= PICKUP_SPAWN_BASE_CHANCE:
-		return true
-	else:
-		return false
-		
-func decide_pickup_type() -> String:
-	var pickup_type
-	var rng_result = rng.randi_range(1,5)
-	# TODO: Invent fun spawn table that has chances for different pickups
-	match rng_result:
-		1: pickup_type = "explosion_boost"
-		2: pickup_type = "max_explosion"
-		3: pickup_type = "speed_boost"
-		4: pickup_type = "extra_bomb"
-		5: pickup_type = "punch_ability"
-		_: pickup_type = "explosion_boost"
-	return pickup_type
+@rpc("call_local")
+func disable():
+	self.hide()
+	self.position = Vector2.ZERO
+
+@rpc("call_local")
+func place(pos: Vector2, pickup: int):
+	assert(globals.is_not_pickup_seperator(pickup))
+	assert(pickup != globals.pickups.RANDOM)
+	$AnimationPlayer.play("RESET")
+	contained_pickup = pickup
+	in_use = true
+	_exploded_barrier = false
+	$Shape.set_deferred("disabled", 0)
+	self.position = pos
+	self.show()
 	
 @rpc("call_local")
 func exploded(by_who):
-	#breakable_sfx_player.play()
-	$"AnimationPlayer".play("explode")
+	if _exploded_barrier: return #prevents a racecondition of the game attempting to spawn a pickup twice
+	_exploded_barrier = true
+	breakable_sfx_player.play()
+	$AnimationPlayer.play("explode")
+	await $AnimationPlayer.animation_finished #Wait for the animation to finish
+
 	# Spawn a powerup where this rock used to be.
 	if is_multiplayer_authority():
-		if decide_pickup_spawn() && by_who != gamestate.ENVIRONMENTAL_KILL_PLAYER_ID:
-			var type_of_pickup = decide_pickup_type()
-			var pickup = pickup_pool.request(type_of_pickup)
+		if contained_pickup != globals.pickups.NONE && by_who != gamestate.ENVIRONMENTAL_KILL_PLAYER_ID:
+			var pickup: Pickup = globals.game.pickup_pool.request(contained_pickup)
 			pickup.place.rpc(self.position)
 		else:
 			world_data.set_tile.rpc(world_data.tiles.EMPTY, global_position) #We only wanne delete this cell if no pickup is spawned on it
 			
-	get_node("Shape").queue_free()
-	world.astargrid_set_point(global_position, false)
-	await $"AnimationPlayer".animation_finished #Wait for the animation to finish
-	queue_free()
+	if is_multiplayer_authority():
+		disable_collison_and_hide.rpc()
+	astargrid_handler.astargrid_set_point(global_position, false)
+	if is_multiplayer_authority():
+		disable.rpc()
+	globals.game.breakable_pool.return_obj(self)
+
+@rpc("call_local")
+func crush():
+	crushed_sfx_player.play()
+	$AnimationPlayer.play("crush")
+	if is_multiplayer_authority():
+		disable_collison_and_hide.rpc()
+		world_data.set_tile.rpc(world_data.tiles.EMPTY, global_position)
+	astargrid_handler.astargrid_set_point(global_position, false)
+	await $AnimationPlayer.animation_finished #Wait for the animation to finish
+	if is_multiplayer_authority():
+		disable.rpc()
+	globals.game.breakable_pool.return_obj(self)
 	

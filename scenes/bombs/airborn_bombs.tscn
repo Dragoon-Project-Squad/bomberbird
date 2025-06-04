@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cag7boglclvqo"]
 
-[ext_resource type="Script" path="res://scripts/airborn_bomb.gd" id="1_ed42p"]
-[ext_resource type="Texture2D" uid="uid://cwpnhuimmgdha" path="res://assets/bombcentered.png" id="2_ammyf"]
+[ext_resource type="Script" uid="uid://mlv250egtna2" path="res://scripts/bomb/airborn_bomb.gd" id="1_ed42p"]
+[ext_resource type="Texture2D" uid="uid://colmsqhmxnr47" path="res://assets/egg_bomb.png" id="2_m6xtm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3a627"]
 size = Vector2(24, 24)
@@ -9,7 +9,7 @@ size = Vector2(24, 24)
 [node name="bomb_throwable" type="Area2D"]
 texture_filter = 1
 collision_layer = 8
-collision_mask = 31
+collision_mask = 63
 input_pickable = false
 script = ExtResource("1_ed42p")
 
@@ -17,7 +17,7 @@ script = ExtResource("1_ed42p")
 shape = SubResource("RectangleShape2D_3a627")
 
 [node name="BombSprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_ammyf")
+texture = ExtResource("2_m6xtm")
 hframes = 3
 region_enabled = true
 region_rect = Rect2(0, 0, 96, 32)

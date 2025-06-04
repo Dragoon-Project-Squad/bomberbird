@@ -1,0 +1,56 @@
+[gd_scene load_steps=5 format=3 uid="uid://cxn1h6s57udwo"]
+
+[ext_resource type="Theme" uid="uid://m30a0nncwbm0" path="res://assets/styles/options_menu.tres" id="1_bo60c"]
+[ext_resource type="Script" uid="uid://d0qw8hxowkid7" path="res://scripts/ui/lobby/match_time_setting.gd" id="1_krq13"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4k2yx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wum3u"]
+
+[node name="MatchTimeSetting" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_krq13")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+offset_right = 1024.0
+offset_bottom = 64.0
+theme = ExtResource("1_bo60c")
+theme_override_constants/separation = 42
+
+[node name="SliderNameLabel" type="Label" parent="HBoxContainer"]
+custom_minimum_size = Vector2(264, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Match Timer (sec)"
+
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_4k2yx")
+
+[node name="HSlider" type="HSlider" parent="HBoxContainer"]
+custom_minimum_size = Vector2(200, 32)
+layout_mode = 2
+size_flags_vertical = 1
+min_value = 60.0
+max_value = 600.0
+value = 60.0
+rounded = true
+
+[node name="VSeparator2" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_wum3u")
+
+[node name="SliderNumberLabel" type="Label" parent="HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "999"
+
+[connection signal="value_changed" from="HBoxContainer/HSlider" to="." method="_on_value_changed"]

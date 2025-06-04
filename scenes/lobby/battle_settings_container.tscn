@@ -1,0 +1,124 @@
+[gd_scene load_steps=15 format=3 uid="uid://c1n3nkeu1hl0i"]
+
+[ext_resource type="PackedScene" uid="uid://cy8fm4pl76ffi" path="res://scenes/lobby/component/cpu_difficulty_dropdown_button.tscn" id="1_3pm30"]
+[ext_resource type="Theme" uid="uid://m30a0nncwbm0" path="res://assets/styles/options_menu.tres" id="1_jp62n"]
+[ext_resource type="PackedScene" uid="uid://ci3vmfjfjjkqt" path="res://scenes/lobby/component/cpu_count_dropdown_button.tscn" id="2_jp62n"]
+[ext_resource type="PackedScene" uid="uid://dcejelqenxfkc" path="res://scenes/lobby/component/score_to_win_slider.tscn" id="2_s3sjg"]
+[ext_resource type="PackedScene" uid="uid://cxn1h6s57udwo" path="res://scenes/lobby/component/match_time_slider.tscn" id="3_j0u2k"]
+[ext_resource type="PackedScene" uid="uid://8prj4sdb7igg" path="res://scenes/lobby/component/hurry_up_time_slider.tscn" id="4_s3sjg"]
+[ext_resource type="PackedScene" uid="uid://nr52rw0c4lpv" path="res://scenes/lobby/component/hurry_up_state_button.tscn" id="5_osahb"]
+[ext_resource type="PackedScene" uid="uid://ctc34obdg4khk" path="res://scenes/lobby/component/sudden_death_state_button.tscn" id="6_pe2mp"]
+[ext_resource type="PackedScene" uid="uid://ueukryhm8qtl" path="res://scenes/lobby/component/misobon_dropdown_button.tscn" id="7_ya37g"]
+[ext_resource type="PackedScene" uid="uid://bng2pui7w7fcf" path="res://scenes/lobby/component/breakable_spawn_rule_dropdown_button.tscn" id="8_tnep8"]
+[ext_resource type="PackedScene" uid="uid://23f6rcekl1pe" path="res://scenes/lobby/component/breakable_chance_slider.tscn" id="9_81ldo"]
+[ext_resource type="PackedScene" uid="uid://c0v6opy31s5gv" path="res://scenes/lobby/component/pickup_spawn_rule_dropdown_button.tscn" id="10_ghyoh"]
+[ext_resource type="PackedScene" uid="uid://bg5mje2fpj71k" path="res://scenes/lobby/component/pickup_chance_slider.tscn" id="11_54bus"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3pm30"]
+
+[node name="BattleSettingsContainer" type="Control"]
+layout_mode = 3
+anchor_right = 0.944444
+anchor_bottom = 0.790123
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
+layout_mode = 2
+follow_focus = true
+draw_focus_border = true
+horizontal_scroll_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer"]
+layout_mode = 2
+theme = ExtResource("1_jp62n")
+theme_override_constants/separation = 128
+
+[node name="HSeparator1" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+theme_override_styles/separator = SubResource("StyleBoxEmpty_3pm30")
+
+[node name="General" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(1152, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "General"
+horizontal_alignment = 1
+
+[node name="VictoryPointSlider" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_s3sjg")]
+layout_mode = 2
+
+[node name="CPUDifficultyDropdownButton" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_3pm30")]
+visible = false
+layout_mode = 2
+
+[node name="CPUCountDropdownButton" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_jp62n")]
+visible = false
+layout_mode = 2
+
+[node name="MisobonDropdownButton" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("7_ya37g")]
+layout_mode = 2
+
+[node name="Time" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(1152, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Time"
+horizontal_alignment = 1
+
+[node name="MatchTimeSetting" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("3_j0u2k")]
+layout_mode = 2
+
+[node name="HurryUpTimeSetting" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("4_s3sjg")]
+layout_mode = 2
+
+[node name="HurryUpStateButton" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("5_osahb")]
+layout_mode = 2
+
+[node name="SuddenDeathStateButton" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("6_pe2mp")]
+visible = false
+layout_mode = 2
+
+[node name="Breakable" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(1152, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Breakable"
+horizontal_alignment = 1
+
+[node name="BreakableSpawnRuleDropdownButton" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("8_tnep8")]
+layout_mode = 2
+
+[node name="BreakableChanceSlider" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("9_81ldo")]
+layout_mode = 2
+
+[node name="Pickup" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(1152, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Pickup"
+horizontal_alignment = 1
+
+[node name="PickupSpawnRuleDropdownButton" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("10_ghyoh")]
+layout_mode = 2
+
+[node name="PickupChanceSlider" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("11_54bus")]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+theme_override_styles/separator = SubResource("StyleBoxEmpty_3pm30")

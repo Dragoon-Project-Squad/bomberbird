@@ -1,0 +1,82 @@
+[gd_scene load_steps=3 format=3 uid="uid://c44mtjtbl10s2"]
+
+[ext_resource type="Script" uid="uid://kvf10477s840" path="res://scripts/level_graph/stage_data_ui.gd" id="1_fucx8"]
+[ext_resource type="ButtonGroup" uid="uid://cakxg5ux7vmey" path="res://scenes/level_graph/DrawModeButtons.tres" id="2_xu0k1"]
+
+[node name="StageDataUI" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 249.0
+offset_top = 45.0
+offset_right = -253.0
+offset_bottom = -53.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fucx8")
+
+[node name="Header" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TypeSelect" type="OptionButton" parent="Header"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="SubTypeSelect" type="OptionButton" parent="Header"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="ProbabilitySelect" type="SpinBox" parent="Header"]
+layout_mode = 2
+min_value = 0.05
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="FreeDraw" type="Button" parent="Header" groups=["ui_button"]]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+button_group = ExtResource("2_xu0k1")
+text = "D"
+
+[node name="LineDraw" type="Button" parent="Header" groups=["ui_button"]]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("2_xu0k1")
+text = "L"
+
+[node name="RectDraw" type="Button" parent="Header" groups=["ui_button"]]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("2_xu0k1")
+text = "R"
+
+[node name="Eraser" type="Button" parent="Header" groups=["ui_button"]]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+toggle_mode = true
+text = "E"
+
+[node name="Overwrite" type="CheckBox" parent="Header"]
+layout_mode = 2
+button_pressed = true
+text = "Overwrite"
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 2
+mouse_filter = 0
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
+columns = 13
+
+[node name="CurrentCellLabel" type="Label" parent="."]
+layout_mode = 2
+
+[connection signal="gui_input" from="." to="." method="_on_stage_data_ui_gui_input"]
+[connection signal="toggled" from="Header/Overwrite" to="." method="_on_overwrite_toggled"]
+[connection signal="gui_input" from="GridContainer" to="." method="_on_grid_container_gui_input"]
+[connection signal="mouse_exited" from="GridContainer" to="." method="_on_grid_container_mouse_exited"]

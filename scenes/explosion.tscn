@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://c3row0thknslo"]
 
-[ext_resource type="Script" path="res://scripts/explosion.gd" id="1_i8fun"]
+[ext_resource type="Script" uid="uid://bhmmcs7smd8jx" path="res://scripts/bomb/explosion.gd" id="1_i8fun"]
 [ext_resource type="TileSet" uid="uid://c6a5jstmgemfc" path="res://scenes/explosions_anim.tres" id="2_544pj"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_5as2d"]
@@ -49,7 +49,7 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3okw3"]
 _data = {
-"boom": SubResource("Animation_d03af")
+&"boom": SubResource("Animation_d03af")
 }
 
 [node name="Explosion" type="Node2D"]
@@ -61,7 +61,7 @@ tile_set = ExtResource("2_544pj")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 18
+collision_mask = 58
 
 [node name="x-line" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("SegmentShape2D_5as2d")
@@ -71,7 +71,7 @@ shape = SubResource("SegmentShape2D_wcjvg")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_3okw3")
+&"": SubResource("AnimationLibrary_3okw3")
 }
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_entered"]

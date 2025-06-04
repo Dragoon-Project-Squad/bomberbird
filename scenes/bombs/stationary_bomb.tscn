@@ -1,16 +1,28 @@
-[gd_scene load_steps=11 format=3 uid="uid://ct3sf5ul21w14"]
+[gd_scene load_steps=13 format=3 uid="uid://ct3sf5ul21w14"]
 
-[ext_resource type="Script" path="res://scripts/stationary_bomb.gd" id="1"]
+[ext_resource type="Script" uid="uid://bqtpsqboowpbk" path="res://scripts/bomb/stationary_bomb.gd" id="1"]
 [ext_resource type="AudioStream" uid="uid://boidckhyrna5i" path="res://sound/fx/explosion.wav" id="2_gmoi6"]
+[ext_resource type="Texture2D" uid="uid://colmsqhmxnr47" path="res://assets/egg_bomb.png" id="3_0y1f5"]
 [ext_resource type="PackedScene" uid="uid://c3row0thknslo" path="res://scenes/explosion.tscn" id="4_4i8os"]
 [ext_resource type="AudioStream" uid="uid://kkul2topsufx" path="res://sound/fx/bombdrop.wav" id="4_nrvts"]
-[ext_resource type="Texture2D" uid="uid://cwpnhuimmgdha" path="res://assets/bombcentered.png" id="8_1u1d1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6btgv"]
-size = Vector2(32, 32)
+size = Vector2(30, 30)
 
 [sub_resource type="Animation" id="Animation_oq2m5"]
 length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BombSprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_m6l0e"]
 resource_name = "explosion_small"
@@ -45,34 +57,106 @@ tracks/1/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_0y1f5"]
+resource_name = "hide"
+length = 4.0
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"hide_mine"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BombSprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1, 1.03333, 1.13333, 1.16667, 1.2, 1.3, 1.33333, 1.36667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, true, false, true, true, false, true]
+}
+
+[sub_resource type="Animation" id="Animation_5ti60"]
+resource_name = "mine_explode"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BombSprite:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.7, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.7),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"detonate"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BombSprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.133333, 0.266667, 0.3, 0.333333, 0.466667, 0.5, 0.533333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, true, false, true, true, false, true]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_h2w7m"]
 _data = {
-"RESET": SubResource("Animation_oq2m5"),
-"explosion_small": SubResource("Animation_m6l0e"),
-"fuse_and_call_detonate()": SubResource("Animation_21j5c")
+&"RESET": SubResource("Animation_oq2m5"),
+&"explosion_small": SubResource("Animation_m6l0e"),
+&"fuse_and_call_detonate()": SubResource("Animation_21j5c"),
+&"hide": SubResource("Animation_0y1f5"),
+&"mine_explode": SubResource("Animation_5ti60")
 }
 
 [node name="Bomb" type="StaticBody2D"]
 texture_filter = 1
 collision_layer = 8
-collision_mask = 6
+collision_mask = 38
 script = ExtResource("1")
 explosion_audio = ExtResource("2_gmoi6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_6btgv")
-disabled = true
 
 [node name="DetectArea" type="Area2D" parent="."]
 collision_layer = 128
-collision_mask = 6
+collision_mask = 38
 input_pickable = false
 
 [node name="DetectShape" type="CollisionShape2D" parent="DetectArea"]
 shape = SubResource("RectangleShape2D_6btgv")
 
 [node name="Raycasts" type="Node2D" parent="."]
-visible = false
 
 [node name="Right" type="RayCast2D" parent="Raycasts"]
 target_position = Vector2(32, 0)
@@ -100,11 +184,11 @@ metadata/direction = Vector2i(0, -1)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_h2w7m")
+&"": SubResource("AnimationLibrary_h2w7m")
 }
 
 [node name="BombSprite" type="Sprite2D" parent="."]
-texture = ExtResource("8_1u1d1")
+texture = ExtResource("3_0y1f5")
 hframes = 3
 region_enabled = true
 region_rect = Rect2(0, 0, 96, 32)
@@ -115,5 +199,6 @@ region_rect = Rect2(0, 0, 96, 32)
 stream = ExtResource("4_nrvts")
 bus = &"SFX"
 
+[connection signal="body_entered" from="DetectArea" to="." method="_on_detect_area_body_entered"]
 [connection signal="body_exited" from="DetectArea" to="." method="_on_detect_area_body_exit"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

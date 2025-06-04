@@ -4,6 +4,8 @@ extends Node
 # Not on the list of registered or common ports as of November 2020:
 # https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
 const DEFAULT_PORT := 10567
+var is_game_online := true 
+#TODO: Create VSCOM option, then set this to false and enable ONLY if Online
 
 # Multiplayer vars
 const MAX_PEERS := 4
@@ -11,19 +13,32 @@ var peer = null
 
 #Environmental damage vars
 const ENVIRONMENTAL_KILL_PLAYER_ID := -69
+const ENEMY_KILL_PLAYER_ID := -42
 
 # Player count variables
-var total_player_count = 1
-var human_player_count = 1 #Every game must have at least 1 human or two AI
+var total_player_count := 1
+var human_player_count := 1 #Every game must have at least 1 human or two AI
+
 # Name for my player.
 var player_name = globals.config.get_player_name()
 # Names for remote players in id:name format.
 var players = {}
 var players_ready = []
+# Name for player who hosts game
+var host_player_name = ""
+
+# Player Numbers in string:id format.
+var player_numbers = {
+	"p1": 1,
+	"p2": -2,
+	"p3": -3,
+	"p4": -4
+}
 
 # Character Textures in id:texture2D format.
 var characters = {}
-var defaulttex = load("res://assets/player/chonkgoon_walk.png")
+var character_texture_paths: CharacterSelectDataResource = preload("res://resources/css/character_texture_paths_default.tres")
+var DEFAULT_PLAYER_TEXTURE_PATH = character_texture_paths.NORMALGOON_PLAYER_TEXTURE_PATH
 # AI Handling variables
 const MAX_ID_COLLISION_RESCUE_ATTEMPTS = 4
 const MAX_NAME_COLLISION_RESCUE_ATTEMPTS = 4
@@ -36,37 +51,64 @@ signal game_ended()
 signal game_error(what)
 
 # Preloaded Scenes
-var player_scene = preload("res://scenes/human_player.tscn")
-var ai_player_scene = preload("res://scenes/ai_player.tscn")
+var campaign_game_scene: String = "res://scenes/campaign_game.tscn"
+var battlemode_game_scene: String = "res://scenes/battlemode_game.tscn"
 
 # Singleplayer Vars
-var current_level: int = 205 # Defaults to a high number for battle mode.
+var current_level: int = 1 #205 # Defaults to a high number for battle mode.
 
 # Battle Mode vars
-enum misobon_states {OFF, ON, SUPER}
-var misobon_mode = misobon_states.SUPER #For debugging let state be default to super even in Singleplayer
 
 # Callback from SceneTree.
 func _player_connected(id):
-	# Registration of a client beings here, tell the connected player that we are here.
-	register_player.rpc_id(id, player_name)
+	# This func called withing client and server
+	if multiplayer.is_server():
+		request_client_player_name.rpc_id(id) #this also triggering crossclient gamestate update
 
+#this called from server to client
+@rpc("call_remote")
+func request_client_player_name():
+	update_server_player_lists.rpc(player_name)
+
+#this called from client to server
+@rpc("call_remote", 'any_peer')
+func update_server_player_lists(client_player_name):
+	var id = multiplayer.get_remote_sender_id()
+	var ai_count = SettingsContainer.get_cpu_count()
+	clear_ai_players()
+	register_player(client_player_name, id)
+	establish_player_counts()
+	add_ai_players(ai_count)
+	establish_player_counts()
+	assign_player_numbers()
+	sync_gamestate_across_players.rpc(players, player_numbers, host_player_name)
+
+@rpc("call_local")
+func sync_gamestate_across_players(in_players, in_player_numbers, in_host_player_name):
+	players = in_players
+	player_numbers = in_player_numbers
+	host_player_name = in_host_player_name
+	player_list_changed.emit()
 
 # Callback from SceneTree.
 func _player_disconnected(id):
-	total_player_count -= 1
-	human_player_count -= 1
-	if has_node("/root/World"): # Game is in progress.
+	var ai_count = SettingsContainer.get_cpu_count()
+	if multiplayer.is_server():
+		clear_ai_players()
+		unregister_player(id)
+		establish_player_counts()
+	if globals.current_world != null: # Game is in progress.
 		# Remove from world
 		remove_player_from_world.rpc(id)
 		# If everyone else disconnected
 		if total_player_count == 1:
 			game_error.emit("All other players disconnected")
 			end_game()
-	# Unregister this player.
-	unregister_player(id)
-
-
+	if multiplayer.is_server():
+		add_ai_players(ai_count)
+		establish_player_counts()
+		assign_player_numbers()
+	player_list_changed.emit()
 
 # Callback from SceneTree, only for clients (not server).
 func _connected_ok():
@@ -78,7 +120,6 @@ func _connected_ok():
 func _server_disconnected():
 	# Gets called by the server if all players disconnect, this is to prevent that
 	game_error.emit("Server disconnected")
-	end_game()
 
 
 # Callback from SceneTree, only for clients (not server).
@@ -86,58 +127,98 @@ func _connected_fail():
 	multiplayer.set_multiplayer_peer(null) # Remove peer
 	connection_failed.emit()
 
-
 # Lobby management functions.
 @rpc("any_peer")
-func register_player(new_player_name):
-	var id = multiplayer.get_remote_sender_id()
-	characters[id] = defaulttex
+func register_player(new_player_name, id):
+	characters[id] = DEFAULT_PLAYER_TEXTURE_PATH
 	players[id] = new_player_name
 	player_list_changed.emit()
 	
+@rpc("authority", "call_local")
 func unregister_player(id):
 	players.erase(id)
 	player_list_changed.emit()
 
 @rpc("authority", "call_local")
 func remove_player_from_world(id):
-	if get_tree().get_root().has_node("World"):
-		var world = get_tree().get_root().get_node("World")
-		if world.has_node("Players/" + str(id)):
-			world.get_node("Players/" + str(id)).queue_free()
+	if globals.current_world != null:
+		if globals.current_world.has_node("Players/" + str(id)):
+			globals.current_world.get_node("Players/" + str(id)).queue_free()
 	
-@rpc("any_peer")
-func change_character_player(texture):
+@rpc("any_peer", "call_local")
+func change_character_player(texture_path : String):
+	print(
+		"Changing ID ", 
+		multiplayer.get_remote_sender_id(), 
+		"'s character model to ", 
+		texture_path
+	)
 	var id = multiplayer.get_remote_sender_id()
 	if id == 0:
 		id = 1
-	characters[id] = texture
+	characters[id] = texture_path
 
 
+func assign_player_numbers():
+	var players_assigned = 1 #If this hits 4, we kill the loop as a sanity check.
+	for p in players:
+		match players_assigned:
+			1:
+				player_numbers.p2 = p
+			2:
+				player_numbers.p3 = p
+			3:
+				player_numbers.p4 = p
+			4:
+				push_warning("4 players assigned, but the loop wanted to continue. Terminating...")	
+				return
+			5:
+				push_error("More than 4 players detected! Are you sure this is correct!?")
+				return
+			_:
+				push_error("More than 4 players detected! Are you sure this is correct!?")
+				return
+		players_assigned += 1
+		print("Player ", players_assigned, " assigned to ID number: ", p)
+
+
+func establish_player_counts() -> void:
+	#players actually contains ais already
+	#+1 here to count ourselves
+	human_player_count = 1 + players.size() - SettingsContainer.get_cpu_count()
+	print("epc: cpus: ", SettingsContainer.get_cpu_count(), ", players: ", players.size())
+	assert(multiplayer.is_server())
+	total_player_count = min(4, human_player_count + SettingsContainer.get_cpu_count())
+	
 @rpc("call_local")
-func load_world():
+func load_world(game_scene):
 	# Change scene.
-	var world = load("res://scenes/battlegrounds.tscn").instantiate()
-	get_tree().get_root().add_child(world)
-	if get_tree().get_root().has_node("Lobby"):
-		get_tree().get_root().get_node("Lobby").hide()
+	var game = load(game_scene).instantiate()
+	get_tree().get_root().add_child(game)
+	if has_node("/root/MainMenu/DebugCampaignSelector"):
+		game.load_level_graph(get_node("/root/MainMenu/DebugCampaignSelector").get_graph())
+	game.start()
+	if has_node("/root/MainMenu"):
+		get_node("/root/MainMenu").pause_main_menu_music()
 
 	# Set up score.
 	if is_multiplayer_authority():
-		world.get_node("GameUI").add_player.rpc(multiplayer.get_unique_id(), player_name)
+		game.game_ui.add_player.rpc(multiplayer.get_unique_id(), player_name)
 		for pn in players:
-			world.get_node("GameUI").add_player.rpc(pn, players[pn])
+			game.game_ui.add_player.rpc(pn, players[pn])
 
 	# Unpause and unleash the game!
 	get_tree().set_pause(false) 
 
 func host_game(new_player_name):
 	player_name = new_player_name
+	host_player_name = new_player_name
 	peer = ENetMultiplayerPeer.new()
 	peer.create_server(DEFAULT_PORT, MAX_PEERS)
 	multiplayer.set_multiplayer_peer(peer)
-	var id = multiplayer.get_remote_sender_id() + 1
-	characters[id] = defaulttex
+	characters[1] = DEFAULT_PLAYER_TEXTURE_PATH
+	SettingsContainer.set_cpu_count(0)
+	gamestate.establish_player_counts()
 
 
 func join_game(ip, new_player_name):
@@ -150,120 +231,81 @@ func join_game(ip, new_player_name):
 func get_player_list():
 	return players.values()
 
-
-func get_player_name():
+func get_player_name() -> String:
 	return player_name
 
 func begin_singleplayer_game():
+	globals.current_gamemode = globals.gamemode.CAMPAIGN
+	SettingsContainer.misobon_setting = SettingsContainer.misobon_setting_states.OFF
 	human_player_count = 1
-	total_player_count = human_player_count + 3
-	add_ai_players()
-	load_world.rpc()
-	var world = get_tree().get_root().get_node("World")
-	#var playerspawner = get_tree().get_root().get_node("World/PlayerSpawner")
-	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
-	var spawn_points = {}
-	spawn_points[1] = 0 # Server in spawn point 0.
-	var spawn_point_idx = 1
-	for p in players:
-		spawn_points[p] = spawn_point_idx
-		spawn_point_idx += 1
-	var humans_loaded_in_game = 0
-	for p_id in spawn_points:
-		var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position
-		#var spawnedplayer
-		var playerspawner = world.get_node("PlayerSpawner")
-		var misobonspawner = world.get_node("MisobonPlayerSpawner")
-		#var spawningdata = {"playertype": "human", "spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players, "characterdictionary": characters}
-		var spawningdata = {"spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players}
-		var misobondata = {"spawn_here": 0.0, "pid": p_id}
-		var player: Player 
-		if humans_loaded_in_game < human_player_count:
-			spawningdata.playertype = "human"
-			misobondata.player_type = "human"
-			#spawnedplayer = player_scene.instantiate()
-			humans_loaded_in_game += 1
-		else:
-			spawningdata.playertype = "ai"
-			misobondata.player_type = "ai"
+	total_player_count = human_player_count
+	if total_player_count > 1:
+		add_ai_players(total_player_count - human_player_count)
 
-		player = playerspawner.spawn(spawningdata)
-		misobondata.name = player.get_player_name()
-
-		misobonspawner.spawn(misobondata)
+	characters[1] = DEFAULT_PLAYER_TEXTURE_PATH
+	load_world.rpc(campaign_game_scene)
 
 func begin_game():
-	human_player_count = 1+players.size()
-	total_player_count = human_player_count + get_tree().get_root().get_node("Lobby/Options/AIPlayerCount").get_value()
-	assert(multiplayer.is_server())
-	add_ai_players()
+	globals.current_gamemode = globals.gamemode.BATTLEMODE
+	current_level = 205
 	if players.size() == 0: # If players disconnected at character select
 		game_error.emit("All other players disconnected")
 		end_game()
-	load_world.rpc()
-	var world = get_tree().get_root().get_node("World")
-	#var playerspawner = get_tree().get_root().get_node("World/PlayerSpawner")
-	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
-	var spawn_points = {}
-	spawn_points[1] = 0 # Server in spawn point 0.
-	var spawn_point_idx = 1
-	for p in players:
-		spawn_points[p] = spawn_point_idx
-		spawn_point_idx += 1
-	var humans_loaded_in_game = 0
-	for p_id in spawn_points:
-		var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position
-		#var spawnedplayer
-		var playerspawner = world.get_node("PlayerSpawner")
-		var misobonspawner = world.get_node("MisobonPlayerSpawner")
-		#var player data
-		var spawningdata = {"spawndata": spawn_pos, "pid": p_id, "defaultname": player_name, "playerdictionary": players}
-		var misobondata = {"spawn_here": 0.0, "pid": p_id}
-		var player: Player 
-		if humans_loaded_in_game < human_player_count:
-			spawningdata.playertype = "human"
-			misobondata.player_type = "human"
-
-			humans_loaded_in_game += 1
-		else:
-			spawningdata.playertype = "ai"
-			misobondata.player_type = "ai"
-
-		player = playerspawner.spawn(spawningdata)
-		misobondata.name = player.get_player_name()
-
-		misobonspawner.spawn(misobondata)
-
-func add_ai_players():
-	var ai_player_count = total_player_count - human_player_count
-	if ai_player_count <= 0: # No robots allowed
-		pass
-	for n in range(0, ai_player_count, 1):
+	load_world.rpc(battlemode_game_scene)
+	
+func add_ai_players(ai_players_to_add: int):
+	var ai_players_count = min(
+		ai_players_to_add, 
+		MAX_PEERS-human_player_count)
+	SettingsContainer.set_cpu_count(ai_players_count)
+	for n in range(0, SettingsContainer.get_cpu_count(), 1):
 		register_ai_player()
+	pass
+
+func clear_ai_players():
+	for n in range(human_player_count, total_player_count+1, 1):
+		players.erase(n)
+	SettingsContainer.set_cpu_count(0)
 	pass
 
 func register_ai_player():
 	var id = 2 #TODO: Generate CPU ID here, ensure it does not clash
-	if !is_id_free(id):
+	if not is_id_free(id):
 		for i in range(2, 2+MAX_ID_COLLISION_RESCUE_ATTEMPTS, 1):
 			id = i
 			if is_id_free(id):
 				break
-	players[id] = "LikeBot" #TODO: Generate CPU name here
-	if !is_name_free(players[id]):
-		players[id] = "CommentBot"
-	else:
-		return
-	if !is_name_free(players[id]):
-		players[id] = "SubscribeBot"
-	else:
-		return
-	if !is_name_free(players[id]):
-		players[id] = "MembershipBot"
-	else:
-		return
+	assign_ai_character_sprite(id)
+	name_ai_player(id)
 	player_list_changed.emit()
 
+func name_ai_player(pid: int):
+	players[pid] = "LikeBot" #TODO: Generate CPU name from list resource here
+	if not is_name_free(players[pid]):
+		players[pid] = "CommentBot"
+	else:
+		return
+	if not is_name_free(players[pid]):
+		players[pid] = "SubscribeBot"
+	else:
+		return
+	if not is_name_free(players[pid]):
+		players[pid] = "MembershipBot"
+	else:
+		return
+		
+func assign_ai_character_sprite(pid: int):
+	match pid:
+		2:
+			characters[pid] = character_texture_paths.NORMALGOON_PLAYER_TEXTURE_PATH
+		3:
+			characters[pid] = character_texture_paths.CHONKGOON_PLAYER_TEXTURE_PATH
+		4:
+			characters[pid] = character_texture_paths.LONGGOON_PLAYER_TEXTURE_PATH
+		_:
+			characters[pid] = character_texture_paths.DAD_PLAYER_TEXTURE_PATH
+	return
+	
 func is_id_free(chosen_ai_id) -> bool:
 	for p in players:
 		if p == chosen_ai_id:
@@ -278,16 +320,41 @@ func is_name_free(playername: String) -> bool:
 	if times_name_used > 1:
 		return false
 	return true
-
-func end_game():
-	if has_node("/root/World"): # Game is in progress.
+			
+func end_sp_game():
+	if globals.game != null: # Game is in progress.
 		# End it
-		get_node("/root/World").queue_free()
-		if !multiplayer.is_server():
-			peer.close()
-	game_ended.emit() 
+		globals.game.queue_free()
+	await get_tree().create_timer(0.05).timeout #The game scene needs to DIE.
+	#Only run if Main Menu is currently loaded in the scene.
+	if has_node("/root/MainMenu"):
+		var main_menu = get_node("/root/MainMenu")
+		main_menu.show()
+		main_menu.unpause_main_menu_music()
+	game_ended.emit() #Listen to this signal to tell other nodes to cease the game.
 	players.clear()
 	resetvars()
+	world_data.reset()
+		
+func end_game():
+	if globals.game != null: # Game is in progress.
+		# End it
+		globals.game.queue_free()
+	if multiplayer.has_multiplayer_peer(): 
+		if not multiplayer.is_server(): #I'm not the host.
+			multiplayer.multiplayer_peer.disconnect_peer(1) #Tell the host to kick me.
+		peer.close() #Close the peer so everyone really knows I'm leaving.
+		peer = OfflineMultiplayerPeer.new() #Tell Godot that we're in Offline mode and to safely retarget all RPC codes for a singleplayer experience.
+		multiplayer.set_multiplayer_peer(peer)
+	#Only run if Main Menu is currently loaded in the scene.
+	if has_node("/root/MainMenu"):
+		var main_menu = get_node("/root/MainMenu")
+		main_menu.show()
+		main_menu.unpause_main_menu_music()
+	game_ended.emit() #Listen to this signal to tell other nodes to cease the game.
+	players.clear()
+	resetvars()
+	world_data.reset()
 	
 func resetvars():
 	total_player_count = 1

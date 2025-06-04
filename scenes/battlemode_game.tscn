@@ -1,0 +1,283 @@
+[gd_scene load_steps=22 format=3 uid="uid://cqqhrm2734wfv"]
+
+[ext_resource type="Script" uid="uid://6r08478oev3y" path="res://scripts/battlemode_game.gd" id="1_3bvga"]
+[ext_resource type="Script" uid="uid://c6ubwejmc188k" path="res://scripts/player/players_manager.gd" id="3_qmebr"]
+[ext_resource type="Script" uid="uid://cc3ogep372v8" path="res://scripts/player/player_spawner.gd" id="4_l4xky"]
+[ext_resource type="Script" uid="uid://v2bbm1lgibpy" path="res://scripts/player/misobon/misobon_path.gd" id="5_egtpy"]
+[ext_resource type="PackedScene" uid="uid://ddtb3ctgal4ok" path="res://scenes/pools/enemy_pool.tscn" id="6_3bvga"]
+[ext_resource type="Script" uid="uid://cb0rr8pr2674f" path="res://scripts/player/misobon/misobon_player_spawner.gd" id="6_a5m7k"]
+[ext_resource type="PackedScene" uid="uid://ywlmyq88jlvj" path="res://scenes/pools/breakable_pool.tscn" id="7_vrcl4"]
+[ext_resource type="PackedScene" uid="uid://c4i5gyl4cut3t" path="res://scenes/pools/bomb_pool.tscn" id="8_hvhk6"]
+[ext_resource type="PackedScene" uid="uid://b22qg08qddy6x" path="res://scenes/pools/pick_up_pool.tscn" id="9_bsfbc"]
+[ext_resource type="PackedScene" uid="uid://b3638glthchxv" path="res://scenes/ingame_ui/battlemode_game_ui.tscn" id="10_3qosu"]
+[ext_resource type="PackedScene" uid="uid://mjwddadi7v4o" path="res://scenes/ingame_ui/record_winner.tscn" id="11_166ep"]
+[ext_resource type="AudioStream" uid="uid://cn7pj3ye8doko" path="res://sound/announcerfemale/3.ogg" id="12_egtpy"]
+[ext_resource type="AudioStream" uid="uid://d2yy8xjs43qrc" path="res://sound/announcerfemale/2.ogg" id="13_a5m7k"]
+[ext_resource type="AudioStream" uid="uid://deiituag5pcd8" path="res://sound/announcerfemale/1.ogg" id="14_vrcl4"]
+[ext_resource type="AudioStream" uid="uid://dqttax0kd8ds2" path="res://sound/announcerfemale/go.ogg" id="15_hvhk6"]
+
+[sub_resource type="Curve2D" id="Curve2D_6r17b"]
+_data = {
+"points": PackedVector2Array(0.297315, 2.88107, 0, 0, 240, 16, 0, 0, 0, 0, 464, 16, 0, 0, 0, 0, 464, 464, 0, 0, 0, 0, 16, 464, 0, 0, 0, 0, 16, 16, 0, 0, 0, 0, 240, 16)
+}
+point_count = 6
+
+[sub_resource type="Animation" id="Animation_8ic0x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FadeInOutRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FadeInOutRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MultiplayerGameUI:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_bsfbc"]
+resource_name = "countdown"
+length = 3.6
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MatchAudio/Announcer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("12_egtpy")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("13_a5m7k")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("14_vrcl4")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("15_hvhk6")
+}],
+"times": PackedFloat32Array(0, 1, 2, 3)
+}
+tracks/0/use_blend = true
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"unfreeze_players"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"activate_ui_and_music"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_1u21r"]
+resource_name = "fade_in"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FadeInOutRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FadeInOutRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MultiplayerGameUI:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_qa6w2"]
+resource_name = "fade_out"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FadeInOutRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FadeInOutRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MultiplayerGameUI:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qa6w2"]
+_data = {
+&"RESET": SubResource("Animation_8ic0x"),
+&"countdown": SubResource("Animation_bsfbc"),
+&"fade_in": SubResource("Animation_1u21r"),
+&"fade_out": SubResource("Animation_qa6w2")
+}
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_3bvga")
+
+[node name="StageLoader" type="Node2D" parent="."]
+
+[node name="MisobonPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_6r17b")
+script = ExtResource("5_egtpy")
+
+[node name="MisobonPlayerSpawner" type="MultiplayerSpawner" parent="MisobonPath"]
+spawn_path = NodePath("..")
+script = ExtResource("6_a5m7k")
+
+[node name="BreakablePool" parent="." instance=ExtResource("7_vrcl4")]
+
+[node name="PickupPool" parent="." instance=ExtResource("9_bsfbc")]
+extra_bomb = 15
+explosion_boost = 15
+speed_boost = 15
+max_explosion = 5
+punch_ability = 10
+
+[node name="EnemyPool" parent="." instance=ExtResource("6_3bvga")]
+
+[node name="BombPool" parent="." instance=ExtResource("8_hvhk6")]
+
+[node name="Players" type="Node2D" parent="."]
+script = ExtResource("3_qmebr")
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="Players"]
+spawn_path = NodePath("..")
+script = ExtResource("4_l4xky")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(250, 250)
+zoom = Vector2(1.3, 1.3)
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="MatchTimer" type="Timer" parent="Timers"]
+unique_name_in_owner = true
+wait_time = 120.0
+one_shot = true
+
+[node name="MultiplayerGameUI" parent="." instance=ExtResource("10_3qosu")]
+
+[node name="FadeInOutRect" type="ColorRect" parent="."]
+visible = false
+offset_left = -193.0
+offset_top = 1.0
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 1)
+
+[node name="GameEndState" parent="." instance=ExtResource("11_166ep")]
+visible = false
+offset_left = -193.0
+offset_top = 1.0
+offset_right = 693.0
+offset_bottom = 499.0
+
+[node name="AnimPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_qa6w2")
+}
+
+[node name="MatchAudio" type="Node" parent="."]
+
+[node name="Announcer" type="AudioStreamPlayer" parent="MatchAudio"]
+bus = &"Announcer"
+
+[node name="MatchSound" type="AudioStreamPlayer" parent="MatchAudio"]
+bus = &"SFX"

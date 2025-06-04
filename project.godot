@@ -15,7 +15,7 @@ config/description="What of Bomberman but Doki"
 config/version="0.3.0.1"
 config/tags=PackedStringArray("2d", "network")
 run/main_scene="res://scenes/main_menu.tscn"
-config/features=PackedStringArray("4.3")
+config/features=PackedStringArray("4.4")
 config/icon="res://assets/gameart/icon.webp"
 
 [autoload]
@@ -23,9 +23,11 @@ config/icon="res://assets/gameart/icon.webp"
 globals="*res://autoloads/globals.gd"
 gamestate="*res://autoloads/gamestate.gd"
 world_data="*res://autoloads/world_data.gd"
+astargrid_handler="*res://autoloads/astargrid_handler.gd"
 SettingsSignalBus="*res://autoloads/settings_signal_bus.gd"
 SettingsContainer="*res://autoloads/settings_data_container.gd"
 SaveManager="*res://autoloads/save_manager.gd"
+AudioManager="*res://autoloads/audio_manager.gd"
 
 [display]
 
@@ -33,10 +35,9 @@ window/stretch/mode="canvas_items"
 
 [global_group]
 
-player="human players"
-ai_player="cpu players"
 bombstop="stops bombs on impact"
 thrown_bomb_bounces="When a thrown bomb land on a member of this group, it causes the bomb to bounce further"
+ui_button=""
 
 [input]
 
@@ -111,6 +112,7 @@ pause={
 2d_physics/layer_3="Rocks"
 2d_physics/layer_4="Bombs"
 2d_physics/layer_5="PickUps"
+2d_physics/layer_6="Enemies"
 
 [rendering]
 

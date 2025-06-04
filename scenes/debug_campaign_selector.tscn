@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://c7x6djajavw8b"]
+
+[ext_resource type="Script" uid="uid://bwkqfcoctqvu0" path="res://scripts/debug_campaign_selector.gd" id="1_ax5x0"]
+[ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="2_h4g6p"]
+
+[node name="DebugCampaignSelector" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ax5x0")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 260.0
+offset_bottom = 31.0
+
+[node name="CampaignSelector" type="OptionButton" parent="HBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+
+[node name="GraphButton" type="Button" parent="HBoxContainer" groups=["ui_button"]]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "Graph"
+script = ExtResource("2_h4g6p")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
+
+[connection signal="pressed" from="HBoxContainer/GraphButton" to="." method="_on_graph_button_pressed"]

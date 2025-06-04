@@ -1,13 +1,19 @@
-[gd_scene load_steps=16 format=3 uid="uid://dviwgv2ty8v6u"]
+[gd_scene load_steps=18 format=3 uid="uid://dviwgv2ty8v6u"]
 
-[ext_resource type="Script" path="res://scripts/human_player.gd" id="1_u11j4"]
+[ext_resource type="Script" uid="uid://b6ouubp062irj" path="res://scripts/player/human_player.gd" id="1_u11j4"]
+[ext_resource type="Script" uid="uid://dfosda1bstp2m" path="res://resources/gameplay/held_pickups.gd" id="2_05k0c"]
 [ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_wp3i8"]
 [ext_resource type="Texture2D" uid="uid://lckm0mdablaw" path="res://assets/player/chonkgoon_walk.png" id="3_lr0sp"]
 [ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_bifw2"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="5_3fscl"]
 [ext_resource type="AnimationLibrary" uid="uid://b6igytp0a077" path="res://animations/player_animations.tres" id="5_aeuj7"]
-[ext_resource type="Script" path="res://scripts/human_player_controls.gd" id="6_ey2ea"]
-[ext_resource type="AudioStream" uid="uid://c3dded4qppq4" path="res://sound/fx/playerhurt.wav" id="7_ho0y0"]
+[ext_resource type="Texture2D" uid="uid://colmsqhmxnr47" path="res://assets/egg_bomb.png" id="6_05k0c"]
+[ext_resource type="Script" uid="uid://cvneoqre4h1ct" path="res://scripts/player/human_player_controls.gd" id="6_ey2ea"]
+
+[sub_resource type="Resource" id="Resource_jvckf"]
+resource_local_to_scene = true
+script = ExtResource("2_05k0c")
+metadata/_custom_type_script = "uid://dfosda1bstp2m"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_oj3wr"]
 radius = 15.9
@@ -30,10 +36,82 @@ tracks/0/keys = {
 "update": 0,
 "values": [0.0]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("sprite:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.0750351, 6.23615)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("sprite:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("label:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-82, -35)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("sprite:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-6.28319]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("sprite:self_modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_v8ypd"]
 _data = {
-"RESET": SubResource("Animation_y1m3h")
+&"RESET": SubResource("Animation_y1m3h")
 }
 
 [sub_resource type="LabelSettings" id="LabelSettings_5huhx"]
@@ -49,7 +127,16 @@ properties/1/spawn = true
 properties/1/replication_mode = 0
 properties/2/path = NodePath(".:is_dead")
 properties/2/spawn = true
-properties/2/replication_mode = 1
+properties/2/replication_mode = 2
+properties/3/path = NodePath(".:invulnerable")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath(".:stunned")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+properties/5/path = NodePath(".:visible")
+properties/5/spawn = true
+properties/5/replication_mode = 2
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_w53uu"]
 properties/0/path = NodePath(".:motion")
@@ -62,15 +149,14 @@ properties/2/path = NodePath(".:punch_ability")
 properties/2/spawn = true
 properties/2/replication_mode = 1
 
-[node name="player" type="CharacterBody2D" groups=["player", "thrown_bomb_bounces"]]
+[node name="player" type="CharacterBody2D" groups=["thrown_bomb_bounces"]]
 z_index = 10
 texture_filter = 1
 collision_layer = 2
 collision_mask = 31
 motion_mode = 1
 script = ExtResource("1_u11j4")
-bomb_count = 2
-lives = 1
+pickups = SubResource("Resource_jvckf")
 
 [node name="shadowsprite" type="Sprite2D" parent="."]
 position = Vector2(0, 7)
@@ -84,7 +170,6 @@ texture = ExtResource("3_lr0sp")
 offset = Vector2(-0.075, -8.236)
 hframes = 6
 vframes = 4
-frame = 6
 
 [node name="kaboom" type="Sprite2D" parent="."]
 visible = false
@@ -92,6 +177,14 @@ position = Vector2(-1.07288e-06, 3.57628e-07)
 scale = Vector2(0.333333, 0.351648)
 texture = ExtResource("4_bifw2")
 hframes = 9
+frame = 8
+
+[node name="BombSprite" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -30)
+texture = ExtResource("6_05k0c")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 32)
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_oj3wr")
@@ -105,8 +198,8 @@ shape = SubResource("SegmentShape2D_x4bxg")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_v8ypd"),
-"player_animations": ExtResource("5_aeuj7")
+&"": SubResource("AnimationLibrary_v8ypd"),
+&"player_animations": ExtResource("5_aeuj7")
 }
 
 [node name="label" type="Label" parent="."]
@@ -132,5 +225,3 @@ script = ExtResource("6_ey2ea")
 replication_config = SubResource("SceneReplicationConfig_w53uu")
 
 [node name="HurtSoundPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("7_ho0y0")
-bus = &"Sound"

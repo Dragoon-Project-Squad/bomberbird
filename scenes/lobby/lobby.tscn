@@ -1,0 +1,155 @@
+[gd_scene load_steps=10 format=3 uid="uid://jhdlqsokif5o"]
+
+[ext_resource type="Script" uid="uid://dlxlkxwbdq3pq" path="res://scripts/ui/lobby/lobby.gd" id="1_jekxk"]
+[ext_resource type="PackedScene" uid="uid://bg5x0c706ihn3" path="res://scenes/lobby/connection_screen.tscn" id="2_mlusu"]
+[ext_resource type="PackedScene" uid="uid://fsg6gwfw5fbi" path="res://scenes/cssmenu/character_select_screen.tscn" id="3_stkcr"]
+[ext_resource type="AudioStream" uid="uid://bsv6xvb7bqh1h" path="res://sound/mus/config_dragoon_cafe.ogg" id="4_2tt0b"]
+[ext_resource type="PackedScene" uid="uid://gr0y4uy0hk5k" path="res://scenes/lobby/battle_settings.tscn" id="4_iytm0"]
+[ext_resource type="PackedScene" uid="uid://bv6kuatxte3af" path="res://scenes/lobby/component/stage_select.tscn" id="5_l1n8d"]
+
+[sub_resource type="Animation" id="Animation_2tt0b"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FadeInOutRect:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FadeInOutRect:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_stkcr"]
+resource_name = "begin_the_game"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AudioStreamPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"stop"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FadeInOutRect:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FadeInOutRect:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"hide_all_lobby_screens"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2tt0b"]
+_data = {
+&"RESET": SubResource("Animation_2tt0b"),
+&"begin_the_game": SubResource("Animation_stkcr")
+}
+
+[node name="Lobby" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+script = ExtResource("1_jekxk")
+
+[node name="Connect" parent="." instance=ExtResource("2_mlusu")]
+layout_mode = 1
+offset_left = -138.5
+offset_top = -89.5
+offset_right = 138.5
+offset_bottom = 89.5
+
+[node name="CharacterSelect" parent="." instance=ExtResource("3_stkcr")]
+visible = false
+
+[node name="BattleSettings" parent="." instance=ExtResource("4_iytm0")]
+visible = false
+layout_mode = 1
+
+[node name="StageSelect" parent="." instance=ExtResource("5_l1n8d")]
+visible = false
+layout_mode = 1
+
+[node name="ErrorDialog" type="AcceptDialog" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_2tt0b")
+autoplay = true
+bus = &"Music"
+parameters/looping = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_2tt0b")
+}
+
+[node name="FadeInOutRect" type="ColorRect" parent="."]
+visible = false
+modulate = Color(0, 0, 0, 0)
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 0)
+
+[connection signal="multiplayer_game_hosted" from="Connect" to="." method="_on_connect_multiplayer_game_hosted"]
+[connection signal="multiplayer_game_joined" from="Connect" to="." method="_on_connect_multiplayer_game_joined"]
+[connection signal="characters_confirmed" from="CharacterSelect" to="." method="_on_character_select_characters_confirmed"]
+[connection signal="battle_settings_aborted" from="BattleSettings" to="." method="_on_battle_settings_battle_settings_aborted"]
+[connection signal="battle_settings_confirmed" from="BattleSettings" to="." method="_on_battle_settings_battle_settings_confirmed"]
+[connection signal="stage_select_aborted" from="StageSelect" to="." method="_on_stage_select_stage_select_aborted"]
+[connection signal="stage_selected" from="StageSelect" to="." method="_on_stage_select_stage_selected"]
+[connection signal="confirmed" from="ErrorDialog" to="." method="_on_error_dialog_confirmed"]

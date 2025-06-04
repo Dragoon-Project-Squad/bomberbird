@@ -2,26 +2,66 @@ extends Node
 
 @onready var DEFAULT_SETTINGS : DefaultSettingsResource = preload("res://resources/settings/default_settings.tres")
 @onready var KEYBIND_RESOURCE : PlayerKeybindResource = preload("res://resources/settings/player_keybind_default.tres")
+@onready var BATTLE_SETTINGS : BattleSettingsResource = preload("res://resources/gameplay/default_battle_settings.tres")
 
+#Settings
 var window_mode_index := 0
 var resolution_index := 0
 var master_volume := 0.0
 var music_volume := 0.0
 var sfx_volume := 0.0
 
+#Multiplayer Enums
+enum cpu_difficulty_setting_states {STATIONARY, EASY, MEDIUM, HARD}
+enum cpu_count_setting_states {ZERO, ONE, TWO, THREE, FOUR, FILL}
+enum misobon_setting_states {OFF, ON, SUPER}
+enum breakable_spawn_rule_setting_states {STAGE, NONE, FULL, CUSTOM}
+enum pickup_spawn_rule_setting_states {STAGE, NONE, ALL, CUSTOM}
+enum multiplayer_stages {SALOON, BEACH, DUNGEON, LAB}
+
+# Multiplayer
+var points_to_win := 3
+var cpu_difficulty := cpu_difficulty_setting_states.MEDIUM #The dropdown is set to a dictionary.
+var cpu_count := cpu_count_setting_states.FILL #The dropdown is set to a dictionary.
+var match_time := 120
+var hurry_up_time := 60
+var hurry_up_state := true
+var sudden_death_state := false
+var misobon_setting := misobon_setting_states.ON #The dropdown is set to a dictionary.
+var breakable_spawn_rule := breakable_spawn_rule_setting_states.STAGE #The dropdown is set to a dictionary.
+var breakable_chance := 100.0
+var pickup_spawn_rule := pickup_spawn_rule_setting_states.STAGE #The dropdown is set to a dictionary.
+var pickup_chance := 100.0
+var stage_choice := multiplayer_stages.SALOON
+
+# Held Data Dictionaries
+var personal_loaded_data : Dictionary = {}
 var loaded_data : Dictionary = {}
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	handle_signals()
 
-func create_sotrage_dictionary() -> Dictionary:
+func create_storage_dictionary() -> Dictionary:
 	var settings_container_dict : Dictionary = {
 		"window_mode_index" : window_mode_index,
 		"resolution_index" : resolution_index,
 		"master_volume" : master_volume,
 		"music_volume" : music_volume,
 		"sfx_volume" : sfx_volume,
-		"keybinds" : create_keybinds_dictionary()
+		"keybinds" : create_keybinds_dictionary(),
+		"points_to_win" : points_to_win,
+		"cpu_difficulty" : cpu_difficulty,
+		"cpu_count" : cpu_count,
+		"match_time" : match_time,
+		"hurry_up_time" : hurry_up_time,
+		"hurry_up_state" : hurry_up_state,
+		"sudden_death_state" : sudden_death_state,
+		"misobon_setting" : misobon_setting,
+		"breakable_spawn_rule" : breakable_spawn_rule,
+		"breakable_chance" : breakable_chance,
+		"pickup_spawn_rule" : pickup_spawn_rule,
+		"pickup_chance" : pickup_chance
 	}
 	return settings_container_dict
 
@@ -114,6 +154,71 @@ func retrieve_default_keybind(action : String):
 		KEYBIND_RESOURCE.PAUSE:
 			return KEYBIND_RESOURCE.DEFAULT_PAUSE_KEY
 	
+func get_points_to_win() -> int:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_POINTS_TO_WIN
+	return points_to_win
+	
+func get_cpu_difficulty() -> int:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_CPU_DIFFICULTY
+	return cpu_difficulty
+	
+func get_cpu_count() -> int:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_CPU_COUNT
+	return cpu_count
+
+func get_match_time() -> int:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_MATCH_TIME
+	return match_time
+	
+func get_hurry_up_time() -> int:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_HURRY_UP_TIME
+	return hurry_up_time
+	
+func get_hurry_up_state() -> bool:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_HURRY_UP_STATE
+	return hurry_up_state
+	
+func get_sudden_death_state() -> bool:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_SUDDEN_DEATH_STATE
+	return sudden_death_state
+	
+func get_misobon_setting() -> int:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_MISOBON_SETTING
+	return misobon_setting
+
+func get_breakable_spawn_rule() -> int:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_BREAKABLE_SPAWN_RULE
+	return breakable_spawn_rule
+
+func get_breakable_chance() -> float:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_BREAKABLE_CHANCE
+	return breakable_chance
+	
+func get_pickup_spawn_rule() -> int:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_PICKUP_SPAWN_RULE
+	return pickup_spawn_rule
+
+func get_pickup_chance() -> float:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_PICKUP_CHANCE
+	return pickup_chance
+	
+func get_stage_choice() -> int:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_STAGE
+	return stage_choice	
+	
 func set_window_mode(index : int) -> void:
 	window_mode_index = index
 
@@ -184,16 +289,80 @@ func set_keybinds_loaded(data : Dictionary) -> void:
 	KEYBIND_RESOURCE.secondary_action_key = loaded_secondary_action
 	KEYBIND_RESOURCE.pause_key = loaded_pause
 
+func set_points_to_win(value : int) -> void:
+	points_to_win = value
 
+func set_cpu_difficulty(index : int) -> void:
+	cpu_difficulty = index as cpu_difficulty_setting_states
+	
+func set_cpu_count(index : int) -> void:
+	cpu_count = index as cpu_count_setting_states
+	
+func set_misobon_setting(index : int) -> void:
+	misobon_setting = index as misobon_setting_states
+
+func set_match_time(seconds : int) -> void:
+	match_time = seconds
+	
+func set_hurry_up_time(seconds : int) -> void:
+	hurry_up_time = seconds
+	
+func set_hurry_up_state(isOn : bool) -> void:
+	hurry_up_state = isOn
+	
+func set_sudden_death_state(isOn : bool) -> void:
+	sudden_death_state = isOn
+
+func set_breakable_spawn_rule(index : int) -> void:
+	breakable_spawn_rule = index as breakable_spawn_rule_setting_states
+
+func set_breakable_chance(value : float) -> void:
+	breakable_chance = value
+	
+func set_pickup_spawn_rule(index : int) -> void:
+	pickup_spawn_rule = index as pickup_spawn_rule_setting_states
+
+func set_pickup_chance(value : float) -> void:
+	pickup_chance = value
+	
+func set_stage_choice(index : int) -> void:
+	stage_choice = index as multiplayer_stages
+
+func set_options_settings_vars_from_dict(datadict : Dictionary) -> void:
+	set_window_mode(datadict.window_mode_index if datadict.has('window_mode_index') else DEFAULT_SETTINGS.DEFAULT_WINDOW_MODE_INDEX)
+	set_resolution(datadict.resolution_index if datadict.has('resolution_index') else DEFAULT_SETTINGS.DEFAULT_RESOLUTION_INDEX)
+	set_master_vol(datadict.master_volume if datadict.has('master_volume') else DEFAULT_SETTINGS.DEFAULT_MASTER_VOLUME)
+	set_music_vol(datadict.music_volume if datadict.has('music_volume') else DEFAULT_SETTINGS.DEFAULT_MUSIC_VOLUME)
+	set_sfx_vol(datadict.sfx_volume if datadict.has('sfx_volume') else DEFAULT_SETTINGS.DEFAULT_SFX_VOLUME)
+	set_keybinds_loaded(datadict.keybinds if datadict.has('keybinds') else create_keybinds_dictionary())
+
+@rpc("call_local")
+func set_battle_settings_vars_from_dict(datadict : Dictionary) -> void:
+	set_points_to_win(datadict.points_to_win if datadict.has('points_to_win') else BATTLE_SETTINGS.DEFAULT_POINTS_TO_WIN)
+	set_cpu_difficulty(datadict.cpu_difficulty if datadict.has('cpu_difficulty') else BATTLE_SETTINGS.DEFAULT_CPU_DIFFICULTY)
+	set_cpu_count(datadict.cpu_count if datadict.has('cpu_count') else BATTLE_SETTINGS.DEFAULT_CPU_COUNT)
+	set_misobon_setting(datadict.misobon_setting if datadict.has('misobon_setting') else BATTLE_SETTINGS.DEFAULT_MISOBON_SETTING)
+	set_match_time(datadict.match_time if datadict.has('match_time') else BATTLE_SETTINGS.DEFAULT_MATCH_TIME)
+	set_hurry_up_time(datadict.hurry_up_time if datadict.has('hurry_up_time') else BATTLE_SETTINGS.DEFAULT_HURRY_UP_TIME)
+	set_hurry_up_state(datadict.hurry_up_state if datadict.has('hurry_up_state') else BATTLE_SETTINGS.DEFAULT_HURRY_UP_STATE)
+	set_sudden_death_state(datadict.sudden_death_state if datadict.has('sudden_death_state') else BATTLE_SETTINGS.DEFAULT_SUDDEN_DEATH_STATE)
+	set_breakable_spawn_rule(datadict.breakable_spawn_rule if datadict.has('breakable_spawn_rule') else BATTLE_SETTINGS.DEFAULT_BREAKABLE_SPAWN_RULE)
+	set_breakable_chance(datadict.breakable_chance if datadict.has('breakable_chance') else BATTLE_SETTINGS.DEFAULT_BREAKABLE_CHANCE)
+	set_pickup_spawn_rule(datadict.pickup_spawn_rule if datadict.has('pickup_spawn_rule') else BATTLE_SETTINGS.DEFAULT_PICKUP_SPAWN_RULE)
+	set_pickup_chance(datadict.pickup_chance if datadict.has('pickup_chance') else BATTLE_SETTINGS.DEFAULT_PICKUP_CHANCE)
+	set_pickup_chance(datadict.stage_choice if datadict.has('stage_choice') else BATTLE_SETTINGS.DEFAULT_STAGE)
+
+func set_all_vars_from_dict(datadict : Dictionary) -> void:
+	set_options_settings_vars_from_dict(datadict)
+	set_battle_settings_vars_from_dict(datadict)
+	
 func on_settings_data_loaded(data : Dictionary) -> void:
+	#Set Actual Data
 	loaded_data = data
-	set_window_mode(loaded_data.window_mode_index)
-	set_resolution(loaded_data.resolution_index)
-	set_master_vol(loaded_data.master_volume)
-	set_music_vol(loaded_data.music_volume)
-	set_sfx_vol(loaded_data.sfx_volume)
-	set_keybinds_loaded(loaded_data.keybinds)
-
+	#Set Personal Data
+	personal_loaded_data = data
+	set_all_vars_from_dict(personal_loaded_data)
+	
 func handle_signals() -> void:
 	SettingsSignalBus.on_window_mode_selected.connect(set_window_mode)
 	SettingsSignalBus.on_resolution_selected.connect(set_resolution)
@@ -201,7 +370,16 @@ func handle_signals() -> void:
 	SettingsSignalBus.on_music_sound_set.connect(set_music_vol)
 	SettingsSignalBus.on_sfx_sound_set.connect(set_sfx_vol)
 	SettingsSignalBus.load_settings_data.connect(on_settings_data_loaded)
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+	SettingsSignalBus.on_points_to_win_set.connect(set_points_to_win)
+	SettingsSignalBus.on_cpu_difficulty_set.connect(set_cpu_difficulty)
+	SettingsSignalBus.on_cpu_count_set.connect(set_cpu_count)
+	SettingsSignalBus.on_match_time_set.connect(set_match_time)
+	SettingsSignalBus.on_hurry_up_time_set.connect(set_hurry_up_time)
+	SettingsSignalBus.on_hurry_up_state_set.connect(set_hurry_up_state)
+	SettingsSignalBus.on_sudden_death_state_set.connect(set_sudden_death_state)
+	SettingsSignalBus.on_misobon_mode_set.connect(set_misobon_setting)
+	SettingsSignalBus.on_breakable_spawn_rule_set.connect(set_breakable_spawn_rule)
+	SettingsSignalBus.on_breakable_chance_set.connect(set_breakable_chance)
+	SettingsSignalBus.on_pickup_spawn_rule_set.connect(set_pickup_spawn_rule)
+	SettingsSignalBus.on_pickup_chance_set.connect(set_pickup_chance)
+	SettingsSignalBus.on_stage_choice_set.connect(set_stage_choice)

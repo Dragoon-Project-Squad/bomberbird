@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddtb3ctgal4ok"]
+
+[ext_resource type="Script" uid="uid://qmhqcwcc44c5" path="res://scripts/enemy/enemy_pool.gd" id="1_72rqm"]
+[ext_resource type="Script" uid="uid://pcglwr1absl5" path="res://scripts/enemy/enemy_spawner.gd" id="2_diwld"]
+
+[node name="EnemyPool" type="Node2D"]
+script = ExtResource("1_72rqm")
+
+[node name="EnemySpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("..")
+script = ExtResource("2_diwld")

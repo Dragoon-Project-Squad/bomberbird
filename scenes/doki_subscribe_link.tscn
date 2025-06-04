@@ -1,0 +1,78 @@
+[gd_scene load_steps=6 format=3 uid="uid://c6osao13wt47c"]
+
+[ext_resource type="Theme" uid="uid://wfdn1qbkwu46" path="res://assets/styles/main_menu_theme.tres" id="1_ym7o5"]
+
+[sub_resource type="GDScript" id="GDScript_ym7o5"]
+resource_name = "dokisubscribelink"
+script/source = "extends Control
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+
+func _ready() -> void:
+	animation_player.play(\"rainbowlink\")
+	
+func _on_text_meta_clicked(meta: Variant) -> void:
+	AudioManager.on_button_pressed()
+	OS.shell_open(str(meta))
+"
+
+[sub_resource type="Animation" id="Animation_lgwnu"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_flqon"]
+resource_name = "rainbowlink"
+length = 6.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Text:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4, 5, 5.93333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 0, 0, 1), Color(1, 1, 0, 1), Color(0, 1, 0, 1), Color(0, 1, 1, 1), Color(0, 0, 1, 1), Color(1, 0, 1, 1), Color(1, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rcqid"]
+_data = {
+&"RESET": SubResource("Animation_lgwnu"),
+&"rainbowlink": SubResource("Animation_flqon")
+}
+
+[node name="DokiSubscribeLink" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 224.0
+offset_bottom = 16.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+script = SubResource("GDScript_ym7o5")
+
+[node name="Text" type="RichTextLabel" parent="."]
+modulate = Color(0.219304, -0.0715232, 1.02847, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -226.0
+offset_top = -15.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 1
+theme = ExtResource("1_ym7o5")
+bbcode_enabled = true
+text = "[url=https://www.youtube.com/dokibird?sub_confirmation=1]Check out @Dokibird on Youtube![/url]"
+scroll_active = false
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_rcqid")
+}
+
+[connection signal="meta_clicked" from="Text" to="." method="_on_text_meta_clicked"]
