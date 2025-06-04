@@ -52,6 +52,7 @@ var lives_reset: int
 var explosion_boost_count_reset: int
 var bomb_count_locked: bool = false
 var bomb_to_throw: BombRoot
+var bomb_kicked: BombRoot
 
 func _ready():
 	player_died.connect(globals.player_manager._on_player_died)
@@ -85,7 +86,7 @@ func _process(delta: float):
 		pickups.held_pickups[globals.pickups.INVINCIBILITY_VEST] = false
 	elif invulnerable_animation_time <= INVULNERABILITY_FLASH_TIME:
 		self.visible = !self.visible
-		invulnerable_animation_time = 0	
+		invulnerable_animation_time = 0
 
 func _physics_process(_delta: float):
 	pass
@@ -132,6 +133,28 @@ func throw_bomb(direction: Vector2i) -> int:
 	bomb_to_throw.do_throw.rpc(direction, self.position)
 	bomb_to_throw = null
 	return 0
+
+func kick_bomb(direction: Vector2i):
+	if !is_multiplayer_authority():
+		return 1
+	if pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] != pickups.exclusive.KICK:
+		return 1
+
+	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
+	for body in bodies:
+		if body is Bomb:
+			bomb_kicked = body.get_parent()
+			break
+	if bomb_kicked == null or (bodies.is_empty() and bomb_kicked.state == bomb_kicked.STATIONARY):
+		return 1
+
+	if bomb_kicked.bomb_owner != null and bomb_kicked.state == bomb_kicked.STATIONARY:
+		bomb_kicked.do_kick.rpc(direction)
+	elif bomb_kicked.state == bomb_kicked.SLIDING:
+		bomb_kicked.stop_kick.rpc()
+		bomb_kicked = null
+	else:
+		bomb_kicked = null
 
 ## places a bomb if the current position is valid
 func place_bomb():
@@ -340,8 +363,12 @@ func enable_bombclip():
 	self.set_collision_mask_value(4, false)
 
 @rpc("call_local")
+func disable_bombclip():
+	self.set_collision_mask_value(4, true)
+
+@rpc("call_local")
 func increment_bomb_count():
-	if (bomb_count_locked):
+	if bomb_count_locked:
 		return
 	
 	bomb_total = min(bomb_total+1, MAX_BOMBS_OWNABLE)
@@ -356,6 +383,8 @@ func lock_bomb_count(target_bomb_count: int):
 @rpc("call_local")
 func unlock_bomb_count():
 	bomb_count_locked = false
+	bomb_total = 2
+	bomb_count = min(bomb_count+1, bomb_total)
 
 @rpc("call_local")
 func return_bomb():
@@ -381,7 +410,7 @@ func do_hurt() -> void:
 
 @rpc("call_local")
 ## kills this player and awards whoever killed it
-func exploded(by_who):
+func exploded(_by_who):
 	if stunned || invulnerable || stop_movement:
 		return
 	lives -= 1
@@ -407,7 +436,3 @@ func start_invul():
 	invulnerable_remaining_time = INVULNERABILITY_POWERUP_TIME
 	invulnerable = true
 	set_process(true)
-	
-
-	
-	
