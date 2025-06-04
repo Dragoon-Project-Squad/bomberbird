@@ -33,12 +33,10 @@ func astargrid_set_point(pos: Vector2, solid: bool) -> void:
 		solid,
 		)
 
-func create_path_no_breakables(player: Player, end_position: Vector2i) -> Array[Vector2i]:
-	var player_pos = globals.player_manager.get_node(str(player.name)).global_position
+func create_path_no_breakables(player_pos: Vector2, end_position: Vector2i) -> Array[Vector2i]:
 	var map_player_pos = world_data.tile_map.local_to_map(player_pos)
 	return astargrid_no_breakables.get_id_path(map_player_pos, end_position)
 
-func create_path(player: Player, end_position: Vector2i) -> Array[Vector2i]:
-	var player_pos = globals.player_manager.get_node(str(player.name)).global_position
+func create_path(player_pos: Vector2, end_position: Vector2i) -> Array[Vector2i]:
 	var map_player_pos = world_data.tile_map.local_to_map(player_pos)
 	return astargrid.get_id_path(map_player_pos, end_position)

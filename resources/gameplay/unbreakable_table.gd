@@ -22,3 +22,22 @@ func get_coords() -> Array[Vector2i]:
 
 func size() -> int:
 	return len(unbreakables)
+
+func to_json() -> Array[Dictionary]:
+	var res: Array[Dictionary]
+	for entry in unbreakables:
+		var new_entry: Dictionary = {
+			"coords": var_to_str(entry.coords),
+			"probability": entry.probability,
+			}
+		res.append(new_entry)
+	return res
+
+func from_json(json_data: Array):
+	unbreakables = []
+	for entry in json_data:
+		var new_entry: Dictionary = {
+			"coords": str_to_var(entry.coords),
+			"probability": entry.probability,
+			}
+		unbreakables.append(new_entry)

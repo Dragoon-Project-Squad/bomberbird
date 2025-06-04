@@ -1,7 +1,5 @@
 class_name SuggestionLineEdit extends LineEdit
 
-const SAVE_PATH: String = "res://resources/level_graph/saved_graphs"
-
 @onready var popup_menu: PopupMenu = PopupMenu.new()
 
 @export var popup_menu_size: int = 10
@@ -19,7 +17,7 @@ func _ready() -> void:
 	tooltip_text = "Press Arrow down to get suggestions"
 	placeholder_text = "Press Arrow down when focused"
 
-	_get_file_name_from_dir(SAVE_PATH, full_list)
+	_get_file_name_from_dir(LevelGraph.SAVE_PATH, full_list)
 	popup_menu.unfocusable = true
 	custom_minimum_size.x = 300
 	
@@ -36,15 +34,12 @@ func _ready() -> void:
 
 func _get_file_name_from_dir(path: String, list: Array[String]):
 	list.clear()
-	var res_dir = DirAccess.open(path)
-	assert(res_dir, "res dir not found at: " + path)
+	var camp_dir = DirAccess.open(path)
+	assert(camp_dir, "res dir not found at: " + path)
 
-	res_dir.list_dir_begin()
-	var res_file: String = res_dir.get_next()
-	while res_file != "":
-		if res_file.get_extension() == "res":
-			list.append(res_file.get_basename())
-		res_file = res_dir.get_next()
+	for camp_file in camp_dir.get_files():
+		if camp_file.get_extension() == "json":
+			list.append(camp_file.get_basename())
 
 func _gui_input(event: InputEvent) -> void:
 	if not popup_menu.visible:
@@ -90,6 +85,6 @@ func _update_popup_menu(silent):
 	idx = 0
 	popup_menu.set_focused_item(idx)
 	
-func _on_graph_edit_saved():
-	_get_file_name_from_dir(SAVE_PATH, full_list)
+func _on_graph_edit_saved(_name: String):
+	_get_file_name_from_dir(LevelGraph.SAVE_PATH, full_list)
 	_update_list(text, true)

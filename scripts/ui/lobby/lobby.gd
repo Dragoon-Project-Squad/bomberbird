@@ -57,8 +57,9 @@ func hide_all_lobby_screens() -> void:
 	stage_select_screen.hide()
 
 func _on_game_error(errtxt):
-	$ErrorDialog.dialog_text = errtxt
-	$ErrorDialog.popup_centered()
+	if is_inside_tree():
+		$ErrorDialog.dialog_text = errtxt
+		$ErrorDialog.popup_centered()
 	
 func _on_connect_multiplayer_game_hosted() -> void:
 	#HOST

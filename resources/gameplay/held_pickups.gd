@@ -1,13 +1,30 @@
 class_name HeldPickups extends Resource
 ## holds information about which pickups a player has.
 
-enum bomb_types {DEFAULT, PIERCING, MINE, REMOTE, SEEKER}
-enum exclusive {DEFAULT, KICK, BOMBTHROUGH}
-enum virus {DEFAULT, SPEEDDOWN, SPEEDUP, FIREDOWN, SLOWFUSE_A, SLOWFUSE_B, FASTFUSE, AUTOBOMB, INVERSE_CONTROL, NON_STOP_MOTION, NOBOMBS, SIZE}
+enum bomb_types {DEFAULT = 0, PIERCING, MINE, REMOTE, SEEKER}
+enum exclusive {DEFAULT = 0, KICK, BOMBTHROUGH}
+enum virus {DEFAULT = 0, SPEEDDOWN, SPEEDUP, FIREDOWN, SLOWFUSE_A, SLOWFUSE_B, FASTFUSE, AUTOBOMB, INVERSE_CONTROL, NON_STOP_MOTION, NOBOMBS, SIZE}
+
+const MAX_BOMB_UPGRADE_PERMITTED: int = 6
+const MAX_EXPLOSION_BOOSTS_PERMITTED: int = 6
+const MAX_SPEED_UP_PERMITTED: int = 99
+
+@export_group("inital pickups")
+@export_enum("NONE", "PIERCING", "MINE", "REMOTE", "SEEKER") var initial_bomb_type: int = 0
+@export_enum("NONE", "KICK", "BOMBTHROUGHT") var initial_exlusive: int = 0
+@export var initial_bomb_up: int = 0
+@export var initial_fire_up: int = 0
+@export var initial_speed_up: int = 0
+@export var initial_hp_up: int = 0
+@export var initial_full_fire: bool = false
+@export var initial_bomb_punch: bool = false
+@export var initial_power_glove: bool = false
+@export var initial_wallthrough: bool = false
+@export var initial_freeze: bool = false
+@export var initial_invincibility_vest: bool = false
 
 var held_pickups: Dictionary = {
 	globals.pickups.GENERIC_BOMB: bomb_types.DEFAULT,
-	globals.pickups.MINE: bomb_types.MINE,
 	globals.pickups.GENERIC_EXCLUSIVE: exclusive.DEFAULT,
 	globals.pickups.VIRUS: virus.DEFAULT,
 	globals.pickups.BOMB_UP: 0,
@@ -25,22 +42,21 @@ var held_pickups: Dictionary = {
 func _init():
 	self.resource_local_to_scene = true
 
-## reset to the starting position of no pickups
-## IMPORTANT: THIS MAY NOT RESET THE EFFECTS CAUSED BY THE PICKUPS SUCH AS A SPEED INCREASE AS THOSE ARE HANDLED SEPERATLY BUT BOOLEAN PICKUPS MAY ALREADY BE RESET BY THIS
+## reset to the starting position of default pickups
 func reset():
-	held_pickups[globals.pickups.GENERIC_BOMB] = bomb_types.DEFAULT
-	held_pickups[globals.pickups.GENERIC_EXCLUSIVE] = exclusive.DEFAULT
-	held_pickups[globals.pickups.VIRUS] = virus.DEFAULT
-	held_pickups[globals.pickups.BOMB_UP] = 0
-	held_pickups[globals.pickups.FIRE_UP] = 0
-	held_pickups[globals.pickups.SPEED_UP] = 0
-	held_pickups[globals.pickups.HP_UP] = 0
-	held_pickups[globals.pickups.FULL_FIRE] = false
-	held_pickups[globals.pickups.BOMB_PUNCH] = false
-	held_pickups[globals.pickups.POWER_GLOVE] = false
-	held_pickups[globals.pickups.WALLTHROUGH] = false
-	held_pickups[globals.pickups.FREEZE] = false
-	held_pickups[globals.pickups.INVINCIBILITY_VEST] = false
+	held_pickups[globals.pickups.GENERIC_BOMB] = initial_bomb_type
+	held_pickups[globals.pickups.GENERIC_EXCLUSIVE] = initial_exlusive
+	held_pickups[globals.pickups.VIRUS] = 0
+	held_pickups[globals.pickups.BOMB_UP] = initial_bomb_up
+	held_pickups[globals.pickups.FIRE_UP] = initial_fire_up
+	held_pickups[globals.pickups.SPEED_UP] = initial_speed_up
+	held_pickups[globals.pickups.HP_UP] = initial_hp_up
+	held_pickups[globals.pickups.FULL_FIRE] = initial_full_fire
+	held_pickups[globals.pickups.BOMB_PUNCH] = initial_bomb_punch
+	held_pickups[globals.pickups.POWER_GLOVE] = initial_power_glove
+	held_pickups[globals.pickups.WALLTHROUGH] = initial_wallthrough
+	held_pickups[globals.pickups.FREEZE] = initial_freeze
+	held_pickups[globals.pickups.INVINCIBILITY_VEST] = initial_invincibility_vest
 
 ## add a pickup to the players "inventory"
 func add(pickup_type: int, virus_type: int = 0):
@@ -57,11 +73,11 @@ func add(pickup_type: int, virus_type: int = 0):
 		globals.pickups.VIRUS:
 			held_pickups[pickup_type] = virus_type
 		globals.pickups.BOMB_UP:
-			held_pickups[pickup_type] += 1
+			held_pickups[pickup_type] = min(held_pickups[pickup_type] + 1, MAX_BOMB_UPGRADE_PERMITTED)
 		globals.pickups.FIRE_UP:
-			held_pickups[pickup_type] += 1
+			held_pickups[pickup_type] = min(held_pickups[pickup_type] + 1, MAX_EXPLOSION_BOOSTS_PERMITTED)
 		globals.pickups.SPEED_UP:
-			held_pickups[pickup_type] += 1
+			held_pickups[pickup_type] = min(held_pickups[pickup_type] + 1, MAX_SPEED_UP_PERMITTED)
 		globals.pickups.HP_UP:
 			held_pickups[pickup_type] += 1
 		globals.pickups.FULL_FIRE:

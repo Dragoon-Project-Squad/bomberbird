@@ -19,7 +19,7 @@ func disable():
 func enable(_tile: int = 0, cell: Vector2i = Vector2i.ZERO, is_signal: bool = false):
 	# if the signal is not for this exit do not enable and reconnect the signal
 	if world_data.tile_map.local_to_map(self.position) != cell && is_signal: return
-	self.show()
+	self.show.call_deferred()
 	exit_col_shape.set_deferred("disabled", 0)
 	if is_signal:
 		world_data.world_data_changed.disconnect(enabled_signal_fun)

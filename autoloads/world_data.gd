@@ -3,7 +3,8 @@ class_name WorldData extends Node
 
 signal world_data_changed 
 
-enum tiles {EMPTY, UNBREAKABLE, BREAKABLE, BOMB, PICKUP}
+enum tiles {EMPTY, UNBREAKABLE, BREAKABLE, BOMB, MINE, PICKUP}
+enum danger_level {SAFE, UNSAFE}
 enum bounds {IN = -1, OUT_TOP = 0, OUT_RIGHT = 1, OUT_DOWN = 2, OUT_LEFT = 3}
 
 #private members
@@ -34,28 +35,45 @@ var tile_map: TileMapLayer
 ## returns the index of a vector corresponding the the _world_matrix entry of this vector
 ## [param vec]
 func _vec_to_index(vec: Vector2i) -> int:
-	assert(0 <= vec.x && vec.x < world_width && 0 <= vec.y && vec.y <= world_height, "index " + str(vec) + " out of bounds for world_data")
-	var indx: int = vec.x + vec.y * self.world_width
+	assert(0 <= vec.x && vec.x < world_width && 0 <= vec.y && vec.y < world_height, "index " + str(vec) + " out of bounds for world_data")
+	var indx: int = (vec.x + vec.y * self.world_width) * 2
+	assert(indx < self._world_matrix.size(), "index" + str(vec) + " <-> " + str(indx) + " out of bounds for world_data")
+	return indx
+
+## returns the index of a vector corresponding the the _world_matrix entry of this vector
+## [param vec]
+func _vec_to_danger_index(vec: Vector2i) -> int:
+	assert(0 <= vec.x && vec.x < world_width && 0 <= vec.y && vec.y < world_height, "index " + str(vec) + " out of bounds for world_data")
+	var indx: int = (vec.x + vec.y * self.world_width) * 2 + 1
 	assert(indx < self._world_matrix.size(), "index" + str(vec) + " <-> " + str(indx) + " out of bounds for world_data")
 	return indx
 
 ## adds a tile to a position ensuring that that tile is valid
 ## [param tile] ENUM corresponding to the tile that should be placed
 ## [param pos] Vector2i
-func _add_tile(tile: int, pos: Vector2i):
+func _add_tile(tile: int, pos: Vector2i, danger_range: int = 0, pierce: bool = false):
 	var index = _vec_to_index(pos)
+	var danger_index = _vec_to_danger_index(pos)
 	assert(self._world_matrix[index] != tile, "attempted to place " + _int_to_enum_name(tile)	+ " on a cell already occupied by that cell")
 	self._world_matrix[index] = tile
+	if tile == tiles.BOMB:
+		self._world_matrix[danger_index] = danger_range if !pierce else -danger_range
+	elif tile == tiles.MINE:
+		self._world_matrix[danger_index] = 0
 
 	if !self._is_initialized: return
-	if self._world_matrix[index] == tiles.EMPTY: return
+	if self._world_matrix[index] == tiles.EMPTY:
+		self._world_empty_cells[pos] = true
+		return
 	self._world_empty_cells.erase(pos)
 
 ## removes a tile to a position
 ## [param pos] Vector2i
 func _remove_tile(pos: Vector2i):
 	var index = _vec_to_index(pos)
+	var danger_index = _vec_to_danger_index(pos)
 	self._world_matrix[index] = tiles.EMPTY
+	self._world_matrix[danger_index] = 0
 
 	if !self._is_initialized: return
 	self._world_empty_cells[pos] = true
@@ -65,7 +83,7 @@ func _remove_tile(pos: Vector2i):
 func _debug_print_matrix():
 	print("World Matrix:")
 	for y in range(0, world_height):
-		print(_world_matrix.slice(y * world_width, (y + 1) * world_width))
+		print(_world_matrix.slice(y * world_width * 2, (y + 1) * world_width * 2))
 	print("[" + "+++".repeat(world_width) + "]")
 	print("Empty cells: ", _world_empty_cells.keys())
 	print("[" + "+++".repeat(world_width) + "]")
@@ -105,7 +123,7 @@ func begin_init(floor_rect2i: Rect2i, world_edge_rect2i: Rect2i, tile_map: TileM
 
 	self.tile_map = tile_map
 
-	self._world_matrix.resize(world_height * world_width)
+	self._world_matrix.resize(world_height * world_width * 2)
 
 ## Initialiszes all unbreakable tiles from the tile_map containing them.
 func init_unbreakables(unbreakable_atlas_coord: Vector2i, unbreakable_tile_map: TileMapLayer):
@@ -131,18 +149,22 @@ func finish_init():
 
 @rpc("call_local")
 ## Set a tile at global_po in world_data to 'tile' throwing an error if that tile is already occupied
-func set_tile(tile: int, global_pos: Vector2):
+func set_tile(tile: int, global_pos: Vector2, danger_range: int = 0, pierce: bool = false):
 	var matrix_pos: Vector2i = tile_map.local_to_map(global_pos) - floor_origin
 	world_data_changed.emit(tile, matrix_pos + floor_origin)
 	if tile == tiles.EMPTY:
 		_remove_tile(matrix_pos)
 	else:
-		_add_tile(tile, matrix_pos)
+		_add_tile(tile, matrix_pos, danger_range, pierce)
 
 ## checks if the tile at 'global_pos' is 'tile'
 func is_tile(tile: int, global_pos: Vector2):
 	var matrix_pos: Vector2i = tile_map.local_to_map(global_pos) - floor_origin
 	return tile == _world_matrix[_vec_to_index(matrix_pos)]
+
+## checks if the tile at 'global_pos' is 'tile'
+func _is_tile(tile: int, pos: Vector2i):
+	return tile == _world_matrix[_vec_to_index(pos)]
 
 ## returns bounds.IN = -1 iff global_pos is not out of bounds else returns the corresponding enum
 func is_out_of_bounds(global_pos: Vector2) -> int:
@@ -186,13 +208,13 @@ func get_random_empty_tile(in_cells: bool = false) -> Variant:
 
 	var res = temp.pick_random()
 	if res == null: return null
+	_world_empty_cells[res] = false
 	res += floor_origin
 	if !in_cells:
 		res = tile_map.map_to_local(res)
-
 	return res
 
-## gets an Array of size count (or less if less are awailable) of randomly choosen empty cells
+## gets an Array of size count (or less if less are awailable) of randomly choosen empty cells set all chooses to handed out
 func get_random_empty_tiles(count: int, in_cells: bool = false) -> Array:
 	#There is probably a more efficient way to do this
 	var temp: Array = _world_empty_cells.keys()
@@ -209,8 +231,179 @@ func get_random_empty_tiles(count: int, in_cells: bool = false) -> Array:
 			res[i] = tile_map.map_to_local(temp[i])
 		else:
 			res[i] = temp[i]
-
 	return res
+
+func reset_empty_cells(cells: Array[Vector2]) -> void:
+	for cell in cells:
+		if _world_empty_cells.has(cell):
+			_world_empty_cells[cell] = true
+
+func get_empty_tiles(in_cells: bool = false) -> Array:
+	if in_cells:
+		return _world_empty_cells.keys().filter(
+			func (key): return _world_empty_cells[key]
+			).map(
+				func (key): return key + floor_origin
+				)
+	else:
+		return _world_empty_cells.keys().filter(
+			func (key): return _world_empty_cells[key]
+			).map(
+				func (key): return tile_map.map_to_local(key + floor_origin)
+				)
+
+func _is_walkable(pos: Vector2i, walkable_tiles: Array[int]):
+	if !(0 <= pos.x && pos.x < world_width && 0 <= pos.y && pos.y < world_height): return false
+	return self._world_matrix[_vec_to_index(pos)] in walkable_tiles
+
+func _to_real_path(path: Array):
+	var res: Array[Vector2]
+	for i in range(len(path)):
+		res.append(tile_map.map_to_local(path[i] + floor_origin))
+	return res
+
+func get_random_path(start_pos: Vector2, max_range: int, safe: bool = true, valid_tiles: Array[int] = [tiles.EMPTY, tiles.PICKUP]) -> Array[Vector2]:
+	var start_matrix_pos: Vector2i = tile_map.local_to_map(start_pos) - floor_origin
+
+	var path_queue: Array[Array] = [[start_matrix_pos]]
+	while !path_queue.is_empty():
+		var path = path_queue.pop_front()
+		if len(path) == max_range:
+			path_queue.append(path)
+			break
+		for dir in [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP]:
+			var next_pos: Vector2i = path[-1] + dir
+			if len(path) > 1 && next_pos == path[-2]: continue
+			if !_is_walkable(next_pos, valid_tiles): continue
+			if !safe || !_is_safe_cell(next_pos): continue
+			var new_path = path.duplicate() 
+			new_path.append(next_pos)
+			path_queue.append(new_path)
+		if path_queue.is_empty():
+			return _to_real_path(path)
+
+	if path_queue.is_empty():
+		return []
+	var choosen_path: Array = path_queue.pick_random()
+	return _to_real_path(choosen_path)
+
+func is_safe_placement(pos: Vector2, danger_range: int, valid_tiles: Array[int] = [tiles.EMPTY, tiles.PICKUP]) -> bool:
+	var matrix_pos: Vector2i = tile_map.local_to_map(pos) - floor_origin
+
+	var path_queue: Array[Array] = [[matrix_pos]]
+	while !path_queue.is_empty():
+		var path = path_queue.pop_front()
+		for dir in [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP]:
+			var next_pos: Vector2i = path[-1] + dir
+			if next_pos in path: continue
+			if !_is_walkable(next_pos, valid_tiles): continue
+			var diff: Vector2i = next_pos - matrix_pos
+			if !(diff.x == 0 && abs(diff.y) <= danger_range) && !(diff.y == 0 && abs(diff.x) <= danger_range):
+				return true
+			var new_path = path.duplicate() 
+			new_path.append(next_pos)
+			path_queue.append(new_path)
+	return false
+
+
+func get_paths_to_safe(start_pos: Vector2, valid_tiles: Array[int] = [tiles.EMPTY, tiles.PICKUP]) -> Array[Array]:
+	var start_matrix_pos: Vector2i = tile_map.local_to_map(start_pos) - floor_origin
+
+	var found_safe_at_length: int = -1
+	var path_queue: Array[Array] = [[start_matrix_pos]]
+	while !path_queue.is_empty():
+		var path = path_queue.pop_front()
+		if found_safe_at_length == len(path):
+			break
+		for dir in [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP]:
+			var next_pos: Vector2i = path[-1] + dir
+			if next_pos in path: continue
+			if !_is_walkable(next_pos, valid_tiles): continue
+			if _is_safe_cell(next_pos): 
+				found_safe_at_length = len(path) + 1
+				path.append(next_pos)
+			var new_path = path.duplicate() 
+			new_path.append(next_pos)
+			path_queue.append(new_path)
+
+	var safe_paths: Array[Array]
+	for path in path_queue:
+		if !_is_safe_cell(path[-1]): continue
+		safe_paths.append(_to_real_path(path))
+	return safe_paths
+
+func get_target_path(start_pos: Vector2, end_pos: Vector2, safe: bool = true, valid_tiles: Array[int] = [tiles.EMPTY, tiles.PICKUP]) -> Array[Vector2]:
+	var start_matrix_pos: Vector2i = tile_map.local_to_map(start_pos) - floor_origin
+	var end_matrix_pos: Vector2i = tile_map.local_to_map(end_pos) - floor_origin
+
+	var path_queue: Array = [[start_matrix_pos]]
+	var visisted: Dictionary = {}
+	while !path_queue.is_empty():
+		var path = path_queue.pop_front()
+		var node: Vector2i = path[-1]
+		visisted[node] = null
+		for dir in [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP]:
+			var next_pos: Vector2i = node + dir
+			if !_is_walkable(next_pos, valid_tiles): continue
+			if safe && !_is_safe_cell(next_pos): continue
+			if visisted.has(next_pos): continue
+			var new_path = path.duplicate() 
+			new_path.append(next_pos)
+			if next_pos == end_matrix_pos: return _to_real_path(new_path)
+			path_queue.push_back(new_path)
+	return []
+
+func get_shortest_path_to(start_pos: Vector2, end_pos: Vector2, safe: bool = true, valid_tiles: Array[int] = [tiles.EMPTY, tiles.PICKUP]) -> int:
+	var start_matrix_pos: Vector2i = tile_map.local_to_map(start_pos) - floor_origin
+	var end_matrix_pos: Vector2i = tile_map.local_to_map(end_pos) - floor_origin
+
+	var path_queue: Array = [start_matrix_pos]
+	var visisted: Dictionary = {}
+	var distances: Dictionary = {start_matrix_pos: 0}
+	while !path_queue.is_empty():
+		var node = path_queue.pop_front()
+		visisted[node] = null
+		for dir in [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP]:
+			var next_pos: Vector2i = node + dir
+			if !_is_walkable(next_pos, valid_tiles): continue
+			if safe && !_is_safe_cell(next_pos): continue
+			if visisted.has(next_pos): continue
+			distances[next_pos] = distances[node] + 1
+			if next_pos == end_matrix_pos: return distances[next_pos]
+			path_queue.push_back(next_pos)
+	return -1
+
+func _is_safe_cell(pos: Vector2i, do_mine: bool = true) -> bool:
+	for dir in [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP]:
+		var curr_pos: Vector2i = pos
+		var distance: int = 0
+		var is_pierce: bool = false
+		var seen_breakable: bool = false
+		while (
+			0 <= curr_pos.x &&
+			curr_pos.x < world_width &&
+			0 <= curr_pos.y &&
+			curr_pos.y < world_height &&
+			self._world_matrix[_vec_to_index(curr_pos)] != tiles.UNBREAKABLE
+		):
+			var tile: int = self._world_matrix[_vec_to_index(curr_pos)]
+			if tile == tiles.BREAKABLE:
+				seen_breakable = true
+			var curr_danger: int = self._world_matrix[_vec_to_danger_index(curr_pos)]
+			if curr_danger != 0:
+				if curr_danger < 0: 
+					curr_danger = -curr_danger
+					is_pierce = true
+				if distance <= curr_danger && (is_pierce || !seen_breakable) && (do_mine || tile == tiles.BOMB):
+					return false
+			is_pierce = false
+			distance += 1
+			curr_pos += dir
+	return true
+
+func is_safe(pos: Vector2, do_mine: bool = true) -> bool:
+	var matrix_pos: Vector2i = tile_map.local_to_map(pos) - floor_origin
+	return _is_safe_cell(matrix_pos, do_mine)
 
 ## resets world_data to before initialisation
 func reset():

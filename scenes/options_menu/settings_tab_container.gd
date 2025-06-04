@@ -3,7 +3,7 @@ extends Control
 
 @onready var tab_container: TabContainer = $TabContainer
 
-signal Exit_options_menu
+signal options_menu_exited
 
 func _process(delta):
 	options_menu_inputs()
@@ -30,4 +30,4 @@ func options_menu_inputs() -> void:
 		change_tab(previous_tab)
 	
 	if (Input.is_action_just_pressed("pause") or Input.is_action_just_pressed("ui_cancel")):
-		Exit_options_menu.emit()
+		options_menu_exited.emit()

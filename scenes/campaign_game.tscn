@@ -1,19 +1,20 @@
-[gd_scene load_steps=21 format=3 uid="uid://cnh2gm7b6k6qf"]
+[gd_scene load_steps=22 format=3 uid="uid://cnh2gm7b6k6qf"]
 
 [ext_resource type="Script" uid="uid://ddbcnbcl4rnuf" path="res://scripts/campaign_game.gd" id="1_xj4ag"]
 [ext_resource type="PackedScene" uid="uid://c08ari0b7ej0q" path="res://scenes/stage_handler.tscn" id="2_6c1o1"]
-[ext_resource type="Script" uid="uid://c6ubwejmc188k" path="res://scripts/players_manager.gd" id="3_1u21r"]
-[ext_resource type="Script" uid="uid://cc3ogep372v8" path="res://scripts/player_spawner.gd" id="4_8ic0x"]
-[ext_resource type="Script" uid="uid://v2bbm1lgibpy" path="res://scripts/misobon_path.gd" id="5_qa6w2"]
-[ext_resource type="Script" uid="uid://cb0rr8pr2674f" path="res://scripts/misobon_player_spawner.gd" id="6_8w4nb"]
+[ext_resource type="Script" uid="uid://c6ubwejmc188k" path="res://scripts/player/players_manager.gd" id="3_1u21r"]
+[ext_resource type="Script" uid="uid://cc3ogep372v8" path="res://scripts/player/player_spawner.gd" id="4_8ic0x"]
+[ext_resource type="Script" uid="uid://v2bbm1lgibpy" path="res://scripts/player/misobon/misobon_path.gd" id="5_qa6w2"]
+[ext_resource type="Script" uid="uid://cb0rr8pr2674f" path="res://scripts/player/misobon/misobon_player_spawner.gd" id="6_8w4nb"]
 [ext_resource type="PackedScene" uid="uid://ddtb3ctgal4ok" path="res://scenes/pools/enemy_pool.tscn" id="7_1u21r"]
 [ext_resource type="PackedScene" uid="uid://ct05gu8w1wo42" path="res://scenes/pools/exit_pool.tscn" id="7_6c1o1"]
 [ext_resource type="PackedScene" uid="uid://ywlmyq88jlvj" path="res://scenes/pools/breakable_pool.tscn" id="7_u5d24"]
 [ext_resource type="PackedScene" uid="uid://c4i5gyl4cut3t" path="res://scenes/pools/bomb_pool.tscn" id="8_o8wef"]
 [ext_resource type="PackedScene" uid="uid://b22qg08qddy6x" path="res://scenes/pools/pick_up_pool.tscn" id="9_t8ctp"]
 [ext_resource type="PackedScene" uid="uid://b3638glthchxv" path="res://scenes/ingame_ui/battlemode_game_ui.tscn" id="10_tpvnf"]
-[ext_resource type="PackedScene" uid="uid://mjwddadi7v4o" path="res://scenes/ingame_ui/record_winner.tscn" id="11_6b2un"]
+[ext_resource type="PackedScene" uid="uid://cfxr8qiemjg2j" path="res://scenes/ingame_ui/singleplayer_win_status.tscn" id="13_qa6w2"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="14_8ic0x"]
+[ext_resource type="Script" uid="uid://e23rbm3rrddh" path="res://scripts/ui/ingame_ui/singleplayer_victory_status.gd" id="14_8w4nb"]
 
 [sub_resource type="Curve2D" id="Curve2D_6r17b"]
 _data = {
@@ -166,12 +167,13 @@ autostart = true
 [node name="MultiplayerGameUI" parent="." instance=ExtResource("10_tpvnf")]
 visible = false
 
-[node name="GameEndState" parent="." instance=ExtResource("11_6b2un")]
+[node name="GameEndState" parent="." instance=ExtResource("13_qa6w2")]
 visible = false
 offset_left = -193.0
-offset_top = 1.0
-offset_right = 693.0
-offset_bottom = 499.0
+offset_top = -1.0
+offset_right = 959.0
+offset_bottom = 647.0
+script = ExtResource("14_8w4nb")
 
 [node name="StageAnnouncement" type="Label" parent="."]
 visible = false

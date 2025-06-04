@@ -35,6 +35,8 @@ class_name StageCellUI extends ReferenceRect
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(96, 24, 24, 24)},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.BOMBTHROUGH}:
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(72, 24, 24, 24)},
+	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.KICK}:
+		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(144, 24, 24, 24)},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.PIERCING}:
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(48, 0, 24, 24)},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.MINE}:

@@ -13,6 +13,7 @@ var peer = null
 
 #Environmental damage vars
 const ENVIRONMENTAL_KILL_PLAYER_ID := -69
+const ENEMY_KILL_PLAYER_ID := -42
 
 # Player count variables
 var total_player_count := 1
@@ -242,7 +243,6 @@ func begin_singleplayer_game():
 		add_ai_players(total_player_count - human_player_count)
 
 	characters[1] = DEFAULT_PLAYER_TEXTURE_PATH
-
 	load_world.rpc(campaign_game_scene)
 
 func begin_game():
@@ -320,18 +320,38 @@ func is_name_free(playername: String) -> bool:
 	if times_name_used > 1:
 		return false
 	return true
-
+			
+func end_sp_game():
+	if globals.game != null: # Game is in progress.
+		# End it
+		globals.game.queue_free()
+	await get_tree().create_timer(0.05).timeout #The game scene needs to DIE.
+	#Only run if Main Menu is currently loaded in the scene.
+	if has_node("/root/MainMenu"):
+		var main_menu = get_node("/root/MainMenu")
+		main_menu.show()
+		main_menu.unpause_main_menu_music()
+	game_ended.emit() #Listen to this signal to tell other nodes to cease the game.
+	players.clear()
+	resetvars()
+	world_data.reset()
+		
 func end_game():
 	if globals.game != null: # Game is in progress.
 		# End it
 		globals.game.queue_free()
-		if !multiplayer.is_server(): #BUG: This is likely the culprite for #100 but i don't understand mp enought yet to change it
-			peer.close()
+	if multiplayer.has_multiplayer_peer(): 
+		if not multiplayer.is_server(): #I'm not the host.
+			multiplayer.multiplayer_peer.disconnect_peer(1) #Tell the host to kick me.
+		peer.close() #Close the peer so everyone really knows I'm leaving.
+		peer = OfflineMultiplayerPeer.new() #Tell Godot that we're in Offline mode and to safely retarget all RPC codes for a singleplayer experience.
+		multiplayer.set_multiplayer_peer(peer)
+	#Only run if Main Menu is currently loaded in the scene.
 	if has_node("/root/MainMenu"):
-		var main_menu: Control = get_node("/root/MainMenu")
+		var main_menu = get_node("/root/MainMenu")
 		main_menu.show()
 		main_menu.unpause_main_menu_music()
-	game_ended.emit() 
+	game_ended.emit() #Listen to this signal to tell other nodes to cease the game.
 	players.clear()
 	resetvars()
 	world_data.reset()

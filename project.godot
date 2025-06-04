@@ -12,7 +12,7 @@ config_version=5
 
 config/name="BomberBird"
 config/description="What of Bomberman but Doki"
-config/version="0.3.0.1"
+config/version="0.7.0.0"
 config/tags=PackedStringArray("2d", "network")
 run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.4")
@@ -35,8 +35,6 @@ window/stretch/mode="canvas_items"
 
 [global_group]
 
-player="human players"
-ai_player="cpu players"
 bombstop="stops bombs on impact"
 thrown_bomb_bounces="When a thrown bomb land on a member of this group, it causes the bomb to bounce further"
 ui_button=""

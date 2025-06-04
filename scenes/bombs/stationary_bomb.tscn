@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://ct3sf5ul21w14"]
 
-[ext_resource type="Script" uid="uid://bqtpsqboowpbk" path="res://scripts/stationary_bomb.gd" id="1"]
+[ext_resource type="Script" uid="uid://bqtpsqboowpbk" path="res://scripts/bomb/stationary_bomb.gd" id="1"]
 [ext_resource type="AudioStream" uid="uid://boidckhyrna5i" path="res://sound/fx/explosion.wav" id="2_gmoi6"]
 [ext_resource type="Texture2D" uid="uid://colmsqhmxnr47" path="res://assets/egg_bomb.png" id="3_0y1f5"]
 [ext_resource type="PackedScene" uid="uid://c3row0thknslo" path="res://scenes/explosion.tscn" id="4_4i8os"]

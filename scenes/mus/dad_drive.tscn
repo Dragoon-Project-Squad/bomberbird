@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bn58fqv6ar4sr"]
+
+[ext_resource type="Script" uid="uid://dgwlvvxb85sln" path="res://scripts/music.gd" id="1_fk8vg"]
+[ext_resource type="AudioStream" uid="uid://d2rlrycih5lj7" path="res://sound/mus/battle/battle2_dad_drive.ogg" id="2_fk8vg"]
+
+[node name="Music" type="Node"]
+script = ExtResource("1_fk8vg")
+
+[node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_fk8vg")
+volume_db = -4.685
+bus = &"Music"
+parameters/looping = true

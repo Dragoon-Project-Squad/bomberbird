@@ -2,7 +2,6 @@ extends Game
 
 @onready var stage_loader: Node = $StageLoader
 @onready var game_anim_player: AnimationPlayer = $AnimPlayer
-var stageMusic: AudioStreamPlayer2D
 @onready var announcer: AudioStreamPlayer = $MatchAudio/Announcer
 @onready var multiplayer_game_ui: CanvasLayer = $MultiplayerGameUI
 @onready var game_end_state: Control = $GameEndState
@@ -20,7 +19,7 @@ func start():
 	show_all_players()
 	await start_stage_start_countdown() #
 	game_ended = false
-	
+
 func load_stage() -> void:
 	var stage_path := globals.LAB_RAND_STAGE_PATH
 	if SettingsContainer.get_breakable_spawn_rule() == 2:
@@ -29,7 +28,6 @@ func load_stage() -> void:
 		stage_path = load_custom_stage()
 	stage = load(stage_path).instantiate()
 	stage_loader.add_child(stage)
-	stageMusic = stage.get_node("Music/MusicPlayer")
 
 func load_custom_stage() -> String:
 	var stage_path_to_load
@@ -87,7 +85,7 @@ func start_stage_start_countdown():
 	await game_anim_player.animation_finished
 
 func activate_ui_and_music():
-	stageMusic.play()
+	stage.start_music()
 	%MatchTimer.start()
 	multiplayer_game_ui.start_timer()
 	
@@ -130,7 +128,7 @@ func load_new_stage():
 
 func stop_the_match():
 	game_ended = true
-	stageMusic.stop()
+	stage.stop_music()
 	%MatchTimer.stop()
 	multiplayer_game_ui.stop_timer()
 	lock_misobon()
@@ -162,7 +160,7 @@ func _check_ending_condition(_alive_enemies: int = 0):
 		if len(alive_players) == 1:
 			# SHOW EM WHAT THEY'VE WON
 			multiplayer_game_ui.increase_score(alive_players[0].name)
-			await alive_players[0].play_victory(true)
+			await alive_players[0].play_victory(false)
 		await play_fade_out()
 		await get_tree().create_timer(2).timeout
 		#DO WIN SCREEN STUFF

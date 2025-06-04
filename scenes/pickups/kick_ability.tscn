@@ -1,0 +1,55 @@
+[gd_scene load_steps=9 format=3 uid="uid://d0n3qhhnjf4nr"]
+
+[ext_resource type="Script" uid="uid://fuj2waxo3n2c" path="res://scripts/pickups/kick_ability.gd" id="1_qndf2"]
+[ext_resource type="Texture2D" uid="uid://quoe0b8jbau3" path="res://assets/pickups/powerupsprites.png" id="2_oh2ge"]
+[ext_resource type="AudioStream" uid="uid://8u70xa4tmhc8" path="res://sound/fx/powerup.wav" id="3_nx754"]
+[ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_8yvwx"]
+[ext_resource type="AnimationLibrary" uid="uid://deqi1mrq6p7pt" path="res://animations/pickup.res" id="5_5p6uu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3ywok"]
+size = Vector2(32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qndf2"]
+atlas = ExtResource("2_oh2ge")
+region = Rect2(144, 24, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0hn6b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qndf2")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 1.0
+}]
+
+[node name="PunchAbility" type="Area2D"]
+texture_filter = 1
+collision_layer = 16
+collision_mask = 34
+script = ExtResource("1_qndf2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3ywok")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_0hn6b")
+animation = &"idle"
+
+[node name="PickupSoundPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_nx754")
+
+[node name="kaboom" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-1.07288e-06, 3.57628e-07)
+scale = Vector2(0.333333, 0.351648)
+texture = ExtResource("4_8yvwx")
+hframes = 9
+
+[node name="anim" type="AnimationPlayer" parent="."]
+libraries = {
+&"pickup": ExtResource("5_5p6uu")
+}
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

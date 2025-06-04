@@ -11,7 +11,7 @@ func _ready() -> void:
 
 @rpc("call_remote")
 func setup_for_peers() -> void:
-	dropdown.disabled
+	dropdown.disabled = true
 	
 func load_data() -> void:
 	_on_dropdown_item_selected(SettingsContainer.get_stage_choice())
