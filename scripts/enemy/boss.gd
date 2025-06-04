@@ -2,6 +2,8 @@ class_name Boss extends Enemy
 
 const INVULNERABILITY_POWERUP_TIME: float = 16.0
 
+@onready var front_area: Area2D = $FrontArea
+
 @export_subgroup("Boss variables")
 @export var pickups: HeldPickups
 @export var init_bomb_count: int = 1
@@ -52,3 +54,7 @@ func start_invul():
 	invulnerable_remaining_time = INVULNERABILITY_POWERUP_TIME
 	damage_invulnerable = true
 	set_process(true)
+
+func get_front_collision():
+	return [self.front_area.get_overlapping_areas(), self.front_area.get_get_overlapping_bodies()]
+

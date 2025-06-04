@@ -38,7 +38,7 @@ func _on_state_changed(state: EnemyState, new_state: String) -> void:
 	if current_state:
 		current_state._exit()
 
-	#print("changed state from: ", state.name, " to: ", new_state)
+	print("changed state from: ", state.name, " to: ", new_state)
 
 	current_state = states.get(new_state.to_lower())
 	if !current_state:

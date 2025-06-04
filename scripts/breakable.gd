@@ -1,8 +1,11 @@
 extends CharacterBody2D
 class_name Breakable
 
+
 @onready var breakable_sfx_player := $BreakableSound
 @onready var crushed_sfx_player := $CrushedSound
+
+signal breakable_destroyed
 
 var in_use: bool = false
 var contained_pickup: int
@@ -47,6 +50,7 @@ func exploded(by_who):
 		else:
 			world_data.set_tile.rpc(world_data.tiles.EMPTY, global_position) #We only wanne delete this cell if no pickup is spawned on it
 			
+	breakable_destroyed.emit()
 	if is_multiplayer_authority():
 		disable_collison_and_hide.rpc()
 	astargrid_handler.astargrid_set_point(global_position, false)

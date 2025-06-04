@@ -17,6 +17,7 @@ const ENEMY_DIR: Dictionary = {
 	"Bomb Goon 1": "bomb_goon_type1.tscn",
 	"Bomb Goon 2": "bomb_goon_type2.tscn",
 	"Tomato Doki Boss": "tomato_boss.tscn",
+	"Retro Doki Boss": "retro_doki_boss.tscn",
 	}
 
 enum draw_mode {FREE, LINE, RECT}
