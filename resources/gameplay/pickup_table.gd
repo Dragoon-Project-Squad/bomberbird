@@ -46,7 +46,7 @@ func update():
 		globals.pickups.WALLTHROUGH: wallthrough,
 		#globals.pickups.FREEZE: timer,
 		globals.pickups.INVINCIBILITY_VEST: invincibility_vest,
-		#globals.pickups.VIRUS: virus,
+		globals.pickups.VIRUS: virus,
 		globals.pickups.KICK: kick,
 		globals.pickups.BOMBTHROUGH: bombthrough,
 		globals.pickups.PIERCING: piercing_bomb,
@@ -79,7 +79,7 @@ func reverse_update():
 	if pickup_weights.has(globals.pickups.INVINCIBILITY_VEST):
 		invincibility_vest = pickup_weights[globals.pickups.INVINCIBILITY_VEST]
 	#if pickup_weights.has(globals.pickups.VIRUS):
-		#virus = pickup_weights[globals.pickups.VIRUS]
+		virus = pickup_weights[globals.pickups.VIRUS]
 	if pickup_weights.has(globals.pickups.KICK):
 		kick = pickup_weights[globals.pickups.KICK]
 	if pickup_weights.has(globals.pickups.BOMBTHROUGH):
