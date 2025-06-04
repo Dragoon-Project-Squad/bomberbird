@@ -70,7 +70,7 @@ func spawn_exits():
 ## Disabled this world so another may be enabled
 func disable():
 	hide()
-	music.stop()
+	stop_music()
 
 	bounds_layer.collision_enabled = false
 	obstacles_layer.collision_enabled = false
@@ -142,6 +142,9 @@ func enable(
 
 func start_music():
 	music.play()
+	
+func stop_music():
+	music.stop()
 	
 ## resets a stage s.t. it may be reused later
 func reset():
