@@ -306,29 +306,31 @@ func is_safe_placement(pos: Vector2, danger_range: int, valid_tiles: Array[int] 
 	return false
 
 
-func get_path_to_safe(start_pos: Vector2, valid_tiles: Array[int] = [tiles.EMPTY, tiles.PICKUP]) -> Array[Vector2]:
+func get_paths_to_safe(start_pos: Vector2, valid_tiles: Array[int] = [tiles.EMPTY, tiles.PICKUP]) -> Array[Array]:
 	var start_matrix_pos: Vector2i = tile_map.local_to_map(start_pos) - floor_origin
 
-	var found_safe: bool = false
-	var safe_paths: Array[Array]
+	var found_safe_at_length: int = -1
 	var path_queue: Array[Array] = [[start_matrix_pos]]
 	while !path_queue.is_empty():
 		var path = path_queue.pop_front()
+		if found_safe_at_length == len(path):
+			break
 		for dir in [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP]:
 			var next_pos: Vector2i = path[-1] + dir
 			if next_pos in path: continue
 			if !_is_walkable(next_pos, valid_tiles): continue
 			if _is_safe_cell(next_pos): 
-				found_safe = true
+				found_safe_at_length = len(path) + 1
 				path.append(next_pos)
-				safe_paths.append(_to_real_path(path))
 			var new_path = path.duplicate() 
 			new_path.append(next_pos)
 			path_queue.append(new_path)
-		if found_safe:
-			return safe_paths.pick_random()
 
-	return []
+	var safe_paths: Array[Array]
+	for path in path_queue:
+		if !_is_safe_cell(path[-1]): continue
+		safe_paths.append(_to_real_path(path))
+	return safe_paths
 
 func get_target_path(start_pos: Vector2, end_pos: Vector2, safe: bool = true, valid_tiles: Array[int] = [tiles.EMPTY, tiles.PICKUP]) -> Array[Vector2]:
 	var start_matrix_pos: Vector2i = tile_map.local_to_map(start_pos) - floor_origin

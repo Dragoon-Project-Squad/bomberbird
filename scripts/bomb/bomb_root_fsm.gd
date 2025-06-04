@@ -45,7 +45,7 @@ func disable() -> int:
 	self.in_use = false
 	self.bomb_owner = null
 	self.bomb_owner_is_dead = false
-	self.boost = 2
+	self.boost = 0
 	self.position = Vector2.ZERO
 	self.fuse_time_passed = 0
 	self.addons = {}
@@ -91,14 +91,15 @@ func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) 
 
 	if boost < 0: #this is wack
 		boost = self.boost
-	elif self.boost == 0:
+	else:
 		self.boost = boost
 
 	var bomb_authority: Node2D = state_map[state]
 	bomb_authority.set_explosion_width_and_size(min(boost + bomb_authority.explosion_width, bomb_authority.MAX_EXPLOSION_WIDTH))
 	bomb_authority.set_addons(addons)
 	bomb_authority.place(bombPos, fuse_time_passed, force_collision)
-	world_data.set_tile(world_data.tiles.BOMB, self.global_position, boost + 2, self.addons.has("pierce") && self.addons["pierce"])
+	world_data.set_tile(world_data.tiles.BOMB, self.global_position, self.boost + 2, self.addons.has("pierce") && self.addons["pierce"])
+	world_data._debug_print_matrix()
 	if force_collision: return 0
 	return 0
 
@@ -134,7 +135,7 @@ func do_punch(direction: Vector2i):
 	var bomb_authority: Node2D = state_map[state]
 	bomb_authority.throw(
 		self.position,
-		self.position + 1 * world_data.tile_map.tile_set.tile_size.x * Vector2(direction),
+		self.position + 2 * world_data.tile_map.tile_set.tile_size.x * Vector2(direction),
 		direction,
 		-PI / 6,
 		0.4
@@ -144,9 +145,6 @@ func do_punch(direction: Vector2i):
 
 @rpc("call_local")
 func do_throw(direction: Vector2i, new_position: Vector2):
-	if bomb_owner == null: #this should only be called by a misobon player hence the bomb must have an owner
-		printerr("A bomb without an bomb_owner tried to be thrown")
-		return 1
 	if state != AIRBORN: #this bomb has should just have been taken from the player pool. if not a fatal error has occured
 		printerr("a player wanted to throw a bomb that already has an active state")
 		return 2
@@ -172,13 +170,11 @@ func carry() -> int:
 	fuse_time_passed = state_map[state].get_node("AnimationPlayer").current_animation_position
 	self.in_use = false
 	set_state(AIRBORN)
+	world_data.set_tile(world_data.tiles.EMPTY, self.global_position)
 	return 0
 
 @rpc("call_local")
 func do_kick(direction: Vector2i):
-	if bomb_owner == null:
-		printerr("Bomb has no owner")
-		return 1
 	if state != STATIONARY:
 		printerr("Bomb already active")
 		return 2
@@ -194,6 +190,9 @@ func do_kick(direction: Vector2i):
 
 @rpc("call_local")
 func stop_kick():
+	if state != SLIDING:
+		printerr("Bomb not sliding but attempted to call stop_kick()")
+		return 2
 	var bomb_auth := state_map[state]
 	bomb_auth.halt()
 	return 0

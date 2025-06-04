@@ -72,6 +72,7 @@ func _ready():
 		globals.gamemode.BATTLEMODE: lives = 1
 		_: lives = 1
 	lives_reset = lives
+	pickups.reset()
 
 
 func _process(delta: float):
@@ -91,7 +92,7 @@ func _process(delta: float):
 func _physics_process(_delta: float):
 	pass
 
-## executes the punch_bomb ability iff the player has the appropiate pickup
+## executes the punch_bomb ability if the player has the appropiate pickup
 func punch_bomb(direction: Vector2i):
 	if !is_multiplayer_authority():
 		return
@@ -130,7 +131,8 @@ func carry_bomb() -> int:
 
 func throw_bomb(direction: Vector2i) -> int:
 	$BombSprite.visible = false
-	bomb_to_throw.do_throw.rpc(direction, self.position)
+	if is_multiplayer_authority():
+		bomb_to_throw.do_throw.rpc(direction, self.position)
 	bomb_to_throw = null
 	return 0
 
