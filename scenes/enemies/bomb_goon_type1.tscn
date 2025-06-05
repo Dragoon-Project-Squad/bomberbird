@@ -356,6 +356,7 @@ collision_layer = 32
 collision_mask = 13
 motion_mode = 1
 script = ExtResource("1_ybutv")
+score_points = 300
 detection_handler = NodePath("DetectionHandlerTimed")
 animation_sub = "bomb_goon"
 

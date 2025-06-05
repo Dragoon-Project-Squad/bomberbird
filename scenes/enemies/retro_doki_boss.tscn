@@ -107,6 +107,7 @@ script = ExtResource("1_4tpuj")
 pickups = SubResource("Resource_cvltp")
 ability_detector = NodePath("AbilityDetector")
 init_bomb_count = 2
+score_points = 3000
 movement_speed = 60.0
 detection_handler = NodePath("DetectionHandler")
 health = 4
