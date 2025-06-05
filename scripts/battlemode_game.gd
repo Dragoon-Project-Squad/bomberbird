@@ -3,7 +3,6 @@ extends Game
 @onready var stage_loader: Node = $StageLoader
 @onready var game_anim_player: AnimationPlayer = $AnimPlayer
 @onready var announcer: AudioStreamPlayer = $MatchAudio/Announcer
-@onready var multiplayer_game_ui: CanvasLayer = $MultiplayerGameUI
 @onready var game_end_state: Control = $GameEndState
 var game_ended: bool = false
 @onready var fade_in_out_rect: ColorRect = $FadeInOutRect
@@ -13,6 +12,7 @@ func _ready():
 	
 func start():
 	load_stage()
+	stage.reset()
 	stage.enable() #Set up the stage.
 	call_deferred("freeze_players") #Lock all players movement.
 	await remove_the_darkness()
@@ -87,7 +87,7 @@ func start_stage_start_countdown():
 func activate_ui_and_music():
 	stage.start_music()
 	%MatchTimer.start()
-	multiplayer_game_ui.start_timer()
+	game_ui.start_timer()
 	
 func freeze_players():
 	var players: Array[Player] = globals.player_manager.get_players()
@@ -130,7 +130,7 @@ func stop_the_match():
 	game_ended = true
 	stage.stop_music()
 	%MatchTimer.stop()
-	multiplayer_game_ui.stop_timer()
+	game_ui.stop_timer()
 	lock_misobon()
 	defuse_all_bombs()
 	# Halt Hurry Up
@@ -159,12 +159,12 @@ func _check_ending_condition(_alive_enemies: int = 0):
 		stop_the_match()
 		if len(alive_players) == 1:
 			# SHOW EM WHAT THEY'VE WON
-			multiplayer_game_ui.increase_score(alive_players[0].name)
+			game_ui.increase_score(alive_players[0].name)
 			await alive_players[0].play_victory(false)
 		await play_fade_out()
 		await get_tree().create_timer(2).timeout
 		#DO WIN SCREEN STUFF
-		if multiplayer_game_ui.get_player_score(alive_players[0].name) >= SettingsContainer.get_points_to_win():
+		if game_ui.get_player_score(alive_players[0].name) >= SettingsContainer.get_points_to_win():
 			game_end_state.declare_winner(alive_players[0])
 		else:
 			#RESET GAME STATE

@@ -104,7 +104,7 @@ func detonate():
 					if(bomb_root.bomb_owner):
 						target.exploded.rpc(str(get_parent().bomb_owner.name).to_int()) #if an object stopped the bomb and can be blown up... blow it up!
 					else:
-						target.exploded.rpc(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID) #if an object stopped the bomb and can be blown up... blow it up!
+						target.exploded.rpc(gamestate.ENEMY_KILL_PLAYER_ID) #if an object stopped the bomb and can be blown up... blow it up!
 	if bomb_root.bomb_owner:
 		remove_collision_exception_with(bomb_root.bomb_owner)
 	if is_multiplayer_authority(): #multiplayer auth. now starts the transition to the explosion
@@ -137,7 +137,7 @@ func _kill(obj):
 		if bomb_root.bomb_owner:
 			obj.exploded.rpc(str(bomb_root.bomb_owner.name).to_int())
 		else:
-			obj.exploded.rpc(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID)
+			obj.exploded.rpc(gamestate.ENEMY_KILL_PLAYER_ID)
 		return
 
 	if self != obj && bomb_root.bomb_owner:

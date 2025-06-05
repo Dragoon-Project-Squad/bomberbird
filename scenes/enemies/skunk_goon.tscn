@@ -22,6 +22,7 @@ texture_filter = 1
 collision_layer = 32
 collision_mask = 13
 script = ExtResource("1_dh4lm")
+score_points = 200
 detection_handler = NodePath("DetectionHandler_Signal")
 
 [node name="shadowsprite" type="Sprite2D" parent="."]

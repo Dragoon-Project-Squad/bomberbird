@@ -99,7 +99,6 @@ func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) 
 	bomb_authority.set_addons(addons)
 	bomb_authority.place(bombPos, fuse_time_passed, force_collision)
 	world_data.set_tile(world_data.tiles.BOMB, self.global_position, self.boost + 2, self.addons.has("pierce") && self.addons["pierce"])
-	world_data._debug_print_matrix()
 	if force_collision: return 0
 	return 0
 
