@@ -13,7 +13,7 @@ var boost: int
 var in_use: bool = false
 
 # other bomb addons
-var addons: Dictionary
+var type: int
 
 enum {DISABLED, STATIONARY, AIRBORN, SLIDING, SIZE} #all states plus a SIZE constant that has to remain the last entry
 var state: int = DISABLED #this is the authority if ever somehow two state nodes try to execute text_overrun_behavior
@@ -48,7 +48,7 @@ func disable() -> int:
 	self.boost = 0
 	self.position = Vector2.ZERO
 	self.fuse_time_passed = 0
-	self.addons = {}
+	self.type = HeldPickups.bomb_types.DEFAULT
 	for sig_dict in bomb_finished.get_connections():
 		sig_dict.signal.disconnect(sig_dict.callable)
 	set_state(DISABLED)
@@ -64,12 +64,8 @@ func set_bomb_owner(player_id: String):
 
 ## sets the addon
 @rpc("call_local")
-func set_bomb_type(type: int):
-	match type:
-		HeldPickups.bomb_types.PIERCING:
-			self.addons["pierce"] = true
-		HeldPickups.bomb_types.MINE:
-			self.addons["mine"] = true
+func set_bomb_type(bomb_type: int):
+	self.type = bomb_type
 
 ## sets the state to stationary and tells the corresponding state to start processing
 @rpc("call_local")
@@ -98,12 +94,12 @@ func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) 
 
 	var bomb_authority: Node2D = state_map[state]
 	bomb_authority.set_explosion_width_and_size(min(boost + bomb_authority.explosion_width, bomb_authority.MAX_EXPLOSION_WIDTH))
-	bomb_authority.set_addons(addons)
+	bomb_authority.set_bomb_type(type)
 	bomb_authority.place(bombPos, fuse_time_passed, force_collision)
 	if self.addons.has("mine") && self.addons.mine:
 		world_data.set_tile(world_data.tiles.MINE, self.global_position, self.boost + 2, false)
 	else :
-		world_data.set_tile(world_data.tiles.BOMB, self.global_position, self.boost + 2, self.addons.has("pierce") && self.addons["pierce"])
+		world_data.set_tile(world_data.tiles.BOMB, self.global_position, boost + 2, type == HeldPickups.bomb_types.PIERCING)
 	if force_collision: return 0
 	return 0
 

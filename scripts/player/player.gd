@@ -327,8 +327,8 @@ func spread_items():
 			var pickup_type: int
 			match pickups.held_pickups[key]:
 				pickups.exclusive.DEFAULT: continue
-				#pickups.exclusive.KICK: pickup_type = globals.pickups.KICK
-				#pickups.exclusive.BOMBTHROUGH: pickup_type = globals.pickups.BOMBTHROUGH
+				pickups.exclusive.KICK: pickup_type = globals.pickups.KICK
+				pickups.exclusive.BOMBTHROUGH: pickup_type = globals.pickups.BOMBTHROUGH
 				_: push_error("invalid exclusive on item spread")
 			pickup_types.push_back(pickup_type)
 			pickup_count.push_back(1)
