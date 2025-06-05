@@ -46,11 +46,20 @@ func disable():
 	explosion.reset()
 	$AnimationPlayer.stop()
 
-func set_addons(addons: Dictionary):
-	if addons.is_empty():
-		return
-	pierce = addons.get("pierce", false)
-	mine = addons.get("mine", false)
+func set_bomb_type(bomb_type: int):
+	match bomb_type:
+		HeldPickups.bomb_types.DEFAULT:
+			return
+		HeldPickups.bomb_types.PIERCING:
+			pierce = true
+		HeldPickups.bomb_types.MINE:
+			mine = true
+		HeldPickups.bomb_types.REMOTE:
+			pass
+		HeldPickups.bomb_types.SEEKER:
+			pass
+		_: # bomb type does not exist
+			return
 
 func place(bombPos: Vector2, fuse_time_passed: float = 0, force_collision: bool = false):
 	is_exploded = false 
