@@ -7,6 +7,7 @@ signal has_closed
 
 const SAVE_PATH: String = "user://user_campaigns"
 const PERMANENT_SAVE_PATH: String = "res://campaign"
+const VERSION: String = "post_v0.7.0.0"
 
 @onready var entry_point: GraphNode = $EntryPoint
 
@@ -196,6 +197,7 @@ func _on_save_confirmed():
 		file_name_input.editable = 1
 		return
 	var graph_data: Dictionary = {}
+	graph_data["version"] = VERSION
 	graph_data["connections"] = self.get_connection_list()
 	graph_data["stage_node_indx"] = self.stage_node_indx
 	graph_data["entry_point_pos"] = entry_point.position
@@ -399,11 +401,11 @@ func _on_duplicate_nodes_request() -> void:
 		stage_node.selected = true
 	has_changed.emit()
 
-static func load_json_file(file_name: String) -> Dictionary:
+static func load_json_file(file_name: String, file_access_level = FileAccess.READ) -> Dictionary:
 	if !FileAccess.file_exists(SAVE_PATH + "/" + file_name + ".json"):
 		print("file: ", SAVE_PATH, "/", file_name, ".json", " not found loading empty graph")
 		return {}
-	var file_access := FileAccess.open(SAVE_PATH + "/" + file_name + ".json", FileAccess.READ)
+	var file_access := FileAccess.open(SAVE_PATH + "/" + file_name + ".json", file_access_level)
 	var json_string := file_access.get_line()
 	file_access.close()
 	
