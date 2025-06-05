@@ -10,6 +10,7 @@ enum pickups {
 	BOMB_UP = 0,
 	FIRE_UP,
 	SPEED_UP,
+	SPEED_DOWN,
 	HP_UP,
 	GENERIC_COUNT, # A generic value describing some pickup that can be picked up multiple times
 	FULL_FIRE,
@@ -36,6 +37,7 @@ static var pickup_name_str: Dictionary = {
 	pickups.BOMB_UP: "extra_bomb",
 	pickups.FIRE_UP: "explosion_boost",
 	pickups.SPEED_UP: "speed_boost",
+	pickups.SPEED_DOWN: "speed_down",
 	pickups.HP_UP: "hearth",
 	pickups.GENERIC_COUNT: "countable_pickups",
 	pickups.FULL_FIRE: "max_explosion",

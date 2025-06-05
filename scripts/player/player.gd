@@ -5,11 +5,12 @@ signal player_died
 signal player_revived
 
 ## Player Movement Speed
-const BASE_MOTION_SPEED: float = 100.0
-const MAX_MOTION_SPEED: float = 200.0
-const MIN_MOTION_SPEED: float = 60.0
-const MOTION_SPEED_INCREASE: float = 20.0
-const MOTION_SPEED_DECREASE: float = -20.0
+const TILE_SIZE: float = 32.0
+const BASE_MOTION_SPEED: float = ((TILE_SIZE * 4) * (7.0/8.0))
+const MAX_MOTION_SPEED: float = TILE_SIZE * 8
+const MIN_MOTION_SPEED: float = TILE_SIZE * 2
+const MOTION_SPEED_INCREASE: float = TILE_SIZE * 0.5
+const MOTION_SPEED_DECREASE: float = TILE_SIZE * 0.5
 
 const BOMB_RATE: float = 0.5
 const MAX_BOMBS_OWNABLE: int = 8
@@ -359,17 +360,13 @@ func maximize_bomb_level():
 	
 @rpc("call_local")
 func increase_speed():
-	if movement_speed < MAX_MOTION_SPEED:
-		movement_speed = movement_speed + MOTION_SPEED_INCREASE
-	else:
-		movement_speed = MAX_MOTION_SPEED
+	movement_speed += MOTION_SPEED_INCREASE
+	movement_speed = clamp(movement_speed, MIN_MOTION_SPEED, MAX_MOTION_SPEED)
 	
 @rpc("call_local")
 func decrease_speed():
-	if movement_speed > MIN_MOTION_SPEED:
-		movement_speed = movement_speed + MOTION_SPEED_DECREASE
-	else:
-		movement_speed = MIN_MOTION_SPEED
+	movement_speed -= MOTION_SPEED_DECREASE
+	movement_speed = clamp(movement_speed, MIN_MOTION_SPEED, MAX_MOTION_SPEED)
 
 @rpc("call_local")
 func enable_wallclip():
