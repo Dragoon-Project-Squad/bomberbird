@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://c3row0thknslo"]
 
-[ext_resource type="Script" uid="uid://bhmmcs7smd8jx" path="res://scripts/explosion.gd" id="1_i8fun"]
+[ext_resource type="Script" uid="uid://bhmmcs7smd8jx" path="res://scripts/bomb/explosion.gd" id="1_i8fun"]
 [ext_resource type="TileSet" uid="uid://c6a5jstmgemfc" path="res://scenes/explosions_anim.tres" id="2_544pj"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_5as2d"]

@@ -17,6 +17,7 @@ enum cpu_count_setting_states {ZERO, ONE, TWO, THREE, FOUR, FILL}
 enum misobon_setting_states {OFF, ON, SUPER}
 enum breakable_spawn_rule_setting_states {STAGE, NONE, FULL, CUSTOM}
 enum pickup_spawn_rule_setting_states {STAGE, NONE, ALL, CUSTOM}
+enum multiplayer_stages {SALOON, BEACH, DUNGEON, LAB}
 
 # Multiplayer
 var points_to_win := 3
@@ -31,6 +32,7 @@ var breakable_spawn_rule := breakable_spawn_rule_setting_states.STAGE #The dropd
 var breakable_chance := 100.0
 var pickup_spawn_rule := pickup_spawn_rule_setting_states.STAGE #The dropdown is set to a dictionary.
 var pickup_chance := 100.0
+var stage_choice := multiplayer_stages.SALOON
 
 # Held Data Dictionaries
 var personal_loaded_data : Dictionary = {}
@@ -212,6 +214,11 @@ func get_pickup_chance() -> float:
 		return BATTLE_SETTINGS.DEFAULT_PICKUP_CHANCE
 	return pickup_chance
 	
+func get_stage_choice() -> int:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_STAGE
+	return stage_choice	
+	
 func set_window_mode(index : int) -> void:
 	window_mode_index = index
 
@@ -286,13 +293,13 @@ func set_points_to_win(value : int) -> void:
 	points_to_win = value
 
 func set_cpu_difficulty(index : int) -> void:
-	cpu_difficulty = index
+	cpu_difficulty = index as cpu_difficulty_setting_states
 	
 func set_cpu_count(index : int) -> void:
-	cpu_count = index
+	cpu_count = index as cpu_count_setting_states
 	
 func set_misobon_setting(index : int) -> void:
-	misobon_setting = index
+	misobon_setting = index as misobon_setting_states
 
 func set_match_time(seconds : int) -> void:
 	match_time = seconds
@@ -307,16 +314,19 @@ func set_sudden_death_state(isOn : bool) -> void:
 	sudden_death_state = isOn
 
 func set_breakable_spawn_rule(index : int) -> void:
-	breakable_spawn_rule = index
+	breakable_spawn_rule = index as breakable_spawn_rule_setting_states
 
 func set_breakable_chance(value : float) -> void:
 	breakable_chance = value
 	
 func set_pickup_spawn_rule(index : int) -> void:
-	pickup_spawn_rule = index
+	pickup_spawn_rule = index as pickup_spawn_rule_setting_states
 
 func set_pickup_chance(value : float) -> void:
 	pickup_chance = value
+	
+func set_stage_choice(index : int) -> void:
+	stage_choice = index as multiplayer_stages
 
 func set_options_settings_vars_from_dict(datadict : Dictionary) -> void:
 	set_window_mode(datadict.window_mode_index if datadict.has('window_mode_index') else DEFAULT_SETTINGS.DEFAULT_WINDOW_MODE_INDEX)
@@ -340,6 +350,7 @@ func set_battle_settings_vars_from_dict(datadict : Dictionary) -> void:
 	set_breakable_chance(datadict.breakable_chance if datadict.has('breakable_chance') else BATTLE_SETTINGS.DEFAULT_BREAKABLE_CHANCE)
 	set_pickup_spawn_rule(datadict.pickup_spawn_rule if datadict.has('pickup_spawn_rule') else BATTLE_SETTINGS.DEFAULT_PICKUP_SPAWN_RULE)
 	set_pickup_chance(datadict.pickup_chance if datadict.has('pickup_chance') else BATTLE_SETTINGS.DEFAULT_PICKUP_CHANCE)
+	set_pickup_chance(datadict.stage_choice if datadict.has('stage_choice') else BATTLE_SETTINGS.DEFAULT_STAGE)
 
 func set_all_vars_from_dict(datadict : Dictionary) -> void:
 	set_options_settings_vars_from_dict(datadict)
@@ -351,7 +362,6 @@ func on_settings_data_loaded(data : Dictionary) -> void:
 	#Set Personal Data
 	personal_loaded_data = data
 	set_all_vars_from_dict(personal_loaded_data)
-	
 	
 func handle_signals() -> void:
 	SettingsSignalBus.on_window_mode_selected.connect(set_window_mode)
@@ -372,3 +382,4 @@ func handle_signals() -> void:
 	SettingsSignalBus.on_breakable_chance_set.connect(set_breakable_chance)
 	SettingsSignalBus.on_pickup_spawn_rule_set.connect(set_pickup_spawn_rule)
 	SettingsSignalBus.on_pickup_chance_set.connect(set_pickup_chance)
+	SettingsSignalBus.on_stage_choice_set.connect(set_stage_choice)

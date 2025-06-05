@@ -1,8 +1,11 @@
 extends Control
+class_name PlayerControl
 @export_enum("???","Player 1","Player 2","Player 3","Player 4") var player_number : String = "???"
 @onready var player_label: Label = $PlayerPanel/Text
 @onready var player_panel: Panel = $PlayerPanel
 @onready var player_image: TextureRect = $PlayerPanel/Image
+@onready var cpu_button: Button = $PlayerPanel/Button
+@onready var cpu_button_label: Label = $PlayerPanel/ClickPrompt
 var is_participating := true
 
 func _ready() -> void:
@@ -42,7 +45,22 @@ func set_player_panel_theme() -> void:
 		_:
 			player_panel.theme = load("res://assets/styles/p0_theme.tres")
 
-func remove_as_participant() -> void:
-	is_participating = false
-	player_image.visible = false
-	player_label.visible = false
+func set_is_participating(participation_flag: bool) -> void:
+	is_participating = participation_flag
+	player_image.visible = participation_flag
+	player_label.visible = participation_flag
+	if is_multiplayer_authority():
+		cpu_button.disabled = participation_flag
+		cpu_button_label.visible = !participation_flag
+	else:
+		cpu_button_label.hide()
+		cpu_button.hide()
+
+
+func _on_button_pressed():
+	if is_multiplayer_authority():
+		SettingsContainer.set_cpu_count(SettingsContainer.get_cpu_count()+1)
+		gamestate.assign_player_numbers()
+		gamestate.register_ai_player()
+		gamestate.establish_player_counts()
+		gamestate.player_list_changed.emit()

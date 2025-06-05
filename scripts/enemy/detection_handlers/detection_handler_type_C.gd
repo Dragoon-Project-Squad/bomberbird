@@ -18,6 +18,24 @@ func check_for_priority_target():
 	enemy.statemachine.target = null
 	return false 
 
+func recheck_priority_target(direction: Vector2):
+	assert(self.enemy.statemachine.target, "rechecking priority target but there is no priority target")
+	if !self.enabled:
+		push_error("rechecking for priority target but detection handler is disabled")
+		return false
+	for ray in get_children():
+		if direction.normalized() != ray.target_position.normalized(): continue
+		ray.force_raycast_update()
+		if !ray.is_colliding(): 
+			self.enemy.statemachine.target = null
+			return false
+		var target = ray.get_collider()
+		if target is Bomb:
+			self.enemy.statemachine.target = target
+			return true
+		self.enemy.statemachine.target = null
+		return false
+
 func on():
 	enabled = true
 	for ray in get_children():

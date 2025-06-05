@@ -1,11 +1,11 @@
 [gd_scene load_steps=22 format=3 uid="uid://cqqhrm2734wfv"]
 
 [ext_resource type="Script" uid="uid://6r08478oev3y" path="res://scripts/battlemode_game.gd" id="1_3bvga"]
-[ext_resource type="Script" uid="uid://c6ubwejmc188k" path="res://scripts/players_manager.gd" id="3_qmebr"]
-[ext_resource type="Script" uid="uid://cc3ogep372v8" path="res://scripts/player_spawner.gd" id="4_l4xky"]
-[ext_resource type="Script" uid="uid://v2bbm1lgibpy" path="res://scripts/misobon_path.gd" id="5_egtpy"]
+[ext_resource type="Script" uid="uid://c6ubwejmc188k" path="res://scripts/player/players_manager.gd" id="3_qmebr"]
+[ext_resource type="Script" uid="uid://cc3ogep372v8" path="res://scripts/player/player_spawner.gd" id="4_l4xky"]
+[ext_resource type="Script" uid="uid://v2bbm1lgibpy" path="res://scripts/player/misobon/misobon_path.gd" id="5_egtpy"]
 [ext_resource type="PackedScene" uid="uid://ddtb3ctgal4ok" path="res://scenes/pools/enemy_pool.tscn" id="6_3bvga"]
-[ext_resource type="Script" uid="uid://cb0rr8pr2674f" path="res://scripts/misobon_player_spawner.gd" id="6_a5m7k"]
+[ext_resource type="Script" uid="uid://cb0rr8pr2674f" path="res://scripts/player/misobon/misobon_player_spawner.gd" id="6_a5m7k"]
 [ext_resource type="PackedScene" uid="uid://ywlmyq88jlvj" path="res://scenes/pools/breakable_pool.tscn" id="7_vrcl4"]
 [ext_resource type="PackedScene" uid="uid://c4i5gyl4cut3t" path="res://scenes/pools/bomb_pool.tscn" id="8_hvhk6"]
 [ext_resource type="PackedScene" uid="uid://b22qg08qddy6x" path="res://scenes/pools/pick_up_pool.tscn" id="9_bsfbc"]
@@ -221,11 +221,7 @@ script = ExtResource("5_egtpy")
 spawn_path = NodePath("..")
 script = ExtResource("6_a5m7k")
 
-[node name="EnemyPool" parent="." instance=ExtResource("6_3bvga")]
-
 [node name="BreakablePool" parent="." instance=ExtResource("7_vrcl4")]
-
-[node name="BombPool" parent="." instance=ExtResource("8_hvhk6")]
 
 [node name="PickupPool" parent="." instance=ExtResource("9_bsfbc")]
 extra_bomb = 15
@@ -233,6 +229,10 @@ explosion_boost = 15
 speed_boost = 15
 max_explosion = 5
 punch_ability = 10
+
+[node name="EnemyPool" parent="." instance=ExtResource("6_3bvga")]
+
+[node name="BombPool" parent="." instance=ExtResource("8_hvhk6")]
 
 [node name="Players" type="Node2D" parent="."]
 script = ExtResource("3_qmebr")
@@ -254,13 +254,6 @@ one_shot = true
 
 [node name="MultiplayerGameUI" parent="." instance=ExtResource("10_3qosu")]
 
-[node name="GameEndState" parent="." instance=ExtResource("11_166ep")]
-visible = false
-offset_left = -193.0
-offset_top = 1.0
-offset_right = 693.0
-offset_bottom = 499.0
-
 [node name="FadeInOutRect" type="ColorRect" parent="."]
 visible = false
 offset_left = -193.0
@@ -268,6 +261,13 @@ offset_top = 1.0
 offset_right = 1152.0
 offset_bottom = 648.0
 color = Color(0, 0, 0, 1)
+
+[node name="GameEndState" parent="." instance=ExtResource("11_166ep")]
+visible = false
+offset_left = -193.0
+offset_top = 1.0
+offset_right = 693.0
+offset_bottom = 499.0
 
 [node name="AnimPlayer" type="AnimationPlayer" parent="."]
 libraries = {

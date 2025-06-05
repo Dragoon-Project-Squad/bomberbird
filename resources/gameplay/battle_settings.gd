@@ -6,6 +6,7 @@ const DEFAULT_POINTS_TO_WIN := 3
 const DEFAULT_CPU_DIFFICULTY := 2
 const DEFAULT_CPU_COUNT := 5
 const DEFAULT_MISOBON_SETTING := 1
+const DEFAULT_STAGE := 0
 
 # TIME
 const DEFAULT_MATCH_TIME := 120
@@ -20,7 +21,7 @@ const DEFAULT_PICKUP_SPAWN_RULE := 0
 const DEFAULT_PICKUP_CHANCE := 100.0
 
 # General Settings
-var points_to_win := 3
+var points_to_win := 1
 @export_enum ("Stationary", "Easy", "Medium", "Hard") var cpu_dfficulty := 2
 @export_enum ("0", "1", "2", "3", "4", "Fill") var cpu_count := 5
 @export_enum ("OFF", "ON", "SUPER") var MISOBON_SETTING := 1

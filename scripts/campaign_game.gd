@@ -15,7 +15,7 @@ var _exit_spawned_barrier: bool = false
 
 func _init():
 	globals.game = self
-
+	
 @rpc("call_local")
 ## starts the complete reset for all stage related states and then loads the next stage given by
 ## [param id] int -1 if the game should terminate with a player win else the index of the next stage in the stage_data_arr
@@ -57,7 +57,7 @@ func next_stage(id: int, player: HumanPlayer):
 	)
 	stage_announce_label.text = stage_data_arr[id].stage_node_title
 	stage_announce_label.show()
-
+	stage.start_music()
 	fade.play("fade_in")
 	await fade.animation_finished
 	get_tree().create_timer(0.5).timeout.connect(func (): stage_announce_label.hide())
@@ -93,13 +93,13 @@ func load_next_stage_set(id: int):
 
 func start():
 	assert(stage_data_arr != [], "stage_data not loaded")
-
+	
 	stage_announce_label.text = stage_data_arr[0].stage_node_title
 	stage_announce_label.show()
 	fade.get_node("FadeInOutRect").show()
 	await get_tree().create_timer(0.1).timeout
-
 	fade.play("fade_in")
+
 	var init_stage_set: Dictionary = GraphHelper.bfs_get_values(
 		stage_data_arr, 
 		func (s: StageNodeData): return s.get_stage_path(),
@@ -125,7 +125,7 @@ func start():
 	stage_handler.load_stages(init_stage_set)
 	stage_handler.set_stage(stage_data_arr[0].selected_scene_path + "/" + stage_data_arr[0].selected_scene_file)
 	stage = stage_handler.get_stage()
-	
+	stage.start_music()
 	stage.enable.call_deferred(
 		stage_data_arr[0].exit_resource,
 		stage_data_arr[0].enemy_resource,
@@ -140,8 +140,8 @@ func start():
 
 
 func load_level_graph(file_name: String):
-	assert(ResourceLoader.exists(LEVEL_GRAPH_PATH + "/" + file_name + ".res"), "failed to find graph: " + LEVEL_GRAPH_PATH + "/" + file_name + ".res")
-	stage_data_arr = ResourceLoader.load(LEVEL_GRAPH_PATH + "/" + file_name + ".res").nodes
+	var campaign_data: Dictionary = LevelGraph.load_json_file(file_name)
+	stage_data_arr = LevelGraph.load_graph_to_stage_node_data_arr(campaign_data)
 
 func _check_ending_condition(alive_enemies: int):
 	if win_screen.visible: return

@@ -42,3 +42,22 @@ func remove_at(index: int):
 ## returns the amount of exits in the exit_table
 func size() -> int:
 	return len(exits)
+
+func to_json() -> Array[Dictionary]:
+	var res: Array[Dictionary]
+	for entry in exits:
+		var new_entry: Dictionary = {
+			"coords": var_to_str(entry.coords),
+			"color": var_to_str(entry.color),
+			}
+		res.append(new_entry)
+	return res
+
+func from_json(json_data: Array):
+	exits = []
+	for entry in json_data:
+		var new_entry: Dictionary = {
+			"coords": str_to_var(entry.coords),
+			"color": str_to_var(entry.color)
+			}
+		exits.append(new_entry)

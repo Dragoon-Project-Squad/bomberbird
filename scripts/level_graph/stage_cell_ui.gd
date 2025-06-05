@@ -5,6 +5,7 @@ class_name StageCellUI extends ReferenceRect
 @export var unimplementet_texture: Texture2D #"res://assets/css/question.png"
 @export var spawnpoint_texture: Texture2D #"res://assets/css/chonkgoon.png"
 @export var random_pickup_texture: Texture2D #"res://assets/pickups/generic_powerup.png"
+@export var generic_enemy: Texture2D
 
 ##One hell of a Dictionary containing the information the create a texture for the given type
 @onready var texture_dict: Dictionary = {
@@ -13,13 +14,13 @@ class_name StageCellUI extends ReferenceRect
 	{ "main_type": StageDataUI.tile_type.SPAWNPOINT, "sub_type": null }:
 		{"main_texture": spawnpoint_texture, "main_texture_area": null, "sub_texture": null, "sub_texture_area": null},
 	{ "main_type": StageDataUI.tile_type.ENEMY, "sub_type": "" }:
-		{"main_texture": unimplementet_texture, "main_texture_area": null, "sub_texture": null, "sub_texture_area": null},
+		{"main_texture": generic_enemy, "main_texture_area": Rect2i(0, 0, 32, 32), "sub_texture": null, "sub_texture_area": null},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.RANDOM }:
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": random_pickup_texture, "sub_texture_area": Rect2i(-1, -2, 24, 24)},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.NONE }:
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": null, "sub_texture_area": null}, #TODO make this a special subtexture
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.BOMB_UP }:
-		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(48, 24, 24, 24)},
+		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(168, 24, 24, 24)},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.BOMB_PUNCH }:
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(144, 0, 24, 24)},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.FULL_FIRE }:
@@ -28,6 +29,18 @@ class_name StageCellUI extends ReferenceRect
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(192, 24, 24, 24)},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.SPEED_UP }:
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(216, 24, 24, 24)},
+	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.POWER_GLOVE}:
+		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(120, 24, 24, 24)},
+	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.WALLTHROUGH}:
+		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(96, 24, 24, 24)},
+	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.BOMBTHROUGH}:
+		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(72, 24, 24, 24)},
+	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.KICK}:
+		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(144, 24, 24, 24)},
+	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.PIERCING}:
+		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(48, 0, 24, 24)},
+	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.MINE}:
+		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(72, 0, 24, 24)},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": -1 }:
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": unimplementet_texture, "sub_texture_area": null},
 }

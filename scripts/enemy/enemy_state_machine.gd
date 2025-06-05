@@ -5,7 +5,8 @@ class_name EnemyStateMachine extends Node
 
 var current_state: EnemyState
 var states: Dictionary = {}
-var target: Node2D = null
+var target = null
+var stop_process: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -13,8 +14,7 @@ func _ready():
 		if child is EnemyState:
 			states[child.name.to_lower()] = child
 			child.state_changed.connect(_on_state_changed)
-			child.enemy = get_parent() # This is arguably fine because its within its own scene tree imo
-			child.world = globals.current_world
+			child.enemy = get_parent()
 			child.state_machine = self
 			globals.game.stage_has_changed.connect(child._on_new_stage)
 	
@@ -23,28 +23,27 @@ func _ready():
 		current_state = disabled_state 
 
 func _process(delta):
-	if current_state:
+	if current_state && !stop_process:
 		current_state._update(delta)
 
 func _physics_process(delta):
-	if current_state:
+	if current_state && !stop_process:
 		current_state._physics_update(delta)
 
 func _on_state_changed(state: EnemyState, new_state: String) -> void:
 	if(state != current_state):
 		push_error("enemy state machine failed as a state tried to change that is not the current state")
 		return
-	
-	var next_state = states.get(new_state.to_lower())
-	if !next_state:
+
+	if current_state:
+		current_state._exit()
+
+	current_state = states.get(new_state.to_lower())
+	if !current_state:
 		push_error("enemy state machine failed state: " + new_state + " does not exists")
 		return
 	
-	if current_state:
-		current_state._exit()
-	
-	current_state = next_state
-	next_state._enter()
+	current_state._enter()
 
 func enable():
 	if current_state: current_state._exit()

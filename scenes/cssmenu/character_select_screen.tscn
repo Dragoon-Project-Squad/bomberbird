@@ -1,16 +1,22 @@
-[gd_scene load_steps=15 format=3 uid="uid://fsg6gwfw5fbi"]
+[gd_scene load_steps=21 format=3 uid="uid://fsg6gwfw5fbi"]
 
 [ext_resource type="Script" uid="uid://c38ml0k45w55u" path="res://scripts/ui/cssmenu/character_select_screen.gd" id="1_ehcif"]
 [ext_resource type="Texture2D" uid="uid://d3cn5or0vkn23" path="res://assets/css/chonkgoon.png" id="2_ehcif"]
-[ext_resource type="Texture2D" uid="uid://d06cvn5qmuvfv" path="res://assets/css/dokibh.png" id="4_2bgdj"]
 [ext_resource type="PackedScene" uid="uid://mpfu86h4h7vr" path="res://scenes/cssmenu/css_player_view.tscn" id="6_e6qlr"]
 [ext_resource type="Theme" uid="uid://bgj72vffexht" path="res://assets/styles/panel_theme.tres" id="7_mfnxv"]
+[ext_resource type="Texture2D" uid="uid://x3kkdsn6q0cj" path="res://assets/css/dad.png" id="8_ehcif"]
 [ext_resource type="Texture2D" uid="uid://bb8yee4kwa6dt" path="res://assets/css/normalgoon.png" id="9_2srfx"]
+[ext_resource type="Texture2D" uid="uid://che0qovasljj7" path="res://assets/css/bhdoki.png" id="9_ehcif"]
+[ext_resource type="Texture2D" uid="uid://bnedjf17yf4un" path="res://assets/css/retrodoki.png" id="10_cv4tj"]
 [ext_resource type="Texture2D" uid="uid://cqgmyjw0vef1" path="res://assets/css/longgoon.png" id="10_lxxyg"]
 [ext_resource type="Texture2D" uid="uid://dc6n600vfnmgp" path="res://assets/css/eggoon.png" id="11_63x5c"]
+[ext_resource type="Texture2D" uid="uid://d0y2r3fljtvvk" path="res://assets/css/altdoki.png" id="11_nuw7a"]
 [ext_resource type="Texture2D" uid="uid://bpx3jen13addh" path="res://assets/css/tomato.png" id="12_5agtp"]
-[ext_resource type="Texture2D" uid="uid://bvduv0j3kdwtj" path="res://assets/css/question.png" id="13_7vmrt"]
+[ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="12_7kvbo"]
+[ext_resource type="Texture2D" uid="uid://bcm64uj7bwp87" path="res://assets/css/crowki.png" id="12_kkj3o"]
+[ext_resource type="Texture2D" uid="uid://cefndan5pti47" path="res://assets/css/wisp.png" id="14_nuw7a"]
 [ext_resource type="AudioStream" uid="uid://cb75c45y5yhvk" path="res://sound/fx/click.wav" id="15_cv4tj"]
+[ext_resource type="Texture2D" uid="uid://bngq754xh3q18" path="res://assets/css/maidmint.png" id="15_kkj3o"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q6qq2"]
 
@@ -99,23 +105,30 @@ offset_bottom = 69.0
 grow_horizontal = 2
 theme = ExtResource("7_mfnxv")
 theme_override_font_sizes/font_size = 75
-text = "CHARACTER SELECT"
+text = "CHOOSE YOUR CHARACTER"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SkinBG" type="PanelContainer" parent="."]
 texture_filter = 3
 layout_mode = 0
-offset_left = 248.0
-offset_top = 120.0
-offset_right = 904.0
-offset_bottom = 392.0
+offset_left = 90.0
+offset_top = 104.0
+offset_right = 746.0
+offset_bottom = 376.0
 theme = ExtResource("7_mfnxv")
 
 [node name="CharacterGrid" type="GridContainer" parent="SkinBG"]
 unique_name_in_owner = true
 layout_mode = 2
 columns = 5
+
+[node name="eggoon" type="TextureButton" parent="SkinBG/CharacterGrid"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("11_63x5c")
+stretch_mode = 0
 
 [node name="dragoon" type="TextureButton" parent="SkinBG/CharacterGrid"]
 layout_mode = 2
@@ -138,11 +151,39 @@ size_flags_vertical = 6
 texture_normal = ExtResource("10_lxxyg")
 stretch_mode = 0
 
-[node name="eggoon" type="TextureButton" parent="SkinBG/CharacterGrid"]
+[node name="dad" type="TextureButton" parent="SkinBG/CharacterGrid"]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
-texture_normal = ExtResource("11_63x5c")
+texture_normal = ExtResource("8_ehcif")
+stretch_mode = 0
+
+[node name="bhdoki" type="TextureButton" parent="SkinBG/CharacterGrid"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("9_ehcif")
+stretch_mode = 0
+
+[node name="retrodoki" type="TextureButton" parent="SkinBG/CharacterGrid"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("10_cv4tj")
+stretch_mode = 0
+
+[node name="altdoki" type="TextureButton" parent="SkinBG/CharacterGrid"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("11_nuw7a")
+stretch_mode = 0
+
+[node name="crowki" type="TextureButton" parent="SkinBG/CharacterGrid"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("12_kkj3o")
 stretch_mode = 0
 
 [node name="tomato" type="TextureButton" parent="SkinBG/CharacterGrid"]
@@ -152,52 +193,145 @@ size_flags_vertical = 6
 texture_normal = ExtResource("12_5agtp")
 stretch_mode = 0
 
-[node name="bhdoki" type="TextureButton" parent="SkinBG/CharacterGrid"]
-layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 6
-texture_normal = ExtResource("4_2bgdj")
-stretch_mode = 0
-
 [node name="secret1" type="TextureButton" parent="SkinBG/CharacterGrid"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
-texture_normal = ExtResource("13_7vmrt")
+texture_normal = ExtResource("14_nuw7a")
 stretch_mode = 0
 
 [node name="secret2" type="TextureButton" parent="SkinBG/CharacterGrid"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
-texture_normal = ExtResource("13_7vmrt")
-stretch_mode = 0
-
-[node name="secret3" type="TextureButton" parent="SkinBG/CharacterGrid"]
-layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 6
-texture_normal = ExtResource("13_7vmrt")
-stretch_mode = 0
-
-[node name="secret4" type="TextureButton" parent="SkinBG/CharacterGrid"]
-layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 6
-texture_normal = ExtResource("13_7vmrt")
+texture_normal = ExtResource("15_kkj3o")
 stretch_mode = 0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("15_cv4tj")
 bus = &"SFX"
 
+[node name="Start" type="Button" parent="." groups=["ui_button"]]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_top = -200.0
+offset_right = 120.0
+offset_bottom = -136.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+theme = ExtResource("7_mfnxv")
+theme_override_font_sizes/font_size = 46
+text = "Confirm"
+script = ExtResource("12_7kvbo")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
+
+[node name="Exit" type="Button" parent="." groups=["ui_button"]]
+layout_mode = 0
+offset_left = 544.0
+offset_top = 600.0
+offset_right = 614.0
+offset_bottom = 638.0
+focus_neighbor_top = NodePath("../Multiplayer")
+focus_neighbor_bottom = NodePath("../SinglePlayer")
+theme = ExtResource("7_mfnxv")
+theme_override_colors/font_focus_color = Color(1, 0, 0, 1)
+text = "Exit
+"
+script = ExtResource("12_7kvbo")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
+
+[node name="PlayerList" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 235.0
+offset_top = -219.0
+offset_right = 487.0
+offset_bottom = -44.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+theme = ExtResource("7_mfnxv")
+
+[node name="Label" type="Label" parent="PlayerList"]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 7.0
+offset_right = 229.0
+offset_bottom = 30.0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+text = "PLAYERS"
+horizontal_alignment = 1
+
+[node name="List" type="ItemList" parent="PlayerList"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 32.0
+offset_right = 229.0
+offset_bottom = 151.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+
+[node name="PortForward" type="Label" parent="PlayerList"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.502
+anchor_top = 1.0
+anchor_right = 0.502
+anchor_bottom = 1.0
+offset_left = -135.504
+offset_top = 13.0
+offset_right = 135.496
+offset_bottom = 70.0
+theme_override_constants/line_spacing = 6
+text = "If you want non-LAN clients to connect,
+make sure the port 10567 in UDP
+is forwarded on your router."
+horizontal_alignment = 1
+
+[node name="FindPublicIP" type="LinkButton" parent="PlayerList"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -94.0
+offset_top = 75.0
+offset_right = 96.0
+offset_bottom = 98.0
+text = "Find your public IP address"
+
+[node name="ErrorDialog" type="AcceptDialog" parent="."]
+auto_translate_mode = 1
+
+[connection signal="pressed" from="SkinBG/CharacterGrid/eggoon" to="." method="_on_eggoon_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/dragoon" to="." method="_on_dragoon_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/chonkgoon" to="." method="_on_chonkgoon_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/longoon" to="." method="_on_longoon_pressed"]
-[connection signal="pressed" from="SkinBG/CharacterGrid/eggoon" to="." method="_on_eggoon_pressed"]
-[connection signal="pressed" from="SkinBG/CharacterGrid/tomato" to="." method="_on_tomato_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/dad" to="." method="_on_dad_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/bhdoki" to="." method="_on_bhdoki_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/retrodoki" to="." method="_on_retrodoki_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/altdoki" to="." method="_on_altdoki_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/crowki" to="." method="_on_crowki_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/tomato" to="." method="_on_tomato_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/secret1" to="." method="_on_secret_1_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/secret2" to="." method="_on_secret_2_pressed"]
-[connection signal="pressed" from="SkinBG/CharacterGrid/secret3" to="." method="_on_secret_3_pressed"]
-[connection signal="pressed" from="SkinBG/CharacterGrid/secret4" to="." method="_on_secret_4_pressed"]
+[connection signal="pressed" from="Start" to="." method="_on_confirm_pressed"]
+[connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="PlayerList/FindPublicIP" to="." method="_on_find_public_ip_pressed"]
+[connection signal="confirmed" from="ErrorDialog" to="." method="_on_error_dialog_confirmed"]
