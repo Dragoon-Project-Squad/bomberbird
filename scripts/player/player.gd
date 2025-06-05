@@ -1,6 +1,7 @@
 class_name Player extends CharacterBody2D
 ## Base class for the player
 
+signal player_health_updated
 signal player_died
 signal player_revived
 
@@ -35,7 +36,7 @@ var player_type: String
 var hurry_up_started: bool = false 
 var misobon_player: MisobonPlayer
 
-var game_ui: CanvasLayer
+var game_ui
 
 var invulnerable_animation_time: float
 var invulnerable_remaining_time: float = 2
@@ -48,7 +49,11 @@ var bomb_total: int
 @export_subgroup("player properties") #Set in inspector
 @export var movement_speed: float = BASE_MOTION_SPEED
 @export var bomb_count: int = 2
-@export var lives: int = 1
+@export var lives: int = 1:
+	set(val):
+		lives = val
+		player_health_updated.emit(self, lives)
+
 @export var explosion_boost_count: int = 0
 @export var pickups: HeldPickups
 
@@ -69,6 +74,8 @@ func _ready():
 	bomb_pool = globals.game.bomb_pool
 	pickup_pool = globals.game.pickup_pool
 	game_ui = globals.game.game_ui
+	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
+		player_health_updated.connect(func (s: Player, health: int): game_ui.update_health(health, int(s.name)))
 
 	movement_speed_reset = movement_speed
 	bomb_count_reset = bomb_count
@@ -79,6 +86,7 @@ func _ready():
 		_: lives = 1
 	lives_reset = lives
 	pickups.reset()
+	self.animation_player.play("RESET")
 
 
 func _process(delta: float):
@@ -97,6 +105,12 @@ func _process(delta: float):
 
 func _physics_process(_delta: float):
 	pass
+
+func place(pos: Vector2):
+	self.position = pos
+	self.show()
+	self.animation_player.play("RESET")
+	do_invulnerabilty()
 
 ## executes the punch_bomb ability if the player has the appropiate pickup
 func punch_bomb(direction: Vector2i):
@@ -259,7 +273,7 @@ func reset():
 	animation_player.play("player_animations/revive")
 	$Hitbox.set_deferred("disabled", 0)
 	await animation_player.animation_finished
-	stunned = true
+	stunned = false
 	is_dead = false
 	show()
 	
@@ -414,12 +428,8 @@ func play_victory(reenable: bool) -> Signal:
 
 func do_hurt() -> void:
 	stop_movement = true
-	animation_player.play("player_animations/hurt")
+	animation_player.play("player_animations/death")
 	await animation_player.animation_finished
-	animation_player.play("RESET")
-	await animation_player.animation_finished
-	self.position = world_data.tile_map.map_to_local(globals.current_world.spawnpoints[int(self.name) - 1])
-	do_invulnerabilty()
 	stop_movement = false
 
 @rpc("call_local")

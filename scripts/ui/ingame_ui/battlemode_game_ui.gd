@@ -49,7 +49,7 @@ func get_player_score(playername : String):
 	return pl.score
 
 @rpc("call_local")
-func add_player(id: int, new_player_name: String):
+func add_player(id: int, new_player_name: String, _character: String):
 	var order: int = player_labels.size() + 1
 
 	player_labels[id] = {

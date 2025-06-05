@@ -1,11 +1,16 @@
 extends Game
 
 const LEVEL_GRAPH_PATH: String = "res://resources/level_graph/saved_graphs"
+const MATCH_TIME: int = 180
 
 @onready var stage_announce_label: Label = get_node("StageAnnouncement")
 
 var stage_handler: StageHandler
-var exit_pool: ExitPool
+
+var score: int = 0:
+	set(val):
+		score = min(val, 999999)
+		self.game_ui.update_score(score)
 
 var stage_data_arr: Array[StageNodeData]
 var curr_stage_idx: int = 0
@@ -16,6 +21,33 @@ var _exit_spawned_barrier: bool = false
 func _init():
 	globals.game = self
 	
+@rpc("call_local")
+func restart_current_stage(_player: HumanPlayer, _health: int):
+	fade.play("fade_out")
+	await fade.animation_finished
+
+	reset()
+	stage.reset()
+
+	await get_tree().create_timer(1).timeout
+
+	stage.enable.call_deferred(
+		stage_data_arr[curr_stage_idx].exit_resource,
+		stage_data_arr[curr_stage_idx].enemy_resource,
+		stage_data_arr[curr_stage_idx].pickup_resource,
+		stage_data_arr[curr_stage_idx].spawnpoint_resource,
+		stage_data_arr[curr_stage_idx].unbreakable_resource,
+		stage_data_arr[curr_stage_idx].breakable_resource,
+	)
+	stage_announce_label.text = stage_data_arr[curr_stage_idx].stage_node_title
+	stage_announce_label.show()
+
+	activate_ui_and_music()
+	fade.play("fade_in")
+	await fade.animation_finished
+	get_tree().create_timer(0.5).timeout.connect(func (): stage_announce_label.hide())
+	stage_has_changed.emit()
+
 @rpc("call_local")
 ## starts the complete reset for all stage related states and then loads the next stage given by
 ## [param id] int -1 if the game should terminate with a player win else the index of the next stage in the stage_data_arr
@@ -57,7 +89,7 @@ func next_stage(id: int, player: HumanPlayer):
 	)
 	stage_announce_label.text = stage_data_arr[id].stage_node_title
 	stage_announce_label.show()
-	stage.start_music()
+	activate_ui_and_music()
 	fade.play("fade_in")
 	await fade.animation_finished
 	get_tree().create_timer(0.5).timeout.connect(func (): stage_announce_label.hide())
@@ -125,7 +157,11 @@ func start():
 	stage_handler.load_stages(init_stage_set)
 	stage_handler.set_stage(stage_data_arr[0].selected_scene_path + "/" + stage_data_arr[0].selected_scene_file)
 	stage = stage_handler.get_stage()
-	stage.start_music()
+
+	activate_ui_and_music()
+	globals.game.game_ui.start_timer()
+	%MatchTimer.start()
+
 	stage.enable.call_deferred(
 		stage_data_arr[0].exit_resource,
 		stage_data_arr[0].enemy_resource,
@@ -138,6 +174,24 @@ func start():
 	stage_has_changed.emit.call_deferred()
 	get_tree().create_timer(0.5).timeout.connect(func (): stage_announce_label.hide())
 
+
+func activate_ui_and_music():
+	stage.start_music()
+
+	# clean up the connections in Matchtimer
+	for sig_arr in %MatchTimer.timeout.get_connections():
+		sig_arr.signal.disconnect(sig_arr.callable)
+
+	%MatchTimer.start(MATCH_TIME)
+	# kill players when time is up
+	%MatchTimer.timeout.connect(
+		func ():
+			for player in player_manager.get_players():
+				player.exploded(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID),
+		CONNECT_ONE_SHOT
+		)
+
+	game_ui.start_timer(MATCH_TIME)
 
 func load_level_graph(file_name: String):
 	var campaign_data: Dictionary = LevelGraph.load_json_file(file_name)

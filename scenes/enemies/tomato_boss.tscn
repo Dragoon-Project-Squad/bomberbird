@@ -107,6 +107,7 @@ collision_mask = 13
 script = ExtResource("1_81bpp")
 pickups = SubResource("Resource_0x7uk")
 ability_detector = NodePath("AbilityDetector")
+score_points = 2000
 movement_speed = 100.0
 detection_handler = NodePath("DetectionHandler")
 health = 2

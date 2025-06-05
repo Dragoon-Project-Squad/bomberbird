@@ -413,6 +413,5 @@ func reset():
 	world_width = 0
 	world_height = 0
 	floor_origin = Vector2i.ZERO	
-	tile_map = null
 	for conn in world_data_changed.get_connections():
 		world_data_changed.disconnect(conn.callable)
