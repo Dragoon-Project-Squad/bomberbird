@@ -401,18 +401,15 @@ func _on_duplicate_nodes_request() -> void:
 		stage_node.selected = true
 	has_changed.emit()
 
+
 static func load_json_file(file_name: String, file_access_level = FileAccess.READ) -> Dictionary:
-	if !FileAccess.file_exists(SAVE_PATH + "/" + file_name + ".json"):
-		print("file: ", SAVE_PATH, "/", file_name, ".json", " not found loading empty graph")
-		return {}
 	var file_access := FileAccess.open(SAVE_PATH + "/" + file_name + ".json", file_access_level)
-	var json_string := file_access.get_line()
+	var json_string: String = file_access.get_as_text()
 	file_access.close()
 	
 	var json: JSON = JSON.new()
-	var error := json.parse(json_string)
-	if error:
-		print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
+	if json.parse(json_string):
+		push_error("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
 		return {}
 	return json.data
 

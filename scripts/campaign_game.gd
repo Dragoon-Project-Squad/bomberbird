@@ -7,6 +7,7 @@ const LEVEL_GRAPH_PATH: String = "res://resources/level_graph/saved_graphs"
 var stage_handler: StageHandler
 var exit_pool: ExitPool
 
+var save_data: Dictionary
 var stage_data_arr: Array[StageNodeData]
 var curr_stage_idx: int = 0
 var _stage_lookahead: int = 3
@@ -61,6 +62,9 @@ func next_stage(id: int, player: HumanPlayer):
 		return
 	gamestate.current_level += 1
 	
+	save_data.last_stage = id
+	save_data.visited[id] = true
+
 	fade.play("fade_out")
 	await fade.animation_finished
 
@@ -121,8 +125,9 @@ func load_next_stage_set(id: int):
 
 func start():
 	assert(stage_data_arr != [], "stage_data not loaded")
+	var starting_stage: int = save_data.last_stage
 	
-	stage_announce_label.text = stage_data_arr[0].stage_node_title
+	stage_announce_label.text = stage_data_arr[starting_stage].stage_node_title
 	stage_announce_label.show()
 	fade.get_node("FadeInOutRect").show()
 	await get_tree().create_timer(0.1).timeout
@@ -132,7 +137,7 @@ func start():
 		stage_data_arr, 
 		func (s: StageNodeData): return s.get_stage_path(),
 		func (s: StageNodeData): return s.children,
-		0,
+		starting_stage,
 		_stage_lookahead,
 	)
 	# using the bfs fold function find the maximal number of every enemy type used per stage
@@ -146,21 +151,21 @@ func start():
 				else: curr_dict[enemy_path] = max(curr_dict[enemy_path], len(enemy_dict[enemy_path]))
 			return curr_dict,
 		func (s: StageNodeData): return s.children,
-		0,
+		starting_stage,
 	)
 
 	enemy_pool.initialize(max_enemy_dict)
 	stage_handler.load_stages(init_stage_set)
-	stage_handler.set_stage(stage_data_arr[0].selected_scene_path + "/" + stage_data_arr[0].selected_scene_file)
+	stage_handler.set_stage(stage_data_arr[starting_stage].selected_scene_path + "/" + stage_data_arr[starting_stage].selected_scene_file)
 	stage = stage_handler.get_stage()
 	stage.start_music()
 	stage.enable.call_deferred(
-		stage_data_arr[0].exit_resource,
-		stage_data_arr[0].enemy_resource,
-		stage_data_arr[0].pickup_resource,
-		stage_data_arr[0].spawnpoint_resource,
-		stage_data_arr[0].unbreakable_resource,
-		stage_data_arr[0].breakable_resource,
+		stage_data_arr[starting_stage].exit_resource,
+		stage_data_arr[starting_stage].enemy_resource,
+		stage_data_arr[starting_stage].pickup_resource,
+		stage_data_arr[starting_stage].spawnpoint_resource,
+		stage_data_arr[starting_stage].unbreakable_resource,
+		stage_data_arr[starting_stage].breakable_resource,
 	)
 	await fade.animation_finished
 	stage_has_changed.emit.call_deferred()
@@ -170,6 +175,9 @@ func start():
 func load_level_graph(file_name: String):
 	var campaign_data: Dictionary = LevelGraph.load_json_file(file_name)
 	stage_data_arr = LevelGraph.load_graph_to_stage_node_data_arr(campaign_data)
+
+func load_save_data(save_data: Dictionary):
+	pass
 
 func _check_ending_condition(alive_enemies: int):
 	if win_screen.visible: return
