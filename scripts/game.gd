@@ -30,9 +30,6 @@ func start():
 
 ## resets the game s.t. a new stage can be loaded
 func reset():
-	for player in player_manager.get_alive_players():
-		player.reset_pickups()
-
 	for bomb in bomb_pool.get_children().filter(func (b): return b is BombRoot && b.in_use):
 		if is_multiplayer_authority():
 			bomb.disable.rpc()

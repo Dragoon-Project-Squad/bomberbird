@@ -17,6 +17,34 @@ func _init():
 	globals.game = self
 	
 @rpc("call_local")
+func restart_current_stage(_player: HumanPlayer):
+	print("restart")
+	fade.play("fade_out")
+	await fade.animation_finished
+
+	reset()
+	stage.reset()
+
+	await get_tree().create_timer(1).timeout
+
+	stage.enable.call_deferred(
+		stage_data_arr[curr_stage_idx].exit_resource,
+		stage_data_arr[curr_stage_idx].enemy_resource,
+		stage_data_arr[curr_stage_idx].pickup_resource,
+		stage_data_arr[curr_stage_idx].spawnpoint_resource,
+		stage_data_arr[curr_stage_idx].unbreakable_resource,
+		stage_data_arr[curr_stage_idx].breakable_resource,
+	)
+	stage_announce_label.text = stage_data_arr[curr_stage_idx].stage_node_title
+	stage_announce_label.show()
+
+	stage.start_music()
+	fade.play("fade_in")
+	await fade.animation_finished
+	get_tree().create_timer(0.5).timeout.connect(func (): stage_announce_label.hide())
+	stage_has_changed.emit()
+
+@rpc("call_local")
 ## starts the complete reset for all stage related states and then loads the next stage given by
 ## [param id] int -1 if the game should terminate with a player win else the index of the next stage in the stage_data_arr
 func next_stage(id: int, player: HumanPlayer):

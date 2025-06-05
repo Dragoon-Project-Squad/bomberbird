@@ -1,6 +1,7 @@
 class_name Player extends CharacterBody2D
 ## Base class for the player
 
+signal player_health_lost
 signal player_died
 signal player_revived
 
@@ -73,6 +74,7 @@ func _ready():
 		_: lives = 1
 	lives_reset = lives
 	pickups.reset()
+	self.animation_player.play("RESET")
 
 
 func _process(delta: float):
@@ -91,6 +93,12 @@ func _process(delta: float):
 
 func _physics_process(_delta: float):
 	pass
+
+func place(pos: Vector2):
+	self.position = pos
+	self.show()
+	self.animation_player.play("RESET")
+	do_invulnerabilty()
 
 ## executes the punch_bomb ability if the player has the appropiate pickup
 func punch_bomb(direction: Vector2i):
@@ -253,7 +261,7 @@ func reset():
 	animation_player.play("player_animations/revive")
 	$Hitbox.set_deferred("disabled", 0)
 	await animation_player.animation_finished
-	stunned = true
+	stunned = false
 	is_dead = false
 	show()
 	
@@ -402,12 +410,9 @@ func play_victory(reenable: bool) -> Signal:
 
 func do_hurt() -> void:
 	stop_movement = true
-	animation_player.play("player_animations/hurt")
+	animation_player.play("player_animations/death")
 	await animation_player.animation_finished
-	animation_player.play("RESET")
-	await animation_player.animation_finished
-	self.position = world_data.tile_map.map_to_local(globals.current_world.spawnpoints[int(self.name) - 1])
-	do_invulnerabilty()
+	player_health_lost.emit(self)
 	stop_movement = false
 
 @rpc("call_local")
