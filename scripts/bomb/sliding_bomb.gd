@@ -91,7 +91,7 @@ func check_space():
 			target = collision.global_position
 			if collision is Bomb:
 				target -= Vector2(direction * TILESIZE)
-			if collision.has_method("do_stun"):
+			elif collision.has_method("do_stun"):
 				collision.do_stun()
 			elif collision.has_method("crush"):
 				collision.crush()
