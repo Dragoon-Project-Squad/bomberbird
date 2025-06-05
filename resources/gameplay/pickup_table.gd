@@ -10,6 +10,7 @@ var pickup_spawn_chance = PICKUP_SPAWN_BASE_CHANCE
 @export var extra_bomb: int = 500
 @export var explosion_boost: int = 500
 @export var speed_boost: int = 500
+@export var speed_down: int = 300
 #@export var hearth: int = 0
 @export var max_explosion: int = 100
 @export var punch_ability: int = 50
@@ -39,6 +40,7 @@ func update():
 		globals.pickups.BOMB_UP: extra_bomb,
 		globals.pickups.FIRE_UP: explosion_boost,
 		globals.pickups.SPEED_UP: speed_boost,
+		globals.pickups.SPEED_DOWN: speed_down,
 		#globals.pickups.HP_UP: health,
 		globals.pickups.FULL_FIRE: max_explosion,
 		globals.pickups.BOMB_PUNCH: punch_ability,
@@ -61,6 +63,7 @@ func reverse_update():
 	extra_bomb = pickup_weights[globals.pickups.BOMB_UP]
 	explosion_boost = pickup_weights[globals.pickups.FIRE_UP]
 	speed_boost = pickup_weights[globals.pickups.SPEED_UP]
+	speed_down = pickup_weights[globals.pickups.SPEED_DOWN]
 	#hearth = pickup_weights[globals.pickups.HP_UP]
 	max_explosion = pickup_weights[globals.pickups.FULL_FIRE]
 	punch_ability = pickup_weights[globals.pickups.BOMB_PUNCH]
