@@ -2,6 +2,7 @@ class_name LevelGraph extends GraphEdit
 
 signal has_loaded(file_name: String)
 signal has_saved(file_name: String)
+signal has_changed
 signal has_closed
 
 const SAVE_PATH: String = "user://user_campaigns"
@@ -15,6 +16,8 @@ var stage_node_indx: int = 0
 var selected_nodes: Dictionary = {}
 var node_clipboard: Array[Dictionary] = []
 var file_name: String
+var is_saved: bool = true
+var confirmation_dialog: ConfirmationDialog
 
 func _ready():
 	# create and add the add stage buttonm
@@ -58,7 +61,20 @@ func _ready():
 	clear_all_button.pressed.connect(_on_clear_all_pressed)
 	get_menu_hbox().add_child(clear_all_button)
 	
+	confirmation_dialog = ConfirmationDialog.new()
+	add_child(confirmation_dialog)
+
 	self.right_disconnects = true
+	has_changed.connect(func (): 
+		print("changed")
+		self.is_saved = false
+		)
+	has_saved.connect(func (_file_name): 
+		self.is_saved = true
+		)
+	has_loaded.connect(func (_file_name): 
+		self.is_saved = true
+		)
 
 ## when called all ports with an index larger them [param from] will be reindexed to + [param step]
 ## [param node] StringName of the node whos port should be reindexed
@@ -97,9 +113,11 @@ func _add_stage_node():
 	add_child(stage_node)
 	move_child(stage_node, 1 + stage_node_indx)
 
+	stage_node.has_changed.connect(func (): self.has_changed.emit())
 	stage_node.position_offset = (self.scroll_offset + self.size / 2) / self.zoom - stage_node.size / 2;
 	stage_node.pickup_resource.update()
 	stage_node._setup_pickup_tab()
+	has_changed.emit()
 	
 ## clears the graph (removing all nodes and connections with the exeption of the starting node)
 func clear_graph():
@@ -108,12 +126,16 @@ func clear_graph():
 		child.name = "REMOVING" + child.name
 		child.queue_free()
 	stage_node_indx = 0
+	has_changed.emit()
 
 ## loads the graph stored in graph_data
 ## [param graph_data] LevelGraphData the resource to load the data from
 func load_graph(graph_data: Dictionary):
 	self.clear_connections()
 	clear_graph()
+	if graph_data == {}: 
+		has_loaded.emit(file_name)
+		return
 	for node in graph_data.nodes:
 		var stage_node: StageNode = stage_node_preload.instantiate()
 		stage_node_indx += 1
@@ -121,19 +143,53 @@ func load_graph(graph_data: Dictionary):
 		add_child(stage_node)
 		move_child(stage_node, 1 + stage_node_indx)
 
+		stage_node.has_changed.connect(func (): self.has_changed.emit())
 		stage_node.load_stage_node(node)
 	for connection in graph_data.connections:
 		connect_node(connection.from_node, connection.from_port, connection.to_node, connection.to_port)
+	has_loaded.emit(file_name)
 
-		
 ## loads the selected graph if it exists
 ## takes the global value file_name to check if such a LevelGraphData file exists and if it does load it
 func _on_load_pressed():
+	if is_saved:
+		_on_load_confirmed()
+		return
+
+	for sig_arr in confirmation_dialog.get_ok_button().pressed.get_connections():
+		sig_arr.signal.disconnect(sig_arr.callable)
+	for sig_arr in confirmation_dialog.get_cancel_button().pressed.get_connections():
+		sig_arr.signal.disconnect(sig_arr.callable)
+
+	confirmation_dialog.title = "load file?"
+	confirmation_dialog.dialog_text = "you have unsaved progress\nAre you sure you wish to load a different file?\nprogress will be lost"
+	confirmation_dialog.get_ok_button().pressed.connect(_on_load_confirmed, CONNECT_ONE_SHOT)
+	confirmation_dialog.get_cancel_button().pressed.connect(confirmation_dialog.hide, CONNECT_ONE_SHOT)
+	confirmation_dialog.popup_centered()
+
+func _on_load_confirmed():
+	confirmation_dialog.hide()
 	load_graph(load_json_file(file_name))
-	has_loaded.emit(file_name)
+
+func _on_save_pressed():
+	if !FileAccess.file_exists(SAVE_PATH + "/" + file_name + ".json"): 
+		_on_save_confirmed()
+		return
+
+	for sig_arr in confirmation_dialog.get_ok_button().pressed.get_connections():
+		sig_arr.signal.disconnect(sig_arr.callable)
+	for sig_arr in confirmation_dialog.get_cancel_button().pressed.get_connections():
+		sig_arr.signal.disconnect(sig_arr.callable)
+
+	confirmation_dialog.title = "overwriting file?"
+	confirmation_dialog.dialog_text = "are you sure you wish to overwrite file: " + file_name + "?"
+	confirmation_dialog.get_ok_button().pressed.connect(_on_save_confirmed, CONNECT_ONE_SHOT)
+	confirmation_dialog.get_cancel_button().pressed.connect(confirmation_dialog.hide, CONNECT_ONE_SHOT)
+	confirmation_dialog.popup_centered()
 
 ## saves the current graph
-func _on_save_pressed():
+func _on_save_confirmed():
+	confirmation_dialog.hide()
 	if file_name == "": # stops saving a graph as ".res"
 		file_name_input.editable = 0
 		await get_tree().create_timer(0.2).timeout
@@ -162,8 +218,25 @@ func _on_save_pressed():
 	file_access.close()
 	has_saved.emit(file_name)
 
-## removes itself
 func _on_close_pressed():
+	if is_saved:
+		_on_close_confirmed()
+		return
+
+	for sig_arr in confirmation_dialog.get_ok_button().pressed.get_connections():
+		sig_arr.signal.disconnect(sig_arr.callable)
+	for sig_arr in confirmation_dialog.get_cancel_button().pressed.get_connections():
+		sig_arr.signal.disconnect(sig_arr.callable)
+
+	confirmation_dialog.title = "close editor?"
+	confirmation_dialog.dialog_text = "you have unsaved progress.\nAre you sure you wish to close the editor?\nprogress will be lost"
+	confirmation_dialog.get_ok_button().pressed.connect(_on_close_confirmed, CONNECT_ONE_SHOT)
+	confirmation_dialog.get_cancel_button().pressed.connect(confirmation_dialog.hide, CONNECT_ONE_SHOT)
+	confirmation_dialog.popup_centered()
+
+## removes itself
+func _on_close_confirmed():
+	confirmation_dialog.hide()
 	if !get_parent(): 
 		get_tree().quit()
 	else:
@@ -171,7 +244,23 @@ func _on_close_pressed():
 	has_closed.emit(file_name)
 
 func _on_clear_all_pressed():
-	clear_graph()
+	for sig_arr in confirmation_dialog.get_ok_button().pressed.get_connections():
+		sig_arr.signal.disconnect(sig_arr.callable)
+	for sig_arr in confirmation_dialog.get_cancel_button().pressed.get_connections():
+		sig_arr.signal.disconnect(sig_arr.callable)
+
+	confirmation_dialog.title = "clear file?"
+	confirmation_dialog.dialog_text = "Are you sure you wish to clear all nodes"
+	confirmation_dialog.get_ok_button().pressed.connect(
+		func ():
+			confirmation_dialog.hide()
+			self.clear_connections()
+			clear_graph(),
+		CONNECT_ONE_SHOT
+		)
+	confirmation_dialog.get_cancel_button().pressed.connect(confirmation_dialog.hide, CONNECT_ONE_SHOT)
+	confirmation_dialog.popup_centered()
+
 
 ## A bfs graph traversale inwhich each node will be saved to the StageNodeData array. A bfs is used to also store the array indices of the children to each entry
 ## The reason for a bfs rather then just looping through the node is so we can also store a children array that contains the indices of all of a node children inside the saved array
@@ -210,10 +299,12 @@ func _on_connect_request(from_node: StringName, from_port: int, to_node: StringN
 		if connection.from_port == from_port && connection.from_node == from_node: # attempted to connect an exit thats already connected to somewhere else
 			return
 	connect_node(from_node, from_port, to_node, to_port)
+	has_changed.emit()
 
 ## disconnect on request
 func _on_disconnect_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int):
 	disconnect_node(from_node, from_port, to_node, to_port)
+	has_changed.emit()
 
 ## delete nodes when used pressed the DELETE key
 func _on_delete_nodes_request(nodes: Array[StringName]):
@@ -222,7 +313,10 @@ func _on_delete_nodes_request(nodes: Array[StringName]):
 		var node := get_node(str(node_name))
 		if selected_nodes.has(node):
 			selected_nodes.erase(node)
+		for sig_arr in node.has_changed.get_connections():
+			sig_arr.signal.disconnect(sig_arr.callable)
 		node.queue_free()
+	has_changed.emit()
 
 ## Adds a selected node to the selected_nodes set for later processing if needed
 func _on_node_selected(node: Node) -> void:
@@ -255,8 +349,11 @@ func _on_cut_nodes_request() -> void:
 		node_clipboard[index] = node.save_node(index)
 		node_clipboard[index].stage_node_pos = var_to_str(str_to_var(node_clipboard[index].stage_node_pos) - Vector2(-50, 50))
 		index += 1
+		for sig_arr in node.has_changed.get_connections():
+			sig_arr.signal.disconnect(sig_arr.callable)
 		node.queue_free()
 		selected_nodes.erase(node)
+	has_changed.emit()
 
 ## rebuilds all nodes in the clipboard
 func _on_paste_nodes_request():
@@ -270,12 +367,15 @@ func _on_paste_nodes_request():
 		add_child(stage_node)
 		move_child(stage_node, 1 + stage_node_indx)
 
+		stage_node.has_changed.connect(func (): self.has_changed.emit())
 		stage_node.load_stage_node(node)
 		selected_nodes[stage_node] = null
 		stage_node.selected = true
+	has_changed.emit()
 
 ## duplicates all nodes in the selected_nodes set
 func _on_duplicate_nodes_request() -> void:
+
 	var index: int = 0
 	for node in selected_nodes.keys():
 		var temp_storage: Dictionary = node.save_node(index)
@@ -288,6 +388,7 @@ func _on_duplicate_nodes_request() -> void:
 		add_child(stage_node)
 		move_child(stage_node, 1 + stage_node_indx)
 
+		stage_node.has_changed.connect(func (): self.has_changed.emit())
 		node.selected = false
 		selected_nodes.erase(node)
 		stage_node.selected = true
@@ -296,9 +397,12 @@ func _on_duplicate_nodes_request() -> void:
 		stage_node.load_stage_node(temp_storage)
 		selected_nodes[stage_node] = true
 		stage_node.selected = true
-
+	has_changed.emit()
 
 static func load_json_file(file_name: String) -> Dictionary:
+	if !FileAccess.file_exists(SAVE_PATH + "/" + file_name + ".json"):
+		print("file: ", SAVE_PATH, "/", file_name, ".json", " not found loading empty graph")
+		return {}
 	var file_access := FileAccess.open(SAVE_PATH + "/" + file_name + ".json", FileAccess.READ)
 	var json_string := file_access.get_line()
 	file_access.close()

@@ -10,6 +10,8 @@ const STAGE_DIR: Dictionary = {
 	"Lab": "lab_stages/lab_runtime.tscn",
 	}
 
+signal has_changed
+
 @onready var scene_options: OptionButton = %SceneOptions
 @onready var exit_boiler: HBoxContainer = %ExitBoiler
 @onready var pickups_tab: GridContainer = %"Pickup Weights"
@@ -39,7 +41,6 @@ func _ready():
 		exit_boiler.get_node("Position/x").max_value = stage_tab.map_size.x - 1
 		exit_boiler.get_node("Position/y").max_value = stage_tab.map_size.y - 1
 
-
 	set_slot(
 		0,
 		true,
@@ -51,6 +52,7 @@ func _ready():
 	)
 
 	$TabContainer.current_tab = curr_tab
+	stage_tab.has_changed.connect(func (): self.has_changed.emit())
 
 ## sets all values for a node given a StageNodeData
 ## [param stage_node_data] StageNodeData data to load from
@@ -93,7 +95,7 @@ func save_node(index: int) -> Dictionary:
 	stage_node_data["unbreakable_table"] = unbreakable_resource.to_json()
 	stage_node_data["breakable_table"] = breakable_resource.to_json()
 
-	stage_node_data["exit_table"] = exit_resource.to_json()
+	stage_node_data["exit_table"] = exit_resource.to_json(stage_tab.map_size)
 	stage_node_data["stage_node_name"] = name
 	stage_node_data["stage_node_title"] = title
 	stage_node_data["stage_node_pos"] = var_to_str(position_offset)
@@ -123,6 +125,7 @@ func _set_scene_options(stage_options: Dictionary):
 	for key in stage_options.keys():
 		scene_options.add_item(key)
 	scene_options.selected = -1
+	has_changed.emit()
 
 ## given a scene and its subfolders returns the path to that scene (if only_dir == true returns the path to the Directory containing the scene rather then the scene)
 static func get_path_to_scene(scene: String, base_dir: String, file_dir: Dictionary, only_dir: bool = false):
@@ -203,6 +206,7 @@ func _on_scene_options_item_selected(index: int) -> void:
 		return
 	selected_scene_file = STAGE_DIR[scene_options.get_item_text(index)]
 	selected_scene_path = get_path_to_scene(scene_options.get_item_text(index), STAGE_SCENE_DIR, STAGE_DIR, true)
+	has_changed.emit()
 
 ## Create a new entry for an exit
 func _on_add_exit_button_pressed() -> void:
@@ -242,6 +246,7 @@ func _on_add_exit_button_pressed() -> void:
 	exit.get_node("Position/x").value_changed.connect(changed_function_x)
 	exit.get_node("Position/y").value_changed.connect(changed_function_y)
 	exit.get_node("ExitColor").color_changed.connect(changed_function_color)
+	has_changed.emit()
 
 ## deletes an exit and adjusts all indicies of exits after itself
 func _on_remove_exit_button_pressed(exit: HBoxContainer):
@@ -277,6 +282,7 @@ func _on_remove_exit_button_pressed(exit: HBoxContainer):
 	exit_resource.remove_at(exit_num - 1)
 	exit.queue_free()
 	exit_indx -= 1
+	has_changed.emit()
 	
 ## updates the exit position in the exit_resource
 func _on_exit_position_changed(val: float, exit: HBoxContainer, is_x: bool,):
@@ -288,6 +294,7 @@ func _on_exit_position_changed(val: float, exit: HBoxContainer, is_x: bool,):
 	else:
 		exit_resource.set_y(exit_num, int(val))
 	stage_tab.add_border_color_overwrite(exit_resource.exits[exit_num].coords, exit_resource.exits[exit_num].color)
+	has_changed.emit()
 	
 ## updates the exit color in the exit_resource
 func _on_exit_color_changed(color: Color, exit: HBoxContainer):
@@ -303,12 +310,14 @@ func _on_exit_color_changed(color: Color, exit: HBoxContainer):
 	)
 	exit_resource.set_color(exit_num - 1, color)
 	stage_tab.add_border_color_overwrite(exit_resource.exits[exit_num - 1].coords, color)
+	has_changed.emit()
 
 ## updates the pickup_weight in the Pickup_resource
 func _on_pickup_weight_changed(weight: float, pickup: int):
 	if(pickup_resource.pickup_weights.has(pickup)):
 		pickup_resource.pickup_weights[pickup] = weight
 		pickup_resource.reverse_update()
+		has_changed.emit()
 	else:
 		push_error("Pickup " + globals.pickup_name_str[pickup] + " not yet implemented")
 
@@ -325,6 +334,7 @@ func _on_stage_name_editing_toggled(toggled_on: bool) -> void:
 			stage_name.text = ""
 			return
 	self.title = new_text
+	has_changed.emit()
 
 
 func _on_weights_vs_amount_toggled(toggled_on: bool) -> void:
@@ -335,3 +345,4 @@ func _on_weights_vs_amount_toggled(toggled_on: bool) -> void:
 	else:
 		weights_vs_amount.text = "weights"
 		pickups_tab.name = "Pickup weight"
+	has_changed.emit()
