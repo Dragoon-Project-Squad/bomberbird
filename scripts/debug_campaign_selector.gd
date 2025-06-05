@@ -11,7 +11,6 @@ func _ready() -> void:
 	assert(camp_dir, "campaign dir not found at: " + LevelGraph.PERMANENT_SAVE_PATH)
 	for perm_camp_file in camp_dir.get_files():
 		if perm_camp_file.get_extension() != "json":
-			perm_camp_file = camp_dir.get_next()
 			continue
 		if !FileAccess.file_exists(LevelGraph.SAVE_PATH + "/" + perm_camp_file):
 			DirAccess.make_dir_recursive_absolute(LevelGraph.SAVE_PATH)
@@ -24,6 +23,23 @@ func _ready() -> void:
 			user_file.store_string(json_str)
 
 			user_file.close()
+			res_file.close()
+		else:
+			var res_file := FileAccess.open(LevelGraph.PERMANENT_SAVE_PATH + "/" + perm_camp_file, FileAccess.READ)
+			assert(res_file)
+			var json_data := LevelGraph.load_json_file(perm_camp_file.left(len(perm_camp_file) - 5), FileAccess.READ)
+			if !json_data.has("version") || json_data.version != LevelGraph.VERSION:
+				var user_file_old = FileAccess.open(LevelGraph.SAVE_PATH + "/" + perm_camp_file.left(len(perm_camp_file) - 5) + "_old" + ".json", FileAccess.WRITE)
+				assert(user_file_old)
+				user_file_old.store_line(JSON.stringify(json_data))
+				print("hi")
+				user_file_old.close()
+				var user_file = FileAccess.open(LevelGraph.SAVE_PATH + "/" + perm_camp_file, FileAccess.WRITE)
+				assert(user_file)
+				var json_str_new = res_file.get_as_text()
+				user_file.store_string(json_str_new)
+				user_file.close()
+
 			res_file.close()
 
 	_update_and_set(DEFAULT_GRAPH_NAME)
