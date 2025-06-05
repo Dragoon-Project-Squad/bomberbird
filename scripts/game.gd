@@ -9,11 +9,12 @@ var player_manager: PlayerManager
 var player_spawner: MultiplayerSpawner
 var misobon_path: MisobonPath
 var misobon_player_spawner: MultiplayerSpawner
+var exit_pool: ExitPool
 var enemy_pool: EnemyPool
 var bomb_pool: BombPool
 var pickup_pool: PickupPool
 var breakable_pool: BreakablePool
-var game_ui: CanvasLayer
+var game_ui
 var win_screen: Control
 var stage: World
 

@@ -147,15 +147,18 @@ func stop_music():
 	
 ## resets a stage s.t. it may be reused later
 func reset():
-	if hurry_up && globals.current_gamemode != globals.gamemode.CAMPAIGN: hurry_up.disable()
-	for exit in globals.game.exit_pool.get_children().filter(func (e): return e is Exit && e.in_use):
-		if is_multiplayer_authority():
-			exit.disable.rpc()
-		globals.game.exit_pool.return_obj(exit)
-	for enemy in alive_enemies:
-		enemy.disable()
-		globals.game.enemy_pool.return_obj(enemy)
-	alive_enemies = []
+	#if hurry_up && globals.current_gamemode != globals.gamemode.CAMPAIGN:
+	#	hurry_up.disable()
+	if globals.game.exit_pool:
+		for exit in globals.game.exit_pool.get_children().filter(func (e): return e is Exit && e.in_use):
+			if is_multiplayer_authority():
+				exit.disable.rpc()
+			globals.game.exit_pool.return_obj(exit)
+	if globals.game.enemy_pool:
+		for enemy in alive_enemies:
+			enemy.disable()
+			globals.game.enemy_pool.return_obj(enemy)
+		alive_enemies = []
 	for sig_arr in all_enemied_died.get_connections():
 		sig_arr.signal.disconnect(sig_arr.callable)
 	world_data.reset()
@@ -191,9 +194,8 @@ func _spawn_enemies():
 			alive_enemies.append(enemy)
 			enemy.enemy_died.connect(
 				func () -> void:
-					print("before: ", alive_enemies)
 					alive_enemies.erase(enemy)
-					print("after: ", alive_enemies)
+					globals.game.score += enemy.score_points
 					if alive_enemies.is_empty():
 						all_enemied_died.emit(0),
 				CONNECT_ONE_SHOT
@@ -289,7 +291,7 @@ func _spawn_player():
 
 		player = playerspawner.spawn(spawningdata)
 		if globals.current_gamemode == globals.gamemode.CAMPAIGN:
-			player.player_health_lost.connect(globals.game.restart_current_stage)
+			player.player_health_updated.connect(globals.game.restart_current_stage)
 		if SettingsContainer.misobon_setting != SettingsContainer.misobon_setting_states.OFF:
 			misobondata.name = player.get_player_name()
 			misobonspawner.spawn(misobondata)
