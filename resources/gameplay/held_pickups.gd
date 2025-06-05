@@ -7,7 +7,8 @@ enum virus {DEFAULT = 0, SPEEDDOWN, SPEEDUP, FIREDOWN, SLOWFUSE_A, SLOWFUSE_B, F
 
 const MAX_BOMB_UPGRADE_PERMITTED: int = 6
 const MAX_EXPLOSION_BOOSTS_PERMITTED: int = 6
-const MAX_SPEED_UP_PERMITTED: int = 99
+const MAX_SPEED_UP_PERMITTED: int = 99 #TODO Probably incorrect
+const MAX_SPEED_DOWN_PERMITTED: int = 99 #TODO: Probably incorrect
 
 @export_group("inital pickups")
 @export_enum("NONE", "PIERCING", "MINE", "REMOTE", "SEEKER") var initial_bomb_type: int = 0
@@ -15,6 +16,7 @@ const MAX_SPEED_UP_PERMITTED: int = 99
 @export var initial_bomb_up: int = 0
 @export var initial_fire_up: int = 0
 @export var initial_speed_up: int = 0
+@export var initial_speed_down: int = 0
 @export var initial_hp_up: int = 0
 @export var initial_full_fire: bool = false
 @export var initial_bomb_punch: bool = false
@@ -30,6 +32,7 @@ var held_pickups: Dictionary = {
 	globals.pickups.BOMB_UP: 0,
 	globals.pickups.FIRE_UP: 0,
 	globals.pickups.SPEED_UP: 0,
+	globals.pickups.SPEED_DOWN: 0,
 	globals.pickups.HP_UP: 0,
 	globals.pickups.FULL_FIRE: false,
 	globals.pickups.BOMB_PUNCH: false,
@@ -50,6 +53,7 @@ func reset():
 	held_pickups[globals.pickups.BOMB_UP] = initial_bomb_up
 	held_pickups[globals.pickups.FIRE_UP] = initial_fire_up
 	held_pickups[globals.pickups.SPEED_UP] = initial_speed_up
+	held_pickups[globals.pickups.SPEED_DOWN] = initial_speed_down
 	held_pickups[globals.pickups.HP_UP] = initial_hp_up
 	held_pickups[globals.pickups.FULL_FIRE] = initial_full_fire
 	held_pickups[globals.pickups.BOMB_PUNCH] = initial_bomb_punch
@@ -57,6 +61,7 @@ func reset():
 	held_pickups[globals.pickups.WALLTHROUGH] = initial_wallthrough
 	held_pickups[globals.pickups.FREEZE] = initial_freeze
 	held_pickups[globals.pickups.INVINCIBILITY_VEST] = initial_invincibility_vest
+
 
 ## add a pickup to the players "inventory"
 func add(pickup_type: int, virus_type: int = 0):
@@ -78,6 +83,8 @@ func add(pickup_type: int, virus_type: int = 0):
 			held_pickups[pickup_type] = min(held_pickups[pickup_type] + 1, MAX_EXPLOSION_BOOSTS_PERMITTED)
 		globals.pickups.SPEED_UP:
 			held_pickups[pickup_type] = min(held_pickups[pickup_type] + 1, MAX_SPEED_UP_PERMITTED)
+		globals.pickups.SPEED_DOWN:
+			held_pickups[pickup_type] = min(held_pickups[pickup_type] + 1, MAX_SPEED_DOWN_PERMITTED)
 		globals.pickups.HP_UP:
 			held_pickups[pickup_type] += 1
 		globals.pickups.FULL_FIRE:
