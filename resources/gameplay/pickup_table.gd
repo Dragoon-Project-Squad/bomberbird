@@ -66,7 +66,7 @@ func reverse_update():
 		explosion_boost = pickup_weights[globals.pickups.FIRE_UP]
 	if pickup_weights.has(globals.pickups.SPEED_UP):
 		speed_boost = pickup_weights[globals.pickups.SPEED_UP]
-	if pickup_weights.has(globals.pickups.SPEED_UP):
+	if pickup_weights.has(globals.pickups.SPEED_DOWN):
 		speed_down = pickup_weights[globals.pickups.SPEED_DOWN]
 	#if pickup_weights.has(globals.pickups.HP_UP):
 		#hearth = pickup_weights[globals.pickups.HP_UP]
