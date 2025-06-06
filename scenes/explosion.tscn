@@ -60,7 +60,7 @@ position = Vector2(-16, -16)
 tile_set = ExtResource("2_544pj")
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_layer = 0
+collision_layer = 64
 collision_mask = 58
 
 [node name="x-line" type="CollisionShape2D" parent="Area2D"]

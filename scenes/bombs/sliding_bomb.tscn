@@ -6,11 +6,13 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3a627"]
 size = Vector2(24, 24)
 
-[node name="bomb_sliding" type="Area2D"]
-texture_filter = 1
+[node name="sliding_bomb" type="CharacterBody2D"]
 collision_layer = 47
-collision_mask = 63
-input_pickable = false
+collision_mask = 127
+motion_mode = 1
+platform_on_leave = 2
+platform_floor_layers = 0
+safe_margin = 0.01
 script = ExtResource("1_gx5yh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
