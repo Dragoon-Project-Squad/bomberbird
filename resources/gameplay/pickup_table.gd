@@ -66,7 +66,7 @@ func reverse_update():
 		explosion_boost = pickup_weights[globals.pickups.FIRE_UP]
 	if pickup_weights.has(globals.pickups.SPEED_UP):
 		speed_boost = pickup_weights[globals.pickups.SPEED_UP]
-	if pickup_weights.has(globals.pickups.SPEED_UP):
+	if pickup_weights.has(globals.pickups.SPEED_DOWN):
 		speed_down = pickup_weights[globals.pickups.SPEED_DOWN]
 	#if pickup_weights.has(globals.pickups.HP_UP):
 		#hearth = pickup_weights[globals.pickups.HP_UP]
@@ -128,6 +128,9 @@ func decide_pickup_type() -> int:
 	return get_type_from_weight(rng_result)
 	
 func determine_base_pickup_rate() -> void:
+	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
+		pickup_spawn_chance = 0.4
+		return
 	if SettingsContainer.get_pickup_spawn_rule() == 0:
 		return # Use the value decided by the STAGE
 	elif SettingsContainer.get_pickup_spawn_rule() == 1:

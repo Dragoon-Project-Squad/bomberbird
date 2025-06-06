@@ -70,7 +70,6 @@ func hide_mine():
 	set_collision_layer_value(4, false)
 	set_collision_layer_value(6, false)
 	astargrid_handler.astargrid_set_point(bomb_root.global_position, false)
-	world_data.set_tile(world_data.tiles.MINE, bomb_root.global_position)
 	armed = true
 	return
 
@@ -184,6 +183,7 @@ func _on_detect_area_body_entered(body: Node2D):
 	if (body is Player || body is Enemy) && armed && mine:
 		show()
 		$AnimationPlayer.play("mine_explode")
+		world_data.set_tile(world_data.tiles.BOMB, self.global_position, bomb_root.boost + 2, false)
 	if body is Breakable:
 		body.crush()
 	if !(body in get_collision_exceptions()):
