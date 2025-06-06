@@ -165,9 +165,22 @@ func kick_bomb(direction: Vector2i):
 	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
 	for body in bodies:
 		if body is Bomb:
+			var bomb_coords_fixed = (
+				world_data.tile_map.map_to_local(
+					world_data.tile_map.local_to_map(body.global_position)
+				)
+			)
+			var player_coords_fixed = (
+				world_data.tile_map.map_to_local(
+					world_data.tile_map.local_to_map(self.global_position)
+				)
+			)
+			# make sure the player and the bomb aren't in the same tile
+			if player_coords_fixed == bomb_coords_fixed:
+				return 1 
 			bomb_kicked = body.get_parent()
 			break
-	if bomb_kicked == null or (bodies.is_empty() and bomb_kicked.state == bomb_kicked.STATIONARY):
+	if bomb_kicked == null or (bodies.is_empty() and bomb_kicked.state != bomb_kicked.SLIDING):
 		return 1
 
 	if bomb_kicked.bomb_owner != null and bomb_kicked.state == bomb_kicked.STATIONARY:
@@ -323,8 +336,8 @@ func spread_items():
 			var pickup_type: int
 			match pickups.held_pickups[key]:
 				pickups.exclusive.DEFAULT: continue
-				#pickups.exclusive.KICK: pickup_type = globals.pickups.KICK
-				#pickups.exclusive.BOMBTHROUGH: pickup_type = globals.pickups.BOMBTHROUGH
+				pickups.exclusive.KICK: pickup_type = globals.pickups.KICK
+				pickups.exclusive.BOMBTHROUGH: pickup_type = globals.pickups.BOMBTHROUGH
 				_: push_error("invalid exclusive on item spread")
 			pickup_types.push_back(pickup_type)
 			pickup_count.push_back(1)
