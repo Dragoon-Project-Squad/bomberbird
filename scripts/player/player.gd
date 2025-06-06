@@ -171,7 +171,7 @@ func kick_bomb(direction: Vector2i):
 		if body is Bomb:
 			bomb_kicked = body.get_parent()
 			break
-	if bomb_kicked == null or (bodies.is_empty() and bomb_kicked.state == bomb_kicked.STATIONARY):
+	if bomb_kicked == null or (bodies.is_empty() and bomb_kicked.state != bomb_kicked.SLIDING):
 		return 1
 
 	if bomb_kicked.bomb_owner != null and bomb_kicked.state == bomb_kicked.STATIONARY:

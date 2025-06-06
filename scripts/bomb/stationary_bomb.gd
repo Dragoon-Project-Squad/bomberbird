@@ -98,7 +98,7 @@ func detonate():
 		var targets: Array[Node2D] = []
 		while ray.is_colliding():
 			targets.append(ray.get_collider())
-			if !pierce || ray.get_collider().is_class("TileMapLayer"):
+			if not pierce or ray.get_collider().is_class("TileMapLayer"):
 				break
 			ray.add_exception_rid(ray.get_collider_rid())
 			ray.force_raycast_update()

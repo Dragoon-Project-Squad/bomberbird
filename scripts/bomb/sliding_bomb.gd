@@ -79,17 +79,17 @@ func check_space():
 	if place_now:
 		set_state(PLACING)
 		return
-	$CollisionShape2D.set_deferred("Disabled", 0)
+	$CollisionShape2D.set_deferred("disabled", 0)
 	for collision in get_overlapping_bodies():
 		if (
 				collision is Player
 				or collision is Enemy
 				or collision is Breakable
 				or collision is Bomb
-				or collision.is_in_group("bomb_stop")
+				or collision.is_in_group("bombstop")
 		):
 			target = collision.global_position
-			if collision is Bomb:
+			if collision is Bomb or collision.is_in_group("bombstop"):
 				target -= Vector2(direction * TILESIZE)
 			elif collision.has_method("do_stun"):
 				collision.do_stun()
