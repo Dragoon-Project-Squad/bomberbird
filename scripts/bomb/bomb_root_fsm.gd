@@ -81,7 +81,7 @@ func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) 
 		AIRBORN:
 			force_collision = true #If it state is airborn we do now want the collision ignore logic to work rather we want the bomb to collied immediately
 		SLIDING:
-			force_collision = true
+			force_collision = false
 
 	set_state(STATIONARY)
 	
