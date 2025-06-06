@@ -1,32 +1,35 @@
-extends Area2D
+extends CharacterBody2D
 
 const TILESIZE: int = 32
 enum {DISABLED, SLIDING, CHECKING, PLACING, ENUM_SIZE}
 var state: int = DISABLED
 
 #sliding state variables
-var origin: Vector2
-var starting_speed: float
+var speed: float
 var direction: Vector2i
 var place_now: bool
-var target: Vector2
+var place_position: Vector2
 
-var bomb_root: Node2D
+var target: KinematicCollision2D
+var bomb_root: BombRoot
 
 func _ready() -> void:
-	bomb_root = get_parent()
+	if get_parent() is BombRoot:
+		bomb_root = get_parent()
+	else:
+		printerr("parent is not bombroot")
 	disable()
 
 func disable() -> void:
-	starting_speed = 0.0
+	speed = 0.0
 	direction = Vector2i.ZERO
-	target = Vector2.ZERO
+	target = null
 	place_now = false
+	place_position = Vector2.ZERO
 	self.visible = false
-	$CollisionShape2D.set_deferred("Disabled", 1)
+	$CollisionShape2D.set_deferred("disabled", true)
 	set_state(DISABLED)
 
-#The use of physics process might be strange in a non physics body, but cause we check collisions in check_space() and collisions only update each physics frame its needed
 func _physics_process(delta: float) -> void:
 	match state:
 		PLACING:
@@ -54,61 +57,56 @@ func set_state(new_state: int):
 
 ## called while the bomb is in its sliding state
 func slide_physics(delta):
-	bomb_root.position += Vector2(direction) * starting_speed * delta
-	if target:
-		if (target - bomb_root.position).dot(Vector2(direction)) <= 0:
-			place_now = true
-			set_state(CHECKING)
-	else:
+	target = move_and_collide(Vector2(direction) * speed * delta)
+	if target != null:
 		set_state(CHECKING)
+		return
 
 ## called while the bomb is in the checking stage
 func check_space():
-	var in_bounds = world_data.is_out_of_bounds(bomb_root.position)
+	var in_bounds = world_data.is_out_of_bounds(global_position)
 	if in_bounds != world_data.bounds.IN:
 		match in_bounds:
 			world_data.bounds.OUT_TOP:
-				bomb_root.position += Vector2.DOWN * TILESIZE / 2
+				place_position = global_position + Vector2.DOWN * TILESIZE / 2
 			world_data.bounds.OUT_DOWN:
-				bomb_root.position += Vector2.UP * TILESIZE / 2
+				place_position = global_position + Vector2.UP * TILESIZE / 2
 			world_data.bounds.OUT_LEFT:
-				bomb_root.position += Vector2.RIGHT * TILESIZE / 2
+				place_position = global_position + Vector2.RIGHT * TILESIZE / 2
 			world_data.bounds.OUT_RIGHT:
-				bomb_root.position += Vector2.LEFT * TILESIZE / 2
+				place_position = global_position + Vector2.LEFT * TILESIZE / 2
 		place_now = true
 	if place_now:
 		set_state(PLACING)
 		return
-	$CollisionShape2D.set_deferred("disabled", 0)
-	for collision in get_overlapping_bodies():
-		if (
-				collision is Player
-				or collision is Enemy
-				or collision is Breakable
-				or collision is Bomb
-				or collision.is_in_group("bombstop")
-		):
-			target = collision.global_position
-			if collision is Bomb or collision.is_in_group("bombstop"):
-				target -= Vector2(direction * TILESIZE)
-			elif collision.has_method("do_stun"):
-				collision.do_stun()
-			elif collision.has_method("crush"):
-				collision.crush()
-
-	for collision in get_overlapping_areas():
-		if collision is Pickup:
+	if target == null:
+		set_state(SLIDING)
+	var collision := target.get_collider()
+	if (
+			collision is CollisionObject2D # everything inherits so just check this
+			or collision.is_in_group("bombstop")
+	):
+		place_position = target.get_position()
+		if collision is Bomb or collision.is_in_group("bombstop"):
+			place_position -= Vector2(direction * TILESIZE)
+		elif collision.has_method("do_stun"):
+			collision.do_stun()
+		elif collision.has_method("crush"):
 			collision.crush()
+			if collision is Pickup:
+				set_state(SLIDING)
+				return
+		else:
+			printerr("what the heck is this collision: ", collision)
+		set_state(PLACING)
 
-	slides(bomb_root.position, direction)
-
-## tells to root to change this bomb to a stationary bomb called when checking found a valid spot
 func to_stationary_bomb():
 	if !is_multiplayer_authority():
 		return
+	$CollisionShape2D.set_deferred("disabled", true)
 	var corrected_cords = (
 		world_data.tile_map.map_to_local(
-			world_data.tile_map.local_to_map(bomb_root.position)
+			world_data.tile_map.local_to_map(place_position)
 		)
 	)
 	bomb_root.do_place.rpc(corrected_cords, -1, bomb_root.bomb_owner_is_dead)
@@ -119,12 +117,19 @@ func slides(origin: Vector2, direction: Vector2i):
 	bomb_root.position = origin
 	self.visible = true
 	self.direction = direction
-	self.origin = origin
-	starting_speed = TILESIZE * 8
+	speed = TILESIZE * 4
+	add_collision_exception_with(bomb_root.bomb_owner)
+	$CollisionShape2D.set_deferred("disabled", false)
 	set_state(SLIDING)
 
 func halt():
+	place_position = global_position
 	self.place_now = true
+	set_state(CHECKING)
 
-func exploded():
-	print("i have exploded wao")
+# not sure to explode while in sliding state or ignore explosion
+# function is set for when that happens
+@rpc("call_local")
+func exploded(_by_who):
+	return
+	#halt()
