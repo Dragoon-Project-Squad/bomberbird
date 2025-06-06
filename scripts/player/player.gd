@@ -169,6 +169,19 @@ func kick_bomb(direction: Vector2i):
 	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
 	for body in bodies:
 		if body is Bomb:
+			var bomb_coords_fixed = (
+				world_data.tile_map.map_to_local(
+					world_data.tile_map.local_to_map(body.global_position)
+				)
+			)
+			var player_coords_fixed = (
+				world_data.tile_map.map_to_local(
+					world_data.tile_map.local_to_map(self.global_position)
+				)
+			)
+			# make sure the player and the bomb aren't in the same tile
+			if player_coords_fixed == bomb_coords_fixed:
+				return 1 
 			bomb_kicked = body.get_parent()
 			break
 	if bomb_kicked == null or (bodies.is_empty() and bomb_kicked.state != bomb_kicked.SLIDING):
