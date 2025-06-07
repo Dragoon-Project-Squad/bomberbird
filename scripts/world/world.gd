@@ -291,7 +291,7 @@ func _spawn_player():
 
 		player = playerspawner.spawn(spawningdata)
 		if globals.current_gamemode == globals.gamemode.CAMPAIGN:
-			player.player_health_updated.connect(globals.game.restart_current_stage)
+			player.player_hurt.connect(globals.game.restart_current_stage)
 		if SettingsContainer.misobon_setting != SettingsContainer.misobon_setting_states.OFF:
 			misobondata.name = player.get_player_name()
 			misobonspawner.spawn(misobondata)

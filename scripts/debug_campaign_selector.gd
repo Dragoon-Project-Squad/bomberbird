@@ -32,7 +32,6 @@ func _ready() -> void:
 				var user_file_old = FileAccess.open(LevelGraph.SAVE_PATH + "/" + perm_camp_file.left(len(perm_camp_file) - 5) + "_old" + ".json", FileAccess.WRITE)
 				assert(user_file_old)
 				user_file_old.store_line(JSON.stringify(json_data))
-				print("hi")
 				user_file_old.close()
 				var user_file = FileAccess.open(LevelGraph.SAVE_PATH + "/" + perm_camp_file, FileAccess.WRITE)
 				assert(user_file)

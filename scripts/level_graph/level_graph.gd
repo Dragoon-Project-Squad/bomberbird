@@ -66,16 +66,9 @@ func _ready():
 	add_child(confirmation_dialog)
 
 	self.right_disconnects = true
-	has_changed.connect(func (): 
-		print("changed")
-		self.is_saved = false
-		)
-	has_saved.connect(func (_file_name): 
-		self.is_saved = true
-		)
-	has_loaded.connect(func (_file_name): 
-		self.is_saved = true
-		)
+	has_changed.connect(func (): self.is_saved = false)
+	has_saved.connect(func (_file_name): self.is_saved = true)
+	has_loaded.connect(func (_file_name): self.is_saved = true)
 
 ## when called all ports with an index larger them [param from] will be reindexed to + [param step]
 ## [param node] StringName of the node whos port should be reindexed

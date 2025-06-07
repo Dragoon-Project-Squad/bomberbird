@@ -22,7 +22,7 @@ func _init():
 	globals.game = self
 	
 @rpc("call_local")
-func restart_current_stage(_player: HumanPlayer, _health: int):
+func restart_current_stage():
 	fade.play("fade_out")
 	await fade.animation_finished
 
@@ -61,6 +61,7 @@ func next_stage(id: int, player: HumanPlayer):
 	if id == -1:
 		#TODO: proper won game screen
 		win_screen.won_game()
+		reset()
 		stage.reset() #deletes exits and stops hurry up
 		return
 	gamestate.current_level += 1
@@ -200,6 +201,7 @@ func load_level_graph(file_name: String):
 func _check_ending_condition(alive_enemies: int):
 	if win_screen.visible: return
 	var alive_players: Array[Player] = globals.player_manager.get_alive_players()
+	print(len(alive_players), ", ", alive_enemies)
 	if len(alive_players) == 0 && alive_enemies == -1:
 		#TODO: proper lost game screen (with restart option)
 		win_screen.lost_game()

@@ -2,6 +2,7 @@ class_name Player extends CharacterBody2D
 ## Base class for the player
 
 signal player_health_updated
+signal player_hurt
 signal player_died
 signal player_revived
 
@@ -52,6 +53,7 @@ var bomb_total: int
 @export var lives: int = 1:
 	set(val):
 		lives = val
+		if is_dead: return
 		player_health_updated.emit(self, lives)
 
 @export var explosion_boost_count: int = 0
@@ -74,12 +76,12 @@ func _ready():
 	bomb_pool = globals.game.bomb_pool
 	pickup_pool = globals.game.pickup_pool
 	game_ui = globals.game.game_ui
-	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
-		player_health_updated.connect(func (s: Player, health: int): game_ui.update_health(health, int(s.name)))
 
 	movement_speed_reset = movement_speed
 	bomb_count_reset = bomb_count
 	explosion_boost_count_reset = explosion_boost_count
+	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
+		player_health_updated.connect(func (s: Player, health: int): game_ui.update_health(health, int(s.name)))
 	match globals.current_gamemode:
 		globals.gamemode.CAMPAIGN: lives = 3
 		globals.gamemode.BATTLEMODE: lives = 1
@@ -248,7 +250,7 @@ func enter_death_state():
 	$Hitbox.set_deferred("disabled", 1)
 	if globals.current_gamemode == globals.gamemode.BATTLEMODE:
 		spread_items()
-	reset_pickups()
+		reset_pickups()
 	await animation_player.animation_finished
 	player_died.emit()
 	hide()
@@ -430,6 +432,7 @@ func do_hurt() -> void:
 	stop_movement = true
 	animation_player.play("player_animations/death")
 	await animation_player.animation_finished
+	player_hurt.emit()
 	stop_movement = false
 
 @rpc("call_local")
