@@ -2,8 +2,11 @@ class_name Boss extends Enemy
 
 const INVULNERABILITY_POWERUP_TIME: float = 16.0
 
+@onready var bomb_carry_sprite: Sprite2D = $BombSprite
+
 @export_subgroup("Boss variables")
 @export var pickups: HeldPickups
+@export var ability_detector: Area2D
 @export var init_bomb_count: int = 1
 @export var init_explosion_boost_count: int = 0
 @export var idle_chance: float = 0.4
@@ -11,10 +14,15 @@ const INVULNERABILITY_POWERUP_TIME: float = 16.0
 
 var cooldown_done: bool = true
 var curr_target: Node2D
+var curr_bomb: BombRoot
+var kicked_bomb: BombRoot
+var bomb_to_throw: BombRoot
 
 func place(pos: Vector2, path: String):
 	super(pos, path)
 	if(!is_multiplayer_authority()): return 1
+	assert(ability_detector, "ability_detector must be assigned in the inspector")
+	reset_pickups()
 	if self.detection_handler: self.detection_handler.make_ready()
 
 func _process(delta: float):
@@ -52,3 +60,9 @@ func start_invul():
 	invulnerable_remaining_time = INVULNERABILITY_POWERUP_TIME
 	damage_invulnerable = true
 	set_process(true)
+
+func reset_pickups():
+	damage_invulnerable = false
+	self.set_collision_mask_value(4, true)
+	self.set_collision_mask_value(3, true)
+	pickups.reset()

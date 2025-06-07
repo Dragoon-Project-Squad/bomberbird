@@ -10,6 +10,7 @@ var pickup_spawn_chance = PICKUP_SPAWN_BASE_CHANCE
 @export var extra_bomb: int = 500
 @export var explosion_boost: int = 500
 @export var speed_boost: int = 500
+@export var speed_down: int = 300
 #@export var hearth: int = 0
 @export var max_explosion: int = 100
 @export var punch_ability: int = 50
@@ -18,7 +19,7 @@ var pickup_spawn_chance = PICKUP_SPAWN_BASE_CHANCE
 #@export var timer: int = 0
 @export var invincibility_vest: int = 50
 #@export var virus: int = 0
-#@export var kick: int = 0
+@export var kick: int = 50
 @export var bombthrough: int = 50
 @export var piercing_bomb: int = 50
 @export var land_mine: int = 50
@@ -39,6 +40,7 @@ func update():
 		globals.pickups.BOMB_UP: extra_bomb,
 		globals.pickups.FIRE_UP: explosion_boost,
 		globals.pickups.SPEED_UP: speed_boost,
+		globals.pickups.SPEED_DOWN: speed_down,
 		#globals.pickups.HP_UP: health,
 		globals.pickups.FULL_FIRE: max_explosion,
 		globals.pickups.BOMB_PUNCH: punch_ability,
@@ -47,7 +49,7 @@ func update():
 		#globals.pickups.FREEZE: timer,
 		globals.pickups.INVINCIBILITY_VEST: invincibility_vest,
 		#globals.pickups.VIRUS: virus,
-		#globals.pickups.KICK: kick,
+		globals.pickups.KICK: kick,
 		globals.pickups.BOMBTHROUGH: bombthrough,
 		globals.pickups.PIERCING: piercing_bomb,
 		globals.pickups.MINE: land_mine,
@@ -58,23 +60,42 @@ func update():
 
 ## writes the pickup_weight dictonary into the variables
 func reverse_update():
-	extra_bomb = pickup_weights[globals.pickups.BOMB_UP]
-	explosion_boost = pickup_weights[globals.pickups.FIRE_UP]
-	speed_boost = pickup_weights[globals.pickups.SPEED_UP]
-	#hearth = pickup_weights[globals.pickups.HP_UP]
-	max_explosion = pickup_weights[globals.pickups.FULL_FIRE]
-	punch_ability = pickup_weights[globals.pickups.BOMB_PUNCH]
-	throw_ability = pickup_weights[globals.pickups.POWER_GLOVE]
-	wallthrough = pickup_weights[globals.pickups.WALLTHROUGH]
-	#timer = pickup_weights[globals.pickups.FREEZE]
-	invincibility_vest = pickup_weights[globals.pickups.INVINCIBILITY_VEST]
-	#virus = pickup_weights[globals.pickups.VIRUS]
-	#kick = pickup_weights[globals.pickups.KICK]
-	bombthrough = pickup_weights[globals.pickups.BOMBTHROUGH]
-	piercing_bomb = pickup_weights[globals.pickups.PIERCING]
-	land_mine = pickup_weights[globals.pickups.MINE]
-	#remote_control = pickup_weights[globals.pickups.REMOTE]
-	#seeker_bomb = pickup_weights[globals.pickups.SEEKER]
+	if pickup_weights.has(globals.pickups.BOMB_UP):
+		extra_bomb = pickup_weights[globals.pickups.BOMB_UP]
+	if pickup_weights.has(globals.pickups.FIRE_UP):
+		explosion_boost = pickup_weights[globals.pickups.FIRE_UP]
+	if pickup_weights.has(globals.pickups.SPEED_UP):
+		speed_boost = pickup_weights[globals.pickups.SPEED_UP]
+	if pickup_weights.has(globals.pickups.SPEED_DOWN):
+		speed_down = pickup_weights[globals.pickups.SPEED_DOWN]
+	#if pickup_weights.has(globals.pickups.HP_UP):
+		#hearth = pickup_weights[globals.pickups.HP_UP]
+	if pickup_weights.has(globals.pickups.FULL_FIRE):
+		max_explosion = pickup_weights[globals.pickups.FULL_FIRE]
+	if pickup_weights.has(globals.pickups.BOMB_PUNCH):
+		punch_ability = pickup_weights[globals.pickups.BOMB_PUNCH]
+	if pickup_weights.has(globals.pickups.POWER_GLOVE):
+		throw_ability = pickup_weights[globals.pickups.POWER_GLOVE]
+	if pickup_weights.has(globals.pickups.WALLTHROUGH):
+		wallthrough = pickup_weights[globals.pickups.WALLTHROUGH]
+	#if pickup_weights.has(globals.pickups.FREEZE):
+		#timer = pickup_weights[globals.pickups.FREEZE]
+	if pickup_weights.has(globals.pickups.INVINCIBILITY_VEST):
+		invincibility_vest = pickup_weights[globals.pickups.INVINCIBILITY_VEST]
+	#if pickup_weights.has(globals.pickups.VIRUS):
+		#virus = pickup_weights[globals.pickups.VIRUS]
+	if pickup_weights.has(globals.pickups.KICK):
+		kick = pickup_weights[globals.pickups.KICK]
+	if pickup_weights.has(globals.pickups.BOMBTHROUGH):
+		bombthrough = pickup_weights[globals.pickups.BOMBTHROUGH]
+	if pickup_weights.has(globals.pickups.PIERCING):
+		piercing_bomb = pickup_weights[globals.pickups.PIERCING]
+	if pickup_weights.has(globals.pickups.MINE):
+		land_mine = pickup_weights[globals.pickups.MINE]
+	#if pickup_weights.has(globals.pickups.REMOTE):
+		#remote_control = pickup_weights[globals.pickups.REMOTE]
+	#if pickup_weights.has(globals.pickups.SEEKER):
+		#seeker_bomb = pickup_weights[globals.pickups.SEEKER]
 
 ## calulates the total weight of all weights in the dict
 func total_weight() -> int:
@@ -107,6 +128,9 @@ func decide_pickup_type() -> int:
 	return get_type_from_weight(rng_result)
 	
 func determine_base_pickup_rate() -> void:
+	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
+		pickup_spawn_chance = 0.4
+		return
 	if SettingsContainer.get_pickup_spawn_rule() == 0:
 		return # Use the value decided by the STAGE
 	elif SettingsContainer.get_pickup_spawn_rule() == 1:

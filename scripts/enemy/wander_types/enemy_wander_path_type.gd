@@ -39,6 +39,30 @@ func _physics_update(delta):
 
 	if self.enemy.stunned: return
 	var arrived: bool = check_arrival()
+
+	if arrived:
+		var ability: int = self.enemy.ability_detector.check_ability_usage()
+		match ability:
+			enemy.ability_detector.ability.PUNCH:
+				state_changed.emit(self, "punch")
+				return
+			enemy.ability_detector.ability.KICK:
+				state_changed.emit(self, "kick")
+				return
+			enemy.ability_detector.ability.THROW:
+				state_changed.emit(self, "carry")
+				return
+
+	if arrived && self.enemy.kicked_bomb && self.enemy.ability_detector.check_stop_kick():
+		if self.enemy.kicked_bomb.state == BombRoot.SLIDING:
+			self.enemy.kicked_bomb.stop_kick()
+			self.enemy.kicked_bomb = null
+
+	if arrived && self.enemy.bomb_to_throw && self.enemy.ability_detector.check_throw():
+		self.enemy.bomb_carry_sprite.hide()
+		self.enemy.bomb_to_throw.do_throw(self.enemy.movement_vector, self.enemy.position)
+		self.enemy.bomb_to_throw = null
+
 	if arrived && !world_data.is_safe(self.enemy.position):
 		state_changed.emit(self, "dodge")
 		return
@@ -56,6 +80,10 @@ func _physics_update(delta):
 			self.curr_path = get_next_path()
 			self.path_finding_timeout = 0
 			self.next_position = get_next_pos(self.curr_path)
+		self.enemy.movement_vector = self.enemy.position.direction_to(self.next_position) if (self.next_position != self.enemy.position) else Vector2.ZERO
+
+	if !valid_tile(self.next_position):
+		self.next_position = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.enemy.position))
 		self.enemy.movement_vector = self.enemy.position.direction_to(self.next_position) if (self.next_position != self.enemy.position) else Vector2.ZERO
 
 func valid_tile(pos: Vector2) -> bool:
@@ -98,7 +126,7 @@ func chase() -> bool:
 		safe_tiles.append(world_data.tiles.BREAKABLE)
 	if self.enemy.bombthrought || self.enemy.pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] == HeldPickups.exclusive.BOMBTHROUGH:
 		safe_tiles.append(world_data.tiles.BOMB)
-	var dist: int = world_data.get_shortest_path_to(self.enemy.position, self.enemy.curr_target.position, true, safe_tiles)
+	var dist: int = world_data.get_shortest_path_to(self.enemy.position, self.enemy.curr_target.position, false, safe_tiles)
 	if dist >= self.distance_triggering_chase :
 		state_changed.emit(self, "chase")
 		return true

@@ -1,11 +1,19 @@
 class_name Player extends CharacterBody2D
 ## Base class for the player
 
+signal player_health_updated
+signal player_hurt
 signal player_died
 signal player_revived
 
-const BASE_MOTION_SPEED: float = 100.0
-const MOTION_SPEED_INCREASE: float = 20.0
+## Player Movement Speed
+const TILE_SIZE: float = 32.0
+const BASE_MOTION_SPEED: float = ((TILE_SIZE * 4) * (7.0/8.0))
+const MAX_MOTION_SPEED: float = TILE_SIZE * 8
+const MIN_MOTION_SPEED: float = TILE_SIZE * 2
+const MOTION_SPEED_INCREASE: float = TILE_SIZE * 0.5
+const MOTION_SPEED_DECREASE: float = TILE_SIZE * 0.5
+
 const BOMB_RATE: float = 0.5
 const MAX_BOMBS_OWNABLE: int = 8
 const MAX_EXPLOSION_BOOSTS_PERMITTED: int = 6
@@ -29,7 +37,7 @@ var player_type: String
 var hurry_up_started: bool = false 
 var misobon_player: MisobonPlayer
 
-var game_ui: CanvasLayer
+var game_ui
 
 var invulnerable_animation_time: float
 var invulnerable_remaining_time: float = 2
@@ -42,7 +50,12 @@ var bomb_total: int
 @export_subgroup("player properties") #Set in inspector
 @export var movement_speed: float = BASE_MOTION_SPEED
 @export var bomb_count: int = 2
-@export var lives: int = 1
+@export var lives: int = 1:
+	set(val):
+		lives = val
+		if is_dead: return
+		player_health_updated.emit(self, lives)
+
 @export var explosion_boost_count: int = 0
 @export var pickups: HeldPickups
 
@@ -52,6 +65,7 @@ var lives_reset: int
 var explosion_boost_count_reset: int
 var bomb_count_locked: bool = false
 var bomb_to_throw: BombRoot
+var bomb_kicked: BombRoot
 
 func _ready():
 	player_died.connect(globals.player_manager._on_player_died)
@@ -66,11 +80,15 @@ func _ready():
 	movement_speed_reset = movement_speed
 	bomb_count_reset = bomb_count
 	explosion_boost_count_reset = explosion_boost_count
+	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
+		player_health_updated.connect(func (s: Player, health: int): game_ui.update_health(health, int(s.name)))
 	match globals.current_gamemode:
 		globals.gamemode.CAMPAIGN: lives = 3
 		globals.gamemode.BATTLEMODE: lives = 1
 		_: lives = 1
 	lives_reset = lives
+	pickups.reset()
+	self.animation_player.play("RESET")
 
 
 func _process(delta: float):
@@ -85,12 +103,18 @@ func _process(delta: float):
 		pickups.held_pickups[globals.pickups.INVINCIBILITY_VEST] = false
 	elif invulnerable_animation_time <= INVULNERABILITY_FLASH_TIME:
 		self.visible = !self.visible
-		invulnerable_animation_time = 0	
+		invulnerable_animation_time = 0
 
 func _physics_process(_delta: float):
 	pass
 
-## executes the punch_bomb ability iff the player has the appropiate pickup
+func place(pos: Vector2):
+	self.position = pos
+	self.show()
+	self.animation_player.play("RESET")
+	do_invulnerabilty()
+
+## executes the punch_bomb ability if the player has the appropiate pickup
 func punch_bomb(direction: Vector2i):
 	if !is_multiplayer_authority():
 		return
@@ -129,9 +153,32 @@ func carry_bomb() -> int:
 
 func throw_bomb(direction: Vector2i) -> int:
 	$BombSprite.visible = false
-	bomb_to_throw.do_throw.rpc(direction, self.position)
+	if is_multiplayer_authority():
+		bomb_to_throw.do_throw.rpc(direction, self.position)
 	bomb_to_throw = null
 	return 0
+
+func kick_bomb(direction: Vector2i):
+	if !is_multiplayer_authority():
+		return 1
+	if pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] != pickups.exclusive.KICK:
+		return 1
+
+	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
+	for body in bodies:
+		if body is Bomb:
+			bomb_kicked = body.get_parent()
+			break
+	if bomb_kicked == null or (bodies.is_empty() and bomb_kicked.state == bomb_kicked.STATIONARY):
+		return 1
+
+	if bomb_kicked.bomb_owner != null and bomb_kicked.state == bomb_kicked.STATIONARY:
+		bomb_kicked.do_kick.rpc(direction)
+	elif bomb_kicked.state == bomb_kicked.SLIDING:
+		bomb_kicked.stop_kick.rpc()
+		bomb_kicked = null
+	else:
+		bomb_kicked = null
 
 ## places a bomb if the current position is valid
 func place_bomb():
@@ -203,7 +250,7 @@ func enter_death_state():
 	$Hitbox.set_deferred("disabled", 1)
 	if globals.current_gamemode == globals.gamemode.BATTLEMODE:
 		spread_items()
-	reset_pickups()
+		reset_pickups()
 	await animation_player.animation_finished
 	player_died.emit()
 	hide()
@@ -228,7 +275,7 @@ func reset():
 	animation_player.play("player_animations/revive")
 	$Hitbox.set_deferred("disabled", 0)
 	await animation_player.animation_finished
-	stunned = true
+	stunned = false
 	is_dead = false
 	show()
 	
@@ -329,7 +376,13 @@ func maximize_bomb_level():
 	
 @rpc("call_local")
 func increase_speed():
-	movement_speed = movement_speed + MOTION_SPEED_INCREASE
+	movement_speed += MOTION_SPEED_INCREASE
+	movement_speed = clamp(movement_speed, MIN_MOTION_SPEED, MAX_MOTION_SPEED)
+	
+@rpc("call_local")
+func decrease_speed():
+	movement_speed -= MOTION_SPEED_DECREASE
+	movement_speed = clamp(movement_speed, MIN_MOTION_SPEED, MAX_MOTION_SPEED)
 
 @rpc("call_local")
 func enable_wallclip():
@@ -340,8 +393,12 @@ func enable_bombclip():
 	self.set_collision_mask_value(4, false)
 
 @rpc("call_local")
+func disable_bombclip():
+	self.set_collision_mask_value(4, true)
+
+@rpc("call_local")
 func increment_bomb_count():
-	if (bomb_count_locked):
+	if bomb_count_locked:
 		return
 	
 	bomb_total = min(bomb_total+1, MAX_BOMBS_OWNABLE)
@@ -356,6 +413,8 @@ func lock_bomb_count(target_bomb_count: int):
 @rpc("call_local")
 func unlock_bomb_count():
 	bomb_count_locked = false
+	bomb_total = 2
+	bomb_count = min(bomb_count+1, bomb_total)
 
 @rpc("call_local")
 func return_bomb():
@@ -371,17 +430,14 @@ func play_victory(reenable: bool) -> Signal:
 
 func do_hurt() -> void:
 	stop_movement = true
-	animation_player.play("player_animations/hurt")
+	animation_player.play("player_animations/death")
 	await animation_player.animation_finished
-	animation_player.play("RESET")
-	await animation_player.animation_finished
-	self.position = world_data.tile_map.map_to_local(globals.current_world.spawnpoints[int(self.name) - 1])
-	do_invulnerabilty()
+	player_hurt.emit()
 	stop_movement = false
 
 @rpc("call_local")
 ## kills this player and awards whoever killed it
-func exploded(by_who):
+func exploded(_by_who):
 	if stunned || invulnerable || stop_movement:
 		return
 	lives -= 1
@@ -407,7 +463,3 @@ func start_invul():
 	invulnerable_remaining_time = INVULNERABILITY_POWERUP_TIME
 	invulnerable = true
 	set_process(true)
-	
-
-	
-	

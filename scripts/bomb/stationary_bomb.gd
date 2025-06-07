@@ -53,7 +53,7 @@ func set_addons(addons: Dictionary):
 	mine = addons.get("mine", false)
 
 func place(bombPos: Vector2, fuse_time_passed: float = 0, force_collision: bool = false):
-	is_exploded = true
+	is_exploded = false 
 	bomb_placement_sfx_player.play()
 	bomb_root.position = bombPos
 	self.visible = true
@@ -70,7 +70,6 @@ func hide_mine():
 	set_collision_layer_value(4, false)
 	set_collision_layer_value(6, false)
 	astargrid_handler.astargrid_set_point(bomb_root.global_position, false)
-	world_data.set_tile(world_data.tiles.MINE, bomb_root.global_position)
 	armed = true
 	return
 
@@ -104,7 +103,7 @@ func detonate():
 					if(bomb_root.bomb_owner):
 						target.exploded.rpc(str(get_parent().bomb_owner.name).to_int()) #if an object stopped the bomb and can be blown up... blow it up!
 					else:
-						target.exploded.rpc(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID) #if an object stopped the bomb and can be blown up... blow it up!
+						target.exploded.rpc(gamestate.ENEMY_KILL_PLAYER_ID) #if an object stopped the bomb and can be blown up... blow it up!
 	if bomb_root.bomb_owner:
 		remove_collision_exception_with(bomb_root.bomb_owner)
 	if is_multiplayer_authority(): #multiplayer auth. now starts the transition to the explosion
@@ -137,7 +136,7 @@ func _kill(obj):
 		if bomb_root.bomb_owner:
 			obj.exploded.rpc(str(bomb_root.bomb_owner.name).to_int())
 		else:
-			obj.exploded.rpc(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID)
+			obj.exploded.rpc(gamestate.ENEMY_KILL_PLAYER_ID)
 		return
 
 	if self != obj && bomb_root.bomb_owner:
@@ -184,6 +183,7 @@ func _on_detect_area_body_entered(body: Node2D):
 	if (body is Player || body is Enemy) && armed && mine:
 		show()
 		$AnimationPlayer.play("mine_explode")
+		world_data.set_tile(world_data.tiles.BOMB, self.global_position, bomb_root.boost + 2, false)
 	if body is Breakable:
 		body.crush()
 	if !(body in get_collision_exceptions()):

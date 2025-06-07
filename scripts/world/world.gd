@@ -42,7 +42,7 @@ signal all_enemied_died
 var _unbreakable_tile: Vector2i
 var _rng = RandomNumberGenerator.new()
 var _exit_spawned_barrier: bool = false
-var alive_enemies: int
+var alive_enemies: Array
 
 # PRIVATE FUNCTIONS
 
@@ -70,7 +70,7 @@ func spawn_exits():
 ## Disabled this world so another may be enabled
 func disable():
 	hide()
-	music.stop()
+	stop_music()
 
 	bounds_layer.collision_enabled = false
 	obstacles_layer.collision_enabled = false
@@ -101,23 +101,23 @@ func enable(
 	bounds_layer.collision_enabled = true
 	obstacles_layer.collision_enabled = true
 
-	world_data.reset()
-	astargrid_handler.reset_astargrid()
 	world_data.begin_init(_arena_rect, _world_edge_rect, floor_layer)
 	_spawn_unbreakables(unbreakable_table)
 	world_data.init_unbreakables(_unbreakable_tile, obstacles_layer)
 	astargrid_handler.setup_astargrid()
 
 	if enemy_table:
-		self.enemy_table = enemy_table.duplicate()
+		self.enemy_table = EnemyTable.new()
 		for enemy in enemy_table.enemies:
 			if _rng.randf_range(0, 1) > enemy.probability: continue
-			enemy.coords += world_data.floor_origin
+			var new_enemy_coord = enemy.coords + world_data.floor_origin
+			self.enemy_table.append(new_enemy_coord, enemy.file, enemy.path, enemy.probability)
 
 	if exit_table:
-		self.exit_table = exit_table.duplicate()
-		for exit in self.exit_table.exits:
-			exit.coords += world_data.floor_origin
+		self.exit_table = ExitTable.new()
+		for exit in exit_table.exits:
+			var new_exit_coords = exit.coords + world_data.floor_origin
+			self.exit_table.append(new_exit_coords, exit.color)
 
 	self.pickup_table = pickup_table.duplicate()
 	pickup_table.update()
@@ -139,17 +139,30 @@ func enable(
 	world_data.finish_init()
 	astargrid_handler.astargrid_set_initial_solidpoints()
 
-
 func start_music():
 	music.play()
 	
+func stop_music():
+	music.stop()
+	
 ## resets a stage s.t. it may be reused later
 func reset():
-	if hurry_up && globals.current_gamemode != globals.gamemode.CAMPAIGN: hurry_up.disable()
-	for exit in globals.game.exit_pool.get_children().filter(func (e): return e is Exit && e.in_use):
-		if is_multiplayer_authority():
-			exit.disable.rpc()
-		globals.game.exit_pool.return_obj(exit)
+	#if hurry_up && globals.current_gamemode != globals.gamemode.CAMPAIGN:
+	#	hurry_up.disable()
+	if globals.game.exit_pool:
+		for exit in globals.game.exit_pool.get_children().filter(func (e): return e is Exit && e.in_use):
+			if is_multiplayer_authority():
+				exit.disable.rpc()
+			globals.game.exit_pool.return_obj(exit)
+	if globals.game.enemy_pool:
+		for enemy in alive_enemies:
+			enemy.disable()
+			globals.game.enemy_pool.return_obj(enemy)
+		alive_enemies = []
+	for sig_arr in all_enemied_died.get_connections():
+		sig_arr.signal.disconnect(sig_arr.callable)
+	world_data.reset()
+	astargrid_handler.reset_astargrid()
 
 ## spawns unbreakables from given table
 ## NOTE: Some children may completly ignore the table given if unbreakable are generated in a different way
@@ -160,33 +173,38 @@ func _spawn_unbreakables(_unbreakable_table: UnbreakableTable):
 @rpc("call_local")
 func _spawn_enemies():
 	if(!is_multiplayer_authority()): return 1
-	assert(enemy_table, "enemy table is null but trying to spawn enemies")
+	assert(self.enemy_table, "enemy table is null but trying to spawn enemies")
 	var enemy_dict: Dictionary = {}
 	# count enemies
-	enemy_table.enemies.map(
+	self.enemy_table.enemies.map(
 		func (e: Dictionary):
 			var whole_path: String = e.path + "/" + e.file
 			if !enemy_dict.has(whole_path): enemy_dict[whole_path] = 1
 			else: enemy_dict[whole_path] += 1
+			return e
 			)
 	# place enemies
 	var enemys: Dictionary = globals.game.enemy_pool.request_group(enemy_dict);
-	alive_enemies = len(enemy_table.enemies)
-	enemy_table.enemies.map(
+	self.enemy_table.enemies.map(
 		func (e: Dictionary):
 			var whole_path: String = e.path + "/" + e.file
 			var enemy: Enemy = enemys[whole_path].pop_front()
 			enemy.place.rpc(world_data.tile_map.map_to_local(e.coords), whole_path)
 			globals.game.stage_has_changed.connect(enemy.enable, CONNECT_ONE_SHOT)
+			alive_enemies.append(enemy)
 			enemy.enemy_died.connect(
 				func () -> void:
-					alive_enemies -= 1
-					if alive_enemies == 0:
+					alive_enemies.erase(enemy)
+					globals.game.score += enemy.score_points
+					if alive_enemies.is_empty():
 						all_enemied_died.emit(0),
 				CONNECT_ONE_SHOT
 				)
+			return e
 			)
-
+	if alive_enemies.is_empty():
+		all_enemied_died.emit(0)
+	
 ## Asserts that properties of the world are set correctly
 func _asserting_world():
 	assert(_arena_rect.size != Vector2i.ZERO, "area_rect must be set properly and cannot have size ZERO")
@@ -222,7 +240,7 @@ func _set_spawnpoints():
 		if world_data.is_tile(world_data.tiles.UNBREAKABLE, world_data.tile_map.map_to_local(new_spawnpoint)):
 				continue # Skip cells where solid tiles are placed
 		if new_spawnpoint in spawnpoints: continue
-		if enemy_table && (new_spawnpoint in enemy_table.get_coords()): continue
+		if self.enemy_table && (new_spawnpoint in self.enemy_table.get_coords()): continue
 		spawnpoints.append(new_spawnpoint)
 		remaining_spawnpoints -= 1
 
@@ -239,7 +257,7 @@ func _place_players():
 		spawn_points[p] = spawn_point_idx
 
 	for p_id in spawn_points:
-		globals.player_manager.get_node(str(p_id)).position = world_data.tile_map.map_to_local(spawnpoints[spawn_points[p_id]])	
+		globals.player_manager.get_node(str(p_id)).place(world_data.tile_map.map_to_local(spawnpoints[spawn_points[p_id]]))
 
 ## spawns players (assums players do not yet exist)
 func _spawn_player():
@@ -272,6 +290,8 @@ func _spawn_player():
 			misobondata.player_type = "ai"
 
 		player = playerspawner.spawn(spawningdata)
+		if globals.current_gamemode == globals.gamemode.CAMPAIGN:
+			player.player_hurt.connect(globals.game.restart_current_stage)
 		if SettingsContainer.misobon_setting != SettingsContainer.misobon_setting_states.OFF:
 			misobondata.name = player.get_player_name()
 			misobonspawner.spawn(misobondata)

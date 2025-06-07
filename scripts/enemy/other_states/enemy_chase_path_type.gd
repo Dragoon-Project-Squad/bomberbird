@@ -14,7 +14,6 @@ var curr_path: Array[Vector2] = []:
 	set(val):
 		if !val.is_empty():
 			self.enemy.get_node("DebugMarker").position = val[-1]
-			print("chasing to position: ", val[-1])
 		curr_path = val
 var distance: int = 0
 
@@ -37,6 +36,33 @@ func _physics_update(delta):
 
 	if self.enemy.stunned: return
 	var arrived: bool = check_arrival()
+	if arrived:
+		var ability: int = self.enemy.ability_detector.check_ability_usage()
+		match ability:
+			enemy.ability_detector.ability.PUNCH:
+				state_changed.emit(self, "punch")
+				return
+			enemy.ability_detector.ability.KICK:
+				state_changed.emit(self, "kick")
+				return
+			enemy.ability_detector.ability.THROW:
+				state_changed.emit(self, "carry")
+				return
+
+	if arrived && self.enemy.kicked_bomb && self.enemy.ability_detector.check_stop_kick():
+		if self.enemy.kicked_bomb.state == BombRoot.SLIDING:
+			self.enemy.kicked_bomb.stop_kick()
+			self.enemy.kicked_bomb = null
+
+	if arrived && self.enemy.bomb_to_throw && self.enemy.ability_detector.check_throw():
+		self.enemy.bomb_carry_sprite.hide()
+		self.enemy.bomb_to_throw.do_throw(self.enemy.movement_vector, self.enemy.position)
+		self.enemy.bomb_to_throw = null
+
+	if arrived && self.enemy.kicked_bomb && self.enemy.ability_detector.check_stop_kick():
+		if self.enemy.kicked_bomb.state == BombRoot.SLIDING:
+			self.enemy.kicked_bomb.stop_kick()
+
 	if arrived && !world_data.is_safe(self.enemy.position): #dodge again
 		state_changed.emit(self, "dodge")
 		return
@@ -57,6 +83,9 @@ func _physics_update(delta):
 			self.next_position = get_next_pos(self.curr_path)
 		else:
 			self.distance += 1
+		self.enemy.movement_vector = self.enemy.position.direction_to(self.next_position) if (self.next_position != self.enemy.position) else Vector2.ZERO
+	if !valid_tile(self.next_position):
+		self.next_position = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.enemy.position))
 		self.enemy.movement_vector = self.enemy.position.direction_to(self.next_position) if (self.next_position != self.enemy.position) else Vector2.ZERO
 
 

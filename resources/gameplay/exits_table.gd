@@ -43,7 +43,28 @@ func remove_at(index: int):
 func size() -> int:
 	return len(exits)
 
-func to_json() -> Array[Dictionary]:
+func handle_duplicates(map_size: Vector2i):
+	var seen: Dictionary = {}
+	var duplicates: Array
+	for i in range(len(exits)):
+		if seen.has(exits[i].coords):
+			push_warning("there is multple exits with coords: " + str(exits[i].coords) + " these will be moved")
+			duplicates.append(i)
+			continue
+		seen[exits[i].coords] = null
+
+	if duplicates.is_empty(): return
+	for x in range(map_size.x):
+		for y in range(map_size.y):
+			if seen.has(Vector2i(x, y)): continue
+			exits[duplicates.pop_front()].coords = Vector2i(x, y)
+			if duplicates.is_empty(): return
+	push_error("No valid spaces found to put all exits some will not be able to have been saved")
+	for remaining_dupes in duplicates:
+		exits.remove_at(remaining_dupes)
+
+func to_json(map_size: Vector2i) -> Array[Dictionary]:
+	handle_duplicates(map_size)
 	var res: Array[Dictionary]
 	for entry in exits:
 		var new_entry: Dictionary = {

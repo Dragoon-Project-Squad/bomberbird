@@ -197,17 +197,17 @@ func load_world(game_scene):
 	get_tree().get_root().add_child(game)
 	if has_node("/root/MainMenu/DebugCampaignSelector"):
 		game.load_level_graph(get_node("/root/MainMenu/DebugCampaignSelector").get_graph())
-	game.start()
 	if has_node("/root/MainMenu"):
 		get_node("/root/MainMenu").pause_main_menu_music()
 
 	# Set up score.
 	if is_multiplayer_authority():
-		game.game_ui.add_player.rpc(multiplayer.get_unique_id(), player_name)
+		game.game_ui.add_player.rpc(multiplayer.get_unique_id(), player_name, characters[multiplayer.get_unique_id()])
 		for pn in players:
-			game.game_ui.add_player.rpc(pn, players[pn])
+			game.game_ui.add_player.rpc(pn, players[pn], characters[pn])
 
 	# Unpause and unleash the game!
+	game.start()
 	get_tree().set_pause(false) 
 
 func host_game(new_player_name):

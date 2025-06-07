@@ -1,0 +1,235 @@
+[gd_scene load_steps=32 format=3 uid="uid://dt0fr1sovy4ny"]
+
+[ext_resource type="Script" uid="uid://c2f6wib7o63aw" path="res://scripts/enemy/boss.gd" id="1_4tpuj"]
+[ext_resource type="Script" uid="uid://dfosda1bstp2m" path="res://resources/gameplay/held_pickups.gd" id="2_i5f3v"]
+[ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="3_cvltp"]
+[ext_resource type="Texture2D" uid="uid://xv7338lr5w2" path="res://assets/player/retrodoki_walk.png" id="4_4tpuj"]
+[ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="5_kimt4"]
+[ext_resource type="Script" uid="uid://dv0vxlhv4rgsm" path="res://scripts/enemy/detection_handlers/detection_handler_type_retro_doki.gd" id="6_4tpuj"]
+[ext_resource type="Script" uid="uid://bkteqnsoemxqf" path="res://scripts/enemy/ability_detector.gd" id="6_cvltp"]
+[ext_resource type="Texture2D" uid="uid://colmsqhmxnr47" path="res://assets/egg_bomb.png" id="6_ymsyn"]
+[ext_resource type="AnimationLibrary" uid="uid://dvi33f4r6k5nh" path="res://animations/enemy.res" id="7_011xw"]
+[ext_resource type="Script" uid="uid://bct3b1gr0upgg" path="res://scripts/enemy/enemy_state_machine.gd" id="8_gvudx"]
+[ext_resource type="Script" uid="uid://ds673o5kb2vee" path="res://scripts/enemy/wander_types/enemy_wander_path_type.gd" id="9_ox3yh"]
+[ext_resource type="Script" uid="uid://ir3sr7r0h3uu" path="res://scripts/enemy/abilities/boss_breakable_ability.gd" id="10_i5f3v"]
+[ext_resource type="Script" uid="uid://xpsl7bku1ra4" path="res://scripts/enemy/enemy_state.gd" id="11_6uxst"]
+[ext_resource type="Script" uid="uid://ci02bb4ldf005" path="res://scripts/enemy/other_states/enemy_dodge_path_type.gd" id="12_4stnm"]
+[ext_resource type="Script" uid="uid://dymov0ubmjnt4" path="res://scripts/enemy/other_states/idle_state.gd" id="13_kowj0"]
+[ext_resource type="Script" uid="uid://dmg4ks5be84w7" path="res://scripts/enemy/other_states/enemy_chase_path_type.gd" id="14_smmby"]
+[ext_resource type="Texture2D" uid="uid://jog1koyue4lr" path="res://assets/fallingsprite.png" id="15_g1mo1"]
+[ext_resource type="Script" uid="uid://b51q2q8mxodcs" path="res://scripts/enemy/other_states/boss_punch.gd" id="16_qt7fi"]
+[ext_resource type="Script" uid="uid://d2rjjmwpxojk2" path="res://scripts/enemy/other_states/boss_kick.gd" id="17_qt7fi"]
+[ext_resource type="Script" uid="uid://bw76gls3vwdo3" path="res://scripts/enemy/other_states/boss_carry.gd" id="19_011xw"]
+
+[sub_resource type="Resource" id="Resource_cvltp"]
+script = ExtResource("2_i5f3v")
+initial_bomb_type = 0
+initial_exlusive = 0
+initial_bomb_up = 1
+initial_fire_up = 2
+initial_speed_up = 0
+initial_hp_up = 0
+initial_full_fire = false
+initial_bomb_punch = true
+initial_power_glove = false
+initial_wallthrough = false
+initial_freeze = false
+initial_invincibility_vest = false
+metadata/_custom_type_script = "uid://dfosda1bstp2m"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_i1su5"]
+radius = 9.0
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_kimt4"]
+a = Vector2(17, 0)
+b = Vector2(24, 0)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_ymsyn"]
+a = Vector2(0, 17)
+b = Vector2(0, 24)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_011xw"]
+a = Vector2(-17, 0)
+b = Vector2(-24, 0)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_gvudx"]
+a = Vector2(0, -17)
+b = Vector2(0, -24)
+
+[sub_resource type="Animation" id="Animation_taub5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rwxvx"]
+_data = {
+&"RESET": SubResource("Animation_taub5")
+}
+
+[sub_resource type="Animation" id="Animation_0x7uk"]
+resource_name = "victory"
+length = 1.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 16, 11, 18, 0, 16, 11, 18, 0, 16, 11, 18, 0, 16, 11, 18, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_irj8q"]
+_data = {
+&"burry": SubResource("Animation_0x7uk")
+}
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hwcqj"]
+
+[node name="RetroDokiBoss" type="CharacterBody2D" node_paths=PackedStringArray("ability_detector", "detection_handler") groups=["thrown_bomb_bounces"]]
+texture_filter = 1
+collision_layer = 32
+collision_mask = 13
+script = ExtResource("1_4tpuj")
+pickups = SubResource("Resource_cvltp")
+ability_detector = NodePath("AbilityDetector")
+init_bomb_count = 2
+score_points = 3000
+movement_speed = 60.0
+detection_handler = NodePath("DetectionHandler")
+health = 4
+
+[node name="shadowsprite" type="Sprite2D" parent="."]
+position = Vector2(0, 8)
+scale = Vector2(1, 0.5)
+texture = ExtResource("3_cvltp")
+
+[node name="sprite" type="Sprite2D" parent="."]
+position = Vector2(0.075, 6.236)
+texture = ExtResource("4_4tpuj")
+offset = Vector2(-0.075, -8.536)
+hframes = 6
+vframes = 4
+
+[node name="kaboom" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-1.07288e-06, 3.57628e-07)
+scale = Vector2(0.333333, 0.351648)
+texture = ExtResource("5_kimt4")
+hframes = 9
+
+[node name="BombSprite" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -30)
+texture = ExtResource("6_ymsyn")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_i1su5")
+
+[node name="AbilityDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("6_cvltp")
+use_ability = 0.3
+stop_kick = 0.3
+do_throw = 0.4
+
+[node name="Right" type="CollisionShape2D" parent="AbilityDetector"]
+shape = SubResource("SegmentShape2D_kimt4")
+
+[node name="Down" type="CollisionShape2D" parent="AbilityDetector"]
+shape = SubResource("SegmentShape2D_ymsyn")
+
+[node name="Left" type="CollisionShape2D" parent="AbilityDetector"]
+shape = SubResource("SegmentShape2D_011xw")
+
+[node name="Up" type="CollisionShape2D" parent="AbilityDetector"]
+shape = SubResource("SegmentShape2D_gvudx")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="HurtboxShape" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_i1su5")
+disabled = true
+debug_color = Color(1, 0, 0, 0.419608)
+
+[node name="DetectionHandler" type="Node2D" parent="."]
+script = ExtResource("6_4tpuj")
+trigger_chance_bomb = 0.4
+trigger_chance_breakable = 0.2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_rwxvx"),
+&"TomatoBoss": SubResource("AnimationLibrary_irj8q"),
+&"enemy": ExtResource("7_011xw")
+}
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+root_path = NodePath("../StateMachine")
+replication_config = SubResource("SceneReplicationConfig_hwcqj")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("enabled_state", "disabled_state")]
+script = ExtResource("8_gvudx")
+enabled_state = NodePath("Wander")
+disabled_state = NodePath("Disabled")
+
+[node name="Wander" type="Node" parent="StateMachine"]
+script = ExtResource("9_ox3yh")
+distance_triggering_chase = 7
+
+[node name="Ability" type="Node" parent="StateMachine"]
+script = ExtResource("10_i5f3v")
+
+[node name="Disabled" type="Node" parent="StateMachine"]
+script = ExtResource("11_6uxst")
+
+[node name="Dodge" type="Node" parent="StateMachine"]
+script = ExtResource("12_4stnm")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("13_kowj0")
+idle_time = 0.8
+
+[node name="Chase" type="Node" parent="StateMachine"]
+script = ExtResource("14_smmby")
+chase_stop_distance = 3
+recheck_distance = 5
+
+[node name="Punch" type="Node" parent="StateMachine"]
+script = ExtResource("16_qt7fi")
+
+[node name="Kick" type="Node" parent="StateMachine"]
+script = ExtResource("17_qt7fi")
+
+[node name="Carry" type="Node" parent="StateMachine"]
+script = ExtResource("19_011xw")
+
+[node name="DebugMarker" type="Sprite2D" parent="."]
+self_modulate = Color(1, 0, 0, 1)
+top_level = true
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("15_g1mo1")
+
+[node name="DebugMarker2" type="Sprite2D" parent="."]
+self_modulate = Color(0, 0, 1, 1)
+top_level = true
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("15_g1mo1")

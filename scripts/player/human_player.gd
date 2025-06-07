@@ -25,6 +25,7 @@ func _physics_process(delta: float):
 	else:
 		# The client simply updates the position to the last known one.
 		position = synced_position
+	
 	if not stunned and inputs.punch_ability and not punch_pressed_once and not stop_movement:
 		punch_pressed_once = true
 		var direction: Vector2i = Vector2i(inputs.motion.normalized()) if inputs.motion != Vector2.ZERO else Vector2i.DOWN
@@ -33,19 +34,23 @@ func _physics_process(delta: float):
 		punch_pressed_once = false
 	
 	if not stunned and inputs.secondary_ability:
-		if not throw_pressed_once:
-			throw_pressed_once = true
-			if carry_bomb() == 1:
-				throw_pressed_once = false
-		else:
-			throw_pressed_once = false
-			var direction: Vector2i = (
-					Vector2i(inputs.motion.normalized()) if inputs.motion != Vector2.ZERO 
-					else Vector2i.DOWN
-			)
-			if throw_bomb(direction) == 1:
-				push_error("something went wrong with bomb throwing")
-				throw_pressed_once = false
+		var direction: Vector2i = Vector2i(inputs.motion.normalized()) if inputs.motion != Vector2.ZERO else Vector2i.DOWN
+		kick_bomb(direction)
+		
+		# TODO: put this code into the inputs.bombing section
+		#if not throw_pressed_once:
+			#throw_pressed_once = true
+			#if carry_bomb() == 1:
+				#throw_pressed_once = false
+		#else:
+			#throw_pressed_once = false
+			#var direction: Vector2i = (
+					#Vector2i(inputs.motion.normalized()) if inputs.motion != Vector2.ZERO 
+					#else Vector2i.DOWN
+			#)
+			#if throw_bomb(direction) == 1:
+				#push_error("something went wrong with bomb throwing")
+				#throw_pressed_once = false
 
 	if not stunned and inputs.bombing and bomb_count > 0 and not set_bomb_pressed_once and not stop_movement:
 		set_bomb_pressed_once = true

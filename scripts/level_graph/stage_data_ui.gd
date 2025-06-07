@@ -17,10 +17,13 @@ const ENEMY_DIR: Dictionary = {
 	"Bomb Goon 1": "bomb_goon_type1.tscn",
 	"Bomb Goon 2": "bomb_goon_type2.tscn",
 	"Tomato Doki Boss": "tomato_boss.tscn",
+	"Retro Doki Boss": "retro_doki_boss.tscn",
 	}
 
 enum draw_mode {FREE, LINE, RECT}
 enum tile_type {UNBREAKABLE, BREAKABLE, ENEMY, SPAWNPOINT}
+
+signal has_changed
 
 @onready var type_select: OptionButton = get_node("Header/TypeSelect")
 @onready var sub_type_select: OptionButton = get_node("Header/SubTypeSelect")
@@ -144,6 +147,7 @@ func draw(cell: Vector2i):
 			tile_type.SPAWNPOINT:
 				modified_cells[cell] = _create_type_dict(curr_type, null, curr_probability)
 		cell_ui_elements[_get_cell_ui_element_index(cell)].apply_texture(modified_cells[cell])
+	has_changed.emit()
 
 ## static function that creates a valid entry for 'modified_cells' 
 static func _create_type_dict(main_type: int, sub_type: Variant, probability: float):
@@ -306,7 +310,7 @@ func _on_selected_type(index: int):
 				sub_type_select.disabled = true
 			else:
 				ENEMY_DIR.keys().map(sub_type_select.add_item)
-				sub_type_select.select(-1)
+				sub_type_select.select(0)
 		tile_type.SPAWNPOINT:
 			sub_type_select.clear()
 			sub_type_select.disabled = true
