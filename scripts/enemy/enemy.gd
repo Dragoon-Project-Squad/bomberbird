@@ -87,6 +87,7 @@ func do_stun():
 @rpc("call_local")
 func place(pos: Vector2, path: String):
 	if(!is_multiplayer_authority()): return 1
+	self.anim_player.play("enemy/RESET")
 	await get_tree().create_timer(0.2).timeout
 	hitbox.set_deferred("disabled", 0)
 	self.show()
@@ -112,6 +113,10 @@ func exploded(_by_whom: int):
 			self.health_ability.apply()
 		return 1
 	enemy_died.emit()
+	self.statemachine.stop_process = true
+	self.anim_player.play("enemy/death")
+	await self.anim_player.animation_finished
+	self.statemachine.stop_process = false
 	self.disable()
 	globals.game.enemy_pool.return_obj(self)
 	
