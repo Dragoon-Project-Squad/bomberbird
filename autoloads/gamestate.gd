@@ -81,13 +81,14 @@ func update_server_player_lists(client_player_name):
 	add_ai_players(ai_count)
 	establish_player_counts()
 	assign_player_numbers()
-	sync_gamestate_across_players.rpc(players, player_numbers, host_player_name)
+	sync_gamestate_across_players.rpc(players, player_numbers, host_player_name, characters)
 
 @rpc("call_local")
-func sync_gamestate_across_players(in_players, in_player_numbers, in_host_player_name):
+func sync_gamestate_across_players(in_players, in_player_numbers, in_host_player_name, in_characters):
 	players = in_players
 	player_numbers = in_player_numbers
 	host_player_name = in_host_player_name
+	characters = in_characters
 	player_list_changed.emit()
 
 # Callback from SceneTree.

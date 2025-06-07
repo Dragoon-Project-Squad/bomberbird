@@ -18,6 +18,7 @@ func _ready() -> void:
 		secret_2.show()
 	setup_default_character_select_paths()
 	gamestate.player_list_changed.connect(refresh_lobby_panel)
+	refresh_lobby_panel()
 
 func setup_default_character_select_paths() -> void:
 	$Players/Player2.set_texture(character_texture_paths.DEFAULT_PLAYER_2_SELECT)

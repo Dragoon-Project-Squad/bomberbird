@@ -165,7 +165,7 @@ func _check_ending_condition(_alive_enemies: int = 0):
 		await get_tree().create_timer(2).timeout
 		#DO WIN SCREEN STUFF
 		if game_ui.get_player_score(alive_players[0].name) >= SettingsContainer.get_points_to_win():
-			game_end_state.declare_winner(alive_players[0])
+			get_tree().change_scene_to_file("res://scenes/victory_screen.tscn")
 		else:
 			#RESET GAME STATE
 			wipe_stage()
