@@ -1,82 +1,80 @@
-[gd_scene load_steps=7 format=3 uid="uid://26kd3qfwd0p4"]
+[gd_scene load_steps=20 format=3 uid="uid://26kd3qfwd0p4"]
 
 [ext_resource type="Texture2D" uid="uid://dcumjmw5e76e0" path="res://assets/black.png" id="1_ujlt3"]
 [ext_resource type="Script" uid="uid://bvpa4dbxnunbg" path="res://scripts/victory_screen.gd" id="1_wdgif"]
+[ext_resource type="Theme" uid="uid://wfdn1qbkwu46" path="res://assets/styles/main_menu_theme.tres" id="3_ll51u"]
+[ext_resource type="Texture2D" uid="uid://lckm0mdablaw" path="res://assets/player/chonkgoon_walk.png" id="3_rixwf"]
+[ext_resource type="Texture2D" uid="uid://b7xhajclwoa2f" path="res://assets/tilesetimages/desert_objects.png" id="4_ll51u"]
+[ext_resource type="Theme" uid="uid://d2oqlxohwao3c" path="res://assets/styles/battle_settings_menu.tres" id="6_a2cu1"]
+[ext_resource type="Texture2D" uid="uid://bh1l2e7chjr7x" path="res://assets/player/longgoon_walk.png" id="6_wbi6c"]
+[ext_resource type="Texture2D" uid="uid://dik0i3kx4kt8h" path="res://assets/player/maidmint_walk.png" id="7_u4hde"]
+[ext_resource type="Texture2D" uid="uid://bbw47rtxjgtfl" path="res://assets/looser_puddle.png" id="8_66hvp"]
+[ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="8_u4hde"]
 
-[sub_resource type="Animation" id="Animation_8ic0x"]
+[sub_resource type="Animation" id="Animation_pfcnd"]
+resource_name = "victory"
+length = 1.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/1st:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.191667, 0.391667, 0.6, 0.791667, 0.983334, 1.18334, 1.39167, 1.59167),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 16, 11, 18, 0, 16, 11, 18, 0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control/2nd:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.191667, 0.391667, 0.6, 0.791667, 0.983334, 1.18334, 1.39167, 1.59167),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 16, 11, 18, 0, 16, 11, 18, 0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Control/3rd:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.191667, 0.391667, 0.6, 0.791667, 0.983334, 1.18334, 1.39167, 1.59167),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 16, 11, 18, 0, 16, 11, 18, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rixwf"]
+_data = {
+&"victory": SubResource("Animation_pfcnd")
+}
+
+[sub_resource type="Animation" id="Animation_u4hde"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("FadeInOut/FadeInOutRect:color")
+tracks/0/path = NodePath("4th:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(0, 0, 0, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("FadeInOut/FadeInOutRect:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
-}
-
-[sub_resource type="Animation" id="Animation_1u21r"]
-resource_name = "fade_in"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("FadeInOut/FadeInOutRect:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+"values": [true]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("FadeInOut/FadeInOutRect:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-
-[sub_resource type="Animation" id="Animation_qa6w2"]
-resource_name = "fade_out"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("FadeInOut/FadeInOutRect:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("FadeInOut/FadeInOutRect:visible")
+tracks/1/path = NodePath("kaboom:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -86,34 +84,342 @@ tracks/1/keys = {
 "values": [true]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_qa6w2"]
-_data = {
-&"RESET": SubResource("Animation_8ic0x"),
-&"fade_in": SubResource("Animation_1u21r"),
-&"fade_out": SubResource("Animation_qa6w2")
+[sub_resource type="Animation" id="Animation_wbi6c"]
+resource_name = "cry"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("4th:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.6),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("kaboom:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.56667, 1.69167, 1.81667, 1.94167, 2.06667, 2.19167, 2.31667, 2.44167, 2.56667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("4th:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("kaboom:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.56667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
 }
 
-[node name="VictoryScreen" type="Node2D"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u4hde"]
+_data = {
+&"RESET": SubResource("Animation_u4hde"),
+&"cry": SubResource("Animation_wbi6c")
+}
+
+[sub_resource type="Animation" id="Animation_a2cu1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../FadeInOutRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_66hvp"]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../FadeInOutRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.466667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_uycue"]
+resource_name = "fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../FadeInOutRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.466667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uycue"]
+_data = {
+&"RESET": SubResource("Animation_a2cu1"),
+&"fade_in": SubResource("Animation_66hvp"),
+&"fade_out": SubResource("Animation_uycue")
+}
+
+[node name="VictoryScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_wdgif")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(576, 324)
-scale = Vector2(36, 20.25)
+modulate = Color(0, 0, 0, 1)
+position = Vector2(583.5, 329.5)
+scale = Vector2(37.4688, 21.5938)
 texture = ExtResource("1_ujlt3")
 
-[node name="FadeInOut" type="AnimationPlayer" parent="."]
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+offset_left = 229.0
+offset_top = 39.0
+offset_right = 934.0
+offset_bottom = 149.0
+grow_horizontal = 2
+theme = ExtResource("3_ll51u")
+theme_override_font_sizes/font_size = 80
+text = "The winner is You!"
+horizontal_alignment = 1
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+anchors_preset = 0
+offset_left = 227.0
+offset_top = 222.0
+offset_right = 265.0
+offset_bottom = 269.0
+pivot_offset = Vector2(87.88, 86.45)
+
+[node name="Node2D" type="Node2D" parent="Control"]
+position = Vector2(-368, -4)
+scale = Vector2(4, 4)
+
+[node name="Sprite2D6" type="Sprite2D" parent="Control/Node2D"]
+position = Vector2(196.333, 21)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_ll51u")
+region_enabled = true
+region_rect = Rect2(33, 0, 32, 32)
+
+[node name="Sprite2D2" type="Sprite2D" parent="Control/Node2D"]
+position = Vector2(183.5, 21)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_ll51u")
+region_enabled = true
+region_rect = Rect2(33, 0, 32, 32)
+
+[node name="Sprite2D3" type="Sprite2D" parent="Control/Node2D"]
+position = Vector2(183.5, 13.5)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_ll51u")
+region_enabled = true
+region_rect = Rect2(33, 0, 32, 32)
+
+[node name="Sprite2D" type="Sprite2D" parent="Control/Node2D"]
+position = Vector2(183.5, 6)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_ll51u")
+region_enabled = true
+region_rect = Rect2(33, 0, 32, 32)
+
+[node name="Sprite2D4" type="Sprite2D" parent="Control/Node2D"]
+position = Vector2(170.667, 20.8333)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_ll51u")
+region_enabled = true
+region_rect = Rect2(33, 0, 32, 32)
+
+[node name="Sprite2D5" type="Sprite2D" parent="Control/Node2D"]
+position = Vector2(170.667, 13.3333)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_ll51u")
+region_enabled = true
+region_rect = Rect2(33, 0, 32, 32)
+
+[node name="Label" type="Label" parent="Control/Node2D"]
+offset_left = 168.0
+offset_top = 3.66667
+offset_right = 269.0
+offset_bottom = 77.6667
+scale = Vector2(0.3, 0.3)
+theme = ExtResource("3_ll51u")
+theme_override_font_sizes/font_size = 80
+text = "1"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/Node2D"]
+offset_left = 163.0
+offset_top = 12.6667
+offset_right = 264.0
+offset_bottom = 86.6667
+scale = Vector2(0.15, 0.2)
+theme = ExtResource("3_ll51u")
+theme_override_font_sizes/font_size = 80
+text = "2"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="Control/Node2D"]
+offset_left = 190.667
+offset_top = 21.3333
+offset_right = 291.667
+offset_bottom = 95.3333
+scale = Vector2(0.1, 0.1)
+theme = ExtResource("3_ll51u")
+theme_override_font_sizes/font_size = 80
+text = "3"
+horizontal_alignment = 1
+
+[node name="1st" type="Sprite2D" parent="Control"]
+position = Vector2(365, -3)
+scale = Vector2(2, 2)
+texture = ExtResource("3_rixwf")
+offset = Vector2(-0.075, -8.236)
+hframes = 6
+vframes = 4
+
+[node name="Label" type="Label" parent="Control/1st"]
+offset_left = -120.5
+offset_top = -44.5
+offset_right = 125.5
+offset_bottom = -21.5
+theme = ExtResource("6_a2cu1")
+text = "player1"
+horizontal_alignment = 1
+
+[node name="AnimationPlayer1" type="AnimationPlayer" parent="Control"]
+root_node = NodePath("../..")
 libraries = {
-&"": SubResource("AnimationLibrary_qa6w2")
+&"": SubResource("AnimationLibrary_rixwf")
 }
 
-[node name="FadeInOutRect" type="ColorRect" parent="FadeInOut"]
+[node name="2nd" type="Sprite2D" parent="Control"]
+position = Vector2(312, 26)
+scale = Vector2(2, 2)
+texture = ExtResource("6_wbi6c")
+offset = Vector2(-0.075, -8.236)
+hframes = 6
+vframes = 4
+
+[node name="Label" type="Label" parent="Control/2nd"]
+offset_left = -263.0
+offset_top = -25.0
+offset_right = -17.0
+offset_bottom = -2.0
+theme = ExtResource("6_a2cu1")
+text = "player2"
+horizontal_alignment = 2
+
+[node name="3rd" type="Sprite2D" parent="Control"]
+position = Vector2(416, 53)
+scale = Vector2(2, 2)
+texture = ExtResource("7_u4hde")
+offset = Vector2(-0.075, -8.236)
+hframes = 6
+vframes = 4
+
+[node name="Label" type="Label" parent="Control/3rd"]
+offset_left = 19.0
+offset_top = -18.5
+offset_right = 265.0
+offset_bottom = 4.5
+theme = ExtResource("6_a2cu1")
+text = "player3"
+
+[node name="Puddle" type="Sprite2D" parent="Control"]
+position = Vector2(645, 224)
+texture = ExtResource("8_66hvp")
+
+[node name="4th" type="Sprite2D" parent="Control"]
+position = Vector2(648, 208)
+rotation = -1.55509
+scale = Vector2(2, 2)
+texture = ExtResource("3_rixwf")
+offset = Vector2(-0.075, -8.236)
+hframes = 6
+vframes = 4
+region_enabled = true
+region_rect = Rect2(64, 64, 192, 128)
+
+[node name="Label" type="Label" parent="Control/4th"]
+offset_left = 48.2086
+offset_top = -146.275
+offset_right = 627.209
+offset_bottom = -116.275
+rotation = 1.67203
+scale = Vector2(0.5, 0.5)
+theme = ExtResource("6_a2cu1")
+text = "player4"
+horizontal_alignment = 1
+
+[node name="kaboom" type="Sprite2D" parent="Control"]
+position = Vector2(638, 214)
+scale = Vector2(0.333333, 0.351648)
+texture = ExtResource("8_u4hde")
+hframes = 9
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="Control"]
+libraries = {
+&"": SubResource("AnimationLibrary_u4hde")
+}
+
+[node name="FadeInOutRect" type="ColorRect" parent="."]
 visible = false
+layout_mode = 0
+offset_left = -193.0
+offset_top = 1.0
 offset_right = 1152.0
 offset_bottom = 648.0
 color = Color(0, 0, 0, 1)
 
-[node name="Label" type="Label" parent="."]
-offset_right = 1144.0
-offset_bottom = 208.0
-theme_override_font_sizes/font_size = 80
-text = "placeholder"
+[node name="Timer" type="Timer" parent="."]
+wait_time = 8.0
+one_shot = true
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Timer")
+libraries = {
+&"": SubResource("AnimationLibrary_uycue")
+}
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
