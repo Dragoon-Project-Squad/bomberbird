@@ -159,12 +159,12 @@ func _check_ending_condition(_alive_enemies: int = 0):
 		stop_the_match()
 		if len(alive_players) == 1:
 			# SHOW EM WHAT THEY'VE WON
-			game_ui.increase_score(alive_players[0].name)
+			game_ui.increase_score(alive_players[0].name.to_int())
 			await alive_players[0].play_victory(false)
 		await play_fade_out()
 		await get_tree().create_timer(2).timeout
 		#DO WIN SCREEN STUFF
-		if game_ui.get_player_score(alive_players[0].name) >= SettingsContainer.get_points_to_win():
+		if game_ui.get_player_score(alive_players[0].name.to_int()) >= SettingsContainer.get_points_to_win():
 			get_tree().change_scene_to_file("res://scenes/victory_screen.tscn")
 		else:
 			#RESET GAME STATE

@@ -54,13 +54,17 @@ scale = Vector2(2.5, 2.5)
 theme_override_constants/separation = 64
 
 [node name="ScorePanel_P1" parent="ScorePanelContainer" instance=ExtResource("4_xmooi")]
+visible = false
 layout_mode = 2
 
 [node name="ScorePanel_P2" parent="ScorePanelContainer" instance=ExtResource("4_xmooi")]
+visible = false
 layout_mode = 2
 
 [node name="ScorePanel_P3" parent="ScorePanelContainer" instance=ExtResource("4_xmooi")]
+visible = false
 layout_mode = 2
 
 [node name="ScorePanel_P4" parent="ScorePanelContainer" instance=ExtResource("4_xmooi")]
+visible = false
 layout_mode = 2

@@ -11,22 +11,22 @@ var players_left = -1
 var someone_dead = false
 var time
 
-var player_score_panel: Array[ScorePanel]
+var player_score_panels: Array[ScorePanel]
 var used_player_score_panel_len: int = 0
 
 func _ready() -> void:
 	globals.game.game_ui = self
 	for child in score_panel_container.get_children():
 		if child is ScorePanel:
-			player_score_panel.append(child)
+			player_score_panels.append(child)
 
 @rpc("call_local")
 func add_player(id: int, _player_name: String, character: String):
 	assert(used_player_score_panel_len <= 3, "attempted to add a 5th player but only 4 are supported")
-	player_score_panel[used_player_score_panel_len].player_id = id
-	player_score_panel[used_player_score_panel_len].show()
-	player_score_panel[used_player_score_panel_len].update_icon(character)
-	player_score_panel[used_player_score_panel_len].update_icon_color(COLOR_ARR[used_player_score_panel_len])
+	player_score_panels[used_player_score_panel_len].player_id = id
+	player_score_panels[used_player_score_panel_len].show()
+	player_score_panels[used_player_score_panel_len].update_icon(character)
+	player_score_panels[used_player_score_panel_len].update_icon_color(COLOR_ARR[used_player_score_panel_len])
 	player_labels[id] = used_player_score_panel_len
 	used_player_score_panel_len += 1
 
@@ -39,17 +39,17 @@ func stop_timer():
 func _process(_delta: float) -> void:
 	time_label.set_text(time_to_string(match_timer.get_time_left()))
 
-func increase_score(playername : String):
-	var score_panel_slot_num = player_labels[playername]
-	score_panel_container[score_panel_slot_num].increment_score()
+func increase_score(pid : int):
+	var score_panel_slot_num = player_labels[pid]
+	player_score_panels[score_panel_slot_num].increment_score()
 	
-func decrease_score(playername : String):
-	var score_panel_slot_num = player_labels[playername]
-	score_panel_container[score_panel_slot_num].decrement_score()
+func decrease_score(pid : int):
+	var score_panel_slot_num = player_labels[pid]
+	player_score_panels[score_panel_slot_num].decrement_score()
 
-func get_player_score(playername : String):
-	var score_panel_slot_num = player_labels[playername]
-	return score_panel_container[score_panel_slot_num].score
+func get_player_score(pid : int):
+	var score_panel_slot_num = player_labels[pid]
+	return player_score_panels[score_panel_slot_num].score
 
 func time_to_string(time := 120.0) -> String:
 	var seconds = fmod(time, 60)
