@@ -4,7 +4,7 @@ extends Node
 # Not on the list of registered or common ports as of November 2020:
 # https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
 const DEFAULT_PORT := 10567
-var is_game_online := true 
+var is_game_online := false 
 #TODO: Create VSCOM option, then set this to false and enable ONLY if Online
 
 # Multiplayer vars
@@ -39,6 +39,17 @@ var player_numbers = {
 var characters = {}
 var character_texture_paths: CharacterSelectDataResource = preload("res://resources/css/character_texture_paths_default.tres")
 var DEFAULT_PLAYER_TEXTURE_PATH = character_texture_paths.NORMALGOON_PLAYER_TEXTURE_PATH
+
+# Player Data Master Dictionary
+var player_data_resource: PlayerDataResource = preload("res://resources/settings/player_data_default.tres")
+var player_data_master_dict = {
+	"p1": player_data_resource.DEFAULT_PLAYER_ONE_DICT,
+	"p2": player_data_resource.DEFAULT_PLAYER_TWO_DICT,
+	"p3": player_data_resource.DEFAULT_PLAYER_THREE_DICT,
+	"p4": player_data_resource.DEFAULT_PLAYER_FOUR_DICT,
+	}
+
+
 # AI Handling variables
 const MAX_ID_COLLISION_RESCUE_ATTEMPTS = 4
 const MAX_NAME_COLLISION_RESCUE_ATTEMPTS = 4

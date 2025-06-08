@@ -12,4 +12,3 @@ func apply_power_up(pickup_owner: Node2D):
 		pickup_owner.increase_bomb_level()
 	elif pickup_owner is Boss:
 		pass ## this is handled by counting on usage
-
