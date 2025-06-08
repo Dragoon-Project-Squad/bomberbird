@@ -72,6 +72,8 @@ func show_positions(number_of_players: int):
 func _on_timer_timeout():
 	$AnimationPlayer.play("fade_out")
 	await $AnimationPlayer.animation_finished
-	#TODO: TERMINATE THE ONLINE SESSION HERE
+	gamestate.end_game()
+	if gamestate.peer:
+		gamestate.peer.close()
 	get_tree().change_scene_to_file("res://scenes/lobby/lobby.tscn")
 	gamestate.player_list_changed.emit()
