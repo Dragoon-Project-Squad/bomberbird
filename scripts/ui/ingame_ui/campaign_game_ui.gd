@@ -1,11 +1,11 @@
 extends CanvasLayer
 
-const COLOR_ARR: Array[Color] = [Color8(255, 100, 100), Color8(100, 255, 255), Color8(255, 178, 100), Color8(163, 255, 156)]
-
 @onready var match_timer: Timer = %MatchTimer
 @onready var health_panel_container: Container = %HealthPanelContainer
 @onready var time_label: Label = %TimeLabel
 @onready var score_label: Label = %ScoreLabel
+
+const COLOR_ARR: Array[Color] = [Color8(255, 100, 100), Color8(100, 255, 255), Color8(255, 178, 100), Color8(163, 255, 156)]
 
 var player_health_panel: Array[HealthPanel]
 var used_player_health_panel_len: int = 0

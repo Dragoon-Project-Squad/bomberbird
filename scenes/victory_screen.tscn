@@ -69,19 +69,19 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
+"values": [false]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("kaboom:visible")
+tracks/1/path = NodePath("Kaboom:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_wbi6c"]
@@ -102,7 +102,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("kaboom:frame")
+tracks/1/path = NodePath("Kaboom:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -126,7 +126,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("kaboom:visible")
+tracks/3/path = NodePath("Kaboom:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -310,6 +310,7 @@ text = "3"
 horizontal_alignment = 1
 
 [node name="1st" type="Sprite2D" parent="Control"]
+visible = false
 position = Vector2(365, -3)
 scale = Vector2(2, 2)
 texture = ExtResource("3_rixwf")
@@ -333,6 +334,7 @@ libraries = {
 }
 
 [node name="2nd" type="Sprite2D" parent="Control"]
+visible = false
 position = Vector2(312, 26)
 scale = Vector2(2, 2)
 texture = ExtResource("6_wbi6c")
@@ -350,6 +352,7 @@ text = "player2"
 horizontal_alignment = 2
 
 [node name="3rd" type="Sprite2D" parent="Control"]
+visible = false
 position = Vector2(416, 53)
 scale = Vector2(2, 2)
 texture = ExtResource("7_u4hde")
@@ -366,10 +369,12 @@ theme = ExtResource("6_a2cu1")
 text = "player3"
 
 [node name="Puddle" type="Sprite2D" parent="Control"]
+visible = false
 position = Vector2(645, 224)
 texture = ExtResource("8_66hvp")
 
 [node name="4th" type="Sprite2D" parent="Control"]
+visible = false
 position = Vector2(648, 208)
 rotation = -1.55509
 scale = Vector2(2, 2)
@@ -391,7 +396,8 @@ theme = ExtResource("6_a2cu1")
 text = "player4"
 horizontal_alignment = 1
 
-[node name="kaboom" type="Sprite2D" parent="Control"]
+[node name="Kaboom" type="Sprite2D" parent="Control"]
+visible = false
 position = Vector2(638, 214)
 scale = Vector2(0.333333, 0.351648)
 texture = ExtResource("8_u4hde")

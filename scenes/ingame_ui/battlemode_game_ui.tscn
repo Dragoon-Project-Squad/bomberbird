@@ -1,138 +1,70 @@
-[gd_scene load_steps=2 format=3 uid="uid://b3638glthchxv"]
+[gd_scene load_steps=6 format=3 uid="uid://b3638glthchxv"]
 
 [ext_resource type="Script" uid="uid://d0xwl8hxp7ycv" path="res://scripts/ui/ingame_ui/battlemode_game_ui.gd" id="1_d60n6"]
+[ext_resource type="Texture2D" uid="uid://27c5jtc8uveu" path="res://assets/ui/campaign_ui_sheet.png" id="2_xmooi"]
+[ext_resource type="FontFile" uid="uid://do0laogygl6cd" path="res://assets/fonts/ThaleahFat.ttf" id="3_kb6dh"]
+[ext_resource type="PackedScene" uid="uid://bvn5u605vi3cw" path="res://scenes/ingame_ui/score_panel.tscn" id="4_xmooi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n8rxo"]
+atlas = ExtResource("2_xmooi")
+region = Rect2(0, 0, 72, 32)
 
 [node name="MultiplayerGameUI" type="CanvasLayer"]
 script = ExtResource("1_d60n6")
-
-[node name="Border" type="ColorRect" parent="."]
-offset_right = 1152.0
-offset_bottom = 56.0
-color = Color(0.619608, 0.380392, 0, 1)
-
-[node name="Container" type="ColorRect" parent="Border"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -568.0
-offset_top = -20.0
-offset_right = 568.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.14902, 0.168627, 0.266667, 1)
-
-[node name="Players" type="HBoxContainer" parent="Border/Container"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 8.0
-offset_top = -20.0
-offset_right = 1128.0
-offset_bottom = 20.0
-grow_vertical = 2
-size_flags_horizontal = 2
-size_flags_vertical = 2
-
-[node name="Timer" type="HSplitContainer" parent="Border/Container/Players"]
-layout_mode = 2
-
-[node name="Hourglass" type="Label" parent="Border/Container/Players/Timer"]
-layout_mode = 2
-text = "⌛"
-vertical_alignment = 1
-
-[node name="RemainingTime" type="Label" parent="Border/Container/Players/Timer"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-text = "2:00"
-
-[node name="SeparatorTimerP1" type="ColorRect" parent="Border/Container/Players"]
-custom_minimum_size = Vector2(4, 0)
-layout_mode = 2
-color = Color(0.619608, 0.380392, 0, 1)
-
-[node name="P1" type="HSplitContainer" parent="Border/Container/Players"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="P1Name" type="Label" parent="Border/Container/Players/P1"]
-layout_mode = 2
-text = "P1"
-vertical_alignment = 1
-
-[node name="P1Score" type="Label" parent="Border/Container/Players/P1"]
-layout_mode = 2
-text = "0"
-horizontal_alignment = 2
-
-[node name="SeparatorP12" type="ColorRect" parent="Border/Container/Players"]
-visible = false
-custom_minimum_size = Vector2(4, 0)
-layout_mode = 2
-color = Color(0.619608, 0.380392, 0, 1)
-
-[node name="P2" type="HSplitContainer" parent="Border/Container/Players"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="P2Name" type="Label" parent="Border/Container/Players/P2"]
-layout_mode = 2
-text = "P2"
-vertical_alignment = 1
-
-[node name="P2Score" type="Label" parent="Border/Container/Players/P2"]
-layout_mode = 2
-text = "0"
-horizontal_alignment = 2
-
-[node name="SeparatorP23" type="ColorRect" parent="Border/Container/Players"]
-visible = false
-custom_minimum_size = Vector2(4, 0)
-layout_mode = 2
-color = Color(0.619608, 0.380392, 0, 1)
-
-[node name="P3" type="HSplitContainer" parent="Border/Container/Players"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="P3Name" type="Label" parent="Border/Container/Players/P3"]
-layout_mode = 2
-vertical_alignment = 1
-
-[node name="P3Score" type="Label" parent="Border/Container/Players/P3"]
-layout_mode = 2
-text = "0"
-horizontal_alignment = 2
-
-[node name="SeparatorP34" type="ColorRect" parent="Border/Container/Players"]
-visible = false
-custom_minimum_size = Vector2(4, 0)
-layout_mode = 2
-color = Color(0.619608, 0.380392, 0, 1)
-
-[node name="P4" type="HSplitContainer" parent="Border/Container/Players"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="P4Name" type="Label" parent="Border/Container/Players/P4"]
-layout_mode = 2
-vertical_alignment = 1
-
-[node name="P4Score" type="Label" parent="Border/Container/Players/P4"]
-layout_mode = 2
-text = "0"
-horizontal_alignment = 2
 
 [node name="MatchTimer" type="Timer" parent="."]
 unique_name_in_owner = true
 wait_time = 120.0
 one_shot = true
+
+[node name="TopBarContainer" type="HBoxContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -36.0
+offset_right = 36.0
+offset_bottom = 32.0
+grow_horizontal = 2
+scale = Vector2(1.715, 1.715)
+theme_override_constants/separation = 0
+
+[node name="Time" type="TextureRect" parent="TopBarContainer"]
+texture_filter = 1
+layout_mode = 2
+texture = SubResource("AtlasTexture_n8rxo")
+
+[node name="TimeLabel" type="Label" parent="TopBarContainer/Time"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 1
+offset_left = 18.0
+offset_top = 8.0
+offset_right = 54.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_kb6dh")
+theme_override_font_sizes/font_size = 16
+text = "00:00"
+
+[node name="ScorePanelContainer" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+offset_top = 64.0
+offset_bottom = 269.0
+scale = Vector2(2.5, 2.5)
+theme_override_constants/separation = 64
+
+[node name="ScorePanel_P1" parent="ScorePanelContainer" instance=ExtResource("4_xmooi")]
+visible = false
+layout_mode = 2
+
+[node name="ScorePanel_P2" parent="ScorePanelContainer" instance=ExtResource("4_xmooi")]
+visible = false
+layout_mode = 2
+
+[node name="ScorePanel_P3" parent="ScorePanelContainer" instance=ExtResource("4_xmooi")]
+visible = false
+layout_mode = 2
+
+[node name="ScorePanel_P4" parent="ScorePanelContainer" instance=ExtResource("4_xmooi")]
+visible = false
+layout_mode = 2
