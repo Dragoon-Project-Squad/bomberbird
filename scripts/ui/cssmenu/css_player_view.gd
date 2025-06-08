@@ -7,6 +7,7 @@ class_name PlayerControl
 @onready var cpu_button: Button = $PlayerPanel/Button
 @onready var cpu_button_label: Label = $PlayerPanel/ClickPrompt
 var is_participating := true
+var is_cpu := false
 
 func _ready() -> void:
 	setup_player()
@@ -50,7 +51,6 @@ func set_is_participating(participation_flag: bool) -> void:
 	player_image.visible = participation_flag
 	player_label.visible = participation_flag
 	if is_multiplayer_authority():
-		cpu_button.disabled = participation_flag
 		cpu_button_label.visible = !participation_flag
 	else:
 		cpu_button_label.hide()
@@ -59,8 +59,16 @@ func set_is_participating(participation_flag: bool) -> void:
 
 func _on_button_pressed():
 	if is_multiplayer_authority():
-		SettingsContainer.set_cpu_count(SettingsContainer.get_cpu_count()+1)
-		gamestate.assign_player_numbers()
-		gamestate.register_ai_player()
-		gamestate.establish_player_counts()
-		gamestate.player_list_changed.emit()
+		if is_cpu:
+			var targetCpus = SettingsContainer.get_cpu_count()-1
+			gamestate.assign_player_numbers()
+			gamestate.clear_ai_players()
+			gamestate.add_ai_players(targetCpus)
+			gamestate.establish_player_counts()
+			gamestate.player_list_changed.emit()
+		else:
+			SettingsContainer.set_cpu_count(SettingsContainer.get_cpu_count()+1)
+			gamestate.assign_player_numbers()
+			gamestate.register_ai_player()
+			gamestate.establish_player_counts()
+			gamestate.player_list_changed.emit()
