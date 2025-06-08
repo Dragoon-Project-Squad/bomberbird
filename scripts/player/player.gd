@@ -7,12 +7,14 @@ signal player_died
 signal player_revived
 
 ## Player Movement Speed
-const TILE_SIZE: float = 32.0
-const BASE_MOTION_SPEED: float = ((TILE_SIZE * 4) * (7.0/8.0))
-const MAX_MOTION_SPEED: float = TILE_SIZE * 8
-const MIN_MOTION_SPEED: float = TILE_SIZE * 2
-const MOTION_SPEED_INCREASE: float = TILE_SIZE * 0.5
-const MOTION_SPEED_DECREASE: float = TILE_SIZE * 0.5
+const TILE_SIZE: int = 32
+const BASE_MOTION_SPEED: float = (TILE_SIZE * 3.5)
+const MAX_MOTION_SPEED: int = TILE_SIZE * 8
+const MIN_MOTION_SPEED: int = TILE_SIZE * 2
+@warning_ignore("INTEGER_DIVISION") #Note this integer division is fine idk why godot feels like it needs to warn for int divisions anyway?
+const MOTION_SPEED_INCREASE: int = TILE_SIZE / 2
+@warning_ignore("INTEGER_DIVISION") #Note this integer division is fine idk why godot feels like it needs to warn for int divisions anyway?
+const MOTION_SPEED_DECREASE: int = TILE_SIZE / 2
 
 const BOMB_RATE: float = 0.5
 const MAX_BOMBS_OWNABLE: int = 8
@@ -331,8 +333,6 @@ func spread_items():
 			pickup_types.push_back(pickup_type)
 			pickup_count.push_back(1)
 	
-	print(pickup_types)
-	print(pickup_count)
 	var to_place_pickups: Dictionary = pickup_pool.request_group(pickup_count, pickup_types)
 	for i in range(pickup_types.size()):
 		if pickup_count[i] == 1:

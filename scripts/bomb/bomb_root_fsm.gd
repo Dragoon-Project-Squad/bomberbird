@@ -49,6 +49,8 @@ func disable() -> int:
 	self.position = Vector2.ZERO
 	self.fuse_time_passed = 0
 	self.addons = {}
+	for sig_dict in bomb_finished.get_connections():
+		sig_dict.signal.disconnect(sig_dict.callable)
 	set_state(DISABLED)
 	return 0
 
@@ -128,6 +130,8 @@ func do_punch(direction: Vector2i):
 	if state != STATIONARY: #this bomb has should just have been taken from the player pool. if not a fatal error has occured
 		printerr("a player wanted to punch a bomb that already has an active state")
 		return 2
+	if self.addons.has("mine") && self.addons.mine:
+		return 1
 
 	in_use = true
 	fuse_time_passed = state_map[state].get_node("AnimationPlayer").current_animation_position
@@ -169,6 +173,9 @@ func do_throw(direction: Vector2i, new_position: Vector2):
 func carry() -> int:
 	if state == DISABLED:
 		return 1
+	if self.addons.has("mine") && self.addons.mine:
+		return 1
+
 	fuse_time_passed = state_map[state].get_node("AnimationPlayer").current_animation_position
 	self.in_use = false
 	set_state(AIRBORN)
@@ -180,6 +187,8 @@ func do_kick(direction: Vector2i):
 	if state != STATIONARY:
 		printerr("Bomb already active")
 		return 2
+	if self.addons.has("mine") && self.addons.mine:
+		return 1
 	
 	in_use = true
 	bomb_owner_is_dead = false

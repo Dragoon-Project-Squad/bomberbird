@@ -18,6 +18,7 @@ initial_exlusive = 0
 initial_bomb_up = 0
 initial_fire_up = 0
 initial_speed_up = 0
+initial_speed_down = 0
 initial_hp_up = 0
 initial_full_fire = false
 initial_bomb_punch = false
@@ -212,7 +213,7 @@ properties/3/path = NodePath(".:secondary_ability")
 properties/3/spawn = true
 properties/3/replication_mode = 1
 
-[node name="player" type="CharacterBody2D" groups=["thrown_bomb_bounces"]]
+[node name="player" type="CharacterBody2D"]
 z_index = 10
 texture_filter = 1
 collision_layer = 2

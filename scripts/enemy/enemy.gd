@@ -31,6 +31,7 @@ var invulnerable: bool = false
 var damage_invulnerable: bool = false
 var stop_moving: bool = false
 var _health: int
+var _exploded_barrier: bool = false
 
 var invulnerable_animation_time: float = 0
 var invulnerable_remaining_time: float = 0
@@ -104,13 +105,16 @@ func enable():
 func exploded(_by_whom: int):
 	if(!is_multiplayer_authority()): return 1
 	if invulnerable || damage_invulnerable: return 1
-	if(self.health > 1):
+	if _exploded_barrier: return
+	_exploded_barrier = true
+	self.health -= 1
+	if(self.health >= 1):
 		invulnerable_remaining_time = INVULNERABILITY_TIME
 		damage_invulnerable = true
 		set_process(true)
-		self.health -= 1
 		if self.health_ability:
 			self.health_ability.apply()
+		_exploded_barrier = false
 		return 1
 	enemy_died.emit()
 	self.statemachine.stop_process = true
@@ -119,6 +123,7 @@ func exploded(_by_whom: int):
 	self.statemachine.stop_process = false
 	self.disable()
 	globals.game.enemy_pool.return_obj(self)
+	_exploded_barrier = false
 	
 @rpc("call_local")
 func disable():

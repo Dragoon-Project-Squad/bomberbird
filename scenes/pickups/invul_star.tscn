@@ -28,9 +28,9 @@ animations = [{
 atlas = ExtResource("2_vjuqf")
 region = Rect2(24, 24, 24, 24)
 
-[node name="InvulStar" type="Area2D"]
+[node name="InvulStar" type="Area2D" groups=["thrown_pickup_bounces"]]
 collision_layer = 16
-collision_mask = 2
+collision_mask = 34
 script = ExtResource("1_kowf5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

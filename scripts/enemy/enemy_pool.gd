@@ -50,11 +50,11 @@ func request_group(enemy_dict: Dictionary, _void: int = 0) -> Dictionary:
 
 func return_obj(enemy: Enemy) -> void:
 	assert(enemy, "null was attempted to be returned to the pickup_pool")
-	assert(!enemy.visible)
-	assert(enemy.position == Vector2.ZERO)
+	assert(!enemy.visible, "enemy weas not properly disabled before returned")
+	assert(enemy.position == Vector2.ZERO, "enemy weas not properly disabled before returned")
 	if !unowned.has(enemy.enemy_path):
 		unowned[enemy.enemy_path] = []
-	assert(!(enemy in unowned[enemy.enemy_path]))
+	assert(!(enemy in unowned[enemy.enemy_path]), "enemy was already in pool when it was returned")
 	unowned[enemy.enemy_path].push_back(enemy)
 
 func return_obj_group(enemy_dict : Dictionary) -> void:

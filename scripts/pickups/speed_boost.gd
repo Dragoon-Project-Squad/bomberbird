@@ -10,3 +10,5 @@ func apply_power_up(pickup_owner):
 		pickup_owner.increase_speed.rpc()
 	elif pickup_owner is AIPlayer:
 		pickup_owner.increase_speed()
+	elif pickup_owner is Boss:
+		pickup_owner.increase_speed()

@@ -17,6 +17,7 @@ func _ready() -> void:
 func check_ability_usage() -> int:
 	self.enemy.curr_bomb = get_bomb()
 	if self.enemy.curr_bomb == null: return ability.NONE
+	if self.enemy.curr_bomb.addons.has("mine") && self.enemy.curr_bomb.addons.mine: return ability.NONE
 	var probability: float = _rand.randf()
 	if use_ability >= probability: return ability.NONE
 	var abilities: Array[int] = []

@@ -1,6 +1,13 @@
 class_name Boss extends Enemy
 
+const TILE_SIZE: int = 32
 const INVULNERABILITY_POWERUP_TIME: float = 16.0
+const MAX_MOTION_SPEED: int = TILE_SIZE * 8
+const MIN_MOTION_SPEED: int = TILE_SIZE * 2
+@warning_ignore("INTEGER_DIVISION") #Note this integer division is fine idk why godot feels like it needs to warn for int divisions anyway?
+const MOTION_SPEED_INCREASE: int = TILE_SIZE / 2
+@warning_ignore("INTEGER_DIVISION") #Note this integer division is fine idk why godot feels like it needs to warn for int divisions anyway?
+const MOTION_SPEED_DECREASE: int = TILE_SIZE / 2
 
 @onready var bomb_carry_sprite: Sprite2D = $BombSprite
 
@@ -11,6 +18,26 @@ const INVULNERABILITY_POWERUP_TIME: float = 16.0
 @export var init_explosion_boost_count: int = 0
 @export var idle_chance: float = 0.4
 @export var wander_distance: int = 8
+@export_enum(
+	"extra_bomb",
+	"explosion_boost",
+	"speed_boost",
+	"speed_down",
+	"hearth",
+	"max_explosion",
+	"punch_ability",
+	"throw_ability",
+	"wallthrough",
+	"timer",
+	"invincibility_vest",
+	"kick",
+	"bombthrough",
+	"piercing_bomb",
+	"land_mine",
+	"remote_control",
+	"seeker_bomb",
+	"no_pickup",
+	) var dropped_pickup: String
 
 var cooldown_done: bool = true
 var curr_target: Node2D
@@ -24,6 +51,7 @@ func place(pos: Vector2, path: String):
 	assert(ability_detector, "ability_detector must be assigned in the inspector")
 	reset_pickups()
 	if self.detection_handler: self.detection_handler.make_ready()
+	self.statemachine.reset()
 
 func _process(delta: float):
 	if !damage_invulnerable:
@@ -39,14 +67,28 @@ func _process(delta: float):
 		self.visible = !self.visible
 		invulnerable_animation_time = 0
 
-func get_current_bomb_count():
+func get_current_bomb_count() -> int:
 	return init_bomb_count + pickups.held_pickups[globals.pickups.BOMB_UP]
 
-func get_current_bomb_boost():
+func get_current_bomb_boost() -> int:
 	if pickups.held_pickups[globals.pickups.FULL_FIRE]:
 		return init_explosion_boost_count + pickups.MAX_EXPLOSION_BOOSTS_PERMITTED
 	return init_explosion_boost_count + pickups.held_pickups[globals.pickups.FIRE_UP]
+
+@rpc("call_local")
+func get_curr_mine_count() -> int:
+	return 1 if self.pickups.held_pickups[globals.pickups.GENERIC_BOMB] == HeldPickups.bomb_types.MINE else 0
 	
+@rpc("call_local")
+func increase_speed():
+	movement_speed += MOTION_SPEED_INCREASE
+	movement_speed = clamp(movement_speed, MIN_MOTION_SPEED, MAX_MOTION_SPEED)
+
+@rpc("call_local")
+func decrease_speed():
+	movement_speed -= MOTION_SPEED_DECREASE
+	movement_speed = clamp(movement_speed, MIN_MOTION_SPEED, MAX_MOTION_SPEED)
+
 @rpc("call_local")
 func enable_wallclip():
 	self.set_collision_mask_value(3, false)
@@ -60,6 +102,25 @@ func start_invul():
 	invulnerable_remaining_time = INVULNERABILITY_POWERUP_TIME
 	damage_invulnerable = true
 	set_process(true)
+
+@rpc("call_local")
+func exploded(by_whom: int):
+	if invulnerable || damage_invulnerable: return 1
+	if _exploded_barrier: return
+	super(by_whom)
+	if(self.health >= 1): return
+	if !is_multiplayer_authority(): return
+	var pickup_type: int = globals.get_pickup_type_from_name(self.dropped_pickup)
+
+	if pickup_type == globals.pickups.NONE: return
+	var pickup: Pickup = globals.game.pickup_pool.request(pickup_type)
+	var valid_pos: Vector2 = Vector2.ZERO
+	var paths: Array[Array] = world_data.get_paths_to_safe(self.position)
+	if paths.is_empty(): paths = world_data.get_paths_to_safe(self.statemachine.target.pick_random().position)
+	var path = paths.pick_random()
+	valid_pos = path[-1]
+	if valid_pos == Vector2.ZERO: return
+	pickup.place.rpc(valid_pos, true)
 
 func reset_pickups():
 	damage_invulnerable = false
