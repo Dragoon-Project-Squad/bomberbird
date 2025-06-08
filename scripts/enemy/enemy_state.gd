@@ -21,6 +21,9 @@ func _physics_update(_delta : float) -> void:
 func _on_new_stage():
 	pass
 
+func _reset():
+	pass
+
 func _move(_delta):
 	#Update position
 	if multiplayer.multiplayer_peer == null or self.enemy.is_multiplayer_authority():
@@ -32,8 +35,6 @@ func _move(_delta):
 	
 	# Also update the animation based on the last known player input state
 	if self.enemy.stunned: return
-	if self.enemy is Boss:
-		self.enemy.velocity = self.enemy.movement_vector.normalized() * (self.enemy.movement_speed + 20 * self.enemy.pickups.held_pickups[globals.pickups.SPEED_UP])
-	else:
-		self.enemy.velocity = self.enemy.movement_vector.normalized() * self.enemy.movement_speed
+	self.enemy.velocity = self.enemy.movement_vector.normalized() * self.enemy.movement_speed
 	self.enemy.move_and_slide()
+

@@ -17,12 +17,14 @@ var curr_stage_idx: int = 0
 var _stage_lookahead: int = 3
 var _exit_entered_barrier: bool = false
 var _exit_spawned_barrier: bool = false
+var stage_done: bool = false
 
 func _init():
 	globals.game = self
 	
 @rpc("call_local")
 func restart_current_stage():
+	stage_done = true
 	fade.play("fade_out")
 	await fade.animation_finished
 
@@ -47,6 +49,7 @@ func restart_current_stage():
 	await fade.animation_finished
 	get_tree().create_timer(0.5).timeout.connect(func (): stage_announce_label.hide())
 	stage_has_changed.emit()
+	stage_done = false
 
 @rpc("call_local")
 ## starts the complete reset for all stage related states and then loads the next stage given by
@@ -54,6 +57,7 @@ func restart_current_stage():
 func next_stage(id: int, player: HumanPlayer):
 	if _exit_entered_barrier: return
 	_exit_entered_barrier = true
+	stage_done = true
 	# prevents two exits from triggering (Tho in general we proabily should not have 2 exits close enought next to each other to trigger that)
 
 	await player.play_victory(true)
@@ -99,6 +103,7 @@ func next_stage(id: int, player: HumanPlayer):
 	_exit_entered_barrier = false
 	_exit_spawned_barrier = false
 	stage_has_changed.emit()
+	stage_done = false 
 	load_next_stage_set(id)
 
 ## for a given stage loads the next stages into the tree with a lookahead in a BDS approach
@@ -201,7 +206,6 @@ func load_level_graph(file_name: String):
 func _check_ending_condition(alive_enemies: int):
 	if win_screen.visible: return
 	var alive_players: Array[Player] = globals.player_manager.get_alive_players()
-	print(len(alive_players), ", ", alive_enemies)
 	if len(alive_players) == 0 && alive_enemies == -1:
 		#TODO: proper lost game screen (with restart option)
 		win_screen.lost_game()

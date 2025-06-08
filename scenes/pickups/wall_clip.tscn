@@ -28,7 +28,7 @@ animations = [{
 atlas = ExtResource("2_ollpj")
 region = Rect2(96, 24, 24, 24)
 
-[node name="WallClip" type="Area2D"]
+[node name="WallClip" type="Area2D" groups=["thrown_pickup_bounces"]]
 collision_layer = 16
 collision_mask = 34
 script = ExtResource("1_l6h8x")

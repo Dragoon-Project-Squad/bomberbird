@@ -100,7 +100,8 @@ func _int_to_enum_name(tile: int) -> String:
 		1: return "UNBREAKABLE"
 		2: return "BREAKABLE"
 		3: return "BOMB"
-		4: return "PICKUP"
+		4: return "MINE"
+		5: return "PICKUP"
 		_: return "NOT_A_TILE"
 
 ## public functions
@@ -308,21 +309,22 @@ func get_paths_to_safe(start_pos: Vector2, valid_tiles: Array[int] = [tiles.EMPT
 	while !path_queue.is_empty():
 		var path = path_queue.pop_front()
 		if found_safe_at_length == len(path):
+			path_queue.append(path)
 			break
 		for dir in [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP]:
 			var next_pos: Vector2i = path[-1] + dir
 			if next_pos in path: continue
 			if !_is_walkable(next_pos, valid_tiles): continue
-			if _is_safe_cell(next_pos): 
+			if _is_safe_cell(next_pos) && found_safe_at_length == -1: 
 				found_safe_at_length = len(path) + 1
-				path.append(next_pos)
 			var new_path = path.duplicate() 
 			new_path.append(next_pos)
 			path_queue.append(new_path)
 
 	var safe_paths: Array[Array]
 	for path in path_queue:
-		if !_is_safe_cell(path[-1]): continue
+		if !_is_safe_cell(path[-1]):
+			continue
 		safe_paths.append(_to_real_path(path))
 	return safe_paths
 
@@ -379,24 +381,26 @@ func _is_safe_cell(pos: Vector2i, do_mine: bool = true) -> bool:
 			var dist: int = abs(bomb.y - pos.y)
 			var dir: int = 1 if bomb.y - pos.y > 0 else -1
 			if dist > local_danger_level: continue
-			if dist <= local_danger_level && is_pierce: return false
 			var index: int = _vec_to_index(Vector2(pos.x, pos.y))
+			var seen_blocked: bool = false
 			for i in range(dist):
 				index += self.world_width * dir
-				if self._world_matrix[index] == tiles.UNBREAKABLE: continue
-				if self._world_matrix[index] == tiles.BREAKABLE: continue
+				if self._world_matrix[index] == tiles.UNBREAKABLE: seen_blocked = true 
+				if self._world_matrix[index] == tiles.BREAKABLE && !is_pierce: seen_blocked = true 
+			if seen_blocked: continue
 			return false
 
 		if bomb.y == pos.y:
 			var dist: int = abs(bomb.x - pos.x)
 			var dir: int = 1 if bomb.x - pos.x > 0 else -1
 			if dist > local_danger_level: continue
-			if dist <= local_danger_level && is_pierce: return false
 			var index: int = _vec_to_index(Vector2(pos.x, pos.y))
+			var seen_blocked: bool = false
 			for i in range(dist):
 				index += dir
-				if self._world_matrix[index] == tiles.UNBREAKABLE: continue
-				if self._world_matrix[index] == tiles.BREAKABLE: continue
+				if self._world_matrix[index] == tiles.UNBREAKABLE: seen_blocked = true 
+				if self._world_matrix[index] == tiles.BREAKABLE && !is_pierce: seen_blocked = true 
+			if seen_blocked: continue
 			return false
 	return true
 

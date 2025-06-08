@@ -155,6 +155,7 @@ func reset():
 				exit.disable.rpc()
 			globals.game.exit_pool.return_obj(exit)
 	if globals.game.enemy_pool:
+		print(alive_enemies)
 		for enemy in alive_enemies:
 			enemy.disable()
 			globals.game.enemy_pool.return_obj(enemy)

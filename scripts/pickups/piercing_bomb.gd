@@ -9,3 +9,5 @@ func apply_power_up(pickup_owner):
 		pickup_owner.unlock_bomb_count.rpc()
 	elif pickup_owner is AIPlayer:
 		pickup_owner.unlock_bomb_count()
+	elif pickup_owner is Boss:
+		pass # mine should not lock boss enemies

@@ -38,6 +38,8 @@ func _on_state_changed(state: EnemyState, new_state: String) -> void:
 	if current_state:
 		current_state._exit()
 
+	print(state.name, " -> ", new_state)
+
 	current_state = states.get(new_state.to_lower())
 	if !current_state:
 		push_error("enemy state machine failed state: " + new_state + " does not exists")
@@ -54,3 +56,7 @@ func disable():
 	if current_state: current_state._exit()
 	disabled_state._enter();
 	current_state = disabled_state
+
+func reset():
+	for state in states.keys():
+		states[state]._reset()

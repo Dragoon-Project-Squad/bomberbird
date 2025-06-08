@@ -29,6 +29,8 @@ class_name StageCellUI extends ReferenceRect
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(192, 24, 24, 24)},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.SPEED_UP }:
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(216, 24, 24, 24)},
+	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.SPEED_DOWN }:
+		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(216, 0, 24, 24)},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.POWER_GLOVE}:
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(120, 24, 24, 24)},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.WALLTHROUGH}:
@@ -41,6 +43,8 @@ class_name StageCellUI extends ReferenceRect
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(48, 0, 24, 24)},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.MINE}:
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(72, 0, 24, 24)},
+	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.INVINCIBILITY_VEST}:
+		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(24, 24, 24, 24)},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": -1 }:
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": unimplementet_texture, "sub_texture_area": null},
 }
