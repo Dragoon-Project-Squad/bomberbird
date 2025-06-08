@@ -46,7 +46,7 @@ func apply_battle_settings() -> void:
 @rpc("call_remote")
 func update_battle_sets(settings_dict: Dictionary = {}):
 	if is_multiplayer_authority():
-		return
+		update_battle_sets.rpc(SettingsContainer.create_storage_dictionary())
 	else:
 		if settings_dict.is_empty():
 			return

@@ -1,11 +1,21 @@
 class_name Player extends CharacterBody2D
 ## Base class for the player
 
+signal player_health_updated
+signal player_hurt
 signal player_died
 signal player_revived
 
-const BASE_MOTION_SPEED: float = 100.0
-const MOTION_SPEED_INCREASE: float = 20.0
+## Player Movement Speed
+const TILE_SIZE: int = 32
+const BASE_MOTION_SPEED: float = (TILE_SIZE * 3.5)
+const MAX_MOTION_SPEED: int = TILE_SIZE * 8
+const MIN_MOTION_SPEED: int = TILE_SIZE * 2
+@warning_ignore("INTEGER_DIVISION") #Note this integer division is fine idk why godot feels like it needs to warn for int divisions anyway?
+const MOTION_SPEED_INCREASE: int = TILE_SIZE / 2
+@warning_ignore("INTEGER_DIVISION") #Note this integer division is fine idk why godot feels like it needs to warn for int divisions anyway?
+const MOTION_SPEED_DECREASE: int = TILE_SIZE / 2
+
 const BOMB_RATE: float = 0.5
 const MAX_BOMBS_OWNABLE: int = 8
 const MAX_EXPLOSION_BOOSTS_PERMITTED: int = 6
@@ -29,7 +39,7 @@ var player_type: String
 var hurry_up_started: bool = false 
 var misobon_player: MisobonPlayer
 
-var game_ui: CanvasLayer
+var game_ui
 
 var invulnerable_animation_time: float
 var invulnerable_remaining_time: float = 2
@@ -42,7 +52,12 @@ var bomb_total: int
 @export_subgroup("player properties") #Set in inspector
 @export var movement_speed: float = BASE_MOTION_SPEED
 @export var bomb_count: int = 2
-@export var lives: int = 1
+@export var lives: int = 1:
+	set(val):
+		lives = val
+		if is_dead: return
+		player_health_updated.emit(self, lives)
+
 @export var explosion_boost_count: int = 0
 @export var pickups: HeldPickups
 
@@ -81,12 +96,15 @@ func _ready():
 	movement_speed_reset = movement_speed
 	bomb_count_reset = bomb_count
 	explosion_boost_count_reset = explosion_boost_count
+	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
+		player_health_updated.connect(func (s: Player, health: int): game_ui.update_health(health, int(s.name)))
 	match globals.current_gamemode:
 		globals.gamemode.CAMPAIGN: lives = 3
 		globals.gamemode.BATTLEMODE: lives = 1
 		_: lives = 1
 	lives_reset = lives
 	pickups.reset()
+	self.animation_player.play("RESET")
 
 
 func _process(delta: float):
@@ -111,6 +129,12 @@ func _process(delta: float):
 
 func _physics_process(_delta: float):
 	pass
+
+func place(pos: Vector2):
+	self.position = pos
+	self.show()
+	self.animation_player.play("RESET")
+	do_invulnerabilty()
 
 ## executes the punch_bomb ability if the player has the appropiate pickup
 func punch_bomb(direction: Vector2i):
@@ -248,7 +272,7 @@ func enter_death_state():
 	$Hitbox.set_deferred("disabled", 1)
 	if globals.current_gamemode == globals.gamemode.BATTLEMODE:
 		spread_items()
-	reset_pickups()
+		reset_pickups()
 	await animation_player.animation_finished
 	player_died.emit()
 	hide()
@@ -273,7 +297,7 @@ func reset():
 	animation_player.play("player_animations/revive")
 	$Hitbox.set_deferred("disabled", 0)
 	await animation_player.animation_finished
-	stunned = true
+	stunned = false
 	is_dead = false
 	show()
 	
@@ -331,8 +355,6 @@ func spread_items():
 			pickup_types.push_back(pickup_type)
 			pickup_count.push_back(1)
 	
-	print(pickup_types)
-	print(pickup_count)
 	var to_place_pickups: Dictionary = pickup_pool.request_group(pickup_count, pickup_types)
 	for i in range(pickup_types.size()):
 		if pickup_count[i] == 1:
@@ -376,7 +398,13 @@ func maximize_bomb_level():
 	
 @rpc("call_local")
 func increase_speed():
-	movement_speed = movement_speed + MOTION_SPEED_INCREASE
+	movement_speed += MOTION_SPEED_INCREASE
+	movement_speed = clamp(movement_speed, MIN_MOTION_SPEED, MAX_MOTION_SPEED)
+	
+@rpc("call_local")
+func decrease_speed():
+	movement_speed -= MOTION_SPEED_DECREASE
+	movement_speed = clamp(movement_speed, MIN_MOTION_SPEED, MAX_MOTION_SPEED)
 
 @rpc("call_local")
 func enable_wallclip():
@@ -424,12 +452,9 @@ func play_victory(reenable: bool) -> Signal:
 
 func do_hurt() -> void:
 	stop_movement = true
-	animation_player.play("player_animations/hurt")
+	animation_player.play("player_animations/death")
 	await animation_player.animation_finished
-	animation_player.play("RESET")
-	await animation_player.animation_finished
-	self.position = world_data.tile_map.map_to_local(globals.current_world.spawnpoints[int(self.name) - 1])
-	do_invulnerabilty()
+	player_hurt.emit()
 	stop_movement = false
 
 @rpc("call_local")

@@ -31,6 +31,7 @@ var invulnerable: bool = false
 var damage_invulnerable: bool = false
 var stop_moving: bool = false
 var _health: int
+var _exploded_barrier: bool = false
 
 var invulnerable_animation_time: float = 0
 var invulnerable_remaining_time: float = 0
@@ -87,6 +88,7 @@ func do_stun():
 @rpc("call_local")
 func place(pos: Vector2, path: String):
 	if(!is_multiplayer_authority()): return 1
+	self.anim_player.play("enemy/RESET")
 	await get_tree().create_timer(0.2).timeout
 	hitbox.set_deferred("disabled", 0)
 	self.show()
@@ -103,17 +105,25 @@ func enable():
 func exploded(_by_whom: int):
 	if(!is_multiplayer_authority()): return 1
 	if invulnerable || damage_invulnerable: return 1
-	if(self.health > 1):
+	if _exploded_barrier: return
+	_exploded_barrier = true
+	self.health -= 1
+	if(self.health >= 1):
 		invulnerable_remaining_time = INVULNERABILITY_TIME
 		damage_invulnerable = true
 		set_process(true)
-		self.health -= 1
 		if self.health_ability:
 			self.health_ability.apply()
+		_exploded_barrier = false
 		return 1
 	enemy_died.emit()
+	self.statemachine.stop_process = true
+	self.anim_player.play("enemy/death")
+	await self.anim_player.animation_finished
+	self.statemachine.stop_process = false
 	self.disable()
 	globals.game.enemy_pool.return_obj(self)
+	_exploded_barrier = false
 	
 @rpc("call_local")
 func disable():

@@ -28,7 +28,8 @@ initial_bomb_type = 0
 initial_exlusive = 0
 initial_bomb_up = 0
 initial_fire_up = 0
-initial_speed_up = 0
+initial_speed_up = 1
+initial_speed_down = 0
 initial_hp_up = 0
 initial_full_fire = false
 initial_bomb_punch = false
@@ -107,9 +108,10 @@ collision_mask = 13
 script = ExtResource("1_81bpp")
 pickups = SubResource("Resource_0x7uk")
 ability_detector = NodePath("AbilityDetector")
-movement_speed = 100.0
+dropped_pickup = "extra_bomb"
+score_points = 2000
+movement_speed = 128.0
 detection_handler = NodePath("DetectionHandler")
-health = 2
 
 [node name="shadowsprite" type="Sprite2D" parent="."]
 position = Vector2(0, 8)
@@ -205,6 +207,7 @@ script = ExtResource("13_0x7uk")
 
 [node name="Chase" type="Node" parent="StateMachine"]
 script = ExtResource("14_irj8q")
+chase_stop_distance = 2
 
 [node name="Punch" type="Node" parent="StateMachine"]
 script = ExtResource("16_peqa2")

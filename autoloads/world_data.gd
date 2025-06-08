@@ -4,12 +4,12 @@ class_name WorldData extends Node
 signal world_data_changed 
 
 enum tiles {EMPTY, UNBREAKABLE, BREAKABLE, BOMB, MINE, PICKUP}
-enum danger_level {SAFE, UNSAFE}
 enum bounds {IN = -1, OUT_TOP = 0, OUT_RIGHT = 1, OUT_DOWN = 2, OUT_LEFT = 3}
 
 #private members
 var _world_matrix: Array[int]
 var _world_empty_cells: Dictionary
+var _world_bomb_cells: Dictionary
 var _is_initialized: bool = false
 var _signal_dict: Dictionary
 
@@ -36,15 +36,7 @@ var tile_map: TileMapLayer
 ## [param vec]
 func _vec_to_index(vec: Vector2i) -> int:
 	assert(0 <= vec.x && vec.x < world_width && 0 <= vec.y && vec.y < world_height, "index " + str(vec) + " out of bounds for world_data")
-	var indx: int = (vec.x + vec.y * self.world_width) * 2
-	assert(indx < self._world_matrix.size(), "index" + str(vec) + " <-> " + str(indx) + " out of bounds for world_data")
-	return indx
-
-## returns the index of a vector corresponding the the _world_matrix entry of this vector
-## [param vec]
-func _vec_to_danger_index(vec: Vector2i) -> int:
-	assert(0 <= vec.x && vec.x < world_width && 0 <= vec.y && vec.y < world_height, "index " + str(vec) + " out of bounds for world_data")
-	var indx: int = (vec.x + vec.y * self.world_width) * 2 + 1
+	var indx: int = vec.x + vec.y * self.world_width
 	assert(indx < self._world_matrix.size(), "index" + str(vec) + " <-> " + str(indx) + " out of bounds for world_data")
 	return indx
 
@@ -53,13 +45,12 @@ func _vec_to_danger_index(vec: Vector2i) -> int:
 ## [param pos] Vector2i
 func _add_tile(tile: int, pos: Vector2i, danger_range: int = 0, pierce: bool = false):
 	var index = _vec_to_index(pos)
-	var danger_index = _vec_to_danger_index(pos)
 	assert(self._world_matrix[index] != tile, "attempted to place " + _int_to_enum_name(tile)	+ " on a cell already occupied by that cell")
 	self._world_matrix[index] = tile
 	if tile == tiles.BOMB:
-		self._world_matrix[danger_index] = danger_range if !pierce else -danger_range
+		self._world_bomb_cells[pos] = danger_range if !pierce else -danger_range
 	elif tile == tiles.MINE:
-		self._world_matrix[danger_index] = 0
+		self._world_bomb_cells[pos] = 0
 
 	if !self._is_initialized: return
 	if self._world_matrix[index] == tiles.EMPTY:
@@ -71,9 +62,11 @@ func _add_tile(tile: int, pos: Vector2i, danger_range: int = 0, pierce: bool = f
 ## [param pos] Vector2i
 func _remove_tile(pos: Vector2i):
 	var index = _vec_to_index(pos)
-	var danger_index = _vec_to_danger_index(pos)
+	if self._world_matrix[index] == tiles.BOMB && self._world_bomb_cells.has(pos):
+		self._world_bomb_cells.erase(pos)
+	elif self._world_matrix[index] == tiles.MINE:
+		self._world_bomb_cells.erase(pos)
 	self._world_matrix[index] = tiles.EMPTY
-	self._world_matrix[danger_index] = 0
 
 	if !self._is_initialized: return
 	self._world_empty_cells[pos] = true
@@ -82,11 +75,12 @@ func _remove_tile(pos: Vector2i):
 ## Testing and debug functions
 func _debug_print_matrix():
 	print("World Matrix:")
-	for y in range(0, world_height):
-		print(_world_matrix.slice(y * world_width * 2, (y + 1) * world_width * 2))
-	print("[" + "+++".repeat(world_width) + "]")
-	print("Empty cells: ", _world_empty_cells.keys())
-	print("[" + "+++".repeat(world_width) + "]")
+	for y in range(0, self.world_height):
+		print(self._world_matrix.slice(y * self.world_width, (y + 1) * self.world_width))
+	print("[" + "+++".repeat(self.world_width) + "]")
+	print("Empty cells: ", self._world_empty_cells.keys())
+	print("[" + "+++".repeat(self.world_width) + "]")
+	print("Bombs: ", self._world_bomb_cells)
 
 ## Tests whenever empty cells and world matrix are still in sync
 func _sync_test() -> bool:
@@ -106,7 +100,8 @@ func _int_to_enum_name(tile: int) -> String:
 		1: return "UNBREAKABLE"
 		2: return "BREAKABLE"
 		3: return "BOMB"
-		4: return "PICKUP"
+		4: return "MINE"
+		5: return "PICKUP"
 		_: return "NOT_A_TILE"
 
 ## public functions
@@ -123,7 +118,7 @@ func begin_init(floor_rect2i: Rect2i, world_edge_rect2i: Rect2i, tile_map: TileM
 
 	self.tile_map = tile_map
 
-	self._world_matrix.resize(world_height * world_width * 2)
+	self._world_matrix.resize(world_height * world_width)
 
 ## Initialiszes all unbreakable tiles from the tile_map containing them.
 func init_unbreakables(unbreakable_atlas_coord: Vector2i, unbreakable_tile_map: TileMapLayer):
@@ -314,21 +309,22 @@ func get_paths_to_safe(start_pos: Vector2, valid_tiles: Array[int] = [tiles.EMPT
 	while !path_queue.is_empty():
 		var path = path_queue.pop_front()
 		if found_safe_at_length == len(path):
+			path_queue.append(path)
 			break
 		for dir in [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP]:
 			var next_pos: Vector2i = path[-1] + dir
 			if next_pos in path: continue
 			if !_is_walkable(next_pos, valid_tiles): continue
-			if _is_safe_cell(next_pos): 
+			if _is_safe_cell(next_pos) && found_safe_at_length == -1: 
 				found_safe_at_length = len(path) + 1
-				path.append(next_pos)
 			var new_path = path.duplicate() 
 			new_path.append(next_pos)
 			path_queue.append(new_path)
 
 	var safe_paths: Array[Array]
 	for path in path_queue:
-		if !_is_safe_cell(path[-1]): continue
+		if !_is_safe_cell(path[-1]):
+			continue
 		safe_paths.append(_to_real_path(path))
 	return safe_paths
 
@@ -374,31 +370,38 @@ func get_shortest_path_to(start_pos: Vector2, end_pos: Vector2, safe: bool = tru
 	return -1
 
 func _is_safe_cell(pos: Vector2i, do_mine: bool = true) -> bool:
-	for dir in [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP]:
-		var curr_pos: Vector2i = pos
-		var distance: int = 0
-		var is_pierce: bool = false
-		var seen_breakable: bool = false
-		while (
-			0 <= curr_pos.x &&
-			curr_pos.x < world_width &&
-			0 <= curr_pos.y &&
-			curr_pos.y < world_height &&
-			self._world_matrix[_vec_to_index(curr_pos)] != tiles.UNBREAKABLE
-		):
-			var tile: int = self._world_matrix[_vec_to_index(curr_pos)]
-			if tile == tiles.BREAKABLE:
-				seen_breakable = true
-			var curr_danger: int = self._world_matrix[_vec_to_danger_index(curr_pos)]
-			if curr_danger != 0:
-				if curr_danger < 0: 
-					curr_danger = -curr_danger
-					is_pierce = true
-				if distance <= curr_danger && (is_pierce || !seen_breakable) && (do_mine || tile == tiles.BOMB):
-					return false
-			is_pierce = false
-			distance += 1
-			curr_pos += dir
+	for bomb in self._world_bomb_cells.keys():
+		if !do_mine && self._world_matrix[_vec_to_index(bomb)] == tiles.MINE: continue
+		var is_pierce: bool = self._world_bomb_cells[bomb] < 0
+		var local_danger_level: int = self._world_bomb_cells[bomb] if !is_pierce else -self._world_bomb_cells[bomb]
+
+		if bomb == pos: return false
+
+		if bomb.x == pos.x:
+			var dist: int = abs(bomb.y - pos.y)
+			var dir: int = 1 if bomb.y - pos.y > 0 else -1
+			if dist > local_danger_level: continue
+			var index: int = _vec_to_index(Vector2(pos.x, pos.y))
+			var seen_blocked: bool = false
+			for i in range(dist):
+				index += self.world_width * dir
+				if self._world_matrix[index] == tiles.UNBREAKABLE: seen_blocked = true 
+				if self._world_matrix[index] == tiles.BREAKABLE && !is_pierce: seen_blocked = true 
+			if seen_blocked: continue
+			return false
+
+		if bomb.y == pos.y:
+			var dist: int = abs(bomb.x - pos.x)
+			var dir: int = 1 if bomb.x - pos.x > 0 else -1
+			if dist > local_danger_level: continue
+			var index: int = _vec_to_index(Vector2(pos.x, pos.y))
+			var seen_blocked: bool = false
+			for i in range(dist):
+				index += dir
+				if self._world_matrix[index] == tiles.UNBREAKABLE: seen_blocked = true 
+				if self._world_matrix[index] == tiles.BREAKABLE && !is_pierce: seen_blocked = true 
+			if seen_blocked: continue
+			return false
 	return true
 
 func is_safe(pos: Vector2, do_mine: bool = true) -> bool:
@@ -410,9 +413,9 @@ func reset():
 	_is_initialized = false
 	_world_matrix.clear()
 	_world_empty_cells.clear()
+	_world_bomb_cells.clear()
 	world_width = 0
 	world_height = 0
 	floor_origin = Vector2i.ZERO	
-	tile_map = null
 	for conn in world_data_changed.get_connections():
 		world_data_changed.disconnect(conn.callable)

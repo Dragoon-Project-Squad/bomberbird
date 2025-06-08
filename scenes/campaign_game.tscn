@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://ywlmyq88jlvj" path="res://scenes/pools/breakable_pool.tscn" id="7_u5d24"]
 [ext_resource type="PackedScene" uid="uid://c4i5gyl4cut3t" path="res://scenes/pools/bomb_pool.tscn" id="8_o8wef"]
 [ext_resource type="PackedScene" uid="uid://b22qg08qddy6x" path="res://scenes/pools/pick_up_pool.tscn" id="9_t8ctp"]
-[ext_resource type="PackedScene" uid="uid://b3638glthchxv" path="res://scenes/ingame_ui/battlemode_game_ui.tscn" id="10_tpvnf"]
+[ext_resource type="PackedScene" uid="uid://dvck17j6oqwyh" path="res://scenes/ingame_ui/campaign_game_ui.tscn" id="12_qa6w2"]
 [ext_resource type="PackedScene" uid="uid://cfxr8qiemjg2j" path="res://scenes/ingame_ui/singleplayer_win_status.tscn" id="13_qa6w2"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="14_8ic0x"]
 [ext_resource type="Script" uid="uid://e23rbm3rrddh" path="res://scripts/ui/ingame_ui/singleplayer_victory_status.gd" id="14_8w4nb"]
@@ -160,12 +160,12 @@ zoom = Vector2(1.3, 1.3)
 
 [node name="MatchTimer" type="Timer" parent="Timers"]
 unique_name_in_owner = true
-wait_time = 120.0
+wait_time = 180.0
 one_shot = true
 autostart = true
 
-[node name="MultiplayerGameUI" parent="." instance=ExtResource("10_tpvnf")]
-visible = false
+[node name="CampaignGameUI" parent="." instance=ExtResource("12_qa6w2")]
+follow_viewport_scale = 1.2
 
 [node name="GameEndState" parent="." instance=ExtResource("13_qa6w2")]
 visible = false

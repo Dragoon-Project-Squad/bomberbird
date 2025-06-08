@@ -49,6 +49,8 @@ func disable() -> int:
 	self.position = Vector2.ZERO
 	self.fuse_time_passed = 0
 	self.addons = {}
+	for sig_dict in bomb_finished.get_connections():
+		sig_dict.signal.disconnect(sig_dict.callable)
 	set_state(DISABLED)
 	return 0
 
@@ -94,18 +96,20 @@ func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) 
     else:
         self.boost = boost
 
-    var bomb_authority: Node2D = state_map[state]
-    bomb_authority.set_explosion_width_and_size(min(boost + bomb_authority.explosion_width, bomb_authority.MAX_EXPLOSION_WIDTH))
-    bomb_authority.set_addons(addons)
-    var time_passed = fuse_time_passed
-    if bomb_owner:
-        if bomb_owner.fuse_speed != 0:
-            time_passed = bomb_owner.fuse_speed
-    bomb_authority.place(bombPos, time_passed, force_collision)
-    world_data.set_tile(world_data.tiles.BOMB, self.global_position, self.boost + 2, self.addons.has("pierce") && self.addons["pierce"])
-
-    if force_collision: return 0
-    return 0
+	var bomb_authority: Node2D = state_map[state]
+	bomb_authority.set_explosion_width_and_size(min(boost + bomb_authority.explosion_width, bomb_authority.MAX_EXPLOSION_WIDTH))
+	bomb_authority.set_addons(addons)
+  var time_passed = fuse_time_passed
+  if bomb_owner:
+      if bomb_owner.fuse_speed != 0:
+          time_passed = bomb_owner.fuse_speed
+	bomb_authority.place(bombPos, time_passed, force_collision)
+	if self.addons.has("mine") && self.addons.mine:
+		world_data.set_tile(world_data.tiles.MINE, self.global_position, self.boost + 2, false)
+	else :
+		world_data.set_tile(world_data.tiles.BOMB, self.global_position, self.boost + 2, self.addons.has("pierce") && self.addons["pierce"])
+	if force_collision: return 0
+	return 0
 
 @rpc("call_local")
 ## used to throw a bomb as a misobon character, changes the bomb into the throw state with predefind values
@@ -130,6 +134,8 @@ func do_punch(direction: Vector2i):
 	if state != STATIONARY: #this bomb has should just have been taken from the player pool. if not a fatal error has occured
 		printerr("a player wanted to punch a bomb that already has an active state")
 		return 2
+	if self.addons.has("mine") && self.addons.mine:
+		return 1
 
 	in_use = true
 	fuse_time_passed = state_map[state].get_node("AnimationPlayer").current_animation_position
@@ -171,6 +177,9 @@ func do_throw(direction: Vector2i, new_position: Vector2):
 func carry() -> int:
 	if state == DISABLED:
 		return 1
+	if self.addons.has("mine") && self.addons.mine:
+		return 1
+
 	fuse_time_passed = state_map[state].get_node("AnimationPlayer").current_animation_position
 	self.in_use = false
 	set_state(AIRBORN)
@@ -182,6 +191,8 @@ func do_kick(direction: Vector2i):
 	if state != STATIONARY:
 		printerr("Bomb already active")
 		return 2
+	if self.addons.has("mine") && self.addons.mine:
+		return 1
 	
 	in_use = true
 	bomb_owner_is_dead = false

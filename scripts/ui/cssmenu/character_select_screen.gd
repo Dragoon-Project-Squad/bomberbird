@@ -18,6 +18,7 @@ func _ready() -> void:
 		secret_2.show()
 	setup_default_character_select_paths()
 	gamestate.player_list_changed.connect(refresh_lobby_panel)
+	refresh_lobby_panel()
 
 func setup_default_character_select_paths() -> void:
 	$Players/Player2.set_texture(character_texture_paths.DEFAULT_PLAYER_2_SELECT)
@@ -75,6 +76,7 @@ func update_player_slots() -> void:
 	for player in $Players.get_children():
 		if player is PlayerControl:
 			player.set_is_participating(player_control_number < gamestate.total_player_count)
+			player.is_cpu = player_control_number >= gamestate.human_player_count && player_control_number < gamestate.total_player_count
 			if (player_control_number == 0):
 				player.set_player_name_label_text(gamestate.host_player_name)
 			else: if (player_control_number <= gamestate.players.size()):

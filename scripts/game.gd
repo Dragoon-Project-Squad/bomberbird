@@ -9,11 +9,12 @@ var player_manager: PlayerManager
 var player_spawner: MultiplayerSpawner
 var misobon_path: MisobonPath
 var misobon_player_spawner: MultiplayerSpawner
+var exit_pool: ExitPool
 var enemy_pool: EnemyPool
 var bomb_pool: BombPool
 var pickup_pool: PickupPool
 var breakable_pool: BreakablePool
-var game_ui: CanvasLayer
+var game_ui
 var win_screen: Control
 var stage: World
 
@@ -30,9 +31,6 @@ func start():
 
 ## resets the game s.t. a new stage can be loaded
 func reset():
-	for player in player_manager.get_alive_players():
-		player.reset_pickups()
-
 	for bomb in bomb_pool.get_children().filter(func (b): return b is BombRoot && b.in_use):
 		if is_multiplayer_authority():
 			bomb.disable.rpc()

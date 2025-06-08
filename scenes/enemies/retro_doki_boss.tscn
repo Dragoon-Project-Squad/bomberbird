@@ -25,9 +25,10 @@
 script = ExtResource("2_i5f3v")
 initial_bomb_type = 0
 initial_exlusive = 0
-initial_bomb_up = 1
-initial_fire_up = 2
+initial_bomb_up = 3
+initial_fire_up = 4
 initial_speed_up = 0
+initial_speed_down = 2
 initial_hp_up = 0
 initial_full_fire = false
 initial_bomb_punch = true
@@ -106,8 +107,9 @@ collision_mask = 13
 script = ExtResource("1_4tpuj")
 pickups = SubResource("Resource_cvltp")
 ability_detector = NodePath("AbilityDetector")
-init_bomb_count = 2
-movement_speed = 60.0
+dropped_pickup = "punch_ability"
+score_points = 3000
+movement_speed = 80.0
 detection_handler = NodePath("DetectionHandler")
 health = 4
 
@@ -171,8 +173,8 @@ debug_color = Color(1, 0, 0, 0.419608)
 
 [node name="DetectionHandler" type="Node2D" parent="."]
 script = ExtResource("6_4tpuj")
-trigger_chance_bomb = 0.4
-trigger_chance_breakable = 0.2
+trigger_chance_bomb = 1.0
+trigger_chance_breakable = 0.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -209,7 +211,7 @@ idle_time = 0.8
 
 [node name="Chase" type="Node" parent="StateMachine"]
 script = ExtResource("14_smmby")
-chase_stop_distance = 3
+chase_stop_distance = 4
 recheck_distance = 5
 
 [node name="Punch" type="Node" parent="StateMachine"]
