@@ -11,6 +11,7 @@ func _enter() -> void:
 	self.enemy.anim_player.play("slime/hide")
 
 func _end_ability() -> void:
+	if globals.game.stage_done: return
 	self.enemy.anim_player.play("slime/show")
 	await self.enemy.anim_player.animation_finished
 	self.enemy.invulnerable = false 

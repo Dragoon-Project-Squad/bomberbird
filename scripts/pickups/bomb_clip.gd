@@ -4,7 +4,7 @@ func _ready():
 	super()
 	animated_sprite.play("idle")
 
-func apply_power_up(pickup_owner):
+func apply_power_up(pickup_owner: Node2D):
 	if pickup_owner is HumanPlayer: #If this is a human
 		# ONLY for the person who obtained it
 		pickup_owner.enable_bombclip.rpc()

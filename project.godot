@@ -38,6 +38,7 @@ window/stretch/mode="canvas_items"
 bombstop="stops bombs on impact"
 thrown_bomb_bounces="When a thrown bomb land on a member of this group, it causes the bomb to bounce further"
 ui_button=""
+thrown_pickup_bounces=""
 
 [input]
 

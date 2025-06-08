@@ -10,17 +10,17 @@ var mine_placed: int = 0
 
 func _enter() -> void:
 	#TODO play burry animation
-	if bomb_placed >= self.enemy.get_current_bomb_count(): 
+	if self.bomb_placed >= self.enemy.get_current_bomb_count(): 
 		state_changed.emit(self, "wander")
 		return
 	self.enemy.stop_moving = true
 	self.enemy.anim_player.play("TomatoBoss/burry")
 	await self.enemy.anim_player.animation_finished
-	if self.enemy.health == 0: return
+	if globals.game.stage_done: return
 	self.enemy.cooldown_done = false
-	if mine_placed < MINE_COUNT:
+	if self.mine_placed < MINE_COUNT + self.enemy.get_curr_mine_count():
 		place_mine()
-	elif bomb_placed < self.enemy.get_current_bomb_count():
+	elif self.bomb_placed < self.enemy.get_current_bomb_count():
 		place_bomb()
 
 	self.enemy.stop_moving = false
@@ -28,6 +28,9 @@ func _enter() -> void:
 	get_tree().create_timer(BOMB_COOLDOWN).timeout.connect(func (): self.enemy.cooldown_done = true, CONNECT_ONE_SHOT)
 	state_changed.emit(self, "dodge")
 
+func _reset():
+	bomb_placed = 0
+	mine_placed = 0
 
 ## places a bomb if the current position is valid
 func place_mine():
@@ -35,7 +38,7 @@ func place_mine():
 	if(world_data.is_tile(world_data.tiles.MINE, self.enemy.position)): return
 	
 	var bombPos = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.enemy.position))
-	mine_placed += 1
+	self.mine_placed += 1
 	
 	# Adding bomb to astargrid so bombs have collision inside the grid
 	astargrid_handler.astargrid_set_point(self.enemy.position, true)
@@ -43,7 +46,7 @@ func place_mine():
 	if is_multiplayer_authority():
 		var bomb: BombRoot = globals.game.bomb_pool.request()
 		bomb.set_bomb_type.rpc(HeldPickups.bomb_types.MINE)
-		bomb.bomb_finished.connect(func (): mine_placed -= 1, CONNECT_ONE_SHOT)
+		bomb.bomb_finished.connect(func (): self.mine_placed -= 1, CONNECT_ONE_SHOT)
 		bomb.do_place.rpc(bombPos, self.enemy.get_current_bomb_boost())
 
 ## places a bomb if the current position is valid
@@ -52,13 +55,16 @@ func place_bomb():
 	if(world_data.is_tile(world_data.tiles.MINE, self.enemy.position)): return
 	
 	var bombPos = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.enemy.position))
-	bomb_placed += 1
+	self.bomb_placed += 1
 	
 	# Adding bomb to astargrid so bombs have collision inside the grid
 	astargrid_handler.astargrid_set_point(self.enemy.position, true)
 	
 	if is_multiplayer_authority():
 		var bomb: BombRoot = globals.game.bomb_pool.request()
-		bomb.set_bomb_type.rpc(self.enemy.pickups.held_pickups[globals.pickups.GENERIC_BOMB])
-		bomb.bomb_finished.connect(func (): bomb_placed -= 1, CONNECT_ONE_SHOT)
+		if self.enemy.pickups.held_pickups[globals.pickups.GENERIC_BOMB] == HeldPickups.bomb_types.MINE:
+			bomb.set_bomb_type.rpc(HeldPickups.bomb_types.DEFAULT)
+		else:
+			bomb.set_bomb_type.rpc(self.enemy.pickups.held_pickups[globals.pickups.GENERIC_BOMB])
+		bomb.bomb_finished.connect(func (): self.bomb_placed -= 1, CONNECT_ONE_SHOT)
 		bomb.do_place.rpc(bombPos, self.enemy.get_current_bomb_boost())

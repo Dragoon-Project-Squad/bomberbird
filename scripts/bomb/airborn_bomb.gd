@@ -75,7 +75,6 @@ func throw_physics(delta):
 func check_space():
 	# Why in the name of Mint Fantome herself does Monitorable have to be one to detect collisions with TileMap I hate collisions
 	# I've been at this for Hours :Grieve:
-	$CollisionShape2D.set_deferred("Disabled", 0)
 	if !has_overlapping_areas() && !has_overlapping_bodies():
 		set_state(PLACING)
 		return
@@ -135,7 +134,7 @@ func wrap_around():
 
 #throw calculates the arch and starts a throw operations
 func throw(origin: Vector2, target: Vector2, direction: Vector2i, angle_rad: float = MISOBON_THROW_ANGLE_RAD, time_total: float = MISOBON_THROW_TIME):
-
+	$CollisionShape2D.set_deferred("Disabled", 0)
 	bomb_root.position = origin
 	self.visible = true
 	var corrected_target = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(target))

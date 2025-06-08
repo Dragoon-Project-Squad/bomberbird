@@ -93,3 +93,9 @@ func is_not_pickup_seperator(pickup: int):
 		pickups.GENERIC_BOMB: return false
 		pickups.GENERIC_EXCLUSIVE: return false
 	return true
+
+func get_pickup_type_from_name(pickup_name: String) -> int:
+	for pickup in globals.pickup_name_str.keys():
+		if globals.pickup_name_str[pickup] == pickup_name:
+			return pickup
+	return -1

@@ -24,7 +24,7 @@ animations = [{
 "speed": 1.0
 }]
 
-[node name="SpeedBoost" type="Area2D"]
+[node name="SpeedBoost" type="Area2D" groups=["thrown_pickup_bounces"]]
 collision_layer = 16
 collision_mask = 34
 script = ExtResource("1_t325b")
