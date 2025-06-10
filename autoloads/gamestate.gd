@@ -101,6 +101,11 @@ func sync_gamestate_across_players(in_players, in_player_numbers, in_host_player
 	host_player_name = in_host_player_name
 	characters = in_characters
 	player_list_changed.emit()
+	
+@rpc("call_local")
+func sync_playerdata_across_players(newplayer_data_master_dict):
+	player_data_master_dict = newplayer_data_master_dict
+	player_list_changed.emit()
 
 # Callback from SceneTree.
 func _player_disconnected(id):
@@ -372,6 +377,10 @@ func resetvars():
 	total_player_count = 1
 	human_player_count = 1
 
+func assign_dict_to_spritepaths():
+	pass
+	
+	
 func _ready():
 	multiplayer.peer_connected.connect(_player_connected)
 	multiplayer.peer_disconnected.connect(_player_disconnected)
