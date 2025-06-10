@@ -21,13 +21,13 @@ func _ready() -> void:
 			player_score_panels.append(child)
 
 @rpc("call_local")
-func add_player(id: int, _player_name: String, character: String):
+func add_player(player_id: int, player_dict : Dictionary):
 	assert(used_player_score_panel_len <= 3, "attempted to add a 5th player but only 4 are supported")
-	player_score_panels[used_player_score_panel_len].player_id = id
+	player_score_panels[used_player_score_panel_len].player_id = player_id
 	player_score_panels[used_player_score_panel_len].show()
-	player_score_panels[used_player_score_panel_len].update_icon(character)
+	player_score_panels[used_player_score_panel_len].update_icon(player_dict["spritepaths"])
 	player_score_panels[used_player_score_panel_len].update_icon_color(COLOR_ARR[used_player_score_panel_len])
-	player_labels[id] = used_player_score_panel_len
+	player_labels[player_id] = used_player_score_panel_len
 	used_player_score_panel_len += 1
 
 func start_timer(gametime := SettingsContainer.get_match_time()):

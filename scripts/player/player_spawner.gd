@@ -26,5 +26,5 @@ func _spawn_player(data) -> Player:
 	#else:
 		#print("Derived Name: ", data.playerdictionary[data.pid])
 	spawningplayer.set_player_name(data.defaultname if data.pid == multiplayer.get_unique_id() || data.pid == 1 else data.playerdictionary[data.pid])
-	spawningplayer.set_selected_character(data.characterdictionary[data.pid])
+	spawningplayer.set_selected_character(data.characterdictionary.walk)
 	return spawningplayer

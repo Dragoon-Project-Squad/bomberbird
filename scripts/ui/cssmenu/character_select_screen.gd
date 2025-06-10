@@ -47,7 +47,7 @@ func play_select_audio() -> void:
 	css_audio.play()
 
 func refresh_lobby_panel():
-	var players = gamestate.get_player_list()
+	var players = gamestate.get_player_name_list()
 	#player list is exactly as on host, so it contains client name but not server name
 	if not is_multiplayer_authority():
 		players.set(
@@ -79,7 +79,7 @@ func update_player_slots() -> void:
 			player.is_cpu = player_control_number >= gamestate.human_player_count && player_control_number < gamestate.total_player_count
 			if (player_control_number == 0):
 				player.set_player_name_label_text(gamestate.host_player_name)
-			else: if (player_control_number <= gamestate.players.size()):
+			else: if (player_control_number <= gamestate.player_data_master_dict.size()):
 				player.set_player_name_label_text(gamestate.players.values()[player_control_number-1])
 			player_control_number += 1
 

@@ -268,20 +268,21 @@ func _spawn_player():
 	var spawn_point_idx = 0
 	spawn_points[1] = spawn_point_idx # Server in spawn point 0.
 
-	for p in gamestate.players:
+	for p in gamestate.player_data_master_dict:
 		spawn_point_idx += 1
 		spawn_points[p] = spawn_point_idx
 
 	var humans_loaded_in_game = 0
-
+	var spawn_pos := Vector2.ZERO
+	var playerspawner: MultiplayerSpawner = globals.game.player_spawner
+	var misobonspawner: MultiplayerSpawner = globals.game.misobon_player_spawner
+	var spawningdata = {}
+	var misobondata = {}
+	var player: Player 
 	for p_id in spawn_points:
-		var spawn_pos: Vector2 = world_data.tile_map.map_to_local(spawnpoints[spawn_points[p_id]])
-		var playerspawner: MultiplayerSpawner = globals.game.player_spawner
-		var misobonspawner: MultiplayerSpawner = globals.game.misobon_player_spawner
-		var spawningdata = {"spawndata": spawn_pos, "pid": p_id, "defaultname": gamestate.player_name, "playerdictionary": gamestate.players, "characterdictionary": gamestate.characters}
-		var misobondata = {"spawn_here": 0.0, "pid": p_id}
-		var player: Player 
-
+		spawn_pos = world_data.tile_map.map_to_local(spawnpoints[spawn_points[p_id]])
+		spawningdata = {"spawndata": spawn_pos, "pid": p_id, "defaultname": gamestate.player_name, "characterdictionary": gamestate.player_data_master_dict[p_id]["spritepaths"]}
+		misobondata = {"spawn_here": 0.0, "pid": p_id}
 		if humans_loaded_in_game < gamestate.human_player_count:
 			spawningdata.playertype = "human"
 			misobondata.player_type = "human"
