@@ -96,7 +96,7 @@ func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) 
 	bomb_authority.set_explosion_width_and_size(min(boost + bomb_authority.explosion_width, bomb_authority.MAX_EXPLOSION_WIDTH))
 	bomb_authority.set_bomb_type(type)
 	bomb_authority.place(bombPos, fuse_time_passed, force_collision)
-	if self.addons.has("mine") && self.addons.mine:
+	if self.type == HeldPickups.bomb_types.MINE:
 		world_data.set_tile(world_data.tiles.MINE, self.global_position, self.boost + 2, false)
 	else :
 		world_data.set_tile(world_data.tiles.BOMB, self.global_position, boost + 2, type == HeldPickups.bomb_types.PIERCING)
@@ -126,7 +126,7 @@ func do_punch(direction: Vector2i):
 	if state != STATIONARY: #this bomb has should just have been taken from the player pool. if not a fatal error has occured
 		printerr("a player wanted to punch a bomb that already has an active state")
 		return 2
-	if self.addons.has("mine") && self.addons.mine:
+	if self.type == HeldPickups.bomb_types.MINE:
 		return 1
 
 	in_use = true
@@ -169,7 +169,7 @@ func do_throw(direction: Vector2i, new_position: Vector2):
 func carry() -> int:
 	if state == DISABLED:
 		return 1
-	if self.addons.has("mine") && self.addons.mine:
+	if self.type == HeldPickups.bomb_types.MINE:
 		return 1
 
 	fuse_time_passed = state_map[state].get_node("AnimationPlayer").current_animation_position
@@ -183,7 +183,7 @@ func do_kick(direction: Vector2i):
 	if state != STATIONARY:
 		printerr("Bomb already active")
 		return 2
-	if self.addons.has("mine") && self.addons.mine:
+	if self.type == HeldPickups.bomb_types.MINE:
 		return 1
 	
 	in_use = true
