@@ -15,6 +15,7 @@ func _ready():
 
 func stop_breath() -> void:
 	$AnimationPlayer.play("RESET")
+	self.hide()
 	for sprite in fire_ball_sprites:
 		sprite.hide()
 	for area in fire_ball_area:
@@ -25,6 +26,7 @@ func stop_breath() -> void:
 func start_breath(set_breath_range: int) -> Signal:
 	assert(set_breath_range > 0)
 	assert(set_breath_range <= max_range)
+	self.show()
 	self.curr_range = 0
 	match set_breath_range:
 		1: self.breath_range = 2
@@ -47,4 +49,4 @@ func _animation_continue() -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if is_multiplayer_authority() && body.has_method("exploded"):
 		if self not in body.get_children():
-			body.exploded.rpc(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID)
+			body.exploded.rpc(gamestate.ENEMY_KILL_PLAYER_ID)

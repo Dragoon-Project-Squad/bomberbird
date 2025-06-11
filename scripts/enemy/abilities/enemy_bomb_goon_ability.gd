@@ -2,7 +2,6 @@ extends EnemyState
 # Handles enemies without ability
 
 func _enter() -> void:
-	print(self.name, " entered ability")
 	if(world_data.is_tile(world_data.tiles.BOMB, self.enemy.position)): return
 	self.enemy.stop_moving = true
 	self.enemy.invulnerable = true

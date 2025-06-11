@@ -1,6 +1,11 @@
 class_name Pickup extends Area2D
 
-enum {DISABLED, AIRBORN, CHECKING, PLACED, ENUM_SIZE}
+signal pickup_destroyed
+
+enum {DISABLED, AIRBORN, CHECKING, PLACING, PLACED, ENUM_SIZE}
+
+const THROW_TIME: float = 0.3
+const THROW_ANGLE_RAD: float = - PI / 8
 
 @onready var pickup_sfx: AudioStreamWAV = load("res://sound/fx/powerup.wav")
 @onready var explosion_sfx: AudioStreamWAV = load("res://sound/fx/explosion.wav")
@@ -18,7 +23,7 @@ var starting_speed: Vector2
 var direction: Vector2i
 var state: int = DISABLED
 
-var undestructable: bool = false
+var indestructable: bool = false
 var _pickup_pick_up_barrier: bool = false
 var in_use: bool = false
 var pickup_type: int = globals.pickups.NONE:
@@ -47,7 +52,7 @@ func enable_collison():
 func disable():
 	hide()
 	self.position = Vector2.ZERO
-	self.undestructable = false
+	self.indestructable = false
 	process_mode = PROCESS_MODE_DISABLED
 	self.in_use = false
 	self.time = 0
@@ -66,9 +71,8 @@ func enable():
 	show()
 
 @rpc("call_local")
-func place(pos: Vector2, undestructable: bool = false):
-	assert(self.position == Vector2.ZERO && self.visible == false, str(name) + " wasn't properly disabled or is still on the field but its attempted to re-place it")
-	self.undestructable = undestructable
+func place(pos: Vector2, indestructable: bool = false):
+	self.indestructable = indestructable
 	self.position = pos
 	world_data.set_tile(world_data.tiles.PICKUP, self.global_position)
 	set_state(PLACED)
@@ -82,8 +86,10 @@ func apply_power_up(_pickup_owner: Node2D):
 func _on_body_entered(body: Node2D) -> void:
 	if !is_multiplayer_authority(): return # Activate only on authority.
 	if !(body is Player) && !(body is Boss): return
+	if self.state != PLACED: return
 	if _pickup_pick_up_barrier: return
 	_pickup_pick_up_barrier = true
+	self.pickup_destroyed.emit()
 	#Prevent anyone else from colliding with this pickup
 	pickup_sfx_player.stream = pickup_sfx
 	pickup_sfx_player.play()
@@ -102,7 +108,8 @@ func _on_body_entered(body: Node2D) -> void:
 @rpc("call_local")
 ## called when this pickup is destroyed by an explosion players the corresponding animation and sound
 func exploded(_from_player):
-	if self.undestructable: return
+	if self.indestructable: return
+	self.pickup_destroyed.emit()
 	disable_collison_and_hide()
 	if $anim:
 		$anim.play("pickup/explode_pickup")
@@ -117,12 +124,13 @@ func exploded(_from_player):
 @rpc("call_local")
 ## called when a pickup is destroyed by something that is not an explosion
 func crush():
+	self.pickup_destroyed.emit()
 	disable_collison_and_hide()
 	disable()
 	globals.game.pickup_pool.return_obj(self) #Pickup returns itself to the pool
 
 
-## sets an internal state for airborn bomb
+## sets an internal state for throw pickup
 func set_state(new_state: int):
 	assert(0 <= new_state && new_state <= ENUM_SIZE)
 	match new_state:
@@ -134,13 +142,16 @@ func set_state(new_state: int):
 		CHECKING:
 			if self.state == AIRBORN:
 				self.state = new_state
-		PLACED:
+		PLACING:
 			if self.state == CHECKING:
+				self.state = new_state
+		PLACED:
+			if self.state == PLACING || self.state == DISABLED:
 				self.state = new_state
 
 func _physics_process(delta: float) -> void:
 	match state:
-		PLACED:
+		PLACING:
 			place(self.position)
 		CHECKING:
 			if !check_bounds():
@@ -161,21 +172,21 @@ func check_space():
 	# Why in the name of Mint Fantome herself does Monitorable have to be one to detect collisions with TileMap I hate collisions
 	# I've been at this for Hours :Grieve:
 	if !has_overlapping_areas() && !has_overlapping_bodies():
-		set_state(PLACED)
+		set_state(PLACING)
 		return
-	var place: bool = true
+	var place_now: bool = true
 	for collision in get_overlapping_bodies():
 		if collision.is_in_group("thrown_pickup_bounces"):
-			place = false
+			place_now = false
 
 	for collision in get_overlapping_areas():
 		if collision.is_in_group("thrown_pickup_bounces"):
-			place = false
+			place_now = false
 
-	if place:
-		set_state(PLACED)
+	if place_now:
+		set_state(PLACING)
 		return
-	throw(self.position, self.position + Vector2(self.direction) * world_data.tile_map.tile_set.tile_size.x, direction, PI / 8, self.time_total / 2)
+	throw(self.position, self.position + Vector2(self.direction) * world_data.tile_map.tile_set.tile_size.x, direction, THROW_ANGLE_RAD, THROW_TIME / 2)
 
 ## called while the bomb is in the checking state. Checks specifically if the bomb is outside of the areana (in that case continue hopping, or change direction under special conditions) of if outside of the world in which case the bomb should wrap around to the other side of the world 
 func check_bounds() -> bool:
@@ -209,8 +220,8 @@ func wrap_around():
 
 @rpc("call_local")
 ## an alternative to place
-func throw(origin: Vector2, target: Vector2, direction: Vector2i, angle_rad: float = PI / 8, time_total: float = 0.3):
-	$CollisionShape2D.set_deferred("Disabled", 0)
+func throw(origin: Vector2, target: Vector2, direction: Vector2i, angle_rad: float = THROW_ANGLE_RAD, time_total: float = THROW_TIME):
+	collisionbox.set_deferred("Disabled", 0)
 	self.position = origin
 	in_use = true
 	process_mode = PROCESS_MODE_INHERIT
@@ -235,6 +246,8 @@ func throw(origin: Vector2, target: Vector2, direction: Vector2i, angle_rad: flo
 		_:
 			push_error("throw must be handed a valid direction (UP, DOWN, LEFT o RIGHT) not: ", direction)
 			return
+
+	set_state(AIRBORN)
 
 ## in case of a down= or upwards throw the arch in just a straigh line
 func calculate_line(diff: Vector2):

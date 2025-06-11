@@ -16,8 +16,6 @@ const MOTION_SPEED_DECREASE: int = TILE_SIZE / 2
 @export var ability_detector: Area2D
 @export var init_bomb_count: int = 1
 @export var init_explosion_boost_count: int = 0
-@export var idle_chance: float = 0.4
-@export var wander_distance: int = 8
 @export_enum(
 	"extra_bomb",
 	"explosion_boost",
@@ -52,6 +50,19 @@ func place(pos: Vector2, path: String):
 	reset_pickups()
 	if self.detection_handler: self.detection_handler.make_ready()
 	self.statemachine.reset()
+	init_pickups()
+
+func init_pickups():
+	for _speed_up in range(self.pickups.held_pickups[globals.pickups.SPEED_UP]):
+		increase_speed()
+	for _speed_down in range(self.pickups.held_pickups[globals.pickups.SPEED_UP]):
+		decrease_speed()
+	if self.pickups.held_pickups[globals.pickups.WALLTHROUGH]:
+		enable_wallclip()
+	if self.pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] == HeldPickups.exclusive.BOMBTHROUGH:
+		enable_bombclip()
+	if self.pickups.held_pickups[globals.pickups.INVINCIBILITY_VEST]:
+		start_invul()
 
 func _process(delta: float):
 	if !damage_invulnerable:
@@ -96,6 +107,10 @@ func enable_wallclip():
 @rpc("call_local")
 func enable_bombclip():
 	self.set_collision_mask_value(4, false)
+
+@rpc("call_local")
+func disable_bombclip():
+	self.set_collision_mask_value(4, true)
 
 @rpc("call_local")
 func start_invul():

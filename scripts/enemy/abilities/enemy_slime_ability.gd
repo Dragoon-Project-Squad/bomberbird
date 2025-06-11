@@ -4,7 +4,6 @@ extends EnemyState
 @export var invulnerable_time: float = 7
 
 func _enter() -> void:
-	print("entered slime ability")
 	self.enemy.invulnerable = true
 	get_tree().create_timer(invulnerable_time - 1).timeout.connect(_end_ability, CONNECT_ONE_SHOT)
 	self.enemy.stop_moving = true

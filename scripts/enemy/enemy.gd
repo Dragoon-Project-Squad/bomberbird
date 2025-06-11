@@ -30,6 +30,7 @@ var stunned: bool = false
 var invulnerable: bool = false
 var damage_invulnerable: bool = false
 var stop_moving: bool = false
+var disabled: bool = false
 var _health: int
 var _exploded_barrier: bool = false
 
@@ -43,6 +44,14 @@ func _ready() -> void:
 	assert(detection_handler.has_method("off"), "please make sure the detectionhandler has a method called off")
 	self._health = self.health
 	self.disable()
+
+func init_clipping() -> void:
+	if self.wallthrought:
+		self.set_collision_mask_value(3, false)
+	if self.bombthrought:
+		self.set_collision_mask_value(4, false)
+
+
 
 func _process(delta: float):
 	if !damage_invulnerable:
@@ -88,15 +97,20 @@ func do_stun():
 @rpc("call_local")
 func place(pos: Vector2, path: String):
 	if(!is_multiplayer_authority()): return 1
+	stop_moving = true
+	init_clipping()
 	self.anim_player.play("enemy/RESET")
 	await get_tree().create_timer(0.2).timeout
 	hitbox.set_deferred("disabled", 0)
 	self.show()
+	self.sprite.show()
 	self.anim_player.play("enemy/standing")
 	self.position = pos
 	self.enemy_path = path
+	stop_moving = false
 
 func enable():
+	self.disabled = false
 	self.hurtbox.body_entered.connect(func (player: Player): player.exploded(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID))
 	self.detection_handler.on()
 	self.statemachine.enable()
@@ -128,6 +142,9 @@ func exploded(_by_whom: int):
 @rpc("call_local")
 func disable():
 	if(!is_multiplayer_authority()): return 1
+	self.set_collision_mask_value(3, true)
+	self.set_collision_mask_value(4, true)
+	self.disabled = true
 	if health_ability:
 		health_ability.reset()
 	set_process(false)
@@ -136,6 +153,10 @@ func disable():
 	health = _health
 	for connection in self.hurtbox.body_entered.get_connections():
 		self.hurtbox.body_entered.disconnect(connection.callable)
+	for sig_dict in self.enemy_died.get_connections():
+		sig_dict.signal.disconnect(sig_dict.callable)
 	self.position = Vector2.ZERO
 	self.detection_handler.off()
 	self.statemachine.disable()
+	self.stop_moving = false
+	self.invulnerable = false

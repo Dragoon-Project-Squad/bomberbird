@@ -109,9 +109,9 @@ pickups = SubResource("Resource_cvltp")
 ability_detector = NodePath("AbilityDetector")
 dropped_pickup = "punch_ability"
 score_points = 3000
-movement_speed = 80.0
+movement_speed = 112.0
 detection_handler = NodePath("DetectionHandler")
-health = 4
+health = 3
 
 [node name="shadowsprite" type="Sprite2D" parent="."]
 position = Vector2(0, 8)
@@ -173,8 +173,8 @@ debug_color = Color(1, 0, 0, 0.419608)
 
 [node name="DetectionHandler" type="Node2D" parent="."]
 script = ExtResource("6_4tpuj")
-trigger_chance_bomb = 1.0
-trigger_chance_breakable = 0.0
+trigger_chance_bomb = 0.6
+trigger_chance_breakable = 0.3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -194,7 +194,9 @@ disabled_state = NodePath("Disabled")
 
 [node name="Wander" type="Node" parent="StateMachine"]
 script = ExtResource("9_ox3yh")
-distance_triggering_chase = 7
+idle_chance = 0.5
+wander_distance = 6
+distance_triggering_chase = 8
 
 [node name="Ability" type="Node" parent="StateMachine"]
 script = ExtResource("10_i5f3v")
@@ -211,7 +213,8 @@ idle_time = 0.8
 
 [node name="Chase" type="Node" parent="StateMachine"]
 script = ExtResource("14_smmby")
-chase_stop_distance = 4
+chase_min_dist = 2
+chase_max_dist = 4
 recheck_distance = 5
 
 [node name="Punch" type="Node" parent="StateMachine"]
