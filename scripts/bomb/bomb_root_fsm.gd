@@ -7,7 +7,9 @@ var bomb_owner: Node2D
 # checks if the player has been dead at the time they placed the bomb
 var bomb_owner_is_dead: bool
 # remembers the time the bomb already cooked
-var fuse_time_passed: float
+var fuse_time_passed: float:
+	set(value):
+		fuse_time_passed = minf(value, 2.79) # make sure fuse doesn't go past actual fuse
 # stores the boost s.t. it is remembered even during transition to for example airborn (punched) state
 var boost: int
 var in_use: bool = false
