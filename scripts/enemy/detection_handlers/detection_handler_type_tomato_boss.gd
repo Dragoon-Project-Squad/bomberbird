@@ -14,7 +14,7 @@ func check_for_priority_target(force: bool = false):
 	if(world_data.is_tile(world_data.tiles.BOMB, self.enemy.position)): return false
 	if(world_data.is_tile(world_data.tiles.MINE, self.enemy.position)): return false
 	var rand_val = _rand.randf()
-	return on && self.enemy.cooldown_done && (force || rand_val < trigger_chance)
+	return is_on && self.enemy.cooldown_done && (force || rand_val < trigger_chance)
 
 func on():
 	is_on = true

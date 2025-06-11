@@ -110,7 +110,7 @@ pickups = SubResource("Resource_0x7uk")
 ability_detector = NodePath("AbilityDetector")
 dropped_pickup = "extra_bomb"
 score_points = 2000
-movement_speed = 128.0
+movement_speed = 112.0
 detection_handler = NodePath("DetectionHandler")
 
 [node name="shadowsprite" type="Sprite2D" parent="."]
@@ -146,6 +146,7 @@ shape = SubResource("CircleShape2D_i1su5")
 collision_layer = 0
 collision_mask = 8
 script = ExtResource("6_020hn")
+use_ability = 0.2
 stop_kick = 0.3
 do_throw = 0.4
 
@@ -207,7 +208,9 @@ script = ExtResource("13_0x7uk")
 
 [node name="Chase" type="Node" parent="StateMachine"]
 script = ExtResource("14_irj8q")
-chase_stop_distance = 2
+chase_min_dist = 1
+chase_max_dist = 2
+recheck_distance = 3
 
 [node name="Punch" type="Node" parent="StateMachine"]
 script = ExtResource("16_peqa2")

@@ -7,7 +7,7 @@
 [ext_resource type="AnimationLibrary" uid="uid://deqi1mrq6p7pt" path="res://animations/pickup.res" id="5_wsb6a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3ywok"]
-size = Vector2(32, 32)
+size = Vector2(24, 24)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vcqy5"]
 atlas = ExtResource("2_vcqy5")
@@ -26,7 +26,7 @@ animations = [{
 
 [node name="ThrowBomb" type="Area2D" groups=["thrown_pickup_bounces"]]
 collision_layer = 16
-collision_mask = 34
+collision_mask = 63
 script = ExtResource("1_lt4t3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
