@@ -72,28 +72,30 @@ func _on_ready_pressed() -> void:
 	print("Not yet implemented")
 
 func update_player_slots() -> void:
-	var player_control_number = 0
+	var player_control_number = 1
+	var playernamelist = gamestate.get_player_name_list()
 	for player in $Players.get_children():
 		if player is PlayerControl:
 			player.set_is_participating(player_control_number < gamestate.total_player_count)
 			player.is_cpu = player_control_number >= gamestate.human_player_count && player_control_number < gamestate.total_player_count
-			if (player_control_number == 0):
+			if (player_control_number == 1):
 				player.set_player_name_label_text(gamestate.host_player_name)
 			else: if (player_control_number <= gamestate.player_data_master_dict.size()):
-				player.set_player_name_label_text(gamestate.players.values()[player_control_number-1])
+				player.set_player_name_label_text(playernamelist[player_control_number-1])
 			player_control_number += 1
 
 @rpc("any_peer", "call_local")
 func change_slot_texture(texture_path: String):
+	var playerslotidmatchdict = gamestate.get_player_slot_list()
 	var id = multiplayer.get_remote_sender_id()
-	if id == 1:
+	if id == playerslotidmatchdict[1]:
 		$Players/Player1.set_texture.rpc(texture_path)
-	elif id == gamestate.player_numbers.p2:
+	elif id == playerslotidmatchdict[2]:
 		print("Player 2 switched character!")
 		$Players/Player2.set_texture.rpc(texture_path)
-	elif id == gamestate.player_numbers.p3:
+	elif id == playerslotidmatchdict[3]:
 		$Players/Player3.set_texture.rpc(texture_path)
-	elif id == gamestate.player_numbers.p4:
+	elif id == playerslotidmatchdict[4]:
 		$Players/Player4.set_texture.rpc(texture_path)
 	else:
 		print("Couldn't find a match. id=", id)

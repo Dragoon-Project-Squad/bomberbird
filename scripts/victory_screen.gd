@@ -3,8 +3,8 @@ extends Control
 func _ready() -> void:
 	var ui_player_data = globals.game.game_ui.player_labels
 	var textures = gamestate.characters
-	var player_names = gamestate.players.duplicate()
-	player_names[1] = gamestate.host_player_name 
+	var player_names = gamestate.get_player_name_list()
+	#player_names[1] = gamestate.host_player_name 
 	globals.game.queue_free()
 	var sorted_player_id_by_score = sort_player_ids_by_score(ui_player_data)
 	set_player_texture.rpc(sorted_player_id_by_score, textures, player_names)

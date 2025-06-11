@@ -22,9 +22,6 @@ var player_name = globals.config.get_player_name()
 # Name for player who hosts game
 var host_player_name = ""
 
-# Player Numbers in string:id format.
-
-
 # Character Textures Resources
 
 var character_texture_paths: CharacterSelectDataResource = preload("res://resources/css/character_texture_paths_default.tres")
@@ -40,13 +37,19 @@ var DEFAULT_PLAYER_TEXTURE_PATH = character_texture_paths.NORMALGOON_PLAYER_TEXT
 
 var player_data_resource: PlayerDataResource = preload("res://resources/settings/player_data_default.tres")
 var player_data_master_dict = {
-	1: player_data_resource.DEFAULT_PLAYER_ONE_DICT
+	1: {
+		"playername": globals.config.get_player_name(),
+		"slotid": 1, 
+		"spritepaths": character_texture_paths.bhdoki_paths, 
+		"is_ai": false, 
+		"is_enabled": true
 	}
+}
 
 #Outdated Player Data Vars
 var total_player_count := 1
 var human_player_count := 1 #Every game must have at least 1 human or two AI
-#var players = {}
+#var players = {} # Player Numbers in string:id format.
 #var players_ready = []
 #var characters = {}
 #var player_numbers = {
@@ -154,7 +157,7 @@ func _connected_fail():
 func register_player(new_player_name: String, id: int):
 	player_data_master_dict[id] = {
 		"playername" = new_player_name,
-		"slotid" = 2,
+		"slotid" = 0,
 		"spritepaths" = character_texture_paths.normalgoon_paths,
 		"is_ai" = false,
 		"is_enabled" = true
@@ -183,12 +186,12 @@ func change_character_player(characterpathdict : Dictionary):
 	var id = multiplayer.get_remote_sender_id()
 	if id == 0:
 		id = 1
-	player_data_master_dict[id]["spritepaths"] = characterpathdict.duplicate()
+	player_data_master_dict[id].spritepaths = characterpathdict.duplicate()
 
 
 func assign_player_numbers():
 	var players_assigned = 0 #If this hits 4, we kill the loop as a sanity check.
-	for p in player_data_master_dict.keys():
+	for p in player_data_master_dict:
 		match players_assigned:
 			0:
 				continue
@@ -216,10 +219,10 @@ func establish_player_counts() -> void:
 	human_player_count = 0
 	var ai_player_count = 0
 	for p in player_data_master_dict:
-		if p["is_enabled"] && p["is_ai"]:
+		if player_data_master_dict[p].is_enabled && player_data_master_dict[p].is_ai:
 			ai_player_count = ai_player_count + 1
 	for p in player_data_master_dict:
-		if p["is_enabled"] && not p["is_ai"]:
+		if player_data_master_dict[p].is_enabled && not player_data_master_dict[p].is_ai:
 			human_player_count = human_player_count + 1
 	total_player_count = human_player_count + ai_player_count
 	print("epc: cpus: ", ai_player_count, ", players: ", human_player_count)
@@ -237,7 +240,7 @@ func load_world(game_scene):
 
 	# Set up score.
 	if is_multiplayer_authority():
-		for p in player_data_master_dict.keys():
+		for p in player_data_master_dict:
 			game.game_ui.add_player.rpc(p, player_data_master_dict[p])
 	# Unpause and unleash the game!
 	game.start()
@@ -249,7 +252,7 @@ func host_game(new_player_name):
 	peer = ENetMultiplayerPeer.new()
 	peer.create_server(DEFAULT_PORT, MAX_PEERS)
 	multiplayer.set_multiplayer_peer(peer)
-	player_data_master_dict[1]["spritepaths"] = character_texture_paths.normalgoon_paths
+	player_data_master_dict[1].spritepaths = character_texture_paths.normalgoon_paths
 	SettingsContainer.set_cpu_count(0)
 	gamestate.establish_player_counts()
 
@@ -264,8 +267,14 @@ func join_game(ip, new_player_name):
 func get_player_name_list():
 	var playernames = {}
 	for p in player_data_master_dict:
-		playernames[p] = player_data_master_dict[p]["playername"]
+		playernames[p] = player_data_master_dict[p].playername
 	return playernames.values()
+	
+func get_player_slot_list():
+	var playerslots = {}
+	for p in player_data_master_dict:
+		playerslots[player_data_master_dict[p].slot_id] = p
+	return playerslots
 
 func get_player_name() -> String:
 	return player_name
@@ -278,7 +287,7 @@ func begin_singleplayer_game():
 	if total_player_count > 1:
 		add_ai_players(total_player_count - human_player_count)
 
-	player_data_master_dict[1]["spritepaths"] = character_texture_paths.bhdoki_paths
+	player_data_master_dict[1].spritepaths = character_texture_paths.bhdoki_paths
 	load_world.rpc(campaign_game_scene)
 
 func begin_game():
@@ -299,7 +308,7 @@ func add_ai_players(ai_players_to_add: int):
 
 func clear_ai_players():
 	for p in player_data_master_dict:
-		if p["is_ai"]:
+		if player_data_master_dict[p].is_ai:
 			player_data_master_dict.erase(p)
 	SettingsContainer.set_cpu_count(0)
 
@@ -310,35 +319,43 @@ func register_ai_player():
 			id = i
 			if is_id_free(id):
 				break
+	player_data_master_dict[id] = {
+		"playername" = "Nameless Dragoon",
+		"slotid" = 0,
+		"spritepaths" = character_texture_paths.normalgoon_paths,
+		"is_ai" = true,
+		"is_enabled" = true
+	}
 	assign_ai_character_sprite(id)
 	name_ai_player(id)
+	
 	player_list_changed.emit()
 
 func name_ai_player(pid: int):
-	player_data_master_dict[pid]["playername"] = "LikeBot" #TODO: Generate CPU name from list resource here
-	if not is_name_free(player_data_master_dict[pid]["playername"]):
-		player_data_master_dict[pid]["playername"] = "CommentBot"
+	player_data_master_dict[pid].playername = "LikeBot" #TODO: Generate CPU name from list resource here
+	if not is_name_free(player_data_master_dict[pid].playername):
+		player_data_master_dict[pid].playername = "CommentBot"
 	else:
 		return
-	if not is_name_free(player_data_master_dict[pid]["playername"]):
-		player_data_master_dict[pid]["playername"] = "SubscribeBot"
+	if not is_name_free(player_data_master_dict[pid].playername):
+		player_data_master_dict[pid].playername = "SubscribeBot"
 	else:
 		return
-	if not is_name_free(player_data_master_dict[pid]["playername"]):
-		player_data_master_dict[pid]["playername"] = "MembershipBot"
+	if not is_name_free(player_data_master_dict[pid].playername):
+		player_data_master_dict[pid].playername = "MembershipBot"
 	else:
 		return
 		
 func assign_ai_character_sprite(pid: int):
 	match pid:
 		2:
-			player_data_master_dict[pid]["spritepaths"] = character_texture_paths.normalgoon_paths
+			player_data_master_dict[pid].spritepaths = character_texture_paths.normalgoon_paths
 		3:
-			player_data_master_dict[pid]["spritepaths"] = character_texture_paths.chonkgoon_paths
+			player_data_master_dict[pid].spritepaths = character_texture_paths.chonkgoon_paths
 		4:
-			player_data_master_dict[pid]["spritepaths"] = character_texture_paths.longgoon_paths
+			player_data_master_dict[pid].spritepaths = character_texture_paths.longgoon_paths
 		_:
-			player_data_master_dict[pid]["spritepaths"] = character_texture_paths.dad_paths
+			player_data_master_dict[pid].spritepaths = character_texture_paths.dad_paths
 	return
 	
 func is_id_free(chosen_ai_id) -> bool:
@@ -350,7 +367,7 @@ func is_id_free(chosen_ai_id) -> bool:
 func is_name_free(playername: String) -> bool:
 	var times_name_used := 0
 	for p in player_data_master_dict:
-		if p["playername"] == playername:
+		if player_data_master_dict[p].playername == playername:
 			times_name_used += 1
 	if times_name_used > 1:
 		return false
@@ -395,40 +412,45 @@ func resetvars():
 	total_player_count = 1
 	human_player_count = 1
 	player_data_master_dict = {
-	1: player_data_resource.DEFAULT_PLAYER_ONE_DICT
+		1: {
+			"playername": globals.config.get_player_name(),
+			"slotid": 1, 
+			"spritepaths": character_texture_paths.bhdoki_paths, 
+			"is_ai": false, 
+			"is_enabled": true
+		}
 	}
-	player_data_master_dict[1].playername = globals.config.get_player_name()
 	
 func assign_dict_to_spritepaths(playerdict: Dictionary):
-	var spritepaths : String = playerdict["spritepaths"]
+	var spritepaths : String = playerdict.spritepaths
 	match spritepaths:
 		"egggoon":
-			playerdict["spritepaths"] = character_texture_paths.egggoon_paths
+			playerdict.spritepaths = character_texture_paths.egggoon_paths
 		"normalgoon":
-			playerdict["spritepaths"] = character_texture_paths.normalgoon_paths
+			playerdict.spritepaths = character_texture_paths.normalgoon_paths
 		"chonkgoon":
-			playerdict["spritepaths"] = character_texture_paths.chonkgoon_paths
+			playerdict.spritepaths = character_texture_paths.chonkgoon_paths
 		"longgoon":
-			playerdict["spritepaths"] = character_texture_paths.longgoon_paths
+			playerdict.spritepaths = character_texture_paths.longgoon_paths
 		"dad":
-			playerdict["spritepaths"] = character_texture_paths.longgoon_paths
+			playerdict.spritepaths = character_texture_paths.longgoon_paths
 		"bhdoki":
-			playerdict["spritepaths"] = character_texture_paths.bhdoki_paths
+			playerdict.spritepaths = character_texture_paths.bhdoki_paths
 		"retrodoki":
-			playerdict["spritepaths"] = character_texture_paths.retrodoki_paths
+			playerdict.spritepaths = character_texture_paths.retrodoki_paths
 		"altgirldoki":
-			playerdict["spritepaths"] = character_texture_paths.altgirldoki_paths
+			playerdict.spritepaths = character_texture_paths.altgirldoki_paths
 		"crowki":
-			playerdict["spritepaths"] = character_texture_paths.crowki_paths
+			playerdict.spritepaths = character_texture_paths.crowki_paths
 		"tomatodoki":
-			playerdict["spritepaths"] = character_texture_paths.tomatodoki_paths
+			playerdict.spritepaths = character_texture_paths.tomatodoki_paths
 		"secretone":
-			playerdict["spritepaths"] = character_texture_paths.secretone_paths
+			playerdict.spritepaths = character_texture_paths.secretone_paths
 		"secrettwp":
-			playerdict["spritepaths"] = character_texture_paths.secrettwo_paths
+			playerdict.spritepaths = character_texture_paths.secrettwo_paths
 		_:
 			push_error("Could not identify character!")
-			playerdict["spritepaths"] = character_texture_paths.egggoon_paths
+			playerdict.spritepaths = character_texture_paths.egggoon_paths
 			
 func _ready():
 	multiplayer.peer_connected.connect(_player_connected)
