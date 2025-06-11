@@ -17,7 +17,8 @@ func _ready() -> void:
 	if get_parent() is BombRoot:
 		bomb_root = get_parent()
 	else:
-		printerr("parent is not bombroot")
+		printerr("parent is not bombroot how did this happen?")
+		return
 	disable()
 
 func disable() -> void:
@@ -27,6 +28,7 @@ func disable() -> void:
 	place_now = false
 	place_position = Vector2.ZERO
 	self.visible = false
+	self.position = Vector2.ZERO
 	$CollisionShape2D.set_deferred("disabled", true)
 	set_state(DISABLED)
 
@@ -58,24 +60,14 @@ func set_state(new_state: int):
 ## called while the bomb is in its sliding state
 func slide_physics(delta):
 	target = move_and_collide(Vector2(direction) * speed * delta)
-	if target != null:
+	if target != null or place_now:
+		bomb_root.global_position = self.global_position
+		self.position = Vector2.ZERO
 		set_state(CHECKING)
 		return
 
 ## called while the bomb is in the checking stage
 func check_space():
-	var in_bounds = world_data.is_out_of_bounds(global_position)
-	if in_bounds != world_data.bounds.IN:
-		match in_bounds:
-			world_data.bounds.OUT_TOP:
-				place_position = global_position + Vector2.DOWN * TILESIZE / 2
-			world_data.bounds.OUT_DOWN:
-				place_position = global_position + Vector2.UP * TILESIZE / 2
-			world_data.bounds.OUT_LEFT:
-				place_position = global_position + Vector2.RIGHT * TILESIZE / 2
-			world_data.bounds.OUT_RIGHT:
-				place_position = global_position + Vector2.LEFT * TILESIZE / 2
-		place_now = true
 	if place_now:
 		set_state(PLACING)
 		return
@@ -88,7 +80,15 @@ func check_space():
 	):
 		place_position = target.get_position()
 		if collision is Bomb or collision.is_in_group("bombstop"):
-			place_position -= Vector2(direction * TILESIZE)
+			if (
+					collision.to_string().begins_with("Bounds") 
+					and direction != Vector2i.DOWN
+					and direction != Vector2i.RIGHT
+			):
+				set_state(PLACING)
+				return
+			else:
+				place_position -= Vector2(direction * TILESIZE)
 		elif collision.has_method("do_stun"):
 			collision.do_stun()
 		elif collision.has_method("crush"):
@@ -103,33 +103,33 @@ func check_space():
 func to_stationary_bomb():
 	if !is_multiplayer_authority():
 		return
-	$CollisionShape2D.set_deferred("disabled", true)
 	var corrected_cords = (
 		world_data.tile_map.map_to_local(
 			world_data.tile_map.local_to_map(place_position)
 		)
 	)
+	self.remove_collision_exception_with(bomb_root.bomb_owner)
+	$CollisionShape2D.set_deferred("disabled", true)
 	bomb_root.do_place.rpc(corrected_cords, -1, bomb_root.bomb_owner_is_dead)
 
 #throw calculates the arch and starts a throw operations
 @warning_ignore("shadowed_variable")
 func slides(origin: Vector2, direction: Vector2i):
-	bomb_root.position = origin
+	self.add_collision_exception_with(bomb_root.bomb_owner)
 	self.visible = true
 	self.direction = direction
 	speed = TILESIZE * 4
-	add_collision_exception_with(bomb_root.bomb_owner)
 	$CollisionShape2D.set_deferred("disabled", false)
 	set_state(SLIDING)
 
 func halt():
-	place_position = global_position
+	place_position = self.global_position
 	self.place_now = true
-	set_state(CHECKING)
 
 # not sure to explode while in sliding state or ignore explosion
 # function is set for when that happens
 @rpc("call_local")
 func exploded(_by_who):
 	return
+	#bomb_root.fuse_time_passed = 2.79
 	#halt()

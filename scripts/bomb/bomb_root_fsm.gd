@@ -7,7 +7,10 @@ var bomb_owner: Node2D
 # checks if the player has been dead at the time they placed the bomb
 var bomb_owner_is_dead: bool
 # remembers the time the bomb already cooked
-var fuse_time_passed: float
+var fuse_time_passed: float:
+	set(value): # make sure fuse doesn't go past animation
+		fuse_time_passed = minf(value, 2.79)
+		fuse_time_passed = maxf(0, fuse_time_passed)
 # stores the boost s.t. it is remembered even during transition to for example airborn (punched) state
 var boost: int
 var in_use: bool = false
@@ -96,9 +99,9 @@ func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) 
 	bomb_authority.set_explosion_width_and_size(min(boost + bomb_authority.explosion_width, bomb_authority.MAX_EXPLOSION_WIDTH))
 	bomb_authority.set_bomb_type(type)
 	bomb_authority.place(bombPos, fuse_time_passed, force_collision)
-	if self.addons.has("mine") && self.addons.mine:
+	if self.type == HeldPickups.bomb_types.MINE:
 		world_data.set_tile(world_data.tiles.MINE, self.global_position, self.boost + 2, false)
-	else :
+	else:
 		world_data.set_tile(world_data.tiles.BOMB, self.global_position, boost + 2, type == HeldPickups.bomb_types.PIERCING)
 	if force_collision: return 0
 	return 0
@@ -126,7 +129,7 @@ func do_punch(direction: Vector2i):
 	if state != STATIONARY: #this bomb has should just have been taken from the player pool. if not a fatal error has occured
 		printerr("a player wanted to punch a bomb that already has an active state")
 		return 2
-	if self.addons.has("mine") && self.addons.mine:
+	if self.type == HeldPickups.bomb_types.MINE:
 		return 1
 
 	in_use = true
@@ -169,7 +172,7 @@ func do_throw(direction: Vector2i, new_position: Vector2):
 func carry() -> int:
 	if state == DISABLED:
 		return 1
-	if self.addons.has("mine") && self.addons.mine:
+	if self.type == HeldPickups.bomb_types.MINE:
 		return 1
 
 	fuse_time_passed = state_map[state].get_node("AnimationPlayer").current_animation_position
@@ -183,7 +186,7 @@ func do_kick(direction: Vector2i):
 	if state != STATIONARY:
 		printerr("Bomb already active")
 		return 2
-	if self.addons.has("mine") && self.addons.mine:
+	if self.type == HeldPickups.bomb_types.MINE:
 		return 1
 	
 	in_use = true
