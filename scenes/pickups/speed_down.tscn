@@ -7,7 +7,7 @@
 [ext_resource type="AnimationLibrary" uid="uid://deqi1mrq6p7pt" path="res://animations/pickup.res" id="4_frvkq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rgtgd"]
-size = Vector2(32, 32)
+size = Vector2(24, 24)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d13fa"]
 atlas = ExtResource("1_oyfvf")
@@ -26,7 +26,7 @@ animations = [{
 
 [node name="SpeedDown" type="Area2D" groups=["thrown_pickup_bounces"]]
 collision_layer = 16
-collision_mask = 34
+collision_mask = 63
 script = ExtResource("1_jjitg")
 metadata/_custom_type_script = "uid://cyqpfq102elly"
 

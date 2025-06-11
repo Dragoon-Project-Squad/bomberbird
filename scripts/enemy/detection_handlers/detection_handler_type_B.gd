@@ -2,6 +2,9 @@ extends Node2D
 # implements the detection of the player for Priority target 'B' described in https://gamefaqs.gamespot.com/snes/562899-super-bomberman-5/faqs/79457
 
 @onready var enemy: Enemy = get_parent()
+
+@export var range: int = 20
+
 var enabled: bool = false
 
 func check_for_priority_target():
@@ -42,10 +45,18 @@ func on():
 	enabled = true
 	for ray in get_children():
 		if !(ray is RayCast2D): continue
+		if self.enemy.bombthrought:
+			ray.set_collision_mask_value(4, false)
+		if self.enemy.wallthrought:
+			ray.set_collision_mask_value(3, false)
+		ray.target_position *= range * 32 
 		ray.enabled = true
 
 func off():
 	enabled = false
 	for ray in get_children():
 		if !(ray is RayCast2D): continue
+		ray.set_collision_mask_value(3, true)
+		ray.set_collision_mask_value(4, true)
+		ray.target_position = ray.target_position.normalized()
 		ray.enabled = false

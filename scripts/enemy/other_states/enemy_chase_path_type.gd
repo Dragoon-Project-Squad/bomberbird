@@ -3,7 +3,8 @@ extends EnemyState
 
 const ARRIVAL_TOLARANCE: float = 1
 
-@export var chase_stop_distance: int = 3
+@export var chase_min_dist: int = 3
+@export var chase_max_dist: int = 3
 @export var recheck_distance: int = 4
 
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
@@ -108,7 +109,7 @@ func get_chase_path() -> Array[Vector2]:
 	var corrected_target_pos: Vector2i = world_data.tile_map.local_to_map(self.enemy.curr_target.position)
 	var goal_pos_arr: Array[Vector2] = []
 	for dir in [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT, Vector2i.DOWN]:
-		var goal_pos: Vector2 = world_data.tile_map.map_to_local(corrected_target_pos + dir * (_rng.randi_range(0, chase_stop_distance)))
+		var goal_pos: Vector2 = world_data.tile_map.map_to_local(corrected_target_pos + dir * (_rng.randi_range(chase_min_dist, chase_max_dist)))
 		if valid_tile(goal_pos): goal_pos_arr.append(goal_pos)
 
 	var path: Array[Vector2]
