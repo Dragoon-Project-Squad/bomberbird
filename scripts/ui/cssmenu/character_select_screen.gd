@@ -66,22 +66,22 @@ func refresh_lobby_panel():
 			continue
 		$PlayerList/List.add_item(p)
 	if is_multiplayer_authority():
-		update_char_screen.rpc(players.size()+1)
+		update_char_screen.rpc(players.size())
 	
 func _on_ready_pressed() -> void:
 	print("Not yet implemented")
 
 func update_player_slots() -> void:
-	var player_control_number = 1
+	var player_control_number = 0
 	var playernamelist = gamestate.get_player_name_list()
 	for player in $Players.get_children():
 		if player is PlayerControl:
 			player.set_is_participating(player_control_number < gamestate.total_player_count)
 			player.is_cpu = player_control_number >= gamestate.human_player_count && player_control_number < gamestate.total_player_count
-			if (player_control_number == 1):
+			if (player_control_number == 0):
 				player.set_player_name_label_text(gamestate.host_player_name)
-			else: if (player_control_number <= gamestate.player_data_master_dict.size()):
-				player.set_player_name_label_text(playernamelist[player_control_number-1])
+			elif (player_control_number < gamestate.player_data_master_dict.size()):
+				player.set_player_name_label_text(playernamelist[player_control_number])
 			player_control_number += 1
 
 @rpc("any_peer", "call_local")

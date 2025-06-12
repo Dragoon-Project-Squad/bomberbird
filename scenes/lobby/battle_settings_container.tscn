@@ -1,8 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://c1n3nkeu1hl0i"]
+[gd_scene load_steps=14 format=3 uid="uid://c1n3nkeu1hl0i"]
 
 [ext_resource type="PackedScene" uid="uid://cy8fm4pl76ffi" path="res://scenes/lobby/component/cpu_difficulty_dropdown_button.tscn" id="1_3pm30"]
 [ext_resource type="Theme" uid="uid://m30a0nncwbm0" path="res://assets/styles/options_menu.tres" id="1_jp62n"]
-[ext_resource type="PackedScene" uid="uid://ci3vmfjfjjkqt" path="res://scenes/lobby/component/cpu_count_dropdown_button.tscn" id="2_jp62n"]
 [ext_resource type="PackedScene" uid="uid://dcejelqenxfkc" path="res://scenes/lobby/component/score_to_win_slider.tscn" id="2_s3sjg"]
 [ext_resource type="PackedScene" uid="uid://cxn1h6s57udwo" path="res://scenes/lobby/component/match_time_slider.tscn" id="3_j0u2k"]
 [ext_resource type="PackedScene" uid="uid://8prj4sdb7igg" path="res://scenes/lobby/component/hurry_up_time_slider.tscn" id="4_s3sjg"]
@@ -61,10 +60,6 @@ horizontal_alignment = 1
 layout_mode = 2
 
 [node name="CPUDifficultyDropdownButton" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_3pm30")]
-visible = false
-layout_mode = 2
-
-[node name="CPUCountDropdownButton" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_jp62n")]
 visible = false
 layout_mode = 2
 

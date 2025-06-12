@@ -93,7 +93,7 @@ func request_client_player_name():
 @rpc("call_remote", 'any_peer')
 func update_server_player_lists(client_player_name):
 	var id = multiplayer.get_remote_sender_id()
-	var ai_count = SettingsContainer.get_cpu_count()
+	var ai_count = get_cpu_count()
 	clear_ai_players()
 	register_player(client_player_name, id)
 	establish_player_counts()
@@ -117,7 +117,7 @@ func sync_playerdata_across_players(newplayer_data_master_dict):
 
 # Callback from SceneTree.
 func _player_disconnected(id):
-	var ai_count = SettingsContainer.get_cpu_count()
+	var ai_count = get_cpu_count()
 	if multiplayer.is_server():
 		clear_ai_players()
 		unregister_player(id)
@@ -213,7 +213,13 @@ func assign_player_numbers():
 		players_assigned += 1
 		print("Player ", players_assigned, " assigned to ID number: ", p)
 
-
+func get_cpu_count() -> int:
+	var ai_player_count = 0
+	for p in player_data_master_dict:
+		if player_data_master_dict[p].is_enabled && player_data_master_dict[p].is_ai:
+			ai_player_count = ai_player_count + 1
+	return ai_player_count
+	
 func establish_player_counts() -> void:
 	#players actually contains ais already
 	human_player_count = 0
@@ -221,7 +227,6 @@ func establish_player_counts() -> void:
 	for p in player_data_master_dict:
 		if player_data_master_dict[p].is_enabled && player_data_master_dict[p].is_ai:
 			ai_player_count = ai_player_count + 1
-	for p in player_data_master_dict:
 		if player_data_master_dict[p].is_enabled && not player_data_master_dict[p].is_ai:
 			human_player_count = human_player_count + 1
 	total_player_count = human_player_count + ai_player_count
@@ -253,7 +258,6 @@ func host_game(new_player_name):
 	peer.create_server(DEFAULT_PORT, MAX_PEERS)
 	multiplayer.set_multiplayer_peer(peer)
 	player_data_master_dict[1].spritepaths = character_texture_paths.normalgoon_paths
-	SettingsContainer.set_cpu_count(0)
 	gamestate.establish_player_counts()
 
 
@@ -302,15 +306,13 @@ func add_ai_players(ai_players_to_add: int):
 	var ai_players_count = min(
 		ai_players_to_add, 
 		MAX_PEERS-human_player_count)
-	SettingsContainer.set_cpu_count(ai_players_count)
-	for n in range(0, SettingsContainer.get_cpu_count(), 1):
+	for n in range(0, ai_players_count, 1):
 		register_ai_player()
 
 func clear_ai_players():
-	for p in player_data_master_dict:
+	for p in player_data_master_dict.keys():
 		if player_data_master_dict[p].is_ai:
 			player_data_master_dict.erase(p)
-	SettingsContainer.set_cpu_count(0)
 
 func register_ai_player():
 	var id = 2 #TODO: Generate CPU ID here, ensure it does not clash

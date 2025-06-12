@@ -280,7 +280,7 @@ func _spawn_player():
 	var player: Player 
 	for p_id in spawn_points:
 		spawn_pos = world_data.tile_map.map_to_local(spawnpoints[spawn_points[p_id]])
-		spawningdata = {"spawndata": spawn_pos, "pid": p_id, "defaultname": gamestate.player_name, "playerdictionary": gamestate.player_data_master_dict[p_id].spritepaths}
+		spawningdata = {"spawndata": spawn_pos, "pid": p_id, "defaultname": gamestate.player_name, "playerdict": gamestate.player_data_master_dict[p_id]}
 		misobondata = {"spawn_here": 0.0, "pid": p_id}
 		if humans_loaded_in_game < gamestate.human_player_count:
 			spawningdata.playertype = "human"
