@@ -48,6 +48,9 @@ var pickup_pool: PickupPool
 var bomb_pool: BombPool
 var last_bomb_time: float = BOMB_RATE
 var bomb_total: int
+var bomb_to_throw: BombRoot
+var bomb_kicked: BombRoot
+var mine_placed: bool
 
 @export_subgroup("player properties") #Set in inspector
 @export var movement_speed: float = BASE_MOTION_SPEED
@@ -65,9 +68,6 @@ var movement_speed_reset: float
 var bomb_count_reset: int
 var lives_reset: int
 var explosion_boost_count_reset: int
-var bomb_count_locked: bool = false
-var bomb_to_throw: BombRoot
-var bomb_kicked: BombRoot
 
 func _ready():
 	player_died.connect(globals.player_manager._on_player_died)
@@ -133,7 +133,8 @@ func punch_bomb(direction: Vector2i):
 	if bomb == null: return
 
 	bomb.do_punch.rpc(direction)
-	
+
+@rpc("call_local")
 func carry_bomb() -> int:
 	if !is_multiplayer_authority():
 		return 1
@@ -146,7 +147,8 @@ func carry_bomb() -> int:
 			bomb_to_throw = body.get_parent()
 			break
 	
-	if bomb_to_throw == null:
+	if bomb_to_throw == null or bomb_to_throw.type == pickups.bomb_types.MINE:
+		bomb_to_throw = null
 		return 1
 	
 	$BombSprite.visible = true
@@ -209,7 +211,14 @@ func place_bomb():
 	if is_multiplayer_authority():
 		var bomb: BombRoot = bomb_pool.request()
 		bomb.set_bomb_owner.rpc(self.name)
-		bomb.set_bomb_type.rpc(pickups.held_pickups[globals.pickups.GENERIC_BOMB])
+		if pickups.held_pickups[globals.pickups.GENERIC_BOMB] == HeldPickups.bomb_types.MINE:
+			if not mine_placed:
+				bomb.set_bomb_type.rpc(HeldPickups.bomb_types.MINE)
+				mine_placed = not mine_placed
+			else:
+				bomb.set_bomb_type.rpc(HeldPickups.bomb_types.DEFAULT)
+		else:
+			bomb.set_bomb_type.rpc(pickups.held_pickups[globals.pickups.GENERIC_BOMB])
 		bomb.do_place.rpc(bombPos, explosion_boost_count)
 
 ## updates the animation depending on the movement direction
@@ -411,26 +420,13 @@ func disable_bombclip():
 
 @rpc("call_local")
 func increment_bomb_count():
-	if bomb_count_locked:
-		return
-	
 	bomb_total = min(bomb_total+1, MAX_BOMBS_OWNABLE)
 	bomb_count = min(bomb_count+1, bomb_total)
 
 @rpc("call_local")
-func lock_bomb_count(target_bomb_count: int):
-	bomb_count_locked = true
-	bomb_total = target_bomb_count
-	bomb_count = min(bomb_count+1, bomb_total)
-
-@rpc("call_local")
-func unlock_bomb_count():
-	bomb_count_locked = false
-	bomb_total = 2
-	bomb_count = min(bomb_count+1, bomb_total)
-
-@rpc("call_local")
-func return_bomb():
+func return_bomb(is_mine := false):
+	if pickups.held_pickups[globals.pickups.GENERIC_BOMB] == HeldPickups.bomb_types.MINE and is_mine:
+		mine_placed = false
 	bomb_count = min(bomb_count+1, bomb_total)
 
 @rpc("call_local")

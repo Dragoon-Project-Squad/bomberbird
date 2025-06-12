@@ -119,7 +119,7 @@ func detonate():
 		explosion.init_detonate.rpc(exp_range[Vector2i.RIGHT], exp_range[Vector2i.DOWN], exp_range[Vector2i.LEFT], exp_range[Vector2i.UP])
 		explosion.do_detonate.rpc()
 		if(get_parent().bomb_owner && !get_parent().bomb_owner.is_dead):
-			get_parent().bomb_owner.return_bomb.rpc()
+			get_parent().bomb_owner.return_bomb.rpc(mine)
 	
 ## called when a bomb has detonated and hence is done, clears it of the arena both in world_data and for the AI then returns the root back to the bomb_pool
 func done():
