@@ -8,6 +8,7 @@ class_name PlayerControl
 @onready var cpu_button_label: Label = $PlayerPanel/ClickPrompt
 var is_participating := true
 var is_cpu := false
+var assigned_pid := -32
 
 func _ready() -> void:
 	setup_player()
@@ -60,15 +61,16 @@ func set_is_participating(participation_flag: bool) -> void:
 func _on_button_pressed():
 	if is_multiplayer_authority():
 		if is_cpu:
-			var targetCpus = SettingsContainer.get_cpu_count()-1
-			gamestate.assign_player_numbers()
+			var targetCpus = gamestate.get_cpu_count()-1
 			gamestate.clear_ai_players()
 			gamestate.add_ai_players(targetCpus)
-			gamestate.establish_player_counts()
-			gamestate.player_list_changed.emit()
-		else:
-			SettingsContainer.set_cpu_count(SettingsContainer.get_cpu_count()+1)
 			gamestate.assign_player_numbers()
-			gamestate.register_ai_player()
 			gamestate.establish_player_counts()
 			gamestate.player_list_changed.emit()
+			gamestate.sync_playerdata_across_players.rpc(gamestate.player_data_master_dict.duplicate())
+		else:
+			gamestate.register_ai_player()
+			gamestate.assign_player_numbers()
+			gamestate.establish_player_counts()
+			gamestate.player_list_changed.emit()
+			gamestate.sync_playerdata_across_players.rpc(gamestate.player_data_master_dict.duplicate())

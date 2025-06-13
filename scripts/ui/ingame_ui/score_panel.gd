@@ -18,8 +18,8 @@ func set_score(newscore: int):
 	var format_string = "%01d"
 	score_label.set_text(format_string % [score])
 	
-func update_icon(character: String):
-	match character:
+func update_icon(characterpaths: Dictionary):
+	match characterpaths["walk"]:
 		gamestate.character_texture_paths.EGGOON_PLAYER_TEXTURE_PATH:
 			icon.texture.region = Rect2(68, 0, 17, 17)
 			print("chara is eggoon")

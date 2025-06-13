@@ -3,10 +3,9 @@ extends Game
 @onready var stage_loader: Node = $StageLoader
 @onready var game_anim_player: AnimationPlayer = $AnimPlayer
 @onready var announcer: AudioStreamPlayer = $MatchAudio/Announcer
-@onready var game_end_state: Control = $GameEndState
-var game_ended: bool = false
 @onready var fade_in_out_rect: ColorRect = $FadeInOutRect
 
+var game_ended: bool = false
 func _ready():
 	super()
 	
@@ -165,7 +164,7 @@ func _check_ending_condition(_alive_enemies: int = 0):
 		await get_tree().create_timer(2).timeout
 		#DO WIN SCREEN STUFF
 		if game_ui.get_player_score(alive_players[0].name.to_int()) >= SettingsContainer.get_points_to_win():
-			get_tree().change_scene_to_file("res://scenes/victory_screen.tscn")
+			get_tree().call_deferred("change_scene_to_file","res://scenes/victory_screen.tscn")
 		else:
 			#RESET GAME STATE
 			wipe_stage()
