@@ -47,24 +47,19 @@ func play_select_audio() -> void:
 	css_audio.play()
 
 func refresh_lobby_panel():
-	var players = gamestate.get_player_name_list().values()
+	var players = gamestate.get_player_name_list()
 	#player list is exactly as on host, so it contains client name but not server name
-	if not is_multiplayer_authority():
-		players.set(
-			players.find(gamestate.get_player_name()),
-			gamestate.host_player_name
-		)
-	else:
-		print("Players ", players)
-	
+	print("Players ", players)
 	$PlayerList/List.clear()
-	$PlayerList/List.add_item(gamestate.get_player_name() + " (You)")
 	
 	for p in players:
 		#FIXME: We should separate players, self and bots and this is not the way
-		if p.contains("Bot"):
+		if players[p].contains("Bot"):
 			continue
-		$PlayerList/List.add_item(p)
+		if p == multiplayer.get_unique_id():
+			$PlayerList/List.add_item(players[p] + " (You)")
+		else:
+			$PlayerList/List.add_item(players[p])
 	if is_multiplayer_authority():
 		update_char_screen.rpc(players.size())
 	
@@ -79,7 +74,7 @@ func update_player_slots() -> void:
 			player.set_is_participating(player_control_number < gamestate.total_player_count)
 			player.is_cpu = player_control_number >= gamestate.human_player_count && player_control_number < gamestate.total_player_count
 			if (player_control_number == 0):
-				player.set_player_name_label_text(gamestate.host_player_name)
+				player.set_player_name_label_text(playernamelist[player_control_number])
 			elif (player_control_number < gamestate.player_data_master_dict.size()):
 				player.set_player_name_label_text(playernamelist[player_control_number])
 			player_control_number += 1

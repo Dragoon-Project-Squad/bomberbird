@@ -82,7 +82,7 @@ func request_client_player_name():
 	update_server_player_lists.rpc(player_name)
 
 #this called from client to server
-@rpc("call_remote", 'any_peer')
+@rpc("call_remote", "any_peer")
 func update_server_player_lists(client_player_name):
 	var id = multiplayer.get_remote_sender_id()
 	var ai_count = get_cpu_count()
@@ -92,7 +92,7 @@ func update_server_player_lists(client_player_name):
 	add_ai_players(ai_count)
 	establish_player_counts()
 	assign_player_numbers()
-	sync_playerdata_across_players.rpc(player_data_master_dict)
+	sync_playerdata_across_players.rpc(player_data_master_dict.duplicate())
 
 #@rpc("call_local")
 #func sync_gamestate_across_players(in_players, in_player_numbers, in_host_player_name, in_characters):
@@ -104,7 +104,7 @@ func update_server_player_lists(client_player_name):
 	
 @rpc("call_local")
 func sync_playerdata_across_players(newplayer_data_master_dict):
-	player_data_master_dict = newplayer_data_master_dict
+	player_data_master_dict = newplayer_data_master_dict.duplicate()
 	player_list_changed.emit()
 
 # Callback from SceneTree.
@@ -186,13 +186,13 @@ func assign_player_numbers():
 	for p in player_data_master_dict:
 		match players_assigned:
 			0:
-				continue
+				player_data_master_dict[p].slotid = 1
 			1:
-				player_data_master_dict[p]["slotid"] = 2
+				player_data_master_dict[p].slotid = 2
 			2:
-				player_data_master_dict[p]["slotid"] = 3
+				player_data_master_dict[p].slotid = 3
 			3:
-				player_data_master_dict[p]["slotid"] = 4
+				player_data_master_dict[p].slotid = 4
 			4:
 				push_warning("4 players assigned, but the loop wanted to continue. Terminating...")	
 				return

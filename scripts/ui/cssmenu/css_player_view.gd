@@ -67,8 +67,10 @@ func _on_button_pressed():
 			gamestate.assign_player_numbers()
 			gamestate.establish_player_counts()
 			gamestate.player_list_changed.emit()
+			gamestate.sync_playerdata_across_players.rpc(gamestate.player_data_master_dict.duplicate())
 		else:
 			gamestate.register_ai_player()
 			gamestate.assign_player_numbers()
 			gamestate.establish_player_counts()
 			gamestate.player_list_changed.emit()
+			gamestate.sync_playerdata_across_players.rpc(gamestate.player_data_master_dict.duplicate())

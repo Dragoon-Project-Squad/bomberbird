@@ -29,6 +29,7 @@ func _on_host_pressed():
 	
 	var player_name = $Name.text
 	globals.config.set_player_name(player_name)
+	gamestate.player_data_master_dict[1].playername = player_name
 	gamestate.host_game(globals.config.get_player_name())
 	multiplayer_game_hosted.emit()
 	#get_tree().change_scene_to_file("res://scenes/cssmenu/character_select_screen.tscn")
@@ -48,7 +49,7 @@ func _on_join_pressed():
 	$Join.disabled = true
 
 	var player_name = $Name.text
-	globals.config.set_player_name(player_name)	
+	globals.config.set_player_name(player_name)
 	timeout_timer.start()
 	gamestate.join_game(ip, player_name)
 	

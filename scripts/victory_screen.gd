@@ -5,16 +5,16 @@ func _ready() -> void:
 	var textures = gamestate.get_player_texture_list()
 	var player_names = gamestate.get_player_name_list()
 	#player_names[1] = gamestate.host_player_name 
-	globals.game.queue_free()
 	var sorted_player_id_by_score = sort_player_ids_by_score(player_scores)
-	set_player_texture.rpc(sorted_player_id_by_score, textures, player_names)
-	
+	if is_multiplayer_authority():
+		set_player_texture.rpc(sorted_player_id_by_score, textures, player_names)
 	$AnimationPlayer.play("fade_in")
 	var anim  : Animation= $Control/AnimationPlayer1.get_animation("victory")
 	anim.loop_mode =(Animation.LOOP_LINEAR)
 	$Control/AnimationPlayer1.play("victory")
 	if $"Control/4th".visible:
 		$Control/AnimationPlayer2.play("cry")
+
 
 func sort_player_ids_by_score(player_scores) -> Array:
 	var sorted_player_id_by_score = []
@@ -67,13 +67,10 @@ func show_positions(number_of_players: int):
 		$"Control/2nd".show()
 	if number_of_players > 0:
 		$"Control/1st".show()
-		
-@rpc("call_local")
+	
 func _on_timer_timeout():
 	$AnimationPlayer.play("fade_out")
 	await $AnimationPlayer.animation_finished
 	gamestate.end_game()
-	if gamestate.peer:
-		gamestate.peer.close()
 	get_tree().change_scene_to_file("res://scenes/lobby/lobby.tscn")
 	gamestate.player_list_changed.emit()

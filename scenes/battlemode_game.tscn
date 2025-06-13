@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cqqhrm2734wfv"]
+[gd_scene load_steps=21 format=3 uid="uid://cqqhrm2734wfv"]
 
 [ext_resource type="Script" uid="uid://6r08478oev3y" path="res://scripts/battlemode_game.gd" id="1_3bvga"]
 [ext_resource type="Script" uid="uid://c6ubwejmc188k" path="res://scripts/player/players_manager.gd" id="3_qmebr"]
@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://c4i5gyl4cut3t" path="res://scenes/pools/bomb_pool.tscn" id="8_hvhk6"]
 [ext_resource type="PackedScene" uid="uid://b22qg08qddy6x" path="res://scenes/pools/pick_up_pool.tscn" id="9_bsfbc"]
 [ext_resource type="PackedScene" uid="uid://b3638glthchxv" path="res://scenes/ingame_ui/battlemode_game_ui.tscn" id="10_3qosu"]
-[ext_resource type="PackedScene" uid="uid://mjwddadi7v4o" path="res://scenes/ingame_ui/record_winner.tscn" id="11_166ep"]
 [ext_resource type="AudioStream" uid="uid://cn7pj3ye8doko" path="res://sound/announcerfemale/3.ogg" id="12_egtpy"]
 [ext_resource type="AudioStream" uid="uid://d2yy8xjs43qrc" path="res://sound/announcerfemale/2.ogg" id="13_a5m7k"]
 [ext_resource type="AudioStream" uid="uid://deiituag5pcd8" path="res://sound/announcerfemale/1.ogg" id="14_vrcl4"]
@@ -261,13 +260,6 @@ offset_top = -128.0
 offset_right = 832.0
 offset_bottom = 552.0
 color = Color(0, 0, 0, 1)
-
-[node name="GameEndState" parent="." instance=ExtResource("11_166ep")]
-visible = false
-offset_left = -193.0
-offset_top = 1.0
-offset_right = 693.0
-offset_bottom = 499.0
 
 [node name="AnimPlayer" type="AnimationPlayer" parent="."]
 libraries = {
