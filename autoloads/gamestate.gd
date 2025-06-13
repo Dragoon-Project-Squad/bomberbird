@@ -268,17 +268,23 @@ func join_game(ip, new_player_name):
 	multiplayer.set_multiplayer_peer(peer)
 
 
-func get_player_name_list():
+func get_player_name_list(): #id:playername
 	var playernames = {}
 	for p in player_data_master_dict:
 		playernames[p] = player_data_master_dict[p].playername
-	return playernames.values()
+	return playernames
 	
-func get_player_slot_list():
+func get_player_slot_list(): #slotid:id
 	var playerslots = {}
 	for p in player_data_master_dict:
-		playerslots[player_data_master_dict[p].slot_id] = p
+		playerslots[player_data_master_dict[p].slotid] = p
 	return playerslots
+	
+func get_player_texture_list(): #id:spritepaths
+	var playertextures = {}
+	for p in player_data_master_dict:
+		playertextures[p] = player_data_master_dict[p].spritepaths
+	return playertextures
 
 func get_player_name() -> String:
 	return player_name

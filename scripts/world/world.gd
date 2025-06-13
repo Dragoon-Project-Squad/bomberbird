@@ -250,12 +250,11 @@ func _place_players():
 	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
 	var spawn_points = {}
 	var spawn_point_idx = 0
-	spawn_points[1] = spawn_point_idx # Server in spawn point 0.
 
 	for p in gamestate.player_data_master_dict:
-		spawn_point_idx += 1
 		spawn_points[p] = spawn_point_idx
-
+		spawn_point_idx += 1
+		
 	for p_id in spawn_points:
 		globals.player_manager.get_node(str(p_id)).place(world_data.tile_map.map_to_local(spawnpoints[spawn_points[p_id]]))
 
@@ -265,11 +264,10 @@ func _spawn_player():
 	# Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
 	var spawn_points = {}
 	var spawn_point_idx = 0
-	spawn_points[1] = spawn_point_idx # Server in spawn point 0.
 
 	for p in gamestate.player_data_master_dict:
-		spawn_point_idx += 1
 		spawn_points[p] = spawn_point_idx
+		spawn_point_idx += 1
 
 	var humans_loaded_in_game = 0
 	var spawn_pos := Vector2.ZERO
