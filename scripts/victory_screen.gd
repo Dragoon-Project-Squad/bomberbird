@@ -1,12 +1,12 @@
 extends Control
 
 func _ready() -> void:
-	var ui_player_data = globals.game.game_ui.player_labels
-	var textures = gamestate.characters
+	var player_scores = globals.game.game_ui.get_all_scores()
+	var textures = gamestate.get_player_texture_list()
 	var player_names = gamestate.get_player_name_list()
 	#player_names[1] = gamestate.host_player_name 
 	globals.game.queue_free()
-	var sorted_player_id_by_score = sort_player_ids_by_score(ui_player_data)
+	var sorted_player_id_by_score = sort_player_ids_by_score(player_scores)
 	set_player_texture.rpc(sorted_player_id_by_score, textures, player_names)
 	
 	$AnimationPlayer.play("fade_in")
@@ -35,23 +35,23 @@ func sort_player_ids_by_score(player_scores) -> Array:
 	return sorted_player_id_by_score
 
 @rpc("call_local")
-func set_player_texture(player_ids, textures, gs_players) -> void:
-	$Label.text = "The winner is " + gs_players[player_ids[0]]
-	for i in player_ids.size():
+func set_player_texture(score_sorted_pids, player_textures, player_names) -> void:
+	$Label.text = "The winner is " + player_names[score_sorted_pids[0]]
+	for i in score_sorted_pids.size():
 		match i:
 			0:
-				$"Control/1st".texture = load(textures[player_ids[0]])
-				$"Control/1st/Label".text = gs_players[player_ids[0]]
+				$"Control/1st".texture = load(player_textures[score_sorted_pids[0]].walk)
+				$"Control/1st/Label".text = player_names[score_sorted_pids[0]]
 			1:
-				$"Control/2nd".texture = load(textures[player_ids[1]])
-				$"Control/2nd/Label".text = gs_players[player_ids[1]]
+				$"Control/2nd".texture = load(player_textures[score_sorted_pids[1]].walk)
+				$"Control/2nd/Label".text = player_names[score_sorted_pids[1]]
 			2:
-				$"Control/3rd".texture = load(textures[player_ids[2]])
-				$"Control/3rd/Label".text = gs_players[player_ids[2]]
+				$"Control/3rd".texture = load(player_textures[score_sorted_pids[2]].walk)
+				$"Control/3rd/Label".text = player_names[score_sorted_pids[2]]
 			3:
-				$"Control/4th".texture = load(textures[player_ids[3]])
-				$"Control/4th/Label".text = gs_players[player_ids[3]]
-	show_positions(player_ids.size())
+				$"Control/4th".texture = load(player_textures[score_sorted_pids[3]].walk)
+				$"Control/4th/Label".text = player_names[score_sorted_pids[3]]
+	show_positions(score_sorted_pids.size())
 
 func show_positions(number_of_players: int):
 	if number_of_players <= 0:

@@ -47,6 +47,12 @@ func decrease_score(pid : int):
 	var score_panel_slot_num = player_labels[pid]
 	player_score_panels[score_panel_slot_num].decrement_score()
 
+func get_all_scores() -> Dictionary:
+	var player_scores = {}
+	for p in player_labels:
+		player_scores[p] = get_player_score(p)
+	return player_scores
+	
 func get_player_score(pid : int):
 	var score_panel_slot_num = player_labels[pid]
 	return player_score_panels[score_panel_slot_num].score
