@@ -49,15 +49,7 @@ var player_data_master_dict = {
 #Outdated Player Data Vars
 var total_player_count := 1
 var human_player_count := 1 #Every game must have at least 1 human or two AI
-#var players = {} # Player Numbers in string:id format.
-#var players_ready = []
-#var characters = {}
-#var player_numbers = {
-	#"p1": 1,
-	#"p2": -2,
-	#"p3": -3,
-	#"p4": -4
-#}
+
 # AI Handling variables
 const MAX_ID_COLLISION_RESCUE_ATTEMPTS = 4
 const MAX_NAME_COLLISION_RESCUE_ATTEMPTS = 4
