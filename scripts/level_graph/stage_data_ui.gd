@@ -3,10 +3,10 @@ class_name StageDataUI extends Control
 const ENEMY_SCENE_DIR: String = "res://scenes/enemies/"
 
 const ENEMY_DIR: Dictionary = {
-	"Egg Goon 1": "egg_enemy_type1.tscn",
-	"Egg Goon 2": "egg_enemy_type2.tscn",
-	"Egg Goon 3": "egg_enemy_type3.tscn",
-	"Egg Goon 4": "egg_enemy_type4.tscn",
+	"Egg Goon Normal": "egg_enemy_type1.tscn",
+	"Egg Goon Yellow": "egg_enemy_type2.tscn",
+	"Egg Goon Blue": "egg_enemy_type3.tscn",
+	"Egg Goon Green": "egg_enemy_type4.tscn",
 	"R2 Goon": "egg_R2_enemy.tscn",
 	"Knight Goon": "knight_enemy.tscn",
 	"Slime Goon": "slime_goon.tscn",
@@ -16,8 +16,13 @@ const ENEMY_DIR: Dictionary = {
 	"Hammer Goon": "hammer_goon.tscn",
 	"Bomb Goon 1": "bomb_goon_type1.tscn",
 	"Bomb Goon 2": "bomb_goon_type2.tscn",
+	"Normal Wisp": "wisp_enemy_type1.tscn",
+	"Warping (red) Wisp": "wisp_enemy_type2.tscn",
+	"Shooting (purple) Wisp": "wisp_enemy_type3.tscn",
 	"Tomato Doki Boss": "tomato_boss.tscn",
 	"Retro Doki Boss": "retro_doki_boss.tscn",
+	"Crowki Boss": "crowki_boss.tscn",
+	"Mint Boss": "mint_boss.tscn",
 	}
 
 enum draw_mode {FREE, LINE, RECT}

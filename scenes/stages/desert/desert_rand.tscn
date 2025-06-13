@@ -16,7 +16,7 @@ max_explosion = 100
 punch_ability = 50
 throw_ability = 50
 wallthrough = 50
-invincibility_vest = 15000
+invincibility_vest = 50
 kick = 50
 bombthrough = 50
 piercing_bomb = 50
@@ -29,6 +29,7 @@ script = ExtResource("1_hw7b8")
 unbreakable_tile = Vector2i(6, 0)
 _arena_rect = Rect2i(1, 3, 13, 11)
 _world_edge_rect = Rect2i(-2, -2, 19, 19)
+spawnpoints = Array[Vector2i]([Vector2i(1, 3), Vector2i(13, 3), Vector2i(1, 13), Vector2i(13, 13)])
 pickup_table = SubResource("Resource_wpgoq")
 
 [node name="Floor" type="TileMapLayer" parent="."]

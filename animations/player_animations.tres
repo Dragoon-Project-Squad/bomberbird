@@ -176,8 +176,8 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id="Animation_uhsui"]
 resource_name = "revive"
-length = 0.01
-step = 0.125
+length = 0.05
+step = 0.0166667
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true

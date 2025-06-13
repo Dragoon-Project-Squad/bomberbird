@@ -13,7 +13,6 @@ var sfx_volume := 0.0
 
 #Multiplayer Enums
 enum cpu_difficulty_setting_states {STATIONARY, EASY, MEDIUM, HARD}
-enum cpu_count_setting_states {ZERO, ONE, TWO, THREE, FOUR, FILL}
 enum misobon_setting_states {OFF, ON, SUPER}
 enum breakable_spawn_rule_setting_states {STAGE, NONE, FULL, CUSTOM}
 enum pickup_spawn_rule_setting_states {STAGE, NONE, ALL, CUSTOM}
@@ -22,7 +21,6 @@ enum multiplayer_stages {SALOON, BEACH, DUNGEON, LAB}
 # Multiplayer
 var points_to_win := 3
 var cpu_difficulty := cpu_difficulty_setting_states.MEDIUM #The dropdown is set to a dictionary.
-var cpu_count := cpu_count_setting_states.FILL #The dropdown is set to a dictionary.
 var match_time := 120
 var hurry_up_time := 60
 var hurry_up_state := true
@@ -52,7 +50,6 @@ func create_storage_dictionary() -> Dictionary:
 		"keybinds" : create_keybinds_dictionary(),
 		"points_to_win" : points_to_win,
 		"cpu_difficulty" : cpu_difficulty,
-		"cpu_count" : cpu_count,
 		"match_time" : match_time,
 		"hurry_up_time" : hurry_up_time,
 		"hurry_up_state" : hurry_up_state,
@@ -163,11 +160,6 @@ func get_cpu_difficulty() -> int:
 	if loaded_data == {}:
 		return BATTLE_SETTINGS.DEFAULT_CPU_DIFFICULTY
 	return cpu_difficulty
-	
-func get_cpu_count() -> int:
-	if loaded_data == {}:
-		return BATTLE_SETTINGS.DEFAULT_CPU_COUNT
-	return cpu_count
 
 func get_match_time() -> int:
 	if loaded_data == {}:
@@ -295,9 +287,6 @@ func set_points_to_win(value : int) -> void:
 func set_cpu_difficulty(index : int) -> void:
 	cpu_difficulty = index as cpu_difficulty_setting_states
 	
-func set_cpu_count(index : int) -> void:
-	cpu_count = index as cpu_count_setting_states
-	
 func set_misobon_setting(index : int) -> void:
 	misobon_setting = index as misobon_setting_states
 
@@ -340,7 +329,6 @@ func set_options_settings_vars_from_dict(datadict : Dictionary) -> void:
 func set_battle_settings_vars_from_dict(datadict : Dictionary) -> void:
 	set_points_to_win(datadict.points_to_win if datadict.has('points_to_win') else BATTLE_SETTINGS.DEFAULT_POINTS_TO_WIN)
 	set_cpu_difficulty(datadict.cpu_difficulty if datadict.has('cpu_difficulty') else BATTLE_SETTINGS.DEFAULT_CPU_DIFFICULTY)
-	set_cpu_count(datadict.cpu_count if datadict.has('cpu_count') else BATTLE_SETTINGS.DEFAULT_CPU_COUNT)
 	set_misobon_setting(datadict.misobon_setting if datadict.has('misobon_setting') else BATTLE_SETTINGS.DEFAULT_MISOBON_SETTING)
 	set_match_time(datadict.match_time if datadict.has('match_time') else BATTLE_SETTINGS.DEFAULT_MATCH_TIME)
 	set_hurry_up_time(datadict.hurry_up_time if datadict.has('hurry_up_time') else BATTLE_SETTINGS.DEFAULT_HURRY_UP_TIME)
@@ -372,7 +360,6 @@ func handle_signals() -> void:
 	SettingsSignalBus.load_settings_data.connect(on_settings_data_loaded)
 	SettingsSignalBus.on_points_to_win_set.connect(set_points_to_win)
 	SettingsSignalBus.on_cpu_difficulty_set.connect(set_cpu_difficulty)
-	SettingsSignalBus.on_cpu_count_set.connect(set_cpu_count)
 	SettingsSignalBus.on_match_time_set.connect(set_match_time)
 	SettingsSignalBus.on_hurry_up_time_set.connect(set_hurry_up_time)
 	SettingsSignalBus.on_hurry_up_state_set.connect(set_hurry_up_state)

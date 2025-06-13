@@ -12,4 +12,3 @@ func apply_power_up(pickup_owner):
 		pickup_owner.lock_bomb_count(1)
 	elif pickup_owner is Boss:
 		pass # this is handled by counting on usage
-

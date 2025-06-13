@@ -37,4 +37,3 @@ func _move(_delta):
 	if self.enemy.stunned: return
 	self.enemy.velocity = self.enemy.movement_vector.normalized() * self.enemy.movement_speed
 	self.enemy.move_and_slide()
-

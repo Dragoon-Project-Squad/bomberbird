@@ -10,7 +10,6 @@ signal set_settings_dictionary(settings_dict : Dictionary)
 # Multiplayer
 signal on_points_to_win_set(value : int)
 signal on_cpu_difficulty_set(value : int)
-signal on_cpu_count_set(value : int)
 signal on_match_time_set(value : float)
 signal on_hurry_up_time_set(value : float)
 signal on_hurry_up_state_set(value : bool)
@@ -60,10 +59,6 @@ func emit_on_cpu_difficulty_set(value : int) -> void:
 
 func emit_on_points_to_win_set(value : int) -> void:
 	on_points_to_win_set.emit(value)
-	on_any_set.emit()
-	
-func emit_on_cpu_count_set(value : int) -> void:
-	on_cpu_count_set.emit(value)
 	on_any_set.emit()
 
 func emit_on_match_time_set(value : float) -> void:

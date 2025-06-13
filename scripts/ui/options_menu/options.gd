@@ -16,7 +16,8 @@ func switch_to_main_menu() -> void:
 	options_menu_exited.emit()
 	
 func _on_exit_pressed() -> void:
-	SettingsSignalBus.emit_set_settings_dictionary(SettingsContainer.create_storage_dictionary())
-	stop_options_menu_music()
-	switch_to_main_menu()
-	#get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	if self.visible:
+		SettingsSignalBus.emit_set_settings_dictionary(SettingsContainer.create_storage_dictionary())
+		stop_options_menu_music()
+		switch_to_main_menu()
+		#get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
