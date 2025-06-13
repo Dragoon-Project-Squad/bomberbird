@@ -14,7 +14,7 @@ const DEFAULT_HURRY_UP_STATE := true
 const DEFAULT_SUDDEN_DEATH_STATE := false
 # BREAKABLE
 const DEFAULT_BREAKABLE_SPAWN_RULE := 0
-const DEFAULT_BREAKABLE_CHANCE := 100.0
+const DEFAULT_BREAKABLE_CHANCE := 50.0
 # PICKUP
 const DEFAULT_PICKUP_SPAWN_RULE := 0
 const DEFAULT_PICKUP_CHANCE := 100.0
@@ -37,7 +37,7 @@ var is_sudden_death_enabled := false # Sudden Death Mode makes the Hurry Up bloc
 # CUSTOM - Breakables will appear randomly according to player taste.
 @export_group("Breakable Settings")
 @export_enum ("Stage", "None", "Full", "Custom") var BREAKABLE_SPAWN_RULE := 0
-@export var breakable_chance := 100.0
+@export var breakable_chance := 50.0
 #Use the BreakablePreset resource to manage Breakable Presets.
 
 @export_group("Pickup Settings")

@@ -10,4 +10,6 @@ script = ExtResource("2_mfmbb")
 text = "Breakable chance"
 
 [node name="HSlider" parent="HBoxContainer" index="2"]
-step = 0.0
+max_value = 1.0
+step = 0.001
+rounded = false
