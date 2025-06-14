@@ -41,6 +41,7 @@ func exploded(by_who):
 	breakable_sfx_player.play()
 	$AnimationPlayer.play("explode")
 	await $AnimationPlayer.animation_finished #Wait for the animation to finish
+	if globals.game.stage_done: return # if in the meantime the stage has finished the stage will have already reset this breakable hence stop this now
 
 	# Spawn a powerup where this rock used to be.
 	if is_multiplayer_authority():
@@ -67,6 +68,7 @@ func crush():
 		world_data.set_tile.rpc(world_data.tiles.EMPTY, global_position)
 	astargrid_handler.astargrid_set_point(global_position, false)
 	await $AnimationPlayer.animation_finished #Wait for the animation to finish
+	if globals.game.stage_done: return
 	if is_multiplayer_authority():
 		disable.rpc()
 	globals.game.breakable_pool.return_obj(self)

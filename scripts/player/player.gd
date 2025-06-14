@@ -81,6 +81,7 @@ func _ready():
 
 	movement_speed_reset = movement_speed
 	bomb_count_reset = bomb_count
+	print(bomb_count_reset)
 	explosion_boost_count_reset = explosion_boost_count
 	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
 		player_health_updated.connect(func (s: Player, health: int): game_ui.update_health(health, int(s.name)))
@@ -91,7 +92,29 @@ func _ready():
 	lives_reset = lives
 	pickups.reset()
 	self.animation_player.play("RESET")
+	init_pickups()
+	do_invulnerabilty()
 
+func init_pickups():
+	if !is_multiplayer_authority(): return
+	for _speed_up in range(self.pickups.held_pickups[globals.pickups.SPEED_UP]):
+		increase_speed.rpc()
+	for _speed_down in range(self.pickups.held_pickups[globals.pickups.SPEED_UP]):
+		decrease_speed.rpc()
+	for _bomb_level_up in range(self.pickups.held_pickups[globals.pickups.FIRE_UP]):
+		increase_bomb_level.rpc()
+	for _bomb_count_up in range(self.pickups.held_pickups[globals.pickups.BOMB_UP]):
+		increment_bomb_count.rpc()
+	if self.pickups.held_pickups[globals.pickups.FULL_FIRE]:
+		maximize_bomb_level.rpc()
+	if self.pickups.held_pickups[globals.pickups.WALLTHROUGH]:
+		enable_wallclip.rpc()
+	if self.pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] == HeldPickups.exclusive.BOMBTHROUGH:
+		enable_bombclip.rpc()
+	if self.pickups.held_pickups[globals.pickups.INVINCIBILITY_VEST]:
+		start_invul.rpc()
+	if self.pickups.held_pickups[globals.pickups.GENERIC_BOMB] == HeldPickups.bomb_types.MINE:
+		lock_bomb_count.rpc(1)
 
 func _process(delta: float):
 	if !invulnerable:
@@ -362,12 +385,15 @@ func spread_items():
 			if pos == null: return
 			pos = pos as Vector2 #This is a hack and also the reason to burn anything pythonic
 			to_place_pickups[pickup_types[i]][0].place.rpc(pos)
-			world_data.reset_empty_cells.call_deferred([pos])
+			var temp: Array[Vector2] = [pos]
+			world_data.reset_empty_cells.call_deferred(temp)
 		else:
 			var pos_array: Array = world_data.get_random_empty_tiles(pickup_count[i])
+			var temp: Array[Vector2] = []
 			for j in range(pos_array.size()):
 				to_place_pickups[pickup_types[i]][j].place.rpc(pos_array[j])
-			world_data.reset_empty_cells.call_deferred(pos_array)
+				temp.append(pos_array[j])
+			world_data.reset_empty_cells.call_deferred(temp)
 
 ## starts the invulnerability and its animation
 func do_invulnerabilty():

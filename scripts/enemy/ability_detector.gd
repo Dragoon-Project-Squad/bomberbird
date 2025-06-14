@@ -19,7 +19,7 @@ func check_ability_usage() -> int:
 	if self.enemy.curr_bomb == null: return ability.NONE
 	if self.enemy.curr_bomb.addons.has("mine") && self.enemy.curr_bomb.addons.mine: return ability.NONE
 	var probability: float = _rand.randf()
-	if use_ability >= probability: return ability.NONE
+	if use_ability <= probability: return ability.NONE
 	var abilities: Array[int] = []
 	if enemy.pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] == HeldPickups.exclusive.KICK:
 		abilities.append(ability.KICK)

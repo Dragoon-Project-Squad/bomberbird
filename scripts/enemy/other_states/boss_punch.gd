@@ -15,7 +15,6 @@ func _enter() -> void:
 
 
 	self.enemy.movement_vector = self.enemy.position.direction_to(bomb.position)
-	print(self.enemy.movement_vector)
 	var direction = self.enemy.movement_vector
 
 	self.enemy.update_animation(direction)

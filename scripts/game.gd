@@ -14,10 +14,11 @@ var enemy_pool: EnemyPool
 var bomb_pool: BombPool
 var pickup_pool: PickupPool
 var breakable_pool: BreakablePool
-var game_ui
-var win_screen: Control
 var stage: World
+var game_ui
+var win_screen
 
+var stage_done: bool = false
 var players_are_spawned: bool = false
 
 func _init():
@@ -58,3 +59,12 @@ func load_level_graph(_path: String):
 func _check_ending_condition(_alive_enemies: int):
 	pass
 	
+func reset_players():
+	var misoplayers: Array[MisobonPlayer] = Array($MisobonPath.get_children().filter(func (p): return (p is MisobonPlayer)), TYPE_OBJECT, "PathFollow2D", MisobonPlayer)
+	var deadplayers: Array[Player] = globals.player_manager.get_dead_players()
+	if is_multiplayer_authority():
+		for misoplayer in misoplayers:
+			misoplayer.reset(stage.spawnpoints[0])
+		for deadplayer in deadplayers:
+			deadplayer.reset()
+			deadplayer.reset_pickups()

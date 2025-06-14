@@ -32,13 +32,13 @@ func _physics_process(delta):
 
 func _on_state_changed(state: EnemyState, new_state: String) -> void:
 	if(state != current_state):
-		push_error("enemy state machine failed as a state tried to change that is not the current state")
+		push_error("enemy state machine failed as a state tried to change that is not the current state (", state.name, " -> ", new_state, ")")
 		return
 
 	if current_state:
 		current_state._exit()
 
-	print(state.name, " -> ", new_state)
+	#print(state.name, " -> ", new_state)
 
 	current_state = states.get(new_state.to_lower())
 	if !current_state:

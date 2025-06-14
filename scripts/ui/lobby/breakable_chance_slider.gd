@@ -11,7 +11,7 @@ func set_slider_value(newval : int) -> void:
 	h_slider.value = newval
 	
 func set_chance_num_label_text() -> void:
-	slider_number_label.text = str(int(h_slider.value)) + "%"
+	slider_number_label.text = str(int(h_slider.value*100)) + "%"
 
 func _on_value_changed(value: float) -> void:
 	set_chance_num_label_text()

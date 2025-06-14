@@ -197,20 +197,21 @@ func is_out_of_world_edge(global_pos: Vector2) -> bool:
 		&& matrix_pos.y >= 0 && matrix_pos.y < world_edge_height)
 
 ## returns a singular randomly choosen empty tile or null if non are awailable
-func get_random_empty_tile(in_cells: bool = false) -> Variant:
+func get_random_empty_tile(in_cells: bool = false, remove: bool = true) -> Variant:
 	var temp: Array = _world_empty_cells.keys()
 	temp.filter(func(key): return _world_empty_cells[key])
 
 	var res = temp.pick_random()
 	if res == null: return null
-	_world_empty_cells[res] = false
+	if remove:
+		_world_empty_cells[res] = false
 	res += floor_origin
 	if !in_cells:
 		res = tile_map.map_to_local(res)
 	return res
 
 ## gets an Array of size count (or less if less are awailable) of randomly choosen empty cells set all chooses to handed out
-func get_random_empty_tiles(count: int, in_cells: bool = false) -> Array:
+func get_random_empty_tiles(count: int, in_cells: bool = false, remove: bool = true) -> Array:
 	#There is probably a more efficient way to do this
 	var temp: Array = _world_empty_cells.keys()
 	temp.filter(func(key): return _world_empty_cells[key])
@@ -220,7 +221,8 @@ func get_random_empty_tiles(count: int, in_cells: bool = false) -> Array:
 	res.resize(count)
 
 	for i in range(0, min(count, temp.size())):
-		_world_empty_cells[temp[i]] = false
+		if remove:
+			_world_empty_cells[temp[i]] = false
 		temp[i] += floor_origin
 		if !in_cells:
 			res[i] = tile_map.map_to_local(temp[i])

@@ -5,7 +5,6 @@
 [resource]
 script = ExtResource("1_bs7y0")
 cpu_dfficulty = 2
-cpu_count = 5
 MISOBON_SETTING = 1
 BREAKABLE_SPAWN_RULE = 0
 breakable_chance = 100.0

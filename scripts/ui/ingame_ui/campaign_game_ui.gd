@@ -17,11 +17,11 @@ func _ready() -> void:
 			player_health_panel.append(child)
 
 @rpc("call_local")
-func add_player(id: int, _player_name: String, character: String):
+func add_player(player_id: int, player_dict : Dictionary):
 	assert(used_player_health_panel_len <= 3, "attempted to add a 5th player but only 4 are supported")
-	player_health_panel[used_player_health_panel_len].player_id = id
+	player_health_panel[used_player_health_panel_len].player_id = player_id
 	player_health_panel[used_player_health_panel_len].show()
-	player_health_panel[used_player_health_panel_len].update_icon(character)
+	player_health_panel[used_player_health_panel_len].update_icon(player_dict.spritepaths)
 	player_health_panel[used_player_health_panel_len].update_icon_color(COLOR_ARR[used_player_health_panel_len])
 	used_player_health_panel_len += 1
 
@@ -49,10 +49,10 @@ func update_health(health: int, player_id: int):
 		if health_panel.player_id == player_id:
 			health_panel.update_health(health)
 
-func update_icon(character: String, player_id: int):
+func update_icon(player_id: int, player_dict : Dictionary):
 	for health_panel in player_health_panel:
 		if health_panel.player_id == player_id:
-			health_panel.update_icon(character)
+			health_panel.update_icon(player_dict.spritepaths)
 
 func update_icon_color(color: Color, player_id: int):
 	for health_panel in player_health_panel:
