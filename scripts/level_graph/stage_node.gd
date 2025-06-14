@@ -16,8 +16,8 @@ signal has_changed
 @onready var exit_boiler: HBoxContainer = %ExitBoiler
 @onready var pickups_tab: GridContainer = %"Pickup Weights"
 @onready var weights_vs_amount: CheckButton = %WeightsVsAmount
+@onready var base_pickup_spawn_rate: SpinBox = %BasePickupSpawnChance
 @onready var stage_tab: StageDataUI = %Stage
-@onready var pickup_boiler: SpinBox = %PickupBoiler
 @onready var stage_name: LineEdit = %StageName
 
 var curr_tab: int = 0
@@ -134,7 +134,8 @@ static func get_path_to_scene(scene: String, base_dir: String, file_dir: Diction
 
 ## setup the pickup tab hence loops throught all pickup enums in global and creates a UI element for it
 func _setup_pickup_tab():
-	var last_pickup: SpinBox = pickup_boiler
+	var child_idx: int = 0
+	var count: int = 0
 	for pickup in range(globals.pickups.NONE):
 		match pickup:
 			globals.pickups.GENERIC_COUNT: continue
@@ -142,19 +143,23 @@ func _setup_pickup_tab():
 			globals.pickups.GENERIC_EXCLUSIVE: continue
 			globals.pickups.GENERIC_BOMB: continue
 		
-		var pickup_element: SpinBox = pickup_boiler.duplicate()
-		pickup_element.set_horizontal_alignment(HORIZONTAL_ALIGNMENT_FILL) # This no worky probably a bug in godot itself
+		var pickup_element: SpinBox = pickups_tab.get_child(child_idx)
+		assert(pickup_element.prefix == "Boiler:") # crash the freak out if this is not a spinbox thats intended to be overwitten
+		#pickup_element.set_horizontal_alignment(HORIZONTAL_ALIGNMENT_FILL) # This no worky probably a bug in godot itself
 		pickup_element.name = globals.pickup_name_str[pickup]
 		pickup_element.prefix = globals.pickup_name_str[pickup] + ": "
 		if pickup_resource.pickup_weights.has(pickup):
 			pickup_element.value = float(pickup_resource.pickup_weights[pickup])
 		pickup_element.show()
 		
-		last_pickup.add_sibling(pickup_element)
-		last_pickup = pickup_element
-		
 		var changed_function_value: Callable = _on_pickup_weight_changed.bind(pickup)
-		last_pickup.value_changed.connect(changed_function_value)
+		pickup_element.value_changed.connect(changed_function_value)
+		child_idx += 1
+		
+	if pickup_resource.are_amounts:
+		weights_vs_amount.set_pressed_no_signal(true)
+		_on_weights_vs_amount_toggled(true)
+	base_pickup_spawn_rate.value = pickup_resource.base_pickup_spawn_chance
 
 ## only called when node is loaded from a StageNodeData setup all the exit entries
 func _setup_exit_from_load():
@@ -336,8 +341,8 @@ func _on_stage_name_editing_toggled(toggled_on: bool) -> void:
 	self.title = new_text
 	has_changed.emit()
 
-
 func _on_weights_vs_amount_toggled(toggled_on: bool) -> void:
+	base_pickup_spawn_rate.editable = !toggled_on
 	pickup_resource.are_amounts = toggled_on
 	if toggled_on:
 		weights_vs_amount.text = "amount"
@@ -346,3 +351,6 @@ func _on_weights_vs_amount_toggled(toggled_on: bool) -> void:
 		weights_vs_amount.text = "weights"
 		pickups_tab.name = "Pickup weight"
 	has_changed.emit()
+
+func _on_base_pickup_spawn_chance_changed(value: float):
+	pickup_resource.base_pickup_spawn_chance = value

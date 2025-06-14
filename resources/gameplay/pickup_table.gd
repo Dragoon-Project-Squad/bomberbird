@@ -2,9 +2,9 @@ class_name PickupTable extends Resource
 ## contains probabilistic weight for each pickup that should spawn on a specific stage
 ## TODO: also allow this to handle total amounts instead of probabalistic weights
 
-const PICKUP_ENABLED := true
-const PICKUP_SPAWN_BASE_CHANCE := 1.0
-var pickup_spawn_chance = PICKUP_SPAWN_BASE_CHANCE
+const PICKUP_ENABLED: bool = true
+const PICKUP_SPAWN_BASE_CHANCE: float = 1.0
+
 
 @export_group("Pickup Weights")
 @export var extra_bomb: int = 500
@@ -26,7 +26,12 @@ var pickup_spawn_chance = PICKUP_SPAWN_BASE_CHANCE
 #@export var remote_control: int = 0
 #@export var seeker_bomb: int = 0
 
-var are_amounts: bool = false
+@export_group("Others")
+## if are_amounts is true pickups will not be spawned by weights but instead in such a way that if possible exactly 'weight' amounts of each pickups are spawned
+@export var are_amounts: bool = false
+@export var base_pickup_spawn_chance: float = PICKUP_SPAWN_BASE_CHANCE
+
+var pickup_spawn_chance = PICKUP_SPAWN_BASE_CHANCE
 var pickup_weights: Dictionary = {}
 var is_uptodate: bool = false # This is kinda hacky but _init() doesn't work for this
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
@@ -129,9 +134,10 @@ func decide_pickup_type() -> int:
 	
 func determine_base_pickup_rate() -> void:
 	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
-		pickup_spawn_chance = 0.4
+		pickup_spawn_chance = base_pickup_spawn_chance
 		return
 	if SettingsContainer.get_pickup_spawn_rule() == 0:
+		pickup_spawn_chance = base_pickup_spawn_chance
 		return # Use the value decided by the STAGE
 	elif SettingsContainer.get_pickup_spawn_rule() == 1:
 		pickup_spawn_chance = 0 # NONE
@@ -142,10 +148,13 @@ func determine_base_pickup_rate() -> void:
 
 func to_json() -> Dictionary:
 	self.update()
-	return pickup_weights
+	return {"weights": pickup_weights, "are_amounts": are_amounts, "base_pickup_spawn_chance": base_pickup_spawn_chance}
 
-func from_json(weights: Dictionary):
-	for key in weights.keys():
-		self.pickup_weights[int(key)] = weights[key]
+func from_json(tabel: Dictionary):
+	for key in tabel.weights.keys():
+		self.pickup_weights[int(key)] = tabel.weights[key]
 	self.reverse_update()
 	self.is_uptodate = true
+	self.are_amounts = tabel.are_amounts
+	self.base_pickup_spawn_chance = tabel.base_pickup_spawn_chance
+	

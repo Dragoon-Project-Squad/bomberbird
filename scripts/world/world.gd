@@ -135,7 +135,10 @@ func enable(
 		else: _place_players.rpc()
 		if enemy_table:
 			_spawn_enemies.rpc()
-	_generate_breakables(breakable_table)
+	if pickup_table.are_amounts:
+		_generate_breakables_with_amounts(breakable_table, pickup_table)
+	else:
+		_generate_breakables_with_weights(breakable_table)
 
 	world_data.finish_init()
 	astargrid_handler.astargrid_set_initial_solidpoints()
@@ -212,10 +215,14 @@ func _asserting_world():
 
 ## Generates all the breakables from the handed table
 ## NOTE: Some children may completly ignore the table given if breakable are generated in a different way
-func _generate_breakables(_breakable_table: BreakableTable):
+func _generate_breakables_with_weights(_breakable_table: BreakableTable):
+	pass
+	
+## Generates all the breakables from the handed table
+func _generate_breakables_with_amounts(_breakable_table: BreakableTable, pickup_table: PickupTable):
 	pass
 
-## Spawns a breakable at
+## Spawns a breakable 
 ## [param cell] Vector2i
 func _spawn_breakable(cell: Vector2i, pickup_type: int):
 	assert(globals.is_not_pickup_seperator(pickup_type))
