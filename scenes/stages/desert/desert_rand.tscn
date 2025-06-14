@@ -21,6 +21,8 @@ kick = 50
 bombthrough = 50
 piercing_bomb = 50
 land_mine = 50
+are_amounts = false
+base_pickup_spawn_chance = 1.0
 metadata/_custom_type_script = "uid://bta1elkd6rmla"
 
 [node name="RandomizedDesertStage" type="Node2D"]

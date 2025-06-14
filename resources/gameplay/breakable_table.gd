@@ -19,8 +19,17 @@ func remove_at(index: int):
 
 func get_coords() -> Array[Vector2i]:
 	return Array(breakables.map(
-		func (entry: Dictionary) -> Vector2i: return entry.coords,
+		func (entry: Dictionary) -> Vector2i: return entry.coords
 	), TYPE_VECTOR2I, "", null)
+
+func get_specific_pickup_breakables(pickup_type: int) -> Array[Vector2i]:
+	var arr: Array = breakables.filter(
+		func (entry: Dictionary) -> bool: return entry.contained_pickup == pickup_type
+		).map(
+			func (entry: Dictionary) -> Vector2i: return entry.coords
+			)
+	return Array(arr, TYPE_VECTOR2I, "", null)
+			
 
 func size() -> int:
 	return len(breakables)
