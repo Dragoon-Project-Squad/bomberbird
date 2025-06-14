@@ -18,6 +18,7 @@ func start():
 	show_all_players()
 	await start_stage_start_countdown() #
 	game_ended = false
+	stage_done = false
 
 func load_stage() -> void:
 	var stage_path := globals.LAB_RAND_STAGE_PATH
@@ -112,18 +113,13 @@ func show_all_players():
 		for player in players:
 			player.show()
 			
-func reset_players():
-	var misoplayers: Array[MisobonPlayer] = Array($MisobonPath.get_children().filter(func (p): return (p is MisobonPlayer)), TYPE_OBJECT, "PathFollow2D", MisobonPlayer)
-	var deadplayers: Array[Player] = globals.player_manager.get_dead_players()
-	if is_multiplayer_authority():
-		for misoplayer in misoplayers:
-			misoplayer.reset(stage.spawnpoints[0])
-		for deadplayer in deadplayers:
-			deadplayer.reset()
+
 			
 func load_new_stage():
+	stage_done = true
 	stage.queue_free()
 	start()
+
 
 func stop_the_match():
 	game_ended = true

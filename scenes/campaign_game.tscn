@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://dvck17j6oqwyh" path="res://scenes/ingame_ui/campaign_game_ui.tscn" id="12_qa6w2"]
 [ext_resource type="PackedScene" uid="uid://cfxr8qiemjg2j" path="res://scenes/ingame_ui/singleplayer_win_status.tscn" id="13_qa6w2"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="14_8ic0x"]
-[ext_resource type="Script" uid="uid://e23rbm3rrddh" path="res://scripts/ui/ingame_ui/singleplayer_victory_status.gd" id="14_8w4nb"]
+[ext_resource type="PackedScene" uid="uid://bfirvscrnk6js" path="res://scenes/ingame_ui/pause_menu.tscn" id="15_8w4nb"]
 
 [sub_resource type="Curve2D" id="Curve2D_6r17b"]
 _data = {
@@ -123,6 +123,7 @@ script = ExtResource("1_xj4ag")
 [node name="StageHandler" parent="." instance=ExtResource("2_6c1o1")]
 
 [node name="ExitPool" parent="." instance=ExtResource("7_6c1o1")]
+initial_spawn_count = 8
 
 [node name="BreakablePool" parent="." instance=ExtResource("7_u5d24")]
 
@@ -169,11 +170,9 @@ follow_viewport_scale = 1.2
 
 [node name="GameEndState" parent="." instance=ExtResource("13_qa6w2")]
 visible = false
-offset_left = -193.0
-offset_top = -1.0
-offset_right = 959.0
-offset_bottom = 647.0
-script = ExtResource("14_8w4nb")
+
+[node name="PauseMenu" parent="." instance=ExtResource("15_8w4nb")]
+visible = false
 
 [node name="StageAnnouncement" type="Label" parent="."]
 visible = false
