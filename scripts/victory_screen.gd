@@ -4,10 +4,8 @@ func _ready() -> void:
 	var player_scores = globals.game.game_ui.get_all_scores()
 	var textures = gamestate.get_player_texture_list()
 	var player_names = gamestate.get_player_name_list()
-	#player_names[1] = gamestate.host_player_name 
 	var sorted_player_id_by_score = sort_player_ids_by_score(player_scores)
-	if is_multiplayer_authority():
-		set_player_texture.rpc(sorted_player_id_by_score, textures, player_names)
+	set_player_texture(sorted_player_id_by_score, textures, player_names)
 	$AnimationPlayer.play("fade_in")
 	var anim  : Animation= $Control/AnimationPlayer1.get_animation("victory")
 	anim.loop_mode =(Animation.LOOP_LINEAR)
