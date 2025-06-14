@@ -71,38 +71,38 @@ func set_bomb_type(type: int):
 		HeldPickups.bomb_types.MINE:
 			self.addons["mine"] = true
 
-// sets the state to stationary and tells the corresponding state to start processing
+# sets the state to stationary and tells the corresponding state to start processing
 @rpc("call_local")
 @warning_ignore("SHADOWED_VARIABLE")
 func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) -> int:
-    in_use = true
-    var force_collision: bool = false
+	in_use = true
+	var force_collision: bool = false
 
-    match state:
-        STATIONARY: //a bomb should not already be in the STATIONARY state when it is getting placed
-            printerr("do place is called from a wrong state")
-            return 2
-        AIRBORN:
-            force_collision = true //If it state is airborn we do now want the collision ignore logic to work rather we want the bomb to collied immediately
-        SLIDING:
-            force_collision = true
+	match state:
+		STATIONARY: #a bomb should not already be in the STATIONARY state when it is getting placed
+			printerr("do place is called from a wrong state")
+			return 2
+		AIRBORN:
+			force_collision = true #If it state is airborn we do now want the collision ignore logic to work rather we want the bomb to collied immediately
+		SLIDING:
+			force_collision = true
 
-    set_state(STATIONARY)
-    
-    bomb_owner_is_dead = is_dead
+	set_state(STATIONARY)
+	
+	bomb_owner_is_dead = is_dead
 
-    if boost < 0: //this is wack
-        boost = self.boost
-    else:
-        self.boost = boost
+	if boost < 0: #this is wack
+		boost = self.boost
+	else:
+		self.boost = boost
 
 	var bomb_authority: Node2D = state_map[state]
 	bomb_authority.set_explosion_width_and_size(min(boost + bomb_authority.explosion_width, bomb_authority.MAX_EXPLOSION_WIDTH))
 	bomb_authority.set_addons(addons)
-  var time_passed = fuse_time_passed
-  if bomb_owner:
-      if bomb_owner.fuse_speed != 0:
-          time_passed = bomb_owner.fuse_speed
+	var time_passed = fuse_time_passed
+	if bomb_owner:
+		if bomb_owner.fuse_speed != 0:
+			time_passed = bomb_owner.fuse_speed
 	bomb_authority.place(bombPos, time_passed, force_collision)
 	if self.addons.has("mine") && self.addons.mine:
 		world_data.set_tile(world_data.tiles.MINE, self.global_position, self.boost + 2, false)
