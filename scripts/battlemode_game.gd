@@ -170,6 +170,7 @@ func _check_ending_condition(_alive_enemies: int = 0):
 		#DO WIN SCREEN STUFF
 		if game_ui.get_player_score(alive_players[0].name.to_int()) >= SettingsContainer.get_points_to_win():
 			if is_multiplayer_authority():
+				gamestate.set_player_scores(globals.game.game_ui.get_all_scores())
 				show_victory_screen.rpc(gamestate.player_data_master_dict.duplicate())
 		else:
 			#RESET GAME STATE

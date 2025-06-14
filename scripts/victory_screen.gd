@@ -1,11 +1,16 @@
 extends Control
 
 func _ready() -> void:
-	var player_scores = globals.game.game_ui.get_all_scores()
+	var player_scores = gamestate.get_player_scores()
 	var textures = gamestate.get_player_texture_list()
 	var player_names = gamestate.get_player_name_list()
 	var sorted_player_id_by_score = sort_player_ids_by_score(player_scores)
 	set_player_texture(sorted_player_id_by_score, textures, player_names)
+	
+	if is_multiplayer_authority():
+		globals.game.free()
+		remove_game_node.rpc()
+	
 	$AnimationPlayer.play("fade_in")
 	var anim  : Animation= $Control/AnimationPlayer1.get_animation("victory")
 	anim.loop_mode =(Animation.LOOP_LINEAR)
@@ -13,6 +18,9 @@ func _ready() -> void:
 	if $"Control/4th".visible:
 		$Control/AnimationPlayer2.play("cry")
 
+@rpc("call_remote")
+func remove_game_node():
+	globals.game.queue_free()
 
 func sort_player_ids_by_score(player_scores) -> Array:
 	var sorted_player_id_by_score = []
@@ -32,7 +40,6 @@ func sort_player_ids_by_score(player_scores) -> Array:
 	
 	return sorted_player_id_by_score
 
-@rpc("call_local")
 func set_player_texture(score_sorted_pids, player_textures, player_names) -> void:
 	$Label.text = "The winner is " + player_names[score_sorted_pids[0]]
 	for i in score_sorted_pids.size():
