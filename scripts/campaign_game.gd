@@ -18,11 +18,23 @@ var curr_stage_idx: int = 0
 var _stage_lookahead: int = 3
 var _exit_entered_barrier: bool = false
 var _exit_spawned_barrier: bool = false
-var stage_done: bool = false
 
 func _init():
 	globals.game = self
+
+@rpc("call_local")
+func restart():
+	stage_done = true
+	fade.play("fade_out")
+	reset_players()
+	score = 0
+	await fade.animation_finished
+
+	reset.call_deferred()
+	stage.reset.call_deferred()
+	start.call_deferred()
 	
+
 @rpc("call_local")
 func restart_current_stage():
 	stage_done = true
@@ -132,6 +144,7 @@ func load_next_stage_set(id: int):
 func start():
 	assert(stage_data_arr != [], "stage_data not loaded")
 	
+	stage_done = false
 	stage_announce_label.text = stage_data_arr[0].stage_node_title
 	stage_announce_label.show()
 	fade.get_node("FadeInOutRect").show()
@@ -207,10 +220,10 @@ func _check_ending_condition(alive_enemies: int):
 	if win_screen.visible: return
 	var alive_players: Array[Player] = globals.player_manager.get_alive_players()
 	if len(alive_players) == 0 && alive_enemies == -1:
-		#TODO: proper lost game screen (with restart option)
+		#TODO: proper lost game screen (wdith restart option)
 		win_screen.lost_game(score)
 	if len(alive_players) > 0 && alive_enemies == 0:
-		stage.spawn_exits()
+		stage.spawn_exits.call_deferred()
 
 func _input(event):
 	if event.is_action_pressed("pause"):

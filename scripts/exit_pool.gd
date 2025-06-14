@@ -12,9 +12,14 @@ func create_reserve(count: int, color: Color = Color.WHITE):
 	super(count, color)
 
 func request(color: Color) -> Exit:
-	var exit: Exit = super(color)
-	exit.hide.call_deferred()
-	exit.set_deferred("modulate", color)
+	if !is_multiplayer_authority(): return
+	if color == null: push_error("color_data is not allowed to be null")
+	var exit = unowned.pop_front()
+	if exit == null: #no obj hence spawn one
+		exit = obj_spawner.spawn([])
+
+	exit.hide()
+	exit.modulate = color
 	return exit
 
 func request_group(count: int, color: Color) -> Array[Exit]:

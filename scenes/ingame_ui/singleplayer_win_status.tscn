@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cfxr8qiemjg2j"]
 
-[ext_resource type="Script" uid="uid://bxg0l2q7coj01" path="res://scripts/ui/ingame_ui/record_winner.gd" id="1_k670e"]
+[ext_resource type="Script" uid="uid://bxg0l2q7coj01" path="res://scripts/ui/ingame_ui/singleplayer_win_status.gd" id="1_k670e"]
 [ext_resource type="Theme" uid="uid://m30a0nncwbm0" path="res://assets/styles/options_menu.tres" id="2_w8rn0"]
 [ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="3_ddvhu"]
 [ext_resource type="Shader" uid="uid://c0qwo7bogo6j7" path="res://assets/shaders/blur.gdshader" id="3_j27ug"]
@@ -61,6 +61,15 @@ theme_override_font_sizes/font_size = 80
 text = "Score: 000000"
 horizontal_alignment = 1
 
+[node name="Restart" type="Button" parent="Control/Panel/PauseMenuUI" groups=["ui_button"]]
+process_mode = 2
+layout_mode = 2
+size_flags_vertical = 2
+theme_override_font_sizes/font_size = 80
+text = "RESTART"
+script = ExtResource("3_ddvhu")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
+
 [node name="ExitGame" type="Button" parent="Control/Panel/PauseMenuUI" groups=["ui_button"]]
 process_mode = 2
 layout_mode = 2
@@ -70,4 +79,5 @@ text = "EXIT GAME"
 script = ExtResource("3_ddvhu")
 metadata/_custom_type_script = "uid://boq3i75yls51h"
 
+[connection signal="pressed" from="Control/Panel/PauseMenuUI/Restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="Control/Panel/PauseMenuUI/ExitGame" to="." method="_on_exit_game_pressed"]

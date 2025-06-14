@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bfirvscrnk6js"]
+[gd_scene load_steps=7 format=3 uid="uid://bfirvscrnk6js"]
 
 [ext_resource type="Theme" uid="uid://m30a0nncwbm0" path="res://assets/styles/options_menu.tres" id="1_54n53"]
 [ext_resource type="Script" uid="uid://nqjiajj1sgma" path="res://scripts/ui/ingame_ui/pause_menu.gd" id="2_waa04"]
 [ext_resource type="PackedScene" uid="uid://drj31ll2cuftl" path="res://scenes/options_menu/options_menu.tscn" id="4_6l1v6"]
+[ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="5_54n53"]
 [ext_resource type="Shader" uid="uid://c0qwo7bogo6j7" path="res://assets/shaders/blur.gdshader" id="5_ejuul"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ii1ll"]
@@ -64,14 +65,20 @@ horizontal_alignment = 1
 [node name="Continue" type="Button" parent="Control/PauseMenuUI"]
 layout_mode = 2
 text = "Continue"
+script = ExtResource("5_54n53")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
 
 [node name="Settings" type="Button" parent="Control/PauseMenuUI"]
 layout_mode = 2
 text = "Settings"
+script = ExtResource("5_54n53")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
 
 [node name="Exit" type="Button" parent="Control/PauseMenuUI" groups=["ui_button"]]
 layout_mode = 2
 text = "Exit to Main Menu"
+script = ExtResource("5_54n53")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
 
 [connection signal="options_menu_exited" from="Control/OptionsMenu" to="." method="_on_option_menu_exited"]
 [connection signal="pressed" from="Control/PauseMenuUI/Continue" to="." method="_on_continue_pressed"]

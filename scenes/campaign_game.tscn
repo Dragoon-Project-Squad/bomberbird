@@ -123,6 +123,7 @@ script = ExtResource("1_xj4ag")
 [node name="StageHandler" parent="." instance=ExtResource("2_6c1o1")]
 
 [node name="ExitPool" parent="." instance=ExtResource("7_6c1o1")]
+initial_spawn_count = 8
 
 [node name="BreakablePool" parent="." instance=ExtResource("7_u5d24")]
 

@@ -25,3 +25,9 @@ func init_screen(score: int):
 
 func _on_exit_game_pressed():
 	gamestate.end_sp_game()
+
+
+func _on_restart_pressed() -> void:
+	get_tree().paused = false
+	hide()
+	globals.game.restart()

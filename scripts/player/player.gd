@@ -81,6 +81,7 @@ func _ready():
 
 	movement_speed_reset = movement_speed
 	bomb_count_reset = bomb_count
+	print(bomb_count_reset)
 	explosion_boost_count_reset = explosion_boost_count
 	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
 		player_health_updated.connect(func (s: Player, health: int): game_ui.update_health(health, int(s.name)))
@@ -92,6 +93,7 @@ func _ready():
 	pickups.reset()
 	self.animation_player.play("RESET")
 	init_pickups()
+	do_invulnerabilty()
 
 func init_pickups():
 	if !is_multiplayer_authority(): return

@@ -3,7 +3,7 @@ class_name Exit extends Node2D
 
 @export var exit_id: int
 
-@onready var exit_col_shape: CollisionShape2D = get_node("ExitArea/ExitCollisionShape")
+var exit_col_shape: CollisionShape2D
 
 var in_use: bool = false
 var used: bool = false
@@ -11,6 +11,7 @@ var enabled_signal_fun: Callable = enable.bind(true)
 
 @rpc("call_local")
 func disable():
+	exit_col_shape = get_node("ExitArea/ExitCollisionShape")
 	in_use = false
 	self.position = Vector2.ZERO
 	self.hide()
@@ -18,6 +19,7 @@ func disable():
 
 func enable(_tile: int = 0, cell: Vector2i = Vector2i.ZERO, is_signal: bool = false):
 	# if the signal is not for this exit do not enable and reconnect the signal
+	exit_col_shape = get_node("ExitArea/ExitCollisionShape")
 	if world_data.tile_map.local_to_map(self.position) != cell && is_signal: return
 	self.show.call_deferred()
 	exit_col_shape.set_deferred("disabled", 0)

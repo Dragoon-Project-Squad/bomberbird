@@ -64,7 +64,8 @@ func spawn_exits():
 			"exit at position " + str(exit_entry.coords) + " is out of bounds for current stage")
 		assert(!world_data.is_tile(world_data.tiles.UNBREAKABLE, exit_pos),
 			"exit at position " + str(exit_entry.coords) + " is ontop of an unbreakable")
-		globals.game.exit_pool.request(exit_entry.color).place(exit_pos, children_ids[iter])
+		var exit = globals.game.exit_pool.request(exit_entry.color)
+		exit.place(exit_pos, children_ids[iter])
 		iter += 1
 
 ## Disabled this world so another may be enabled
