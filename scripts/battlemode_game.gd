@@ -11,8 +11,8 @@ func _ready():
 	
 func start():
 	load_stage()
-	stage.reset()
-	stage.enable() #Set up the stage.
+	stage.reset.call_deferred()
+	stage.enable.call_deferred() #Set up the stage.
 	call_deferred("freeze_players") #Lock all players movement.
 	await remove_the_darkness()
 	show_all_players()
