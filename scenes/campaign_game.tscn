@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://dvck17j6oqwyh" path="res://scenes/ingame_ui/campaign_game_ui.tscn" id="12_qa6w2"]
 [ext_resource type="PackedScene" uid="uid://cfxr8qiemjg2j" path="res://scenes/ingame_ui/singleplayer_win_status.tscn" id="13_qa6w2"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="14_8ic0x"]
-[ext_resource type="PackedScene" uid="uid://bfirvscrnk6js" path="res://scenes/ingame_ui/pause_menu.tscn" id="15_8w4nb"]
+[ext_resource type="PackedScene" path="res://scenes/ingame_ui/pause_menu.tscn" id="15_8w4nb"]
 
 [sub_resource type="Curve2D" id="Curve2D_6r17b"]
 _data = {
