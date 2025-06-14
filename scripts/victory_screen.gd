@@ -20,7 +20,7 @@ func _ready() -> void:
 
 @rpc("call_remote")
 func remove_game_node():
-	globals.game.queue_free()
+	globals.game.free()
 
 func sort_player_ids_by_score(player_scores) -> Array:
 	var sorted_player_id_by_score = []
@@ -76,6 +76,6 @@ func show_positions(number_of_players: int):
 func _on_timer_timeout():
 	$AnimationPlayer.play("fade_out")
 	await $AnimationPlayer.animation_finished
-	gamestate.end_game()
+	#gamestate.end_game()
 	get_tree().change_scene_to_file("res://scenes/lobby/lobby.tscn")
 	gamestate.player_list_changed.emit()
