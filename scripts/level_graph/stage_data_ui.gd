@@ -7,6 +7,7 @@ const ENEMY_DIR: Dictionary = {
 	"Egg Goon Yellow": "egg_enemy_type2.tscn",
 	"Egg Goon Blue": "egg_enemy_type3.tscn",
 	"Egg Goon Green": "egg_enemy_type4.tscn",
+	"Egg Goon Dumb" : "egg_enemy_type_dumb.tscn",
 	"R2 Goon": "egg_R2_enemy.tscn",
 	"Knight Goon": "knight_enemy.tscn",
 	"Slime Goon": "slime_goon.tscn",
