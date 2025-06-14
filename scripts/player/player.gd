@@ -113,8 +113,8 @@ func init_pickups():
 		enable_bombclip.rpc()
 	if self.pickups.held_pickups[globals.pickups.INVINCIBILITY_VEST]:
 		start_invul.rpc()
-	if self.pickups.held_pickups[globals.pickups.GENERIC_BOMB] == HeldPickups.bomb_types.MINE:
-		lock_bomb_count.rpc(1)
+	#if self.pickups.held_pickups[globals.pickups.GENERIC_BOMB] == HeldPickups.bomb_types.MINE:
+		#lock_bomb_count.rpc(1) Now handled by pickup code
 
 func _process(delta: float):
 	if !invulnerable:
