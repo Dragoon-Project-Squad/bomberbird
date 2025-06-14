@@ -1,11 +1,17 @@
-[gd_scene load_steps=7 format=3 uid="uid://drj31ll2cuftl"]
+[gd_scene load_steps=9 format=3 uid="uid://drj31ll2cuftl"]
 
 [ext_resource type="Script" uid="uid://chv663cf634ry" path="res://scripts/ui/options_menu/options.gd" id="1_rs434"]
 [ext_resource type="Texture2D" uid="uid://bsu1o1vymo51p" path="res://assets/aesprite/Domber doki cenario1.png" id="2_mqvme"]
 [ext_resource type="Theme" uid="uid://m30a0nncwbm0" path="res://assets/styles/options_menu.tres" id="3_4bifj"]
+[ext_resource type="Shader" uid="uid://c0qwo7bogo6j7" path="res://assets/shaders/blur.gdshader" id="3_y4bli"]
 [ext_resource type="PackedScene" uid="uid://cuslig6cjmt18" path="res://scenes/options_menu/settings_tab_container.tscn" id="4_pbji6"]
 [ext_resource type="AudioStream" uid="uid://bsv6xvb7bqh1h" path="res://sound/mus/config_dragoon_cafe.ogg" id="5_7inox"]
 [ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="5_8eue1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rwie7"]
+resource_local_to_scene = true
+shader = ExtResource("3_y4bli")
+shader_parameter/strength = 2.5
 
 [node name="OptionsMenu" type="Control"]
 layout_mode = 3
@@ -22,6 +28,15 @@ texture_filter = 1
 position = Vector2(576, 337.5)
 scale = Vector2(3, 3)
 texture = ExtResource("2_mqvme")
+
+[node name="BGBlur" type="Panel" parent="."]
+material = SubResource("ShaderMaterial_rwie7")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1

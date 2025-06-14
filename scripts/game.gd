@@ -14,9 +14,10 @@ var enemy_pool: EnemyPool
 var bomb_pool: BombPool
 var pickup_pool: PickupPool
 var breakable_pool: BreakablePool
-var game_ui
-var win_screen: Control
 var stage: World
+var game_ui
+var win_screen
+
 
 var players_are_spawned: bool = false
 

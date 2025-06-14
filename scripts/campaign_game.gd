@@ -4,6 +4,7 @@ const LEVEL_GRAPH_PATH: String = "res://resources/level_graph/saved_graphs"
 const MATCH_TIME: int = 180
 
 @onready var stage_announce_label: Label = get_node("StageAnnouncement")
+@onready var pause_menu: CanvasLayer = $PauseMenu
 
 var stage_handler: StageHandler
 
@@ -28,8 +29,8 @@ func restart_current_stage():
 	fade.play("fade_out")
 	await fade.animation_finished
 
-	reset()
-	stage.reset()
+	reset.call_deferred()
+	stage.reset.call_deferred()
 
 	await get_tree().create_timer(1).timeout
 
@@ -63,8 +64,7 @@ func next_stage(id: int, player: HumanPlayer):
 	await player.play_victory(true)
 
 	if id == -1:
-		#TODO: proper won game screen
-		win_screen.won_game()
+		win_screen.won_game(score)
 		reset()
 		stage.reset() #deletes exits and stops hurry up
 		return
@@ -208,6 +208,13 @@ func _check_ending_condition(alive_enemies: int):
 	var alive_players: Array[Player] = globals.player_manager.get_alive_players()
 	if len(alive_players) == 0 && alive_enemies == -1:
 		#TODO: proper lost game screen (with restart option)
-		win_screen.lost_game()
+		win_screen.lost_game(score)
 	if len(alive_players) > 0 && alive_enemies == 0:
 		stage.spawn_exits()
+
+func _input(event):
+	if event.is_action_pressed("pause"):
+		if !get_tree().paused:
+			pause_menu.open()
+			
+			
