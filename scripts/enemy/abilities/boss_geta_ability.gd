@@ -1,5 +1,5 @@
 extends EnemyState
-# Handles the tomato bosses ability
+## Handles the crowki bosses ability
 
 const BOMB_RATE: float = 0.5
 const BOMB_COOLDOWN: float = 0.5

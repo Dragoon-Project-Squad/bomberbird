@@ -45,22 +45,31 @@ func _physics_update(delta):
 		if self.enemy.kicked_bomb.state == BombRoot.SLIDING:
 			self.enemy.kicked_bomb.stop_kick()
 			self.enemy.kicked_bomb = null
+			return
 
 	if arrived && self.enemy.bomb_to_throw && self.enemy.ability_detector.check_throw():
 		self.enemy.bomb_carry_sprite.hide()
-		self.enemy.bomb_to_throw.do_throw(self.enemy.movement_vector, self.enemy.position)
+		if self.enemy.movement_vector != Vector2.ZERO:
+			self.enemy.bomb_to_throw.do_throw(self.enemy.movement_vector, self.enemy.position)
+		else:
+			self.enemy.bomb_to_throw.do_throw(Vector2.DOWN, self.enemy.position)
 		self.enemy.bomb_to_throw = null
+		return
 
 	if arrived && !world_data.is_safe(self.enemy.position): #dodge again
 		self.curr_path = get_dodge_path()
 		self.next_position = get_next_pos(self.curr_path)
 		self.enemy.movement_vector = self.enemy.position.direction_to(self.next_position) if (self.next_position != self.enemy.position) else Vector2.ZERO
+		return
+
 	elif arrived && self.curr_path.is_empty(): #change to wander
 		state_changed.emit(self, "wander")
+		return
 
 	elif arrived:
 		self.next_position = get_next_pos(self.curr_path)
 		self.enemy.movement_vector = self.enemy.position.direction_to(self.next_position) if (self.next_position != self.enemy.position) else Vector2.ZERO
+		return
 
 	if !valid_tile(self.next_position):
 		self.next_position = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.enemy.position))

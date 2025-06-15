@@ -38,7 +38,7 @@ func get_bomb() -> BombRoot:
 	return bodies.pick_random().get_parent()
 
 func check_throw() -> bool:
-	if self.enemy.bomb_to_throw == null: return false
+	if self.enemy.bomb_to_throw == null || self.enemy.movement_vector: return false
 	return do_throw >= _rand.randf()
 
 func check_stop_kick() -> bool:

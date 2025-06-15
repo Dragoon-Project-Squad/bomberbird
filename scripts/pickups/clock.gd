@@ -1,5 +1,6 @@
 extends Pickup
 
+const TIME: float = 4
 
 func _ready():
 	super()
@@ -16,4 +17,4 @@ func apply_power_up(pickup_owner):
 @rpc("call_local")
 func emit_time_signal(pickup_owner: String, is_player: bool):
 	globals.game.clock_pickup_time_paused.emit(pickup_owner, is_player)
-	get_tree().create_timer(16).timeout.connect(func(): globals.game.clock_pickup_time_unpaused.emit())
+	get_tree().create_timer(TIME).timeout.connect(func(): globals.game.clock_pickup_time_unpaused.emit())
