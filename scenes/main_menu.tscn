@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://dgfv37m0j3grk"]
+[gd_scene load_steps=14 format=3 uid="uid://dgfv37m0j3grk"]
 
 [ext_resource type="Script" uid="uid://bq6xc0g4f6lhf" path="res://scripts/ui/main_menu.gd" id="1_qmksv"]
 [ext_resource type="Texture2D" uid="uid://bsu1o1vymo51p" path="res://assets/aesprite/Domber doki cenario1.png" id="2_u3scb"]
 [ext_resource type="Texture2D" uid="uid://bggd2gghfmofi" path="res://assets/aesprite/Domber doki cenario2.png" id="3_0wv10"]
 [ext_resource type="Texture2D" uid="uid://b7ve16526xnpv" path="res://assets/aesprite/title.png" id="4_jitsi"]
 [ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="5_lgwnu"]
+[ext_resource type="PackedScene" uid="uid://chag6gydus5qi" path="res://scenes/funny_portal.tscn" id="6_7b55j"]
 [ext_resource type="Theme" uid="uid://wfdn1qbkwu46" path="res://assets/styles/main_menu_theme.tres" id="6_hrcjh"]
 [ext_resource type="StyleBox" uid="uid://dah145apm30c3" path="res://assets/styles/main_menu_select_style.tres" id="7_2iy8e"]
 [ext_resource type="StyleBox" uid="uid://c07q8xvjxkea6" path="res://assets/styles/main_menu_style.tres" id="7_nrhvf"]
@@ -43,6 +44,17 @@ texture_filter = 1
 position = Vector2(576, 200)
 scale = Vector2(2, 2)
 texture = ExtResource("4_jitsi")
+
+[node name="FunnyPortal" parent="TitleSceen" instance=ExtResource("6_7b55j")]
+position = Vector2(464, 368)
+
+[node name="FunnyPortal2" parent="TitleSceen" instance=ExtResource("6_7b55j")]
+position = Vector2(576, 368)
+scale = Vector2(2, 2)
+
+[node name="FunnyPortal3" parent="TitleSceen" instance=ExtResource("6_7b55j")]
+position = Vector2(720, 368)
+scale = Vector2(4, 4)
 
 [node name="ButtonBox" type="VBoxContainer" parent="."]
 layout_mode = 1

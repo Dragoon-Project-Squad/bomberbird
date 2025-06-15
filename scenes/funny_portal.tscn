@@ -1,0 +1,137 @@
+[gd_scene load_steps=16 format=3 uid="uid://chag6gydus5qi"]
+
+[ext_resource type="Script" uid="uid://0573sm83l40a" path="res://scenes/funny_portal.gd" id="1_nu3p2"]
+[ext_resource type="Texture2D" uid="uid://cbjd20vixa04v" path="res://assets/bomberportalspritesheet.png" id="1_sxfep"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5pajh"]
+atlas = ExtResource("1_sxfep")
+region = Rect2(0, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j7ex8"]
+atlas = ExtResource("1_sxfep")
+region = Rect2(32, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a8gd2"]
+atlas = ExtResource("1_sxfep")
+region = Rect2(64, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hstxw"]
+atlas = ExtResource("1_sxfep")
+region = Rect2(96, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8egab"]
+atlas = ExtResource("1_sxfep")
+region = Rect2(128, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gw5y6"]
+atlas = ExtResource("1_sxfep")
+region = Rect2(160, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_svtp6"]
+atlas = ExtResource("1_sxfep")
+region = Rect2(192, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1dfpl"]
+atlas = ExtResource("1_sxfep")
+region = Rect2(224, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qywvv"]
+atlas = ExtResource("1_sxfep")
+region = Rect2(256, 0, 32, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nu3p2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5pajh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j7ex8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a8gd2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hstxw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8egab")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gw5y6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_svtp6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1dfpl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qywvv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 9.0
+}]
+
+[sub_resource type="Animation" id="Animation_sxfep"]
+resource_name = "rainbow"
+length = 6.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4, 5, 5.93333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 0, 0, 1), Color(1, 1, 0, 1), Color(0, 1, 0, 1), Color(0, 1, 1, 1), Color(0, 0, 1, 1), Color(1, 0, 1, 1), Color(1, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"default"]
+}
+
+[sub_resource type="Animation" id="Animation_nu3p2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"default"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_68mt8"]
+_data = {
+&"RESET": SubResource("Animation_nu3p2"),
+&"rainbow": SubResource("Animation_sxfep")
+}
+
+[node name="FunnyPortal" type="Node2D"]
+script = ExtResource("1_nu3p2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+sprite_frames = SubResource("SpriteFrames_nu3p2")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_68mt8")
+}

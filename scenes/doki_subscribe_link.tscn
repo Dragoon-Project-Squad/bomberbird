@@ -51,7 +51,7 @@ size_flags_vertical = 0
 script = SubResource("GDScript_ym7o5")
 
 [node name="Text" type="RichTextLabel" parent="."]
-modulate = Color(0.219304, -0.0715232, 1.02847, 1)
+modulate = Color(1, 0, 0, 1)
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
