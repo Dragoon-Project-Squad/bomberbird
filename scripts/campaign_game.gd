@@ -193,7 +193,6 @@ func start():
 	stage_has_changed.emit.call_deferred()
 	get_tree().create_timer(0.5).timeout.connect(func (): stage_announce_label.hide())
 
-
 func activate_ui_and_music():
 	stage.start_music()
 
@@ -229,5 +228,3 @@ func _input(event):
 	if event.is_action_pressed("pause"):
 		if !get_tree().paused:
 			pause_menu.open()
-			
-			

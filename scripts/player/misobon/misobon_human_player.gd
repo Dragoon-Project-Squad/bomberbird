@@ -10,7 +10,8 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	super(delta)
-	if multiplayer.multiplayer_peer == null or str(multiplayer.get_unique_id()) == str(name) && controllable:
+	if !controllable: return
+	if multiplayer.multiplayer_peer == null or str(multiplayer.get_unique_id()) == str(name):
 		# The client which this player represent will update the controls state, and notify it to everyone.
 		inputs.update(
 			get_parent().get_segment_with_grace(synced_progress)

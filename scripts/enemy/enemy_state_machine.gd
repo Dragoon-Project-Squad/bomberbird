@@ -3,6 +3,8 @@ class_name EnemyStateMachine extends Node
 @export var enabled_state: EnemyState
 @export var disabled_state: EnemyState
 
+@onready var this_enemy: Enemy = get_parent()
+
 var current_state: EnemyState
 var states: Dictionary = {}
 var target = null
@@ -14,7 +16,7 @@ func _ready():
 		if child is EnemyState:
 			states[child.name.to_lower()] = child
 			child.state_changed.connect(_on_state_changed)
-			child.enemy = get_parent()
+			child.enemy = this_enemy
 			child.state_machine = self
 			globals.game.stage_has_changed.connect(child._on_new_stage)
 	
@@ -23,11 +25,11 @@ func _ready():
 		current_state = disabled_state 
 
 func _process(delta):
-	if current_state && !stop_process:
+	if current_state && !stop_process && !this_enemy.time_is_stopped:
 		current_state._update(delta)
 
 func _physics_process(delta):
-	if current_state && !stop_process:
+	if current_state && !stop_process && !this_enemy.time_is_stopped:
 		current_state._physics_update(delta)
 
 func _on_state_changed(state: EnemyState, new_state: String) -> void:

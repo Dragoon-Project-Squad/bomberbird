@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cnh2gm7b6k6qf"]
+[gd_scene load_steps=22 format=3 uid="uid://cnh2gm7b6k6qf"]
 
 [ext_resource type="Script" uid="uid://ddbcnbcl4rnuf" path="res://scripts/campaign_game.gd" id="1_xj4ag"]
 [ext_resource type="PackedScene" uid="uid://c08ari0b7ej0q" path="res://scenes/stage_handler.tscn" id="2_6c1o1"]
@@ -14,8 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://dvck17j6oqwyh" path="res://scenes/ingame_ui/campaign_game_ui.tscn" id="12_qa6w2"]
 [ext_resource type="PackedScene" uid="uid://cfxr8qiemjg2j" path="res://scenes/ingame_ui/singleplayer_win_status.tscn" id="13_qa6w2"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="14_8ic0x"]
-[ext_resource type="Script" path="res://scripts/ui/ingame_ui/singleplayer_win_status.gd" id="14_8w4nb"]
-[ext_resource type="PackedScene" path="res://scenes/ingame_ui/pause_menu.tscn" id="15_8w4nb"]
+[ext_resource type="PackedScene" uid="uid://bfirvscrnk6js" path="res://scenes/ingame_ui/pause_menu.tscn" id="15_8w4nb"]
 
 [sub_resource type="Curve2D" id="Curve2D_6r17b"]
 _data = {
@@ -171,7 +170,6 @@ follow_viewport_scale = 1.2
 
 [node name="GameEndState" parent="." instance=ExtResource("13_qa6w2")]
 visible = false
-script = ExtResource("14_8w4nb")
 
 [node name="PauseMenu" parent="." instance=ExtResource("15_8w4nb")]
 visible = false
@@ -205,3 +203,6 @@ offset_right = 694.0
 offset_bottom = 500.0
 color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
+
+[connection signal="clock_pickup_time_paused" from="." to="." method="pause_time"]
+[connection signal="clock_pickup_time_unpaused" from="." to="." method="unpause_time"]

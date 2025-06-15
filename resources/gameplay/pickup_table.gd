@@ -16,7 +16,7 @@ const PICKUP_SPAWN_BASE_CHANCE: float = 1.0
 @export var punch_ability: int = 50
 @export var throw_ability: int = 50
 @export var wallthrough: int = 50
-#@export var timer: int = 0
+@export var timer: int = 10
 @export var invincibility_vest: int = 50
 #@export var virus: int = 0
 @export var kick: int = 50
@@ -51,7 +51,7 @@ func update():
 		globals.pickups.BOMB_PUNCH: punch_ability,
 		globals.pickups.POWER_GLOVE: throw_ability,
 		globals.pickups.WALLTHROUGH: wallthrough,
-		#globals.pickups.FREEZE: timer,
+		globals.pickups.FREEZE: timer,
 		globals.pickups.INVINCIBILITY_VEST: invincibility_vest,
 		#globals.pickups.VIRUS: virus,
 		globals.pickups.KICK: kick,
@@ -83,8 +83,8 @@ func reverse_update():
 		throw_ability = pickup_weights[globals.pickups.POWER_GLOVE]
 	if pickup_weights.has(globals.pickups.WALLTHROUGH):
 		wallthrough = pickup_weights[globals.pickups.WALLTHROUGH]
-	#if pickup_weights.has(globals.pickups.FREEZE):
-		#timer = pickup_weights[globals.pickups.FREEZE]
+	if pickup_weights.has(globals.pickups.FREEZE):
+		timer = pickup_weights[globals.pickups.FREEZE]
 	if pickup_weights.has(globals.pickups.INVINCIBILITY_VEST):
 		invincibility_vest = pickup_weights[globals.pickups.INVINCIBILITY_VEST]
 	#if pickup_weights.has(globals.pickups.VIRUS):

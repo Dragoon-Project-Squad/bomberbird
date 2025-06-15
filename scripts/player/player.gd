@@ -35,6 +35,7 @@ const INVULNERABILITY_POWERUP_TIME: float = 16.0
 var current_anim: String = ""
 var is_dead: bool = false
 var stop_movement: bool = false
+var time_is_stopped: bool = false
 var player_type: String
 var hurry_up_started: bool = false 
 var misobon_player: MisobonPlayer
@@ -324,6 +325,8 @@ func reset():
 	await animation_player.animation_finished
 	stunned = false
 	is_dead = false
+	self.stop_movement = false
+	self.time_is_stopped = false
 	show()
 	
 ## resets the pickups back to the inital state
@@ -498,3 +501,12 @@ func start_invul():
 	invulnerable_remaining_time = INVULNERABILITY_POWERUP_TIME
 	invulnerable = true
 	set_process(true)
+
+func stop_time(user: String, is_player: bool):
+	if is_player && user == self.name:
+		self.pickups.held_pickups[globals.pickups.FREEZE] = false
+		return
+	self.time_is_stopped = true
+	
+func start_time():
+	self.time_is_stopped = false
