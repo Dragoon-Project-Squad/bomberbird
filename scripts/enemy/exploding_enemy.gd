@@ -17,12 +17,6 @@ func _ready() -> void:
 	self.set_process(false)
 	super()
 
-func _physics_process(_delta):
-	pass
-
-func do_stun():
-	pass
-
 @rpc("call_local")
 func exploded(_by_whom: int):
 	if(!is_multiplayer_authority()): return 1
@@ -58,32 +52,16 @@ func exploded(_by_whom: int):
 	if is_multiplayer_authority(): # multiplayer auth. now starts the transition to the explosion
 		explosion.init_detonate.rpc(exp_range[Vector2i.RIGHT], exp_range[Vector2i.DOWN], exp_range[Vector2i.LEFT], exp_range[Vector2i.UP])
 		explosion.do_detonate.rpc()
-	
+
 func done():
 	_exploded_barrier = false
 	enemy_died.emit()
 	self.disable()
 	globals.game.enemy_pool.return_obj(self)
 
-func _livetime_over():
-	if self.statemachine.stop_process: return
-	done()
-
-@rpc("call_local")
-func place(pos: Vector2, path: String):
-	if(!is_multiplayer_authority()): return 1
-	hitbox.set_deferred("disabled", 0)
-	self.show()
-	sprite.play()
-	print(pos)
-	self.position = pos
-	self.enemy_path = path
-	get_tree().create_timer(LIVETIME).timeout.connect(_livetime_over, CONNECT_ONE_SHOT)
-
 @rpc("call_local")
 func disable():
 	super()
-	sprite.stop()
 	self.sprite.show()
 	self.explosion.reset()
 	self.statemachine.stop_process = false

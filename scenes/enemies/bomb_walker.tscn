@@ -1,0 +1,118 @@
+[gd_scene load_steps=15 format=3 uid="uid://dw3r6se22882j"]
+
+[ext_resource type="Script" uid="uid://yjthgf8km0xe" path="res://scripts/enemy/exploding_enemy.gd" id="1_amm0u"]
+[ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_amm0u"]
+[ext_resource type="Texture2D" uid="uid://1fypvitk7jwr" path="res://assets/enemies/bomb_walker_walk.png" id="3_amm0u"]
+[ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_cr80q"]
+[ext_resource type="Script" uid="uid://do40x4uveegjg" path="res://scripts/enemy/detection_handlers/detection_handler_type_A.gd" id="5_4grnn"]
+[ext_resource type="PackedScene" uid="uid://c3row0thknslo" path="res://scenes/explosion.tscn" id="5_amm0u"]
+[ext_resource type="AnimationLibrary" uid="uid://dvi33f4r6k5nh" path="res://animations/enemy.res" id="6_l4e25"]
+[ext_resource type="Script" uid="uid://bct3b1gr0upgg" path="res://scripts/enemy/enemy_state_machine.gd" id="7_5xs76"]
+[ext_resource type="Script" uid="uid://dfa6r3k8yvrsi" path="res://scripts/enemy/wander_types/enemy_wander_type_1.gd" id="8_mbbsy"]
+[ext_resource type="Script" uid="uid://vwdld30j7ykj" path="res://scripts/enemy/abilities/enemy_no_ability.gd" id="9_g2xc6"]
+[ext_resource type="Script" uid="uid://xpsl7bku1ra4" path="res://scripts/enemy/enemy_state.gd" id="10_4qrdx"]
+[ext_resource type="Texture2D" uid="uid://jog1koyue4lr" path="res://assets/fallingsprite.png" id="11_bq35n"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_i1su5"]
+radius = 9.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hwcqj"]
+
+[node name="BombWalker" type="CharacterBody2D" node_paths=PackedStringArray("detection_handler") groups=["thrown_bomb_bounces"]]
+texture_filter = 1
+collision_layer = 32
+collision_mask = 13
+script = ExtResource("1_amm0u")
+score_points = 300
+movement_speed = 40.0
+detection_handler = NodePath("DetectionHandler_A")
+
+[node name="shadowsprite" type="Sprite2D" parent="."]
+position = Vector2(0, 8)
+scale = Vector2(1, 0.5)
+texture = ExtResource("2_amm0u")
+
+[node name="sprite" type="Sprite2D" parent="."]
+position = Vector2(0.0750351, 6.23615)
+texture = ExtResource("3_amm0u")
+offset = Vector2(-0.075, -8.536)
+hframes = 6
+vframes = 4
+
+[node name="kaboom" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-1.07288e-06, 3.57628e-07)
+scale = Vector2(0.333333, 0.351648)
+texture = ExtResource("4_cr80q")
+hframes = 9
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_i1su5")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="HurtboxShape" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_i1su5")
+debug_color = Color(1, 0, 0, 0.419608)
+
+[node name="Raycasts" type="Node2D" parent="."]
+
+[node name="Right" type="RayCast2D" parent="Raycasts"]
+target_position = Vector2(32, 0)
+collision_mask = 5
+collide_with_areas = true
+metadata/direction = Vector2i(1, 0)
+
+[node name="Down" type="RayCast2D" parent="Raycasts"]
+target_position = Vector2(0, 32)
+collision_mask = 5
+collide_with_areas = true
+metadata/direction = Vector2i(0, 1)
+
+[node name="Left" type="RayCast2D" parent="Raycasts"]
+target_position = Vector2(-32, 0)
+collision_mask = 5
+collide_with_areas = true
+metadata/direction = Vector2i(-1, 0)
+
+[node name="Up" type="RayCast2D" parent="Raycasts"]
+target_position = Vector2(0, -32)
+collision_mask = 5
+collide_with_areas = true
+metadata/direction = Vector2i(0, -1)
+
+[node name="Explosion" parent="." instance=ExtResource("5_amm0u")]
+
+[node name="DetectionHandler_A" type="Node2D" parent="."]
+script = ExtResource("5_4grnn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"enemy": ExtResource("6_l4e25")
+}
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+root_path = NodePath("../StateMachine")
+replication_config = SubResource("SceneReplicationConfig_hwcqj")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("enabled_state", "disabled_state")]
+script = ExtResource("7_5xs76")
+enabled_state = NodePath("Wander")
+disabled_state = NodePath("Disabled")
+
+[node name="Wander" type="Node" parent="StateMachine"]
+script = ExtResource("8_mbbsy")
+
+[node name="Ability" type="Node" parent="StateMachine"]
+script = ExtResource("9_g2xc6")
+
+[node name="Disabled" type="Node" parent="StateMachine"]
+script = ExtResource("10_4qrdx")
+
+[node name="DebugMarker" type="Sprite2D" parent="."]
+self_modulate = Color(1, 0, 0, 1)
+top_level = true
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("11_bq35n")
