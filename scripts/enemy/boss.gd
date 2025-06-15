@@ -138,6 +138,7 @@ func exploded(by_whom: int):
 	pickup.place.rpc(valid_pos, true)
 
 func reset_pickups():
+	self.bomb_carry_sprite.hide()
 	damage_invulnerable = false
 	self.set_collision_mask_value(4, true)
 	self.set_collision_mask_value(3, true)

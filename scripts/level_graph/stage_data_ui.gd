@@ -23,6 +23,7 @@ const ENEMY_DIR: Dictionary = {
 	"Tomato Doki Boss": "tomato_boss.tscn",
 	"Retro Doki Boss": "retro_doki_boss.tscn",
 	"Crowki Boss": "crowki_boss.tscn",
+	"Alt Doki Boss": "alt_doki_boss.tscn",
 	"Mint Boss": "mint_boss.tscn",
 	}
 
