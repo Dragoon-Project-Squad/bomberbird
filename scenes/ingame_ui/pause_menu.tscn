@@ -1,0 +1,86 @@
+[gd_scene load_steps=7 format=3 uid="uid://bfirvscrnk6js"]
+
+[ext_resource type="Theme" uid="uid://m30a0nncwbm0" path="res://assets/styles/options_menu.tres" id="1_54n53"]
+[ext_resource type="Script" uid="uid://nqjiajj1sgma" path="res://scripts/ui/ingame_ui/pause_menu.gd" id="2_waa04"]
+[ext_resource type="PackedScene" uid="uid://drj31ll2cuftl" path="res://scenes/options_menu/options_menu.tscn" id="4_6l1v6"]
+[ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="5_54n53"]
+[ext_resource type="Shader" uid="uid://c0qwo7bogo6j7" path="res://assets/shaders/blur.gdshader" id="5_ejuul"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ii1ll"]
+shader = ExtResource("5_ejuul")
+shader_parameter/strength = 2.5
+
+[node name="PauseMenu" type="CanvasLayer"]
+process_mode = 2
+script = ExtResource("2_waa04")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_54n53")
+
+[node name="Panel" type="Panel" parent="Control"]
+material = SubResource("ShaderMaterial_ii1ll")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="OptionsMenu" parent="Control" instance=ExtResource("4_6l1v6")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="PauseMenuUI" type="VBoxContainer" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -270.0
+offset_top = -169.5
+offset_right = 270.0
+offset_bottom = 169.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="Control/PauseMenuUI"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 30
+theme_override_font_sizes/font_size = 180
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="Continue" type="Button" parent="Control/PauseMenuUI"]
+layout_mode = 2
+text = "Continue"
+script = ExtResource("5_54n53")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
+
+[node name="Settings" type="Button" parent="Control/PauseMenuUI"]
+layout_mode = 2
+text = "Settings"
+script = ExtResource("5_54n53")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
+
+[node name="Exit" type="Button" parent="Control/PauseMenuUI" groups=["ui_button"]]
+layout_mode = 2
+text = "Exit to Main Menu"
+script = ExtResource("5_54n53")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
+
+[connection signal="options_menu_exited" from="Control/OptionsMenu" to="." method="_on_option_menu_exited"]
+[connection signal="pressed" from="Control/PauseMenuUI/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="Control/PauseMenuUI/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="Control/PauseMenuUI/Exit" to="." method="_on_exit_pressed"]

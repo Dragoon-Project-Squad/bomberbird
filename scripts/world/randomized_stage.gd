@@ -17,7 +17,7 @@ func get_final_breakable_rate() -> float:
 		return SettingsContainer.get_breakable_chance()
 	return base_breakable_chance + (gamestate.current_level - 1) * level_chance_multiplier # Use the value decided by the STAGE
 	
-func _generate_breakables(_breakable_table: BreakableTable = null):
+func _generate_breakables_with_weights(_breakable_table: BreakableTable = null):
 	if not is_multiplayer_authority():
 		return
 	for x in range(0, world_data.world_width):	
@@ -33,6 +33,41 @@ func _generate_breakables(_breakable_table: BreakableTable = null):
 
 			if _rng.randf() < breakable_spawn_chance:
 				_spawn_breakable(current_cell, globals.pickups.RANDOM)
+				
+func _generate_breakables_with_amounts(breakable_table: BreakableTable, pickup_table: PickupTable):
+	if not is_multiplayer_authority(): return
+	var rand_breakable_spawn_dict: Dictionary
+	var rand_breakable_arr: Array[Vector2i]
+
+	for x in range(0, world_data.world_width):	
+		for y in range(0, world_data.world_height):
+			breakable_spawn_chance = get_final_breakable_rate()
+			breakable_spawn_chance = min(breakable_spawn_chance, 1)
+			var current_cell = Vector2i(x, y) + world_data.floor_origin
+			if world_data.is_tile(world_data.tiles.UNBREAKABLE, world_data.tile_map.map_to_local(current_cell)):
+				continue # Skip cells where solid tiles are placed
+			var skip_checker: Callable = _is_in_spawn_area.bind(1, current_cell)
+			if spawnpoints.any(skip_checker): continue
+			if enemy_table && enemy_table.get_coords().any(skip_checker): continue
+			
+			if _rng.randf() < breakable_spawn_chance:
+				rand_breakable_arr.append(current_cell)
+	
+	rand_breakable_arr.shuffle()
+	
+	var br_counter: int = 0
+	for pickup_type in pickup_table.pickup_weights.keys():
+		if rand_breakable_arr.is_empty(): break
+		for _i in range (pickup_table.pickup_weights[pickup_type]):
+			if rand_breakable_arr.is_empty(): break
+			rand_breakable_spawn_dict[rand_breakable_arr[br_counter]] = pickup_type
+			br_counter += 1
+	
+	for breakable_entry in rand_breakable_arr:
+		if rand_breakable_spawn_dict.has(breakable_entry):
+			_spawn_breakable(breakable_entry, rand_breakable_spawn_dict[breakable_entry])
+		else:
+			_spawn_breakable(breakable_entry, globals.pickups.NONE)
 
 ## returns true iff [param pos] is in a designated area around [param spawn] of size [param size] [br]
 ## [param size] Size of the area [br]

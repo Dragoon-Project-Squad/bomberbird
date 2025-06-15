@@ -4,6 +4,7 @@ const LEVEL_GRAPH_PATH: String = "res://resources/level_graph/saved_graphs"
 const MATCH_TIME: int = 180
 
 @onready var stage_announce_label: Label = get_node("StageAnnouncement")
+@onready var pause_menu: CanvasLayer = $PauseMenu
 
 var stage_handler: StageHandler
 
@@ -17,19 +18,31 @@ var curr_stage_idx: int = 0
 var _stage_lookahead: int = 3
 var _exit_entered_barrier: bool = false
 var _exit_spawned_barrier: bool = false
-var stage_done: bool = false
 
 func _init():
 	globals.game = self
+
+@rpc("call_local")
+func restart():
+	stage_done = true
+	fade.play("fade_out")
+	reset_players()
+	score = 0
+	await fade.animation_finished
+
+	reset.call_deferred()
+	stage.reset.call_deferred()
+	start.call_deferred()
 	
+
 @rpc("call_local")
 func restart_current_stage():
 	stage_done = true
 	fade.play("fade_out")
 	await fade.animation_finished
 
-	reset()
-	stage.reset()
+	reset.call_deferred()
+	stage.reset.call_deferred()
 
 	await get_tree().create_timer(1).timeout
 
@@ -63,8 +76,7 @@ func next_stage(id: int, player: HumanPlayer):
 	await player.play_victory(true)
 
 	if id == -1:
-		#TODO: proper won game screen
-		win_screen.won_game()
+		win_screen.won_game(score)
 		reset()
 		stage.reset() #deletes exits and stops hurry up
 		return
@@ -132,6 +144,7 @@ func load_next_stage_set(id: int):
 func start():
 	assert(stage_data_arr != [], "stage_data not loaded")
 	
+	stage_done = false
 	stage_announce_label.text = stage_data_arr[0].stage_node_title
 	stage_announce_label.show()
 	fade.get_node("FadeInOutRect").show()
@@ -180,7 +193,6 @@ func start():
 	stage_has_changed.emit.call_deferred()
 	get_tree().create_timer(0.5).timeout.connect(func (): stage_announce_label.hide())
 
-
 func activate_ui_and_music():
 	stage.start_music()
 
@@ -207,7 +219,12 @@ func _check_ending_condition(alive_enemies: int):
 	if win_screen.visible: return
 	var alive_players: Array[Player] = globals.player_manager.get_alive_players()
 	if len(alive_players) == 0 && alive_enemies == -1:
-		#TODO: proper lost game screen (with restart option)
-		win_screen.lost_game()
+		#TODO: proper lost game screen (wdith restart option)
+		win_screen.lost_game(score)
 	if len(alive_players) > 0 && alive_enemies == 0:
-		stage.spawn_exits()
+		stage.spawn_exits.call_deferred()
+
+func _input(event):
+	if event.is_action_pressed("pause"):
+		if !get_tree().paused:
+			pause_menu.open()

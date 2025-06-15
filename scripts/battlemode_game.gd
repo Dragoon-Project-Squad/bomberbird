@@ -11,13 +11,14 @@ func _ready():
 	
 func start():
 	load_stage()
-	stage.reset()
-	stage.enable() #Set up the stage.
+	stage.reset.call_deferred()
+	stage.enable.call_deferred() #Set up the stage.
 	call_deferred("freeze_players") #Lock all players movement.
 	await remove_the_darkness()
 	show_all_players()
 	await start_stage_start_countdown() #
 	game_ended = false
+	stage_done = false
 
 func load_stage() -> void:
 	var stage_path := globals.LAB_RAND_STAGE_PATH
@@ -112,18 +113,13 @@ func show_all_players():
 		for player in players:
 			player.show()
 			
-func reset_players():
-	var misoplayers: Array[MisobonPlayer] = Array($MisobonPath.get_children().filter(func (p): return (p is MisobonPlayer)), TYPE_OBJECT, "PathFollow2D", MisobonPlayer)
-	var deadplayers: Array[Player] = globals.player_manager.get_dead_players()
-	if is_multiplayer_authority():
-		for misoplayer in misoplayers:
-			misoplayer.reset(stage.spawnpoints[0])
-		for deadplayer in deadplayers:
-			deadplayer.reset()
+
 			
 func load_new_stage():
+	stage_done = true
 	stage.queue_free()
 	start()
+
 
 func stop_the_match():
 	game_ended = true
@@ -138,6 +134,11 @@ func play_fade_out():
 	game_anim_player.play("fade_out")
 	await game_anim_player.animation_finished
 	hide_all_players()
+
+@rpc("call_local")
+func show_victory_screen(player_data):
+	gamestate.player_data_master_dict = player_data.duplicate()
+	get_tree().call_deferred("change_scene_to_file","res://scenes/victory_screen.tscn")
 	
 ## checks if there is only 1 alive player if so makes that player win, if there is no player is draws the game and for any other state this function does nothing
 func _check_ending_condition(_alive_enemies: int = 0):
@@ -164,7 +165,9 @@ func _check_ending_condition(_alive_enemies: int = 0):
 		await get_tree().create_timer(2).timeout
 		#DO WIN SCREEN STUFF
 		if game_ui.get_player_score(alive_players[0].name.to_int()) >= SettingsContainer.get_points_to_win():
-			get_tree().call_deferred("change_scene_to_file","res://scenes/victory_screen.tscn")
+			if is_multiplayer_authority():
+				gamestate.set_player_scores(globals.game.game_ui.get_all_scores())
+				show_victory_screen.rpc(gamestate.player_data_master_dict.duplicate())
 		else:
 			#RESET GAME STATE
 			wipe_stage()

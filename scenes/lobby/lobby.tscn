@@ -1,11 +1,18 @@
-[gd_scene load_steps=10 format=3 uid="uid://jhdlqsokif5o"]
+[gd_scene load_steps=13 format=3 uid="uid://jhdlqsokif5o"]
 
 [ext_resource type="Script" uid="uid://dlxlkxwbdq3pq" path="res://scripts/ui/lobby/lobby.gd" id="1_jekxk"]
+[ext_resource type="Texture2D" uid="uid://bsu1o1vymo51p" path="res://assets/aesprite/Domber doki cenario1.png" id="2_iytm0"]
 [ext_resource type="PackedScene" uid="uid://bg5x0c706ihn3" path="res://scenes/lobby/connection_screen.tscn" id="2_mlusu"]
+[ext_resource type="Shader" uid="uid://c0qwo7bogo6j7" path="res://assets/shaders/blur.gdshader" id="3_l1n8d"]
 [ext_resource type="PackedScene" uid="uid://fsg6gwfw5fbi" path="res://scenes/cssmenu/character_select_screen.tscn" id="3_stkcr"]
 [ext_resource type="AudioStream" uid="uid://bsv6xvb7bqh1h" path="res://sound/mus/config_dragoon_cafe.ogg" id="4_2tt0b"]
 [ext_resource type="PackedScene" uid="uid://gr0y4uy0hk5k" path="res://scenes/lobby/battle_settings.tscn" id="4_iytm0"]
 [ext_resource type="PackedScene" uid="uid://bv6kuatxte3af" path="res://scenes/lobby/component/stage_select.tscn" id="5_l1n8d"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m8hcm"]
+resource_local_to_scene = true
+shader = ExtResource("3_l1n8d")
+shader_parameter/strength = 2.5
 
 [sub_resource type="Animation" id="Animation_2tt0b"]
 length = 0.001
@@ -105,6 +112,22 @@ grow_vertical = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
 script = ExtResource("1_jekxk")
+
+[node name="BG" type="Sprite2D" parent="."]
+self_modulate = Color(0.501961, 0.501961, 0.501961, 1)
+texture_filter = 1
+position = Vector2(576, 337.5)
+scale = Vector2(3, 3)
+texture = ExtResource("2_iytm0")
+
+[node name="BGBlur" type="Panel" parent="."]
+material = SubResource("ShaderMaterial_m8hcm")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Connect" parent="." instance=ExtResource("2_mlusu")]
 layout_mode = 1

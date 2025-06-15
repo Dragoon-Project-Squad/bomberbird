@@ -1,5 +1,4 @@
 #Abstract Layer between world/gamestate and players
-#TODO: Move player related functions (evtl as static) from world and/or gamestate into here
 class_name PlayerManager extends Node2D
 
 signal alive_players_changed

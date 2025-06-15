@@ -12,8 +12,8 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	super(delta)
-	#TODO AI
-
+	
+	if !controllable: return
 	last_bomb_time += delta
 
 	if last_bomb_time >= BOMB_RATE && !$BombSprite.visible:

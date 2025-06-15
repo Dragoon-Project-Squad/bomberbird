@@ -48,9 +48,14 @@ func place_summon():
 	summons_placed += 1
 	summon.enable()
 	globals.current_world.alive_enemies.append(summon)
+	globals.game.clock_pickup_time_paused.connect(summon.stop_time)
+	globals.game.clock_pickup_time_unpaused.connect(summon.start_time)
+	
 	summon.enemy_died.connect(func ():
 		summons_placed -= 1
 		globals.current_world.alive_enemies.erase(summon)
+		globals.game.clock_pickup_time_paused.disconnect(summon.stop_time)
+		globals.game.clock_pickup_time_unpaused.disconnect(summon.start_time)
 		globals.game.score += enemy.score_points
 		if globals.current_world.alive_enemies.is_empty():
 			globals.current_world.all_enemied_died.emit(0),

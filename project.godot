@@ -117,6 +117,7 @@ pause={
 2d_physics/layer_4="Bombs"
 2d_physics/layer_5="PickUps"
 2d_physics/layer_6="Enemies"
+2d_physics/layer_7="explosion_line"
 
 [rendering]
 

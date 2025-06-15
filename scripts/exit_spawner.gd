@@ -1,12 +1,10 @@
 extends MultiplayerSpawner
-const BREAKABLE_SCENE_PATH : String = "res://scenes/exit.tscn"
+const EXIT_SCENE_PATH : String = "res://scenes/exit.tscn"
 
 
 func _init():
-	spawn_function = spawn_breakable
+	spawn_function = spawn_exit
 	
-func spawn_breakable(color):
-	var exit = load(BREAKABLE_SCENE_PATH).instantiate()
-	exit.hide.call_deferred()
-	exit.set_deferred("modulate", color)
+func spawn_exit(_data):
+	var exit = load(EXIT_SCENE_PATH).instantiate()
 	return exit

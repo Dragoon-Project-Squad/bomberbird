@@ -26,7 +26,9 @@ func _physics_process(delta: float):
 		# The client simply updates the position to the last known one.
 		position = synced_position
 	
-	if not stunned and inputs.punch_ability and not punch_pressed_once and not stop_movement:
+	if stop_movement || time_is_stopped: return
+	
+	if not stunned and inputs.punch_ability and not punch_pressed_once:
 		punch_pressed_once = true
 		var direction: Vector2i = Vector2i(inputs.motion.normalized()) if inputs.motion != Vector2.ZERO else Vector2i.DOWN
 		punch_bomb(direction)
@@ -36,29 +38,28 @@ func _physics_process(delta: float):
 	if not stunned and inputs.secondary_ability:
 		var direction: Vector2i = Vector2i(inputs.motion.normalized()) if inputs.motion != Vector2.ZERO else Vector2i.DOWN
 		kick_bomb(direction)
-		
-		# TODO: put this code into the inputs.bombing section
-		#if not throw_pressed_once:
-			#throw_pressed_once = true
-			#if carry_bomb() == 1:
-				#throw_pressed_once = false
-		#else:
-			#throw_pressed_once = false
-			#var direction: Vector2i = (
-					#Vector2i(inputs.motion.normalized()) if inputs.motion != Vector2.ZERO 
-					#else Vector2i.DOWN
-			#)
-			#if throw_bomb(direction) == 1:
-				#push_error("something went wrong with bomb throwing")
-				#throw_pressed_once = false
 
-	if not stunned and inputs.bombing and bomb_count > 0 and not set_bomb_pressed_once and not stop_movement and not is_unbomb:
-		set_bomb_pressed_once = true
-		place_bomb()
+	if not stunned and inputs.bombing and bomb_count > 0 and not is_unbomb:
+		if not set_bomb_pressed_once:
+			set_bomb_pressed_once = true
+			place_bomb()
+		if not throw_pressed_once and set_bomb_pressed_once:
+			throw_pressed_once = true
+			if carry_bomb() != 0:
+				throw_pressed_once = false
 	elif !inputs.bombing and set_bomb_pressed_once:
 		set_bomb_pressed_once = false
+		if throw_pressed_once:
+			throw_pressed_once = false
+			var direction: Vector2i = (
+					Vector2i(inputs.motion.normalized()) if inputs.motion != Vector2.ZERO 
+					else Vector2i.DOWN
+			)
+			if throw_bomb(direction) == 1:
+				push_error("something went wrong with bomb throwing")
+				throw_pressed_once = false
 
-	if !is_dead && !stunned && !stop_movement:
+	if !is_dead && !stunned:
 		# Everybody runs physics. I.e. clients tries to predict where they will be during the next frame.
 		velocity = inputs.motion.normalized() * movement_speed
 		move_and_slide()

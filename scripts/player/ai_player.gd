@@ -24,6 +24,8 @@ func _physics_process(delta):
 		# The client simply updates the position to the last known one.
 		position = synced_position
 	
+	if stop_movement || time_is_stopped: return
+	
 	# Also update the animation based on the last known player input state
 	if !is_dead && !stunned:
 		velocity = movement_vector.normalized() * movement_speed

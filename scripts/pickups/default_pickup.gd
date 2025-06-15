@@ -118,6 +118,7 @@ func exploded(_from_player):
 		await $anim.animation_finished
 		if pickup_sfx_player.playing:
 			await pickup_sfx_player.finished
+		if globals.game.stage_done: return # if stage finished in the meantime just terminate here
 	disable()
 	globals.game.pickup_pool.return_obj(self) #Pickup returns itself to the pool
 

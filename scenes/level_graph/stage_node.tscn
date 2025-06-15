@@ -141,9 +141,160 @@ layout_mode = 2
 columns = 3
 metadata/_tab_index = 0
 
-[node name="PickupBoiler" type="SpinBox" parent="TabContainer/Pickup Weights"]
-unique_name_in_owner = true
-visible = false
+[node name="Pickup1" type="SpinBox" parent="TabContainer/Pickup Weights"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+max_value = 1000.0
+rounded = true
+allow_greater = true
+alignment = 3
+prefix = "Boiler:"
+
+[node name="Pickup2" type="SpinBox" parent="TabContainer/Pickup Weights"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+max_value = 1000.0
+rounded = true
+allow_greater = true
+alignment = 3
+prefix = "Boiler:"
+
+[node name="Pickup3" type="SpinBox" parent="TabContainer/Pickup Weights"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+max_value = 1000.0
+rounded = true
+allow_greater = true
+alignment = 3
+prefix = "Boiler:"
+
+[node name="Pickup4" type="SpinBox" parent="TabContainer/Pickup Weights"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+max_value = 1000.0
+rounded = true
+allow_greater = true
+alignment = 3
+prefix = "Boiler:"
+
+[node name="Pickup5" type="SpinBox" parent="TabContainer/Pickup Weights"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+max_value = 1000.0
+rounded = true
+allow_greater = true
+alignment = 3
+prefix = "Boiler:"
+
+[node name="Pickup6" type="SpinBox" parent="TabContainer/Pickup Weights"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+max_value = 1000.0
+rounded = true
+allow_greater = true
+alignment = 3
+prefix = "Boiler:"
+
+[node name="Pickup7" type="SpinBox" parent="TabContainer/Pickup Weights"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+max_value = 1000.0
+rounded = true
+allow_greater = true
+alignment = 3
+prefix = "Boiler:"
+
+[node name="Pickup8" type="SpinBox" parent="TabContainer/Pickup Weights"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+max_value = 1000.0
+rounded = true
+allow_greater = true
+alignment = 3
+prefix = "Boiler:"
+
+[node name="Pickup9" type="SpinBox" parent="TabContainer/Pickup Weights"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+max_value = 1000.0
+rounded = true
+allow_greater = true
+alignment = 3
+prefix = "Boiler:"
+
+[node name="Pickup10" type="SpinBox" parent="TabContainer/Pickup Weights"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+max_value = 1000.0
+rounded = true
+allow_greater = true
+alignment = 3
+prefix = "Boiler:"
+
+[node name="Pickup11" type="SpinBox" parent="TabContainer/Pickup Weights"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+max_value = 1000.0
+rounded = true
+allow_greater = true
+alignment = 3
+prefix = "Boiler:"
+
+[node name="Pickup12" type="SpinBox" parent="TabContainer/Pickup Weights"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+max_value = 1000.0
+rounded = true
+allow_greater = true
+alignment = 3
+prefix = "Boiler:"
+
+[node name="Pickup13" type="SpinBox" parent="TabContainer/Pickup Weights"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+max_value = 1000.0
+rounded = true
+allow_greater = true
+alignment = 3
+prefix = "Boiler:"
+
+[node name="Pickup14" type="SpinBox" parent="TabContainer/Pickup Weights"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+max_value = 1000.0
+rounded = true
+allow_greater = true
+alignment = 3
+prefix = "Boiler:"
+
+[node name="Pickup15" type="SpinBox" parent="TabContainer/Pickup Weights"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+max_value = 1000.0
+rounded = true
+allow_greater = true
+alignment = 3
+prefix = "Boiler:"
+
+[node name="Pickup16" type="SpinBox" parent="TabContainer/Pickup Weights"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+max_value = 1000.0
+rounded = true
+allow_greater = true
+alignment = 3
+prefix = "Boiler:"
+
+[node name="Pickup17" type="SpinBox" parent="TabContainer/Pickup Weights"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+max_value = 1000.0
+rounded = true
+allow_greater = true
+alignment = 3
+prefix = "Boiler:"
+
+[node name="Pickup18" type="SpinBox" parent="TabContainer/Pickup Weights"]
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 max_value = 1000.0
@@ -158,6 +309,16 @@ layout_mode = 2
 text = "weights"
 flat = true
 
+[node name="BasePickupSpawnChance" type="SpinBox" parent="TabContainer/Pickup Weights"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+tooltip_text = "The change a pickup is even spawned. Note this is multiplicative with the probability given by each pickups  weight (or in other words weight is applied only if a pickup is actually being attempted to spawn)"
+max_value = 1.0
+step = 0.05
+value = 1.0
+prefix = "Base Spawn rate:"
+
 [node name="Stage" parent="TabContainer" instance=ExtResource("2_p3l6l")]
 unique_name_in_owner = true
 visible = false
@@ -168,3 +329,4 @@ metadata/_tab_index = 1
 [connection signal="item_selected" from="StageSelect/SceneOptions" to="." method="_on_scene_options_item_selected"]
 [connection signal="pressed" from="AddExitButton" to="." method="_on_add_exit_button_pressed"]
 [connection signal="toggled" from="TabContainer/Pickup Weights/WeightsVsAmount" to="." method="_on_weights_vs_amount_toggled"]
+[connection signal="value_changed" from="TabContainer/Pickup Weights/BasePickupSpawnChance" to="." method="_on_base_pickup_spawn_chance_changed"]

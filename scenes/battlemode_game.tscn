@@ -273,3 +273,6 @@ bus = &"Announcer"
 
 [node name="MatchSound" type="AudioStreamPlayer" parent="MatchAudio"]
 bus = &"SFX"
+
+[connection signal="clock_pickup_time_paused" from="." to="." method="pause_time"]
+[connection signal="clock_pickup_time_unpaused" from="." to="." method="unpause_time"]

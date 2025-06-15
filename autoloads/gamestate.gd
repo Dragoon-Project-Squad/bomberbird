@@ -42,7 +42,8 @@ var player_data_master_dict = {
 		"slotid": 1, 
 		"spritepaths": character_texture_paths.bhdoki_paths, 
 		"is_ai": false, 
-		"is_enabled": true
+		"is_enabled": true,
+		"score": 0
 	}
 }
 
@@ -281,6 +282,16 @@ func get_player_texture_list(): #id:spritepaths
 func get_player_name() -> String:
 	return player_name
 
+func set_player_scores(player_scores) -> void:
+	for id in player_scores.keys():
+		player_data_master_dict[id].score = player_scores[id]
+
+func get_player_scores() -> Dictionary:
+	var scores = {}
+	for id in player_data_master_dict.keys():
+		scores[id] = player_data_master_dict[id].score
+	return scores
+
 func begin_singleplayer_game():
 	globals.current_gamemode = globals.gamemode.CAMPAIGN
 	SettingsContainer.misobon_setting = SettingsContainer.misobon_setting_states.OFF
@@ -324,7 +335,8 @@ func register_ai_player():
 		"slotid" = 0,
 		"spritepaths" = character_texture_paths.normalgoon_paths,
 		"is_ai" = true,
-		"is_enabled" = true
+		"is_enabled" = true,
+		"score" = 0
 	}
 	assign_ai_character_sprite(id)
 	name_ai_player(id)
@@ -417,7 +429,8 @@ func resetvars():
 			"slotid": 1, 
 			"spritepaths": character_texture_paths.bhdoki_paths, 
 			"is_ai": false, 
-			"is_enabled": true
+			"is_enabled": true,
+			"score": 0
 		}
 	}
 	

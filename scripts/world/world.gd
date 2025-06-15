@@ -64,7 +64,8 @@ func spawn_exits():
 			"exit at position " + str(exit_entry.coords) + " is out of bounds for current stage")
 		assert(!world_data.is_tile(world_data.tiles.UNBREAKABLE, exit_pos),
 			"exit at position " + str(exit_entry.coords) + " is ontop of an unbreakable")
-		globals.game.exit_pool.request(exit_entry.color).place(exit_pos, children_ids[iter])
+		var exit = globals.game.exit_pool.request(exit_entry.color)
+		exit.place(exit_pos, children_ids[iter])
 		iter += 1
 
 ## Disabled this world so another may be enabled
@@ -134,7 +135,10 @@ func enable(
 		else: _place_players.rpc()
 		if enemy_table:
 			_spawn_enemies.rpc()
-	_generate_breakables(breakable_table)
+	if pickup_table.are_amounts:
+		_generate_breakables_with_amounts(breakable_table, pickup_table)
+	else:
+		_generate_breakables_with_weights(breakable_table)
 
 	world_data.finish_init()
 	astargrid_handler.astargrid_set_initial_solidpoints()
@@ -157,10 +161,14 @@ func reset():
 	if globals.game.enemy_pool:
 		for enemy in alive_enemies:
 			enemy.disable()
+			globals.game.clock_pickup_time_paused.disconnect(enemy.stop_time)
+			globals.game.clock_pickup_time_unpaused.disconnect(enemy.start_time)
 			globals.game.enemy_pool.return_obj(enemy)
+			
 		alive_enemies = []
 	for sig_arr in all_enemied_died.get_connections():
 		sig_arr.signal.disconnect(sig_arr.callable)
+	
 	world_data.reset()
 	astargrid_handler.reset_astargrid()
 
@@ -191,15 +199,20 @@ func _spawn_enemies():
 			var enemy: Enemy = enemys[whole_path].pop_front()
 			enemy.place.rpc(world_data.tile_map.map_to_local(e.coords), whole_path)
 			globals.game.stage_has_changed.connect(enemy.enable, CONNECT_ONE_SHOT)
+			globals.game.clock_pickup_time_paused.connect(enemy.stop_time)
+			globals.game.clock_pickup_time_unpaused.connect(enemy.start_time)
 			alive_enemies.append(enemy)
 			enemy.enemy_died.connect(
 				func () -> void:
 					alive_enemies.erase(enemy)
 					globals.game.score += enemy.score_points
+					globals.game.clock_pickup_time_paused.disconnect(enemy.stop_time)
+					globals.game.clock_pickup_time_unpaused.disconnect(enemy.start_time)
 					if alive_enemies.is_empty():
 						all_enemied_died.emit(0),
 				CONNECT_ONE_SHOT
 				)
+			
 			return e
 			)
 	if alive_enemies.is_empty():
@@ -211,10 +224,14 @@ func _asserting_world():
 
 ## Generates all the breakables from the handed table
 ## NOTE: Some children may completly ignore the table given if breakable are generated in a different way
-func _generate_breakables(_breakable_table: BreakableTable):
+func _generate_breakables_with_weights(_breakable_table: BreakableTable):
+	pass
+	
+## Generates all the breakables from the handed table
+func _generate_breakables_with_amounts(_breakable_table: BreakableTable, pickup_table: PickupTable):
 	pass
 
-## Spawns a breakable at
+## Spawns a breakable 
 ## [param cell] Vector2i
 func _spawn_breakable(cell: Vector2i, pickup_type: int):
 	assert(globals.is_not_pickup_seperator(pickup_type))
@@ -289,8 +306,22 @@ func _spawn_player():
 			misobondata.player_type = "ai"
 
 		player = playerspawner.spawn(spawningdata)
+		var misobon_player = null
 		if globals.current_gamemode == globals.gamemode.CAMPAIGN:
 			player.player_hurt.connect(globals.game.restart_current_stage)
 		if SettingsContainer.misobon_setting != SettingsContainer.misobon_setting_states.OFF:
 			misobondata.name = player.get_player_name()
-			misobonspawner.spawn(misobondata)
+			misobon_player = misobonspawner.spawn(misobondata)
+			
+	connect_player_to_time_stopped.rpc()
+
+@rpc("call_local")
+func connect_player_to_time_stopped():
+	for player in globals.player_manager.get_children():
+		if !(player is Player): continue
+		globals.game.clock_pickup_time_paused.connect(player.stop_time)
+		globals.game.clock_pickup_time_unpaused.connect(player.start_time)
+	for misobon in globals.game.misobon_path.get_children():
+		if !(misobon is MisobonPlayer): continue
+		globals.game.clock_pickup_time_paused.connect(misobon.stop_time)
+		globals.game.clock_pickup_time_unpaused.connect(misobon.start_time)

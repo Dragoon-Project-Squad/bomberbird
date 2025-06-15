@@ -46,11 +46,20 @@ func disable():
 	explosion.reset()
 	$AnimationPlayer.stop()
 
-func set_addons(addons: Dictionary):
-	if addons.is_empty():
-		return
-	pierce = addons.get("pierce", false)
-	mine = addons.get("mine", false)
+func set_bomb_type(bomb_type: int):
+	match bomb_type:
+		HeldPickups.bomb_types.DEFAULT:
+			return
+		HeldPickups.bomb_types.PIERCING:
+			pierce = true
+		HeldPickups.bomb_types.MINE:
+			mine = true
+		HeldPickups.bomb_types.REMOTE:
+			pass
+		HeldPickups.bomb_types.SEEKER:
+			pass
+		_: # bomb type does not exist
+			return
 
 func place(bombPos: Vector2, fuse_time_passed: float = 0, force_collision: bool = false):
 	is_exploded = false 
@@ -89,7 +98,7 @@ func detonate():
 		var targets: Array[Node2D] = []
 		while ray.is_colliding():
 			targets.append(ray.get_collider())
-			if !pierce || ray.get_collider().is_class("TileMapLayer"):
+			if not pierce or ray.get_collider().is_class("TileMapLayer"):
 				break
 			ray.add_exception_rid(ray.get_collider_rid())
 			ray.force_raycast_update()
@@ -110,7 +119,7 @@ func detonate():
 		explosion.init_detonate.rpc(exp_range[Vector2i.RIGHT], exp_range[Vector2i.DOWN], exp_range[Vector2i.LEFT], exp_range[Vector2i.UP])
 		explosion.do_detonate.rpc()
 		if(get_parent().bomb_owner && !get_parent().bomb_owner.is_dead):
-			get_parent().bomb_owner.return_bomb.rpc()
+			get_parent().bomb_owner.return_bomb.rpc(mine)
 	
 ## called when a bomb has detonated and hence is done, clears it of the arena both in world_data and for the AI then returns the root back to the bomb_pool
 func done():
@@ -185,7 +194,7 @@ func _on_detect_area_body_entered(body: Node2D):
 		$AnimationPlayer.play("mine_explode")
 		world_data.set_tile(world_data.tiles.BOMB, self.global_position, bomb_root.boost + 2, false)
 	if body is Breakable:
-		body.crush()
+		body.crush.rpc()
 	if !(body in get_collision_exceptions()):
 		add_collision_exception_with(body)
 
