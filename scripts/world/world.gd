@@ -128,6 +128,10 @@ func enable(
 		for spawnpoint in spawnpoints_table.spawnpoints:
 			if _rng.randf_range(0, 1) > spawnpoint.probability: continue
 			spawnpoints.append(spawnpoint.coords + world_data.floor_origin)
+			
+	if is_multiplayer_authority() && globals.current_gamemode == globals.gamemode.BATTLEMODE:
+		randomize_spawnpoints()
+		send_spawn_data.rpc(spawnpoints)
 
 	_set_spawnpoints()
 	if is_multiplayer_authority():
@@ -260,6 +264,13 @@ func _set_spawnpoints():
 		if self.enemy_table && (new_spawnpoint in self.enemy_table.get_coords()): continue
 		spawnpoints.append(new_spawnpoint)
 		remaining_spawnpoints -= 1
+			
+func randomize_spawnpoints() -> void:
+	spawnpoints.shuffle()
+
+@rpc("call_remote")
+func send_spawn_data(host_spawnpoints) -> void:
+	spawnpoints = host_spawnpoints
 
 @rpc("call_local")
 ## places players (assumes players already exist)
