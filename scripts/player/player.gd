@@ -528,7 +528,6 @@ func start_invul():
 func virus():
 	is_virus = true
 	var r = randi() % 9
-	r = 4
 	if r == 0:
 		print("Slow movement!")
 		movement_speed = max(BASE_MOTION_SPEED / 2, MIN_MOTION_SPEED) # Set MIN?
@@ -536,7 +535,7 @@ func virus():
 		print("Fast movement!")
 		movement_speed = min(BASE_MOTION_SPEED * 5, MAX_MOTION_SPEED)	# Set MAX?
 	if r == 2:
-		print("Ultra-weak bombs!")
+		print("Ultra-weak bombs!") #Currently does not work as intended.
 		explosion_boost_count = -1
 	if r == 3:
 		print("Fast fuse speed!")

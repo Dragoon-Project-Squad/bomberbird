@@ -1,5 +1,8 @@
 extends Pickup
 
+func _init() -> void:
+	indestructable = true #Viruses don't blow up to bombs.
+	
 func _ready():
 	super()
 	animated_sprite.play("idle")

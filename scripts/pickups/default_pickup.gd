@@ -130,7 +130,6 @@ func crush():
 	disable()
 	globals.game.pickup_pool.return_obj(self) #Pickup returns itself to the pool
 
-
 ## sets an internal state for throw pickup
 func set_state(new_state: int):
 	assert(0 <= new_state && new_state <= ENUM_SIZE)
