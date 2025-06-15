@@ -1,6 +1,5 @@
 class_name PickupTable extends Resource
 ## contains probabilistic weight for each pickup that should spawn on a specific stage
-## TODO: also allow this to handle total amounts instead of probabalistic weights
 
 const PICKUP_ENABLED: bool = true
 const PICKUP_SPAWN_BASE_CHANCE: float = 1.0
@@ -39,7 +38,7 @@ var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 func _init():
 	self.resource_local_to_scene = true
 
-## writes the weight variables into the pickup_weight dictunaty
+## writes the weight variables into the pickup_weight dictionary
 func update():
 	pickup_weights = {
 		globals.pickups.BOMB_UP: extra_bomb,
@@ -140,10 +139,7 @@ func determine_base_pickup_rate() -> void:
 		pickup_spawn_chance = base_pickup_spawn_chance
 		return # Use the value decided by the STAGE
 	elif SettingsContainer.get_pickup_spawn_rule() == 1:
-		pickup_spawn_chance = 0 # NONE
-	elif SettingsContainer.get_pickup_spawn_rule() == 2:
-		pickup_spawn_chance = 1 # ALL
-	else: # Custom Mode, use the Global Percent
+		# Custom Mode, use the Global Percent
 		pickup_spawn_chance = SettingsContainer.get_pickup_chance()
 
 func to_json() -> Dictionary:

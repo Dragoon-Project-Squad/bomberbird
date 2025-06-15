@@ -102,7 +102,7 @@ func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) 
 		if bomb_owner.fuse_speed != 0:
 			time_passed = bomb_owner.fuse_speed
 	bomb_authority.set_bomb_type(type)
-	bomb_authority.place(bombPos, fuse_time_passed, force_collision)
+	bomb_authority.place(bombPos, time_passed, force_collision)
 	if self.type == HeldPickups.bomb_types.MINE:
 		world_data.set_tile(world_data.tiles.MINE, self.global_position, self.boost + 2, false)
 	else:
