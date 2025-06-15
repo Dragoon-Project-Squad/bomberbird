@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=4 uid="uid://dfsostr8uaxid"]
 
 [ext_resource type="Script" uid="uid://c7rrhgeevwtus" path="res://scripts/world/randomized_stage.gd" id="1_hw7b8"]
-[ext_resource type="Resource" uid="uid://b0p6xk7k2ovr8" path="res://resources/gameplay/testing_pickup_table.tres" id="2_lkrx8"]
+[ext_resource type="Resource" uid="uid://cl4yeiw43e6l2" path="res://resources/gameplay/desert_pickup_table.tres" id="2_lkrx8"]
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/tilesets/desert_tileset.tres" id="3_0cgl0"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="4_s71by"]
 [ext_resource type="PackedScene" uid="uid://ul0n27wk45l7" path="res://scenes/mus/bountyhunterjam.tscn" id="5_lkrx8"]
