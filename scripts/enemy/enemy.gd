@@ -121,14 +121,15 @@ func exploded(_by_whom: int):
 	if _exploded_barrier: return
 	_exploded_barrier = true
 	self.health -= 1
+	if self.health_ability:
+		self.health_ability.apply()
 	if(self.health >= 1):
 		invulnerable_remaining_time = INVULNERABILITY_TIME
 		damage_invulnerable = true
 		set_process(true)
-		if self.health_ability:
-			self.health_ability.apply()
 		_exploded_barrier = false
 		return 1
+	if globals.game.stage_done || self.disabled: return
 	enemy_died.emit()
 	self.statemachine.stop_process = true
 	self.anim_player.play("enemy/death")

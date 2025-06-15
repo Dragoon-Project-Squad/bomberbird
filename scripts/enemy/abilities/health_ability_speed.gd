@@ -6,7 +6,7 @@ var already_applied: bool = false
 var old_sprite: Texture2D
 
 func apply():
-	assert(!self.already_applied)
+	if self.already_applied: return
 	get_parent().movement_speed *= self.speed_boost
 	if self.alternative_sprite_sheet:
 		self.old_sprite = get_parent().sprite.texture
