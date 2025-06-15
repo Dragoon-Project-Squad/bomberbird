@@ -394,11 +394,11 @@ func _on_duplicate_nodes_request() -> void:
 		stage_node.selected = true
 	has_changed.emit()
 
-static func load_json_file(file_name: String, file_access_level = FileAccess.READ) -> Dictionary:
-	if !FileAccess.file_exists(SAVE_PATH + "/" + file_name + ".json"):
-		print("file: ", SAVE_PATH, "/", file_name, ".json", " not found loading empty graph")
+static func load_json_file(json_file_name: String, file_access_level = FileAccess.READ) -> Dictionary:
+	if !FileAccess.file_exists(SAVE_PATH + "/" + json_file_name + ".json"):
+		print("file: ", SAVE_PATH, "/", json_file_name, ".json", " not found loading empty graph")
 		return {}
-	var file_access := FileAccess.open(SAVE_PATH + "/" + file_name + ".json", file_access_level)
+	var file_access := FileAccess.open(SAVE_PATH + "/" + json_file_name + ".json", file_access_level)
 	var json_string := file_access.get_line()
 	file_access.close()
 	
