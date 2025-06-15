@@ -36,6 +36,9 @@ func start_timer(gametime := SettingsContainer.get_match_time()):
 func stop_timer():
 	match_timer.stop()
 	
+func pause_timer(val: bool):
+	match_timer.paused = val
+	
 func _process(_delta: float) -> void:
 	time_label.set_text(time_to_string(match_timer.get_time_left()))
 

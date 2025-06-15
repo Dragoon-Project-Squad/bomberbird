@@ -161,10 +161,14 @@ func reset():
 	if globals.game.enemy_pool:
 		for enemy in alive_enemies:
 			enemy.disable()
+			globals.game.clock_pickup_time_paused.disconnect(enemy.stop_time)
+			globals.game.clock_pickup_time_unpaused.disconnect(enemy.start_time)
 			globals.game.enemy_pool.return_obj(enemy)
+			
 		alive_enemies = []
 	for sig_arr in all_enemied_died.get_connections():
 		sig_arr.signal.disconnect(sig_arr.callable)
+	
 	world_data.reset()
 	astargrid_handler.reset_astargrid()
 
@@ -195,15 +199,20 @@ func _spawn_enemies():
 			var enemy: Enemy = enemys[whole_path].pop_front()
 			enemy.place.rpc(world_data.tile_map.map_to_local(e.coords), whole_path)
 			globals.game.stage_has_changed.connect(enemy.enable, CONNECT_ONE_SHOT)
+			globals.game.clock_pickup_time_paused.connect(enemy.stop_time)
+			globals.game.clock_pickup_time_unpaused.connect(enemy.start_time)
 			alive_enemies.append(enemy)
 			enemy.enemy_died.connect(
 				func () -> void:
 					alive_enemies.erase(enemy)
 					globals.game.score += enemy.score_points
+					globals.game.clock_pickup_time_paused.disconnect(enemy.stop_time)
+					globals.game.clock_pickup_time_unpaused.disconnect(enemy.start_time)
 					if alive_enemies.is_empty():
 						all_enemied_died.emit(0),
 				CONNECT_ONE_SHOT
 				)
+			
 			return e
 			)
 	if alive_enemies.is_empty():
@@ -297,8 +306,22 @@ func _spawn_player():
 			misobondata.player_type = "ai"
 
 		player = playerspawner.spawn(spawningdata)
+		var misobon_player = null
 		if globals.current_gamemode == globals.gamemode.CAMPAIGN:
 			player.player_hurt.connect(globals.game.restart_current_stage)
 		if SettingsContainer.misobon_setting != SettingsContainer.misobon_setting_states.OFF:
 			misobondata.name = player.get_player_name()
-			misobonspawner.spawn(misobondata)
+			misobon_player = misobonspawner.spawn(misobondata)
+			
+	connect_player_to_time_stopped.rpc()
+
+@rpc("call_local")
+func connect_player_to_time_stopped():
+	for player in globals.player_manager.get_children():
+		if !(player is Player): continue
+		globals.game.clock_pickup_time_paused.connect(player.stop_time)
+		globals.game.clock_pickup_time_unpaused.connect(player.start_time)
+	for misobon in globals.game.misobon_path.get_children():
+		if !(misobon is MisobonPlayer): continue
+		globals.game.clock_pickup_time_paused.connect(misobon.stop_time)
+		globals.game.clock_pickup_time_unpaused.connect(misobon.start_time)

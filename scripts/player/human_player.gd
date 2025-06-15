@@ -26,7 +26,9 @@ func _physics_process(delta: float):
 		# The client simply updates the position to the last known one.
 		position = synced_position
 	
-	if not stunned and inputs.punch_ability and not punch_pressed_once and not stop_movement:
+	if stop_movement || time_is_stopped: return
+	
+	if not stunned and inputs.punch_ability and not punch_pressed_once:
 		punch_pressed_once = true
 		var direction: Vector2i = Vector2i(inputs.motion.normalized()) if inputs.motion != Vector2.ZERO else Vector2i.DOWN
 		punch_bomb(direction)
@@ -38,7 +40,7 @@ func _physics_process(delta: float):
 		kick_bomb(direction)
 
 	if not stunned and inputs.bombing and bomb_count > 0:
-		if not set_bomb_pressed_once and not stop_movement:
+		if not set_bomb_pressed_once:
 			set_bomb_pressed_once = true
 			place_bomb()
 		if not throw_pressed_once and set_bomb_pressed_once:
@@ -57,7 +59,7 @@ func _physics_process(delta: float):
 				push_error("something went wrong with bomb throwing")
 				throw_pressed_once = false
 
-	if !is_dead && !stunned && !stop_movement:
+	if !is_dead && !stunned:
 		# Everybody runs physics. I.e. clients tries to predict where they will be during the next frame.
 		velocity = inputs.motion.normalized() * movement_speed
 		move_and_slide()

@@ -142,3 +142,9 @@ func reset_pickups():
 	self.set_collision_mask_value(4, true)
 	self.set_collision_mask_value(3, true)
 	pickups.reset()
+
+func stop_time(user: String, is_player: bool):
+	if user == self.name && !is_player:
+		self.pickups.held_pickups[globals.pickups.FREEZE] = false
+		return
+	self.time_is_stopped = true

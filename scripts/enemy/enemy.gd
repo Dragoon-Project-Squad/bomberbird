@@ -30,6 +30,7 @@ var stunned: bool = false
 var invulnerable: bool = false
 var damage_invulnerable: bool = false
 var stop_moving: bool = false
+var time_is_stopped: bool = false
 var disabled: bool = false
 var _health: int
 var _exploded_barrier: bool = false
@@ -50,8 +51,6 @@ func init_clipping() -> void:
 		self.set_collision_mask_value(3, false)
 	if self.bombthrought:
 		self.set_collision_mask_value(4, false)
-
-
 
 func _process(delta: float):
 	if !damage_invulnerable:
@@ -111,7 +110,7 @@ func place(pos: Vector2, path: String):
 
 func enable():
 	self.disabled = false
-	self.hurtbox.body_entered.connect(func (player: Player): player.exploded(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID))
+	self.hurtbox.body_entered.connect(func (player: Player): player.exploded(gamestate.ENEMY_KILL_PLAYER_ID))
 	self.detection_handler.on()
 	self.statemachine.enable()
 
@@ -159,4 +158,12 @@ func disable():
 	self.detection_handler.off()
 	self.statemachine.disable()
 	self.stop_moving = false
+	self.time_is_stopped = false
 	self.invulnerable = false
+
+func stop_time(user: String, is_player: bool):
+	if user == self.name && !is_player: return
+	self.time_is_stopped = true
+	
+func start_time():
+	self.time_is_stopped = false

@@ -13,6 +13,7 @@ var player: Player
 var last_bomb_time: float = BOMB_RATE
 var current_anim: String = ""
 var controllable: bool = false
+var time_is_stopped: bool = false
 
 func _ready() -> void:
 	bomb_pool = globals.game.bomb_pool
@@ -96,6 +97,7 @@ func reset(pos: Vector2):
 	var corrected_pos: Vector2 = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(pos))
 	player.synced_position = corrected_pos
 	player.position = corrected_pos
+	self.time_is_stopped = false
 	if player.is_multiplayer_authority():
 		player.reset.rpc()
 		disable.rpc()
@@ -129,3 +131,10 @@ func play_despawn_animation():
 
 func set_player_name(new_name: String):
 	$label.set_text(new_name)
+
+func stop_time(user: String, is_player: bool):
+	if is_player && user == player.name: return
+	self.time_is_stopped = false
+	
+func start_time():
+		self.time_is_stopped = true

@@ -1,9 +1,11 @@
 extends Node
 
 @export var initial_state : MisobonAiState
+@onready var player = get_parent()
 
 var current_state : MisobonAiState
 var states: Dictionary = {}
+
 
 func _ready():
 	for state_node in get_children():
@@ -16,7 +18,7 @@ func _ready():
 		current_state = initial_state
 
 func _process(delta):
-	if current_state:
+	if current_state && player.controllable:
 		current_state._update(delta)
 
 func _on_state_changed(state, new_state):

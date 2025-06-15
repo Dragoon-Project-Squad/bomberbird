@@ -32,6 +32,9 @@ func start_timer(gametime := 180):
 func stop_timer():
 	match_timer.stop()
 
+func pause_timer(val: bool):
+	match_timer.paused = val
+
 func _process(_delta: float) -> void:
 	var time = match_timer.get_time_left()
 	var seconds = fmod(time, 60)

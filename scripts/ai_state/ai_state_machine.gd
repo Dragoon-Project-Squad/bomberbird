@@ -1,6 +1,7 @@
 extends Node
 
 @export var initial_state : State
+@onready var player: Player = get_parent()
 
 var current_state : State
 var states : Dictionary = {}
@@ -11,7 +12,7 @@ func _ready():
 		if child is State:
 			states[child.name.to_lower()] = child
 			child.state_changed.connect(_on_state_changed)
-			child.aiplayer = get_parent() # This is arguably fine because its within its own scene tree imo
+			child.aiplayer = player
 			child.world = globals.current_world
 			globals.game.stage_has_changed.connect(child._on_new_stage)
 	
@@ -21,17 +22,17 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if current_state:
+	if current_state && !player.time_is_stopped:
 		current_state._update(delta)
 
 func _physics_process(delta):
-	if current_state:
+	if current_state && !player.time_is_stopped:
 		current_state._physics_update(delta)
 
 func _on_state_changed(state, new_state):
 	if(state != current_state):
 		return
-	
+	print(state.name, " -> ", new_state)
 	#if get_parent().name == "2":
 		#print("Changing state to "+new_state+" from "+state.name)
 	
