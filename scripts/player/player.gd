@@ -527,27 +527,36 @@ func start_invul():
 @rpc("call_local")
 func virus():
 	is_virus = true
-	var r = randi() % 50
+	var r = randi() % 9
 	r = 4
 	if r == 0:
-		movement_speed = BASE_MOTION_SPEED / 2 # Set MIN?
+		print("Slow movement!")
+		movement_speed = max(BASE_MOTION_SPEED / 2, MIN_MOTION_SPEED) # Set MIN?
 	if r == 1:
-		movement_speed = BASE_MOTION_SPEED * 5	# Set MAX?
+		print("Fast movement!")
+		movement_speed = min(BASE_MOTION_SPEED * 5, MAX_MOTION_SPEED)	# Set MAX?
 	if r == 2:
+		print("Ultra-weak bombs!")
 		explosion_boost_count = -1
 	if r == 3:
+		print("Fast fuse speed!")
 		fuse_speed = FAST_FUSE_SPEED
 	if r == 4:
+		print("Slow fuse speed!")
 		fuse_speed = SLOW_FUSE_SPEED
 	if r == 5:
+		print("Autodrop!")
 		is_autodrop = true
 		drop_timer = AUTODROP_INTERVAL
 		set_process(true)
 	if r == 6:
+		print("Reverse controls!")
 		is_reverse = true
 	if r == 7:
+		print("Can't stop moving!")
 		is_nonstop = true
 	if r == 8:
+		print("Bombs disabled!")
 		is_unbomb = true
 		
 @rpc("call_local")	
