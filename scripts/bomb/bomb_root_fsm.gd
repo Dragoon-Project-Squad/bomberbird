@@ -194,7 +194,7 @@ func do_kick(direction: Vector2i):
 	fuse_time_passed = state_map[state].get_node("AnimationPlayer").current_animation_position
 	set_state(SLIDING)
 	var bomb_auth := state_map[state]
-	bomb_auth.slides(self.position, direction)
+	bomb_auth.slides(direction)
 	world_data.set_tile(world_data.tiles.EMPTY, self.global_position)	
 	return 0
 
