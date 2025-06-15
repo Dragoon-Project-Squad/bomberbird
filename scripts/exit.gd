@@ -9,6 +9,9 @@ var in_use: bool = false
 var used: bool = false
 var enabled_signal_fun: Callable = enable.bind(true)
 
+func _ready() -> void:
+	disable()
+
 @rpc("call_local")
 func disable():
 	exit_col_shape = get_node("ExitArea/ExitCollisionShape")
