@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="PickupTable" load_steps=2 format=3 uid="uid://b0p6xk7k2ovr8"]
+
+[ext_resource type="Script" uid="uid://bta1elkd6rmla" path="res://resources/gameplay/pickup_table.gd" id="1_1jfd4"]
+
+[resource]
+script = ExtResource("1_1jfd4")
+extra_bomb = 2
+explosion_boost = 0
+speed_boost = 4
+speed_down = 4
+max_explosion = 4
+punch_ability = 2
+throw_ability = 2
+wallthrough = 0
+timer = 0
+invincibility_vest = 0
+virus = 10
+kick = 0
+bombthrough = 0
+piercing_bomb = 0
+land_mine = 0
+are_amounts = true
+base_pickup_spawn_chance = 1.0
+metadata/_custom_type_script = "uid://bta1elkd6rmla"

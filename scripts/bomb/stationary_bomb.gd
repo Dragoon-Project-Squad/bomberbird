@@ -179,7 +179,7 @@ func crush():
 	done()
 
 func set_explosion_width_and_size(somewidth: int):
-	explosion_width = clamp(somewidth, 2, MAX_EXPLOSION_WIDTH)
+	explosion_width = clamp(somewidth, 1, MAX_EXPLOSION_WIDTH)
 	bombsprite.set_frame(clamp(somewidth-3, 0, 2))
 
 ## sets the size of the bomb (larger if its range is larger)

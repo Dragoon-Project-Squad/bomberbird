@@ -9,6 +9,7 @@ var bombing := false
 var throw_ability := false
 var punch_ability := false
 var secondary_ability := false
+var last_input = Vector2(0,0)
 
 func update():
 	var m = Vector2()
@@ -20,7 +21,12 @@ func update():
 		m += Vector2(0, -1)
 	if Input.is_action_pressed("move_down"):
 		m += Vector2(0, 1)
-
+	if m == Vector2(0,0) and get_parent().is_nonstop:
+		m = last_input
+	else:
+		last_input = m
+	if get_parent().is_reverse:
+		m *= Vector2(-1, -1)
 	motion = m
 	bombing = Input.is_action_pressed("set_bomb")
 	throw_ability = Input.is_action_just_released("set_bomb")

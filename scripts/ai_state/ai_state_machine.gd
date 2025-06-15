@@ -32,7 +32,7 @@ func _physics_process(delta):
 func _on_state_changed(state, new_state):
 	if(state != current_state):
 		return
-	print(state.name, " -> ", new_state)
+	#print(state.name, " -> ", new_state)
 	#if get_parent().name == "2":
 		#print("Changing state to "+new_state+" from "+state.name)
 	

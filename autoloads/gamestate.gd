@@ -170,12 +170,12 @@ func remove_player_from_world(id):
 	
 @rpc("any_peer", "call_local")
 func change_character_player(characterpathdict : Dictionary):
-	print(
-		"Changing ID ", 
-		multiplayer.get_remote_sender_id(), 
-		"'s character model to ", 
-		characterpathdict["walk"]
-	)
+	#print(
+		#"Changing ID ", 
+		#multiplayer.get_remote_sender_id(), 
+		#"'s character model to ", 
+		#characterpathdict["walk"]
+	#)
 	var id = multiplayer.get_remote_sender_id()
 	if id == 0:
 		id = 1
@@ -204,7 +204,7 @@ func assign_player_numbers():
 				push_error("More than 4 players detected! Are you sure this is correct!?")
 				return
 		players_assigned += 1
-		print("Player ", players_assigned, " assigned to ID number: ", p)
+		#print("Player ", players_assigned, " assigned to ID number: ", p)
 
 func get_cpu_count() -> int:
 	var ai_player_count = 0
@@ -223,7 +223,7 @@ func establish_player_counts() -> void:
 		if player_data_master_dict[p].is_enabled && not player_data_master_dict[p].is_ai:
 			human_player_count = human_player_count + 1
 	total_player_count = human_player_count + ai_player_count
-	print("epc: cpus: ", ai_player_count, ", players: ", human_player_count)
+	#print("epc: cpus: ", ai_player_count, ", players: ", human_player_count)
 	assert(multiplayer.is_server())
 		
 @rpc("call_local")
