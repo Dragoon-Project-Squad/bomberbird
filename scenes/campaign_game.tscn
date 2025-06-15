@@ -122,9 +122,6 @@ script = ExtResource("1_xj4ag")
 
 [node name="StageHandler" parent="." instance=ExtResource("2_6c1o1")]
 
-[node name="ExitPool" parent="." instance=ExtResource("7_6c1o1")]
-initial_spawn_count = 8
-
 [node name="BreakablePool" parent="." instance=ExtResource("7_u5d24")]
 
 [node name="PickupPool" parent="." instance=ExtResource("9_t8ctp")]
@@ -133,6 +130,9 @@ explosion_boost = 15
 speed_boost = 15
 max_explosion = 5
 punch_ability = 10
+
+[node name="ExitPool" parent="." instance=ExtResource("7_6c1o1")]
+initial_spawn_count = 8
 
 [node name="EnemyPool" parent="." instance=ExtResource("7_1u21r")]
 
