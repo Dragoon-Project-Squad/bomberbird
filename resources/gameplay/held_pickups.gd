@@ -3,7 +3,7 @@ class_name HeldPickups extends Resource
 
 enum bomb_types {DEFAULT = 0, PIERCING, MINE, REMOTE, SEEKER}
 enum exclusive {DEFAULT = 0, KICK, BOMBTHROUGH}
-enum virus {DEFAULT = 0, SPEEDDOWN, SPEEDUP, FIREDOWN, SLOWFUSE_A, SLOWFUSE_B, FASTFUSE, AUTOBOMB, INVERSE_CONTROL, NON_STOP_MOTION, NOBOMBS, SIZE}
+enum virus {DEFAULT = 0, SPEEDDOWN, SPEEDUP, FIREDOWN, SLOWFUSE_A, SLOWFUSE_B, FASTFUSE, AUTOBOMB, INVERSE_CONTROL, NON_STOP_MOTION, NOBOMBS}
 
 const MAX_BOMB_UPGRADE_PERMITTED: int = 6
 const MAX_EXPLOSION_BOOSTS_PERMITTED: int = 6
@@ -13,7 +13,7 @@ const MAX_SPEED_DOWN_PERMITTED: int = 99 #TODO: Probably incorrect
 @export_group("inital pickups")
 @export_enum("NONE", "PIERCING", "MINE", "REMOTE", "SEEKER") var initial_bomb_type: int = 0
 @export_enum("NONE", "KICK", "BOMBTHROUGHT") var initial_exlusive: int = 0
-@export_enum("NONE", "SPEEDDOWN", "SPEEDUP", "FIREDOWN", "SLOWFUSE_A", "SLOWFUSE_B", "FASTFUSE", "AUTOBOMB", "INVERSE_CONTROL", "NON_STOP_MOTION", "NOBOMBS",) var initial_virus: int = 0
+@export_enum("NONE", "SPEEDDOWN", "SPEEDUP", "FIREDOWN", "SLOWFUSE_A", "SLOWFUSE_B", "FASTFUSE", "AUTOBOMB", "INVERSE_CONTROL", "NON_STOP_MOTION", "NOBOMBS") var initial_virus: int = 0
 @export var initial_bomb_up: int = 0
 @export var initial_fire_up: int = 0
 @export var initial_speed_up: int = 0
@@ -75,7 +75,7 @@ func add(pickup_type: int):
 		globals.pickups.SEEKER:
 			held_pickups[globals.pickups.GENERIC_BOMB] = bomb_types.SEEKER
 		globals.pickups.VIRUS:
-			held_pickups[pickup_type] = virus.values()[randi_range(virus.DEFAULT + 1,virus.SIZE - 1)]
+			held_pickups[pickup_type] = virus.values()[randi_range(virus.DEFAULT + 1,virus.NOBOMBS)]
 		globals.pickups.BOMB_UP:
 			held_pickups[pickup_type] = min(held_pickups[pickup_type] + 1, MAX_BOMB_UPGRADE_PERMITTED)
 		globals.pickups.FIRE_UP:
