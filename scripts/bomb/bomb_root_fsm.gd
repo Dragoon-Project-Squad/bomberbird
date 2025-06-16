@@ -90,7 +90,7 @@ func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) 
 	
 	bomb_owner_is_dead = is_dead
 
-	if boost < 0: #this is wack
+	if boost < -1: #this is wack
 		boost = self.boost
 	else:
 		self.boost = boost

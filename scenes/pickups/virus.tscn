@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c7uq8kiptnrye"]
+[gd_scene load_steps=10 format=3 uid="uid://bwqypbkgeqt8i"]
 
 [ext_resource type="Script" uid="uid://de365gf8ehjsn" path="res://scripts/pickups/virus.gd" id="1_fqgox"]
 [ext_resource type="Texture2D" uid="uid://quoe0b8jbau3" path="res://assets/pickups/powerupsprites.png" id="2_sont1"]

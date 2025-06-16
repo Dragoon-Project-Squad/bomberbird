@@ -77,6 +77,7 @@ var explosion_boost_count_reset: int
 var is_virus = false
 @export var fire_range = 3
 @export var fuse_speed = NORMAL_FUSE_SPEED
+var infected_explosion := false
 var is_autodrop = false
 var is_reverse = false
 var is_nonstop = false
@@ -128,8 +129,8 @@ func init_pickups():
 		enable_bombclip.rpc()
 	if self.pickups.held_pickups[globals.pickups.INVINCIBILITY_VEST]:
 		start_invul.rpc()
-	#if self.pickups.held_pickups[globals.pickups.GENERIC_BOMB] == HeldPickups.bomb_types.MINE:
-		#lock_bomb_count.rpc(1) Now handled by pickup code
+	if self.pickups.held_pickups[globals.pickups.VIRUS] > pickups.virus.DEFAULT:
+		virus.rpc()
 
 func _process(delta: float):
 	if !invulnerable and !is_autodrop:
@@ -263,7 +264,7 @@ func place_bomb():
 				bomb.set_bomb_type.rpc(HeldPickups.bomb_types.DEFAULT)
 		else:
 			bomb.set_bomb_type.rpc(pickups.held_pickups[globals.pickups.GENERIC_BOMB])
-		bomb.do_place.rpc(bombPos, explosion_boost_count)
+		bomb.do_place.rpc(bombPos, -1 if infected_explosion else explosion_boost_count)
 
 ## updates the animation depending on the movement direction
 func update_animation(direction: Vector2):
@@ -527,41 +528,41 @@ func start_invul():
 @rpc("call_local")
 func virus():
 	is_virus = true
-	var r = randi() % 9
-	if r == 0:
-		print("Slow movement!")
-		movement_speed = max(BASE_MOTION_SPEED / 2, MIN_MOTION_SPEED) # Set MIN?
-	if r == 1:
-		print("Fast movement!")
-		movement_speed = min(BASE_MOTION_SPEED * 5, MAX_MOTION_SPEED)	# Set MAX?
-	if r == 2:
-		print("Ultra-weak bombs!") #Currently does not work as intended.
-		explosion_boost_count = -1
-	if r == 3:
-		print("Fast fuse speed!")
-		fuse_speed = FAST_FUSE_SPEED
-	if r == 4:
-		print("Slow fuse speed!")
-		fuse_speed = SLOW_FUSE_SPEED
-	if r == 5:
-		print("Autodrop!")
-		is_autodrop = true
-		drop_timer = AUTODROP_INTERVAL
-		set_process(true)
-	if r == 6:
-		print("Reverse controls!")
-		is_reverse = true
-	if r == 7:
-		print("Can't stop moving!")
-		is_nonstop = true
-	if r == 8:
-		print("Bombs disabled!")
-		is_unbomb = true
+	match randi() % 9:
+		0:
+			print("Slow movement!")
+			movement_speed = max(BASE_MOTION_SPEED / 2, MIN_MOTION_SPEED) # Set MIN?
+		1:
+			print("Fast movement!")
+			movement_speed = min(BASE_MOTION_SPEED * 5, MAX_MOTION_SPEED)	# Set MAX?
+		2:
+			print("Ultra-weak bombs!")
+			infected_explosion = true
+		3:
+			print("Fast fuse speed!")
+			fuse_speed = FAST_FUSE_SPEED
+		4:
+			print("Slow fuse speed!")
+			fuse_speed = SLOW_FUSE_SPEED
+		5:
+			print("Autodrop!")
+			is_autodrop = true
+			drop_timer = AUTODROP_INTERVAL
+			set_process(true)
+		6:
+			print("Reverse controls!")
+			is_reverse = true
+		7:
+			print("Can't stop moving!")
+			is_nonstop = true
+		8:
+			print("Bombs disabled!")
+			is_unbomb = true
 		
 @rpc("call_local")	
 func unvirus():
 	is_virus = false
-	explosion_boost_count = explosion_boost_count_reset
+	infected_explosion = false
 	fuse_speed = NORMAL_FUSE_SPEED
 	is_autodrop = false
 	is_reverse = false
