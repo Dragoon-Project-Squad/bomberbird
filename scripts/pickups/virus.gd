@@ -9,7 +9,7 @@ func _ready():
 
 func apply_power_up(pickup_owner: Node2D):
 	super(pickup_owner)
-	if pickup_owner.is_in_group("player"): #If this is a human
+	if pickup_owner is HumanPlayer: #If this is a human
 		pickup_owner.virus.rpc()
 	else: #This is an AI
 		pickup_owner.virus()
