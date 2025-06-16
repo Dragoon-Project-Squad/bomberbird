@@ -86,7 +86,7 @@ func reverse_update():
 		timer = pickup_weights[globals.pickups.FREEZE]
 	if pickup_weights.has(globals.pickups.INVINCIBILITY_VEST):
 		invincibility_vest = pickup_weights[globals.pickups.INVINCIBILITY_VEST]
-	#if pickup_weights.has(globals.pickups.VIRUS):
+	if pickup_weights.has(globals.pickups.VIRUS):
 		virus = pickup_weights[globals.pickups.VIRUS]
 	if pickup_weights.has(globals.pickups.KICK):
 		kick = pickup_weights[globals.pickups.KICK]
