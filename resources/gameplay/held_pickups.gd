@@ -13,6 +13,7 @@ const MAX_SPEED_DOWN_PERMITTED: int = 99 #TODO: Probably incorrect
 @export_group("inital pickups")
 @export_enum("NONE", "PIERCING", "MINE", "REMOTE", "SEEKER") var initial_bomb_type: int = 0
 @export_enum("NONE", "KICK", "BOMBTHROUGHT") var initial_exlusive: int = 0
+@export_enum("NONE", "SPEEDDOWN", "SPEEDUP", "FIREDOWN", "SLOWFUSE_A", "SLOWFUSE_B", "FASTFUSE", "AUTOBOMB", "INVERSE_CONTROL", "NON_STOP_MOTION", "NOBOMBS",) var initial_virus: int = 0
 @export var initial_bomb_up: int = 0
 @export var initial_fire_up: int = 0
 @export var initial_speed_up: int = 0
@@ -49,7 +50,7 @@ func _init():
 func reset():
 	held_pickups[globals.pickups.GENERIC_BOMB] = initial_bomb_type
 	held_pickups[globals.pickups.GENERIC_EXCLUSIVE] = initial_exlusive
-	held_pickups[globals.pickups.VIRUS] = 0
+	held_pickups[globals.pickups.VIRUS] = initial_virus
 	held_pickups[globals.pickups.BOMB_UP] = initial_bomb_up
 	held_pickups[globals.pickups.FIRE_UP] = initial_fire_up
 	held_pickups[globals.pickups.SPEED_UP] = initial_speed_up
@@ -64,10 +65,8 @@ func reset():
 
 
 ## add a pickup to the players "inventory"
-func add(pickup_type: int, virus_type: int = 0):
+func add(pickup_type: int):
 	assert(globals.is_valid_pickup(pickup_type))
-	if(virus_type < 0 || virus.SIZE <= virus_type):
-		push_error("Invalid virus type given")
 	match pickup_type:
 		globals.pickups.MINE:
 			held_pickups[globals.pickups.GENERIC_BOMB] = bomb_types.MINE
@@ -76,7 +75,7 @@ func add(pickup_type: int, virus_type: int = 0):
 		globals.pickups.SEEKER:
 			held_pickups[globals.pickups.GENERIC_BOMB] = bomb_types.SEEKER
 		globals.pickups.VIRUS:
-			held_pickups[pickup_type] = virus_type
+			held_pickups[pickup_type] = virus.values()[randi_range(virus.DEFAULT + 1,virus.SIZE - 1)]
 		globals.pickups.BOMB_UP:
 			held_pickups[pickup_type] = min(held_pickups[pickup_type] + 1, MAX_BOMB_UPGRADE_PERMITTED)
 		globals.pickups.FIRE_UP:
