@@ -7,6 +7,7 @@ func _ready():
 	animated_sprite.play("idle")
 
 func apply_power_up(pickup_owner):
+	super(pickup_owner)
 	if !is_multiplayer_authority(): return
 	if pickup_owner is Player:
 		emit_time_signal.rpc(pickup_owner.name, true)

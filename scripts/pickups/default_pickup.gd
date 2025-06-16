@@ -79,9 +79,10 @@ func place(pos: Vector2, indestructable: bool = false):
 	enable()
 
 ## applies the power up to the player handed to it
-func apply_power_up(_pickup_owner: Node2D):
-	pass #default pickup has no effect
-
+func apply_power_up(pickup_owner: Node2D):
+	#default pickup clears virus
+	pickup_owner.unvirus()
+		
 ## if the body is a player proceed to cause the effect this pickup causes
 func _on_body_entered(body: Node2D) -> void:
 	if !is_multiplayer_authority(): return # Activate only on authority.

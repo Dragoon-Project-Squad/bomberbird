@@ -5,6 +5,7 @@ func _ready():
 	animated_sprite.play("idle")
 
 func apply_power_up(pickup_owner: Node2D):
+	super(pickup_owner)
 	if pickup_owner is HumanPlayer: #If this is a human
 		pickup_owner.decrease_speed.rpc()
 	elif pickup_owner is AIPlayer: #This is an AI
