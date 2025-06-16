@@ -40,18 +40,15 @@ func _ready() -> void:
 				user_file.close()
 
 			res_file.close()
-
 	_update_and_set(DEFAULT_GRAPH_NAME)
 
 func _update_and_set(item_name: String = DEFAULT_GRAPH_NAME):
 	_get_file_name_from_dir(LevelGraph.SAVE_PATH)
+	gamestate.current_graph = item_name
 	for idx in range(selector.item_count):
 		if selector.get_item_text(idx) == item_name:
 			selector.select(idx)
 			return
-
-func get_graph() -> String:
-	return selector.get_item_text(selector.selected)
 
 func _get_file_name_from_dir(path: String):
 	selector.clear()
@@ -73,9 +70,12 @@ func _on_graph_button_pressed():
 	else:
 		if has_node("LevelGraph"): return
 		add_child(level_graph_editor)
-	level_graph_editor.get_menu_hbox().get_node("LoadSaveLEdit").text = get_graph()
-	level_graph_editor.file_name = get_graph()
+	level_graph_editor.get_menu_hbox().get_node("LoadSaveLEdit").text = gamestate.current_graph
+	level_graph_editor.file_name = gamestate.current_graph
 	level_graph_editor.has_saved.connect(_update_and_set)
 
-	var graph_json_data: Dictionary = LevelGraph.load_json_file(get_graph())
+	var graph_json_data: Dictionary = LevelGraph.load_json_file(gamestate.current_graph)
 	level_graph_editor.load_graph(graph_json_data)
+
+func _on_campaign_selector_item_selected(idx: int):
+	gamestate.current_graph = selector.get_item_text(idx)

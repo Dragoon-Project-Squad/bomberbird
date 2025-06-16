@@ -28,6 +28,7 @@ SettingsSignalBus="*res://autoloads/settings_signal_bus.gd"
 SettingsContainer="*res://autoloads/settings_data_container.gd"
 SaveManager="*res://autoloads/save_manager.gd"
 AudioManager="*res://autoloads/audio_manager.gd"
+campaign_save_manager="*res://autoloads/campaign_save_manager.gd"
 
 [display]
 

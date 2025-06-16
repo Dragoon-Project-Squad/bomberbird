@@ -35,7 +35,7 @@ func unpause_main_menu_music() -> void:
 	main_menu_music_player.stream_paused = false
 	
 func _on_single_player_pressed() -> void:
-	gamestate.begin_singleplayer_game()
+	get_tree().change_scene_to_file("res://scenes/lobby/sp_lobby.tscn")
 	hide();
 
 func _on_multiplayer_pressed() -> void:
