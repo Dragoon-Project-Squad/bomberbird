@@ -176,7 +176,7 @@ func punch_bomb(direction: Vector2i):
 		break
 	
 	if bomb == null: return
-
+	
 	bomb.do_punch.rpc(direction)
 
 @rpc("call_local")
@@ -212,7 +212,7 @@ func kick_bomb(direction: Vector2i):
 		return 1
 	if pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] != pickups.exclusive.KICK:
 		return 1
-
+	
 	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
 	for body in bodies:
 		if body is Bomb:
@@ -233,7 +233,7 @@ func kick_bomb(direction: Vector2i):
 			break
 	if bomb_kicked == null or (bodies.is_empty() and bomb_kicked.state != bomb_kicked.SLIDING):
 		return 1
-
+	
 	if bomb_kicked.bomb_owner != null and bomb_kicked.state == bomb_kicked.STATIONARY:
 		bomb_kicked.do_kick.rpc(direction)
 	elif bomb_kicked.state == bomb_kicked.SLIDING:
@@ -324,7 +324,7 @@ func enter_death_state():
 	player_died.emit()
 	hide()
 	process_mode = PROCESS_MODE_DISABLED
-	
+
 @rpc("call_local")
 func exit_death_state():
 	process_mode = PROCESS_MODE_INHERIT
@@ -349,7 +349,7 @@ func reset():
 	self.stop_movement = false
 	self.time_is_stopped = false
 	show()
-	
+
 ## resets the pickups back to the inital state
 func reset_pickups():
 	movement_speed = movement_speed_reset
@@ -376,7 +376,7 @@ func spread_items():
 			if count == 0: continue
 			pickup_types.push_back(key)
 			pickup_count.push_back(count)
-	
+		
 		elif globals.pickups.GENERIC_COUNT < key && key < globals.pickups.GENERIC_BOOL:
 			if !pickups.held_pickups[key]: continue
 			pickup_types.push_back(key)
@@ -393,7 +393,7 @@ func spread_items():
 				_: 	push_error("invalid bomb_type on item spread") # this will crash the game so this bad
 			pickup_types.push_back(pickup_type)
 			pickup_count.push_back(1)
-
+		
 		if key == globals.pickups.GENERIC_EXCLUSIVE:
 			var pickup_type: int
 			match pickups.held_pickups[key]:
@@ -426,7 +426,7 @@ func do_invulnerabilty():
 	invulnerable_remaining_time = INVULNERABILITY_SPAWN_TIME
 	invulnerable = true
 	set_process(true)
-	
+
 func do_stun():
 	animation_player.play("player_animations/stunned") #Note this animation sets stunned automatically
 
@@ -439,20 +439,20 @@ func set_player_name(value):
 
 func get_player_name() -> String:
 	return $label.get_text()
-	
+
 @rpc("call_local")
 func increase_bomb_level():
 	explosion_boost_count = min(explosion_boost_count + 1, MAX_EXPLOSION_BOOSTS_PERMITTED)
-	
+
 @rpc("call_local")
 func maximize_bomb_level():
 	explosion_boost_count = min(explosion_boost_count + 99, MAX_EXPLOSION_BOOSTS_PERMITTED)
-	
+
 @rpc("call_local")
 func increase_speed():
 	movement_speed += MOTION_SPEED_INCREASE
 	movement_speed = clamp(movement_speed, MIN_MOTION_SPEED, MAX_MOTION_SPEED)
-	
+
 @rpc("call_local")
 func decrease_speed():
 	movement_speed -= MOTION_SPEED_DECREASE
@@ -524,7 +524,7 @@ func start_invul():
 	invulnerable_remaining_time = INVULNERABILITY_POWERUP_TIME
 	invulnerable = true
 	set_process(true)
-	
+
 @rpc("call_local")
 func virus():
 	is_virus = true
@@ -558,7 +558,7 @@ func virus():
 		8:
 			print("Bombs disabled!")
 			is_unbomb = true
-		
+
 @rpc("call_local")	
 func unvirus():
 	is_virus = false
