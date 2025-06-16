@@ -528,36 +528,41 @@ func start_invul():
 @rpc("call_local")
 func virus():
 	is_virus = true
-	match randi() % 9:
-		0:
+	match pickups.held_pickups[globals.pickups.VIRUS]:
+		pickups.virus.SPEEDDOWN:
 			print("Slow movement!")
 			movement_speed = max(BASE_MOTION_SPEED / 2, MIN_MOTION_SPEED) # Set MIN?
-		1:
+		pickups.virus.SPEEDUP:
 			print("Fast movement!")
 			movement_speed = min(BASE_MOTION_SPEED * 5, MAX_MOTION_SPEED)	# Set MAX?
-		2:
+		pickups.virus.FIREDOWN:
 			print("Ultra-weak bombs!")
 			infected_explosion = true
-		3:
+		pickups.virus.FASTFUSE:
 			print("Fast fuse speed!")
 			fuse_speed = FAST_FUSE_SPEED
-		4:
+		pickups.virus.SLOWFUSE_A:
 			print("Slow fuse speed!")
 			fuse_speed = SLOW_FUSE_SPEED
-		5:
+		pickups.virus.SLOWFUSE_B:
+			print("Slow fuse speed!")
+			fuse_speed = SLOW_FUSE_SPEED - 1
+		pickups.virus.AUTOBOMB:
 			print("Autodrop!")
 			is_autodrop = true
 			drop_timer = AUTODROP_INTERVAL
 			set_process(true)
-		6:
+		pickups.virus.INVERSE_CONTROL:
 			print("Reverse controls!")
 			is_reverse = true
-		7:
+		pickups.virus.NON_STOP_MOTION:
 			print("Can't stop moving!")
 			is_nonstop = true
-		8:
+		pickups.virus.NOBOMBS:
 			print("Bombs disabled!")
 			is_unbomb = true
+		_:
+			print("unknown infection")
 
 @rpc("call_local")	
 func unvirus():
