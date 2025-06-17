@@ -25,6 +25,10 @@ func do_stun():
 
 @rpc("call_local")
 func exploded(_by_whom: int):
+	if(!is_multiplayer_authority()): return 1
+	if invulnerable || damage_invulnerable: return 1
+	if _exploded_barrier: return
+	_exploded_barrier = true
 	self.statemachine.stop_process = true
 	self.sprite.hide()
 	self.position = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.position))
@@ -56,6 +60,7 @@ func exploded(_by_whom: int):
 		explosion.do_detonate.rpc()
 	
 func done():
+	_exploded_barrier = false
 	enemy_died.emit()
 	self.disable()
 	globals.game.enemy_pool.return_obj(self)
@@ -84,4 +89,4 @@ func disable():
 	self.statemachine.stop_process = false
 
 func _kill(obj):
-	obj.exploded.rpc(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID)
+	obj.exploded.rpc(gamestate.ENEMY_KILL_PLAYER_ID)

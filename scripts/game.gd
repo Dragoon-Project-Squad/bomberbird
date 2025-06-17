@@ -36,8 +36,9 @@ func start():
 
 ## resets the game s.t. a new stage can be loaded
 func reset():
-	for sig_dict in time_stopped_timer.timeout.get_connections():
-		sig_dict.signal.disconnect(sig_dict.callable)
+	if time_stopped_timer && globals.current_gamemode == globals.gamemode.CAMPAIGN:
+		for sig_dict in time_stopped_timer.timeout.get_connections():
+			sig_dict.signal.disconnect(sig_dict.callable)
 	clock_pickup_time_unpaused.emit()
 	for bomb in bomb_pool.get_children().filter(func (b): return b is BombRoot && b.in_use):
 		if is_multiplayer_authority():

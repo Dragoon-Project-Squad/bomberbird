@@ -39,7 +39,7 @@ func _physics_process(delta: float):
 		var direction: Vector2i = Vector2i(inputs.motion.normalized()) if inputs.motion != Vector2.ZERO else Vector2i.DOWN
 		kick_bomb(direction)
 
-	if not stunned and inputs.bombing and bomb_count > 0:
+	if not stunned and inputs.bombing and bomb_count > 0 and not is_unbomb:
 		if not set_bomb_pressed_once:
 			set_bomb_pressed_once = true
 			place_bomb()

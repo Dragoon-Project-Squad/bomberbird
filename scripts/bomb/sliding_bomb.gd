@@ -97,7 +97,7 @@ func to_stationary_bomb():
 		return
 	self.remove_collision_exception_with(bomb_root.bomb_owner)
 	$CollisionShape2D.set_deferred("disabled", true)
-	bomb_root.do_place.rpc(place_position, -1, bomb_root.bomb_owner_is_dead)
+	bomb_root.do_place.rpc(place_position, bomb_root.boost, bomb_root.bomb_owner_is_dead)
 
 #throw calculates the arch and starts a throw operations
 @warning_ignore("shadowed_variable")

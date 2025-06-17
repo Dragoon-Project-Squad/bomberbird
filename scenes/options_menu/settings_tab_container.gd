@@ -5,7 +5,7 @@ extends Control
 
 signal options_menu_exited
 
-func _process(delta):
+func _process(_delta):
 	options_menu_inputs()
 
 

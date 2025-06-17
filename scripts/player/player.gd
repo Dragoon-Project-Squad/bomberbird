@@ -70,6 +70,21 @@ var bomb_count_reset: int
 var lives_reset: int
 var explosion_boost_count_reset: int
 
+@export var NORMAL_FUSE_SPEED = 0
+@export var FAST_FUSE_SPEED = 1.5
+@export var SLOW_FUSE_SPEED = -2
+
+var is_virus = false
+@export var fire_range = 3
+@export var fuse_speed = NORMAL_FUSE_SPEED
+var infected_explosion := false
+var is_autodrop = false
+var is_reverse = false
+var is_nonstop = false
+var is_unbomb = false
+var drop_timer = 0
+const AUTODROP_INTERVAL = 3
+
 func _ready():
 	player_died.connect(globals.player_manager._on_player_died)
 	player_revived.connect(globals.player_manager._on_player_revived)
@@ -114,22 +129,28 @@ func init_pickups():
 		enable_bombclip.rpc()
 	if self.pickups.held_pickups[globals.pickups.INVINCIBILITY_VEST]:
 		start_invul.rpc()
-	#if self.pickups.held_pickups[globals.pickups.GENERIC_BOMB] == HeldPickups.bomb_types.MINE:
-		#lock_bomb_count.rpc(1) Now handled by pickup code
+	if self.pickups.held_pickups[globals.pickups.VIRUS] > pickups.virus.DEFAULT:
+		virus.rpc()
 
 func _process(delta: float):
-	if !invulnerable:
+	if !invulnerable and !is_autodrop:
 		show()
 		set_process(false)
 		return
-	invulnerable_remaining_time -= delta
-	invulnerable_animation_time += delta
-	if invulnerable_remaining_time <= 0:
-		invulnerable = false
-		pickups.held_pickups[globals.pickups.INVINCIBILITY_VEST] = false
-	elif invulnerable_animation_time <= INVULNERABILITY_FLASH_TIME:
-		self.visible = !self.visible
-		invulnerable_animation_time = 0
+	if invulnerable:
+		invulnerable_remaining_time -= delta
+		invulnerable_animation_time += delta
+		if invulnerable_remaining_time <= 0:
+			invulnerable = false
+			pickups.held_pickups[globals.pickups.INVINCIBILITY_VEST] = false
+		elif invulnerable_animation_time <= INVULNERABILITY_FLASH_TIME:
+			self.visible = !self.visible
+			invulnerable_animation_time = 0	
+	if is_autodrop:
+		drop_timer -= delta
+		if drop_timer <= 0:
+			drop_timer = AUTODROP_INTERVAL
+			place_bomb()
 
 func _physics_process(_delta: float):
 	pass
@@ -155,7 +176,7 @@ func punch_bomb(direction: Vector2i):
 		break
 	
 	if bomb == null: return
-
+	
 	bomb.do_punch.rpc(direction)
 
 @rpc("call_local")
@@ -191,7 +212,7 @@ func kick_bomb(direction: Vector2i):
 		return 1
 	if pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] != pickups.exclusive.KICK:
 		return 1
-
+	
 	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
 	for body in bodies:
 		if body is Bomb:
@@ -212,7 +233,7 @@ func kick_bomb(direction: Vector2i):
 			break
 	if bomb_kicked == null or (bodies.is_empty() and bomb_kicked.state != bomb_kicked.SLIDING):
 		return 1
-
+	
 	if bomb_kicked.bomb_owner != null and bomb_kicked.state == bomb_kicked.STATIONARY:
 		bomb_kicked.do_kick.rpc(direction)
 	elif bomb_kicked.state == bomb_kicked.SLIDING:
@@ -243,7 +264,7 @@ func place_bomb():
 				bomb.set_bomb_type.rpc(HeldPickups.bomb_types.DEFAULT)
 		else:
 			bomb.set_bomb_type.rpc(pickups.held_pickups[globals.pickups.GENERIC_BOMB])
-		bomb.do_place.rpc(bombPos, explosion_boost_count)
+		bomb.do_place.rpc(bombPos, -1 if infected_explosion else explosion_boost_count)
 
 ## updates the animation depending on the movement direction
 func update_animation(direction: Vector2):
@@ -303,7 +324,7 @@ func enter_death_state():
 	player_died.emit()
 	hide()
 	process_mode = PROCESS_MODE_DISABLED
-	
+
 @rpc("call_local")
 func exit_death_state():
 	process_mode = PROCESS_MODE_INHERIT
@@ -328,7 +349,7 @@ func reset():
 	self.stop_movement = false
 	self.time_is_stopped = false
 	show()
-	
+
 ## resets the pickups back to the inital state
 func reset_pickups():
 	movement_speed = movement_speed_reset
@@ -336,8 +357,10 @@ func reset_pickups():
 	lives = lives_reset
 	self.set_collision_mask_value(4, true)
 	self.set_collision_mask_value(3, true)
+	unvirus()
 	explosion_boost_count = explosion_boost_count_reset
 	pickups.reset()
+
 
 ## spreads all pickups the player held on the ground
 func spread_items():
@@ -353,7 +376,7 @@ func spread_items():
 			if count == 0: continue
 			pickup_types.push_back(key)
 			pickup_count.push_back(count)
-	
+		
 		elif globals.pickups.GENERIC_COUNT < key && key < globals.pickups.GENERIC_BOOL:
 			if !pickups.held_pickups[key]: continue
 			pickup_types.push_back(key)
@@ -370,7 +393,7 @@ func spread_items():
 				_: 	push_error("invalid bomb_type on item spread") # this will crash the game so this bad
 			pickup_types.push_back(pickup_type)
 			pickup_count.push_back(1)
-
+		
 		if key == globals.pickups.GENERIC_EXCLUSIVE:
 			var pickup_type: int
 			match pickups.held_pickups[key]:
@@ -403,7 +426,7 @@ func do_invulnerabilty():
 	invulnerable_remaining_time = INVULNERABILITY_SPAWN_TIME
 	invulnerable = true
 	set_process(true)
-	
+
 func do_stun():
 	animation_player.play("player_animations/stunned") #Note this animation sets stunned automatically
 
@@ -416,20 +439,20 @@ func set_player_name(value):
 
 func get_player_name() -> String:
 	return $label.get_text()
-	
+
 @rpc("call_local")
 func increase_bomb_level():
 	explosion_boost_count = min(explosion_boost_count + 1, MAX_EXPLOSION_BOOSTS_PERMITTED)
-	
+
 @rpc("call_local")
 func maximize_bomb_level():
 	explosion_boost_count = min(explosion_boost_count + 99, MAX_EXPLOSION_BOOSTS_PERMITTED)
-	
+
 @rpc("call_local")
 func increase_speed():
 	movement_speed += MOTION_SPEED_INCREASE
 	movement_speed = clamp(movement_speed, MIN_MOTION_SPEED, MAX_MOTION_SPEED)
-	
+
 @rpc("call_local")
 func decrease_speed():
 	movement_speed -= MOTION_SPEED_DECREASE
@@ -501,6 +524,56 @@ func start_invul():
 	invulnerable_remaining_time = INVULNERABILITY_POWERUP_TIME
 	invulnerable = true
 	set_process(true)
+
+@rpc("call_local")
+func virus():
+	is_virus = true
+	match pickups.held_pickups[globals.pickups.VIRUS]:
+		pickups.virus.SPEEDDOWN:
+			print("Slow movement!")
+			movement_speed = max(BASE_MOTION_SPEED / 2, MIN_MOTION_SPEED) # Set MIN?
+		pickups.virus.SPEEDUP:
+			print("Fast movement!")
+			movement_speed = min(BASE_MOTION_SPEED * 5, MAX_MOTION_SPEED)	# Set MAX?
+		pickups.virus.FIREDOWN:
+			print("Ultra-weak bombs!")
+			infected_explosion = true
+		pickups.virus.FASTFUSE:
+			print("Fast fuse speed!")
+			fuse_speed = FAST_FUSE_SPEED
+		pickups.virus.SLOWFUSE_A:
+			print("Slow fuse speed!")
+			fuse_speed = SLOW_FUSE_SPEED
+		pickups.virus.SLOWFUSE_B:
+			print("Slow fuse speed!")
+			fuse_speed = SLOW_FUSE_SPEED - 1
+		pickups.virus.AUTOBOMB:
+			print("Autodrop!")
+			is_autodrop = true
+			drop_timer = AUTODROP_INTERVAL
+			set_process(true)
+		pickups.virus.INVERSE_CONTROL:
+			print("Reverse controls!")
+			is_reverse = true
+		pickups.virus.NON_STOP_MOTION:
+			print("Can't stop moving!")
+			is_nonstop = true
+		pickups.virus.NOBOMBS:
+			print("Bombs disabled!")
+			is_unbomb = true
+		_:
+			print("unknown infection")
+
+@rpc("call_local")	
+func unvirus():
+	is_virus = false
+	infected_explosion = false
+	fuse_speed = NORMAL_FUSE_SPEED
+	is_autodrop = false
+	is_reverse = false
+	is_nonstop = false
+	is_unbomb = false
+	set_process(false)
 
 func stop_time(user: String, is_player: bool):
 	if is_player && user == self.name:

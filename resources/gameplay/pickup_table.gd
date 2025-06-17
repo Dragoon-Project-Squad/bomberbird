@@ -1,6 +1,5 @@
 class_name PickupTable extends Resource
 ## contains probabilistic weight for each pickup that should spawn on a specific stage
-## TODO: also allow this to handle total amounts instead of probabalistic weights
 
 const PICKUP_ENABLED: bool = true
 const PICKUP_SPAWN_BASE_CHANCE: float = 1.0
@@ -11,14 +10,14 @@ const PICKUP_SPAWN_BASE_CHANCE: float = 1.0
 @export var explosion_boost: int = 500
 @export var speed_boost: int = 500
 @export var speed_down: int = 300
-#@export var hearth: int = 0
+#@export var heart: int = 0
 @export var max_explosion: int = 100
 @export var punch_ability: int = 50
 @export var throw_ability: int = 50
 @export var wallthrough: int = 50
 @export var timer: int = 10
 @export var invincibility_vest: int = 50
-#@export var virus: int = 0
+@export var virus: int = 500
 @export var kick: int = 50
 @export var bombthrough: int = 50
 @export var piercing_bomb: int = 50
@@ -39,7 +38,7 @@ var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 func _init():
 	self.resource_local_to_scene = true
 
-## writes the weight variables into the pickup_weight dictunaty
+## writes the weight variables into the pickup_weight dictionary
 func update():
 	pickup_weights = {
 		globals.pickups.BOMB_UP: extra_bomb,
@@ -53,7 +52,7 @@ func update():
 		globals.pickups.WALLTHROUGH: wallthrough,
 		globals.pickups.FREEZE: timer,
 		globals.pickups.INVINCIBILITY_VEST: invincibility_vest,
-		#globals.pickups.VIRUS: virus,
+		globals.pickups.VIRUS: virus,
 		globals.pickups.KICK: kick,
 		globals.pickups.BOMBTHROUGH: bombthrough,
 		globals.pickups.PIERCING: piercing_bomb,
@@ -87,8 +86,8 @@ func reverse_update():
 		timer = pickup_weights[globals.pickups.FREEZE]
 	if pickup_weights.has(globals.pickups.INVINCIBILITY_VEST):
 		invincibility_vest = pickup_weights[globals.pickups.INVINCIBILITY_VEST]
-	#if pickup_weights.has(globals.pickups.VIRUS):
-		#virus = pickup_weights[globals.pickups.VIRUS]
+	if pickup_weights.has(globals.pickups.VIRUS):
+		virus = pickup_weights[globals.pickups.VIRUS]
 	if pickup_weights.has(globals.pickups.KICK):
 		kick = pickup_weights[globals.pickups.KICK]
 	if pickup_weights.has(globals.pickups.BOMBTHROUGH):
@@ -140,10 +139,7 @@ func determine_base_pickup_rate() -> void:
 		pickup_spawn_chance = base_pickup_spawn_chance
 		return # Use the value decided by the STAGE
 	elif SettingsContainer.get_pickup_spawn_rule() == 1:
-		pickup_spawn_chance = 0 # NONE
-	elif SettingsContainer.get_pickup_spawn_rule() == 2:
-		pickup_spawn_chance = 1 # ALL
-	else: # Custom Mode, use the Global Percent
+		# Custom Mode, use the Global Percent
 		pickup_spawn_chance = SettingsContainer.get_pickup_chance()
 
 func to_json() -> Dictionary:

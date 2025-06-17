@@ -16,7 +16,7 @@ var origin: Vector2
 var starting_speed: Vector2
 var direction: Vector2i
 
-var bomb_root: Node2D
+var bomb_root: BombRoot
 
 
 func _ready() -> void:
@@ -100,7 +100,7 @@ func check_space():
 func to_stationary_bomb():
 	if !is_multiplayer_authority():
 		return
-	bomb_root.do_place.rpc(target, -1, bomb_root.bomb_owner_is_dead)
+	bomb_root.do_place.rpc(target, bomb_root.boost, bomb_root.bomb_owner_is_dead)
 
 ## called while the bomb is in the checking state. Checks specifically if the bomb is outside of the areana (in that case continue hopping, or change direction under special conditions) of if outside of the world in which case the bomb should wrap around to the other side of the world 
 func check_bounds() -> bool:

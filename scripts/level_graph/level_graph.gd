@@ -115,6 +115,7 @@ func _add_stage_node():
 	
 ## clears the graph (removing all nodes and connections with the exeption of the starting node)
 func clear_graph():
+	selected_nodes.clear()
 	for child in get_children():
 		if !child is StageNode: continue
 		child.name = "REMOVING" + child.name
@@ -148,6 +149,7 @@ func load_graph(graph_data: Dictionary):
 func _on_load_pressed():
 	if is_saved:
 		_on_load_confirmed()
+		self.grab_focus()
 		return
 
 	for sig_arr in confirmation_dialog.get_ok_button().pressed.get_connections():
@@ -160,6 +162,7 @@ func _on_load_pressed():
 	confirmation_dialog.get_ok_button().pressed.connect(_on_load_confirmed, CONNECT_ONE_SHOT)
 	confirmation_dialog.get_cancel_button().pressed.connect(confirmation_dialog.hide, CONNECT_ONE_SHOT)
 	confirmation_dialog.popup_centered()
+	self.grab_focus()
 
 func _on_load_confirmed():
 	confirmation_dialog.hide()
@@ -168,6 +171,7 @@ func _on_load_confirmed():
 func _on_save_pressed():
 	if !FileAccess.file_exists(SAVE_PATH + "/" + file_name + ".json"): 
 		_on_save_confirmed()
+		self.grab_focus()
 		return
 
 	for sig_arr in confirmation_dialog.get_ok_button().pressed.get_connections():
@@ -180,6 +184,7 @@ func _on_save_pressed():
 	confirmation_dialog.get_ok_button().pressed.connect(_on_save_confirmed, CONNECT_ONE_SHOT)
 	confirmation_dialog.get_cancel_button().pressed.connect(confirmation_dialog.hide, CONNECT_ONE_SHOT)
 	confirmation_dialog.popup_centered()
+	self.grab_focus()
 
 ## saves the current graph
 func _on_save_confirmed():
@@ -212,6 +217,7 @@ func _on_save_confirmed():
 	file_access.store_line(JSON.stringify(graph_data))
 	file_access.close()
 	has_saved.emit(file_name)
+	self.grab_focus()
 
 func _on_close_pressed():
 	if is_saved:
@@ -255,6 +261,7 @@ func _on_clear_all_pressed():
 		)
 	confirmation_dialog.get_cancel_button().pressed.connect(confirmation_dialog.hide, CONNECT_ONE_SHOT)
 	confirmation_dialog.popup_centered()
+	self.grab_focus()
 
 
 ## A bfs graph traversale inwhich each node will be saved to the StageNodeData array. A bfs is used to also store the array indices of the children to each entry
@@ -352,6 +359,7 @@ func _on_cut_nodes_request() -> void:
 
 ## rebuilds all nodes in the clipboard
 func _on_paste_nodes_request():
+	if node_clipboard.is_empty(): return
 	for node in selected_nodes.keys():
 		node.selected = false
 	selected_nodes.clear()
@@ -394,11 +402,11 @@ func _on_duplicate_nodes_request() -> void:
 		stage_node.selected = true
 	has_changed.emit()
 
-static func load_json_file(file_name: String, file_access_level = FileAccess.READ) -> Dictionary:
-	if !FileAccess.file_exists(SAVE_PATH + "/" + file_name + ".json"):
-		print("file: ", SAVE_PATH, "/", file_name, ".json", " not found loading empty graph")
+static func load_json_file(json_file_name: String, file_access_level = FileAccess.READ) -> Dictionary:
+	if !FileAccess.file_exists(SAVE_PATH + "/" + json_file_name + ".json"):
+		print("file: ", SAVE_PATH, "/", json_file_name, ".json", " not found loading empty graph")
 		return {}
-	var file_access := FileAccess.open(SAVE_PATH + "/" + file_name + ".json", file_access_level)
+	var file_access := FileAccess.open(SAVE_PATH + "/" + json_file_name + ".json", file_access_level)
 	var json_string := file_access.get_line()
 	file_access.close()
 	

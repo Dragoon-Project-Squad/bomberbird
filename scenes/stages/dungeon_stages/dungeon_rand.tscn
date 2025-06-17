@@ -17,11 +17,15 @@ max_explosion = 20
 punch_ability = 50
 throw_ability = 50
 wallthrough = 50
+timer = 10
 invincibility_vest = 15000
+virus = 500
 kick = 50
 bombthrough = 50
 piercing_bomb = 50
 land_mine = 50
+are_amounts = false
+base_pickup_spawn_chance = 1.0
 metadata/_custom_type_script = "uid://bta1elkd6rmla"
 
 [node name="RandomizedDungeonStage" type="Node2D"]

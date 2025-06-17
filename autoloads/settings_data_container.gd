@@ -14,8 +14,8 @@ var sfx_volume := 0.0
 #Multiplayer Enums
 enum cpu_difficulty_setting_states {STATIONARY, EASY, MEDIUM, HARD}
 enum misobon_setting_states {OFF, ON, SUPER}
-enum breakable_spawn_rule_setting_states {STAGE, NONE, FULL, CUSTOM}
-enum pickup_spawn_rule_setting_states {STAGE, NONE, ALL, CUSTOM}
+enum breakable_spawn_rule_setting_states {STAGE, CUSTOM}
+enum pickup_spawn_rule_setting_states {STAGE, CUSTOM}
 enum multiplayer_stages {SALOON, BEACH, DUNGEON, LAB}
 
 # Multiplayer
@@ -27,13 +27,12 @@ var hurry_up_state := true
 var sudden_death_state := false
 var misobon_setting := misobon_setting_states.ON #The dropdown is set to a dictionary.
 var breakable_spawn_rule := breakable_spawn_rule_setting_states.STAGE #The dropdown is set to a dictionary.
-var breakable_chance := 100.0
+var breakable_chance := 50.0
 var pickup_spawn_rule := pickup_spawn_rule_setting_states.STAGE #The dropdown is set to a dictionary.
 var pickup_chance := 100.0
 var stage_choice := multiplayer_stages.SALOON
 
 # Held Data Dictionaries
-var personal_loaded_data : Dictionary = {}
 var loaded_data : Dictionary = {}
 
 # Called when the node enters the scene tree for the first time.
@@ -194,7 +193,12 @@ func get_breakable_spawn_rule() -> int:
 func get_breakable_chance() -> float:
 	if loaded_data == {}:
 		return BATTLE_SETTINGS.DEFAULT_BREAKABLE_CHANCE
-	return breakable_chance
+	return breakable_chance/100
+	
+func get_raw_breakable_chance() -> float:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_BREAKABLE_CHANCE
+	return breakable_chance/100
 	
 func get_pickup_spawn_rule() -> int:
 	if loaded_data == {}:
@@ -202,6 +206,11 @@ func get_pickup_spawn_rule() -> int:
 	return pickup_spawn_rule
 
 func get_pickup_chance() -> float:
+	if loaded_data == {}:
+		return BATTLE_SETTINGS.DEFAULT_PICKUP_CHANCE
+	return pickup_chance/100
+	
+func get_raw_pickup_chance() -> float:
 	if loaded_data == {}:
 		return BATTLE_SETTINGS.DEFAULT_PICKUP_CHANCE
 	return pickup_chance
@@ -347,9 +356,7 @@ func set_all_vars_from_dict(datadict : Dictionary) -> void:
 func on_settings_data_loaded(data : Dictionary) -> void:
 	#Set Actual Data
 	loaded_data = data
-	#Set Personal Data
-	personal_loaded_data = data
-	set_all_vars_from_dict(personal_loaded_data)
+	set_all_vars_from_dict(loaded_data)
 	
 func handle_signals() -> void:
 	SettingsSignalBus.on_window_mode_selected.connect(set_window_mode)

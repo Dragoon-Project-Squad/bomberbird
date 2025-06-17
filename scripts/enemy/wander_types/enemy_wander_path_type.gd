@@ -60,7 +60,10 @@ func _physics_update(delta):
 
 	if arrived && self.enemy.bomb_to_throw && self.enemy.ability_detector.check_throw():
 		self.enemy.bomb_carry_sprite.hide()
-		self.enemy.bomb_to_throw.do_throw(self.enemy.movement_vector, self.enemy.position)
+		if self.enemy.movement_vector != Vector2.ZERO:
+			self.enemy.bomb_to_throw.do_throw(self.enemy.movement_vector, self.enemy.position)
+		else:
+			self.enemy.bomb_to_throw.do_throw(Vector2.DOWN, self.enemy.position)
 		self.enemy.bomb_to_throw = null
 
 	if arrived && !world_data.is_safe(self.enemy.position):

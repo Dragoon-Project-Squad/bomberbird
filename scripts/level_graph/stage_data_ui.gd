@@ -10,11 +10,14 @@ const ENEMY_DIR: Dictionary = {
 	"Egg Goon Dumb" : "egg_enemy_type_dumb.tscn",
 	"R2 Goon": "egg_R2_enemy.tscn",
 	"Knight Goon": "knight_enemy.tscn",
+	"Chase Goon": "chase_enemy.tscn",
 	"Slime Goon": "slime_goon.tscn",
 	"Tank Goon": "tank_goon.tscn",
 	"Skunk Goon": "skunk_goon.tscn",
+	"Magnet Goon": "magnet_goon.tscn",
 	"Bomb Eater Goon": "bomb_eater_goon.tscn",
 	"Hammer Goon": "hammer_goon.tscn",
+	"Bomb Walker": "bomb_walker.tscn",
 	"Bomb Goon 1": "bomb_goon_type1.tscn",
 	"Bomb Goon 2": "bomb_goon_type2.tscn",
 	"Normal Wisp": "wisp_enemy_type1.tscn",
@@ -23,6 +26,7 @@ const ENEMY_DIR: Dictionary = {
 	"Tomato Doki Boss": "tomato_boss.tscn",
 	"Retro Doki Boss": "retro_doki_boss.tscn",
 	"Crowki Boss": "crowki_boss.tscn",
+	"Alt Doki Boss": "alt_doki_boss.tscn",
 	"Mint Boss": "mint_boss.tscn",
 	}
 

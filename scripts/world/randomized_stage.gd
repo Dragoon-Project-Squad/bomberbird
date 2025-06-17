@@ -9,13 +9,11 @@ var breakable_spawn_chance = base_breakable_chance
 ## spawns breakables randomly with a change depending on (gamestate.current_level)
 	
 func get_final_breakable_rate() -> float:
-	if SettingsContainer.get_breakable_spawn_rule() == SettingsContainer.breakable_spawn_rule_setting_states.NONE:
-		return 0 # NONE
-	elif SettingsContainer.get_breakable_spawn_rule() == SettingsContainer.breakable_spawn_rule_setting_states.FULL:
-		return 1 # NONE
-	elif SettingsContainer.get_breakable_spawn_rule() == SettingsContainer.breakable_spawn_rule_setting_states.CUSTOM: # Custom Mode, use the Global Percent
+	if SettingsContainer.get_breakable_spawn_rule() == SettingsContainer.breakable_spawn_rule_setting_states.STAGE: # Custom Mode, use the Global Percent
+		return base_breakable_chance + (gamestate.current_level - 1) * level_chance_multiplier # Use the value decided by the STAGE
+	if SettingsContainer.get_breakable_spawn_rule() == SettingsContainer.breakable_spawn_rule_setting_states.CUSTOM: # Custom Mode, use the Global Percent
 		return SettingsContainer.get_breakable_chance()
-	return base_breakable_chance + (gamestate.current_level - 1) * level_chance_multiplier # Use the value decided by the STAGE
+	return base_breakable_chance # Failsafe
 	
 func _generate_breakables_with_weights(_breakable_table: BreakableTable = null):
 	if not is_multiplayer_authority():

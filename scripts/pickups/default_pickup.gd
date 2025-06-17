@@ -79,9 +79,10 @@ func place(pos: Vector2, indestructable: bool = false):
 	enable()
 
 ## applies the power up to the player handed to it
-func apply_power_up(_pickup_owner: Node2D):
-	pass #default pickup has no effect
-
+func apply_power_up(pickup_owner: Node2D):
+	#default pickup clears virus
+	pickup_owner.unvirus()
+		
 ## if the body is a player proceed to cause the effect this pickup causes
 func _on_body_entered(body: Node2D) -> void:
 	if !is_multiplayer_authority(): return # Activate only on authority.
@@ -105,7 +106,6 @@ func _on_body_entered(body: Node2D) -> void:
 	
 	# Ensure powerup has time to play before pickup is destroyed
 	await pickup_sfx_player.finished
-	disable_collison_and_hide.rpc()
 	disable.rpc()
 	globals.game.pickup_pool.return_obj.call_deferred(self) #Pickup returns itself to the pool
 
@@ -133,7 +133,6 @@ func crush():
 	disable_collison_and_hide()
 	disable()
 	globals.game.pickup_pool.return_obj(self) #Pickup returns itself to the pool
-
 
 ## sets an internal state for throw pickup
 func set_state(new_state: int):
@@ -226,11 +225,8 @@ func wrap_around():
 @rpc("call_local")
 ## an alternative to place
 func throw(origin: Vector2, target: Vector2, direction: Vector2i, angle_rad: float = THROW_ANGLE_RAD, time_total: float = THROW_TIME):
-	collisionbox.set_deferred("Disabled", 0)
+	enable()
 	self.position = origin
-	in_use = true
-	process_mode = PROCESS_MODE_INHERIT
-	show()
 	var corrected_target = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(target))
 	self.time = 0
 	self.time_total = time_total

@@ -8,8 +8,3 @@ script = ExtResource("2_mfmbb")
 
 [node name="SliderNameLabel" parent="HBoxContainer" index="0"]
 text = "Breakable chance"
-
-[node name="HSlider" parent="HBoxContainer" index="2"]
-max_value = 1.0
-step = 0.001
-rounded = false
