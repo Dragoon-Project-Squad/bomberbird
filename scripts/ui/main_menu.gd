@@ -2,7 +2,6 @@ extends Control
 @onready var title_sceen: Node2D = $TitleSceen
 @onready var button_box: VBoxContainer = $ButtonBox
 @onready var options_menu: Control = $OptionsMenu
-@onready var graph_selection: Control = $DebugCampaignSelector
 @onready var main_menu_music_player: AudioStreamPlayer = $AudioStreamPlayer
 
 # Called when the node enters the scene tree for the first time.
@@ -17,13 +16,11 @@ func switch_to_options_menu() -> void:
 	options_menu.options_music_player.play()
 	
 func hide_main_menu() -> void:
-	graph_selection.hide()
 	title_sceen.hide()
 	button_box.hide()
 	$DokiSubscribeLink.hide()
 	
 func reveal_main_menu() -> void:
-	graph_selection.show()
 	title_sceen.visible = true
 	button_box.visible = true
 	$DokiSubscribeLink.show()

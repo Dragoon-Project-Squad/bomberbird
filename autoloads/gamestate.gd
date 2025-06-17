@@ -236,6 +236,8 @@ func load_world(game_scene):
 	var game = load(game_scene).instantiate()
 	get_tree().get_root().add_child(game)
 	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
+		if self.current_save.campaign != "": current_graph = self.current_save.campaign
+		else: self.current_save.campaign = current_graph
 		game.load_level_graph(current_graph)
 	if has_node("/root/MainMenu"):
 		get_node("/root/MainMenu").pause_main_menu_music()
@@ -392,8 +394,11 @@ func is_name_free(playername: String) -> bool:
 		return false
 	return true
 			
-func end_sp_game():
+func save_sp_game():
 	campaign_save_manager.save(current_save, current_save_file)
+
+func end_sp_game():
+	save_sp_game()
 	if globals.game != null: # Game is in progress.
 		# End it
 		globals.game.queue_free()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cwhum362lt6ww"]
+[gd_scene load_steps=22 format=3 uid="uid://cwhum362lt6ww"]
 
 [ext_resource type="Script" uid="uid://diwfw63wskeam" path="res://scripts/ui/cssmenu/sp_character_select_screen.gd" id="1_m7566"]
 [ext_resource type="Theme" uid="uid://bgj72vffexht" path="res://assets/styles/panel_theme.tres" id="3_5sbwn"]
@@ -17,6 +17,9 @@
 [ext_resource type="Texture2D" uid="uid://bngq754xh3q18" path="res://assets/css/maidmint.png" id="15_y4rb0"]
 [ext_resource type="AudioStream" uid="uid://cb75c45y5yhvk" path="res://sound/fx/click.wav" id="16_41akf"]
 [ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="17_sdw0t"]
+[ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="18_bappc"]
+[ext_resource type="PackedScene" uid="uid://c7x6djajavw8b" path="res://scenes/debug_campaign_selector.tscn" id="19_dhy2l"]
+[ext_resource type="Theme" uid="uid://d2oqlxohwao3c" path="res://assets/styles/battle_settings_menu.tres" id="20_5yoqc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m7566"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -434,10 +437,19 @@ offset_top = 45.0
 offset_right = 229.0
 offset_bottom = 91.0
 theme = ExtResource("3_5sbwn")
+theme_override_fonts/font = ExtResource("18_bappc")
 theme_override_font_sizes/font_size = 35
 placeholder_text = "Player1"
 max_length = 12
 emoji_menu_enabled = false
+
+[node name="DebugCampaignSelector" parent="." instance=ExtResource("19_dhy2l")]
+layout_mode = 1
+offset_left = 223.0
+offset_top = 404.0
+offset_right = 223.0
+offset_bottom = 404.0
+theme = ExtResource("20_5yoqc")
 
 [connection signal="pressed" from="SkinBG/CharacterGrid/eggoon" to="." method="_on_eggoon_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/dragoon" to="." method="_on_dragoon_pressed"]

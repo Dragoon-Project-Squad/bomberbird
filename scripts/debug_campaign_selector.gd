@@ -41,6 +41,8 @@ func _ready() -> void:
 
 			res_file.close()
 	_update_and_set(DEFAULT_GRAPH_NAME)
+	if OS.is_debug_build(): self.show()
+	else: self.hide()
 
 func _update_and_set(item_name: String = DEFAULT_GRAPH_NAME):
 	_get_file_name_from_dir(LevelGraph.SAVE_PATH)
@@ -79,3 +81,7 @@ func _on_graph_button_pressed():
 
 func _on_campaign_selector_item_selected(idx: int):
 	gamestate.current_graph = selector.get_item_text(idx)
+
+func _input(event):
+	if event.is_action_pressed("toggle_debug"):
+		self.visible = !self.visible

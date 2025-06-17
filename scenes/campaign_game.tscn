@@ -206,3 +206,4 @@ metadata/_edit_use_anchors_ = true
 
 [connection signal="clock_pickup_time_paused" from="." to="." method="pause_time"]
 [connection signal="clock_pickup_time_unpaused" from="." to="." method="unpause_time"]
+[connection signal="score_updated" from="." to="CampaignGameUI" method="update_score"]

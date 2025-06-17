@@ -1,5 +1,7 @@
 extends Game
 
+signal score_updated(score: int)
+
 const LEVEL_GRAPH_PATH: String = "res://resources/level_graph/saved_graphs"
 const MATCH_TIME: int = 180
 
@@ -11,13 +13,14 @@ var stage_handler: StageHandler
 var score: int = 0:
 	set(val):
 		score = min(val, 999999)
-		self.game_ui.update_score(score)
+		score_updated.emit(score)
 
 var stage_data_arr: Array[StageNodeData]
 var curr_stage_idx: int = 0
 var _stage_lookahead: int = 3
 var _exit_entered_barrier: bool = false
 var _exit_spawned_barrier: bool = false
+var first_start: bool = true
 
 func _init():
 	globals.game = self
@@ -27,9 +30,10 @@ func restart():
 	stage_done = true
 	fade.play("fade_out")
 	reset_players()
-	score = 0
+	gamestate.current_save.current_score = 0
 	await fade.animation_finished
 
+	_exit_entered_barrier = false
 	reset.call_deferred()
 	stage.reset.call_deferred()
 	start.call_deferred()
@@ -76,10 +80,20 @@ func next_stage(id: int, player: HumanPlayer):
 	await player.play_victory(true)
 
 	if id == -1:
+		save_on_finish(score, player)
 		win_screen.won_game(score)
 		reset()
 		stage.reset() #deletes exits and stops hurry up
+
+		_exit_entered_barrier = false
+		_exit_spawned_barrier = false
+
+		stage_has_changed.emit()
+		stage_done = false 
 		return
+
+	update_save(id, curr_stage_idx, score, player)
+
 	gamestate.current_level += 1
 	
 	fade.play("fade_out")
@@ -148,6 +162,9 @@ func start():
 	stage_announce_label.text = stage_data_arr[0].stage_node_title
 	stage_announce_label.show()
 	fade.get_node("FadeInOutRect").show()
+	if gamestate.current_save.exit_count == -1:
+		init_new_save()
+	score = gamestate.current_save.current_score
 	await get_tree().create_timer(0.1).timeout
 	fade.play("fade_in")
 
@@ -155,40 +172,43 @@ func start():
 		stage_data_arr, 
 		func (s: StageNodeData): return s.get_stage_path(),
 		func (s: StageNodeData): return s.children,
-		0,
+		gamestate.current_save.last_stage,
 		_stage_lookahead,
 	)
-	# using the bfs fold function find the maximal number of every enemy type used per stage
-	var max_enemy_dict: Dictionary = GraphHelper.bfs_fold(
-		stage_data_arr,
-		{},
-		func (curr_dict: Dictionary, s: StageNodeData):
-			var enemy_dict: Dictionary = s.enemy_resource.get_enemy_dictionary()
-			for enemy_path in enemy_dict:
-				if !curr_dict.has(enemy_path): curr_dict[enemy_path] = len(enemy_dict[enemy_path])
-				else: curr_dict[enemy_path] = max(curr_dict[enemy_path], len(enemy_dict[enemy_path]))
-			return curr_dict,
-		func (s: StageNodeData): return s.children,
-		0,
-	)
 
-	enemy_pool.initialize(max_enemy_dict)
+	if first_start:
+		# using the bfs fold function find the maximal number of every enemy type used per stage
+		var max_enemy_dict: Dictionary = GraphHelper.bfs_fold(
+			stage_data_arr,
+			{},
+			func (curr_dict: Dictionary, s: StageNodeData):
+				var enemy_dict: Dictionary = s.enemy_resource.get_enemy_dictionary()
+				for enemy_path in enemy_dict:
+					if !curr_dict.has(enemy_path): curr_dict[enemy_path] = len(enemy_dict[enemy_path])
+					else: curr_dict[enemy_path] = max(curr_dict[enemy_path], len(enemy_dict[enemy_path]))
+				return curr_dict,
+			func (s: StageNodeData): return s.children,
+			gamestate.current_save.last_stage,
+		)
+
+
+		enemy_pool.initialize(max_enemy_dict)
 	stage_handler.load_stages(init_stage_set)
-	stage_handler.set_stage(stage_data_arr[0].selected_scene_path + "/" + stage_data_arr[0].selected_scene_file)
+	stage_handler.set_stage(stage_data_arr[gamestate.current_save.last_stage].selected_scene_path + "/" + stage_data_arr[gamestate.current_save.last_stage].selected_scene_file)
 	stage = stage_handler.get_stage()
 
 	activate_ui_and_music()
-	globals.game.game_ui.start_timer()
-	%MatchTimer.start()
 
 	stage.enable.call_deferred(
-		stage_data_arr[0].exit_resource,
-		stage_data_arr[0].enemy_resource,
-		stage_data_arr[0].pickup_resource,
-		stage_data_arr[0].spawnpoint_resource,
-		stage_data_arr[0].unbreakable_resource,
-		stage_data_arr[0].breakable_resource,
+		stage_data_arr[gamestate.current_save.last_stage].exit_resource,
+		stage_data_arr[gamestate.current_save.last_stage].enemy_resource,
+		stage_data_arr[gamestate.current_save.last_stage].pickup_resource,
+		stage_data_arr[gamestate.current_save.last_stage].spawnpoint_resource,
+		stage_data_arr[gamestate.current_save.last_stage].unbreakable_resource,
+		stage_data_arr[gamestate.current_save.last_stage].breakable_resource,
 	)
+	curr_stage_idx = gamestate.current_save.last_stage
+	first_start = true
 	await fade.animation_finished
 	stage_has_changed.emit.call_deferred()
 	get_tree().create_timer(0.5).timeout.connect(func (): stage_announce_label.hide())
@@ -211,6 +231,38 @@ func activate_ui_and_music():
 
 	game_ui.start_timer(MATCH_TIME)
 
+func init_new_save():
+	var exit_sum: int = GraphHelper.bfs_fold(
+		stage_data_arr,
+		0,
+		func (curr_sum: int, s: StageNodeData):
+			var new_sum = curr_sum + s.children.reduce(func (sum: int, i: int):
+				if i == -1: return sum
+				else: return sum + 1,
+				0,
+				)
+			return new_sum,
+		func (s: StageNodeData): return s.children,
+		0,
+	)
+	gamestate.current_save.exit_count = exit_sum
+	gamestate.current_save.last_stage = 0
+	gamestate.current_save.current_score = 0
+	gamestate.current_save.has_finished = false
+
+func save_on_finish(new_score: int, player: HumanPlayer):
+	gamestate.current_save.last_stage = 0
+	gamestate.current_save.current_score = new_score
+	player.clear_save()
+
+func update_save(next_stage_idx: int, this_stage_idx: int, new_score: int, player: HumanPlayer):
+	gamestate.current_save.last_stage = next_stage_idx
+	if !gamestate.current_save.visited_exits.has(this_stage_idx):
+		gamestate.current_save.visited_exits[this_stage_idx] = {}
+	gamestate.current_save.visited_exits[this_stage_idx][next_stage_idx] = null
+	gamestate.current_save.current_score = new_score
+	player.write_to_save()
+
 func load_level_graph(file_name: String):
 	var campaign_data: Dictionary = LevelGraph.load_json_file(file_name)
 	stage_data_arr = LevelGraph.load_graph_to_stage_node_data_arr(campaign_data)
@@ -228,3 +280,8 @@ func _input(event):
 	if event.is_action_pressed("pause"):
 		if !get_tree().paused:
 			pause_menu.open()
+
+func _notification(what):
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		gamestate.save_sp_game()
+		get_tree().quit() # default behavior

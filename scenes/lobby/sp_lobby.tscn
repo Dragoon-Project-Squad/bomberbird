@@ -13,6 +13,7 @@ shader = ExtResource("3_t42mu")
 shader_parameter/strength = 2.5
 
 [node name="Lobby" type="Control"]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

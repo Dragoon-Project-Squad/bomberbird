@@ -42,12 +42,19 @@ func _ready() -> void:
 
 		# read the save if it exists
 		if !campaign_save_manager.save_exist(save_buttons_file[button]): continue
-		save_buttons[button] = campaign_save_manager.load(save_buttons_file[button])
+		var save: Dictionary = campaign_save_manager.load(save_buttons_file[button])
+		if save.campaign_version != LevelGraph.VERSION: continue # if the version of the stage updated refuse to load it since it could cause game breaking bugs
+		save_buttons[button] = save
 
 		# populate savefile_button
 		button.set_player_name(save_buttons[button].player_name)
 		button.set_character(save_buttons[button].character_paths)
-		#TODO: write high score and completion percent to load button
+		button.set_score_label(save_buttons[button].current_score)
+		var total_stages_visited: int = 0
+		for stage in save_buttons[button].visited_exits.keys():
+			total_stages_visited += len(save_buttons[button].visited_exits[stage].keys())
+		button.set_completion_label(float(total_stages_visited) / save_buttons[button].exit_count)
+
 
 	save_button_group.pressed.connect(_on_button_group_pressed)
 

@@ -12,9 +12,9 @@ const EMPTY_SAVE: Dictionary = {
 	"player_health": 3,
 	"player_pickups": {},
 	"last_stage": 0,
-	"visited_exits": [], # contains dicts with {"stage": x, "exit": [x]} of exits that have already been visited in this safe
+	"visited_exits": {}, # contains dicts with {"stage: int", "exit: Array[int]" } of exits that have already been visited in this safe
 	"current_score": 0,
-	"completion": 0.0,
+	"exit_count": -1,
 	"has_finished": false,
 	}
 
@@ -42,7 +42,7 @@ func save_exist(file_name: String) -> bool:
 func load(file_name: String) -> Dictionary:
 	if !FileAccess.file_exists(SAVE_PATH + "/" + file_name + ".json"):
 		push_error("attempted to load a nonexisting save: " + file_name + ".json")
-		return EMPTY_SAVE.duplicate()
+		return EMPTY_SAVE.duplicate(true)
 	var file_access := FileAccess.open(SAVE_PATH + "/" + file_name + ".json", FileAccess.READ)
 	var json_string := file_access.get_line()
 	file_access.close()
@@ -51,9 +51,22 @@ func load(file_name: String) -> Dictionary:
 	var error := json.parse(json_string)
 	if error:
 		print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
-		return EMPTY_SAVE.duplicate()
-	return json.data
+		return EMPTY_SAVE.duplicate(true)
+
+	var save_file: Dictionary = json.data.duplicate(true)
+	save_file.visited_exits.clear()
+	save_file.player_pickups.clear()
+	for stage_str in json.data.visited_exits.keys():
+		var stage: int = int(stage_str)
+		save_file.visited_exits[stage] = {}
+		for exit_str in json.data.visited_exits[stage_str].keys():
+			save_file.visited_exits[stage][int(exit_str)] = null
+	for pickup in json.data.player_pickups.keys():
+		save_file.player_pickups[int(pickup)] = json.data.player_pickups[pickup]
+
+	has_loaded.emit(file_name)
+	return save_file
 
 func get_new_save() -> Dictionary:
-	return EMPTY_SAVE.duplicate()
+	return EMPTY_SAVE.duplicate(true)
 	
