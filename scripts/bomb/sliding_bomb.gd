@@ -60,7 +60,12 @@ func set_state(new_state: int):
 
 ## called while the bomb is in its sliding state
 func slide_physics(delta: float):
-	target = move_and_collide(Vector2(direction) * speed * delta)
+	target = move_and_collide(direction * speed * delta)
+	if place_position != Vector2.ZERO:
+		if (self.global_position - place_position).dot(direction) >= 0:
+			place_now = true
+			set_state(CHECKING)
+		return
 	if target != null or place_now:
 		bomb_root.global_position = self.global_position
 		self.position = Vector2.ZERO
@@ -71,8 +76,6 @@ func check_space():
 	if place_now:
 		set_state(PLACING)
 		return
-	if target == null:
-		set_state(SLIDING)
 	var collision := target.get_collider()
 	if (
 			collision is CollisionObject2D # everything inherits so just check this
@@ -86,11 +89,17 @@ func check_space():
 			collision.do_stun()
 		elif collision.has_method("crush"):
 			if collision is Breakable:
-				place_position += Vector2(direction * TILESIZE)
+				if direction == Vector2i.LEFT or direction == Vector2i.UP:
+					place_position += Vector2(direction * TILESIZE)
 			collision.crush()
 		else:
 			printerr("what the heck is this collision: ", collision)
-		set_state(PLACING)
+		if (self.global_position - place_position).dot(direction) >= 0:
+			set_state(PLACING)
+		else:
+			self.collision_layer =  0
+			$CollisionShape2D.set_deferred("disabled",true)
+			set_state(SLIDING)
 
 func to_stationary_bomb():
 	if !is_multiplayer_authority():
@@ -115,7 +124,9 @@ func correct_coords(current_coords: Vector2) -> Vector2:
 	)
 
 func halt():
-	place_position = self.global_position
+	place_position = correct_coords(self.global_position)
+	bomb_root.global_position = place_position
+	self.position = Vector2.ZERO
 	self.place_now = true
 
 # not sure to explode while in sliding state or ignore explosion
