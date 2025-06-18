@@ -9,6 +9,7 @@ extends Control
 func _ready() -> void:
 	gamestate.game_ended.connect(_on_game_ended)
 	gamestate.game_error.connect(_on_game_error)
+	gamestate.secret_status_sent.connect(_on_secret_status_sent)
 	if not multiplayer.get_peers().is_empty():
 		print("I AM ONLINE")
 		show_character_select_screen()
@@ -90,6 +91,10 @@ func _on_stage_select_stage_select_aborted() -> void:
 func _on_stage_select_stage_selected() -> void:
 	start_the_battle()
 
+func _on_secret_status_sent() -> void:
+	if globals.secrets_enabled:
+		character_select_screen.reveal_secrets()
+		stage_select_screen.switch_to_secret_stages()
 func _on_error_dialog_confirmed() -> void:
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 

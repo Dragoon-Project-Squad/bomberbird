@@ -32,16 +32,18 @@ func load_stage() -> void:
 func load_custom_stage() -> String:
 	var stage_path_to_load
 	match SettingsContainer.get_stage_choice():
-		0:
+		SettingsContainer.multiplayer_stages_secret_enabled.SALOON:
 			stage_path_to_load = globals.DESERT_RAND_STAGE_PATH
-		1:
+		SettingsContainer.multiplayer_stages_secret_enabled.BEACH:
 			stage_path_to_load = globals.BEACH_RAND_STAGE_PATH
-		2:
+		SettingsContainer.multiplayer_stages_secret_enabled.DUNGEON:
 			stage_path_to_load = globals.DUNGEON_RAND_STAGE_PATH
-		3:
+		SettingsContainer.multiplayer_stages_secret_enabled.LAB:
 			stage_path_to_load = globals.LAB_RAND_STAGE_PATH
+		SettingsContainer.multiplayer_stages_secret_enabled.SECRET:
+			stage_path_to_load = globals.SECRET_RAND_STAGE_PATH
 		_:
-			stage_path_to_load = globals.DESERT_FULL_STAGE_PATH
+			stage_path_to_load = globals.DESERT_RAND_STAGE_PATH
 	return stage_path_to_load
 		
 func load_full_stage() -> String:

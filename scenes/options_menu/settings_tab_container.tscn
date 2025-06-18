@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://cuslig6cjmt18"]
+[gd_scene load_steps=9 format=3 uid="uid://cuslig6cjmt18"]
 
 [ext_resource type="PackedScene" uid="uid://btedou2ck0dq2" path="res://scenes/options_menu/audio_slider_settings.tscn" id="1_0xsqn"]
 [ext_resource type="Script" uid="uid://dwl8y187ro5f6" path="res://scenes/options_menu/settings_tab_container.gd" id="1_8iyed"]
 [ext_resource type="PackedScene" uid="uid://dde0vhaw16pm7" path="res://scenes/options_menu/hotkey_rebind_button.tscn" id="1_e0vr5"]
 [ext_resource type="PackedScene" uid="uid://cvmphqwgfj7s6" path="res://scenes/options_menu/window_mode_button.tscn" id="1_qe5us"]
 [ext_resource type="PackedScene" uid="uid://bji7xtln0wpgk" path="res://scenes/options_menu/resolution_mode_button.tscn" id="2_gsepo"]
+[ext_resource type="AudioStream" uid="uid://cb75c45y5yhvk" path="res://sound/fx/click.wav" id="6_wqed1"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hncmi"]
 
@@ -32,10 +33,9 @@ offset_bottom = -50.0
 grow_horizontal = 2
 grow_vertical = 2
 tab_alignment = 1
-current_tab = 2
+current_tab = 0
 
 [node name="General" type="TabBar" parent="TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -56,25 +56,29 @@ layout_mode = 2
 theme_override_constants/separation = 64
 alignment = 1
 
-[node name="Label" type="Label" parent="TabContainer/General/MarginContainer/VBoxContainer"]
+[node name="Password" type="Label" parent="TabContainer/General/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "EMPTY SPACE"
+size_flags_horizontal = 4
+text = "PASSWORD"
 
-[node name="Label2" type="Label" parent="TabContainer/General/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/General/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "THIS IS MEANT TO BE EMPTY (FOR NOW)"
 
-[node name="Label3" type="Label" parent="TabContainer/General/MarginContainer/VBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="TabContainer/General/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "DO NOT BE ALARMED"
+size_flags_horizontal = 3
+placeholder_text = "SUPER SECRET CODES HERE"
+alignment = 1
+max_length = 20
 
-[node name="Label4" type="Label" parent="TabContainer/General/MarginContainer/VBoxContainer"]
+[node name="PasswordSubmit" type="Button" parent="TabContainer/General/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "WE COME IN PEACE"
+text = "SUBMIT"
 
-[node name="Label5" type="Label" parent="TabContainer/General/MarginContainer/VBoxContainer"]
+[node name="PasswordStatus" type="Label" parent="TabContainer/General/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "BOOGIE WOOGIE WOOGIE"
+text = "\"...\""
+horizontal_alignment = 1
 
 [node name="Graphics" type="TabBar" parent="TabContainer"]
 visible = false
@@ -107,6 +111,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Controls" type="TabBar" parent="TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
@@ -209,3 +214,9 @@ bus_name = "Music"
 
 [node name="AudioSliderSettings3" parent="TabContainer/Sound/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_0xsqn")]
 layout_mode = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_wqed1")
+bus = &"SFX"
+
+[connection signal="pressed" from="TabContainer/General/MarginContainer/VBoxContainer/HBoxContainer/PasswordSubmit" to="." method="_on_password_submit_pressed"]

@@ -38,6 +38,8 @@ func unpause_main_menu_music() -> void:
 func check_secret() -> void:
 	if SettingsContainer.get_data_flag() == "boo":
 		globals.secrets_enabled = true
+		print("You found a secret!!!")
+	#Do NOT set it to false if the data isn't there.
 
 func _on_single_player_pressed() -> void:
 	gamestate.begin_singleplayer_game()

@@ -24,10 +24,11 @@ func add_stage_options() -> void:
 		dropdown.add_item(stage_option)
 
 @rpc("call_remote")
-func reset_stage_options() -> void:
+func switch_to_secret_stages() -> void:
 	print("Come one, come all.")
 	dropdown.clear()
-	add_stage_options()
+	for stage_option in SettingsContainer.multiplayer_stages_secret_enabled:
+		dropdown.add_item(stage_option)
 	load_data()
 	
 @rpc("call_remote")

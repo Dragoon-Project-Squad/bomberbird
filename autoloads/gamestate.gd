@@ -61,6 +61,7 @@ signal connection_failed()
 signal connection_succeeded()
 signal game_ended()
 signal game_error(what)
+signal secret_status_sent
 
 # Preloaded Scenes
 var campaign_game_scene: String = "res://scenes/campaign_game.tscn"
@@ -107,6 +108,11 @@ func update_server_player_lists(client_player_name):
 func sync_playerdata_across_players(newplayer_data_master_dict):
 	player_data_master_dict = newplayer_data_master_dict.duplicate()
 	player_list_changed.emit()
+
+@rpc("call_remote")
+func set_secret_status(host_secret_status):
+	globals.secrets_enabled = host_secret_status
+	secret_status_sent.emit()
 
 # Callback from SceneTree.
 func _player_disconnected(id):
@@ -156,6 +162,8 @@ func register_player(new_player_name: String, id: int):
 		"is_enabled" = true
 	}
 	player_list_changed.emit()
+	if is_multiplayer_authority():
+		set_secret_status.rpc_id(id, globals.secrets_enabled)
 	
 @rpc("authority", "call_local")
 func unregister_player(id):

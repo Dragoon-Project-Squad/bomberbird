@@ -365,7 +365,7 @@ func get_data_flag() -> String:
 	return data_flag	
 	
 func set_data_flag(secretcode : String) -> void: #Marks save data to be saved with permanent secret unlock.
-	if secretcode != "boo": return
+	if secretcode.to_lower() != "boo": return
 	data_flag = "boo"
 
 func create_secret_file() -> Dictionary: #Saves save data as permanent secret unlock.
