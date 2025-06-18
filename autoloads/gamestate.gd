@@ -35,6 +35,7 @@ var DEFAULT_PLAYER_TEXTURE_PATH = character_texture_paths.NORMALGOON_PLAYER_TEXT
 # is_ai - 
 # is_enabled - determines if the player actually is loaded in or if their slot is available
 
+
 var player_data_resource: PlayerDataResource = preload("res://resources/settings/player_data_default.tres")
 var player_data_master_dict = {
 	1: {
@@ -61,6 +62,7 @@ signal connection_failed()
 signal connection_succeeded()
 signal game_ended()
 signal game_error(what)
+signal secret_status_sent
 
 # Preloaded Scenes
 var campaign_game_scene: String = "res://scenes/campaign_game.tscn"
@@ -68,6 +70,9 @@ var battlemode_game_scene: String = "res://scenes/battlemode_game.tscn"
 
 # Singleplayer Vars
 var current_level: int = 1 #205 # Defaults to a high number for battle mode.
+var current_save_file: String = ""
+var current_save: Dictionary
+var current_graph: String
 
 # Battle Mode vars
 
@@ -107,6 +112,11 @@ func update_server_player_lists(client_player_name):
 func sync_playerdata_across_players(newplayer_data_master_dict):
 	player_data_master_dict = newplayer_data_master_dict.duplicate()
 	player_list_changed.emit()
+
+@rpc("call_remote")
+func set_secret_status(host_secret_status):
+	globals.secrets_enabled = host_secret_status
+	secret_status_sent.emit()
 
 # Callback from SceneTree.
 func _player_disconnected(id):
@@ -156,6 +166,8 @@ func register_player(new_player_name: String, id: int):
 		"is_enabled" = true
 	}
 	player_list_changed.emit()
+	if is_multiplayer_authority():
+		set_secret_status.rpc_id(id, globals.secrets_enabled)
 	
 @rpc("authority", "call_local")
 func unregister_player(id):
@@ -231,8 +243,10 @@ func load_world(game_scene):
 	# Change scene.
 	var game = load(game_scene).instantiate()
 	get_tree().get_root().add_child(game)
-	if has_node("/root/MainMenu/DebugCampaignSelector"):
-		game.load_level_graph(get_node("/root/MainMenu/DebugCampaignSelector").get_graph())
+	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
+		if self.current_save.campaign != "": current_graph = self.current_save.campaign
+		else: self.current_save.campaign = current_graph
+		game.load_level_graph(current_graph)
 	if has_node("/root/MainMenu"):
 		get_node("/root/MainMenu").pause_main_menu_music()
 
@@ -297,10 +311,13 @@ func begin_singleplayer_game():
 	SettingsContainer.misobon_setting = SettingsContainer.misobon_setting_states.OFF
 	human_player_count = 1
 	total_player_count = human_player_count
+	# only used for spawning ai to debug
 	if total_player_count > 1:
 		add_ai_players(total_player_count - human_player_count)
 
-	player_data_master_dict[1].spritepaths = character_texture_paths.bhdoki_paths
+	player_name = current_save.player_name
+	player_data_master_dict[1].playername = current_save.player_name
+	player_data_master_dict[1].spritepaths = current_save.character_paths
 	load_world.rpc(campaign_game_scene)
 
 func begin_game():
@@ -385,16 +402,23 @@ func is_name_free(playername: String) -> bool:
 		return false
 	return true
 			
+func save_sp_game():
+	campaign_save_manager.save(current_save, current_save_file)
+
 func end_sp_game():
+	save_sp_game()
 	if globals.game != null: # Game is in progress.
 		# End it
 		globals.game.queue_free()
 	await get_tree().create_timer(0.05).timeout #The game scene needs to DIE.
-	#Only run if Main Menu is currently loaded in the scene.
+	# Only run if Main Menu is currently loaded in the scene.
 	if has_node("/root/MainMenu"):
 		var main_menu = get_node("/root/MainMenu")
 		main_menu.show()
 		main_menu.unpause_main_menu_music()
+	elif has_node("/root/lobby"):
+		var lobby: Node2D = get_node("/root/lobby")
+		lobby.get_back_to_menu()
 	game_ended.emit() #Listen to this signal to tell other nodes to cease the game.
 	player_data_master_dict.clear()
 	resetvars()

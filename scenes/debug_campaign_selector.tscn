@@ -5,11 +5,7 @@
 
 [node name="DebugCampaignSelector" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
 script = ExtResource("1_ax5x0")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
@@ -28,4 +24,5 @@ text = "Graph"
 script = ExtResource("2_h4g6p")
 metadata/_custom_type_script = "uid://boq3i75yls51h"
 
+[connection signal="item_selected" from="HBoxContainer/CampaignSelector" to="." method="_on_campaign_selector_item_selected"]
 [connection signal="pressed" from="HBoxContainer/GraphButton" to="." method="_on_graph_button_pressed"]

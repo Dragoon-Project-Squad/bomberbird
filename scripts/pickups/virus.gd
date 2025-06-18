@@ -1,4 +1,5 @@
 extends Pickup
+class_name VirusPickup
 
 func _init() -> void:
 	indestructable = true #Viruses don't blow up to bombs.

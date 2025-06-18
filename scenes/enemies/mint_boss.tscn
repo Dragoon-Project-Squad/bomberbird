@@ -25,6 +25,7 @@
 script = ExtResource("2_8i32n")
 initial_bomb_type = 1
 initial_exlusive = 2
+initial_virus = 0
 initial_bomb_up = 3
 initial_fire_up = 0
 initial_speed_up = 0
@@ -105,6 +106,7 @@ texture_filter = 1
 collision_layer = 32
 collision_mask = 13
 script = ExtResource("1_dpfu0")
+is_secret_boss = true
 pickups = SubResource("Resource_cvltp")
 ability_detector = NodePath("AbilityDetector")
 dropped_pickup = "punch_ability"

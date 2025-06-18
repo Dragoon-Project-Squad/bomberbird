@@ -28,7 +28,7 @@ animations = [{
 atlas = ExtResource("2_sont1")
 region = Rect2(96, 0, 24, 24)
 
-[node name="Virus" type="Area2D"]
+[node name="Virus" type="Area2D" groups=["pickup_debuff_immunity"]]
 collision_layer = 16
 collision_mask = 2
 script = ExtResource("1_fqgox")

@@ -17,23 +17,19 @@ unique_name_in_owner = true
 wait_time = 120.0
 one_shot = true
 
-[node name="TopBarContainer" type="HBoxContainer" parent="."]
+[node name="Time" type="TextureRect" parent="."]
+texture_filter = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -36.0
-offset_right = 36.0
+offset_left = -72.0
 offset_bottom = 32.0
 grow_horizontal = 2
-scale = Vector2(1.715, 1.715)
-theme_override_constants/separation = 0
-
-[node name="Time" type="TextureRect" parent="TopBarContainer"]
-texture_filter = 1
-layout_mode = 2
+scale = Vector2(2, 2)
 texture = SubResource("AtlasTexture_n8rxo")
+stretch_mode = 3
 
-[node name="TimeLabel" type="Label" parent="TopBarContainer/Time"]
+[node name="TimeLabel" type="Label" parent="Time"]
 unique_name_in_owner = true
 texture_filter = 1
 layout_mode = 1
@@ -48,13 +44,12 @@ text = "00:00"
 
 [node name="ScorePanelContainer" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
-offset_top = 64.0
-offset_bottom = 269.0
-scale = Vector2(2.5, 2.5)
-theme_override_constants/separation = 64
+offset_top = 60.0
+offset_bottom = 156.0
+scale = Vector2(2, 2)
+theme_override_constants/separation = 23
 
 [node name="ScorePanel_P1" parent="ScorePanelContainer" instance=ExtResource("4_xmooi")]
-visible = false
 layout_mode = 2
 
 [node name="ScorePanel_P2" parent="ScorePanelContainer" instance=ExtResource("4_xmooi")]

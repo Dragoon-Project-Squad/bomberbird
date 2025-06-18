@@ -91,6 +91,7 @@ func _on_body_entered(body: Node2D) -> void:
 			self.crush()
 		else:
 			return
+	if body is Boss && self is VirusPickup: return # Bosses have the vaccine.
 	if self.state != PLACED: return
 	if _pickup_pick_up_barrier: return
 	_pickup_pick_up_barrier = true

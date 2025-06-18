@@ -17,14 +17,6 @@ func _spawn_player(data) -> Player:
 		spawningplayer = ai_player_scene.instantiate()
 	spawningplayer.synced_position = data.spawndata
 	spawningplayer.name = str(data.pid)
-	#print("Data: ",data)
-	#print("Multiplayer Unique ID: ", multiplayer.get_unique_id())
-	#if data.pid == multiplayer.get_unique_id():
-		#print("Chosen Name: ", data.defaultname)
-	#elif (data.pid == 1):
-		#print("Derived Name: ", data.defaultname)
-	#else:
-		#print("Derived Name: ", data.playerdictionary[data.pid])
 	spawningplayer.set_player_name(data.defaultname if data.pid == multiplayer.get_unique_id() || data.pid == 1 else data.playerdict.playername)
 	spawningplayer.set_selected_character(data.playerdict.spritepaths.walk)
 	return spawningplayer
