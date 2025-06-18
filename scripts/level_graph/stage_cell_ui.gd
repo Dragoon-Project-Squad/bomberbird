@@ -47,6 +47,8 @@ class_name StageCellUI extends ReferenceRect
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(24, 24, 24, 24)},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.FREEZE}:
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(24, 0, 24, 24)},
+	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.VIRUS}:
+		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(96, 0, 24, 24)},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": -1 }:
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": unimplementet_texture, "sub_texture_area": null},
 }
