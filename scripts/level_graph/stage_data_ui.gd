@@ -109,8 +109,7 @@ func load_from_resources(enemy_table: EnemyTable = null, spawnpoint_table: Spawn
 	modified_cells.clear()
 	if enemy_table != null:
 		for entry in enemy_table.enemies:
-			var enemy_name: String = ENEMY_DIR.find_key(entry.file)
-			modified_cells[entry.coords] = _create_type_dict(tile_type.ENEMY, enemy_name, entry.probability)
+			modified_cells[entry.coords] = _create_type_dict(tile_type.ENEMY, entry.name, entry.probability)
 			cell_ui_elements[_get_cell_ui_element_index(entry.coords)].apply_texture(modified_cells[entry.coords])
 	if spawnpoint_table != null:
 		for entry in spawnpoint_table.spawnpoints:
@@ -136,7 +135,7 @@ func write_to_resources(enemy_table: EnemyTable, spawnpoint_table: SpawnpointTab
 				breakable_table.append(tile_pos, tile.sub_type, tile.probability)
 			tile_type.ENEMY:
 				if tile.sub_type != "":
-					enemy_table.append(tile_pos, ENEMY_DIR[tile.sub_type], StageNode.get_path_to_scene(tile.sub_type, ENEMY_SCENE_DIR, ENEMY_DIR, true), tile.probability)
+					enemy_table.append(tile_pos, tile.sub_type, tile.probability)
 			tile_type.SPAWNPOINT:
 				spawnpoint_table.append(tile_pos, tile.probability)
 
@@ -227,7 +226,7 @@ func _set_label(cell: Vector2i):
 	if modified_cells[cell].main_type == tile_type.BREAKABLE:
 		sub_type = " with a " + globals.pickup_name_str[modified_cells[cell].sub_type] + " pickup"
 	elif modified_cells[cell].main_type == tile_type.ENEMY:
-		sub_type = " with file " + modified_cells[cell].sub_type
+		sub_type = " with a " + modified_cells[cell].sub_type
 	curr_cell_label.text = coord_is + main_type + sub_type
 
 ## makes this cell as hovered and if needed draws or adds it to the selection
@@ -321,6 +320,7 @@ func _on_selected_type(index: int):
 			else:
 				ENEMY_DIR.keys().map(sub_type_select.add_item)
 				sub_type_select.select(0)
+				curr_sub_type_str = sub_type_select.get_item_text(sub_type_select.get_item_index(0))
 		tile_type.SPAWNPOINT:
 			sub_type_select.clear()
 			sub_type_select.disabled = true

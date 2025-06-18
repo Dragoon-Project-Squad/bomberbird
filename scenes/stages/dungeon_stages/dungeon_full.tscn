@@ -17,11 +17,15 @@ max_explosion = 20
 punch_ability = 50
 throw_ability = 50
 wallthrough = 50
+timer = 10
 invincibility_vest = 50
+virus = 50
 kick = 50
 bombthrough = 50
 piercing_bomb = 50
 land_mine = 50
+are_amounts = false
+base_pickup_spawn_chance = 1.0
 metadata/_custom_type_script = "uid://bta1elkd6rmla"
 
 [node name="FullDungeonStage" type="Node2D"]
@@ -29,6 +33,7 @@ texture_filter = 1
 script = ExtResource("1_uk2ei")
 breakable_tile_atlas_coordinates = Vector2i(5, 0)
 unbreakable_tile = Vector2i(6, 0)
+tileset_id = 3
 _arena_rect = Rect2i(1, 3, 13, 11)
 _world_edge_rect = Rect2i(-2, -2, 19, 19)
 spawnpoints = Array[Vector2i]([Vector2i(1, 3), Vector2i(13, 3), Vector2i(1, 13), Vector2i(13, 13)])

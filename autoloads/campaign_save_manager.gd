@@ -16,6 +16,7 @@ const EMPTY_SAVE: Dictionary = {
 	"current_score": 0,
 	"exit_count": -1,
 	"has_finished": false,
+	"fresh_save": true,
 	}
 
 func save(data: Dictionary, file_name: String) -> void:

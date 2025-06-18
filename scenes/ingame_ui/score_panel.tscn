@@ -22,6 +22,7 @@ script = ExtResource("1_nkj1y")
 
 [node name="Background" type="TextureRect" parent="."]
 texture_filter = 1
+layout_mode = 0
 offset_right = 72.0
 offset_bottom = 32.0
 texture = SubResource("AtlasTexture_nkj1y")

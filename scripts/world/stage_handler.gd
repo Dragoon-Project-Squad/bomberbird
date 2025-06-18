@@ -13,8 +13,8 @@ func get_stage() -> World:
 	return loaded_stage_path_map[current_stage_path]
 
 ## sets the current stage
-func set_stage(next_stage_path) -> void:
-	current_stage_path = next_stage_path
+func set_stage(next_stage_name: String) -> void:
+	current_stage_path = StageNode.STAGE_SCENE_DIR + StageNode.STAGE_DIR[next_stage_name]
 
 ## loads all stages given in the
 ## [param next_stage_set] Dictionary used as a set containing Path Strings

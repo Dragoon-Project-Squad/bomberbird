@@ -46,18 +46,18 @@ extends Resource
 
 # UI Faces Textures
 @export var FACE_UI_TEXTURE: String = "res://assets/ui/ui_faces.png"
-@export var EGGOON_FACE_RECT: Rect2 = Rect2(256, 0, 32, 32)
-@export var NORMALGOON_FACE_RECT: Rect2 = Rect2(160, 0, 32, 32)
-@export var CHONKGOON_FACE_RECT: Rect2 = Rect2(224, 0, 32, 32)
-@export var LONGGOON_FACE_RECT: Rect2 = Rect2(192, 0, 32, 32)
-@export var DAD_FACE_RECT: Rect2 = Rect2(128, 0, 32, 32)
-@export var BHDOKI_FACE_RECT: Rect2 = Rect2(0, 0, 32, 32)
-@export var RETRODOKI_FACE_RECT: Rect2 = Rect2(64, 0, 32, 32)
-@export var ALTGIRLDOKI_FACE_RECT: Rect2 = Rect2(32, 0, 32, 32)
-@export var CROWKI_FACE_RECT: Rect2 = Rect2(96, 0, 32, 32)
-@export var TOMATODOKI_FACE_RECT: Rect2 = Rect2(288, 0, 32, 32)
-@export var SECRET1_FACE_RECT: Rect2 = Rect2(320, 0, 32, 32)
-@export var SECRET2_FACE_RECT: Rect2 = Rect2(352, 0, 32, 32)
+@export var EGGOON_FACE_RECT: String = var_to_str(Rect2(256, 0, 32, 32))
+@export var NORMALGOON_FACE_RECT: String = var_to_str(Rect2(160, 0, 32, 32))
+@export var CHONKGOON_FACE_RECT: String = var_to_str(Rect2(224, 0, 32, 32))
+@export var LONGGOON_FACE_RECT: String = var_to_str(Rect2(192, 0, 32, 32))
+@export var DAD_FACE_RECT: String = var_to_str(Rect2(128, 0, 32, 32))
+@export var BHDOKI_FACE_RECT: String = var_to_str(Rect2(0, 0, 32, 32))
+@export var RETRODOKI_FACE_RECT: String = var_to_str(Rect2(64, 0, 32, 32))
+@export var ALTGIRLDOKI_FACE_RECT: String = var_to_str(Rect2(32, 0, 32, 32))
+@export var CROWKI_FACE_RECT: String = var_to_str(Rect2(96, 0, 32, 32))
+@export var TOMATODOKI_FACE_RECT: String = var_to_str(Rect2(288, 0, 32, 32))
+@export var SECRET1_FACE_RECT: String = var_to_str(Rect2(320, 0, 32, 32))
+@export var SECRET2_FACE_RECT: String = var_to_str(Rect2(352, 0, 32, 32))
 
 # Character Dicts
 var egggoon_paths = {

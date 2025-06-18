@@ -12,7 +12,7 @@ func _spawn_unbreakables(unbreakable_table: UnbreakableTable):
 
 @rpc("call_local")
 func _spawn_unbreakable(pos: Vector2i):
-	obstacles_layer.set_cell(pos, 3, _unbreakable_tile, 0)
+	obstacles_layer.set_cell(pos, _tileset_id, _unbreakable_tile, 0)
 
 func _generate_breakables_with_weights(breakable_table: BreakableTable):
 	for breakable_entry in breakable_table.breakables:

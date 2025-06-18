@@ -198,6 +198,11 @@ libraries = {
 [node name="FadeInOutRect" type="ColorRect" parent="AnimPlayer"]
 visible = false
 z_index = 100
+anchors_preset = -1
+anchor_left = -0.123264
+anchor_top = -0.162037
+anchor_right = 0.105903
+anchor_bottom = 0.0679012
 offset_left = -194.0
 offset_right = 694.0
 offset_bottom = 500.0

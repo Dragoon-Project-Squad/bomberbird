@@ -8,6 +8,7 @@ const STAGE_DIR: Dictionary = {
 	"Beach": "beach_stages/beach_runtime.tscn",
 	"Dungeon": "dungeon_stages/dungeon_runtime.tscn",
 	"Lab": "lab_stages/lab_runtime.tscn",
+	"Secret": "secret_stages/secret_runtime.tscn",
 	}
 
 signal has_changed
@@ -20,10 +21,9 @@ signal has_changed
 @onready var stage_tab: StageDataUI = %Stage
 @onready var stage_name: LineEdit = %StageName
 
-var curr_tab: int = 0
+var selected_scene: String
 
-var selected_scene_file: String = ""
-var selected_scene_path: String = ""
+var curr_tab: int = 0
 
 var pickup_resource: PickupTable = PickupTable.new()
 var exit_resource: ExitTable = ExitTable.new()
@@ -61,9 +61,8 @@ func load_stage_node(stage_node_data: Dictionary):
 	self.title = stage_node_data.stage_node_title
 	self.stage_name.text = stage_node_data.stage_node_title
 	self.position_offset = str_to_var(stage_node_data.stage_node_pos)
-	self.selected_scene_file = stage_node_data.selected_scene_file
-	self.selected_scene_path = stage_node_data.selected_scene_path
-	_set_option_button_select(scene_options, STAGE_DIR.find_key(selected_scene_file))
+	self.selected_scene = stage_node_data.selected_scene
+	_set_option_button_select(scene_options, selected_scene)
 	self.pickup_resource = PickupTable.new()
 	self.pickup_resource.from_json(stage_node_data.pickup_table)
 	self.exit_resource = ExitTable.new()
@@ -82,8 +81,7 @@ func load_stage_node(stage_node_data: Dictionary):
 
 func save_node(index: int) -> Dictionary:
 	var stage_node_data: Dictionary = {}
-	stage_node_data["selected_scene_file"] = selected_scene_file
-	stage_node_data["selected_scene_path"] = selected_scene_path
+	stage_node_data["selected_scene"] = selected_scene
 	stage_node_data["pickup_table"] = pickup_resource.to_json()
 	var enemy_resource: EnemyTable = EnemyTable.new()
 	var spawnpoint_resource: SpawnpointTable = SpawnpointTable.new()
@@ -209,8 +207,7 @@ func _setup_exit_from_load():
 func _on_scene_options_item_selected(index: int) -> void:
 	if index < 0:
 		return
-	selected_scene_file = STAGE_DIR[scene_options.get_item_text(index)]
-	selected_scene_path = get_path_to_scene(scene_options.get_item_text(index), STAGE_SCENE_DIR, STAGE_DIR, true)
+	selected_scene = scene_options.get_item_text(index)
 	has_changed.emit()
 
 ## Create a new entry for an exit
