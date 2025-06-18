@@ -70,13 +70,9 @@ var bomb_count_reset: int
 var lives_reset: int
 var explosion_boost_count_reset: int
 
-@export var NORMAL_FUSE_SPEED = 0
-@export var FAST_FUSE_SPEED = 1.5
-@export var SLOW_FUSE_SPEED = -2
-
 var is_virus = false
 @export var fire_range = 3
-@export var fuse_speed = NORMAL_FUSE_SPEED
+@export var fuse_speed := BombRoot.FUSES.NORMAL
 var infected_explosion := false
 var is_autodrop = false
 var is_reverse = false
@@ -264,6 +260,7 @@ func place_bomb():
 				bomb.set_bomb_type.rpc(HeldPickups.bomb_types.DEFAULT)
 		else:
 			bomb.set_bomb_type.rpc(pickups.held_pickups[globals.pickups.GENERIC_BOMB])
+		bomb.set_fuse_length.rpc(fuse_speed)
 		bomb.do_place.rpc(bombPos, -1 if infected_explosion else explosion_boost_count)
 
 ## updates the animation depending on the movement direction
@@ -540,13 +537,13 @@ func virus():
 			infected_explosion = true
 		pickups.virus.FASTFUSE:
 			print("Fast fuse speed!")
-			fuse_speed = FAST_FUSE_SPEED
+			fuse_speed = BombRoot.FUSES.FAST
 		pickups.virus.SLOWFUSE_A:
 			print("Slow fuse speed!")
-			fuse_speed = SLOW_FUSE_SPEED
+			fuse_speed = BombRoot.FUSES.SLOW_A
 		pickups.virus.SLOWFUSE_B:
 			print("Slow fuse speed!")
-			fuse_speed = SLOW_FUSE_SPEED - 1
+			fuse_speed = BombRoot.FUSES.SLOW_B
 		pickups.virus.AUTOBOMB:
 			print("Autodrop!")
 			is_autodrop = true
@@ -568,12 +565,12 @@ func virus():
 func unvirus():
 	is_virus = false
 	infected_explosion = false
-	fuse_speed = NORMAL_FUSE_SPEED
+	fuse_speed = BombRoot.FUSES.NORMAL
+	movement_speed = BASE_MOTION_SPEED
 	is_autodrop = false
 	is_reverse = false
 	is_nonstop = false
 	is_unbomb = false
-	pickups.held_pickups[globals.pickups.VIRUS] = HeldPickups.virus.DEFAULT
 	set_process(false)
 
 func stop_time(user: String, is_player: bool):
