@@ -87,6 +87,7 @@ func apply_power_up(pickup_owner: Node2D):
 func _on_body_entered(body: Node2D) -> void:
 	if !is_multiplayer_authority(): return # Activate only on authority.
 	if !(body is Player) && !(body is Boss): return
+	if body is Boss && self is VirusPickup: return # Bosses have the vaccine.
 	if self.state != PLACED: return
 	if _pickup_pick_up_barrier: return
 	_pickup_pick_up_barrier = true

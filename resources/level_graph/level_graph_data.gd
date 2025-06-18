@@ -11,5 +11,3 @@ class_name LevelGraphData extends Resource
 ## make sure this resource is not shared
 func _init():
 	self.resource_local_to_scene = true
-
-
