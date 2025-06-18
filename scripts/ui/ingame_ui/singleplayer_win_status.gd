@@ -24,6 +24,7 @@ func init_screen(score: int):
 	show()
 
 func _on_exit_game_pressed():
+	get_tree().paused = false
 	gamestate.end_sp_game()
 
 

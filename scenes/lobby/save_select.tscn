@@ -1,0 +1,256 @@
+[gd_scene load_steps=6 format=3 uid="uid://mjnlboref67"]
+
+[ext_resource type="Theme" uid="uid://bgj72vffexht" path="res://assets/styles/panel_theme.tres" id="1_4trsy"]
+[ext_resource type="Script" uid="uid://b4vallsu2hqgv" path="res://scripts/ui/lobby/save_menu.gd" id="1_5k5kr"]
+[ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="2_3frgu"]
+[ext_resource type="PackedScene" uid="uid://bxuaysj7k43qf" path="res://scenes/lobby/save_select_button_left.tscn" id="3_3frgu"]
+[ext_resource type="PackedScene" uid="uid://ckjwenucikdus" path="res://scenes/lobby/save_select_button_right.tscn" id="3_g44e4"]
+
+[node name="SaveMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5k5kr")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.95
+anchor_right = 0.5
+anchor_bottom = 0.95
+offset_left = -145.5
+offset_top = -51.0
+offset_right = 145.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 160
+alignment = 1
+
+[node name="Next" type="Button" parent="HBoxContainer" node_paths=PackedStringArray("shortcut_context") groups=["ui_button"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+focus_neighbor_left = NodePath("../Back")
+focus_neighbor_top = NodePath("../../Saves/Left/SaveSelectButton_3")
+focus_neighbor_right = NodePath("../Delete")
+focus_neighbor_bottom = NodePath("../../Saves/Left/SaveSelectButton_1")
+focus_next = NodePath("../Delete")
+focus_previous = NodePath("../../Saves/Right/SaveSelectButton_6")
+shortcut_context = NodePath("../Delete")
+theme = ExtResource("1_4trsy")
+theme_override_font_sizes/font_size = 46
+text = "Next
+"
+script = ExtResource("2_3frgu")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
+
+[node name="Delete" type="Button" parent="HBoxContainer" node_paths=PackedStringArray("shortcut_context") groups=["ui_button"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+focus_neighbor_left = NodePath("../Next")
+focus_neighbor_top = NodePath("../../Saves/Left/SaveSelectButton_3")
+focus_neighbor_right = NodePath("../Back")
+focus_neighbor_bottom = NodePath("../../Saves/Left/SaveSelectButton_1")
+focus_next = NodePath("../Back")
+focus_previous = NodePath("../Next")
+shortcut_context = NodePath("../Back")
+theme = ExtResource("1_4trsy")
+theme_override_font_sizes/font_size = 46
+text = "Delete"
+script = ExtResource("2_3frgu")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
+
+[node name="Back" type="Button" parent="HBoxContainer" node_paths=PackedStringArray("shortcut_context") groups=["ui_button"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+focus_neighbor_left = NodePath("../Delete")
+focus_neighbor_top = NodePath("../../Saves/Right/SaveSelectButton_6")
+focus_neighbor_right = NodePath("../Next")
+focus_neighbor_bottom = NodePath("../../Saves/Right/SaveSelectButton_4")
+focus_next = NodePath("../../Saves/Left/SaveSelectButton_1")
+focus_previous = NodePath("../Delete")
+shortcut_context = NodePath("../../Saves/Left/SaveSelectButton_1")
+theme = ExtResource("1_4trsy")
+theme_override_font_sizes/font_size = 46
+text = "Back"
+icon_alignment = 1
+script = ExtResource("2_3frgu")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
+
+[node name="SaveLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -288.5
+offset_right = 288.5
+offset_bottom = 69.0
+grow_horizontal = 2
+theme = ExtResource("1_4trsy")
+theme_override_font_sizes/font_size = 75
+text = "SELECT A SAVE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Saves" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Left" type="Control" parent="Saves"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -160.0
+offset_right = 400.0
+offset_bottom = 160.0
+grow_vertical = 2
+
+[node name="SaveSelectButton_1" parent="Saves/Left" node_paths=PackedStringArray("shortcut_context") instance=ExtResource("3_g44e4")]
+unique_name_in_owner = true
+layout_mode = 1
+focus_neighbor_left = NodePath("../../Right/SaveSelectButton_4")
+focus_neighbor_top = NodePath("../../../HBoxContainer/Next")
+focus_neighbor_right = NodePath("../../Right/SaveSelectButton_4")
+focus_neighbor_bottom = NodePath("../SaveSelectButton_2")
+focus_next = NodePath("../SaveSelectButton_2")
+focus_previous = NodePath("../../Right/SaveSelectButton_6")
+shortcut_context = NodePath("../SaveSelectButton_2")
+
+[node name="SaveSelectButton_2" parent="Saves/Left" node_paths=PackedStringArray("shortcut_context") instance=ExtResource("3_g44e4")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -40.0
+offset_bottom = 40.0
+grow_vertical = 2
+focus_neighbor_left = NodePath("../../Right/SaveSelectButton_5")
+focus_neighbor_top = NodePath("../SaveSelectButton_1")
+focus_neighbor_right = NodePath("../../Right/SaveSelectButton_5")
+focus_neighbor_bottom = NodePath("../SaveSelectButton_3")
+focus_next = NodePath("../SaveSelectButton_3")
+focus_previous = NodePath("../SaveSelectButton_1")
+shortcut_context = NodePath("../SaveSelectButton_3")
+
+[node name="SaveSelectButton_3" parent="Saves/Left" node_paths=PackedStringArray("shortcut_context") instance=ExtResource("3_g44e4")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -80.0
+offset_bottom = 0.0
+grow_vertical = 0
+focus_neighbor_left = NodePath("../../Right/SaveSelectButton_6")
+focus_neighbor_top = NodePath("../SaveSelectButton_2")
+focus_neighbor_right = NodePath("../../Right/SaveSelectButton_6")
+focus_neighbor_bottom = NodePath("../../../HBoxContainer/Next")
+focus_next = NodePath("../../Right/SaveSelectButton_4")
+focus_previous = NodePath("../SaveSelectButton_2")
+shortcut_context = NodePath("../../Right/SaveSelectButton_4")
+
+[node name="Right" type="Control" parent="Saves"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -160.0
+offset_bottom = 160.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="SaveSelectButton_4" parent="Saves/Right" node_paths=PackedStringArray("shortcut_context") instance=ExtResource("3_3frgu")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -400.0
+offset_right = 0.0
+grow_horizontal = 0
+focus_neighbor_left = NodePath("../../Left/SaveSelectButton_1")
+focus_neighbor_top = NodePath("../../../HBoxContainer/Back")
+focus_neighbor_right = NodePath("../../Left/SaveSelectButton_1")
+focus_neighbor_bottom = NodePath("../SaveSelectButton_5")
+focus_next = NodePath("../SaveSelectButton_5")
+focus_previous = NodePath("../../Left/SaveSelectButton_3")
+shortcut_context = NodePath("../SaveSelectButton_5")
+
+[node name="SaveSelectButton_5" parent="Saves/Right" node_paths=PackedStringArray("shortcut_context") instance=ExtResource("3_3frgu")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -40.0
+offset_right = 0.0
+offset_bottom = 40.0
+grow_horizontal = 0
+grow_vertical = 2
+focus_neighbor_left = NodePath("../../Left/SaveSelectButton_2")
+focus_neighbor_top = NodePath("../SaveSelectButton_4")
+focus_neighbor_right = NodePath("../../Left/SaveSelectButton_2")
+focus_neighbor_bottom = NodePath("../SaveSelectButton_6")
+focus_next = NodePath("../SaveSelectButton_6")
+focus_previous = NodePath("../SaveSelectButton_4")
+shortcut_context = NodePath("../SaveSelectButton_6")
+
+[node name="SaveSelectButton_6" parent="Saves/Right" node_paths=PackedStringArray("shortcut_context") instance=ExtResource("3_3frgu")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = -80.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_neighbor_left = NodePath("../../Left/SaveSelectButton_3")
+focus_neighbor_top = NodePath("../SaveSelectButton_5")
+focus_neighbor_right = NodePath("../../Left/SaveSelectButton_3")
+focus_neighbor_bottom = NodePath("../../../HBoxContainer/Back")
+focus_next = NodePath("../../../HBoxContainer/Next")
+focus_previous = NodePath("../SaveSelectButton_5")
+shortcut_context = NodePath("../../../HBoxContainer/Next")
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+size = Vector2i(344, 100)
+ok_button_text = "Yes"
+dialog_text = "Are your sure you with to delete this save?"
+dialog_autowrap = true
+cancel_button_text = "No"
+
+[connection signal="pressed" from="HBoxContainer/Next" to="." method="_on_next_pressed"]
+[connection signal="pressed" from="HBoxContainer/Delete" to="." method="_on_delete_pressed"]
+[connection signal="pressed" from="HBoxContainer/Back" to="." method="_on_back_pressed"]
+[connection signal="canceled" from="ConfirmationDialog" to="." method="_on_delete_cancelled"]
+[connection signal="confirmed" from="ConfirmationDialog" to="." method="_on_delete_confirmed"]

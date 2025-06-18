@@ -149,7 +149,6 @@ func load_graph(graph_data: Dictionary):
 func _on_load_pressed():
 	if is_saved:
 		_on_load_confirmed()
-		self.grab_focus()
 		return
 
 	for sig_arr in confirmation_dialog.get_ok_button().pressed.get_connections():
@@ -162,11 +161,11 @@ func _on_load_pressed():
 	confirmation_dialog.get_ok_button().pressed.connect(_on_load_confirmed, CONNECT_ONE_SHOT)
 	confirmation_dialog.get_cancel_button().pressed.connect(confirmation_dialog.hide, CONNECT_ONE_SHOT)
 	confirmation_dialog.popup_centered()
-	self.grab_focus()
 
 func _on_load_confirmed():
 	confirmation_dialog.hide()
 	load_graph(load_json_file(file_name))
+	self.grab_focus()
 
 func _on_save_pressed():
 	if !FileAccess.file_exists(SAVE_PATH + "/" + file_name + ".json"): 
@@ -184,7 +183,6 @@ func _on_save_pressed():
 	confirmation_dialog.get_ok_button().pressed.connect(_on_save_confirmed, CONNECT_ONE_SHOT)
 	confirmation_dialog.get_cancel_button().pressed.connect(confirmation_dialog.hide, CONNECT_ONE_SHOT)
 	confirmation_dialog.popup_centered()
-	self.grab_focus()
 
 ## saves the current graph
 func _on_save_confirmed():

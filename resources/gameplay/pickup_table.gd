@@ -17,7 +17,7 @@ const PICKUP_SPAWN_BASE_CHANCE: float = 1.0
 @export var wallthrough: int = 50
 @export var timer: int = 10
 @export var invincibility_vest: int = 50
-@export var virus: int = 500
+@export var virus: int = 50
 @export var kick: int = 50
 @export var bombthrough: int = 50
 @export var piercing_bomb: int = 50
@@ -147,8 +147,17 @@ func to_json() -> Dictionary:
 	return {"weights": pickup_weights, "are_amounts": are_amounts, "base_pickup_spawn_chance": base_pickup_spawn_chance}
 
 func from_json(tabel: Dictionary):
-	for key in tabel.weights.keys():
-		self.pickup_weights[int(key)] = tabel.weights[key]
+	for pickup in range(globals.pickups.NONE):
+		match pickup:
+			globals.pickups.GENERIC_COUNT: continue
+			globals.pickups.GENERIC_BOOL: continue
+			globals.pickups.GENERIC_EXCLUSIVE: continue
+			globals.pickups.GENERIC_BOMB: continue
+
+		if tabel.weights.has(str(pickup)):
+			self.pickup_weights[pickup] = tabel.weights[str(pickup)]
+		else: 
+			self.pickup_weights[pickup] = 0
 	self.reverse_update()
 	self.is_uptodate = true
 	self.are_amounts = tabel.are_amounts
