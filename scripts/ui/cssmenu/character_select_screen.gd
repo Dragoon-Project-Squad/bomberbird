@@ -5,7 +5,7 @@ extends Control
 @onready var secret_1: TextureButton = $SkinBG/CharacterGrid/secret1
 @onready var secret_2: TextureButton = $SkinBG/CharacterGrid/secret2
 
-@export var supersecretvisible := false
+@export var supersecretvisible := globals.secrets_enabled
 
 signal characters_confirmed
 
@@ -31,6 +31,12 @@ func setup_for_host() -> void:
 @rpc("call_remote")
 func setup_for_peers() -> void:
 	$Start.disabled = true
+	
+@rpc("call_remote")
+func reveal_secrets() -> void:
+	print("Can you see them?")
+	secret_1.show()
+	secret_2.show()
 
 @rpc("call_local")
 func update_char_screen(total_player_count: int) -> void:
@@ -159,7 +165,6 @@ func _on_secret_2_pressed() -> void:
 		change_slot_texture.rpc_id(1, character_texture_paths.SECRET2_SELECT_TEXTURE_PATH)
 		gamestate.change_character_player.rpc_id(1, character_texture_paths.secrettwo_paths)
 		play_select_audio.rpc()
-	play_error_audio() #Not yet available
 
 func _on_exit_pressed() -> void:
 	gamestate.end_game()

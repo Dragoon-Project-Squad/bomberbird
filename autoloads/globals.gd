@@ -60,21 +60,18 @@ static var pickup_name_str: Dictionary = {
 	pickups.RANDOM: "random",
 }
 
-const BEACH_FULL_STAGE_PATH = "res://scenes/stages/beach_stages/beach_full.tscn"
 const BEACH_RAND_STAGE_PATH = "res://scenes/stages/beach_stages/beach_rand.tscn"
-const DESERT_FULL_STAGE_PATH = "res://scenes/stages/desert/desert_full.tscn"
-const DESERT_RAND_STAGE_PATH = "res://scenes/stages/desert/desert_rand.tscn"
-const DUNGEON_FULL_STAGE_PATH = "res://scenes/stages/dungeon_stages/dungeon_full.tscn"
+const DESERT_RAND_STAGE_PATH = "res://scenes/stages/desert_stages/desert_rand.tscn"
 const DUNGEON_RAND_STAGE_PATH = "res://scenes/stages/dungeon_stages/dungeon_rand.tscn"
-const LAB_FULL_STAGE_PATH = "res://scenes/stages/lab_stages/lab_full.tscn"
 const LAB_RAND_STAGE_PATH = "res://scenes/stages/lab_stages/lab_rand.tscn"
-const MULTIPLAYER_VICTORY_SCREEN_PATH = "res://scenes/ingame_ui/record_winner.tscn"
+const SECRET_RAND_STAGE_PATH = "res://scenes/stages/secret_stages/secret_rand.tscn"
 
 var current_gamemode := gamemode.NONE
 var config = Config.new()
 var game: Node2D
 var current_world: World
 var player_manager: PlayerManager
+var secrets_enabled := false
 
 func is_valid_pickup(pickup: int):
 	match pickup:

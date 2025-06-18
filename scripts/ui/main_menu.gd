@@ -9,6 +9,7 @@ func _ready() -> void:
 	main_menu_music_player.play()
 	main_menu_music_player.autoplay = true
 	$ButtonBox/Singleplayer.grab_focus()
+	check_secret()
 
 func switch_to_options_menu() -> void:
 	hide_main_menu()
@@ -31,6 +32,12 @@ func pause_main_menu_music() -> void:
 func unpause_main_menu_music() -> void:
 	main_menu_music_player.stream_paused = false
 	
+func check_secret() -> void:
+	if SettingsContainer.get_data_flag() == "boo":
+		globals.secrets_enabled = true
+		print("You found a secret!!!")
+	#Do NOT set it to false if the data isn't there.
+
 func _on_single_player_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/lobby/sp_lobby.tscn")
 	hide();

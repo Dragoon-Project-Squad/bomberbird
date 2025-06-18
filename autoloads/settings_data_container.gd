@@ -10,6 +10,7 @@ var resolution_index := 0
 var master_volume := 0.0
 var music_volume := 0.0
 var sfx_volume := 0.0
+var data_flag := "" #Controls access to secret.
 
 #Multiplayer Enums
 enum cpu_difficulty_setting_states {STATIONARY, EASY, MEDIUM, HARD}
@@ -17,7 +18,7 @@ enum misobon_setting_states {OFF, ON, SUPER}
 enum breakable_spawn_rule_setting_states {STAGE, CUSTOM}
 enum pickup_spawn_rule_setting_states {STAGE, CUSTOM}
 enum multiplayer_stages {SALOON, BEACH, DUNGEON, LAB}
-
+enum multiplayer_stages_secret_enabled {SALOON, BEACH, DUNGEON, LAB, SECRET}
 # Multiplayer
 var points_to_win := 3
 var cpu_difficulty := cpu_difficulty_setting_states.MEDIUM #The dropdown is set to a dictionary.
@@ -57,7 +58,7 @@ func create_storage_dictionary() -> Dictionary:
 		"breakable_spawn_rule" : breakable_spawn_rule,
 		"breakable_chance" : breakable_chance,
 		"pickup_spawn_rule" : pickup_spawn_rule,
-		"pickup_chance" : pickup_chance
+		"pickup_chance" : pickup_chance,
 	}
 	return settings_container_dict
 
@@ -358,6 +359,25 @@ func on_settings_data_loaded(data : Dictionary) -> void:
 	loaded_data = data
 	set_all_vars_from_dict(loaded_data)
 	
+func get_data_flag() -> String:
+	if loaded_data == {}:
+		return ""
+	return data_flag	
+	
+func set_data_flag(secretcode : String) -> void: #Marks save data to be saved with permanent secret unlock.
+	if secretcode.to_lower() != "boo": return
+	data_flag = "boo"
+
+func create_secret_file() -> Dictionary: #Saves save data as permanent secret unlock.
+	var secret_file : Dictionary = {
+		"data_flag" = data_flag
+	}
+	return secret_file
+	
+func on_secret_data_loaded(secretdata : Dictionary) -> void:
+	set_data_flag(secretdata.data_flag if secretdata.has('data_flag') else DEFAULT_SETTINGS.DEFAULT_DATA_FLAG)
+
+	
 func handle_signals() -> void:
 	SettingsSignalBus.on_window_mode_selected.connect(set_window_mode)
 	SettingsSignalBus.on_resolution_selected.connect(set_resolution)
@@ -365,6 +385,7 @@ func handle_signals() -> void:
 	SettingsSignalBus.on_music_sound_set.connect(set_music_vol)
 	SettingsSignalBus.on_sfx_sound_set.connect(set_sfx_vol)
 	SettingsSignalBus.load_settings_data.connect(on_settings_data_loaded)
+	SettingsSignalBus.load_secret_data.connect(on_secret_data_loaded)
 	SettingsSignalBus.on_points_to_win_set.connect(set_points_to_win)
 	SettingsSignalBus.on_cpu_difficulty_set.connect(set_cpu_difficulty)
 	SettingsSignalBus.on_match_time_set.connect(set_match_time)

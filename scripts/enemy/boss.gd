@@ -147,6 +147,9 @@ func reset_pickups():
 	self.set_collision_mask_value(3, true)
 	pickups.reset()
 
+func unvirus():
+	pass
+
 func stop_time(user: String, is_player: bool):
 	if user == self.name && !is_player:
 		self.pickups.held_pickups[globals.pickups.FREEZE] = false

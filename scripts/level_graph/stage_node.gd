@@ -4,7 +4,7 @@ class_name StageNode extends GraphNode
 const STAGE_SCENE_DIR: String = "res://scenes/stages/"
 
 const STAGE_DIR: Dictionary = {
-	"Saloon": "desert/desert_runtime.tscn",
+	"Saloon": "desert_stages/desert_runtime.tscn",
 	"Beach": "beach_stages/beach_runtime.tscn",
 	"Dungeon": "dungeon_stages/dungeon_runtime.tscn",
 	"Lab": "lab_stages/lab_runtime.tscn",
