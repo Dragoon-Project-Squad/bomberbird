@@ -1,22 +1,16 @@
-[gd_scene load_steps=8 format=3 uid="uid://bvn5u605vi3cw"]
+[gd_scene load_steps=6 format=3 uid="uid://bvn5u605vi3cw"]
 
 [ext_resource type="Script" uid="uid://b5nnpjq17g8b" path="res://scripts/ui/ingame_ui/score_panel.gd" id="1_nkj1y"]
 [ext_resource type="Texture2D" uid="uid://27c5jtc8uveu" path="res://assets/ui/campaign_ui_sheet.png" id="2_aisil"]
 [ext_resource type="FontFile" uid="uid://do0laogygl6cd" path="res://assets/fonts/ThaleahFat.ttf" id="3_kkmve"]
-[ext_resource type="Texture2D" uid="uid://ltviarn5vok4" path="res://assets/ui/ui_faces.png" id="4_aisil"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_373cf"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_nkj1y"]
 atlas = ExtResource("2_aisil")
-region = Rect2(0, 64, 69, 32)
+region = Rect2(2, 64, 70, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b0naa"]
 atlas = ExtResource("2_aisil")
 region = Rect2(0, 96, 64, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_kkmve"]
-resource_local_to_scene = true
-atlas = ExtResource("4_aisil")
-region = Rect2(0, 0, 17, 17)
 
 [node name="ScorePanel_PX" type="Control"]
 texture_filter = 1
@@ -28,10 +22,9 @@ script = ExtResource("1_nkj1y")
 
 [node name="Background" type="TextureRect" parent="."]
 texture_filter = 1
-layout_mode = 0
-offset_right = 69.0
+offset_right = 72.0
 offset_bottom = 32.0
-texture = SubResource("AtlasTexture_373cf")
+texture = SubResource("AtlasTexture_nkj1y")
 
 [node name="ColoredTexture" type="TextureRect" parent="."]
 unique_name_in_owner = true
@@ -45,9 +38,9 @@ texture = SubResource("AtlasTexture_b0naa")
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 42.0
-offset_top = 5.0
+offset_top = 6.0
 offset_right = 50.0
-offset_bottom = 20.0
+offset_bottom = 21.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("3_kkmve")
 theme_override_font_sizes/font_size = 16
@@ -57,8 +50,5 @@ text = "0"
 unique_name_in_owner = true
 texture_filter = 1
 layout_mode = 0
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 22.0
-offset_bottom = 22.0
-texture = SubResource("AtlasTexture_kkmve")
+offset_right = 32.0
+offset_bottom = 32.0

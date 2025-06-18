@@ -12,6 +12,7 @@ const MOTION_SPEED_DECREASE: int = TILE_SIZE / 2
 @onready var bomb_carry_sprite: Sprite2D = $BombSprite
 
 @export_subgroup("Boss variables")
+@export var is_secret_boss: bool = false
 @export var pickups: HeldPickups
 @export var ability_detector: Area2D
 @export var init_bomb_count: int = 1
@@ -126,6 +127,8 @@ func exploded(by_whom: int):
 	if(self.health >= 1): return
 	if !is_multiplayer_authority(): return
 	var pickup_type: int = globals.get_pickup_type_from_name(self.dropped_pickup)
+	if self.is_secret_boss:
+		pass #TODO: unlock mint for this player
 
 	if pickup_type == globals.pickups.NONE: return
 	var pickup: Pickup = globals.game.pickup_pool.request(pickup_type)

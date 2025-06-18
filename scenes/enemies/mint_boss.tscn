@@ -106,6 +106,7 @@ texture_filter = 1
 collision_layer = 32
 collision_mask = 13
 script = ExtResource("1_dpfu0")
+is_secret_boss = true
 pickups = SubResource("Resource_cvltp")
 ability_detector = NodePath("AbilityDetector")
 dropped_pickup = "punch_ability"

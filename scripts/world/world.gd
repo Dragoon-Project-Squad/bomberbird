@@ -19,6 +19,8 @@ class_name World
 
 signal all_enemied_died
 
+const EXIT_VISITED_COLOR: Color = Color8(187, 32, 144)
+
 @export_group("World Settings")
 ## The Rectangle that covers the playable area where (x,y) are the top left corner and (w, h) the size of the rectangle all in tile coordinates
 @export var _arena_rect: Rect2i
@@ -64,8 +66,13 @@ func spawn_exits():
 			"exit at position " + str(exit_entry.coords) + " is out of bounds for current stage")
 		assert(!world_data.is_tile(world_data.tiles.UNBREAKABLE, exit_pos),
 			"exit at position " + str(exit_entry.coords) + " is ontop of an unbreakable")
-		var exit = globals.game.exit_pool.request(exit_entry.color)
-		exit.place(exit_pos, children_ids[iter])
+
+		var exit: Exit
+		if gamestate.current_save.visited_exits.has(globals.game.curr_stage_idx) && gamestate.current_save.visited_exits[globals.game.curr_stage_idx].has(children_ids[iter]):
+			exit = globals.game.exit_pool.request(EXIT_VISITED_COLOR)
+		else:
+			exit = globals.game.exit_pool.request(exit_entry.color)
+		exit.place(exit_pos, children_ids[iter]) 
 		iter += 1
 
 ## Disabled this world so another may be enabled

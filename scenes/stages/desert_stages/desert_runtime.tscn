@@ -24,6 +24,7 @@ tile_set = ExtResource("2_mvwba")
 tile_set = ExtResource("2_mvwba")
 
 [node name="HurryUp" parent="." instance=ExtResource("3_r0mt7")]
+visible = false
 tile_set = ExtResource("2_mvwba")
 
 [node name="Music" parent="." instance=ExtResource("4_pudkg")]

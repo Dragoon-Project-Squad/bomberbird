@@ -26,6 +26,7 @@
 script = ExtResource("2_6ojfo")
 initial_bomb_type = 0
 initial_exlusive = 0
+initial_virus = 0
 initial_bomb_up = 4
 initial_fire_up = 6
 initial_speed_up = 2
