@@ -18,6 +18,9 @@ const DEFAULT_BREAKABLE_CHANCE := 50.0
 # PICKUP
 const DEFAULT_PICKUP_SPAWN_RULE := 0
 const DEFAULT_PICKUP_CHANCE := 100.0
+# ???
+const DEFAULT_DATA_FLAG := ""
+
 
 # General Settings
 var points_to_win := 1
@@ -44,3 +47,6 @@ var is_sudden_death_enabled := false # Sudden Death Mode makes the Hurry Up bloc
 @export_enum ("Stage", "Custom") var PICKUP_SPAWN_RULE := 0
 @export var pickup_chance := 100.0
 #Use the PickupPreset resource to manage Pickup Presets.
+
+#???
+@export var data_flag := ""

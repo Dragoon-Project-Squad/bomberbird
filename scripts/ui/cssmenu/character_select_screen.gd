@@ -5,7 +5,7 @@ extends Control
 @onready var secret_1: TextureButton = $SkinBG/CharacterGrid/secret1
 @onready var secret_2: TextureButton = $SkinBG/CharacterGrid/secret2
 
-@export var supersecretvisible := false
+@export var supersecretvisible := globals.secrets_enabled
 
 signal characters_confirmed
 

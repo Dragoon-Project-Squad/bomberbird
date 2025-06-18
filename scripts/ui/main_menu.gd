@@ -10,6 +10,7 @@ func _ready() -> void:
 	main_menu_music_player.play()
 	main_menu_music_player.autoplay = true
 	$ButtonBox/Singleplayer.grab_focus()
+	check_secret()
 
 func switch_to_options_menu() -> void:
 	hide_main_menu()
@@ -34,6 +35,10 @@ func pause_main_menu_music() -> void:
 func unpause_main_menu_music() -> void:
 	main_menu_music_player.stream_paused = false
 	
+func check_secret() -> void:
+	if SettingsContainer.get_data_flag() == "boo":
+		globals.secrets_enabled = true
+
 func _on_single_player_pressed() -> void:
 	gamestate.begin_singleplayer_game()
 	hide();

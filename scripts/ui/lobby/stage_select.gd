@@ -18,9 +18,18 @@ func load_data() -> void:
 	dropdown.select(SettingsContainer.get_stage_choice())
 	
 func add_stage_options() -> void:
-	for stage_option in SettingsContainer.multiplayer_stages:
+	var stages = SettingsContainer.multiplayer_stages
+	if globals.secrets_enabled: stages = SettingsContainer.multiplayer_stages_secret_enabled
+	for stage_option in stages:
 		dropdown.add_item(stage_option)
 
+@rpc("call_remote")
+func reset_stage_options() -> void:
+	print("Come one, come all.")
+	dropdown.clear()
+	add_stage_options()
+	load_data()
+	
 @rpc("call_remote")
 func set_remote_player_dropdown_item_selected(index: int) -> void:
 	SettingsSignalBus.emit_on_stage_set(index)

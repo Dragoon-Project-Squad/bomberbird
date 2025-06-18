@@ -6,7 +6,9 @@ signal on_master_sound_set(value : float)
 signal on_music_sound_set(value : float)
 signal on_sfx_sound_set(value : float)
 signal load_settings_data(settings_dict: Dictionary)
+signal load_secret_data(secret_dict: Dictionary)
 signal set_settings_dictionary(settings_dict : Dictionary)
+signal set_secret_file_data(settings_dict : Dictionary)
 # Multiplayer
 signal on_points_to_win_set(value : int)
 signal on_cpu_difficulty_set(value : int)
@@ -27,6 +29,10 @@ signal on_any_set
 func emit_load_settings_data(settings_dict: Dictionary) -> void:
 	load_settings_data.emit(settings_dict)
 	on_any_set.emit()
+	
+func emit_load_secret_data(secret_dict: Dictionary) -> void:
+	load_secret_data.emit(secret_dict)
+	#Do NOT trigger on_any_set.
 
 func emit_on_window_mode_selected(index : int) -> void:
 	on_window_mode_selected.emit(index)
@@ -50,6 +56,9 @@ func emit_on_sfx_sound_set(value : float) -> void:
 	
 func emit_set_settings_dictionary(settings_dict : Dictionary) -> void:
 	set_settings_dictionary.emit(settings_dict)
+	
+func emit_secret_file_data(secretdata : Dictionary) -> void:
+	set_secret_file_data.emit(secretdata)
 
 # Multiplayer Emit Functions
 
