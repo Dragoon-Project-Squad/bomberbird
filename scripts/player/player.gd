@@ -438,6 +438,10 @@ func set_player_name(value):
 
 func get_player_name() -> String:
 	return $label.get_text()
+	
+@rpc("call_local")
+func increase_live():
+	lives += 1
 
 @rpc("call_local")
 func increase_bomb_level():
