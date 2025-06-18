@@ -42,6 +42,7 @@ const EXIT_VISITED_COLOR: Color = Color8(187, 32, 144)
 
 ## The Atlas coordinate of the unbreakable tile in this stages tileset
 var _unbreakable_tile: Vector2i
+var _tileset_id: int
 var _rng = RandomNumberGenerator.new()
 var _exit_spawned_barrier: bool = false
 var alive_enemies: Array
@@ -119,7 +120,7 @@ func enable(
 		for enemy in enemy_table.enemies:
 			if _rng.randf_range(0, 1) > enemy.probability: continue
 			var new_enemy_coord = enemy.coords + world_data.floor_origin
-			self.enemy_table.append(new_enemy_coord, enemy.file, enemy.path, enemy.probability)
+			self.enemy_table.append(new_enemy_coord, enemy.name, enemy.probability)
 
 	if exit_table:
 		self.exit_table = ExitTable.new()
@@ -197,7 +198,7 @@ func _spawn_enemies():
 	# count enemies
 	self.enemy_table.enemies.map(
 		func (e: Dictionary):
-			var whole_path: String = e.path + "/" + e.file
+			var whole_path: String = StageDataUI.ENEMY_SCENE_DIR + "/" + StageDataUI.ENEMY_DIR[e.name]
 			if !enemy_dict.has(whole_path): enemy_dict[whole_path] = 1
 			else: enemy_dict[whole_path] += 1
 			return e
@@ -206,7 +207,7 @@ func _spawn_enemies():
 	var enemys: Dictionary = globals.game.enemy_pool.request_group(enemy_dict);
 	self.enemy_table.enemies.map(
 		func (e: Dictionary):
-			var whole_path: String = e.path + "/" + e.file
+			var whole_path: String = StageDataUI.ENEMY_SCENE_DIR + "/" + StageDataUI.ENEMY_DIR[e.name]
 			var enemy: Enemy = enemys[whole_path].pop_front()
 			enemy.place.rpc(world_data.tile_map.map_to_local(e.coords), whole_path)
 			globals.game.stage_has_changed.connect(enemy.enable, CONNECT_ONE_SHOT)

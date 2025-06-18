@@ -10,6 +10,7 @@
 texture_filter = 1
 script = ExtResource("1_e5lk7")
 unbreakable_tile = Vector2i(6, 0)
+tileset_id = 3
 _arena_rect = Rect2i(1, 3, 13, 11)
 _world_edge_rect = Rect2i(-2, -2, 19, 19)
 spawnpoints = Array[Vector2i]([Vector2i(1, 3), Vector2i(13, 3), Vector2i(1, 13), Vector2i(13, 13)])

@@ -5,18 +5,16 @@ class_name EnemyTable extends Resource
 func _init():
 	self.resource_local_to_scene = true
 
-func append(enemy_coordinates: Vector2i, enemy_file: String, enemy_path: String, probability: float):
+func append(enemy_coordinates: Vector2i, enemy_name: String, probability: float):
 	var entry: Dictionary = {
 			"coords": enemy_coordinates,
-			"file": enemy_file,
-			"path": enemy_path,
+			"name": enemy_name,
 			"probability": probability,
 		}
 	enemies.append(entry)
 
-func set_file(index: int, enemy_file: String, enemy_path: String):
-	enemies[index].file = enemy_file
-	enemies[index].path = enemy_path
+func set_enemy_name(index: int, enemy_name: String):
+	enemies[index].name = enemy_name
 
 
 func set_x(index: int, x: int):
@@ -40,9 +38,8 @@ func size() -> int:
 func get_enemy_dictionary() -> Dictionary:
 	var ret: Dictionary = {}
 	for entry in enemies:
-		var full_path: String = entry.path + "/" + entry.file
-		if(!ret.has(full_path)): ret[full_path] = []
-		ret[full_path].append({ "coords": entry.coords, "probability": entry.probability })
+		if(!ret.has(entry.name)): ret[entry.name] = []
+		ret[entry.name].append({ "coords": entry.coords, "probability": entry.probability })
 	return ret
 
 func to_json() -> Array[Dictionary]:
@@ -50,8 +47,7 @@ func to_json() -> Array[Dictionary]:
 	for entry in enemies:
 		var new_entry: Dictionary = {
 			"coords": var_to_str(entry.coords),
-			"file": entry.file,
-			"path": entry.path,
+			"name": entry.name,
 			"probability": entry.probability,
 			}
 		res.append(new_entry)
@@ -62,8 +58,7 @@ func from_json(json_data: Array):
 	for entry in json_data:
 		var new_entry: Dictionary = {
 			"coords": str_to_var(entry.coords),
-			"file": entry.file,
-			"path": entry.path,
+			"name": entry.name,
 			"probability": entry.probability,
 			}
 		enemies.append(new_entry)

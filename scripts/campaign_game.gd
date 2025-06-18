@@ -105,7 +105,7 @@ func next_stage(id: int, player: HumanPlayer):
 	stage.disable()
 
 	# Set and enable the next stage
-	stage_handler.set_stage(stage_data_arr[id].get_stage_path())
+	stage_handler.set_stage(stage_data_arr[id].selected_scene)
 	stage = stage_handler.get_stage()
 
 	await get_tree().create_timer(1).timeout
@@ -162,7 +162,7 @@ func start():
 	stage_announce_label.text = stage_data_arr[0].stage_node_title
 	stage_announce_label.show()
 	fade.get_node("FadeInOutRect").show()
-	if gamestate.current_save.exit_count == -1:
+	if gamestate.current_save.fresh_save:
 		init_new_save()
 	score = gamestate.current_save.current_score
 	await get_tree().create_timer(0.1).timeout
@@ -183,9 +183,10 @@ func start():
 			{},
 			func (curr_dict: Dictionary, s: StageNodeData):
 				var enemy_dict: Dictionary = s.enemy_resource.get_enemy_dictionary()
-				for enemy_path in enemy_dict:
-					if !curr_dict.has(enemy_path): curr_dict[enemy_path] = len(enemy_dict[enemy_path])
-					else: curr_dict[enemy_path] = max(curr_dict[enemy_path], len(enemy_dict[enemy_path]))
+				for enemy_name in enemy_dict:
+					var enemy_path: String = StageDataUI.ENEMY_SCENE_DIR + StageDataUI.ENEMY_DIR[enemy_name]
+					if !curr_dict.has(enemy_path): curr_dict[enemy_path] = len(enemy_dict[enemy_name])
+					else: curr_dict[enemy_path] = max(curr_dict[enemy_path], len(enemy_dict[enemy_name]))
 				return curr_dict,
 			func (s: StageNodeData): return s.children,
 			gamestate.current_save.last_stage,
@@ -194,7 +195,7 @@ func start():
 
 		enemy_pool.initialize(max_enemy_dict)
 	stage_handler.load_stages(init_stage_set)
-	stage_handler.set_stage(stage_data_arr[gamestate.current_save.last_stage].selected_scene_path + "/" + stage_data_arr[gamestate.current_save.last_stage].selected_scene_file)
+	stage_handler.set_stage(stage_data_arr[gamestate.current_save.last_stage].selected_scene)
 	stage = stage_handler.get_stage()
 
 	activate_ui_and_music()
@@ -249,6 +250,7 @@ func init_new_save():
 	gamestate.current_save.last_stage = 0
 	gamestate.current_save.current_score = 0
 	gamestate.current_save.has_finished = false
+	gamestate.current_save.fresh_save = true
 
 func save_on_finish(new_score: int, player: HumanPlayer):
 	gamestate.current_save.last_stage = 0
