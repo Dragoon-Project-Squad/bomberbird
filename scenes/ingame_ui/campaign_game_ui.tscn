@@ -11,7 +11,7 @@ region = Rect2(0, 0, 72, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k22gw"]
 atlas = ExtResource("1_nmudk")
-region = Rect2(72, 0, 600, 31)
+region = Rect2(72, 64, 505, 31)
 
 [node name="CampaignGameUI" type="CanvasLayer"]
 script = ExtResource("1_xkb3f")
@@ -25,10 +25,12 @@ one_shot = true
 [node name="TopBarContainer" type="HBoxContainer" parent="."]
 anchors_preset = 10
 anchor_right = 1.0
-offset_right = -480.0
+offset_right = -576.0
 offset_bottom = 32.0
 grow_horizontal = 2
-scale = Vector2(1.715, 1.715)
+scale = Vector2(2, 2)
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/separation = 0
 
 [node name="Time" type="TextureRect" parent="TopBarContainer"]
@@ -52,16 +54,19 @@ text = "02:20"
 [node name="Score" type="TextureRect" parent="TopBarContainer"]
 texture_filter = 1
 layout_mode = 2
+size_flags_horizontal = 3
 texture = SubResource("AtlasTexture_k22gw")
+expand_mode = 2
+stretch_mode = 2
 
 [node name="ScoreLabel" type="Label" parent="TopBarContainer/Score"]
 unique_name_in_owner = true
 texture_filter = 1
 layout_mode = 0
-offset_left = 45.2012
-offset_top = 8.16327
-offset_right = 93.2012
-offset_bottom = 23.1633
+offset_left = 45.0
+offset_top = 7.5
+offset_right = 93.0
+offset_bottom = 22.5
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_xkb3f")
 theme_override_font_sizes/font_size = 16
@@ -69,13 +74,12 @@ text = "000000"
 
 [node name="HealthPanelContainer" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
-offset_top = 64.0
-offset_bottom = 160.0
-scale = Vector2(2.5, 2.5)
-theme_override_constants/separation = 32
+offset_top = 60.0
+offset_bottom = 156.0
+scale = Vector2(2, 2)
+theme_override_constants/separation = 23
 
 [node name="HealthPanel_P1" parent="HealthPanelContainer" instance=ExtResource("4_rbuxl")]
-visible = false
 layout_mode = 2
 
 [node name="HealthPanel_P2" parent="HealthPanelContainer" instance=ExtResource("4_rbuxl")]

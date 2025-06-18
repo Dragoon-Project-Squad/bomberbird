@@ -2,6 +2,13 @@ extends EnemyState
 # Handles knight's ability
 
 const ARRIVAL_TOLARANCE: float = 1
+@onready var droppable_pickups: Array[int] = [
+	globals.pickups.BOMB_UP,
+	globals.pickups.FIRE_UP,
+	globals.pickups.SPEED_UP,
+	globals.pickups.INVINCIBILITY_VEST,
+	#globals.pickup.HP_UP,
+	]
 
 @export var speed_boost: float = 2
 
@@ -50,6 +57,6 @@ func change_bomb():
 	assert(self.state_machine.target.has_method("crush"))
 	if self.state_machine.target.is_exploded: return
 	self.state_machine.target.crush()
-	var pickup: int = globals.current_world.pickup_table.decide_pickup_type()
+	var pickup: int = droppable_pickups.pick_random()
 	var pickup_obj: Pickup = globals.game.pickup_pool.request(pickup)
 	pickup_obj.place.rpc(self.enemy.position)

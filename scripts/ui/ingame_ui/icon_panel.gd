@@ -3,22 +3,14 @@ class_name IconPanel extends Control
 @onready var icon_color_text: TextureRect= %ColoredTexture
 @onready var icon: TextureRect = %Icon
 
+func _ready() -> void:
+	icon.texture = AtlasTexture.new()
+
 var player_id: int = -1
 
 func update_icon(characterpaths: Dictionary):
-	match characterpaths.walk:
-		gamestate.character_texture_paths.EGGOON_PLAYER_TEXTURE_PATH:
-			icon.texture.region = Rect2(192, 96, 32, 32)
-		gamestate.character_texture_paths.NORMALGOON_PLAYER_TEXTURE_PATH:
-			icon.texture.region = Rect2(161, 96, 32, 32)
-		gamestate.character_texture_paths.CHONKGOON_PLAYER_TEXTURE_PATH:
-			icon.texture.region = Rect2(96, 96, 32, 32)
-		gamestate.character_texture_paths.LONGGOON_PLAYER_TEXTURE_PATH:
-			icon.texture.region = Rect2(128, 96, 32, 32)
-		gamestate.character_texture_paths.BHDOKI_PLAYER_TEXTURE_PATH:
-			icon.texture.region = Rect2(64, 96, 32, 32)
-		_:
-			icon.texture.region = Rect2(64, 96, 32, 32)
+	icon.texture.atlas = load(characterpaths.face.path) #just in case there are ever more then one FACE_UI_TEXTURE
+	icon.texture.region = characterpaths.face.rect
 
 func update_icon_color(color: Color):
 	icon_color_text.modulate = color
