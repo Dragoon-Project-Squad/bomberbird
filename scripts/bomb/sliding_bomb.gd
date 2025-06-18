@@ -123,16 +123,14 @@ func correct_coords(current_coords: Vector2) -> Vector2:
 		world_data.tile_map.local_to_map(current_coords)
 	)
 
+@rpc("call_local")
 func halt():
 	place_position = correct_coords(self.global_position)
 	bomb_root.global_position = place_position
 	self.position = Vector2.ZERO
 	self.place_now = true
 
-# not sure to explode while in sliding state or ignore explosion
-# function is set for when that happens
 @rpc("call_local")
 func exploded(_by_who):
-	return
-	#bomb_root.fuse_time_passed = 2.79
-	#halt()
+	bomb_root.fuse_time_passed = 2.79
+	self.halt()
