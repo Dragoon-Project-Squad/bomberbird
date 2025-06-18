@@ -88,7 +88,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if !is_multiplayer_authority(): return # Activate only on authority.
 	if !(body is Player) && !(body is Boss):
 		if body is SlidingBomb:
-			self.crush()
+			self.crush.rpc()
 		else:
 			return
 	if body is Boss && self is VirusPickup: return # Bosses have the vaccine.

@@ -178,10 +178,7 @@ func punch_bomb(direction: Vector2i):
 	
 	bomb.do_punch.rpc(direction)
 
-@rpc("call_local")
-func carry_bomb() -> int:
-	if !is_multiplayer_authority():
-		return 1
+func carry_bomb():
 	if !pickups.held_pickups[globals.pickups.POWER_GLOVE]:
 		return 1
 	
@@ -193,22 +190,26 @@ func carry_bomb() -> int:
 	
 	if bomb_to_throw == null or bomb_to_throw.type == pickups.bomb_types.MINE:
 		bomb_to_throw = null
-		return 1
-	
-	$BombSprite.visible = true
+		return 2
+	carry_bomb_effect.rpc()
 	bomb_to_throw.carry.rpc()
 	return 0
 
-func throw_bomb(direction: Vector2i) -> int:
-	$BombSprite.visible = false
-	if is_multiplayer_authority():
-		bomb_to_throw.do_throw.rpc(direction, self.position)
+@rpc("call_local")
+func carry_bomb_effect():
+	$BombSprite.visible = true
+
+func throw_bomb(direction: Vector2i):
+	bomb_to_throw.do_throw.rpc(direction, self.position)
 	bomb_to_throw = null
+	throw_bomb_effect.rpc()
 	return 0
 
+@rpc("call_local")
+func throw_bomb_effect():
+	$BombSprite.visible = false
+
 func kick_bomb(direction: Vector2i):
-	if !is_multiplayer_authority():
-		return 1
 	if pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] != pickups.exclusive.KICK:
 		return 1
 	
