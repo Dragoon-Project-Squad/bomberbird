@@ -17,6 +17,13 @@ var in_use: bool = false
 
 # other bomb addons
 var type: int
+const FUSES = {
+	NORMAL = 1.0,
+	SLOW_A = 0.50,
+	SLOW_B = 0.75,
+	FAST = 2.0
+}
+var fuse_length := FUSES.NORMAL
 
 enum {DISABLED, STATIONARY, AIRBORN, SLIDING, SIZE} #all states plus a SIZE constant that has to remain the last entry
 var state: int = DISABLED #this is the authority if ever somehow two state nodes try to execute text_overrun_behavior
@@ -70,6 +77,10 @@ func set_bomb_owner(player_id: String):
 func set_bomb_type(bomb_type: int):
 	self.type = bomb_type
 
+@rpc("call_local")
+func set_fuse_length(length: float = 1.0):
+	fuse_length = length
+
 # sets the state to stationary and tells the corresponding state to start processing
 @rpc("call_local")
 @warning_ignore("SHADOWED_VARIABLE")
@@ -97,12 +108,8 @@ func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) 
 
 	var bomb_authority: Node2D = state_map[state]
 	bomb_authority.set_explosion_width_and_size(min(boost + bomb_authority.explosion_width, bomb_authority.MAX_EXPLOSION_WIDTH))
-	var time_passed = fuse_time_passed
-	if bomb_owner:
-		if bomb_owner.fuse_speed != 0:
-			time_passed = bomb_owner.fuse_speed
 	bomb_authority.set_bomb_type(type)
-	bomb_authority.place(bombPos, time_passed, force_collision)
+	bomb_authority.place(bombPos, fuse_time_passed, force_collision)
 	if self.type == HeldPickups.bomb_types.MINE:
 		world_data.set_tile(world_data.tiles.MINE, self.global_position, self.boost + 2, false)
 	else:
@@ -173,17 +180,16 @@ func do_throw(direction: Vector2i, new_position: Vector2):
 	return 0
 
 @rpc("call_local")
-func carry() -> int:
-	if state == DISABLED:
-		return 1
+func carry():
+	if state != STATIONARY:
+		return
 	if self.type == HeldPickups.bomb_types.MINE:
-		return 1
+		return
 
 	fuse_time_passed = state_map[state].get_node("AnimationPlayer").current_animation_position
 	self.in_use = false
 	set_state(AIRBORN)
 	world_data.set_tile(world_data.tiles.EMPTY, self.global_position)
-	return 0
 
 @rpc("call_local")
 func do_kick(direction: Vector2i):
@@ -198,7 +204,7 @@ func do_kick(direction: Vector2i):
 	fuse_time_passed = state_map[state].get_node("AnimationPlayer").current_animation_position
 	set_state(SLIDING)
 	var bomb_auth := state_map[state]
-	bomb_auth.slides(self.position, direction)
+	bomb_auth.slides(direction)
 	world_data.set_tile(world_data.tiles.EMPTY, self.global_position)	
 	return 0
 

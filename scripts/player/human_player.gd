@@ -59,15 +59,20 @@ func _physics_process(delta: float):
 	
 	if stop_movement || time_is_stopped: return
 	
+	var direction: Vector2 = (
+		inputs.motion.normalized() if inputs.motion != Vector2.ZERO 
+		else Vector2.DOWN
+	).sign()
+	if direction.x != 0 and direction.y != 0:
+		direction = [Vector2(direction.x, 0), Vector2(0, direction.y)][randi() % 2]
+	
 	if not stunned and inputs.punch_ability and not punch_pressed_once:
 		punch_pressed_once = true
-		var direction: Vector2i = Vector2i(inputs.motion.normalized()) if inputs.motion != Vector2.ZERO else Vector2i.DOWN
 		punch_bomb(direction)
 	elif !inputs.punch_ability and punch_pressed_once:
 		punch_pressed_once = false
 	
 	if not stunned and inputs.secondary_ability:
-		var direction: Vector2i = Vector2i(inputs.motion.normalized()) if inputs.motion != Vector2.ZERO else Vector2i.DOWN
 		kick_bomb(direction)
 
 	if not stunned and inputs.bombing and bomb_count > 0 and not is_unbomb:
@@ -82,10 +87,6 @@ func _physics_process(delta: float):
 		set_bomb_pressed_once = false
 		if throw_pressed_once:
 			throw_pressed_once = false
-			var direction: Vector2i = (
-					Vector2i(inputs.motion.normalized()) if inputs.motion != Vector2.ZERO 
-					else Vector2i.DOWN
-			)
 			if throw_bomb(direction) == 1:
 				push_error("something went wrong with bomb throwing")
 				throw_pressed_once = false
