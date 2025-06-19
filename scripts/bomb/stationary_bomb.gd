@@ -193,7 +193,7 @@ func _on_detect_area_body_entered(body: Node2D):
 	if (body is Player || body is Enemy) && armed && mine:
 		show()
 		$AnimationPlayer.play("mine_explode", -1.0, bomb_root.fuse_length, false)
-		if world_data.is_tile(world_data.MINE, self.global_position):
+		if world_data.is_tile(world_data.tiles.MINE, self.global_position):
 			world_data.set_tile(world_data.tiles.BOMB, self.global_position, bomb_root.boost + 2, false)
 	if body is Breakable:
 		body.crush.rpc()

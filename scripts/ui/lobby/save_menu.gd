@@ -50,6 +50,9 @@ func _ready() -> void:
 		button.set_player_name(save_buttons[button].player_name)
 		button.set_character(save_buttons[button].character_paths)
 		button.set_score_label(save_buttons[button].current_score)
+		if save_buttons[button].exit_count == 0:
+			button.set_completion_label(0.0)
+			continue
 		var total_stages_visited: int = 0
 		for stage in save_buttons[button].visited_exits.keys():
 			total_stages_visited += len(save_buttons[button].visited_exits[stage].keys())

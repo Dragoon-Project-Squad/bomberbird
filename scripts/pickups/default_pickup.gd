@@ -25,6 +25,7 @@ var state: int = DISABLED
 
 var indestructable: bool = false
 var _pickup_pick_up_barrier: bool = false
+var _pickup_destroyed_barrier: bool = false
 var in_use: bool = false
 var pickup_type: int = globals.pickups.NONE:
 	set(type): #i don't like setters but it only enforces something here so its okey
@@ -67,6 +68,7 @@ func enable():
 	in_use = true
 	process_mode = PROCESS_MODE_INHERIT
 	_pickup_pick_up_barrier = false
+	_pickup_destroyed_barrier = false
 	enable_collison()
 	show()
 
@@ -114,6 +116,8 @@ func _on_body_entered(body: Node2D) -> void:
 ## called when this pickup is destroyed by an explosion players the corresponding animation and sound
 func exploded(_from_player):
 	if self.indestructable: return
+	if _pickup_destroyed_barrier: return
+	_pickup_destroyed_barrier = true
 	self.pickup_destroyed.emit()
 	disable_collison_and_hide()
 	if $anim:
@@ -126,14 +130,18 @@ func exploded(_from_player):
 		if globals.game.stage_done: return # if stage finished in the meantime just terminate here
 	disable()
 	globals.game.pickup_pool.return_obj(self) #Pickup returns itself to the pool
+	_pickup_destroyed_barrier = false
 
 @rpc("call_local")
 ## called when a pickup is destroyed by something that is not an explosion
 func crush():
+	if _pickup_destroyed_barrier: return
+	_pickup_destroyed_barrier = true
 	self.pickup_destroyed.emit()
 	disable_collison_and_hide()
 	disable()
 	globals.game.pickup_pool.return_obj(self) #Pickup returns itself to the pool
+	_pickup_destroyed_barrier = false
 
 ## sets an internal state for throw pickup
 func set_state(new_state: int):

@@ -1,7 +1,6 @@
 class_name StageNodeData extends Resource
 
-@export var selected_scene_file: String
-@export var selected_scene_path: String
+@export var selected_scene: String
 
 @export var pickup_resource: PickupTable
 @export var enemy_resource: EnemyTable
@@ -23,14 +22,13 @@ func _init():
 
 ## returns the full path to the stage this data file corresponts to
 func get_stage_path() -> String:
-	return selected_scene_path + "/" + selected_scene_file
+	return StageNode.STAGE_SCENE_DIR + StageNode.STAGE_DIR[self.selected_scene]
 
 func from_json(json_data: Dictionary):
 	self.stage_node_name = json_data.stage_node_name
 	self.stage_node_title = json_data.stage_node_title
 	self.stage_node_pos = str_to_var(json_data.stage_node_pos)
-	self.selected_scene_file = json_data.selected_scene_file
-	self.selected_scene_path = json_data.selected_scene_path
+	self.selected_scene = json_data.selected_scene
 	self.index = json_data.index
 	for exit_id in json_data.children:
 		self.children.append(int(exit_id))
