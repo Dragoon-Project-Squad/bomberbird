@@ -354,6 +354,7 @@ func reset_pickups():
 	movement_speed = movement_speed_reset
 	bomb_count = bomb_count_reset
 	lives = lives_reset
+	player_health_updated.emit(self, lives)
 	self.set_collision_mask_value(4, true)
 	self.set_collision_mask_value(3, true)
 	unvirus()
