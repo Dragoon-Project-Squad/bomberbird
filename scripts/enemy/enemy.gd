@@ -96,6 +96,7 @@ func do_stun():
 @rpc("call_local")
 func place(pos: Vector2, path: String):
 	if(!is_multiplayer_authority()): return 1
+	_exploded_barrier = false
 	stop_moving = true
 	init_clipping()
 	self.anim_player.play("enemy/RESET")
@@ -129,19 +130,29 @@ func exploded(_by_whom: int):
 		set_process(true)
 		_exploded_barrier = false
 		return 1
-	if globals.game.stage_done || self.disabled: return
 	enemy_died.emit()
 	self.statemachine.stop_process = true
+
 	self.anim_player.play("enemy/death")
+	disable_hurtbox()
 	await self.anim_player.animation_finished
+	if globals.game.stage_done: 
+		self.hide()
+		return
 	self.statemachine.stop_process = false
 	self.disable()
 	globals.game.enemy_pool.return_obj(self)
 	_exploded_barrier = false
 	
+func disable_hurtbox():
+	self.hitbox.set_deferred("disabled", 1)
+	self.hurtbox.set_deferred("disabled", 1)
+	for connection in self.hurtbox.body_entered.get_connections():
+		self.hurtbox.body_entered.disconnect(connection.callable)
+
 @rpc("call_local")
 func disable():
-	if(!is_multiplayer_authority()): return 1
+	if(!is_multiplayer_authority()): return
 	self.set_collision_mask_value(3, true)
 	self.set_collision_mask_value(4, true)
 	self.disabled = true

@@ -1,5 +1,5 @@
 extends EnemyState
-# Handles knight's ability
+# Handles Hammer's ability
 
 const ARRIVAL_TOLARANCE: float = 1
 @onready var droppable_pickups: Array[int] = [
@@ -21,20 +21,8 @@ func _enter() -> void:
 			))
 
 
-func _physics_update(_delta: float) -> void:
-	#Update position
-	if self.enemy.stop_moving: return
-	if multiplayer.multiplayer_peer == null or self.enemy.is_multiplayer_authority():
-		# The server updates the position that will be notified to the clients.
-		self.enemy.synced_position = self.enemy.position
-	else:
-		# The client simply updates the position to the last known one.
-		self.enemy.position = self.enemy.synced_position
-	
-	# Also update the animation based on the last known player input state
-	if self.enemy.stunned: return
-	self.enemy.velocity = self.enemy.movement_vector.normalized() * self.enemy.movement_speed * speed_boost
-	self.enemy.move_and_slide()
+func _physics_update(delta: float) -> void:
+	_move(delta, speed_boost)
 	if _check_if_on_tile() && check_arrival():
 		do_crush()
 	elif _check_if_on_tile() && !self.enemy.detection_handler.recheck_priority_target(self.enemy.movement_vector):
@@ -50,12 +38,14 @@ func do_crush():
 	self.enemy.stop_moving = true
 	self.enemy.anim_player.play("hammer/punch")
 	await self.enemy.anim_player.animation_finished
+	if globals.game.stage_done || self.enemy.health <= 0: return
 	self.enemy.stop_moving = false
 	state_changed.emit(self, "wander")
 
 func change_bomb():
 	assert(self.state_machine.target.has_method("crush"))
 	if self.state_machine.target.is_exploded: return
+	if globals.game.stage_done || self.enemy.health <= 0: return
 	self.state_machine.target.crush()
 	var pickup: int = droppable_pickups.pick_random()
 	var pickup_obj: Pickup = globals.game.pickup_pool.request(pickup)

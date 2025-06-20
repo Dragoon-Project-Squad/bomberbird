@@ -26,6 +26,7 @@ resource_local_to_scene = true
 script = ExtResource("2_rwxvx")
 initial_bomb_type = 0
 initial_exlusive = 0
+initial_virus = 0
 initial_bomb_up = 0
 initial_fire_up = 0
 initial_speed_up = 1
@@ -121,7 +122,7 @@ texture = ExtResource("2_taub5")
 [node name="sprite" type="Sprite2D" parent="."]
 position = Vector2(0.075, 6.236)
 texture = ExtResource("3_taub5")
-offset = Vector2(-0.075, -8.536)
+offset = Vector2(0, -9)
 hframes = 6
 vframes = 4
 

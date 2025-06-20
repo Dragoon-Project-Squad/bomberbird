@@ -35,7 +35,7 @@ texture = ExtResource("2_amm0u")
 [node name="sprite" type="Sprite2D" parent="."]
 position = Vector2(0.0750351, 6.23615)
 texture = ExtResource("3_amm0u")
-offset = Vector2(-0.075, -8.536)
+offset = Vector2(0, -9)
 hframes = 6
 vframes = 4
 

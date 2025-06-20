@@ -38,11 +38,16 @@ func _ready():
 
 func disable():
 	explosion_sfx_player.position = Vector2.ZERO #Mmonsto Fix
-	animation_finish = false
-	explosion_width = 2
+	self.explosion_width = 2
 	set_collision_layer_value(4, true)
 	set_collision_layer_value(6, true)
 	self.visible = false
+	self.armed = false
+	self.mine = false
+	self.pierce = false
+	self.is_exploded = false
+	self.animation_finish = false
+	self.force_collision = false
 	explosion.reset()
 	$AnimationPlayer.stop()
 

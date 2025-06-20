@@ -14,19 +14,8 @@ func _enter() -> void:
 			))
 
 
-func _physics_update(_delta: float) -> void:
-	#Update position
-	if multiplayer.multiplayer_peer == null or self.enemy.is_multiplayer_authority():
-		# The server updates the position that will be notified to the clients.
-		self.enemy.synced_position = self.enemy.position
-	else:
-		# The client simply updates the position to the last known one.
-		self.enemy.position = self.enemy.synced_position
-	
-	# Also update the animation based on the last known player input state
-	if self.enemy.stunned: return
-	self.enemy.velocity = self.enemy.movement_vector.normalized() * self.enemy.movement_speed * speed_boost
-	self.enemy.move_and_slide()
+func _physics_update(delta: float) -> void:
+	_move(delta, speed_boost)
 	if _check_if_on_tile() && !self.enemy.detection_handler.recheck_priority_target(self.enemy.movement_vector):
 		state_changed.emit(self, "wander")
 

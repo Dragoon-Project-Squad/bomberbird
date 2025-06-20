@@ -250,7 +250,7 @@ func init_new_save():
 	gamestate.current_save.last_stage = 0
 	gamestate.current_save.current_score = 0
 	gamestate.current_save.has_finished = false
-	gamestate.current_save.fresh_save = true
+	gamestate.current_save.fresh_save = false
 
 func save_on_finish(new_score: int, player: HumanPlayer):
 	gamestate.current_save.last_stage = 0
@@ -273,7 +273,6 @@ func _check_ending_condition(alive_enemies: int):
 	if win_screen.visible: return
 	var alive_players: Array[Player] = globals.player_manager.get_alive_players()
 	if len(alive_players) == 0 && alive_enemies == -1:
-		#TODO: proper lost game screen (wdith restart option)
 		win_screen.lost_game(score)
 	if len(alive_players) > 0 && alive_enemies == 0:
 		stage.spawn_exits.call_deferred()

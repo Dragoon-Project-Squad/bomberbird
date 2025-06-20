@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cq3e3rtbp4h66" path="res://scripts/player/misobon/misobon_ai_player.gd" id="1_iupa5"]
 [ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_lkx36"]
 [ext_resource type="Texture2D" uid="uid://lckm0mdablaw" path="res://assets/player/chonkgoon_walk.png" id="3_a7ytd"]
-[ext_resource type="Texture2D" uid="uid://cwpnhuimmgdha" path="res://assets/bombcentered.png" id="4_3foh7"]
+[ext_resource type="Texture2D" uid="uid://colmsqhmxnr47" path="res://assets/egg_bomb.png" id="4_0x114"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="4_6653n"]
 [ext_resource type="Script" uid="uid://dtyxesh0173d4" path="res://scripts/player/misobon/misobon_ai_state_machine.gd" id="5_e4txw"]
 [ext_resource type="Script" uid="uid://dnmrmhgsrxu3k" path="res://scripts/player/misobon/misobon_player_controls.gd" id="5_j88x1"]
@@ -48,15 +48,15 @@ scale = Vector2(0.75, 0.5)
 texture = ExtResource("2_lkx36")
 
 [node name="sprite" type="Sprite2D" parent="."]
-position = Vector2(0.0750351, 6.23615)
+position = Vector2(0, 6)
 texture = ExtResource("3_a7ytd")
-offset = Vector2(-0.075, -8.236)
+offset = Vector2(0, -9)
 hframes = 6
 vframes = 4
 
 [node name="BombSprite" type="Sprite2D" parent="."]
-position = Vector2(0, -35)
-texture = ExtResource("4_3foh7")
+position = Vector2(0, -20)
+texture = ExtResource("4_0x114")
 hframes = 3
 region_enabled = true
 region_rect = Rect2(0, 0, 96, 32)
