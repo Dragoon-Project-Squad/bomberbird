@@ -15,7 +15,7 @@ var error_sound: AudioStreamWAV = load("res://sound/fx/error.wav")
 var select_sound: AudioStreamWAV = load("res://sound/fx/click.wav")
 
 func _ready() -> void:
-	if supersecretvisible:
+	if supersecretvisible or globals.secrets_enabled:
 		secret_1.show()
 		secret_2.show()
 
@@ -95,7 +95,7 @@ func _on_tomato_pressed() -> void:
 	play_select_audio.rpc()
 
 func _on_secret_1_pressed() -> void:
-	if not supersecretvisible:
+	if not supersecretvisible and not globals.secrets_enabled:
 		play_error_audio() #Not yet available
 	else:
 		show_selected_panel("secret1")
@@ -103,8 +103,8 @@ func _on_secret_1_pressed() -> void:
 		play_select_audio.rpc()
 
 func _on_secret_2_pressed() -> void:
-	if not supersecretvisible:
-		play_error_audio() #Not yet available
+	if not supersecretvisible and not globals.secrets_enabled:
+		play_error_audio()
 	else:
 		show_selected_panel("secret2")
 		gamestate.current_save.character_paths = character_texture_paths.secrettwo_paths
