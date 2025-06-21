@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=4 uid="uid://bvmptnd1aktad"]
+[gd_scene load_steps=7 format=4 uid="uid://bvmptnd1aktad"]
 
 [ext_resource type="Script" uid="uid://bebhr7v8s7t8y" path="res://scripts/world/runtime_build_stage.gd" id="1_sfhov"]
 [ext_resource type="TileSet" uid="uid://cx8n6oa7chiix" path="res://assets/tilesets/lab_tileset.tres" id="3_8ftkg"]
+[ext_resource type="TileSet" uid="uid://bbo4w3umv1ovk" path="res://assets/tilesets/lab_obstacle.tres" id="3_qyd28"]
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/tilesets/desert_tileset.tres" id="4_hxxxt"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="5_8m0id"]
 [ext_resource type="PackedScene" uid="uid://bn58fqv6ar4sr" path="res://scenes/mus/dad_drive.tscn" id="5_sfhov"]
@@ -9,8 +10,7 @@
 [node name="RuntimeBuildLabStage" type="Node2D" groups=["thrown_pickup_bounces"]]
 texture_filter = 1
 script = ExtResource("1_sfhov")
-unbreakable_tile = Vector2i(6, 0)
-tileset_id = 3
+unbreakable_tile = Vector2i(1, 0)
 _arena_rect = Rect2i(1, 3, 13, 11)
 _world_edge_rect = Rect2i(-2, -2, 19, 19)
 spawnpoints = Array[Vector2i]([Vector2i(1, 3), Vector2i(13, 3), Vector2i(1, 13), Vector2i(13, 13)])
@@ -24,7 +24,7 @@ tile_map_data = PackedByteArray("AAAAAAAAAAAEAAAAAAAAAAEAAAACAAgAAAAAAAIAAAACAAg
 tile_set = ExtResource("3_8ftkg")
 
 [node name="Obstacles" type="TileMapLayer" parent="." groups=["bombstop", "thrown_bomb_bounces", "thrown_pickup_bounces"]]
-tile_set = ExtResource("4_hxxxt")
+tile_set = ExtResource("3_qyd28")
 
 [node name="HurryUp" parent="." instance=ExtResource("5_8m0id")]
 tile_set = ExtResource("4_hxxxt")
