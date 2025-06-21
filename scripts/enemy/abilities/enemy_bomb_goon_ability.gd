@@ -46,6 +46,7 @@ func _enter() -> void:
 	if globals.game.stage_done || self.enemy.disabled: return
 
 	self.enemy.anim_player.play("bomb_goon/RESET")
+	self.enemy.current_anim = "standing"
 
 	await self.enemy.anim_player.animation_finished
 	if globals.game.stage_done || self.enemy.disabled: return

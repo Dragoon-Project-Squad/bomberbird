@@ -63,9 +63,9 @@ func restart_current_stage():
 
 	activate_ui_and_music()
 	fade.play("fade_in")
+	stage_has_changed.emit.call_deferred()
 	await fade.animation_finished
 	get_tree().create_timer(0.5).timeout.connect(func (): stage_announce_label.hide())
-	stage_has_changed.emit()
 	stage_done = false
 
 @rpc("call_local")
@@ -122,13 +122,13 @@ func next_stage(id: int, player: HumanPlayer):
 	stage_announce_label.show()
 	activate_ui_and_music()
 	fade.play("fade_in")
+	stage_has_changed.emit.call_deferred()
 	await fade.animation_finished
 	get_tree().create_timer(0.5).timeout.connect(func (): stage_announce_label.hide())
 
 	curr_stage_idx = id
 	_exit_entered_barrier = false
 	_exit_spawned_barrier = false
-	stage_has_changed.emit()
 	stage_done = false 
 	load_next_stage_set(id)
 
@@ -192,8 +192,8 @@ func start():
 			gamestate.current_save.last_stage,
 		)
 
-
 		enemy_pool.initialize(max_enemy_dict)
+
 	stage_handler.load_stages(init_stage_set)
 	stage_handler.set_stage(stage_data_arr[gamestate.current_save.last_stage].selected_scene)
 	stage = stage_handler.get_stage()
@@ -210,8 +210,9 @@ func start():
 	)
 	curr_stage_idx = gamestate.current_save.last_stage
 	first_start = true
-	await fade.animation_finished
 	stage_has_changed.emit.call_deferred()
+
+	await fade.animation_finished
 	get_tree().create_timer(0.5).timeout.connect(func (): stage_announce_label.hide())
 
 func activate_ui_and_music():

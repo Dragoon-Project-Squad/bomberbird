@@ -29,6 +29,7 @@ func request(enemy_path: String) -> Enemy:
 	return enemy 
 
 func request_group(enemy_dict: Dictionary, _void: int = 0) -> Dictionary:
+
 	var return_dict: Dictionary = {}
 
 	for enemy_path in enemy_dict:

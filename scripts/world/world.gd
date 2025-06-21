@@ -198,7 +198,7 @@ func _spawn_enemies():
 	# count enemies
 	self.enemy_table.enemies.map(
 		func (e: Dictionary):
-			var whole_path: String = StageDataUI.ENEMY_SCENE_DIR + "/" + StageDataUI.ENEMY_DIR[e.name]
+			var whole_path: String = StageDataUI.ENEMY_SCENE_DIR + StageDataUI.ENEMY_DIR[e.name]
 			if !enemy_dict.has(whole_path): enemy_dict[whole_path] = 1
 			else: enemy_dict[whole_path] += 1
 			return e
@@ -207,7 +207,7 @@ func _spawn_enemies():
 	var enemys: Dictionary = globals.game.enemy_pool.request_group(enemy_dict);
 	self.enemy_table.enemies.map(
 		func (e: Dictionary):
-			var whole_path: String = StageDataUI.ENEMY_SCENE_DIR + "/" + StageDataUI.ENEMY_DIR[e.name]
+			var whole_path: String = StageDataUI.ENEMY_SCENE_DIR + StageDataUI.ENEMY_DIR[e.name]
 			var enemy: Enemy = enemys[whole_path].pop_front()
 			enemy.place.rpc(world_data.tile_map.map_to_local(e.coords), whole_path)
 			globals.game.stage_has_changed.connect(enemy.enable, CONNECT_ONE_SHOT)
