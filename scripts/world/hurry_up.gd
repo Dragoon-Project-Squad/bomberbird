@@ -23,7 +23,12 @@ func start() -> void:
 	if hurry_up_step_timer.wait_time < anim_time + 0.05:
 		# because of the animation taking 'anim_time' seconds the timer between the waittimes must be slighly higher then that.
 		# If this needs to be changed we need more then one FallingUnbreakable node (so a MultiplayerSpawner then spawns them dynamically at the start of the game) and have logic (a list and an index) to use them sequentially
-		push_error("Time set in the HurryUpStepTimer is ", hurry_up_step_timer.wait_time, " this is not supported as it must be stricly more then the animation time of the slam animation which currently is ", anim_time, " aswell as some tolerance the timer has been automatically reajusted to ", anim_time + 0.05)
+		push_error("Time set in the HurryUpStepTimer is ", 
+		hurry_up_step_timer.wait_time, 
+		" this is not supported as it must be stricly more then the animation time of the slam animation which currently is ", 
+		anim_time, 
+		" aswell as some tolerance the timer has been automatically reajusted to ", 
+		anim_time + 0.05)
 		hurry_up_step_timer.wait_time = anim_time + 0.05
 
 func pause_hurry_up(val: bool) -> void:
