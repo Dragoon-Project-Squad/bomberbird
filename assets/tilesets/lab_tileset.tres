@@ -1,8 +1,10 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://cx8n6oa7chiix"]
+[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://cx8n6oa7chiix"]
 
 [ext_resource type="Texture2D" uid="uid://bc0n0bnksepat" path="res://assets/tilesetimages/walltile_lab.png" id="1_05xei"]
+[ext_resource type="Texture2D" uid="uid://cismp5wpeps2q" path="res://assets/tilesetimages/lab_obstacles.png" id="2_kmius"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kmius"]
+resource_name = "lab"
 texture = ExtResource("1_05xei")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
@@ -840,6 +842,15 @@ texture_region_size = Vector2i(32, 32)
 26:23/0 = 0
 26:23/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mree8"]
+resource_name = "obstacles"
+texture = ExtResource("2_kmius")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+
 [resource]
 tile_size = Vector2i(32, 32)
 physics_layer_0/collision_layer = 1
@@ -847,3 +858,4 @@ terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Terrain 0"
 terrain_set_0/terrain_0/color = Color(0.160784, 0.345098, 0.792157, 1)
 sources/0 = SubResource("TileSetAtlasSource_kmius")
+sources/2 = SubResource("TileSetAtlasSource_mree8")

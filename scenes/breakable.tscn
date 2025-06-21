@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://bao3yernlglws"]
 
 [ext_resource type="Script" uid="uid://bq0qs07pxk3mm" path="res://scripts/breakable.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://b7xhajclwoa2f" path="res://assets/tilesetimages/desert_objects.png" id="2_qd0fb"]
+[ext_resource type="Texture2D" uid="uid://ckqu3x0hcmuux" path="res://assets/tilesetimages/desert_obstacles.png" id="2_kwo4r"]
 [ext_resource type="AudioStream" uid="uid://36rjkxoq18ne" path="res://sound/fx/debrisdeath.wav" id="3_8bomw"]
 [ext_resource type="AudioStream" uid="uid://o46gs6drr81c" path="res://sound/fx/crushed.wav" id="4_kwo4r"]
 
@@ -57,9 +57,9 @@ motion_mode = 1
 script = ExtResource("1")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_qd0fb")
+texture = ExtResource("2_kwo4r")
 region_enabled = true
-region_rect = Rect2(32, 0, 32, 32)
+region_rect = Rect2(0, 0, 32, 32)
 
 [node name="Shape" type="CollisionShape2D" parent="."]
 shape = SubResource("1")

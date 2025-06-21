@@ -21,15 +21,11 @@ func start():
 	stage_done = false
 
 func load_stage() -> void:
-	var stage_path := globals.LAB_RAND_STAGE_PATH
-	if SettingsContainer.get_breakable_spawn_rule() == 2:
-		stage_path = load_full_stage()
-	else:
-		stage_path = load_custom_stage()
+	var stage_path := load_chosen_stage()
 	stage = load(stage_path).instantiate()
 	stage_loader.add_child(stage)
 
-func load_custom_stage() -> String:
+func load_chosen_stage() -> String:
 	var stage_path_to_load
 	match SettingsContainer.get_stage_choice():
 		SettingsContainer.multiplayer_stages_secret_enabled.SALOON:
@@ -44,21 +40,6 @@ func load_custom_stage() -> String:
 			stage_path_to_load = globals.SECRET_RAND_STAGE_PATH
 		_:
 			stage_path_to_load = globals.DESERT_RAND_STAGE_PATH
-	return stage_path_to_load
-		
-func load_full_stage() -> String:
-	var stage_path_to_load
-	match SettingsContainer.get_stage_choice():
-		0:
-			stage_path_to_load = globals.DESERT_FULL_STAGE_PATH
-		1:
-			stage_path_to_load = globals.BEACH_FULL_STAGE_PATH
-		2:
-			stage_path_to_load = globals.DUNGEON_FULL_STAGE_PATH
-		3:
-			stage_path_to_load = globals.LAB_FULL_STAGE_PATH
-		_:
-			stage_path_to_load = globals.DESERT_FULL_STAGE_PATH
 	return stage_path_to_load
 	
 func remove_the_darkness():
