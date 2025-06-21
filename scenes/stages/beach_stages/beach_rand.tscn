@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://d4ep51hwr8uxd"]
+[gd_scene load_steps=10 format=4 uid="uid://d4ep51hwr8uxd"]
 
 [ext_resource type="Script" uid="uid://c7rrhgeevwtus" path="res://scripts/world/randomized_stage.gd" id="1_5v275"]
 [ext_resource type="Script" uid="uid://bta1elkd6rmla" path="res://resources/gameplay/pickup_table.gd" id="2_vhk3c"]
@@ -6,6 +6,7 @@
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/tilesets/desert_tileset.tres" id="4_1svj4"]
 [ext_resource type="TileSet" uid="uid://cxqn241dk6q5u" path="res://assets/tilesets/beach_deco.tres" id="4_6mhws"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="5_cn8oy"]
+[ext_resource type="TileSet" uid="uid://c2yyknft750gb" path="res://assets/tilesets/beach_obstacle.tres" id="5_fj5a6"]
 [ext_resource type="PackedScene" uid="uid://bbtw8lckcv2kj" path="res://scenes/mus/rush.tscn" id="6_twvbe"]
 
 [sub_resource type="Resource" id="Resource_6r5we"]
@@ -32,8 +33,7 @@ metadata/_custom_type_script = "uid://bta1elkd6rmla"
 [node name="RandomizedBeachStage" type="Node2D"]
 texture_filter = 1
 script = ExtResource("1_5v275")
-unbreakable_tile = Vector2i(6, 0)
-tileset_id = 3
+unbreakable_tile = Vector2i(1, 0)
 _arena_rect = Rect2i(1, 3, 13, 11)
 _world_edge_rect = Rect2i(-2, -2, 19, 19)
 spawnpoints = Array[Vector2i]([Vector2i(1, 3), Vector2i(13, 3), Vector2i(1, 13), Vector2i(13, 13)])
@@ -56,8 +56,8 @@ tile_map_data = PackedByteArray("AAAkABEAAAANAAcAAGAkABAAAAAOAAcAAGAkAA8AAAAPAAc
 tile_set = ExtResource("4_6mhws")
 
 [node name="Obstacles" type="TileMapLayer" parent="." groups=["bombstop", "thrown_bomb_bounces", "thrown_pickup_bounces"]]
-tile_map_data = PackedByteArray("AAACAAwAAwAGAAAAAAAEAAwAAwAGAAAAAAAGAAwAAwAGAAAAAAAIAAwAAwAGAAAAAAAKAAwAAwAGAAAAAAAMAAwAAwAGAAAAAAAMAAoAAwAGAAAAAAAKAAoAAwAGAAAAAAAIAAoAAwAGAAAAAAAGAAoAAwAGAAAAAAAEAAoAAwAGAAAAAAACAAoAAwAGAAAAAAACAAgAAwAGAAAAAAAEAAgAAwAGAAAAAAAGAAgAAwAGAAAAAAAIAAgAAwAGAAAAAAAKAAgAAwAGAAAAAAAMAAgAAwAGAAAAAAAMAAYAAwAGAAAAAAAKAAYAAwAGAAAAAAAIAAYAAwAGAAAAAAAGAAYAAwAGAAAAAAAEAAYAAwAGAAAAAAACAAYAAwAGAAAAAAACAAQAAwAGAAAAAAAEAAQAAwAGAAAAAAAGAAQAAwAGAAAAAAAIAAQAAwAGAAAAAAAKAAQAAwAGAAAAAAAMAAQAAwAGAAAAAAA=")
-tile_set = ExtResource("4_1svj4")
+tile_map_data = PackedByteArray("AAACAAwAAQABAAAAAAAEAAwAAQABAAAAAAAGAAwAAQABAAAAAAAIAAwAAQABAAAAAAAKAAwAAQABAAAAAAAMAAwAAQABAAAAAAAMAAoAAQABAAAAAAAKAAoAAQABAAAAAAAIAAoAAQABAAAAAAAGAAoAAQABAAAAAAAEAAoAAQABAAAAAAACAAoAAQABAAAAAAACAAgAAQABAAAAAAAEAAgAAQABAAAAAAAGAAgAAQABAAAAAAAIAAgAAQABAAAAAAAKAAgAAQABAAAAAAAMAAgAAQABAAAAAAAMAAYAAQABAAAAAAAKAAYAAQABAAAAAAAIAAYAAQABAAAAAAAGAAYAAQABAAAAAAAEAAYAAQABAAAAAAACAAYAAQABAAAAAAACAAQAAQABAAAAAAAEAAQAAQABAAAAAAAGAAQAAQABAAAAAAAIAAQAAQABAAAAAAAKAAQAAQABAAAAAAAMAAQAAQABAAAAAAA=")
+tile_set = ExtResource("5_fj5a6")
 
 [node name="HurryUp" parent="." instance=ExtResource("5_cn8oy")]
 tile_set = ExtResource("4_1svj4")

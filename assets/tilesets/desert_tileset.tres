@@ -1,9 +1,19 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://c5k358s71dvg7"]
+[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://c5k358s71dvg7"]
 
 [ext_resource type="Texture2D" uid="uid://bg23qq0jm0n3j" path="res://assets/tilesetimages/deserttileset.png" id="1_iurnb"]
+[ext_resource type="Texture2D" uid="uid://ckqu3x0hcmuux" path="res://assets/tilesetimages/desert_obstacles.png" id="1_m7xjk"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1803y"]
+resource_name = "obstacles"
+texture = ExtResource("1_m7xjk")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dg3ks"]
-resource_name = "dungeon"
+resource_name = "tiles"
 texture = ExtResource("1_iurnb")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
@@ -46,3 +56,4 @@ terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Terrain 0"
 terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 sources/3 = SubResource("TileSetAtlasSource_dg3ks")
+sources/0 = SubResource("TileSetAtlasSource_1803y")
