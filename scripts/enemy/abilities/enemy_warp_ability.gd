@@ -29,6 +29,9 @@ func _enter() -> void:
 	state_changed.emit(self, "wander")
 	return
 
+func _reset() -> void:
+	self.enemy.invulnerable = false
+	self.enemy.stop_moving = false
 
 func _exit() -> void:
 	self.enemy.invulnerable = false

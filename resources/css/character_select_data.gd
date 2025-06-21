@@ -73,7 +73,7 @@ var normalgoon_paths = {
 	"mount": NORMALGOON_MOUNT_TEXTURE_PATH,
 	"face": { "path": FACE_UI_TEXTURE, "rect": NORMALGOON_FACE_RECT },
 	}
-  
+
 var chonkgoon_paths = {
 	"select": CHONKGOON_SELECT_TEXTURE_PATH, 
 	"walk": CHONKGOON_PLAYER_TEXTURE_PATH, 
@@ -144,6 +144,21 @@ var secrettwo_paths = {
 	"face": { "path": FACE_UI_TEXTURE, "rect": SECRET2_FACE_RECT },
 	}
 	
+var characters: Dictionary = {
+	"egggoon": egggoon_paths,
+	"normalgoon": normalgoon_paths,
+	"chonkgoon": chonkgoon_paths,
+	"longgoon": longgoon_paths,
+	"dad": dad_paths,
+	"bhdoki": bhdoki_paths,
+	"retrodoki": retrodoki_paths,
+	"altgirldoki": altgirldoki_paths,
+	"crowki": crowki_paths,
+	"tomatodoki": tomatodoki_paths,
+	"secretone": secretone_paths,
+	"secrettwo": secrettwo_paths,
+	}
+
 var DEFAULT_PLAYER_2_SELECT = NORMALGOON_SELECT_TEXTURE_PATH
 var DEFAULT_PLAYER_3_SELECT = CHONKGOON_SELECT_TEXTURE_PATH
 var DEFAULT_PLAYER_4_SELECT = LONGGOON_SELECT_TEXTURE_PATH

@@ -70,13 +70,9 @@ var bomb_count_reset: int
 var lives_reset: int
 var explosion_boost_count_reset: int
 
-@export var NORMAL_FUSE_SPEED = 0
-@export var FAST_FUSE_SPEED = 1.5
-@export var SLOW_FUSE_SPEED = -2
-
 var is_virus = false
 @export var fire_range = 3
-@export var fuse_speed = NORMAL_FUSE_SPEED
+@export var fuse_speed := BombRoot.FUSES.NORMAL
 var infected_explosion := false
 var is_autodrop = false
 var is_reverse = false
@@ -178,10 +174,7 @@ func punch_bomb(direction: Vector2i):
 	
 	bomb.do_punch.rpc(direction)
 
-@rpc("call_local")
-func carry_bomb() -> int:
-	if !is_multiplayer_authority():
-		return 1
+func carry_bomb():
 	if !pickups.held_pickups[globals.pickups.POWER_GLOVE]:
 		return 1
 	
@@ -193,22 +186,26 @@ func carry_bomb() -> int:
 	
 	if bomb_to_throw == null or bomb_to_throw.type == pickups.bomb_types.MINE:
 		bomb_to_throw = null
-		return 1
-	
-	$BombSprite.visible = true
+		return 2
+	carry_bomb_effect.rpc()
 	bomb_to_throw.carry.rpc()
 	return 0
 
-func throw_bomb(direction: Vector2i) -> int:
-	$BombSprite.visible = false
-	if is_multiplayer_authority():
-		bomb_to_throw.do_throw.rpc(direction, self.position)
+@rpc("call_local")
+func carry_bomb_effect():
+	$BombSprite.visible = true
+
+func throw_bomb(direction: Vector2i):
+	bomb_to_throw.do_throw.rpc(direction, self.position)
 	bomb_to_throw = null
+	throw_bomb_effect.rpc()
 	return 0
 
+@rpc("call_local")
+func throw_bomb_effect():
+	$BombSprite.visible = false
+
 func kick_bomb(direction: Vector2i):
-	if !is_multiplayer_authority():
-		return 1
 	if pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] != pickups.exclusive.KICK:
 		return 1
 	
@@ -263,6 +260,7 @@ func place_bomb():
 				bomb.set_bomb_type.rpc(HeldPickups.bomb_types.DEFAULT)
 		else:
 			bomb.set_bomb_type.rpc(pickups.held_pickups[globals.pickups.GENERIC_BOMB])
+		bomb.set_fuse_length.rpc(fuse_speed)
 		bomb.do_place.rpc(bombPos, -1 if infected_explosion else explosion_boost_count)
 
 ## updates the animation depending on the movement direction
@@ -354,6 +352,7 @@ func reset_pickups():
 	movement_speed = movement_speed_reset
 	bomb_count = bomb_count_reset
 	lives = lives_reset
+	player_health_updated.emit(self, lives)
 	self.set_collision_mask_value(4, true)
 	self.set_collision_mask_value(3, true)
 	unvirus()
@@ -539,13 +538,13 @@ func virus():
 			infected_explosion = true
 		pickups.virus.FASTFUSE:
 			print("Fast fuse speed!")
-			fuse_speed = FAST_FUSE_SPEED
+			fuse_speed = BombRoot.FUSES.FAST
 		pickups.virus.SLOWFUSE_A:
 			print("Slow fuse speed!")
-			fuse_speed = SLOW_FUSE_SPEED
+			fuse_speed = BombRoot.FUSES.SLOW_A
 		pickups.virus.SLOWFUSE_B:
 			print("Slow fuse speed!")
-			fuse_speed = SLOW_FUSE_SPEED - 1
+			fuse_speed = BombRoot.FUSES.SLOW_B
 		pickups.virus.AUTOBOMB:
 			print("Autodrop!")
 			is_autodrop = true
@@ -567,12 +566,12 @@ func virus():
 func unvirus():
 	is_virus = false
 	infected_explosion = false
-	fuse_speed = NORMAL_FUSE_SPEED
+	fuse_speed = BombRoot.FUSES.NORMAL
+	movement_speed = BASE_MOTION_SPEED
 	is_autodrop = false
 	is_reverse = false
 	is_nonstop = false
 	is_unbomb = false
-	pickups.held_pickups[globals.pickups.VIRUS] = HeldPickups.virus.DEFAULT
 	set_process(false)
 
 func stop_time(user: String, is_player: bool):

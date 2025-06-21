@@ -58,7 +58,7 @@ texture = ExtResource("2_gkmdw")
 [node name="sprite" type="Sprite2D" parent="."]
 position = Vector2(0.0750351, 6.23615)
 texture = ExtResource("3_rwear")
-offset = Vector2(-0.075, -8.536)
+offset = Vector2(0, -9)
 hframes = 6
 vframes = 4
 

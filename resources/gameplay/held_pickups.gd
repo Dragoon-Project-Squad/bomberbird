@@ -75,7 +75,7 @@ func add(pickup_type: int):
 		globals.pickups.SEEKER:
 			held_pickups[globals.pickups.GENERIC_BOMB] = bomb_types.SEEKER
 		globals.pickups.VIRUS:
-			held_pickups[pickup_type] = virus.values()[randi_range(virus.DEFAULT + 1,virus.NOBOMBS)]
+			held_pickups[pickup_type] = virus.values()[randi_range(virus.DEFAULT + 1, virus.NOBOMBS)]
 		globals.pickups.BOMB_UP:
 			held_pickups[pickup_type] = min(held_pickups[pickup_type] + 1, MAX_BOMB_UPGRADE_PERMITTED)
 		globals.pickups.FIRE_UP:

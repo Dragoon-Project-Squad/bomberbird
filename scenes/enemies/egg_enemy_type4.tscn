@@ -36,7 +36,7 @@ texture = ExtResource("2_x26st")
 position = Vector2(0.0750351, 6.23615)
 rotation = -6.28319
 texture = ExtResource("3_x26st")
-offset = Vector2(-0.075, -8.536)
+offset = Vector2(0, -9)
 hframes = 6
 vframes = 4
 

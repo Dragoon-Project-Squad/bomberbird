@@ -3,10 +3,11 @@ extends EnemyState
 
 var _rand: RandomNumberGenerator = RandomNumberGenerator.new()
 var prep_time: float = 0.5
+var fire_breath: Node2D
 
 func _enter() -> void:
 	self.enemy.stop_moving = true
-	var fire_breath: Node2D = self.enemy.get_node("Firebreath")
+	fire_breath = self.enemy.get_node("Firebreath")
 	var fire_breath_range: int = 3
 	var fire_breath_direction: Vector2
 
@@ -42,6 +43,12 @@ func _enter() -> void:
 	fire_breath.rotation = 0
 	state_changed.emit(self, "wander")
 	
+func _reset() -> void:
+	self.enemy.stop_moving = false
+	self.fire_breath.disable()
+
+
+
 func _exit() -> void:
 	self.enemy.stop_moving = false
 	self.enemy.anim_player.play(self.enemy.animation_sub + "/" + self.enemy.current_anim)

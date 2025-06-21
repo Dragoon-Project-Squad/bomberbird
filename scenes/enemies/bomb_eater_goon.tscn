@@ -147,7 +147,7 @@ texture = ExtResource("2_dmev2")
 [node name="sprite" type="Sprite2D" parent="."]
 position = Vector2(0.0750351, 6.23615)
 texture = ExtResource("3_hhps5")
-offset = Vector2(-0.075, -8.536)
+offset = Vector2(0, -9)
 hframes = 6
 vframes = 4
 
@@ -157,7 +157,6 @@ position = Vector2(-1.07288e-06, 3.57628e-07)
 scale = Vector2(0.333333, 0.351648)
 texture = ExtResource("4_yrolu")
 hframes = 9
-frame = 8
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 visible = false

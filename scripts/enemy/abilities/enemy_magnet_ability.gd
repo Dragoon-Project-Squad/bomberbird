@@ -29,6 +29,10 @@ func _physics_update(delta: float) -> void:
 	else:
 		ability_time += delta
 
+func _reset() -> void:
+	ability_time = 0
+	self.enemy.stop_moving = false
+
 func _exit() -> void:
 	ability_time = 0
 	self.enemy.stop_moving = false

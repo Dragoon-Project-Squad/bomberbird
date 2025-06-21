@@ -15,6 +15,7 @@ resource_local_to_scene = true
 script = ExtResource("2_05k0c")
 initial_bomb_type = 0
 initial_exlusive = 0
+initial_virus = 0
 initial_bomb_up = 0
 initial_fire_up = 0
 initial_speed_up = 0
@@ -231,7 +232,7 @@ texture = ExtResource("2_wp3i8")
 position = Vector2(0.0750351, 6.23615)
 rotation = -6.28319
 texture = ExtResource("3_lr0sp")
-offset = Vector2(-0.075, -8.236)
+offset = Vector2(0, -9)
 hframes = 6
 vframes = 4
 

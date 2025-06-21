@@ -2,7 +2,7 @@ extends StaticBody2D
 class_name Bomb
 ## Handles the most basic bomb behaviore of a bomb just sitting and waiting to explode
 
-@onready var bomb_root: Node2D = get_parent()
+@onready var bomb_root: BombRoot = get_parent()
 @onready var bomb_pool: Node2D = get_parent().get_parent()
 
 var explosion_width := 2
@@ -38,11 +38,16 @@ func _ready():
 
 func disable():
 	explosion_sfx_player.position = Vector2.ZERO #Mmonsto Fix
-	animation_finish = false
-	explosion_width = 2
+	self.explosion_width = 2
 	set_collision_layer_value(4, true)
 	set_collision_layer_value(6, true)
 	self.visible = false
+	self.armed = false
+	self.mine = false
+	self.pierce = false
+	self.is_exploded = false
+	self.animation_finish = false
+	self.force_collision = false
 	explosion.reset()
 	$AnimationPlayer.stop()
 
@@ -67,12 +72,13 @@ func place(bombPos: Vector2, fuse_time_passed: float = 0, force_collision: bool 
 	bomb_root.position = bombPos
 	self.visible = true
 	self.force_collision = force_collision
+	var animation: AnimationPlayer = $AnimationPlayer
 	if mine:
 		armed = false
-		$AnimationPlayer.play("hide")
+		animation.play("hide")
 	else:
-		$AnimationPlayer.play("fuse_and_call_detonate()")
-	$AnimationPlayer.advance(fuse_time_passed) #continue the animation from where it was left of
+		animation.play("fuse_and_call_detonate()", -1.0, bomb_root.fuse_length, false)
+		animation.advance(fuse_time_passed) #continue the animation from where it was left of
 
 func hide_mine():
 	hide()
@@ -191,7 +197,7 @@ func _on_detect_area_body_entered(body: Node2D):
 	if force_collision: return
 	if (body is Player || body is Enemy) && armed && mine:
 		show()
-		$AnimationPlayer.play("mine_explode")
+		$AnimationPlayer.play("mine_explode", -1.0, bomb_root.fuse_length, false)
 		if world_data.is_tile(world_data.tiles.MINE, self.global_position):
 			world_data.set_tile(world_data.tiles.BOMB, self.global_position, bomb_root.boost + 2, false)
 	if body is Breakable:

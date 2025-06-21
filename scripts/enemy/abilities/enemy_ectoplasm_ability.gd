@@ -27,10 +27,16 @@ func _enter() -> void:
 
 	self.enemy.anim_player.play("wisp/shake")
 	ectoplasm.start(ectoplasm_direction)
+
 	await get_tree().create_timer(ability_duration).timeout
 	ectoplasm.disable()
 	if globals.game.stage_done || self.enemy.disabled: return
+
 	state_changed.emit(self, "wander")
+
+func _reset() -> void:
+	self.enemy.stop_moving = false
+	self.enemy.invulnerable = false
 
 func _exit() -> void:
 	self.enemy.anim_player.play(self.enemy.animation_sub + "/" + self.enemy.current_anim)

@@ -317,7 +317,7 @@ func begin_singleplayer_game():
 
 	player_name = current_save.player_name
 	player_data_master_dict[1].playername = current_save.player_name
-	player_data_master_dict[1].spritepaths = current_save.character_paths
+	player_data_master_dict[1].spritepaths = character_texture_paths.characters[current_save.character_paths]
 	load_world.rpc(campaign_game_scene)
 
 func begin_game():

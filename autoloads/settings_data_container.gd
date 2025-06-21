@@ -59,6 +59,7 @@ func create_storage_dictionary() -> Dictionary:
 		"breakable_chance" : breakable_chance,
 		"pickup_spawn_rule" : pickup_spawn_rule,
 		"pickup_chance" : pickup_chance,
+		"stage_choice" : multiplayer_stages.SALOON
 	}
 	return settings_container_dict
 
@@ -194,12 +195,7 @@ func get_breakable_spawn_rule() -> int:
 func get_breakable_chance() -> float:
 	if loaded_data == {}:
 		return BATTLE_SETTINGS.DEFAULT_BREAKABLE_CHANCE
-	return breakable_chance/100
-	
-func get_raw_breakable_chance() -> float:
-	if loaded_data == {}:
-		return BATTLE_SETTINGS.DEFAULT_BREAKABLE_CHANCE
-	return breakable_chance/100
+	return breakable_chance
 	
 func get_pickup_spawn_rule() -> int:
 	if loaded_data == {}:
@@ -207,11 +203,6 @@ func get_pickup_spawn_rule() -> int:
 	return pickup_spawn_rule
 
 func get_pickup_chance() -> float:
-	if loaded_data == {}:
-		return BATTLE_SETTINGS.DEFAULT_PICKUP_CHANCE
-	return pickup_chance/100
-	
-func get_raw_pickup_chance() -> float:
 	if loaded_data == {}:
 		return BATTLE_SETTINGS.DEFAULT_PICKUP_CHANCE
 	return pickup_chance
@@ -348,7 +339,7 @@ func set_battle_settings_vars_from_dict(datadict : Dictionary) -> void:
 	set_breakable_chance(datadict.breakable_chance if datadict.has('breakable_chance') else BATTLE_SETTINGS.DEFAULT_BREAKABLE_CHANCE)
 	set_pickup_spawn_rule(datadict.pickup_spawn_rule if datadict.has('pickup_spawn_rule') else BATTLE_SETTINGS.DEFAULT_PICKUP_SPAWN_RULE)
 	set_pickup_chance(datadict.pickup_chance if datadict.has('pickup_chance') else BATTLE_SETTINGS.DEFAULT_PICKUP_CHANCE)
-	set_pickup_chance(datadict.stage_choice if datadict.has('stage_choice') else BATTLE_SETTINGS.DEFAULT_STAGE)
+	set_stage_choice(datadict.stage_choice if datadict.has('stage_choice') else BATTLE_SETTINGS.DEFAULT_STAGE)
 
 func set_all_vars_from_dict(datadict : Dictionary) -> void:
 	set_options_settings_vars_from_dict(datadict)
