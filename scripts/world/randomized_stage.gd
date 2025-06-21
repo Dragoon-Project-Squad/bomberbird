@@ -10,7 +10,7 @@ var breakable_spawn_chance = base_breakable_chance
 	
 func get_final_breakable_rate() -> float:
 	if SettingsContainer.get_breakable_spawn_rule() == SettingsContainer.breakable_spawn_rule_setting_states.STAGE: # Custom Mode, use the Global Percent
-		return base_breakable_chance + (gamestate.current_level - 1) * level_chance_multiplier # Use the value decided by the STAGE
+		return base_breakable_chance # Use the value decided by the STAGE
 	if SettingsContainer.get_breakable_spawn_rule() == SettingsContainer.breakable_spawn_rule_setting_states.CUSTOM: # Custom Mode, use the Global Percent
 		return SettingsContainer.get_breakable_chance()
 	return base_breakable_chance # Failsafe
