@@ -25,6 +25,7 @@
 script = ExtResource("2_autci")
 initial_bomb_type = 0
 initial_exlusive = 1
+initial_virus = 0
 initial_bomb_up = 3
 initial_fire_up = 3
 initial_speed_up = 0
@@ -121,7 +122,7 @@ texture = ExtResource("3_4ashl")
 [node name="sprite" type="Sprite2D" parent="."]
 position = Vector2(0.075, 6.236)
 texture = ExtResource("4_6pebp")
-offset = Vector2(-0.075, -8.536)
+offset = Vector2(0, -9)
 hframes = 6
 vframes = 4
 

@@ -6,15 +6,22 @@ enum ability { KICK, PUNCH, THROW, NONE }
 @export var use_ability: float = 0.1
 @export var stop_kick: float = 0.1
 @export var do_throw: float = 0.1
+@export_group("others")
+@export var timeout: float = 2
 
 @onready var enemy = get_parent()
 
 var _rand: RandomNumberGenerator = RandomNumberGenerator.new()
+var timeout_expired: bool = true
 
 func _ready() -> void:
 	assert(enemy is Boss)
 
 func check_ability_usage() -> int:
+	if !timeout_expired: return ability.NONE
+	timeout_expired = false
+	get_tree().create_timer(timeout).timeout.connect(func (): timeout_expired = true, CONNECT_ONE_SHOT)
+
 	self.enemy.curr_bomb = get_bomb()
 	if self.enemy.curr_bomb == null: return ability.NONE
 	if self.enemy.curr_bomb.type == HeldPickups.bomb_types.MINE: return ability.NONE

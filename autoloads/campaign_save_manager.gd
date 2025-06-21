@@ -8,7 +8,7 @@ const EMPTY_SAVE: Dictionary = {
 	"campaign": "",
 	"campaign_version": LevelGraph.VERSION,
 	"player_name": "Player1",
-	"character_paths": {},
+	"character_paths": "", 
 	"player_health": 3,
 	"player_pickups": {},
 	"last_stage": 0,

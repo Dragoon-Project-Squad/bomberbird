@@ -124,7 +124,7 @@ texture = ExtResource("3_t2p63")
 [node name="sprite" type="Sprite2D" parent="."]
 position = Vector2(0.075, 6.236)
 texture = ExtResource("4_52d43")
-offset = Vector2(-0.075, -8.536)
+offset = Vector2(0, -9)
 hframes = 6
 vframes = 4
 

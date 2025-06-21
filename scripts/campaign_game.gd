@@ -63,9 +63,9 @@ func restart_current_stage():
 
 	activate_ui_and_music()
 	fade.play("fade_in")
+	stage_has_changed.emit.call_deferred()
 	await fade.animation_finished
 	get_tree().create_timer(0.5).timeout.connect(func (): stage_announce_label.hide())
-	stage_has_changed.emit()
 	stage_done = false
 
 @rpc("call_local")
@@ -122,13 +122,13 @@ func next_stage(id: int, player: HumanPlayer):
 	stage_announce_label.show()
 	activate_ui_and_music()
 	fade.play("fade_in")
+	stage_has_changed.emit.call_deferred()
 	await fade.animation_finished
 	get_tree().create_timer(0.5).timeout.connect(func (): stage_announce_label.hide())
 
 	curr_stage_idx = id
 	_exit_entered_barrier = false
 	_exit_spawned_barrier = false
-	stage_has_changed.emit()
 	stage_done = false 
 	load_next_stage_set(id)
 
@@ -192,8 +192,8 @@ func start():
 			gamestate.current_save.last_stage,
 		)
 
-
 		enemy_pool.initialize(max_enemy_dict)
+
 	stage_handler.load_stages(init_stage_set)
 	stage_handler.set_stage(stage_data_arr[gamestate.current_save.last_stage].selected_scene)
 	stage = stage_handler.get_stage()
@@ -210,8 +210,9 @@ func start():
 	)
 	curr_stage_idx = gamestate.current_save.last_stage
 	first_start = true
-	await fade.animation_finished
 	stage_has_changed.emit.call_deferred()
+
+	await fade.animation_finished
 	get_tree().create_timer(0.5).timeout.connect(func (): stage_announce_label.hide())
 
 func activate_ui_and_music():
@@ -250,7 +251,7 @@ func init_new_save():
 	gamestate.current_save.last_stage = 0
 	gamestate.current_save.current_score = 0
 	gamestate.current_save.has_finished = false
-	gamestate.current_save.fresh_save = true
+	gamestate.current_save.fresh_save = false
 
 func save_on_finish(new_score: int, player: HumanPlayer):
 	gamestate.current_save.last_stage = 0
@@ -273,7 +274,6 @@ func _check_ending_condition(alive_enemies: int):
 	if win_screen.visible: return
 	var alive_players: Array[Player] = globals.player_manager.get_alive_players()
 	if len(alive_players) == 0 && alive_enemies == -1:
-		#TODO: proper lost game screen (wdith restart option)
 		win_screen.lost_game(score)
 	if len(alive_players) > 0 && alive_enemies == 0:
 		stage.spawn_exits.call_deferred()

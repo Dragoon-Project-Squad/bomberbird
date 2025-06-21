@@ -85,7 +85,6 @@ func set_fuse_length(length: float = 1.0):
 @rpc("call_local")
 @warning_ignore("SHADOWED_VARIABLE")
 func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) -> int:
-	in_use = true
 	var force_collision: bool = false
 
 	match state:
@@ -98,6 +97,7 @@ func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) 
 			force_collision = false
 
 	set_state(STATIONARY)
+	in_use = true
 	
 	bomb_owner_is_dead = is_dead
 

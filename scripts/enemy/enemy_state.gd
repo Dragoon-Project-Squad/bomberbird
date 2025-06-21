@@ -24,7 +24,7 @@ func _on_new_stage():
 func _reset():
 	pass
 
-func _move(_delta):
+func _move(_delta, speed_boost: float = 1):
 	#Update position
 	if multiplayer.multiplayer_peer == null or self.enemy.is_multiplayer_authority():
 		# The server updates the position that will be notified to the clients.
@@ -35,5 +35,5 @@ func _move(_delta):
 	
 	# Also update the animation based on the last known player input state
 	if self.enemy.stunned: return
-	self.enemy.velocity = self.enemy.movement_vector.normalized() * self.enemy.movement_speed
+	self.enemy.velocity = self.enemy.movement_vector.normalized() * self.enemy.movement_speed * speed_boost
 	self.enemy.move_and_slide()

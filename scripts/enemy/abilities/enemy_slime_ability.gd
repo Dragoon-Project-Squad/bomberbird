@@ -10,9 +10,15 @@ func _enter() -> void:
 	self.enemy.anim_player.play("slime/hide")
 
 func _end_ability() -> void:
-	if globals.game.stage_done: return
+	if globals.game.stage_done || self.enemy.disabled: return
 	self.enemy.anim_player.play("slime/show")
 	await self.enemy.anim_player.animation_finished
 	self.enemy.invulnerable = false 
 	self.enemy.stop_moving = false
+	if globals.game.stage_done: return
+	if self.enemy.health == 0: return
 	state_changed.emit(self, "wander")
+
+func _reset() -> void:
+	self.enemy.invulnerable = true
+	self.enemy.stop_moving = true

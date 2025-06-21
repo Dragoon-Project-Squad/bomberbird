@@ -96,19 +96,22 @@ func do_stun():
 @rpc("call_local")
 func place(pos: Vector2, path: String):
 	if(!is_multiplayer_authority()): return 1
+	_exploded_barrier = false
 	stop_moving = true
 	init_clipping()
-	self.anim_player.play("enemy/RESET")
-	await get_tree().create_timer(0.2).timeout
 	hitbox.set_deferred("disabled", 0)
 	self.show()
 	self.sprite.show()
-	self.anim_player.play("enemy/standing")
+	self.anim_player.play("enemy/RESET")
+	await anim_player.animation_finished
+	self.current_anim = "standing"
+	self.movement_vector = Vector2.ZERO
 	self.position = pos
 	self.enemy_path = path
 	stop_moving = false
 
 func enable():
+	self.process_mode = Node.PROCESS_MODE_INHERIT
 	self.disabled = false
 	self.hurtbox.body_entered.connect(func (player: Player): player.exploded(gamestate.ENEMY_KILL_PLAYER_ID))
 	self.detection_handler.on()
@@ -129,26 +132,34 @@ func exploded(_by_whom: int):
 		set_process(true)
 		_exploded_barrier = false
 		return 1
-	if globals.game.stage_done || self.disabled: return
 	enemy_died.emit()
 	self.statemachine.stop_process = true
+
 	self.anim_player.play("enemy/death")
+	disable_hurtbox()
 	await self.anim_player.animation_finished
+	if globals.game.stage_done: 
+		self.hide()
+		return
 	self.statemachine.stop_process = false
 	self.disable()
 	globals.game.enemy_pool.return_obj(self)
 	_exploded_barrier = false
 	
+func disable_hurtbox():
+	self.hitbox.set_deferred("disabled", 1)
+	self.hurtbox.set_deferred("disabled", 1)
+	for connection in self.hurtbox.body_entered.get_connections():
+		self.hurtbox.body_entered.disconnect(connection.callable)
+
 @rpc("call_local")
 func disable():
-	if(!is_multiplayer_authority()): return 1
+	if(!is_multiplayer_authority()): return
 	self.set_collision_mask_value(3, true)
 	self.set_collision_mask_value(4, true)
 	self.disabled = true
 	if health_ability:
 		health_ability.reset()
-	set_process(false)
-	hitbox.set_deferred("disabled", 1)
 	self.hide()
 	health = _health
 	for connection in self.hurtbox.body_entered.get_connections():
@@ -161,6 +172,11 @@ func disable():
 	self.stop_moving = false
 	self.time_is_stopped = false
 	self.invulnerable = false
+	set_process(false)
+	self.process_mode = Node.PROCESS_MODE_DISABLED
+	self.anim_player.play("enemy/RESET")
+	self.current_anim = "standing"
+	self.movement_vector = Vector2.ZERO
 
 func stop_time(user: String, is_player: bool):
 	if user == self.name && !is_player: return
