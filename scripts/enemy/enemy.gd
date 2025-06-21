@@ -71,6 +71,7 @@ func _physics_process(_delta):
 	update_animation(movement_vector.normalized())
 
 func update_animation(direction: Vector2):
+	print(self.name, ", ", direction)
 	var new_anim: String = "standing"
 	if direction.length() == 0:
 		new_anim = "standing"
@@ -100,6 +101,7 @@ func place(pos: Vector2, path: String):
 	stop_moving = true
 	init_clipping()
 	self.anim_player.play("enemy/RESET")
+	self.current_anim = "standing"
 	await get_tree().create_timer(0.2).timeout
 	hitbox.set_deferred("disabled", 0)
 	self.show()
@@ -110,6 +112,7 @@ func place(pos: Vector2, path: String):
 	stop_moving = false
 
 func enable():
+	self.process_mode = Node.PROCESS_MODE_INHERIT
 	self.disabled = false
 	self.hurtbox.body_entered.connect(func (player: Player): player.exploded(gamestate.ENEMY_KILL_PLAYER_ID))
 	self.detection_handler.on()
@@ -172,6 +175,7 @@ func disable():
 	self.stop_moving = false
 	self.time_is_stopped = false
 	self.invulnerable = false
+	self.process_mode = Node.PROCESS_MODE_DISABLED
 
 func stop_time(user: String, is_player: bool):
 	if user == self.name && !is_player: return
