@@ -73,3 +73,5 @@ func crush():
 		disable.rpc()
 	globals.game.breakable_pool.return_obj(self)
 	
+func set_selected_sprite(new_path : String):
+	$Sprite.texture = load(new_path)
