@@ -1,6 +1,6 @@
 extends Control
 
-const DEFAULT_GRAPH_NAME: String = "test_campaign_1"
+const DEFAULT_GRAPH_NAME: String = "campaign_v1"
 const LEVEL_GRAPH_SCENE := preload("res://scenes/level_graph/level_graph.tscn")
 
 @onready var selector: OptionButton = get_node("HBoxContainer/CampaignSelector")
