@@ -5,7 +5,7 @@ class_name PickupPool extends ObjectPool
 @export var explosion_boost: int = 0
 @export var speed_boost: int = 0
 @export var speed_down: int = 0
-@export var hearth: int = 0
+#@export var hearth: int = 0
 @export var max_explosion: int = 0
 @export var punch_ability: int = 0
 @export var throw_ability: int = 0
@@ -26,7 +26,7 @@ class_name PickupPool extends ObjectPool
 	globals.pickups.FIRE_UP: explosion_boost,
 	globals.pickups.SPEED_UP: speed_boost,
 	globals.pickups.SPEED_DOWN: speed_down,
-	globals.pickups.HP_UP: hearth,
+	#globals.pickups.HP_UP: hearth,
 	globals.pickups.FULL_FIRE: max_explosion,
 	globals.pickups.BOMB_PUNCH: punch_ability,
 	globals.pickups.POWER_GLOVE: throw_ability,
