@@ -7,6 +7,9 @@ const DEFAULT_PORT := 10567
 var is_game_online := false 
 #TODO: Create VSCOM option, then set this to false and enable ONLY if Online
 
+# Steam
+const STEAM_APP_ID = 480
+
 # Multiplayer vars
 const MAX_PEERS := 4
 var peer = null
@@ -148,7 +151,6 @@ func _connected_ok():
 func _server_disconnected():
 	# Gets called by the server if all players disconnect, this is to prevent that
 	game_error.emit("Server disconnected")
-
 
 # Callback from SceneTree, only for clients (not server).
 func _connected_fail():
@@ -495,3 +497,8 @@ func _ready():
 	multiplayer.connected_to_server.connect(_connected_ok)
 	multiplayer.connection_failed.connect(_connected_fail)
 	multiplayer.server_disconnected.connect(_server_disconnected)
+	
+	Steam.steamInit(STEAM_APP_ID, true)
+	
+	var player_id : int = Steam.getSteamID()
+	print("Initialized Steam with id %s (%s)" % [player_id, Steam.getFriendPersonaName(player_id)])
