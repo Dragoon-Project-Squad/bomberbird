@@ -9,17 +9,19 @@ var is_game_online := false
 
 # Steam
 const STEAM_APP_ID = 480
+const LobbyClass = preload("uid://jhdlqsokif5o")
 
 # Multiplayer vars
 const MAX_PEERS := 4
-var peer = null
+var peer : MultiplayerPeer = null
 
 #Environmental damage vars
 const ENVIRONMENTAL_KILL_PLAYER_ID := -69
 const ENEMY_KILL_PLAYER_ID := -42
 
 # Name for my player.
-var player_name = globals.config.get_player_name()
+var player_name : String = globals.config.get_player_name()
+var player_id : int = 0
 # Names for remote players in id:name format.
 
 # Name for player who hosts game
@@ -66,6 +68,9 @@ signal connection_succeeded()
 signal game_ended()
 signal game_error(what)
 signal secret_status_sent
+
+signal lobby_created
+signal lobby_joined
 
 # Preloaded Scenes
 var campaign_game_scene: String = "res://scenes/campaign_game.tscn"
@@ -120,6 +125,10 @@ func sync_playerdata_across_players(newplayer_data_master_dict):
 func set_secret_status(host_secret_status):
 	globals.secrets_enabled = host_secret_status
 	secret_status_sent.emit()
+
+## Steam-specific. Used whenever trying to join a lobby.
+func _join_requested(lobby_id: int, steam_id: int) -> void:
+	await join_game(lobby_id)
 
 # Callback from SceneTree.
 func _player_disconnected(id):
@@ -260,22 +269,28 @@ func load_world(game_scene):
 	game.start()
 	get_tree().set_pause(false) 
 
-func host_game(new_player_name):
-	player_name = new_player_name
-	host_player_name = new_player_name
-	peer = ENetMultiplayerPeer.new()
-	peer.create_server(DEFAULT_PORT, MAX_PEERS)
+func host_game(lobby_type : Steam.LobbyType):
+	peer = SteamMultiplayerPeer.new()
+	peer.create_lobby(lobby_type, MAX_PEERS)
+	
+	await peer.lobby_created
 	multiplayer.set_multiplayer_peer(peer)
 	player_data_master_dict[1].spritepaths = character_texture_paths.normalgoon_paths
 	gamestate.establish_player_counts()
+	
+	lobby_created.emit()
 
-
-func join_game(ip, new_player_name):
-	player_name = new_player_name
-	peer = ENetMultiplayerPeer.new()
-	peer.create_client(ip, DEFAULT_PORT)
+func join_game(lobby_id : int):
+	peer = SteamMultiplayerPeer.new()
+	peer.connect_lobby(lobby_id)
+	
+	await peer.lobby_joined
+	
 	multiplayer.set_multiplayer_peer(peer)
-
+	lobby_joined.emit()
+	
+	if get_tree().current_scene != LobbyClass:
+		get_tree().change_scene_to_file("uid://jhdlqsokif5o") # UID leads to res://scenes/lobby/lobby.tscn
 
 func get_player_name_list(): #id:playername
 	var playernames = {}
@@ -351,6 +366,7 @@ func register_ai_player():
 				break
 	player_data_master_dict[id] = {
 		"playername" = "Nameless Dragoon",
+		"playerid" = 0,
 		"slotid" = 0,
 		"spritepaths" = character_texture_paths.normalgoon_paths,
 		"is_ai" = true,
@@ -451,7 +467,8 @@ func resetvars():
 	human_player_count = 1
 	player_data_master_dict = {
 		1: {
-			"playername": globals.config.get_player_name(),
+			"playername": player_name,
+			"playerid": player_id,
 			"slotid": 1, 
 			"spritepaths": character_texture_paths.bhdoki_paths, 
 			"is_ai": false, 
@@ -498,7 +515,13 @@ func _ready():
 	multiplayer.connection_failed.connect(_connected_fail)
 	multiplayer.server_disconnected.connect(_server_disconnected)
 	
+	# Steam-specific initialization.
+	Steam.join_requested.connect(_join_requested)
+	
 	Steam.steamInit(STEAM_APP_ID, true)
 	
-	var player_id : int = Steam.getSteamID()
-	print("Initialized Steam with id %s (%s)" % [player_id, Steam.getFriendPersonaName(player_id)])
+	player_id = Steam.getSteamID()
+	player_name = Steam.getFriendPersonaName(player_id)
+	print("Initialized Steam with id %s (%s)" % [player_id, player_name])
+	
+	player_data_master_dict[1].playername = player_name

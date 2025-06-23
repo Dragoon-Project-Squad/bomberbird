@@ -1,6 +1,6 @@
 extends Control
 
-@onready var connect_screen: Panel = $Connect
+@onready var connect_screen: PanelContainer = $Connect
 @onready var character_select_screen: Control = $CharacterSelect
 @onready var battle_settings_screen: Control = $BattleSettings
 @onready var stage_select_screen: Control = $StageSelect

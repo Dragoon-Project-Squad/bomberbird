@@ -4,97 +4,78 @@
 [ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="2_d10gd"]
 [ext_resource type="Script" uid="uid://bbdvm4d1whhpp" path="res://scenes/lobby/connection_screen.gd" id="2_w1kis"]
 
-[node name="Connect" type="Panel"]
+[node name="Connect" type="PanelContainer" node_paths=PackedStringArray("lobby_type_dropdown")]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -138.0
-offset_top = -83.0
-offset_right = 139.0
-offset_bottom = 96.0
+offset_left = -175.0
+offset_top = -75.0
+offset_right = 175.0
+offset_bottom = 75.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
 theme = ExtResource("1_bvi5r")
 script = ExtResource("2_w1kis")
+lobby_type_dropdown = NodePath("VBoxContainer/HostContainer/HBoxContainer/OptionButton")
 
-[node name="NameLabel" type="Label" parent="."]
-layout_mode = 0
-offset_left = 14.0
-offset_top = 11.0
-offset_right = 56.0
-offset_bottom = 25.0
-size_flags_horizontal = 2
-size_flags_vertical = 0
-text = "Name:"
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
 
-[node name="Name" type="LineEdit" parent="."]
-layout_mode = 0
-offset_left = 17.0
-offset_top = 38.0
-offset_right = 173.0
-offset_bottom = 69.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-text = "Dragoon"
+[node name="HostContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
 
-[node name="IPLabel" type="Label" parent="."]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 74.0
-offset_right = 57.0
-offset_bottom = 97.0
-size_flags_horizontal = 2
-size_flags_vertical = 0
-theme_override_font_sizes/font_size = 16
-text = "IP:"
+[node name="Label" type="Label" parent="VBoxContainer/HostContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Creates a server"
 
-[node name="IPAddress" type="LineEdit" parent="."]
-layout_mode = 0
-offset_left = 17.0
-offset_top = 102.0
-offset_right = 173.0
-offset_bottom = 133.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-text = "127.0.0.1"
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HostContainer"]
+layout_mode = 2
 
-[node name="Host" type="Button" parent="." groups=["ui_button"]]
-layout_mode = 0
-offset_left = 181.0
-offset_top = 38.0
-offset_right = 251.0
-offset_bottom = 76.0
-size_flags_horizontal = 2
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/HostContainer/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+selected = 0
+item_count = 4
+popup/item_0/text = "Private"
+popup/item_0/id = 0
+popup/item_1/text = "Friends Only"
+popup/item_1/id = 1
+popup/item_2/text = "Public"
+popup/item_2/id = 2
+popup/item_3/text = "Invisible"
+popup/item_3/id = 3
+
+[node name="Host" type="Button" parent="VBoxContainer/HostContainer/HBoxContainer" groups=["ui_button"]]
+layout_mode = 2
+size_flags_horizontal = 6
 size_flags_vertical = 2
 text = "Host"
 script = ExtResource("2_d10gd")
 metadata/_custom_type_script = "uid://boq3i75yls51h"
 
-[node name="Join" type="Button" parent="." groups=["ui_button"]]
-layout_mode = 0
-offset_left = 181.0
-offset_top = 102.0
-offset_right = 246.0
-offset_bottom = 140.0
-size_flags_horizontal = 2
+[node name="JoinContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/JoinContainer"]
+layout_mode = 2
+text = "Opens the friend list to join a friend hosting!"
+
+[node name="Join" type="Button" parent="VBoxContainer/JoinContainer" groups=["ui_button"]]
+layout_mode = 2
+size_flags_horizontal = 6
 size_flags_vertical = 2
 text = "Join"
 script = ExtResource("2_d10gd")
 metadata/_custom_type_script = "uid://boq3i75yls51h"
 
-[node name="ErrorLabel" type="Label" parent="."]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 138.0
-offset_right = 257.0
-offset_bottom = 161.0
-size_flags_horizontal = 2
-size_flags_vertical = 0
-theme_override_colors/font_color = Color(0.820312, 0.291595, 0.291595, 1)
-
-[connection signal="pressed" from="Host" to="." method="_on_host_pressed"]
-[connection signal="pressed" from="Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="VBoxContainer/HostContainer/HBoxContainer/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="VBoxContainer/JoinContainer/Join" to="." method="_on_join_pressed"]
