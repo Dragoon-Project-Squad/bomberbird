@@ -34,6 +34,7 @@ const INVULNERABILITY_POWERUP_TIME: float = 16.0
 
 var current_anim: String = ""
 var is_dead: bool = false
+var _died_barrier: bool = false
 var stop_movement: bool = false
 var time_is_stopped: bool = false
 var player_type: String
@@ -155,6 +156,7 @@ func place(pos: Vector2):
 	self.show()
 	self.animation_player.play("RESET")
 	do_invulnerabilty()
+	_died_barrier = false
 
 ## executes the punch_bomb ability if the player has the appropiate pickup
 func punch_bomb(direction: Vector2i):
@@ -437,6 +439,10 @@ func set_player_name(value):
 
 func get_player_name() -> String:
 	return $label.get_text()
+	
+@rpc("call_local")
+func increase_live():
+	lives += 1
 
 @rpc("call_local")
 func increase_bomb_level():
@@ -497,8 +503,9 @@ func do_hurt() -> void:
 @rpc("call_local")
 ## kills this player and awards whoever killed it
 func exploded(_by_who):
-	if stunned || invulnerable || stop_movement:
-		return
+	if stunned || invulnerable || stop_movement: return
+	if _died_barrier: return
+	_died_barrier = true
 	lives -= 1
 	hurt_sfx_player.post_event()
 	if lives <= 0:
@@ -512,6 +519,8 @@ func exploded(_by_who):
 
 @rpc("call_local")
 func crush():
+	if _died_barrier: return
+	_died_barrier = true
 	do_crushed_state()
 
 func set_selected_character(value_path : String):

@@ -10,14 +10,15 @@ var breakable_spawn_chance = base_breakable_chance
 	
 func get_final_breakable_rate() -> float:
 	if SettingsContainer.get_breakable_spawn_rule() == SettingsContainer.breakable_spawn_rule_setting_states.STAGE: # Custom Mode, use the Global Percent
-		return base_breakable_chance + (gamestate.current_level - 1) * level_chance_multiplier # Use the value decided by the STAGE
+		return base_breakable_chance # Use the value decided by the STAGE
 	if SettingsContainer.get_breakable_spawn_rule() == SettingsContainer.breakable_spawn_rule_setting_states.CUSTOM: # Custom Mode, use the Global Percent
-		return SettingsContainer.get_breakable_chance()
+		return SettingsContainer.get_breakable_chance()/100
 	return base_breakable_chance # Failsafe
 	
 func _generate_breakables_with_weights(_breakable_table: BreakableTable = null):
 	if not is_multiplayer_authority():
 		return
+	var breakables_spawned := 0
 	for x in range(0, world_data.world_width):	
 		for y in range(0, world_data.world_height):
 			breakable_spawn_chance = get_final_breakable_rate()
@@ -31,12 +32,13 @@ func _generate_breakables_with_weights(_breakable_table: BreakableTable = null):
 
 			if _rng.randf() < breakable_spawn_chance:
 				_spawn_breakable(current_cell, globals.pickups.RANDOM)
+				++breakables_spawned
 				
 func _generate_breakables_with_amounts(breakable_table: BreakableTable, pickup_table: PickupTable):
 	if not is_multiplayer_authority(): return
 	var rand_breakable_spawn_dict: Dictionary
 	var rand_breakable_arr: Array[Vector2i]
-
+	var breakables_spawned := 0
 	for x in range(0, world_data.world_width):	
 		for y in range(0, world_data.world_height):
 			breakable_spawn_chance = get_final_breakable_rate()
@@ -50,7 +52,6 @@ func _generate_breakables_with_amounts(breakable_table: BreakableTable, pickup_t
 			
 			if _rng.randf() < breakable_spawn_chance:
 				rand_breakable_arr.append(current_cell)
-	
 	rand_breakable_arr.shuffle()
 	
 	var br_counter: int = 0
@@ -64,8 +65,10 @@ func _generate_breakables_with_amounts(breakable_table: BreakableTable, pickup_t
 	for breakable_entry in rand_breakable_arr:
 		if rand_breakable_spawn_dict.has(breakable_entry):
 			_spawn_breakable(breakable_entry, rand_breakable_spawn_dict[breakable_entry])
+			++breakables_spawned
 		else:
 			_spawn_breakable(breakable_entry, globals.pickups.NONE)
+			++breakables_spawned
 
 ## returns true iff [param pos] is in a designated area around [param spawn] of size [param size] [br]
 ## [param size] Size of the area [br]

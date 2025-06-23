@@ -113,6 +113,7 @@ dropped_pickup = "extra_bomb"
 score_points = 2000
 movement_speed = 112.0
 detection_handler = NodePath("DetectionHandler")
+health = 2
 
 [node name="shadowsprite" type="Sprite2D" parent="."]
 position = Vector2(0, 8)

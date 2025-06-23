@@ -35,6 +35,7 @@ func _ready():
 	self.visible = false
 
 func disable():
+	self.position = Vector2.ZERO
 	self.explosion_width = 2
 	set_collision_layer_value(4, true)
 	set_collision_layer_value(6, true)
@@ -64,6 +65,7 @@ func set_bomb_type(bomb_type: int):
 			return
 
 func place(bombPos: Vector2, fuse_time_passed: float = 0, force_collision: bool = false):
+	assert(world_data.is_out_of_bounds(bombPos) == world_data.bounds.IN, "bomb placed outside of bounce")
 	is_exploded = false 
 	bomb_place_audio.post(self)
 	bomb_root.position = bombPos

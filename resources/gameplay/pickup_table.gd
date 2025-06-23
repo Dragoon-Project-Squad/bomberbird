@@ -10,7 +10,7 @@ const PICKUP_SPAWN_BASE_CHANCE: float = 1.0
 @export var explosion_boost: int = 500
 @export var speed_boost: int = 500
 @export var speed_down: int = 300
-#@export var heart: int = 0
+@export var heart: int = 50
 @export var max_explosion: int = 100
 @export var punch_ability: int = 50
 @export var throw_ability: int = 50
@@ -45,7 +45,7 @@ func update():
 		globals.pickups.FIRE_UP: explosion_boost,
 		globals.pickups.SPEED_UP: speed_boost,
 		globals.pickups.SPEED_DOWN: speed_down,
-		#globals.pickups.HP_UP: health,
+		globals.pickups.HP_UP: heart,
 		globals.pickups.FULL_FIRE: max_explosion,
 		globals.pickups.BOMB_PUNCH: punch_ability,
 		globals.pickups.POWER_GLOVE: throw_ability,
@@ -72,8 +72,8 @@ func reverse_update():
 		speed_boost = pickup_weights[globals.pickups.SPEED_UP]
 	if pickup_weights.has(globals.pickups.SPEED_DOWN):
 		speed_down = pickup_weights[globals.pickups.SPEED_DOWN]
-	#if pickup_weights.has(globals.pickups.HP_UP):
-		#hearth = pickup_weights[globals.pickups.HP_UP]
+	if pickup_weights.has(globals.pickups.HP_UP):
+		heart = pickup_weights[globals.pickups.HP_UP]
 	if pickup_weights.has(globals.pickups.FULL_FIRE):
 		max_explosion = pickup_weights[globals.pickups.FULL_FIRE]
 	if pickup_weights.has(globals.pickups.BOMB_PUNCH):
