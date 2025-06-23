@@ -1,0 +1,8 @@
+[gd_resource type="WwiseEvent" format=3 uid="uid://ce2xmbtxm5wb8"]
+
+[resource]
+is_in_user_defined_sound_bank = true
+name = "snd_bomb_explode"
+id = 1021163675
+guid = "{7EA4F10D-37A0-4895-A517-0D0AD765DCC8}"
+dummy = true

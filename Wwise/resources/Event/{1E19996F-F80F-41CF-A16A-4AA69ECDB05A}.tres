@@ -1,0 +1,8 @@
+[gd_resource type="WwiseEvent" format=3 uid="uid://cf8gacuqqx41t"]
+
+[resource]
+is_in_user_defined_sound_bank = true
+name = "play_music_dragoon_cafe"
+id = 2372074968
+guid = "{1E19996F-F80F-41CF-A16A-4AA69ECDB05A}"
+dummy = true

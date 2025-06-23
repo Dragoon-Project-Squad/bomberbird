@@ -1,0 +1,8 @@
+[gd_resource type="WwiseEvent" format=3 uid="uid://c0wu87vpjc54c"]
+
+[resource]
+is_in_user_defined_sound_bank = true
+name = "snd_debris"
+id = 3772742044
+guid = "{4F637E16-8C49-470D-BA0E-7D699FDA0F1E}"
+dummy = true

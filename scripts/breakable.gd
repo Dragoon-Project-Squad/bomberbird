@@ -1,10 +1,6 @@
 extends CharacterBody2D
 class_name Breakable
 
-
-@onready var breakable_sfx_player := $BreakableSound
-@onready var crushed_sfx_player := $CrushedSound
-
 signal breakable_destroyed
 
 var in_use: bool = false
@@ -38,7 +34,11 @@ func place(pos: Vector2, pickup: int):
 func exploded(by_who):
 	if _exploded_barrier: return #prevents a racecondition of the game attempting to spawn a pickup twice
 	_exploded_barrier = true
-	breakable_sfx_player.play()
+	
+	# I don't like the breakable sound. Will add a new one if I'm told to do so.
+	# -Monsto
+	#breakable_sfx_player.play()
+	
 	$AnimationPlayer.play("explode")
 	await $AnimationPlayer.animation_finished #Wait for the animation to finish
 	if globals.game.stage_done: return # if in the meantime the stage has finished the stage will have already reset this breakable hence stop this now
@@ -61,7 +61,10 @@ func exploded(by_who):
 
 @rpc("call_local")
 func crush():
-	crushed_sfx_player.play()
+	
+	# may or may not re add this sound
+	#crushed_sfx_player.play()
+	
 	$AnimationPlayer.play("crush")
 	if is_multiplayer_authority():
 		disable_collison_and_hide.rpc()

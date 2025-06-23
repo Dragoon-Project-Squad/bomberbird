@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{47D25B39-D343-48F1-B25A-91599FB29CE7}" SchemaVersion="123">
+	<SoundcasterSessions>
+		<WorkUnit Name="Default Work Unit" ID="{47D25B39-D343-48F1-B25A-91599FB29CE7}" PersistMode="Standalone">
+			<ChildrenList>
+				<SoundcasterSession Name="New Soundcaster Session" ID="{BD84563B-CF6F-4C39-A1B7-4966AE054BFD}">
+					<ModuleList>
+						<Module>
+							<ObjectRef Name="play_music_main_menu" ID="{9DD6E647-6A86-4609-B83E-6E4D47162C95}" WorkUnitID="{8AD54DB8-D7FD-4BC5-8670-3A94D6020772}"/>
+							<Position X="0" Y="0"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="play_music_dragoon_cafe" ID="{1E19996F-F80F-41CF-A16A-4AA69ECDB05A}" WorkUnitID="{8AD54DB8-D7FD-4BC5-8670-3A94D6020772}"/>
+							<Position X="0" Y="1"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="snd_click" ID="{8F2C20DE-883A-4CCF-8802-3C533F14AEEB}" WorkUnitID="{8AD54DB8-D7FD-4BC5-8670-3A94D6020772}"/>
+							<Position X="0" Y="2"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="snd_error" ID="{7CDF280F-85BA-44B7-AF42-B2759FD386B0}" WorkUnitID="{8AD54DB8-D7FD-4BC5-8670-3A94D6020772}"/>
+							<Position X="0" Y="3"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="snd_secret" ID="{DD558461-8AB2-4BA0-9A7F-A086882D8FA9}" WorkUnitID="{8AD54DB8-D7FD-4BC5-8670-3A94D6020772}"/>
+							<Position X="0" Y="4"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="play_music_battle" ID="{3DE019D0-8CD6-4410-B024-C3F2247BBDD9}" WorkUnitID="{8AD54DB8-D7FD-4BC5-8670-3A94D6020772}"/>
+							<Position X="1" Y="1"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="snd_throw_bomb" ID="{5F3D7381-E016-410D-A4B8-14ECA8071DF0}" WorkUnitID="{8AD54DB8-D7FD-4BC5-8670-3A94D6020772}"/>
+							<Position X="2" Y="0"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="snd_thrown_bomb_land" ID="{31EC80EC-AFE3-4820-9333-D40912E08EB2}" WorkUnitID="{8AD54DB8-D7FD-4BC5-8670-3A94D6020772}"/>
+							<Position X="2" Y="1"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="snd_debris" ID="{4F637E16-8C49-470D-BA0E-7D699FDA0F1E}" WorkUnitID="{8AD54DB8-D7FD-4BC5-8670-3A94D6020772}"/>
+							<Position X="2" Y="2"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="snd_bomb_explode" ID="{7EA4F10D-37A0-4895-A517-0D0AD765DCC8}" WorkUnitID="{8AD54DB8-D7FD-4BC5-8670-3A94D6020772}"/>
+							<Position X="3" Y="0"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="snd_place_bomb" ID="{13841212-A10A-4076-B4A6-0A27CC773EE7}" WorkUnitID="{8AD54DB8-D7FD-4BC5-8670-3A94D6020772}"/>
+							<Position X="3" Y="1"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="snd_player_hurt" ID="{15332791-C615-4FDC-9DE2-3505AD1A2232}" WorkUnitID="{8AD54DB8-D7FD-4BC5-8670-3A94D6020772}"/>
+							<Position X="3" Y="2"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="snd_pickup_powerup" ID="{0333EAEF-F64E-4F40-BFEF-2089F8413F47}" WorkUnitID="{8AD54DB8-D7FD-4BC5-8670-3A94D6020772}"/>
+							<Position X="3" Y="3"/>
+						</Module>
+					</ModuleList>
+					<RTPCValueList ShowAll="true">
+						<RTPCValue>
+							<GameParameterRef Name="Master" ID="{2DF48A93-DB65-4CF4-94E4-7694499A7DCA}"/>
+							<Value>2.25930896052669E-312</Value>
+						</RTPCValue>
+						<RTPCValue>
+							<GameParameterRef Name="Music" ID="{B6DFCC52-DC74-4D3E-B02A-6522E296E83D}"/>
+							<Value>1</Value>
+						</RTPCValue>
+						<RTPCValue>
+							<GameParameterRef Name="SFX" ID="{53D73489-9B3B-4EE1-AA1F-08B0448C5F63}"/>
+							<Value>1</Value>
+						</RTPCValue>
+					</RTPCValueList>
+					<CurrentStateList ShowAll="true">
+						<CurrentStateRef Name="rush" ID="{9F886BF6-0CCB-4BE4-AAE9-E2E996283B7D}"/>
+					</CurrentStateList>
+					<CurrentSwitchList ShowAll="true"/>
+				</SoundcasterSession>
+			</ChildrenList>
+		</WorkUnit>
+	</SoundcasterSessions>
+</WwiseDocument>

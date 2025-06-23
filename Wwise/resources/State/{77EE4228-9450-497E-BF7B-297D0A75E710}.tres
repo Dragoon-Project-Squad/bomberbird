@@ -1,0 +1,11 @@
+[gd_resource type="WwiseState" load_steps=2 format=3 uid="uid://cwo6kb5uqj8yg"]
+
+[ext_resource type="WwiseStateGroup" uid="uid://dm11jahuttbhm" path="res://Wwise/resources/State Group/{000714A4-2E78-4263-9682-6C0CB3867AC6}.tres" id="1_p3tjp"]
+
+[resource]
+group_ref = ExtResource("1_p3tjp")
+group_id = 896293863
+name = "dad_drive"
+id = 3284605273
+guid = "{77EE4228-9450-497E-BF7B-297D0A75E710}"
+dummy = true

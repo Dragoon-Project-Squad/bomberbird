@@ -1,0 +1,43 @@
+State Group	ID	Name			Wwise Object Path	Notes
+	896293863	battle_track			\Default Work Unit\battle_track	
+
+State	ID	Name	State Group			Notes
+	608898761	dungeon	battle_track			
+	748895195	None	battle_track			
+	2275039111	rush	battle_track			
+	3048058352	random	battle_track			
+	3284605273	dad_drive	battle_track			
+	3432696479	minki	battle_track			
+	3671065912	bounty_hunter_jam	battle_track			
+
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	393239870	SFX			\Default Work Unit\vol\SFX	
+	504532776	Brick			\Factory Acoustic Textures\Textures\Brick	
+	513139656	Mountain			\Factory Acoustic Textures\Textures\Mountain	
+	841620460	Concrete			\Factory Acoustic Textures\Textures\Concrete	
+	1755085759	Wood_Deep			\Factory Acoustic Textures\Textures\Wood_Deep	
+	1873957695	Anechoic			\Factory Acoustic Textures\Textures\Anechoic	
+	1970351858	Fabric			\Factory Acoustic Textures\Textures\Fabric	
+	2058049674	Wood			\Factory Acoustic Textures\Textures\Wood	
+	2412606308	Carpet			\Factory Acoustic Textures\Textures\Carpet	
+	2637588553	Tile			\Factory Acoustic Textures\Textures\Tile	
+	2928161104	Curtains			\Factory Acoustic Textures\Textures\Curtains	
+	3195498748	Cork_Tiles			\Factory Acoustic Textures\Textures\Cork_Tiles	
+	3670307564	Drywall			\Factory Acoustic Textures\Textures\Drywall	
+	3991942870	Music			\Default Work Unit\vol\Music	
+	4056684167	Master			\Default Work Unit\vol\Master	
+	4168643977	Acoustic_Banner			\Factory Acoustic Textures\Textures\Acoustic_Banner	
+	4262522749	Wood_Bright			\Factory Acoustic Textures\Textures\Wood_Bright	
+
+Audio Bus	ID	Name			Wwise Object Path	Notes
+	393239870	SFX			\Default Work Unit\Master Audio Bus\SFX	
+	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
+	3991942870	Music			\Default Work Unit\Master Audio Bus\Music	
+
+Effect plug-ins	ID	Name	Type				Notes
+	418997550	Peak Limiter (Custom)	Wwise Peak Limiter			
+
+Audio Devices	ID	Name	Type				Notes
+	2317455096	No_Output	No Output			
+	3859886410	System	System			
+

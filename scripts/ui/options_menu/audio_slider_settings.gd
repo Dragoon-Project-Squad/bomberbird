@@ -31,14 +31,20 @@ func set_audio_num_label_text() -> void:
 	audio_number_label.text = str(h_slider.value * 100)
 
 func get_bus_name_by_index() -> void:
-	bus_index = AudioServer.get_bus_index(bus_name)
+	#bus_index = AudioServer.get_bus_index(bus_name)
+	match bus_name:
+		"Master": bus_index = 0
+		"Music": bus_index = 1
+		"SFX": bus_index = 2
 
 func set_slider_value() -> void:
 	h_slider.value = db_to_linear(AudioServer.get_bus_volume_db(bus_index))
+	#h_slider.value = Wwise.get_rtpc_value(bus_name, null)
 	set_audio_num_label_text()
 
 func _on_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(bus_index, linear_to_db(value))
+	Wwise.set_rtpc_value(bus_name, value, null)
 	set_audio_num_label_text()
 	
 	match bus_index:

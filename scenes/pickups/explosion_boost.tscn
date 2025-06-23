@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://cim10emfhkf7b"]
+[gd_scene load_steps=8 format=3 uid="uid://cim10emfhkf7b"]
 
 [ext_resource type="Script" uid="uid://b5cnvujl35rcc" path="res://scripts/pickups/explosion_boost.gd" id="1_mcgtw"]
 [ext_resource type="Texture2D" uid="uid://quoe0b8jbau3" path="res://assets/pickups/powerupsprites.png" id="2_aj30u"]
-[ext_resource type="AudioStream" uid="uid://8u70xa4tmhc8" path="res://sound/fx/powerup.wav" id="3_mrjxs"]
 [ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_esqs1"]
 [ext_resource type="AnimationLibrary" uid="uid://deqi1mrq6p7pt" path="res://animations/pickup.res" id="5_4h83f"]
 
@@ -44,10 +43,6 @@ position = Vector2(-1.07288e-06, 3.57628e-07)
 scale = Vector2(0.333333, 0.351648)
 texture = ExtResource("4_esqs1")
 hframes = 9
-
-[node name="PickupSoundPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_mrjxs")
-bus = &"SFX"
 
 [node name="anim" type="AnimationPlayer" parent="."]
 libraries = {

@@ -1,0 +1,8 @@
+[gd_resource type="WwiseEvent" format=3 uid="uid://dwwb8yu7cd33h"]
+
+[resource]
+is_in_user_defined_sound_bank = true
+name = "snd_place_bomb"
+id = 2626686445
+guid = "{13841212-A10A-4076-B4A6-0A27CC773EE7}"
+dummy = true

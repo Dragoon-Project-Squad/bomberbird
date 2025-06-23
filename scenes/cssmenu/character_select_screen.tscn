@@ -1,7 +1,9 @@
-[gd_scene load_steps=21 format=3 uid="uid://fsg6gwfw5fbi"]
+[gd_scene load_steps=22 format=3 uid="uid://fsg6gwfw5fbi"]
 
 [ext_resource type="Script" uid="uid://c38ml0k45w55u" path="res://scripts/ui/cssmenu/character_select_screen.gd" id="1_ehcif"]
+[ext_resource type="WwiseEvent" uid="uid://bak0yi1280a42" path="res://Wwise/resources/Event/{7CDF280F-85BA-44B7-AF42-B2759FD386B0}.tres" id="2_e6qlr"]
 [ext_resource type="Texture2D" uid="uid://d3cn5or0vkn23" path="res://assets/css/chonkgoon.png" id="2_ehcif"]
+[ext_resource type="WwiseEvent" uid="uid://b15pfcpwpul2n" path="res://Wwise/resources/Event/{8F2C20DE-883A-4CCF-8802-3C533F14AEEB}.tres" id="3_mfnxv"]
 [ext_resource type="PackedScene" uid="uid://mpfu86h4h7vr" path="res://scenes/cssmenu/css_player_view.tscn" id="6_e6qlr"]
 [ext_resource type="Theme" uid="uid://bgj72vffexht" path="res://assets/styles/panel_theme.tres" id="7_mfnxv"]
 [ext_resource type="Texture2D" uid="uid://x3kkdsn6q0cj" path="res://assets/css/dad.png" id="8_ehcif"]
@@ -15,7 +17,6 @@
 [ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="12_7kvbo"]
 [ext_resource type="Texture2D" uid="uid://bcm64uj7bwp87" path="res://assets/css/crowki.png" id="12_kkj3o"]
 [ext_resource type="Texture2D" uid="uid://cefndan5pti47" path="res://assets/css/wisp.png" id="14_nuw7a"]
-[ext_resource type="AudioStream" uid="uid://cb75c45y5yhvk" path="res://sound/fx/click.wav" id="15_cv4tj"]
 [ext_resource type="Texture2D" uid="uid://bngq754xh3q18" path="res://assets/css/maidmint.png" id="15_kkj3o"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q6qq2"]
@@ -31,6 +32,8 @@ offset_left = 2.0
 offset_right = 1154.0
 offset_bottom = 648.0
 script = ExtResource("1_ehcif")
+error_sound = ExtResource("2_e6qlr")
+select_sound = ExtResource("3_mfnxv")
 
 [node name="Players" type="BoxContainer" parent="."]
 layout_mode = 1
@@ -198,10 +201,6 @@ size_flags_horizontal = 6
 size_flags_vertical = 6
 texture_normal = ExtResource("15_kkj3o")
 stretch_mode = 0
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("15_cv4tj")
-bus = &"SFX"
 
 [node name="Start" type="Button" parent="." groups=["ui_button"]]
 layout_mode = 1

@@ -1,0 +1,8 @@
+[gd_resource type="WwiseEvent" format=3 uid="uid://crkeu81oe3g7s"]
+
+[resource]
+is_in_user_defined_sound_bank = true
+name = "snd_secret"
+id = 2418319985
+guid = "{DD558461-8AB2-4BA0-9A7F-A086882D8FA9}"
+dummy = true

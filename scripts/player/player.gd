@@ -500,7 +500,7 @@ func exploded(_by_who):
 	if stunned || invulnerable || stop_movement:
 		return
 	lives -= 1
-	hurt_sfx_player.play()
+	hurt_sfx_player.post_event()
 	if lives <= 0:
 		enter_death_state()
 		enter_misobon()

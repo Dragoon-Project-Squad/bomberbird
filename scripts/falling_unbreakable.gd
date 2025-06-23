@@ -26,7 +26,7 @@ func crush_colliding_obj(objs: Array):
 			if floor_tile_layer.local_to_map(obj.position) == floor_tile_layer.local_to_map(self.position):
 				obj.exploded.rpc(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID)
 	if self.empty_tile:
-		unbreakable_sfx_player.play()
+		unbreakable_sfx_player.post_event()
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	crush_colliding_obj($HitDetection.get_overlapping_bodies())

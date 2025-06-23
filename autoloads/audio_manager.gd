@@ -10,7 +10,16 @@ enum Type {
 }
 
 func on_button_pressed()->void:
-	AudioManager.play(0, self, AudioStreamWAV.load_from_file("res://sound/fx/click.wav"), 10)
+	Wwise.post_event("snd_click", self)
+
+
+func _enter_tree():
+	## Registers the Wwise listener upon entering the tree.
+	## Will persist throughout session to listen to all audio events.
+	Wwise.register_listener(self)
+	
+	## Loads the soundbank "game" which contains all sfx and music as of 6/22
+	Wwise.load_bank("game")
 
 # Plays a sound. The AudioStreamPlayer node will be added to the `parent`
 # specified as parameter.

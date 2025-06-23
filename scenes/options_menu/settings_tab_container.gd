@@ -3,14 +3,13 @@ extends Control
 
 @onready var tab_container: TabContainer = $TabContainer
 @onready var line_edit: LineEdit = $TabContainer/General/MarginContainer/VBoxContainer/HBoxContainer/LineEdit
-@onready var password_audio: AudioStreamPlayer = $AudioStreamPlayer
 @onready var password_status: Label = $TabContainer/General/MarginContainer/VBoxContainer/PasswordStatus
 
 signal options_menu_exited
 signal correct_secret_inputted
 
-var error_sound: AudioStreamWAV = load("res://sound/fx/error.wav")
-var correct_sound: AudioStreamWAV = load("res://sound/fx/secret.wav")
+@export var error_sound: WwiseEvent
+@export var correct_sound: WwiseEvent
 
 func _process(_delta):
 	options_menu_inputs()
@@ -41,14 +40,12 @@ func options_menu_inputs() -> void:
 
 func accept_password() -> void:
 	globals.secrets_enabled = true
-	password_audio.stream = correct_sound
-	password_audio.play()
+	correct_sound.post(self)
 	password_status.text = "ALL SECRETS UNLOCKED"
 	
 func reject_password() -> void:
-	password_audio.stream = error_sound
-	password_audio.play()
-	password_status.text = "INVALID PASSWORD..."
+	error_sound.post(self)
+	password_status.text = "NUH UH: WRONG PASSWORD"
 
 func _on_password_submit_pressed() -> void:
 	if line_edit.text.to_upper() == "GIVEMETHESECRETNOW":

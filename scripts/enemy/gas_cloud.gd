@@ -4,14 +4,10 @@ const EXPLOSION_WIDTH: int = 2
 const TILE_SIZE: int = 32
 const LIVETIME: float = 13
 
-@export var explosion_audio : AudioStreamWAV = load("res://sound/fx/explosion.wav")
-@onready var explosion_sfx_player: AudioStreamPlayer2D #Left 2D for Monsto fix
 @onready var rays: Node2D = $Raycasts
 @onready var explosion: Explosion = $Explosion
 
 func _ready() -> void:
-	explosion_sfx_player = globals.game.bomb_pool.get_node("BombGlobalAudioPlayers/ExplosionSoundPlayer")
-	explosion_sfx_player.set_stream(explosion_audio)
 	self.explosion.is_finished_exploding.connect(done)
 	self.explosion.has_killed.connect(_kill)
 	self.set_process(false)
@@ -32,9 +28,10 @@ func exploded(_by_whom: int):
 	self.statemachine.stop_process = true
 	self.sprite.hide()
 	self.position = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.position))
-	explosion_sfx_player.stop()
-	explosion_sfx_player.position = self.position #Monsto Fix
-	explosion_sfx_player.play()
+	
+	#Apparently, this enemy is supposed to explode, so here I call the explosion sound event
+	Wwise.post_event("snd_bomb_explode", self)
+	
 	var exp_range = {
 		Vector2i.RIGHT: EXPLOSION_WIDTH,
 		Vector2i.DOWN: EXPLOSION_WIDTH,

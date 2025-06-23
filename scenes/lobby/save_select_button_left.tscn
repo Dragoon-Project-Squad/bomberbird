@@ -1,9 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://bxuaysj7k43qf"]
+[gd_scene load_steps=8 format=3 uid="uid://bxuaysj7k43qf"]
 
 [ext_resource type="Texture2D" uid="uid://bvduv0j3kdwtj" path="res://assets/css/question.png" id="1_f2xas"]
 [ext_resource type="Script" uid="uid://sfd02iv24sre" path="res://scripts/ui/lobby/save_select_button.gd" id="1_sayp3"]
 [ext_resource type="Theme" uid="uid://d2oqlxohwao3c" path="res://assets/styles/battle_settings_menu.tres" id="2_dei1p"]
-[ext_resource type="AudioStream" uid="uid://cb75c45y5yhvk" path="res://sound/fx/click.wav" id="4_h4wc0"]
 
 [sub_resource type="Animation" id="Animation_sayp3"]
 length = 0.001
@@ -192,9 +191,6 @@ mouse_filter = 1
 theme = ExtResource("2_dei1p")
 text = "0%"
 horizontal_alignment = 1
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_h4wc0")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

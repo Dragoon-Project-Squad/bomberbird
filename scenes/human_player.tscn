@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dviwgv2ty8v6u"]
+[gd_scene load_steps=19 format=3 uid="uid://dviwgv2ty8v6u"]
 
 [ext_resource type="Script" uid="uid://b6ouubp062irj" path="res://scripts/player/human_player.gd" id="1_u11j4"]
 [ext_resource type="Script" uid="uid://dfosda1bstp2m" path="res://resources/gameplay/held_pickups.gd" id="2_05k0c"]
@@ -9,6 +9,7 @@
 [ext_resource type="AnimationLibrary" uid="uid://b6igytp0a077" path="res://animations/player_animations.tres" id="5_aeuj7"]
 [ext_resource type="Texture2D" uid="uid://colmsqhmxnr47" path="res://assets/egg_bomb.png" id="6_05k0c"]
 [ext_resource type="Script" uid="uid://cvneoqre4h1ct" path="res://scripts/player/human_player_controls.gd" id="6_ey2ea"]
+[ext_resource type="WwiseEvent" uid="uid://gcvy3qr42387" path="res://Wwise/resources/Event/{15332791-C615-4FDC-9DE2-3505AD1A2232}.tres" id="10_jvckf"]
 
 [sub_resource type="Resource" id="Resource_jvckf"]
 resource_local_to_scene = true
@@ -288,4 +289,5 @@ script = ExtResource("6_ey2ea")
 [node name="InputsSync" type="MultiplayerSynchronizer" parent="Inputs"]
 replication_config = SubResource("SceneReplicationConfig_w53uu")
 
-[node name="HurtSoundPlayer" type="AudioStreamPlayer" parent="."]
+[node name="HurtSoundPlayer" type="AkEvent2D" parent="."]
+event = ExtResource("10_jvckf")

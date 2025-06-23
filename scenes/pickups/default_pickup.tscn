@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://bsqen21avp17e"]
+[gd_scene load_steps=8 format=3 uid="uid://bsqen21avp17e"]
 
 [ext_resource type="Script" uid="uid://cyqpfq102elly" path="res://scripts/pickups/default_pickup.gd" id="1_cd4dq"]
 [ext_resource type="Texture2D" uid="uid://t64vkd8wb6n1" path="res://assets/pickups/genericpowerup.png" id="1_tu3yp"]
-[ext_resource type="AudioStream" uid="uid://8u70xa4tmhc8" path="res://sound/fx/powerup.wav" id="3_sd1i0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_41uh0"]
 size = Vector2(24, 24)
@@ -49,9 +48,5 @@ shape = SubResource("RectangleShape2D_41uh0")
 sprite_frames = SubResource("SpriteFrames_y24j8")
 animation = &"idle"
 frame_progress = 0.0251961
-
-[node name="PickupSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_sd1i0")
-bus = &"SFX"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

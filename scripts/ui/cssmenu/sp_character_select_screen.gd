@@ -1,6 +1,5 @@
 extends Control
 
-@onready var css_audio: AudioStreamPlayer = $AudioStreamPlayer
 @onready var character_texture_paths: CharacterSelectDataResource = preload("res://resources/css/character_texture_paths_default.tres")
 @onready var secret_1: TextureButton = $SkinBG/CharacterGrid/secret1
 @onready var secret_2: TextureButton = $SkinBG/CharacterGrid/secret2
@@ -11,8 +10,11 @@ extends Control
 signal characters_confirmed
 signal characters_back_pressed
 
-var error_sound: AudioStreamWAV = load("res://sound/fx/error.wav")
-var select_sound: AudioStreamWAV = load("res://sound/fx/click.wav")
+## Wwise event that plays an error sound when .post() is called.
+@export var error_sound: WwiseEvent
+
+## Wwise event that plays a click sound when .post() is called.
+@export var select_sound: WwiseEvent
 
 func _ready() -> void:
 	if supersecretvisible or globals.secrets_enabled:
@@ -31,13 +33,11 @@ func enter() -> void:
 
 
 func play_error_audio() -> void:
-	css_audio.stream = error_sound
-	css_audio.play()
+	error_sound.post(self)
 
 @rpc("any_peer", "call_local")
 func play_select_audio() -> void:
-	css_audio.stream = select_sound
-	css_audio.play()
+	select_sound.post(self)
 
 func show_selected_panel(character: String):
 	if last_selected_panel: last_selected_panel.hide()

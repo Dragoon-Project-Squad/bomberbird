@@ -1,0 +1,8 @@
+[gd_resource type="WwiseEvent" format=3 uid="uid://io6kq67aoeht"]
+
+[resource]
+is_in_user_defined_sound_bank = true
+name = "snd_pickup_powerup"
+id = 712210112
+guid = "{0333EAEF-F64E-4F40-BFEF-2089F8413F47}"
+dummy = true

@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://cj45k03q8plvf" path="res://scripts/ai_state/ai_state_machine.gd" id="8_5j1t4"]
 [ext_resource type="Script" uid="uid://cic1u132cjhpf" path="res://scripts/ai_state/ai_wander.gd" id="9_67dp8"]
 [ext_resource type="Script" uid="uid://boifqm64sjt73" path="res://scripts/ai_state/ai_dodge.gd" id="10_aefyb"]
-[ext_resource type="Script" uid="uid://0ywunhnh15xu" path="res://scripts/ai_state/ai_bomb.gd" id="11_njo8t"]
+[ext_resource type="Script" uid="uid://b27rh453d1gqt" path="res://scripts/ai_state/ai_bomb.gd" id="11_njo8t"]
 [ext_resource type="Script" uid="uid://dprat677sf6sb" path="res://scripts/ai_state/ai_safe.gd" id="12_ulae3"]
 
 [sub_resource type="Resource" id="Resource_2solf"]
@@ -191,9 +191,6 @@ script = ExtResource("6_rxnmx")
 [node name="InputsSync" type="MultiplayerSynchronizer" parent="Inputs"]
 replication_config = SubResource("SceneReplicationConfig_w53uu")
 
-[node name="HurtSoundPlayer" type="AudioStreamPlayer" parent="."]
-bus = &"SFX"
-
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("8_5j1t4")
 initial_state = NodePath("Wander")
@@ -209,6 +206,8 @@ script = ExtResource("11_njo8t")
 
 [node name="Safe" type="Node" parent="StateMachine"]
 script = ExtResource("12_ulae3")
+
+[node name="HurtSoundPlayer" type="AkEvent2D" parent="."]
 
 [connection signal="area_entered" from="ObjectDetection" to="." method="_on_object_detection_area_entered"]
 [connection signal="area_exited" from="ObjectDetection" to="." method="_on_object_detection_area_exited"]

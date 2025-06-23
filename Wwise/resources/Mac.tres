@@ -1,0 +1,5 @@
+[gd_resource type="WwisePlatformInfo" format=3 uid="uid://cky1loro16moj"]
+
+[resource]
+platform_name = "Mac"
+platform_path = "Mac"

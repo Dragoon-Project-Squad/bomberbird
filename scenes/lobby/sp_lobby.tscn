@@ -1,11 +1,11 @@
 [gd_scene load_steps=8 format=3 uid="uid://cui0yxsmxis71"]
 
 [ext_resource type="Script" uid="uid://d2cpplwd6ifoe" path="res://scripts/ui/lobby/sp_lobby.gd" id="1_418fn"]
+[ext_resource type="WwiseEvent" uid="uid://cf8gacuqqx41t" path="res://Wwise/resources/Event/{1E19996F-F80F-41CF-A16A-4AA69ECDB05A}.tres" id="2_sjg7r"]
 [ext_resource type="Texture2D" uid="uid://bsu1o1vymo51p" path="res://assets/aesprite/Domber doki cenario1.png" id="2_yd478"]
 [ext_resource type="Shader" uid="uid://c0qwo7bogo6j7" path="res://assets/shaders/blur.gdshader" id="3_t42mu"]
 [ext_resource type="PackedScene" uid="uid://cwhum362lt6ww" path="res://scenes/cssmenu/sp_character_select_screen.tscn" id="4_418fn"]
 [ext_resource type="PackedScene" uid="uid://mjnlboref67" path="res://scenes/lobby/save_select.tscn" id="4_j0dtp"]
-[ext_resource type="AudioStream" uid="uid://bsv6xvb7bqh1h" path="res://sound/mus/config_dragoon_cafe.ogg" id="8_jgiyh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_m8hcm"]
 resource_local_to_scene = true
@@ -23,6 +23,7 @@ grow_vertical = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
 script = ExtResource("1_418fn")
+lobby_music = ExtResource("2_sjg7r")
 
 [node name="BG" type="Sprite2D" parent="."]
 self_modulate = Color(0.501961, 0.501961, 0.501961, 1)
@@ -48,12 +49,6 @@ visible = false
 
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
 auto_translate_mode = 1
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("8_jgiyh")
-autoplay = true
-bus = &"Music"
-parameters/looping = true
 
 [connection signal="save_menu_back" from="SaveMenu" to="." method="get_back_to_menu"]
 [connection signal="save_menu_existing_save" from="SaveMenu" to="." method="_on_game_start"]

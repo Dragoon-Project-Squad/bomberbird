@@ -1,0 +1,11 @@
+[gd_resource type="WwiseState" load_steps=2 format=3 uid="uid://bea1dk34pc6db"]
+
+[ext_resource type="WwiseStateGroup" uid="uid://dm11jahuttbhm" path="res://Wwise/resources/State Group/{000714A4-2E78-4263-9682-6C0CB3867AC6}.tres" id="1_o65m1"]
+
+[resource]
+group_ref = ExtResource("1_o65m1")
+group_id = 896293863
+name = "rush"
+id = 2275039111
+guid = "{9F886BF6-0CCB-4BE4-AAE9-E2E996283B7D}"
+dummy = true

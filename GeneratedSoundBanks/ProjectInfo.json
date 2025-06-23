@@ -1,0 +1,43 @@
+{
+ "ProjectInfo": {
+  "Project": {
+   "Name": "bomberbirdwwise",
+   "GUID": "{4EFB4D7B-E26C-4B63-9BEB-86CACAAB3BAA}",
+   "Generator": "2024.1.5.8803"
+  },
+  "CacheRoot": "../bomberbirdwwise/.cache",
+  "Platforms": [
+   {
+    "Name": "Linux",
+    "GUID": "{E2D1C5C5-C6EF-491F-9DFB-8AB7EBDAD818}",
+    "BasePlatform": "Linux",
+    "BasePlatformGUID": "{BD0BDF13-3125-454F-8BFD-319537169F81}",
+    "Path": "Linux"
+   },
+   {
+    "Name": "Mac",
+    "GUID": "{42886737-5050-4D11-AC1A-34F7D0FE1E0B}",
+    "BasePlatform": "Mac",
+    "BasePlatformGUID": "{9C6217D5-DD11-4795-87C1-6CE02853C540}",
+    "Path": "Mac"
+   },
+   {
+    "Name": "Windows",
+    "GUID": "{C147A4D5-C6CF-4731-B361-31E1F49859A4}",
+    "BasePlatform": "Windows",
+    "BasePlatformGUID": "{6E0CB257-C6C8-4C5C-8366-2740DFC441EB}",
+    "Path": "Windows"
+   }
+  ],
+  "Languages": [
+   {
+    "Name": "English(US)",
+    "Id": "684519430",
+    "GUID": "{F15E0A7C-10B0-4E4C-A0C3-A98BF9623A6A}",
+    "Default": "true",
+    "UseAsStandIn": "true"
+   }
+  ],
+  "FileHash": "{605BEE49-A1DC-F2E5-7E73-0A911C1D8D2C}"
+ }
+}
