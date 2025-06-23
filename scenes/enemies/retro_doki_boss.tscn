@@ -148,8 +148,8 @@ collision_layer = 0
 collision_mask = 8
 script = ExtResource("6_cvltp")
 use_ability = 0.3
-stop_kick = 0.3
-do_throw = 0.4
+stop_kick = 0.6
+do_throw = 0.6
 
 [node name="Right" type="CollisionShape2D" parent="AbilityDetector"]
 shape = SubResource("SegmentShape2D_kimt4")

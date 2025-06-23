@@ -49,6 +49,8 @@ class_name StageCellUI extends ReferenceRect
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(24, 0, 24, 24)},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.VIRUS}:
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(96, 0, 24, 24)},
+	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": globals.pickups.HP_UP}:
+		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": pickup_texture, "sub_texture_area": Rect2i(0, 24, 24, 24)},
 	{ "main_type": StageDataUI.tile_type.BREAKABLE, "sub_type": -1 }:
 		{"main_texture": tileset_texture, "main_texture_area": Rect2i(160, 0, 32, 32), "sub_texture": unimplementet_texture, "sub_texture_area": null},
 }
@@ -56,14 +58,6 @@ class_name StageCellUI extends ReferenceRect
 @onready var main_texture: TextureRect = $MainTexture
 @onready var sub_texture: TextureRect = $SubTexture
 @onready var probability_label: Label = $Probability
-
-## constructor function
-static func create(start_texture: Dictionary = {}) -> StageCellUI:
-	var stage_cell_ui: StageCellUI = load("res://scenes/level_graph/stage_cell_ui.tscn").instantiate()
-	if start_texture == {}: return stage_cell_ui
-	stage_cell_ui.apply_texture(start_texture)
-	stage_cell_ui.probability_label.hide()
-	return stage_cell_ui
 
 ## applies the texture specified by 'texture_dict' to this cell
 func apply_texture(texture_data: Dictionary = {}) -> void:

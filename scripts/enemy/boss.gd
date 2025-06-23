@@ -22,7 +22,7 @@ const MOTION_SPEED_DECREASE: int = TILE_SIZE / 2
 	"explosion_boost",
 	"speed_boost",
 	"speed_down",
-	"hearth",
+	"1-up",
 	"max_explosion",
 	"punch_ability",
 	"throw_ability",
@@ -50,6 +50,7 @@ func place(pos: Vector2, path: String):
 	assert(ability_detector, "ability_detector must be assigned in the inspector")
 	reset_pickups()
 	if self.detection_handler: self.detection_handler.make_ready()
+	self.cooldown_done = true
 	self.statemachine.reset()
 	init_pickups()
 
@@ -131,6 +132,8 @@ func exploded(by_whom: int):
 		pass #TODO: unlock mint for this player
 
 	if pickup_type == globals.pickups.NONE: return
+	await get_tree().create_timer(2).timeout
+	if globals.game.stage_done: return #if we entered the portal and the stage is disabled don't spawn the pickup
 	var pickup: Pickup = globals.game.pickup_pool.request(pickup_type)
 	var valid_pos: Vector2 = Vector2.ZERO
 	var paths: Array[Array] = world_data.get_paths_to_safe(self.position)

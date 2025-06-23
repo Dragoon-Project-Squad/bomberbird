@@ -209,7 +209,7 @@ func start():
 		stage_data_arr[gamestate.current_save.last_stage].breakable_resource,
 	)
 	curr_stage_idx = gamestate.current_save.last_stage
-	first_start = true
+	first_start = false
 	stage_has_changed.emit.call_deferred()
 
 	await fade.animation_finished

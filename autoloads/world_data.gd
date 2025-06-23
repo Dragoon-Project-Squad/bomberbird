@@ -294,6 +294,7 @@ func is_safe_placement(pos: Vector2, danger_range: int, valid_tiles: Array[int] 
 			var next_pos: Vector2i = path[-1] + dir
 			if next_pos in path: continue
 			if !_is_walkable(next_pos, valid_tiles): continue
+			if !_is_safe_cell(next_pos): continue
 			var diff: Vector2i = next_pos - matrix_pos
 			if !(diff.x == 0 && abs(diff.y) <= danger_range) && !(diff.y == 0 && abs(diff.x) <= danger_range):
 				return true
@@ -308,6 +309,7 @@ func get_paths_to_safe(start_pos: Vector2, valid_tiles: Array[int] = [tiles.EMPT
 
 	var found_safe_at_length: int = -1
 	var path_queue: Array[Array] = [[start_matrix_pos]]
+	if _is_safe_cell(start_matrix_pos): return path_queue
 	while !path_queue.is_empty():
 		var path = path_queue.pop_front()
 		if found_safe_at_length == len(path):

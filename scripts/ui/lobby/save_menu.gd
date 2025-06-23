@@ -48,7 +48,6 @@ func _ready() -> void:
 
 		# populate savefile_button
 		button.set_player_name(save_buttons[button].player_name)
-		print(save_buttons[button].character_paths)
 		button.set_character(gamestate.character_texture_paths.characters[save_buttons[button].character_paths])
 		button.set_score_label(save_buttons[button].current_score)
 		if save_buttons[button].exit_count == 0:

@@ -109,7 +109,7 @@ script = ExtResource("1_dpfu0")
 is_secret_boss = true
 pickups = SubResource("Resource_cvltp")
 ability_detector = NodePath("AbilityDetector")
-dropped_pickup = "punch_ability"
+dropped_pickup = "piercing_bomb"
 score_points = 5000
 movement_speed = 112.0
 detection_handler = NodePath("DetectionHandler")
@@ -148,9 +148,9 @@ shape = SubResource("CircleShape2D_i1su5")
 collision_layer = 0
 collision_mask = 8
 script = ExtResource("7_xn5qw")
-use_ability = 0.15
-stop_kick = 0.3
-do_throw = 0.4
+use_ability = 0.2
+stop_kick = 0.7
+do_throw = 0.7
 
 [node name="Right" type="CollisionShape2D" parent="AbilityDetector"]
 shape = SubResource("SegmentShape2D_kimt4")
@@ -175,8 +175,8 @@ debug_color = Color(1, 0, 0, 0.419608)
 
 [node name="DetectionHandler" type="Node2D" parent="."]
 script = ExtResource("8_dpfu0")
-trigger_chance_bomb = 0.0
-trigger_chance_summon = 1.0
+trigger_chance_bomb = 0.4
+trigger_chance_summon = 0.2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

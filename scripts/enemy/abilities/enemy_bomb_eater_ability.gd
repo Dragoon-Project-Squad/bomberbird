@@ -3,10 +3,14 @@ extends EnemyState
 
 const ARRIVAL_TOLARANCE: float = 1
 
+
 @export var speed_boost: float = 2
+
+var is_crushing: bool = false
 
 func _enter() -> void:
 	assert(self.state_machine.target, "entered an ability state without a valid target. Enemy: " + self.enemy.name)
+	self.is_crushing = false
 	self.enemy.movement_vector = world_data.tile_map.map_to_local(
 		world_data.tile_map.local_to_map(self.enemy.position)
 		).direction_to(world_data.tile_map.map_to_local(
@@ -15,6 +19,7 @@ func _enter() -> void:
 
 
 func _physics_update(delta: float) -> void:
+	if self.is_crushing: return
 	_move(delta, speed_boost)
 	if _check_if_on_tile() && check_arrival():
 		do_crush()
@@ -28,12 +33,17 @@ func check_arrival():
 	return self.enemy.position.distance_to(world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.state_machine.target.bomb_root.position))) <= ARRIVAL_TOLARANCE
 
 func do_crush():
+	self.is_crushing = true
 	self.enemy.stop_moving = true
 	self.enemy.anim_player.play("hammer/punch")
+
 	await self.enemy.anim_player.animation_finished
 	if globals.game.stage_done || self.enemy.health <= 0: return
-	self.enemy.stop_moving = false
+	if self.state_machine.target.is_exploded: return
+	
 	state_changed.emit(self, "wander")
+	self.is_crushing = false
+	self.enemy.stop_moving = false
 
 func change_bomb():
 	assert(self.state_machine.target.has_method("crush"))
