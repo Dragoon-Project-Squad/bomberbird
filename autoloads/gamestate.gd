@@ -274,9 +274,12 @@ func host_game(lobby_type : Steam.LobbyType):
 	peer.create_lobby(lobby_type, MAX_PEERS)
 	
 	await peer.lobby_created
+	
 	multiplayer.set_multiplayer_peer(peer)
 	player_data_master_dict[1].spritepaths = character_texture_paths.normalgoon_paths
 	gamestate.establish_player_counts()
+	
+	peer.set_lobby_joinable(true)
 	
 	lobby_created.emit()
 
@@ -284,7 +287,9 @@ func join_game(lobby_id : int):
 	peer = SteamMultiplayerPeer.new()
 	peer.connect_lobby(lobby_id)
 	
+	print("hi guys")
 	await peer.lobby_joined
+	print("killing myself postponed")
 	
 	multiplayer.set_multiplayer_peer(peer)
 	lobby_joined.emit()
