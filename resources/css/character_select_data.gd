@@ -8,6 +8,7 @@ extends Resource
 @export var LONGGOON_SELECT_TEXTURE_PATH: String = "res://assets/css/longgoon.png"
 @export var DAD_SELECT_TEXTURE_PATH: String = "res://assets/css/dad.png"
 @export var BHDOKI_SELECT_TEXTURE_PATH: String = "res://assets/css/bhdoki.png"
+@export var SUMMERDOKI_SELECT_TEXTURE_PATH: String = "res://assets/css/summerdoki.png"
 @export var RETRODOKI_SELECT_TEXTURE_PATH: String = "res://assets/css/retrodoki.png"
 @export var ALTGIRLDOKI_SELECT_TEXTURE_PATH: String = "res://assets/css/altdoki.png"
 @export var CROWKI_SELECT_TEXTURE_PATH: String = "res://assets/css/crowki.png"
@@ -23,6 +24,7 @@ extends Resource
 @export var LONGGOON_PLAYER_TEXTURE_PATH: String = "res://assets/player/longgoon_walk.png"
 @export var DAD_PLAYER_TEXTURE_PATH: String = "res://assets/player/dad_walk.png"
 @export var BHDOKI_PLAYER_TEXTURE_PATH: String = "res://assets/player/bhdoki_walk.png"
+@export var SUMMERDOKI_PLAYER_TEXTURE_PATH: String = "res://assets/player/summer_doki_walk.png"
 @export var RETRODOKI_PLAYER_TEXTURE_PATH: String = "res://assets/player/retrodoki_walk.png"
 @export var ALTGIRLDOKI_PLAYER_TEXTURE_PATH: String = "res://assets/player/altdoki_walk.png"
 @export var CROWKI_PLAYER_TEXTURE_PATH: String = "res://assets/player/crowki_walk.png"
@@ -31,18 +33,19 @@ extends Resource
 @export var SECRET2_PLAYER_TEXTURE_PATH: String = "res://assets/player/maidmint_walk.png"
 
 # Mount Texture Paths
-@export var EGGOON_MOUNT_TEXTURE_PATH: String = "res://assets/css/eggoon.png"
-@export var NORMALGOON_MOUNT_TEXTURE_PATH: String = "res://assets/css/normalgoon.png"
-@export var CHONKGOON_MOUNT_TEXTURE_PATH: String = "res://assets/css/chonkgoon.png"
-@export var LONGGOON_MOUNT_TEXTURE_PATH: String = "res://assets/css/longgoon.png"
-@export var DAD_MOUNT_TEXTURE_PATH: String = "res://assets/css/dad.png"
-@export var BHDOKI_MOUNT_TEXTURE_PATH: String = "res://assets/css/bhdoki.png"
-@export var RETRODOKI_MOUNT_TEXTURE_PATH: String = "res://assets/css/retrodoki.png"
-@export var ALTGIRLDOKI_MOUNT_TEXTURE_PATH: String = "res://assets/css/altdoki.png"
-@export var CROWKI_MOUNT_TEXTURE_PATH: String = "res://assets/css/crowki.png"
-@export var TOMATODOKI_MOUNT_TEXTURE_PATH: String = "res://assets/css/tomato.png"
-@export var SECRET1_MOUNT_TEXTURE_PATH: String = "res://assets/css/wisp.png"
-@export var SECRET2_MOUNT_TEXTURE_PATH: String = "res://assets/css/maidmint.png"
+@export var EGGOON_MOUNT_TEXTURE_PATH: String = "res://assets/player/eggoon_mount.png"
+@export var NORMALGOON_MOUNT_TEXTURE_PATH: String = "res://assets/player/normalgoon_mount.png"
+@export var CHONKGOON_MOUNT_TEXTURE_PATH: String = "res://assets/player/chonkgoon_mount.png"
+@export var LONGGOON_MOUNT_TEXTURE_PATH: String = "res://assets/player/longgoon_mount.png"
+@export var DAD_MOUNT_TEXTURE_PATH: String = "res://assets/player/dad_mount.png"
+@export var BHDOKI_MOUNT_TEXTURE_PATH: String = "res://assets/player/bhdoki_mount.png"
+@export var SUMMERDOKI_MOUNT_TEXTURE_PATH: String = "res://assets/player/summerdoki_mount.png"
+@export var RETRODOKI_MOUNT_TEXTURE_PATH: String = "res://assets/player/retrodoki_mount.png"
+@export var ALTGIRLDOKI_MOUNT_TEXTURE_PATH: String = "res://assets/player/altdoki_mount.png"
+@export var CROWKI_MOUNT_TEXTURE_PATH: String = "res://assets/player/crowki_mount.png"
+@export var TOMATODOKI_MOUNT_TEXTURE_PATH: String = "res://assets/player/tomato_mount.png"
+@export var SECRET1_MOUNT_TEXTURE_PATH: String = "res://assets/player/wisp_mount.png"
+@export var SECRET2_MOUNT_TEXTURE_PATH: String = "res://assets/player/maidmint_mount.png"
 
 # UI Faces Textures
 @export var FACE_UI_TEXTURE: String = "res://assets/ui/ui_faces.png"
@@ -52,6 +55,7 @@ extends Resource
 @export var LONGGOON_FACE_RECT: String = var_to_str(Rect2(192, 0, 32, 32))
 @export var DAD_FACE_RECT: String = var_to_str(Rect2(128, 0, 32, 32))
 @export var BHDOKI_FACE_RECT: String = var_to_str(Rect2(0, 0, 32, 32))
+@export var SUMMERDOKI_FACE_RECT: String = var_to_str(Rect2(384, 0, 32, 32))
 @export var RETRODOKI_FACE_RECT: String = var_to_str(Rect2(64, 0, 32, 32))
 @export var ALTGIRLDOKI_FACE_RECT: String = var_to_str(Rect2(32, 0, 32, 32))
 @export var CROWKI_FACE_RECT: String = var_to_str(Rect2(96, 0, 32, 32))
@@ -100,6 +104,13 @@ var bhdoki_paths = {
 	"walk": BHDOKI_PLAYER_TEXTURE_PATH, 
 	"mount": BHDOKI_MOUNT_TEXTURE_PATH,
 	"face": { "path": FACE_UI_TEXTURE, "rect": BHDOKI_FACE_RECT },
+	}
+	
+var summerdoki_paths = {
+	"select": SUMMERDOKI_SELECT_TEXTURE_PATH, 
+	"walk": SUMMERDOKI_PLAYER_TEXTURE_PATH, 
+	"mount": SUMMERDOKI_MOUNT_TEXTURE_PATH,
+	"face": { "path": FACE_UI_TEXTURE, "rect": SUMMERDOKI_FACE_RECT },
 	}
   
 var retrodoki_paths = {
@@ -151,6 +162,7 @@ var characters: Dictionary = {
 	"longgoon": longgoon_paths,
 	"dad": dad_paths,
 	"bhdoki": bhdoki_paths,
+	"summerdoki": summerdoki_paths,
 	"retrodoki": retrodoki_paths,
 	"altgirldoki": altgirldoki_paths,
 	"crowki": crowki_paths,
