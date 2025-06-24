@@ -55,7 +55,7 @@ collision_mask = 2
 shape = SubResource("CircleShape2D_i1su5")
 debug_color = Color(1, 0, 0, 0.419608)
 
-[node name="DetectionHandler_Signal" type="Node2D" parent="."]
+[node name="DetectionHandler_Signal" type="Timer" parent="."]
 script = ExtResource("5_dh4lm")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

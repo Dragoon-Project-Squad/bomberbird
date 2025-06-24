@@ -45,6 +45,7 @@ func _enter() -> void:
 func _reset():
 	self.bomb_placed = 0
 	self.mine_placed = 0
+	self.time_pickup_placed = 0
 	var timezone: StaticBody2D = self.enemy.get_node("timezone")
 	timezone.hide()
 	timezone.stop()

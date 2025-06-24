@@ -1,5 +1,5 @@
 extends EnemyState
-# Handles the tomato bosses ability
+# Handles the mint bosses ability
 
 const BOMB_RATE: float = 0.5
 const BOMB_COOLDOWN: float = 0.5
@@ -56,7 +56,6 @@ func place_summon():
 		globals.current_world.alive_enemies.erase(summon)
 		globals.game.clock_pickup_time_paused.disconnect(summon.stop_time)
 		globals.game.clock_pickup_time_unpaused.disconnect(summon.start_time)
-		globals.game.score += enemy.score_points
 		if globals.current_world.alive_enemies.is_empty():
 			globals.current_world.all_enemied_died.emit(0),
 		CONNECT_ONE_SHOT

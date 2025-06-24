@@ -12,7 +12,8 @@ func check_for_priority_target():
 		if !(ray is RayCast2D): continue
 		if !ray.is_colliding(): continue
 		var target = ray.get_collider()
-		if !(target is Bomb): continue # Doing it this way may cause some problems if bomb changes state away from stationary which will need to be handled
+		if !(target is Bomb): continue
+		if target.bomb_root.bomb_owner == null: continue # if the bomb is placed by another enemy don't target it.
 		enemy.statemachine.target = target
 		return true
 	enemy.statemachine.target = null

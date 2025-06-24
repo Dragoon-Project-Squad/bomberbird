@@ -9,6 +9,7 @@ const MAX_BOMB_UPGRADE_PERMITTED: int = 6
 const MAX_EXPLOSION_BOOSTS_PERMITTED: int = 6
 const MAX_SPEED_UP_PERMITTED: int = 99 #TODO Probably incorrect
 const MAX_SPEED_DOWN_PERMITTED: int = 99 #TODO: Probably incorrect
+const MAX_HEALTH_PERMITTED: int = 6
 
 @export_group("inital pickups")
 @export_enum("NONE", "PIERCING", "MINE", "REMOTE", "SEEKER") var initial_bomb_type: int = 0

@@ -42,7 +42,8 @@ func _ready():
 @rpc("call_local")
 func disable_collison_and_hide():
 	hide()
-	world_data.set_tile(world_data.tiles.EMPTY, self.global_position)
+	if self.state == PLACED:
+		world_data.set_tile(world_data.tiles.EMPTY, self.global_position)
 	collisionbox.set_deferred("disabled", 1)
 
 @rpc("call_local")
@@ -62,6 +63,8 @@ func disable():
 	self.target = Vector2.ZERO
 	self.starting_speed = Vector2.ZERO
 	self.direction = Vector2i.ZERO
+	for sig_dict in pickup_destroyed.get_connections():
+		sig_dict.signal.disconnect(sig_dict.callable)
 	set_state(DISABLED)
 
 func enable():
@@ -116,6 +119,7 @@ func _on_body_entered(body: Node2D) -> void:
 ## called when this pickup is destroyed by an explosion players the corresponding animation and sound
 func exploded(_from_player):
 	if self.indestructable: return
+	if self.state != PLACED: return
 	if _pickup_destroyed_barrier: return
 	_pickup_destroyed_barrier = true
 	self.pickup_destroyed.emit()
@@ -135,6 +139,7 @@ func exploded(_from_player):
 @rpc("call_local")
 ## called when a pickup is destroyed by something that is not an explosion
 func crush():
+	if self.state != PLACED: return
 	if _pickup_destroyed_barrier: return
 	_pickup_destroyed_barrier = true
 	self.pickup_destroyed.emit()
