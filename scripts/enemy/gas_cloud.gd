@@ -1,15 +1,18 @@
 extends Enemy
+# The gas cloud is a special enemy that usually just appears as a summon
 
 const EXPLOSION_WIDTH: int = 2
 const TILE_SIZE: int = 32
-const LIVETIME: float = 13
+const LIFETIME: float = 13
 
 @onready var rays: Node2D = $Raycasts
 @onready var explosion: Explosion = $Explosion
+@onready var life_timer: Timer = $LifeTimer
 
 func _ready() -> void:
 	self.explosion.is_finished_exploding.connect(done)
 	self.explosion.has_killed.connect(_kill)
+	self.life_timer.one_shot = true
 	self.set_process(false)
 	super()
 
@@ -62,8 +65,9 @@ func done():
 	self.disable()
 	globals.game.enemy_pool.return_obj(self)
 
-func _livetime_over():
-	if self.statemachine.stop_process: return
+func _lifetime_over():
+	if _exploded_barrier: return
+	_exploded_barrier = true
 	done()
 
 @rpc("call_local")
@@ -75,14 +79,34 @@ func place(pos: Vector2, path: String):
 	print(pos)
 	self.position = pos
 	self.enemy_path = path
-	get_tree().create_timer(LIVETIME).timeout.connect(_livetime_over, CONNECT_ONE_SHOT)
+	life_timer.start(LIFETIME)
+	life_timer.timeout.connect(_lifetime_over, CONNECT_ONE_SHOT)
 
 @rpc("call_local")
 func disable():
-	super()
+	self.disabled = true
+	if health_ability:
+		health_ability.reset()
+	self.hide()
+	health = _health
+	for sig_dict in self.enemy_died.get_connections():
+		sig_dict.signal.disconnect(sig_dict.callable)
+	self.position = Vector2.ZERO
+	self.detection_handler.off()
+	self.statemachine.disable()
+	self.stop_moving = false
+	self.time_is_stopped = false
+	self.invulnerable = false
+	set_process(false)
+	self.process_mode = Node.PROCESS_MODE_DISABLED
+	self.movement_vector = Vector2.ZERO
+
 	sprite.stop()
 	self.sprite.show()
 	self.explosion.reset()
+	life_timer.stop()
+	if life_timer.timeout.has_connections():
+		life_timer.timeout.disconnect(_lifetime_over)
 	self.statemachine.stop_process = false
 
 func _kill(obj):

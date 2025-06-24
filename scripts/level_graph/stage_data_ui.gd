@@ -43,7 +43,7 @@ signal has_changed
 @onready var rect_draw: Button = get_node("Header/RectDraw")
 @onready var eraser_button: Button = get_node("Header/Eraser")
 @onready var overwrite_checkmark: CheckBox = get_node("Header/Overwrite")
-@onready var grit_container: GridContainer = $GridContainer
+@onready var grid_container: GridContainer = $GridContainer
 @onready var curr_cell_label: Label = $CurrentCellLabel
 
 @export var map_size: Vector2i = Vector2i(13, 11)
@@ -93,16 +93,15 @@ func _ready():
 	eraser_button.toggled.connect(func (toggled_on: bool): _eraser_is_selected = toggled_on)
 	overwrite_checkmark.toggled.connect(func (toggled_on: bool): _do_overwrite = toggled_on)
 	cell_ui_elements.resize(map_size.x * map_size.y)
+	var cell_idx: int = 0
 	for j in range(map_size.y):
 		for i in range(map_size.x):
 			var cell = Vector2i(i, j)
-			var cell_ui_element: StageCellUI = StageCellUI.create()
-			cell_ui_element.custom_minimum_size = Vector2(50, 50)
-			cell_ui_element.name = "StageCellUI_" + str(i) + "," + str(j)
-			# Connecting the mouse entered signal to update the mouse position when it changes inside the grit
+			var cell_ui_element: StageCellUI = grid_container.get_child(cell_idx)
+			# Connecting the mouse entered signal to update the mouse position when it changes inside the grid
 			cell_ui_element.mouse_entered.connect(_on_mouse_entered_cell.bind(cell))
-			cell_ui_elements[_get_cell_ui_element_index(cell)] = cell_ui_element
-			grit_container.add_child(cell_ui_element)
+			cell_ui_elements[cell_idx] = cell_ui_element
+			cell_idx += 1
 
 ## readed the data from the handed resources and inputs them into the UI
 func load_from_resources(enemy_table: EnemyTable = null, spawnpoint_table: SpawnpointTable = null, unbreakable_table: UnbreakableTable = null, breakable_table: BreakableTable = null):

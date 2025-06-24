@@ -1,6 +1,7 @@
 extends StaticBody2D
 
-@onready var hurtbox: Area2D = $Area2D
+@onready var hurtbox: CollisionShape2D = get_node("Area2D/hurtbox")
+@onready var hitbox: CollisionShape2D = $hitbox
 @onready var anim: AnimationPlayer = $AnimationPlayer
 
 func _ready():
@@ -9,7 +10,7 @@ func _ready():
 
 func disable():
 	hurtbox.set_deferred("disabled", 1)
-	set_deferred("disabled", 1)
+	hitbox.set_deferred("disabled", 1)
 	self.process_mode = Node.PROCESS_MODE_DISABLED
 
 func stop():
@@ -24,11 +25,11 @@ func start() -> Signal:
 
 func enable():
 	hurtbox.set_deferred("disabled", 0)
-	set_deferred("disabled", 0)
-
-
+	hitbox.set_deferred("disabled", 0)
 
 func _on_body_entered(body: Node2D) -> void:
-	if is_multiplayer_authority() && body.has_method("exploded"):
-		if self not in body.get_children():
+	if is_multiplayer_authority():
+		if body is Player:
 			body.exploded.rpc(gamestate.ENEMY_KILL_PLAYER_ID)
+		if body is Bomb:
+			body.crush()

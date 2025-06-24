@@ -5,6 +5,7 @@ const LEVEL_GRAPH_SCENE := preload("res://scenes/level_graph/level_graph.tscn")
 
 @onready var selector: OptionButton = get_node("HBoxContainer/CampaignSelector")
 @onready var button: Button = get_node("HBoxContainer/GraphButton")
+@onready var loading_label: Label = $loading
 
 func _ready() -> void:
 	var camp_dir = DirAccess.open(LevelGraph.PERMANENT_SAVE_PATH)
@@ -65,6 +66,9 @@ func _get_file_name_from_dir(path: String):
 		scene_file = scene_dir.get_next()
 
 func _on_graph_button_pressed():
+	loading_label.show()
+	await get_tree().create_timer(0.05).timeout
+
 	var level_graph_editor: GraphEdit = LEVEL_GRAPH_SCENE.instantiate()
 	if get_parent():
 		if get_parent().has_node("LevelGraph"): return
@@ -78,6 +82,8 @@ func _on_graph_button_pressed():
 
 	var graph_json_data: Dictionary = LevelGraph.load_json_file(gamestate.current_graph)
 	level_graph_editor.load_graph(graph_json_data)
+	loading_label.hide()
+
 
 func _on_campaign_selector_item_selected(idx: int):
 	gamestate.current_graph = selector.get_item_text(idx)

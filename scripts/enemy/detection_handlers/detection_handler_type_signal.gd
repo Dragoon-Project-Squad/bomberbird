@@ -1,4 +1,4 @@
-extends Node2D
+extends Timer
 # implements a costum detection type based on signals
 
 @export var start_time: float = 12
@@ -7,7 +7,7 @@ extends Node2D
 var had_signal: bool = false
 
 func _ready() -> void:
-	get_tree().create_timer(start_time).timeout.connect(_set_check, CONNECT_ONE_SHOT)
+	self.one_shot = true
 
 func check_for_priority_target():
 	enemy.statemachine.target = null
@@ -20,7 +20,13 @@ func _set_check():
 	had_signal = true
 
 func on():
-	pass
+	self.start(start_time)
+	self.timeout.connect(_set_check, CONNECT_ONE_SHOT)
+	had_signal = false
 
 func off():
+	self.stop()
+	if self.timeout.has_connections():
+		self.timeout.disconnect(_set_check)
+	had_signal = false
 	pass

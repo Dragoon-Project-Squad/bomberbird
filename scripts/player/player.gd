@@ -16,6 +16,8 @@ const MOTION_SPEED_INCREASE: int = TILE_SIZE / 2
 @warning_ignore("INTEGER_DIVISION") #Note this integer division is fine idk why godot feels like it needs to warn for int divisions anyway?
 const MOTION_SPEED_DECREASE: int = TILE_SIZE / 2
 
+const MAX_HEALTH: int = 9
+
 const BOMB_RATE: float = 0.5
 const MAX_BOMBS_OWNABLE: int = 8
 const MAX_EXPLOSION_BOOSTS_PERMITTED: int = 6
@@ -67,7 +69,7 @@ var mine_placed: bool
 @export var pickups: HeldPickups
 
 var movement_speed_reset: float
-var bomb_count_reset: int
+var bomb_total_reset: int
 var lives_reset: int
 var explosion_boost_count_reset: int
 
@@ -93,7 +95,7 @@ func _ready():
 	game_ui = globals.game.game_ui
 
 	movement_speed_reset = movement_speed
-	bomb_count_reset = bomb_count
+	bomb_total_reset = bomb_total
 	explosion_boost_count_reset = explosion_boost_count
 	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
 		player_health_updated.connect(func (s: Player, health: int): game_ui.update_health(health, int(s.name)))
@@ -352,7 +354,8 @@ func reset():
 ## resets the pickups back to the inital state
 func reset_pickups():
 	movement_speed = movement_speed_reset
-	bomb_count = bomb_count_reset
+	bomb_total = bomb_total_reset
+	bomb_count = bomb_total
 	lives = lives_reset
 	player_health_updated.emit(self, lives)
 	self.set_collision_mask_value(4, true)
@@ -442,19 +445,31 @@ func get_player_name() -> String:
 	
 @rpc("call_local")
 func increase_live():
-	lives += 1
+	if lives >= MAX_HEALTH:
+		if globals.current_gamemode == globals.gamemode.CAMPAIGN: globals.game.score += 100
+	else:
+		lives += 1
 
 @rpc("call_local")
 func increase_bomb_level():
-	explosion_boost_count = min(explosion_boost_count + 1, MAX_EXPLOSION_BOOSTS_PERMITTED)
+	if explosion_boost_count >= MAX_EXPLOSION_BOOSTS_PERMITTED:
+		if globals.current_gamemode == globals.gamemode.CAMPAIGN: globals.game.score += 100
+	else:
+		explosion_boost_count += 1
 
 @rpc("call_local")
 func maximize_bomb_level():
-	explosion_boost_count = min(explosion_boost_count + 99, MAX_EXPLOSION_BOOSTS_PERMITTED)
+	if explosion_boost_count >= MAX_EXPLOSION_BOOSTS_PERMITTED:
+		if globals.current_gamemode == globals.gamemode.CAMPAIGN: globals.game.score += 100
+	else:
+		explosion_boost_count = MAX_EXPLOSION_BOOSTS_PERMITTED
 
 @rpc("call_local")
 func increase_speed():
-	movement_speed += MOTION_SPEED_INCREASE
+	if movement_speed >= MAX_MOTION_SPEED:
+		if globals.current_gamemode == globals.gamemode.CAMPAIGN: globals.game.score += 100
+	else:
+		movement_speed += MOTION_SPEED_INCREASE
 	movement_speed = clamp(movement_speed, MIN_MOTION_SPEED, MAX_MOTION_SPEED)
 
 @rpc("call_local")
@@ -476,7 +491,10 @@ func disable_bombclip():
 
 @rpc("call_local")
 func increment_bomb_count():
-	bomb_total = min(bomb_total+1, MAX_BOMBS_OWNABLE)
+	if bomb_total >= MAX_BOMBS_OWNABLE:
+		if globals.current_gamemode == globals.gamemode.CAMPAIGN: globals.game.score += 100
+	else:
+		bomb_total += 1
 	bomb_count = min(bomb_count+1, bomb_total)
 
 @rpc("call_local")

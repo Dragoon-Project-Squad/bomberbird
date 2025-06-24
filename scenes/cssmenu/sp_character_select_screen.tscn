@@ -20,7 +20,6 @@
 [ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="17_sdw0t"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="18_bappc"]
 [ext_resource type="PackedScene" uid="uid://c7x6djajavw8b" path="res://scenes/debug_campaign_selector.tscn" id="19_dhy2l"]
-[ext_resource type="Theme" uid="uid://d2oqlxohwao3c" path="res://assets/styles/battle_settings_menu.tres" id="20_5yoqc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m7566"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -444,11 +443,10 @@ emoji_menu_enabled = false
 
 [node name="DebugCampaignSelector" parent="." instance=ExtResource("19_dhy2l")]
 layout_mode = 1
-offset_left = 223.0
-offset_top = 404.0
-offset_right = 223.0
-offset_bottom = 404.0
-theme = ExtResource("20_5yoqc")
+offset_left = 599.0
+offset_top = 417.0
+offset_right = 599.0
+offset_bottom = 417.0
 
 [connection signal="pressed" from="SkinBG/CharacterGrid/eggoon" to="." method="_on_eggoon_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/dragoon" to="." method="_on_dragoon_pressed"]

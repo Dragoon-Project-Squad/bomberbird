@@ -21,7 +21,7 @@ func _ready():
 	game_ui = globals.game.game_ui
 
 	movement_speed_reset = movement_speed
-	bomb_count_reset = bomb_count
+	bomb_total_reset = bomb_total
 	explosion_boost_count_reset = explosion_boost_count
 	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
 		player_health_updated.connect(func (s: Player, health: int): game_ui.update_health(health, int(s.name)))

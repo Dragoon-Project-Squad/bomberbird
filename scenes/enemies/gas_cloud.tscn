@@ -147,3 +147,7 @@ collide_with_areas = true
 metadata/direction = Vector2i(0, -1)
 
 [node name="Explosion" parent="." instance=ExtResource("12_l8x2w")]
+
+[node name="LifeTimer" type="Timer" parent="."]
+wait_time = 13.0
+one_shot = true
