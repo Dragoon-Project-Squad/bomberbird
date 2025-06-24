@@ -130,6 +130,10 @@ func set_secret_status(host_secret_status):
 func _join_requested(lobby_id: int, steam_id: int) -> void:
 	await join_game(lobby_id)
 
+## Steam-specific. Called when something Multiplayer-related failed.
+func _network_session_failed(steam_id: int, reason: int, connection_state: int) -> void:
+	printerr("Steam failed to do something network-related. ID: %s, Reason: %s, State: %s" % [steam_id, reason, connection_state])
+
 # Callback from SceneTree.
 func _player_disconnected(id):
 	var ai_count = get_cpu_count()
@@ -272,23 +276,29 @@ func load_world(game_scene):
 func host_game(lobby_type : Steam.LobbyType):
 	peer = SteamMultiplayerPeer.new()
 	peer.create_lobby(lobby_type, MAX_PEERS)
+	peer.network_session_failed.connect(_network_session_failed)
 	
 	await peer.lobby_created
+	peer.network_session_failed.disconnect(_network_session_failed)
 	
 	multiplayer.set_multiplayer_peer(peer)
 	player_data_master_dict[1].spritepaths = character_texture_paths.normalgoon_paths
 	gamestate.establish_player_counts()
 	
 	peer.set_lobby_joinable(true)
+	peer.set_lobby_data("name", "%s's Lobby" % [player_name])
 	
 	lobby_created.emit()
 
 func join_game(lobby_id : int):
 	peer = SteamMultiplayerPeer.new()
-	peer.connect_lobby(lobby_id)
+	peer.connect_lobby(int(lobby_id))
+	peer.network_session_failed.connect(_network_session_failed)
 	
 	print("hi guys")
 	await peer.lobby_joined
+	peer.network_session_failed.disconnect(_network_session_failed)
+	
 	print("killing myself postponed")
 	
 	multiplayer.set_multiplayer_peer(peer)
