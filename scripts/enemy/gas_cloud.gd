@@ -76,7 +76,6 @@ func place(pos: Vector2, path: String):
 	hitbox.set_deferred("disabled", 0)
 	self.show()
 	sprite.play()
-	print(pos)
 	self.position = pos
 	self.enemy_path = path
 	life_timer.start(LIFETIME)

@@ -16,6 +16,7 @@ func _ready() -> void:
 func disable():
 	exit_col_shape = get_node("ExitArea/ExitCollisionShape")
 	in_use = false
+	used = false
 	self.position = Vector2.ZERO
 	self.hide()
 	exit_col_shape.set_deferred("disabled", 1)

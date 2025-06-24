@@ -26,12 +26,16 @@ func _init():
 	globals.game = self
 
 @rpc("call_local")
-func restart():
+func restart(reset_player: bool = true):
 	stage_done = true
 	fade.play("fade_out")
-	reset_players()
-	gamestate.current_save.current_score = 0
+	save_on_restart()
 	await fade.animation_finished
+	if reset_player:
+		reset_players()
+		score = 0
+	else:
+		soft_reset_players()
 
 	_exit_entered_barrier = false
 	reset.call_deferred()
@@ -40,7 +44,7 @@ func restart():
 	
 
 @rpc("call_local")
-func restart_current_stage():
+func restart_current_stage(reset_player: bool = false):
 	stage_done = true
 	fade.play("fade_out")
 	await fade.animation_finished
@@ -58,6 +62,11 @@ func restart_current_stage():
 		stage_data_arr[curr_stage_idx].unbreakable_resource,
 		stage_data_arr[curr_stage_idx].breakable_resource,
 	)
+	if reset_player:
+		reset_players.call_deferred()
+		score = 0
+	else:
+		soft_reset_players()
 	stage_announce_label.text = stage_data_arr[curr_stage_idx].stage_node_title
 	stage_announce_label.show()
 
@@ -65,7 +74,9 @@ func restart_current_stage():
 	fade.play("fade_in")
 	stage_has_changed.emit.call_deferred()
 	await fade.animation_finished
-	get_tree().create_timer(0.5).timeout.connect(func (): stage_announce_label.hide())
+	if stage.alive_enemies.is_empty():
+		stage.all_enemied_died.emit(0)
+	get_tree().create_timer(2).timeout.connect(func (): stage_announce_label.hide())
 	stage_done = false
 
 @rpc("call_local")
@@ -110,6 +121,7 @@ func next_stage(id: int, player: HumanPlayer):
 
 	await get_tree().create_timer(1).timeout
 
+	curr_stage_idx = id
 	stage.enable.call_deferred(
 		stage_data_arr[id].exit_resource,
 		stage_data_arr[id].enemy_resource,
@@ -124,13 +136,14 @@ func next_stage(id: int, player: HumanPlayer):
 	fade.play("fade_in")
 	stage_has_changed.emit.call_deferred()
 	await fade.animation_finished
-	get_tree().create_timer(0.5).timeout.connect(func (): stage_announce_label.hide())
+	if stage.alive_enemies.is_empty():
+		stage.all_enemied_died.emit(0)
+	get_tree().create_timer(2).timeout.connect(func (): stage_announce_label.hide())
 
-	curr_stage_idx = id
 	_exit_entered_barrier = false
 	_exit_spawned_barrier = false
 	stage_done = false 
-	load_next_stage_set(id)
+	load_next_stage_set(curr_stage_idx)
 
 ## for a given stage loads the next stages into the tree with a lookahead in a BDS approach
 ## [param id] int index of the choosen stage in the stage_data_arr
@@ -159,12 +172,12 @@ func start():
 	assert(stage_data_arr != [], "stage_data not loaded")
 	
 	stage_done = false
-	stage_announce_label.text = stage_data_arr[0].stage_node_title
-	stage_announce_label.show()
 	fade.get_node("FadeInOutRect").show()
 	if gamestate.current_save.fresh_save:
 		init_new_save()
 	score = gamestate.current_save.current_score
+	stage_announce_label.text = stage_data_arr[gamestate.current_save.last_stage].stage_node_title
+	stage_announce_label.show()
 	await get_tree().create_timer(0.1).timeout
 	fade.play("fade_in")
 
@@ -200,20 +213,22 @@ func start():
 
 	activate_ui_and_music()
 
-	stage.enable.call_deferred(
-		stage_data_arr[gamestate.current_save.last_stage].exit_resource,
-		stage_data_arr[gamestate.current_save.last_stage].enemy_resource,
-		stage_data_arr[gamestate.current_save.last_stage].pickup_resource,
-		stage_data_arr[gamestate.current_save.last_stage].spawnpoint_resource,
-		stage_data_arr[gamestate.current_save.last_stage].unbreakable_resource,
-		stage_data_arr[gamestate.current_save.last_stage].breakable_resource,
-	)
 	curr_stage_idx = gamestate.current_save.last_stage
+	stage.enable.call_deferred(
+		stage_data_arr[curr_stage_idx].exit_resource,
+		stage_data_arr[curr_stage_idx].enemy_resource,
+		stage_data_arr[curr_stage_idx].pickup_resource,
+		stage_data_arr[curr_stage_idx].spawnpoint_resource,
+		stage_data_arr[curr_stage_idx].unbreakable_resource,
+		stage_data_arr[curr_stage_idx].breakable_resource,
+	)
 	first_start = false
 	stage_has_changed.emit.call_deferred()
 
 	await fade.animation_finished
-	get_tree().create_timer(0.5).timeout.connect(func (): stage_announce_label.hide())
+	if stage.alive_enemies.is_empty():
+		stage.all_enemied_died.emit(0)
+	get_tree().create_timer(2).timeout.connect(func (): stage_announce_label.hide())
 
 func activate_ui_and_music():
 	stage.start_music()
@@ -232,6 +247,21 @@ func activate_ui_and_music():
 		)
 
 	game_ui.start_timer(MATCH_TIME)
+
+func reset_players():
+	var players: Array[Player] = globals.player_manager.get_players()
+	if is_multiplayer_authority():
+		for player in players:
+			player.reset()
+			player.reset_pickups()
+			if player.name == "1": player.clear_save()
+
+func soft_reset_players():
+	var players: Array[Player] = globals.player_manager.get_players()
+	if is_multiplayer_authority():
+		for player in players:
+			player.reset()
+
 
 func init_new_save():
 	var exit_sum: int = GraphHelper.bfs_fold(
@@ -254,9 +284,12 @@ func init_new_save():
 	gamestate.current_save.fresh_save = false
 
 func save_on_finish(new_score: int, player: HumanPlayer):
-	gamestate.current_save.last_stage = 0
 	gamestate.current_save.current_score = new_score
 	player.clear_save()
+
+func save_on_restart():
+	gamestate.current_save.last_stage = 0
+	gamestate.current_save.current_score = 0
 
 func update_save(next_stage_idx: int, this_stage_idx: int, new_score: int, player: HumanPlayer):
 	gamestate.current_save.last_stage = next_stage_idx

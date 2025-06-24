@@ -15,6 +15,7 @@ func _enter() -> void:
 		return
 	self.enemy.stop_moving = true
 	self.enemy.anim_player.play("TomatoBoss/burry")
+	self.enemy.current_anim = ""
 	await self.enemy.anim_player.animation_finished
 	if globals.game.stage_done: return
 	self.enemy.cooldown_done = false

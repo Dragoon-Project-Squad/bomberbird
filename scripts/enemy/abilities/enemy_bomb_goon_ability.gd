@@ -15,6 +15,7 @@ func _enter() -> void:
 	else:
 		self.enemy.anim_player.play("bomb_goon/close_down")
 
+	self.enemy.current_anim = ""
 	var bombPos = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(self.enemy.position))
 
 	await self.enemy.anim_player.animation_finished
@@ -46,7 +47,7 @@ func _enter() -> void:
 	if globals.game.stage_done || self.enemy.disabled: return
 
 	self.enemy.anim_player.play("bomb_goon/RESET")
-	self.enemy.current_anim = "standing"
+	self.enemy.current_anim = ""
 
 	await self.enemy.anim_player.animation_finished
 	if globals.game.stage_done || self.enemy.disabled: return

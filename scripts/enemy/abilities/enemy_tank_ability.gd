@@ -36,6 +36,7 @@ func _enter() -> void:
 		break
 	if fire_breath_range > 0:
 		self.enemy.anim_player.play("tank/fire_breath")
+		self.enemy.current_anim = ""
 		await get_tree().create_timer(prep_time).timeout
 		if globals.game.stage_done || self.enemy.disabled: return
 		await fire_breath.start_breath(fire_breath_range)
@@ -51,4 +52,3 @@ func _reset() -> void:
 
 func _exit() -> void:
 	self.enemy.stop_moving = false
-	self.enemy.anim_player.play(self.enemy.animation_sub + "/" + self.enemy.current_anim)

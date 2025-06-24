@@ -54,10 +54,12 @@ func _reset():
 func do_dance():
 	if(world_data.is_tile(world_data.tiles.BOMB, self.enemy.position)): return
 	if(world_data.is_tile(world_data.tiles.MINE, self.enemy.position)): return
+	self.enemy.current_anim = ""
 	self.enemy.stop_moving = true
 	var timezone: StaticBody2D = self.enemy.get_node("timezone")
 
 	self.enemy.anim_player.play("alt_doki/spin")
+	self.enemy.current_anim = ""
 	await get_tree().create_timer(PREP_TIME).timeout
 	# This is kinda stupit but basically is ensures state after the await checks if the boss is in time_stopped state if so awaits that and then ensures state again
 	if globals.game.stage_done || self.enemy.disabled: return

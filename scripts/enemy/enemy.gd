@@ -45,6 +45,10 @@ func _ready() -> void:
 	assert(detection_handler.has_method("off"), "please make sure the detectionhandler has a method called off")
 	self._health = self.health
 	self.disable()
+	if self.has_node("DebugMarker"):
+		if OS.is_debug_build(): self.get_node("DebugMarker").show()
+		else: self.get_node("DebugMarker").hide()
+
 
 func init_clipping() -> void:
 	if self.wallthrought:

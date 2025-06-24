@@ -43,6 +43,7 @@ func do_crush():
 	self.is_crushing = true
 	self.enemy.stop_moving = true
 	self.enemy.anim_player.play("hammer/punch")
+	self.enemy.current_anim = ""
 
 	await self.enemy.anim_player.animation_finished
 	if globals.game.stage_done || self.enemy.health <= 0: return
