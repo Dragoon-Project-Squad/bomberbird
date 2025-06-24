@@ -6,7 +6,7 @@ extends Button
 @onready var score_label: Label = %ScoreLabel
 @onready var completion_label: Label = %CompletionLabel
 @onready var anim: AnimationPlayer = $AnimationPlayer
-@onready var audio_player: AudioStreamPlayer = $AudioStreamPlayer
+
 @onready var empty_save_texture = character_rect.texture.duplicate()
 
 var is_toggled_on: bool = false
@@ -23,7 +23,7 @@ func _on_toggled(button: BaseButton) -> void:
 	self.is_toggled_on = button == self
 	if self.is_toggled_on:
 		anim.play("select")
-		audio_player.play()
+		Wwise.post_event("snd_click", self)
 	else: anim.play("RESET")
 
 func set_save_name(nr: int):
@@ -49,4 +49,3 @@ func reset_to_empty():
 	score_label.set_text(format_string % [0])
 	completion_label.text = "0%"
 	character_rect.texture = empty_save_texture.duplicate()
-

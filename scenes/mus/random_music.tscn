@@ -1,13 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://bpnurkw1whl5i"]
 
-[ext_resource type="Script" uid="uid://ctul3g2isur00" path="res://scripts/random_music.gd" id="1_bcpyr"]
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_7j1x2"]
+[ext_resource type="Script" uid="uid://dgwlvvxb85sln" path="res://scripts/music.gd" id="1_bcpyr"]
+[ext_resource type="WwiseState" uid="uid://by8k7mgseipsu" path="res://Wwise/resources/State/{A258802D-1B1E-4885-976C-872C3B7D09FE}.tres" id="2_be75g"]
 
 [node name="Music" type="Node"]
 script = ExtResource("1_bcpyr")
 
-[node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
-stream = SubResource("AudioStreamRandomizer_7j1x2")
-volume_db = -4.685
-bus = &"Music"
+[node name="AkState" type="AkState" parent="."]
+state = ExtResource("2_be75g")
+trigger_on = 1

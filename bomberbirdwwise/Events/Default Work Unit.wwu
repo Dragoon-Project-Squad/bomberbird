@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{8AD54DB8-D7FD-4BC5-8670-3A94D6020772}" SchemaVersion="123">
+	<Events>
+		<WorkUnit Name="Default Work Unit" ID="{8AD54DB8-D7FD-4BC5-8670-3A94D6020772}" PersistMode="Standalone">
+			<ChildrenList>
+				<Folder Name="music" ID="{10419232-CFD8-40E7-94F2-A922A356A5AD}" ShortID="576728738">
+					<ChildrenList>
+						<Event Name="play_music_battle" ID="{3DE019D0-8CD6-4410-B024-C3F2247BBDD9}">
+							<ChildrenList>
+								<Action Name="" ID="{7DCCD8E4-A2DF-4D18-A07D-80ED457DE7AB}" ShortID="812601131">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="battle" ID="{89B9A151-FE25-4123-8F3C-47CF5078144D}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="stop_music" ID="{B2561857-CF34-428C-B27E-1D0742E6F4A2}">
+							<ChildrenList>
+								<Action Name="" ID="{198492C2-4DFA-43C4-836B-2DA7DBC7C742}" ShortID="553300967">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+										<Property Name="Scope" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="menu" ID="{2CFFB407-CEB9-4312-AB8C-E47E8D84E158}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{AE8B17D6-0DA1-4543-A34F-7E41D0BCBEFF}" ShortID="123834586">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+										<Property Name="Scope" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="dragoon_cafe" ID="{D10A1CD5-8952-498B-A201-AA90F03E9524}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{25C3BD5F-0E76-47D3-88FC-D424292E6385}" ShortID="451417021">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+										<Property Name="Scope" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="battle" ID="{89B9A151-FE25-4123-8F3C-47CF5078144D}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Folder Name="main menu" ID="{E09B18E8-66C6-4D58-A428-AE0C7E36B4B1}" ShortID="824280350">
+							<ChildrenList>
+								<Event Name="pause_music_main_menu" ID="{8E645519-CF89-458B-B73B-C74100A88AA2}">
+									<ChildrenList>
+										<Action Name="" ID="{AF06F2ED-88E2-4215-B8AB-5A315F1A0E11}" ShortID="595465545">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="7"/>
+												<Property Name="Scope" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="menu" ID="{2CFFB407-CEB9-4312-AB8C-E47E8D84E158}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="play_music_main_menu" ID="{9DD6E647-6A86-4609-B83E-6E4D47162C95}">
+									<ChildrenList>
+										<Action Name="" ID="{B17E985B-D0FE-4D14-A6F3-C8C4D95191B3}" ShortID="482699280">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="menu" ID="{2CFFB407-CEB9-4312-AB8C-E47E8D84E158}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="unpause_music_main_menu" ID="{6F15AD23-9688-4BFD-ACAD-1BA8F083AD51}">
+									<ChildrenList>
+										<Action Name="" ID="{4F268D62-6CE6-4254-B0D0-2953E7CDAC71}" ShortID="174220273">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="9"/>
+												<Property Name="Scope" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="menu" ID="{2CFFB407-CEB9-4312-AB8C-E47E8D84E158}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+							</ChildrenList>
+						</Folder>
+						<Folder Name="dragoon cafe" ID="{14DE4C44-2ACF-4E0C-8779-8D776CB8A804}" ShortID="991275184">
+							<ChildrenList>
+								<Event Name="play_music_dragoon_cafe" ID="{1E19996F-F80F-41CF-A16A-4AA69ECDB05A}">
+									<ChildrenList>
+										<Action Name="" ID="{A32C0137-D4BD-4A42-A575-2FF922FDEBF2}" ShortID="85418859">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="dragoon_cafe" ID="{D10A1CD5-8952-498B-A201-AA90F03E9524}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="pause_music_dragoon_cafe" ID="{2C6CE0B5-42B5-411F-84C5-DE27C76D2C93}">
+									<ChildrenList>
+										<Action Name="" ID="{9BEADE24-E99A-47E0-9181-D31B51E0F091}" ShortID="659367013">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="7"/>
+												<Property Name="Scope" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="dragoon_cafe" ID="{D10A1CD5-8952-498B-A201-AA90F03E9524}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="unpause_music_dragoon_cafe" ID="{404C2E28-526C-41A7-90DF-F583C28E946C}">
+									<ChildrenList>
+										<Action Name="" ID="{6CD1AA07-88F8-4E29-BD5B-1EC33F3435F1}" ShortID="715825521">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="9"/>
+												<Property Name="Scope" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="dragoon_cafe" ID="{D10A1CD5-8952-498B-A201-AA90F03E9524}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+							</ChildrenList>
+						</Folder>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="sfx" ID="{8EC85EE2-0488-4A30-8E92-50DC43EAA93D}" ShortID="823998233">
+					<ChildrenList>
+						<Event Name="snd_error" ID="{7CDF280F-85BA-44B7-AF42-B2759FD386B0}">
+							<ChildrenList>
+								<Action Name="" ID="{FBEFB66A-5566-4072-83D7-80991D7096C5}" ShortID="618396829">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="error" ID="{6BA71D20-983F-4756-9A71-5ACA3BD733FB}" WorkUnitID="{117B7D1D-55AF-426B-8FD8-E768576CFE9B}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="snd_secret" ID="{DD558461-8AB2-4BA0-9A7F-A086882D8FA9}">
+							<ChildrenList>
+								<Action Name="" ID="{8FDEA035-7CAF-4732-849A-50EC0AF7C18B}" ShortID="599824163">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="secret" ID="{85DCE99B-1AE7-47FC-B9F5-F816F564D852}" WorkUnitID="{117B7D1D-55AF-426B-8FD8-E768576CFE9B}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="snd_click" ID="{8F2C20DE-883A-4CCF-8802-3C533F14AEEB}">
+							<ChildrenList>
+								<Action Name="" ID="{CDBE9DEC-20D3-4A7E-BE41-B473B0FB5A18}" ShortID="251631920">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="click" ID="{48C4CA88-5A12-4A99-AD88-9A04A37AF1F8}" WorkUnitID="{117B7D1D-55AF-426B-8FD8-E768576CFE9B}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Folder Name="gameplay" ID="{29B0576B-3DC6-435A-AA81-CDB384B804DB}" ShortID="356091911">
+							<ChildrenList>
+								<Event Name="snd_bomb_explode" ID="{7EA4F10D-37A0-4895-A517-0D0AD765DCC8}">
+									<ChildrenList>
+										<Action Name="" ID="{324444D5-A908-4D60-98E1-7D42CBDD40C1}" ShortID="608494470">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="explosion" ID="{D0155820-BD00-4010-BBB8-B08DFA7D79AE}" WorkUnitID="{117B7D1D-55AF-426B-8FD8-E768576CFE9B}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="snd_debris" ID="{4F637E16-8C49-470D-BA0E-7D699FDA0F1E}">
+									<ChildrenList>
+										<Action Name="" ID="{81DD8CA9-4BA2-47F3-88B1-5E26D85D952D}" ShortID="511060783">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="debris" ID="{F44F8D26-C862-43C2-AD8F-D265ACF8BF00}" WorkUnitID="{117B7D1D-55AF-426B-8FD8-E768576CFE9B}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="snd_pickup_powerup" ID="{0333EAEF-F64E-4F40-BFEF-2089F8413F47}">
+									<ChildrenList>
+										<Action Name="" ID="{52727C4B-1077-44CB-87A9-E39B381108C7}" ShortID="908982591">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="powerup" ID="{D0CE13A6-4582-4E91-ABD7-AA2B9CAF5A93}" WorkUnitID="{117B7D1D-55AF-426B-8FD8-E768576CFE9B}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="snd_place_bomb" ID="{13841212-A10A-4076-B4A6-0A27CC773EE7}">
+									<ChildrenList>
+										<Action Name="" ID="{990B091C-5709-43CF-9E78-1127DF40B7EE}" ShortID="311681184">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="bombdrop" ID="{9C814ADA-8A6F-4C89-A0EC-5F4D6D1774C6}" WorkUnitID="{117B7D1D-55AF-426B-8FD8-E768576CFE9B}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="snd_player_hurt" ID="{15332791-C615-4FDC-9DE2-3505AD1A2232}">
+									<ChildrenList>
+										<Action Name="" ID="{58C073FC-A7AB-42DC-B047-C4DE1F1E15EC}" ShortID="584031940">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="playerhurt" ID="{64AC4BFB-0250-407B-A49E-CB9D48516C92}" WorkUnitID="{117B7D1D-55AF-426B-8FD8-E768576CFE9B}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="snd_throw_bomb" ID="{5F3D7381-E016-410D-A4B8-14ECA8071DF0}">
+									<ChildrenList>
+										<Action Name="" ID="{6ACA0F68-5F92-42DC-A0C7-C2A8DB1D8449}" ShortID="887021704">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="bombthrow" ID="{C3127B1E-6E80-41D2-AD48-BB73941B5976}" WorkUnitID="{117B7D1D-55AF-426B-8FD8-E768576CFE9B}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="snd_thrown_bomb_land" ID="{31EC80EC-AFE3-4820-9333-D40912E08EB2}">
+									<ChildrenList>
+										<Action Name="" ID="{6C47C345-724D-4B49-A40F-FFB1FB24B0C9}" ShortID="334682271">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="bombland" ID="{AF46747F-6F0C-4804-B6F5-1BA7EB653AFB}" WorkUnitID="{117B7D1D-55AF-426B-8FD8-E768576CFE9B}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+							</ChildrenList>
+						</Folder>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

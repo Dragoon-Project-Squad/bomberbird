@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://chv663cf634ry" path="res://scripts/ui/options_menu/options.gd" id="1_rs434"]
 [ext_resource type="Texture2D" uid="uid://bsu1o1vymo51p" path="res://assets/aesprite/Domber doki cenario1.png" id="2_mqvme"]
+[ext_resource type="WwiseEvent" uid="uid://cf8gacuqqx41t" path="res://Wwise/resources/Event/{1E19996F-F80F-41CF-A16A-4AA69ECDB05A}.tres" id="2_y4bli"]
 [ext_resource type="Theme" uid="uid://m30a0nncwbm0" path="res://assets/styles/options_menu.tres" id="3_4bifj"]
 [ext_resource type="Shader" uid="uid://c0qwo7bogo6j7" path="res://assets/shaders/blur.gdshader" id="3_y4bli"]
 [ext_resource type="PackedScene" uid="uid://cuslig6cjmt18" path="res://scenes/options_menu/settings_tab_container.tscn" id="4_pbji6"]
-[ext_resource type="AudioStream" uid="uid://bsv6xvb7bqh1h" path="res://sound/mus/config_dragoon_cafe.ogg" id="5_7inox"]
 [ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="5_8eue1"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rwie7"]
@@ -21,6 +21,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_rs434")
+options_music = ExtResource("2_y4bli")
 
 [node name="BG" type="Sprite2D" parent="."]
 self_modulate = Color(0.501961, 0.501961, 0.501961, 1)
@@ -73,10 +74,5 @@ theme = ExtResource("3_4bifj")
 text = "Exit"
 script = ExtResource("5_8eue1")
 metadata/_custom_type_script = "uid://boq3i75yls51h"
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_7inox")
-bus = &"Music"
-parameters/looping = true
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]

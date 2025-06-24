@@ -1,11 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://cuslig6cjmt18"]
+[gd_scene load_steps=10 format=3 uid="uid://cuslig6cjmt18"]
 
 [ext_resource type="PackedScene" uid="uid://btedou2ck0dq2" path="res://scenes/options_menu/audio_slider_settings.tscn" id="1_0xsqn"]
 [ext_resource type="Script" uid="uid://dwl8y187ro5f6" path="res://scenes/options_menu/settings_tab_container.gd" id="1_8iyed"]
 [ext_resource type="PackedScene" uid="uid://dde0vhaw16pm7" path="res://scenes/options_menu/hotkey_rebind_button.tscn" id="1_e0vr5"]
 [ext_resource type="PackedScene" uid="uid://cvmphqwgfj7s6" path="res://scenes/options_menu/window_mode_button.tscn" id="1_qe5us"]
 [ext_resource type="PackedScene" uid="uid://bji7xtln0wpgk" path="res://scenes/options_menu/resolution_mode_button.tscn" id="2_gsepo"]
-[ext_resource type="AudioStream" uid="uid://cb75c45y5yhvk" path="res://sound/fx/click.wav" id="6_wqed1"]
+[ext_resource type="WwiseEvent" uid="uid://bak0yi1280a42" path="res://Wwise/resources/Event/{7CDF280F-85BA-44B7-AF42-B2759FD386B0}.tres" id="2_ntcmh"]
+[ext_resource type="WwiseEvent" uid="uid://crkeu81oe3g7s" path="res://Wwise/resources/Event/{DD558461-8AB2-4BA0-9A7F-A086882D8FA9}.tres" id="3_2iadt"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hncmi"]
 
@@ -20,6 +21,8 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
 script = ExtResource("1_8iyed")
+error_sound = ExtResource("2_ntcmh")
+correct_sound = ExtResource("3_2iadt")
 
 [node name="TabContainer" type="TabContainer" parent="."]
 layout_mode = 1
@@ -214,9 +217,5 @@ bus_name = "Music"
 
 [node name="AudioSliderSettings3" parent="TabContainer/Sound/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_0xsqn")]
 layout_mode = 2
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_wqed1")
-bus = &"SFX"
 
 [connection signal="pressed" from="TabContainer/General/MarginContainer/VBoxContainer/HBoxContainer/PasswordSubmit" to="." method="_on_password_submit_pressed"]

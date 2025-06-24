@@ -15,10 +15,12 @@ var is_exploded: bool = false
 var pierce := false
 var mine := false
 
-@export var bomb_place_audio: AudioStreamWAV = load("res://sound/fx/bombdrop.wav")
-@onready var bomb_placement_sfx_player: AudioStreamPlayer
-@export var explosion_audio : AudioStreamWAV = load("res://sound/fx/explosion.wav")
-@onready var explosion_sfx_player: AudioStreamPlayer2D #Left 2D for Monsto fix
+## A Wwise event containing the bomb placing sound effect. Trigger with .post(self)
+@export var bomb_place_audio: WwiseEvent
+
+## A Wwise event containing the explosion sound effect. Trigger with .post(self)
+@export var explosion_audio : WwiseEvent
+
 @onready var rays: Node2D = $Raycasts
 @onready var bombsprite: Sprite2D = $BombSprite
 @onready var explosion: Explosion = $Explosion
@@ -28,16 +30,11 @@ var force_collision: bool = false
 var armed: bool = false
 
 func _ready():
-	explosion_sfx_player = bomb_pool.get_node("BombGlobalAudioPlayers/ExplosionSoundPlayer")
-	bomb_placement_sfx_player = get_node("BombPlacementPlayer")
-	explosion_sfx_player.set_stream(explosion_audio)
-	bomb_placement_sfx_player.set_stream(bomb_place_audio)
 	self.explosion.is_finished_exploding.connect(done)
 	self.explosion.has_killed.connect(_kill)
 	self.visible = false
 
 func disable():
-	explosion_sfx_player.position = Vector2.ZERO #Mmonsto Fix
 	self.position = Vector2.ZERO
 	self.explosion_width = 2
 	set_collision_layer_value(4, true)
@@ -70,7 +67,7 @@ func set_bomb_type(bomb_type: int):
 func place(bombPos: Vector2, fuse_time_passed: float = 0, force_collision: bool = false):
 	assert(world_data.is_out_of_bounds(bombPos) == world_data.bounds.IN, "bomb placed outside of bounce")
 	is_exploded = false 
-	bomb_placement_sfx_player.play()
+	bomb_place_audio.post(self)
 	bomb_root.position = bombPos
 	self.visible = true
 	self.force_collision = force_collision
@@ -93,9 +90,7 @@ func hide_mine():
 ## started the detonation call chain, calculates the true range of the explosion by checking for any breakables in its path, destroys those and corrects its exposion size before telling the exposion child to activate
 func detonate():
 	is_exploded = true
-	explosion_sfx_player.stop()
-	explosion_sfx_player.position = bomb_root.position #Monsto Fix
-	explosion_sfx_player.play()
+	explosion_audio.post(self)
 	var exp_range = {Vector2i.RIGHT: explosion_width, Vector2i.DOWN: explosion_width, Vector2i.LEFT: explosion_width, Vector2i.UP: explosion_width}
 	for ray: RayCast2D in rays.get_children():
 		var ray_direction = ray.get_meta("direction")

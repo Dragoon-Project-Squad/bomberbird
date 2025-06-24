@@ -2,19 +2,24 @@ extends Control
 @onready var title_sceen: Node2D = $TitleSceen
 @onready var button_box: VBoxContainer = $ButtonBox
 @onready var options_menu: Control = $OptionsMenu
-@onready var main_menu_music_player: AudioStreamPlayer = $AudioStreamPlayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	main_menu_music_player.play()
-	main_menu_music_player.autoplay = true
+	
+	# stops all music to be safe
+	Wwise.post_event("stop_music", self)
+	# plays the main menu music
+	Wwise.post_event("play_music_main_menu", self)
+
 	$ButtonBox/Singleplayer.grab_focus()
 	check_secret()
 
 func switch_to_options_menu() -> void:
 	hide_main_menu()
 	options_menu.visible = true
-	options_menu.options_music_player.play()
+	
+	# plays the options music resource in the OptionsMenu node
+	options_menu.options_music.post(options_menu)
 	
 func hide_main_menu() -> void:
 	title_sceen.hide()
@@ -27,10 +32,12 @@ func reveal_main_menu() -> void:
 	$DokiSubscribeLink.show()
 
 func pause_main_menu_music() -> void:
-	main_menu_music_player.stream_paused = true
+	# pauses the main menu music if playing in wwise
+	Wwise.post_event("pause_music_main_menu", self)
 	
 func unpause_main_menu_music() -> void:
-	main_menu_music_player.stream_paused = false
+	# resumes the main menu music if playing in wwise
+	Wwise.post_event("unpause_music_main_menu", self)
 	
 func check_secret() -> void:
 	if SettingsContainer.get_data_flag() == "boo":
@@ -39,10 +46,14 @@ func check_secret() -> void:
 	#Do NOT set it to false if the data isn't there.
 
 func _on_single_player_pressed() -> void:
+	# stops ALL music
+	Wwise.post_event("stop_music", self)
 	get_tree().change_scene_to_file("res://scenes/lobby/sp_lobby.tscn")
 	hide();
 
 func _on_multiplayer_pressed() -> void:
+	# stops ALL music
+	Wwise.post_event("stop_music", self)
 	get_tree().change_scene_to_file("res://scenes/lobby/lobby.tscn")
 	hide();
 

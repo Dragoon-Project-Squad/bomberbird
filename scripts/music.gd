@@ -1,9 +1,10 @@
 extends Node
 
-@onready var mus_player: AudioStreamPlayer2D = $MusicPlayer
-
 func play() -> void:
-	mus_player.play()
+	# stops any currently playing music to be safe, then plays battle music
+	Wwise.post_event("stop_music", self)
+	Wwise.post_event("play_music_battle", self)
 
 func stop() -> void:
-	mus_player.stop()
+	# stops all currently playing music
+	Wwise.post_event("stop_music", self)

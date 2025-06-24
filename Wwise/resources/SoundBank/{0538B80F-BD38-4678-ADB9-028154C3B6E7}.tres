@@ -1,0 +1,7 @@
+[gd_resource type="WwiseBank" format=3 uid="uid://bc3amq4dnagqi"]
+
+[resource]
+name = "game"
+id = 702482391
+guid = "{0538B80F-BD38-4678-ADB9-028154C3B6E7}"
+dummy = true

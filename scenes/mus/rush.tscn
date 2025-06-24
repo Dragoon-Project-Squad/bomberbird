@@ -1,13 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://bbtw8lckcv2kj"]
 
 [ext_resource type="Script" uid="uid://dgwlvvxb85sln" path="res://scripts/music.gd" id="1_nhewe"]
-[ext_resource type="AudioStream" uid="uid://dmqd13myf4q31" path="res://sound/mus/battle/battle3_rush.ogg" id="2_nhewe"]
+[ext_resource type="WwiseState" uid="uid://bea1dk34pc6db" path="res://Wwise/resources/State/{9F886BF6-0CCB-4BE4-AAE9-E2E996283B7D}.tres" id="3_ji2h4"]
 
 [node name="Music" type="Node"]
 script = ExtResource("1_nhewe")
 
-[node name="MusicPlayer" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("2_nhewe")
-volume_db = -4.685
-bus = &"Music"
-parameters/looping = true
+[node name="AkState" type="AkState" parent="."]
+state = ExtResource("3_ji2h4")
+trigger_on = 1

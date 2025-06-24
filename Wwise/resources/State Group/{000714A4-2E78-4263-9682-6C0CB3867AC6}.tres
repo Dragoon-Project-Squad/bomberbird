@@ -1,0 +1,7 @@
+[gd_resource type="WwiseStateGroup" format=3 uid="uid://dm11jahuttbhm"]
+
+[resource]
+name = "battle_track"
+id = 896293863
+guid = "{000714A4-2E78-4263-9682-6C0CB3867AC6}"
+dummy = true

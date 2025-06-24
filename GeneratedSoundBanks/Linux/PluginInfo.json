@@ -1,0 +1,26 @@
+{
+ "PluginInfo": {
+  "Platform": "Linux",
+  "BasePlatform": "Linux",
+  "PluginLibs": [
+   {
+    "LibName": "Wwise Peak Limiter",
+    "LibId": "7208963",
+    "Type": "Effect",
+    "DLL": "AkPeakLimiter",
+    "StaticLib": "AkPeakLimiterFX"
+   },
+   {
+    "LibName": "System",
+    "LibId": "11403271",
+    "Type": "AudioDevice"
+   },
+   {
+    "LibName": "No Output",
+    "LibId": "11862023",
+    "Type": "AudioDevice"
+   }
+  ],
+  "FileHash": "{790E378C-FB7D-694A-60BB-9D2937732624}"
+ }
+}

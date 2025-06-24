@@ -1,0 +1,527 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Linux",
+  "BasePlatform": "Linux",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "154",
+  "SoundBanks": [
+   {
+    "Id": "702482391",
+    "Type": "User",
+    "GUID": "{0538B80F-BD38-4678-ADB9-028154C3B6E7}",
+    "Language": "SFX",
+    "Hash": "{B02155AB-3F78-7C01-49B9-323608D73232}",
+    "ObjectPath": "\\SoundBanks\\Default Work Unit\\game",
+    "ShortName": "game",
+    "Path": "game.bnk",
+    "Media": [
+     {
+      "Id": "67906233",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "rush_loop.wav",
+      "CachePath": "D4/{D4AF26B0-AEFF-D271-BE33-AD18BFAECABF}.wem"
+     },
+     {
+      "Id": "108028471",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "bombthrow.wav",
+      "CachePath": "B6/{B669CA62-BE0D-87E8-A36D-13D214E45CAA}.wem"
+     },
+     {
+      "Id": "223997808",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "explosion.wav",
+      "CachePath": "3B/{3B6514EB-97B1-9CCC-8379-9AC7CEF23E82}.wem"
+     },
+     {
+      "Id": "279787638",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "menu_loop.wav",
+      "CachePath": "0A/{0AC76D6E-A2E5-DFA2-773A-DB9D64475EEE}.wem"
+     },
+     {
+      "Id": "337709377",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "playerhurt.wav",
+      "CachePath": "50/{50173AEA-0AE0-3B6D-9095-2B5BB83006B3}.wem"
+     },
+     {
+      "Id": "341177717",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "bountyhunterjam_loop.wav",
+      "CachePath": "0A/{0ACB7EBE-98CF-8A30-0D8A-42BA7A691EF9}.wem"
+     },
+     {
+      "Id": "343780711",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "secret.wav",
+      "CachePath": "0F/{0F6DCCD7-BA1C-B49E-8D16-3432C4791128}.wem"
+     },
+     {
+      "Id": "396803010",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "menu_intro.wav",
+      "CachePath": "5A/{5A89DF5E-725E-9668-7FBB-B049EA4A28EA}.wem"
+     },
+     {
+      "Id": "510097468",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "minki_loop.wav",
+      "CachePath": "41/{41B6D17D-CB42-DA21-1332-84C294371E79}.wem"
+     },
+     {
+      "Id": "575326219",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "dad drive_loop.wav",
+      "CachePath": "EB/{EB706188-7A23-E1A4-1289-776211AF4988}.wem"
+     },
+     {
+      "Id": "663920872",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "rush_intro.wav",
+      "CachePath": "65/{6518C3FE-87DF-40E0-F4F7-5175DCC104BF}.wem"
+     },
+     {
+      "Id": "750254234",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "error.wav",
+      "CachePath": "D4/{D49C251F-47B1-4B70-E7C7-33382055A1A5}.wem"
+     },
+     {
+      "Id": "813215202",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "debris.wav",
+      "CachePath": "7F/{7FD192B3-52C4-157B-3D68-6852971FB902}.wem"
+     },
+     {
+      "Id": "867475308",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "bombland.wav",
+      "CachePath": "B6/{B652C8F9-B6A3-A6D9-0A6D-A72C8B36F292}.wem"
+     },
+     {
+      "Id": "909197063",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "click.wav",
+      "CachePath": "D3/{D35F7BD1-4621-2FCB-2655-83C66CA19ADC}.wem"
+     },
+     {
+      "Id": "928220902",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "powerup.wav",
+      "CachePath": "43/{4322E8D8-B7EB-A393-2517-CFF27C85D634}.wem"
+     },
+     {
+      "Id": "987020498",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "bombdrop.wav",
+      "CachePath": "32/{325F6DD5-7CC5-2519-AE10-34175EA7DD66}.wem"
+     },
+     {
+      "Id": "1067920505",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "dragoon cafe_loop.wav",
+      "CachePath": "09/{096664C6-93E0-1A43-60BD-B2E185E7C34E}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "970815282",
+      "Name": "pause_music_dragoon_cafe",
+      "ObjectPath": "\\Events\\Default Work Unit\\music\\dragoon cafe\\pause_music_dragoon_cafe",
+      "GUID": "{2C6CE0B5-42B5-411F-84C5-DE27C76D2C93}",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
+     },
+     {
+      "Id": "1893277663",
+      "Name": "pause_music_main_menu",
+      "ObjectPath": "\\Events\\Default Work Unit\\music\\main menu\\pause_music_main_menu",
+      "GUID": "{8E645519-CF89-458B-B73B-C74100A88AA2}",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
+     },
+     {
+      "Id": "230359828",
+      "Name": "play_music_battle",
+      "ObjectPath": "\\Events\\Default Work Unit\\music\\play_music_battle",
+      "GUID": "{3DE019D0-8CD6-4410-B024-C3F2247BBDD9}",
+      "DurationType": "Infinite",
+      "SwitchContainers": [
+       {
+        "SwitchValue": {
+         "GroupType": "State",
+         "GroupId": "896293863",
+         "Id": "2275039111",
+         "GUID": "{9F886BF6-0CCB-4BE4-AAE9-E2E996283B7D}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "67906233"
+         },
+         {
+          "Id": "663920872"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "State",
+         "GroupId": "896293863",
+         "Id": "3671065912",
+         "GUID": "{A19BA789-9EEE-4E1A-83B9-E21D457D698D}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "341177717"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "State",
+         "GroupId": "896293863",
+         "Id": "3284605273",
+         "GUID": "{77EE4228-9450-497E-BF7B-297D0A75E710}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "575326219"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "State",
+         "GroupId": "896293863",
+         "Id": "3432696479",
+         "GUID": "{1B072E95-1A99-4EF2-A37D-AF6F7238DB93}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "510097468"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "State",
+         "GroupId": "896293863",
+         "Id": "3048058352",
+         "GUID": "{A258802D-1B1E-4885-976C-872C3B7D09FE}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "67906233"
+         },
+         {
+          "Id": "341177717"
+         },
+         {
+          "Id": "510097468"
+         },
+         {
+          "Id": "575326219"
+         },
+         {
+          "Id": "663920872"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "Id": "2372074968",
+      "Name": "play_music_dragoon_cafe",
+      "ObjectPath": "\\Events\\Default Work Unit\\music\\dragoon cafe\\play_music_dragoon_cafe",
+      "GUID": "{1E19996F-F80F-41CF-A16A-4AA69ECDB05A}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "1067920505"
+       }
+      ]
+     },
+     {
+      "Id": "3968446557",
+      "Name": "play_music_main_menu",
+      "ObjectPath": "\\Events\\Default Work Unit\\music\\main menu\\play_music_main_menu",
+      "GUID": "{9DD6E647-6A86-4609-B83E-6E4D47162C95}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "279787638"
+       },
+       {
+        "Id": "396803010"
+       }
+      ]
+     },
+     {
+      "Id": "1021163675",
+      "Name": "snd_bomb_explode",
+      "ObjectPath": "\\Events\\Default Work Unit\\sfx\\gameplay\\snd_bomb_explode",
+      "GUID": "{7EA4F10D-37A0-4895-A517-0D0AD765DCC8}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.8287917",
+      "DurationMax": "0.8287917",
+      "MediaRefs": [
+       {
+        "Id": "223997808"
+       }
+      ]
+     },
+     {
+      "Id": "2141685911",
+      "Name": "snd_click",
+      "ObjectPath": "\\Events\\Default Work Unit\\sfx\\snd_click",
+      "GUID": "{8F2C20DE-883A-4CCF-8802-3C533F14AEEB}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.5",
+      "DurationMax": "0.5",
+      "MediaRefs": [
+       {
+        "Id": "909197063"
+       }
+      ]
+     },
+     {
+      "Id": "3772742044",
+      "Name": "snd_debris",
+      "ObjectPath": "\\Events\\Default Work Unit\\sfx\\gameplay\\snd_debris",
+      "GUID": "{4F637E16-8C49-470D-BA0E-7D699FDA0F1E}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.5",
+      "DurationMax": "0.5",
+      "MediaRefs": [
+       {
+        "Id": "813215202"
+       }
+      ]
+     },
+     {
+      "Id": "1466666825",
+      "Name": "snd_error",
+      "ObjectPath": "\\Events\\Default Work Unit\\sfx\\snd_error",
+      "GUID": "{7CDF280F-85BA-44B7-AF42-B2759FD386B0}",
+      "DurationType": "OneShot",
+      "DurationMin": "1.5",
+      "DurationMax": "1.5",
+      "MediaRefs": [
+       {
+        "Id": "750254234"
+       }
+      ]
+     },
+     {
+      "Id": "712210112",
+      "Name": "snd_pickup_powerup",
+      "ObjectPath": "\\Events\\Default Work Unit\\sfx\\gameplay\\snd_pickup_powerup",
+      "GUID": "{0333EAEF-F64E-4F40-BFEF-2089F8413F47}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.5",
+      "DurationMax": "0.5",
+      "MediaRefs": [
+       {
+        "Id": "928220902"
+       }
+      ]
+     },
+     {
+      "Id": "2626686445",
+      "Name": "snd_place_bomb",
+      "ObjectPath": "\\Events\\Default Work Unit\\sfx\\gameplay\\snd_place_bomb",
+      "GUID": "{13841212-A10A-4076-B4A6-0A27CC773EE7}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.94070834",
+      "DurationMax": "0.94070834",
+      "MediaRefs": [
+       {
+        "Id": "987020498"
+       }
+      ]
+     },
+     {
+      "Id": "3304910170",
+      "Name": "snd_player_hurt",
+      "ObjectPath": "\\Events\\Default Work Unit\\sfx\\gameplay\\snd_player_hurt",
+      "GUID": "{15332791-C615-4FDC-9DE2-3505AD1A2232}",
+      "DurationType": "OneShot",
+      "DurationMin": "1.5",
+      "DurationMax": "1.5",
+      "MediaRefs": [
+       {
+        "Id": "337709377"
+       }
+      ]
+     },
+     {
+      "Id": "2418319985",
+      "Name": "snd_secret",
+      "ObjectPath": "\\Events\\Default Work Unit\\sfx\\snd_secret",
+      "GUID": "{DD558461-8AB2-4BA0-9A7F-A086882D8FA9}",
+      "DurationType": "OneShot",
+      "DurationMin": "1",
+      "DurationMax": "1",
+      "MediaRefs": [
+       {
+        "Id": "343780711"
+       }
+      ]
+     },
+     {
+      "Id": "2124105734",
+      "Name": "snd_throw_bomb",
+      "ObjectPath": "\\Events\\Default Work Unit\\sfx\\gameplay\\snd_throw_bomb",
+      "GUID": "{5F3D7381-E016-410D-A4B8-14ECA8071DF0}",
+      "DurationType": "OneShot",
+      "DurationMin": "1",
+      "DurationMax": "1",
+      "MediaRefs": [
+       {
+        "Id": "108028471"
+       }
+      ]
+     },
+     {
+      "Id": "1948188490",
+      "Name": "snd_thrown_bomb_land",
+      "ObjectPath": "\\Events\\Default Work Unit\\sfx\\gameplay\\snd_thrown_bomb_land",
+      "GUID": "{31EC80EC-AFE3-4820-9333-D40912E08EB2}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.5",
+      "DurationMax": "0.5",
+      "MediaRefs": [
+       {
+        "Id": "867475308"
+       }
+      ]
+     },
+     {
+      "Id": "2837384057",
+      "Name": "stop_music",
+      "ObjectPath": "\\Events\\Default Work Unit\\music\\stop_music",
+      "GUID": "{B2561857-CF34-428C-B27E-1D0742E6F4A2}",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
+     },
+     {
+      "Id": "2726913135",
+      "Name": "unpause_music_dragoon_cafe",
+      "ObjectPath": "\\Events\\Default Work Unit\\music\\dragoon cafe\\unpause_music_dragoon_cafe",
+      "GUID": "{404C2E28-526C-41A7-90DF-F583C28E946C}",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
+     },
+     {
+      "Id": "3895502332",
+      "Name": "unpause_music_main_menu",
+      "ObjectPath": "\\Events\\Default Work Unit\\music\\main menu\\unpause_music_main_menu",
+      "GUID": "{6F15AD23-9688-4BFD-ACAD-1BA8F083AD51}",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
+     }
+    ],
+    "StateGroups": [
+     {
+      "Id": "896293863",
+      "Name": "battle_track",
+      "ObjectPath": "\\States\\Default Work Unit\\battle_track",
+      "GUID": "{000714A4-2E78-4263-9682-6C0CB3867AC6}",
+      "States": [
+       {
+        "Id": "608898761",
+        "Name": "dungeon",
+        "ObjectPath": "\\States\\Default Work Unit\\battle_track\\dungeon",
+        "GUID": "{C3C65153-42C4-4C7A-990E-D541A0A359DD}"
+       },
+       {
+        "Id": "748895195",
+        "Name": "None",
+        "ObjectPath": "\\States\\Default Work Unit\\battle_track\\None",
+        "GUID": "{5BC471B7-4859-450E-93CE-FB7F414DB77B}"
+       },
+       {
+        "Id": "2275039111",
+        "Name": "rush",
+        "ObjectPath": "\\States\\Default Work Unit\\battle_track\\rush",
+        "GUID": "{9F886BF6-0CCB-4BE4-AAE9-E2E996283B7D}"
+       },
+       {
+        "Id": "3048058352",
+        "Name": "random",
+        "ObjectPath": "\\States\\Default Work Unit\\battle_track\\random",
+        "GUID": "{A258802D-1B1E-4885-976C-872C3B7D09FE}"
+       },
+       {
+        "Id": "3284605273",
+        "Name": "dad_drive",
+        "ObjectPath": "\\States\\Default Work Unit\\battle_track\\dad_drive",
+        "GUID": "{77EE4228-9450-497E-BF7B-297D0A75E710}"
+       },
+       {
+        "Id": "3432696479",
+        "Name": "minki",
+        "ObjectPath": "\\States\\Default Work Unit\\battle_track\\minki",
+        "GUID": "{1B072E95-1A99-4EF2-A37D-AF6F7238DB93}"
+       },
+       {
+        "Id": "3671065912",
+        "Name": "bounty_hunter_jam",
+        "ObjectPath": "\\States\\Default Work Unit\\battle_track\\bounty_hunter_jam",
+        "GUID": "{A19BA789-9EEE-4E1A-83B9-E21D457D698D}"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{8B9E9E1C-33A0-5EE7-FE33-3E3AAD1832F0}"
+ }
+}

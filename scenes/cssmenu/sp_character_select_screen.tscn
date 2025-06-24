@@ -1,8 +1,10 @@
-[gd_scene load_steps=21 format=3 uid="uid://cwhum362lt6ww"]
+[gd_scene load_steps=23 format=3 uid="uid://cwhum362lt6ww"]
 
 [ext_resource type="Script" uid="uid://diwfw63wskeam" path="res://scripts/ui/cssmenu/sp_character_select_screen.gd" id="1_m7566"]
+[ext_resource type="WwiseEvent" uid="uid://bak0yi1280a42" path="res://Wwise/resources/Event/{7CDF280F-85BA-44B7-AF42-B2759FD386B0}.tres" id="2_8ct70"]
 [ext_resource type="Theme" uid="uid://bgj72vffexht" path="res://assets/styles/panel_theme.tres" id="3_5sbwn"]
 [ext_resource type="ButtonGroup" uid="uid://d1505t6ofb1nv" path="res://scenes/cssmenu/sp_character_select_button_group.tres" id="3_m7566"]
+[ext_resource type="WwiseEvent" uid="uid://b15pfcpwpul2n" path="res://Wwise/resources/Event/{8F2C20DE-883A-4CCF-8802-3C533F14AEEB}.tres" id="3_yavy2"]
 [ext_resource type="Texture2D" uid="uid://dc6n600vfnmgp" path="res://assets/css/eggoon.png" id="4_dhy2l"]
 [ext_resource type="Texture2D" uid="uid://bb8yee4kwa6dt" path="res://assets/css/normalgoon.png" id="5_5yoqc"]
 [ext_resource type="Texture2D" uid="uid://d3cn5or0vkn23" path="res://assets/css/chonkgoon.png" id="6_8ct70"]
@@ -15,7 +17,6 @@
 [ext_resource type="Texture2D" uid="uid://bpx3jen13addh" path="res://assets/css/tomato.png" id="13_bx7t6"]
 [ext_resource type="Texture2D" uid="uid://cefndan5pti47" path="res://assets/css/wisp.png" id="14_dj41s"]
 [ext_resource type="Texture2D" uid="uid://bngq754xh3q18" path="res://assets/css/maidmint.png" id="15_y4rb0"]
-[ext_resource type="AudioStream" uid="uid://cb75c45y5yhvk" path="res://sound/fx/click.wav" id="16_41akf"]
 [ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="17_sdw0t"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="18_bappc"]
 [ext_resource type="PackedScene" uid="uid://c7x6djajavw8b" path="res://scenes/debug_campaign_selector.tscn" id="19_dhy2l"]
@@ -39,6 +40,8 @@ offset_left = 2.0
 offset_right = 1154.0
 offset_bottom = 648.0
 script = ExtResource("1_m7566")
+error_sound = ExtResource("2_8ct70")
+select_sound = ExtResource("3_yavy2")
 
 [node name="CSSLabel" type="Label" parent="."]
 layout_mode = 1
@@ -359,10 +362,6 @@ offset_bottom = 4.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_m7566")
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("16_41akf")
-bus = &"SFX"
 
 [node name="Start" type="Button" parent="." groups=["ui_button"]]
 layout_mode = 1

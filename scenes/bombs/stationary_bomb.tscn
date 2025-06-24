@@ -1,10 +1,10 @@
 [gd_scene load_steps=13 format=3 uid="uid://ct3sf5ul21w14"]
 
 [ext_resource type="Script" uid="uid://bqtpsqboowpbk" path="res://scripts/bomb/stationary_bomb.gd" id="1"]
-[ext_resource type="AudioStream" uid="uid://boidckhyrna5i" path="res://sound/fx/explosion.wav" id="2_gmoi6"]
+[ext_resource type="WwiseEvent" uid="uid://dwwb8yu7cd33h" path="res://Wwise/resources/Event/{13841212-A10A-4076-B4A6-0A27CC773EE7}.tres" id="2_0y1f5"]
 [ext_resource type="Texture2D" uid="uid://colmsqhmxnr47" path="res://assets/egg_bomb.png" id="3_0y1f5"]
+[ext_resource type="WwiseEvent" uid="uid://ce2xmbtxm5wb8" path="res://Wwise/resources/Event/{7EA4F10D-37A0-4895-A517-0D0AD765DCC8}.tres" id="3_5ti60"]
 [ext_resource type="PackedScene" uid="uid://c3row0thknslo" path="res://scenes/explosion.tscn" id="4_4i8os"]
-[ext_resource type="AudioStream" uid="uid://kkul2topsufx" path="res://sound/fx/bombdrop.wav" id="4_nrvts"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6btgv"]
 size = Vector2(30, 30)
@@ -143,7 +143,8 @@ texture_filter = 1
 collision_layer = 8
 collision_mask = 38
 script = ExtResource("1")
-explosion_audio = ExtResource("2_gmoi6")
+bomb_place_audio = ExtResource("2_0y1f5")
+explosion_audio = ExtResource("3_5ti60")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_6btgv")
@@ -194,10 +195,6 @@ region_enabled = true
 region_rect = Rect2(0, 0, 96, 32)
 
 [node name="Explosion" parent="." instance=ExtResource("4_4i8os")]
-
-[node name="BombPlacementPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_nrvts")
-bus = &"SFX"
 
 [connection signal="body_entered" from="DetectArea" to="." method="_on_detect_area_body_entered"]
 [connection signal="body_exited" from="DetectArea" to="." method="_on_detect_area_body_exit"]

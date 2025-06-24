@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{D0003C71-216D-472C-93A1-FB29287A9FDA}" SchemaVersion="123">
+	<States>
+		<WorkUnit Name="Default Work Unit" ID="{D0003C71-216D-472C-93A1-FB29287A9FDA}" PersistMode="Standalone">
+			<ChildrenList>
+				<StateGroup Name="battle_track" ID="{000714A4-2E78-4263-9682-6C0CB3867AC6}">
+					<PropertyList>
+						<Property Name="DefaultTransitionTime" Type="Real64" Value="0"/>
+					</PropertyList>
+					<ChildrenList>
+						<State Name="None" ID="{5BC471B7-4859-450E-93CE-FB7F414DB77B}"/>
+						<State Name="bounty_hunter_jam" ID="{A19BA789-9EEE-4E1A-83B9-E21D457D698D}"/>
+						<State Name="rush" ID="{9F886BF6-0CCB-4BE4-AAE9-E2E996283B7D}"/>
+						<State Name="dungeon" ID="{C3C65153-42C4-4C7A-990E-D541A0A359DD}"/>
+						<State Name="dad_drive" ID="{77EE4228-9450-497E-BF7B-297D0A75E710}"/>
+						<State Name="minki" ID="{1B072E95-1A99-4EF2-A37D-AF6F7238DB93}"/>
+						<State Name="random" ID="{A258802D-1B1E-4885-976C-872C3B7D09FE}"/>
+					</ChildrenList>
+				</StateGroup>
+			</ChildrenList>
+		</WorkUnit>
+	</States>
+</WwiseDocument>

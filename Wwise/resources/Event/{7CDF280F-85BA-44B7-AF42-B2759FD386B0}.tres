@@ -1,0 +1,8 @@
+[gd_resource type="WwiseEvent" format=3 uid="uid://bak0yi1280a42"]
+
+[resource]
+is_in_user_defined_sound_bank = true
+name = "snd_error"
+id = 1466666825
+guid = "{7CDF280F-85BA-44B7-AF42-B2759FD386B0}"
+dummy = true

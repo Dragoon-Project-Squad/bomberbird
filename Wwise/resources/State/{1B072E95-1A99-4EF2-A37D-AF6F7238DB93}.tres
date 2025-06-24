@@ -1,0 +1,11 @@
+[gd_resource type="WwiseState" load_steps=2 format=3 uid="uid://cyv6cka08fu0u"]
+
+[ext_resource type="WwiseStateGroup" uid="uid://dm11jahuttbhm" path="res://Wwise/resources/State Group/{000714A4-2E78-4263-9682-6C0CB3867AC6}.tres" id="1_hohay"]
+
+[resource]
+group_ref = ExtResource("1_hohay")
+group_id = 896293863
+name = "minki"
+id = 3432696479
+guid = "{1B072E95-1A99-4EF2-A37D-AF6F7238DB93}"
+dummy = true

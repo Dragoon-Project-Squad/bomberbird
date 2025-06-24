@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dgfv37m0j3grk"]
+[gd_scene load_steps=11 format=3 uid="uid://dgfv37m0j3grk"]
 
 [ext_resource type="Script" uid="uid://bq6xc0g4f6lhf" path="res://scripts/ui/main_menu.gd" id="1_qmksv"]
 [ext_resource type="Texture2D" uid="uid://bsu1o1vymo51p" path="res://assets/aesprite/Domber doki cenario1.png" id="2_u3scb"]
@@ -9,7 +9,6 @@
 [ext_resource type="StyleBox" uid="uid://dah145apm30c3" path="res://assets/styles/main_menu_select_style.tres" id="7_2iy8e"]
 [ext_resource type="StyleBox" uid="uid://c07q8xvjxkea6" path="res://assets/styles/main_menu_style.tres" id="7_nrhvf"]
 [ext_resource type="PackedScene" uid="uid://drj31ll2cuftl" path="res://scenes/options_menu/options_menu.tscn" id="8_m4i44"]
-[ext_resource type="AudioStream" uid="uid://dblrdj6byp4o6" path="res://sound/mus/menu_doki_doki_comes_home.ogg" id="10_5dd4i"]
 [ext_resource type="PackedScene" uid="uid://c6osao13wt47c" path="res://scenes/doki_subscribe_link.tscn" id="11_flqon"]
 
 [node name="MainMenu" type="Control"]
@@ -117,12 +116,6 @@ offset_right = 0.0
 offset_bottom = 0.0
 grow_horizontal = 0
 grow_vertical = 0
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("10_5dd4i")
-volume_db = -4.0
-bus = &"Music"
-parameters/looping = true
 
 [connection signal="pressed" from="ButtonBox/Singleplayer" to="." method="_on_single_player_pressed"]
 [connection signal="pressed" from="ButtonBox/Multiplayer" to="." method="_on_multiplayer_pressed"]

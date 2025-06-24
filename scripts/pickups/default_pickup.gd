@@ -7,9 +7,7 @@ enum {DISABLED, AIRBORN, CHECKING, PLACING, PLACED, ENUM_SIZE}
 const THROW_TIME: float = 0.3
 const THROW_ANGLE_RAD: float = - PI / 8
 
-@onready var pickup_sfx: AudioStreamWAV = load("res://sound/fx/powerup.wav")
-@onready var explosion_sfx: AudioStreamWAV = load("res://sound/fx/explosion.wav")
-@onready var pickup_sfx_player: AudioStreamPlayer = $PickupSoundPlayer
+## the pickup sound effect
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collisionbox: CollisionShape2D = $CollisionShape2D
 
@@ -102,16 +100,17 @@ func _on_body_entered(body: Node2D) -> void:
 	_pickup_pick_up_barrier = true
 	self.pickup_destroyed.emit()
 	#Prevent anyone else from colliding with this pickup
-	pickup_sfx_player.stream = pickup_sfx
-	pickup_sfx_player.play()
 	disable_collison_and_hide.rpc()
+	
+	# plays the pickup sound event
+	Wwise.post_event("snd_pickup_powerup", self)
 	
 	var pickup_owner = body
 	pickup_owner.pickups.add(pickup_type)
 	apply_power_up(pickup_owner)
 	
 	# Ensure powerup has time to play before pickup is destroyed
-	await pickup_sfx_player.finished
+	#await self.Wwise.end_of_event
 	disable.rpc()
 	globals.game.pickup_pool.return_obj.call_deferred(self) #Pickup returns itself to the pool
 
@@ -126,11 +125,11 @@ func exploded(_from_player):
 	disable_collison_and_hide()
 	if $anim:
 		$anim.play("pickup/explode_pickup")
-		pickup_sfx_player.stream = explosion_sfx
-		pickup_sfx_player.play()
+		#pickup_sfx_player.stream = explosion_sfx
+		#pickup_sfx_player.play()
 		await $anim.animation_finished
-		if pickup_sfx_player.playing:
-			await pickup_sfx_player.finished
+		#if pickup_sfx_player.playing:
+			#await pickup_sfx_player.finished
 		if globals.game.stage_done: return # if stage finished in the meantime just terminate here
 	disable()
 	globals.game.pickup_pool.return_obj(self) #Pickup returns itself to the pool

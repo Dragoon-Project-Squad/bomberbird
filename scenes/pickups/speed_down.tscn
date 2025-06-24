@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://ctdmuu6ywnj5"]
+[gd_scene load_steps=8 format=3 uid="uid://ctdmuu6ywnj5"]
 
 [ext_resource type="Script" uid="uid://bfuegjp02ob18" path="res://scripts/pickups/speed_down.gd" id="1_jjitg"]
 [ext_resource type="Texture2D" uid="uid://quoe0b8jbau3" path="res://assets/pickups/powerupsprites.png" id="1_oyfvf"]
-[ext_resource type="AudioStream" uid="uid://8u70xa4tmhc8" path="res://sound/fx/powerup.wav" id="2_khc8g"]
 [ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="3_jjitg"]
 [ext_resource type="AnimationLibrary" uid="uid://deqi1mrq6p7pt" path="res://animations/pickup.res" id="4_frvkq"]
 
@@ -37,10 +36,6 @@ shape = SubResource("RectangleShape2D_rgtgd")
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_khc8g")
 animation = &"idle"
-
-[node name="PickupSoundPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_khc8g")
-bus = &"SFX"
 
 [node name="kaboom" type="Sprite2D" parent="."]
 visible = false

@@ -16,6 +16,10 @@ func _ready() -> void:
 	
 
 func start_the_battle() -> void:
+	
+	#stops all music to signal to the player that the stage is loading
+	Wwise.post_event("stop_music", self)
+	
 	animation_player.play("begin_the_game")
 	await animation_player.animation_finished
 	if is_multiplayer_authority():
@@ -35,6 +39,10 @@ func show_character_select_screen() -> void:
 	character_select_screen.show()
 	battle_settings_screen.hide()
 	stage_select_screen.hide()
+	
+	# plays "dragoon cafe" while players are picking their characters.
+	# music continues into the stage select but not past due to start_the_battle
+	Wwise.post_event("play_music_dragoon_cafe", self)
 	
 func show_battle_settings_screen() -> void:
 	connect_screen.hide()
