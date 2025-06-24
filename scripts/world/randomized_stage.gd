@@ -60,7 +60,11 @@ func _generate_breakables_with_amounts(breakable_table: BreakableTable, pickup_t
 			rand_breakable_spawn_dict[rand_breakable_arr[br_counter]] = pickup_type
 			br_counter += 1
 	
-	for i in range(br_counter):
+	var rand_count: int = 0
+	for i in range(rand_breakable_arr.size()):
+		if _rng.randf() > breakable_spawn_chance: rand_count += 1
+
+	for i in range(max(br_counter, rand_count)):
 		if rand_breakable_spawn_dict.has(rand_breakable_arr[i]):
 			_spawn_breakable(rand_breakable_arr[i], rand_breakable_spawn_dict[rand_breakable_arr[i]])
 		else:
