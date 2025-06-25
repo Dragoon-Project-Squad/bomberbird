@@ -24,7 +24,6 @@ var mine := false
 @onready var rays: Node2D = $Raycasts
 @onready var bombsprite: Sprite2D = $BombSprite
 @onready var explosion: Explosion = $Explosion
-@onready var tileMap = world_data.tile_map
 
 var force_collision: bool = false
 var armed: bool = false
@@ -93,29 +92,39 @@ func detonate():
 	explosion_audio.post(self)
 	var exp_range = {Vector2i.RIGHT: explosion_width, Vector2i.DOWN: explosion_width, Vector2i.LEFT: explosion_width, Vector2i.UP: explosion_width}
 	for ray: RayCast2D in rays.get_children():
-		var ray_direction = ray.get_meta("direction")
+		var ray_direction: Vector2i = ray.get_meta("direction")
 		ray.target_position = ray_direction * explosion_width * TILE_SIZE
 		ray.force_raycast_update()
 		if !ray.is_colliding():
 			continue
-		var targets: Array[Node2D] = []
+		var target: Node2D
 		while ray.is_colliding():
-			targets.append(ray.get_collider())
-			if not pierce or ray.get_collider().is_class("TileMapLayer"):
+			target = ray.get_collider()
+			if not pierce or target.is_class("TileMapLayer"):
 				break
+			if pierce:
+				target = null
 			ray.add_exception_rid(ray.get_collider_rid())
 			ray.force_raycast_update()
-		for target in targets:
-			if target.is_in_group("bombstop"):
-				@warning_ignore("INTEGER_DIVISION") #Note this integer division is fine idk why godot feels like it needs to warn for int divisions anyway?
-				var col_point = to_local(ray.get_collision_point()) + Vector2(ray_direction * (TILE_SIZE / 2))
-				#find the distance from bomb.position to the last tile that should be blown up (in number of tiles)
-				exp_range[ray_direction] = explosion.get_node("SpriteTileMap").local_to_map(col_point).length() - 1 
-				if target.has_method("exploded") && is_multiplayer_authority():
-					if(bomb_root.bomb_owner):
-						target.exploded.rpc(str(get_parent().bomb_owner.name).to_int()) #if an object stopped the bomb and can be blown up... blow it up!
-					else:
-						target.exploded.rpc(gamestate.ENEMY_KILL_PLAYER_ID) #if an object stopped the bomb and can be blown up... blow it up!
+		if (
+			target != null
+			and (
+				target.is_in_group("bombstop")
+				or target.get_parent() is Bomb
+				or target.get_parent() is Player
+			)
+		):
+			var map := world_data.tile_map
+			var origin := map.local_to_map(self.global_position)
+			var collision := map.local_to_map(ray.get_collision_point())
+			var range := absi((origin - collision).length())
+			if target.is_class("TileMapLayer"):
+				range -= 1
+			if ray_direction == Vector2i.LEFT or ray_direction == Vector2i.UP:
+				range += 1
+			if world_data.is_out_of_bounds(ray.get_collision_point()) != world_data.bounds.IN:
+				range -= 1
+			exp_range[ray_direction] = clampi(range, 0, MAX_EXPLOSION_WIDTH)
 	if bomb_root.bomb_owner:
 		remove_collision_exception_with(bomb_root.bomb_owner)
 	if is_multiplayer_authority(): #multiplayer auth. now starts the transition to the explosion
@@ -141,19 +150,16 @@ func done():
 
 @rpc("call_local")
 func exploded(_by_who):
-	$AnimationPlayer.advance(2.79)
+	if $AnimationPlayer.current_animation_position < 2.8:
+		$AnimationPlayer.advance(2.79)
 
 func _kill(obj):
-	if obj is Area2D:
-		if bomb_root.bomb_owner:
-			obj.exploded.rpc(str(bomb_root.bomb_owner.name).to_int())
-		else:
-			obj.exploded.rpc(gamestate.ENEMY_KILL_PLAYER_ID)
-		return
-
-	if self != obj && bomb_root.bomb_owner:
+	if obj == self: return
+	elif bomb_root.bomb_owner:
 		obj.exploded.rpc(str(bomb_root.bomb_owner.name).to_int())
-	elif self != obj:
+	elif obj is Area2D:
+		obj.exploded.rpc(gamestate.ENEMY_KILL_PLAYER_ID)
+	else:
 		obj.exploded.rpc(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID)
 	if (
 		obj is Player

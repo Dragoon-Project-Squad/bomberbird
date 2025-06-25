@@ -3,8 +3,8 @@ class_name Explosion extends Node2D
 signal is_finished_exploding
 signal has_killed
 
-@onready var tilemap = get_node("SpriteTileMap")
-@onready var detection_area = get_node("Area2D")
+@onready var tilemap: TileMapLayer = $SpriteTileMap
+@onready var detection_area: Area2D = $Area2D
 
 var right
 var down
@@ -71,7 +71,7 @@ func init_detonate(right_score: int, down_score: int = right, left_score: int = 
 	self.down = down_score
 	self.left = left_score
 	self.up = up_score
-
+	print("r:",right,"\td:",down,"\tl:",left,"\tu:",up)
 	next_detonate()
 	var tile_size: float = tilemap.tile_set.tile_size.x
 	if left > 0:
@@ -79,7 +79,7 @@ func init_detonate(right_score: int, down_score: int = right, left_score: int = 
 	if right > 0:
 		detection_area.get_child(0).shape.b = Vector2(right * tile_size, 0)
 	if up > 0:
-		detection_area.get_child(1).shape.a = Vector2(0, - up * tile_size)
+		detection_area.get_child(1).shape.a = Vector2(0, -up * tile_size)
 	if down > 0:
 		detection_area.get_child(1).shape.b = Vector2(0, down * tile_size)
 
