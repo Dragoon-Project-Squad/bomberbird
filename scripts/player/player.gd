@@ -508,6 +508,7 @@ func disable_bombclip():
 @rpc("call_local")
 func mount_dragoon():
 	is_mounted = true
+	print("Mount time!")
 
 @rpc("call_local")
 func increment_bomb_count():

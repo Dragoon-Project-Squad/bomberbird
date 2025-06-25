@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bucqrcx3kn5uf"]
 
-[ext_resource type="Script" uid="uid://d16a7phl5jtuj" path="res://scripts/pickups/max_explosion.gd" id="1_a3ca0"]
+[ext_resource type="Script" uid="uid://dmfei08lof86" path="res://scripts/pickups/mount_goon.gd" id="1_a3ca0"]
 [ext_resource type="Texture2D" uid="uid://quoe0b8jbau3" path="res://assets/pickups/powerupsprites.png" id="2_aaxlp"]
 [ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="3_k4jh0"]
 [ext_resource type="AnimationLibrary" uid="uid://deqi1mrq6p7pt" path="res://animations/pickup.res" id="4_n2eo6"]

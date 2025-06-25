@@ -17,7 +17,7 @@ class_name PickupPool extends ObjectPool
 @export var bombthrough: int = 0
 @export var piercing_bomb: int = 0
 @export var land_mine: int = 0
-@export var mount: int = 0
+@export var mount_goon: int = 0
 #@export var remote_control: int = 0
 #@export var seeker_bomb: int = 0
 
@@ -39,7 +39,7 @@ class_name PickupPool extends ObjectPool
 	globals.pickups.BOMBTHROUGH: bombthrough,
 	globals.pickups.PIERCING: piercing_bomb,
 	globals.pickups.MINE: land_mine,
-	globals.pickups.MOUNT: mount,
+	globals.pickups.MOUNTGOON: mount_goon
 	#globals.pickups.REMOTE: remote_control,
 	#globals.pickups.SEEKER: seeker_bomb,
 	}

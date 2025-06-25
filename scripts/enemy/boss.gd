@@ -35,6 +35,7 @@ const MOTION_SPEED_DECREASE: int = TILE_SIZE / 2
 	"land_mine",
 	"remote_control",
 	"seeker_bomb",
+	"mount_goon",
 	"no_pickup",
 	) var dropped_pickup: String
 
