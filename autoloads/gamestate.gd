@@ -292,16 +292,16 @@ func host_game(lobby_type : Steam.LobbyType):
 
 func join_game(lobby_id : int):
 	peer = SteamMultiplayerPeer.new()
-	peer.connect_lobby(int(lobby_id))
+	peer.connect_lobby(lobby_id)
 	peer.network_session_failed.connect(_network_session_failed)
 	
 	print("hi guys")
-	await peer.lobby_joined
+	await Steam.lobby_joined # ????????????????????
+	
+	multiplayer.set_multiplayer_peer(peer)
 	peer.network_session_failed.disconnect(_network_session_failed)
 	
 	print("killing myself postponed")
-	
-	multiplayer.set_multiplayer_peer(peer)
 	lobby_joined.emit()
 	
 	if get_tree().current_scene != LobbyClass:
