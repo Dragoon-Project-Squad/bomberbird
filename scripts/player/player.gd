@@ -4,6 +4,7 @@ class_name Player extends CharacterBody2D
 signal player_health_updated
 signal player_hurt
 signal player_died
+signal player_mounted
 signal player_revived
 
 ## Player Movement Speed
@@ -36,6 +37,7 @@ const INVULNERABILITY_POWERUP_TIME: float = 16.0
 
 var current_anim: String = ""
 var is_dead: bool = false
+var is_mounted: bool = false
 var _died_barrier: bool = false
 var stop_movement: bool = false
 var time_is_stopped: bool = false
@@ -502,6 +504,10 @@ func enable_bombclip():
 @rpc("call_local")
 func disable_bombclip():
 	self.set_collision_mask_value(4, true)
+
+@rpc("call_local")
+func mount_dragoon():
+	is_mounted = true
 
 @rpc("call_local")
 func increment_bomb_count():

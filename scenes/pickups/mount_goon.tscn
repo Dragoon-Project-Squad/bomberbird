@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://bucqrcx3kn5uf"]
+
+[ext_resource type="Script" uid="uid://d16a7phl5jtuj" path="res://scripts/pickups/max_explosion.gd" id="1_a3ca0"]
+[ext_resource type="Texture2D" uid="uid://quoe0b8jbau3" path="res://assets/pickups/powerupsprites.png" id="2_aaxlp"]
+[ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="3_k4jh0"]
+[ext_resource type="AnimationLibrary" uid="uid://deqi1mrq6p7pt" path="res://animations/pickup.res" id="4_n2eo6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3ywok"]
+size = Vector2(24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a3ca0"]
+atlas = ExtResource("2_aaxlp")
+region = Rect2(48, 24, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0hn6b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a3ca0")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 1.0
+}]
+
+[node name="MountGoon" type="Area2D" groups=["thrown_pickup_bounces"]]
+texture_filter = 1
+collision_layer = 16
+collision_mask = 63
+script = ExtResource("1_a3ca0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3ywok")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_0hn6b")
+animation = &"idle"
+frame_progress = 0.37658
+
+[node name="kaboom" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-1.07288e-06, 3.57628e-07)
+scale = Vector2(0.333333, 0.351648)
+texture = ExtResource("3_k4jh0")
+hframes = 9
+
+[node name="anim" type="AnimationPlayer" parent="."]
+libraries = {
+&"pickup": ExtResource("4_n2eo6")
+}
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
