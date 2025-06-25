@@ -179,20 +179,21 @@ func punch_bomb(direction: Vector2i):
 	bomb.do_punch.rpc(direction)
 
 func carry_bomb():
-	if !pickups.held_pickups[globals.pickups.POWER_GLOVE]:
+	if not pickups.held_pickups[globals.pickups.POWER_GLOVE]:
 		return 1
-	
-	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
-	for body in bodies:
-		if body is Bomb:
-			bomb_to_throw = body.get_parent()
-			break
-	
-	if bomb_to_throw == null or bomb_to_throw.type == pickups.bomb_types.MINE:
-		bomb_to_throw = null
+	if not is_multiplayer_authority(): return 5
+	if bomb_to_throw != null: # this is really bad how'd this happen
+		printerr("tried to carry a carried bomb")
+		bomb_to_throw.disable.rpc()
+		bomb_pool.return_obj(bomb_to_throw)
 		return 2
-	carry_bomb_effect.rpc()
+
+	bomb_to_throw = bomb_pool.request()
+	bomb_to_throw.set_bomb_owner.rpc(self.name)
+	bomb_to_throw.set_bomb_type.rpc(pickups.bomb_types.DEFAULT)
+	bomb_to_throw.set_fuse_length.rpc(fuse_speed)
 	bomb_to_throw.carry.rpc()
+	carry_bomb_effect.rpc()
 	return 0
 
 @rpc("call_local")
@@ -200,9 +201,11 @@ func carry_bomb_effect():
 	$BombSprite.visible = true
 
 func throw_bomb(direction: Vector2i):
+	if bomb_to_throw == null: return
 	bomb_to_throw.do_throw.rpc(direction, self.position)
 	bomb_to_throw = null
 	throw_bomb_effect.rpc()
+	bomb_count -= 1
 	return 0
 
 @rpc("call_local")

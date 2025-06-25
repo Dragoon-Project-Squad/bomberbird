@@ -1,10 +1,11 @@
 class_name HumanPlayer extends Player
 
-@onready var inputs = $Inputs
+@onready var inputs: Node = $Inputs
 
 var set_bomb_pressed_once := false
 var punch_pressed_once := false
-var throw_pressed_once := false
+var is_carrying_bomb := false
+var bomb_hold_timer := 0.0
 
 func _ready():
 	player_type = "human"
@@ -75,21 +76,21 @@ func _physics_process(delta: float):
 	if not stunned and inputs.secondary_ability:
 		kick_bomb(direction)
 
-	if not stunned and inputs.bombing and bomb_count > 0 and not is_unbomb:
-		if not set_bomb_pressed_once:
+	if not is_unbomb and not stunned and not stop_movement and bomb_count > 0:
+		if inputs.bombing:
 			set_bomb_pressed_once = true
-			place_bomb()
-		if not throw_pressed_once and set_bomb_pressed_once:
-			throw_pressed_once = true
-			if carry_bomb() != 0:
-				throw_pressed_once = false
-	elif !inputs.bombing and set_bomb_pressed_once:
-		set_bomb_pressed_once = false
-		if throw_pressed_once:
-			throw_pressed_once = false
-			if throw_bomb(direction) == 1:
-				push_error("something went wrong with bomb throwing")
-				throw_pressed_once = false
+			bomb_hold_timer += delta
+			if bomb_hold_timer > 0.5 and not is_carrying_bomb:
+				if carry_bomb() == 0:
+					is_carrying_bomb = true
+		elif not inputs.bombing and set_bomb_pressed_once:
+			if bomb_hold_timer > 0.5 and is_carrying_bomb:
+				is_carrying_bomb = false
+				throw_bomb(direction)
+			else:
+				place_bomb()
+			bomb_hold_timer = 0.0
+			set_bomb_pressed_once = false
 
 	if !is_dead && !stunned:
 		# Everybody runs physics. I.e. clients tries to predict where they will be during the next frame.
