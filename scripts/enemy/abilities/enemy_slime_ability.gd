@@ -8,10 +8,12 @@ func _enter() -> void:
 	get_tree().create_timer(invulnerable_time - 1).timeout.connect(_end_ability, CONNECT_ONE_SHOT)
 	self.enemy.stop_moving = true
 	self.enemy.anim_player.play("slime/hide")
+	self.enemy.current_anim = ""
 
 func _end_ability() -> void:
 	if globals.game.stage_done || self.enemy.disabled: return
 	self.enemy.anim_player.play("slime/show")
+	self.enemy.current_anim = ""
 	await self.enemy.anim_player.animation_finished
 	self.enemy.invulnerable = false 
 	self.enemy.stop_moving = false

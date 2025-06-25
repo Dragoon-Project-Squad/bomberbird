@@ -227,8 +227,6 @@ func _spawn_enemies():
 			
 			return e
 			)
-	if alive_enemies.is_empty():
-		all_enemied_died.emit(0)
 	
 ## Asserts that properties of the world are set correctly
 func _asserting_world():

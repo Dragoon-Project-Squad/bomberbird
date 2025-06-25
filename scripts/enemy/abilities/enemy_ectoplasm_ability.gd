@@ -26,6 +26,7 @@ func _enter() -> void:
 	self.enemy.sprite.frame_changed.emit()
 
 	self.enemy.anim_player.play("wisp/shake")
+	self.enemy.current_anim = ""
 	ectoplasm.start(ectoplasm_direction)
 
 	await get_tree().create_timer(ability_duration).timeout
@@ -40,5 +41,6 @@ func _reset() -> void:
 
 func _exit() -> void:
 	self.enemy.anim_player.play(self.enemy.animation_sub + "/" + self.enemy.current_anim)
+	self.enemy.current_anim = ""
 	self.enemy.stop_moving = false
 	self.enemy.invulnerable = false

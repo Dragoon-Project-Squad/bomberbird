@@ -12,6 +12,7 @@ func _enter() -> void:
 	ability_time = 0
 	self.enemy.stop_moving = true
 	self.enemy.anim_player.play("magnet/spin")
+	self.enemy.current_anim = ""
 
 func _physics_update(delta: float) -> void:
 	var pull_dir: Vector2 = -world_data.tile_map.map_to_local(
@@ -36,4 +37,3 @@ func _reset() -> void:
 func _exit() -> void:
 	ability_time = 0
 	self.enemy.stop_moving = false
-	self.enemy.anim_player.play(self.enemy.animation_sub + "/" + self.enemy.current_anim)

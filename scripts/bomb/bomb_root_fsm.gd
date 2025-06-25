@@ -176,20 +176,16 @@ func do_throw(direction: Vector2i, new_position: Vector2):
 		-PI / 6,
 		0.4
 	)
-	world_data.set_tile(world_data.tiles.EMPTY, self.global_position)
 	return 0
 
 @rpc("call_local")
 func carry():
-	if state != STATIONARY:
+	if state != DISABLED:
 		return
 	if self.type == HeldPickups.bomb_types.MINE:
 		return
-
-	fuse_time_passed = state_map[state].get_node("AnimationPlayer").current_animation_position
 	self.in_use = false
 	set_state(AIRBORN)
-	world_data.set_tile(world_data.tiles.EMPTY, self.global_position)
 
 @rpc("call_local")
 func do_kick(direction: Vector2i):
