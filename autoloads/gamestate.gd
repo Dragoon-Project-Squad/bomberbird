@@ -8,7 +8,8 @@ var is_game_online := false
 #TODO: Create VSCOM option, then set this to false and enable ONLY if Online
 
 # Steam
-const STEAM_APP_ID = 480
+const RELEASE_BUILD : bool = false # Will require the game to be launched through Steam specifically.
+const STEAM_APP_ID : int = 480
 const LobbyClass = preload("uid://jhdlqsokif5o")
 
 # Multiplayer vars
@@ -531,8 +532,10 @@ func _ready():
 	multiplayer.server_disconnected.connect(_server_disconnected)
 	
 	# Steam-specific initialization.
-	Steam.join_requested.connect(_join_requested)
+	if RELEASE_BUILD and Steam.restartAppIfNecessary(STEAM_APP_ID):
+		get_tree().quit()
 	
+	Steam.join_requested.connect(_join_requested)
 	Steam.steamInit(STEAM_APP_ID, true)
 	
 	player_id = Steam.getSteamID()

@@ -13,7 +13,6 @@ func _ready() -> void:
 	if not multiplayer.get_peers().is_empty():
 		print("I AM ONLINE")
 		show_character_select_screen()
-	
 
 func start_the_battle() -> void:
 	animation_player.play("begin_the_game")
