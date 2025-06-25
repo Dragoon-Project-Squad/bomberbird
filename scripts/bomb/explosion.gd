@@ -71,7 +71,7 @@ func init_detonate(right_score: int, down_score: int = right, left_score: int = 
 	self.down = down_score
 	self.left = left_score
 	self.up = up_score
-	print("r:",right,"\td:",down,"\tl:",left,"\tu:",up)
+
 	next_detonate()
 	var tile_size: float = tilemap.tile_set.tile_size.x
 	if left > 0:

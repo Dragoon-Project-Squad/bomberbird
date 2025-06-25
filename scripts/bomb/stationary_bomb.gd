@@ -118,11 +118,12 @@ func detonate():
 			var origin := map.local_to_map(self.global_position)
 			var collision := map.local_to_map(ray.get_collision_point())
 			var range := absi((origin - collision).length())
-			if target.is_class("TileMapLayer"):
-				range -= 1
 			if ray_direction == Vector2i.LEFT or ray_direction == Vector2i.UP:
 				range += 1
-			if world_data.is_out_of_bounds(ray.get_collision_point()) != world_data.bounds.IN:
+			if target.is_class("TileMapLayer"):
+				range -= 1
+			var bounds_check := self.global_position + Vector2(ray_direction * range * TILE_SIZE)
+			if world_data.is_out_of_bounds(bounds_check) != world_data.bounds.IN:
 				range -= 1
 			exp_range[ray_direction] = clampi(range, 0, MAX_EXPLOSION_WIDTH)
 	if bomb_root.bomb_owner:
