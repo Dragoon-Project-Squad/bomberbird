@@ -53,7 +53,7 @@ func disable():
 	hide()
 	self.position = Vector2.ZERO
 	self.indestructable = false
-	process_mode = PROCESS_MODE_DISABLED
+	self.set_deferred("process_mode", "PROCESS_MODE_DISABLED")
 	self.in_use = false
 	self.time = 0
 	self.time_total = 0
@@ -64,7 +64,7 @@ func disable():
 	for sig_dict in pickup_destroyed.get_connections():
 		sig_dict.signal.disconnect(sig_dict.callable)
 	set_state(DISABLED)
-
+	
 func enable():
 	in_use = true
 	process_mode = PROCESS_MODE_INHERIT

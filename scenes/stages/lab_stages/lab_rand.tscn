@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://cweqoqxedyaxv"]
+[gd_scene load_steps=10 format=4 uid="uid://cweqoqxedyaxv"]
 
 [ext_resource type="Script" uid="uid://c7rrhgeevwtus" path="res://scripts/world/randomized_stage.gd" id="1_ja737"]
 [ext_resource type="Script" uid="uid://bta1elkd6rmla" path="res://resources/gameplay/pickup_table.gd" id="2_k001l"]
@@ -6,6 +6,7 @@
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/tilesets/desert_tileset.tres" id="4_0rgp3"]
 [ext_resource type="TileSet" uid="uid://bbo4w3umv1ovk" path="res://assets/tilesets/lab_obstacle.tres" id="4_ig8h6"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="5_0poyn"]
+[ext_resource type="TileSet" uid="uid://lx5rvrwqg2ff" path="res://assets/tilesets/lab_deco.tres" id="5_ru4ht"]
 [ext_resource type="PackedScene" uid="uid://bn58fqv6ar4sr" path="res://scenes/mus/dad_drive.tscn" id="6_8nh8g"]
 
 [sub_resource type="Resource" id="Resource_6r5we"]
@@ -50,6 +51,9 @@ tile_set = ExtResource("3_ja737")
 [node name="Obstacles" type="TileMapLayer" parent="." groups=["bombstop", "thrown_bomb_bounces", "thrown_pickup_bounces"]]
 tile_map_data = PackedByteArray("AAAEAAwAAAABAAAAAAAGAAwAAAABAAAAAAAIAAwAAAABAAAAAAAKAAwAAAABAAAAAAAMAAwAAAABAAAAAAAMAAoAAAABAAAAAAAKAAoAAAABAAAAAAAIAAoAAAABAAAAAAAGAAoAAAABAAAAAAAEAAoAAAABAAAAAAACAAoAAAABAAAAAAACAAgAAAABAAAAAAAEAAgAAAABAAAAAAAGAAgAAAABAAAAAAAIAAgAAAABAAAAAAAKAAgAAAABAAAAAAAMAAgAAAABAAAAAAAMAAYAAAABAAAAAAAKAAYAAAABAAAAAAAIAAYAAAABAAAAAAAGAAYAAAABAAAAAAAEAAYAAAABAAAAAAACAAYAAAABAAAAAAACAAQAAAABAAAAAAAEAAQAAAABAAAAAAAGAAQAAAABAAAAAAAIAAQAAAABAAAAAAAKAAQAAAABAAAAAAAMAAQAAAABAAAAAAACAAwAAAABAAAAAAA=")
 tile_set = ExtResource("4_ig8h6")
+
+[node name="Decoration" type="TileMapLayer" parent="."]
+tile_set = ExtResource("5_ru4ht")
 
 [node name="HurryUp" parent="." instance=ExtResource("5_0poyn")]
 tile_set = ExtResource("4_0rgp3")
