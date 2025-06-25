@@ -1,9 +1,83 @@
-[gd_resource type="TileSet" load_steps=4 format=3 uid="uid://mxtw88b7dngl"]
+[gd_resource type="TileSet" load_steps=6 format=3 uid="uid://mxtw88b7dngl"]
 
+[ext_resource type="Texture2D" uid="uid://du4hp5q3fgd3l" path="res://assets/tilesetimages/beach_tiles.png" id="1_4lu0t"]
 [ext_resource type="Texture2D" uid="uid://dohgo1e3ouela" path="res://assets/tilesetimages/walltile_beach_v1.1.png" id="1_lxgq7"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_lxgq7"]
 tile_data = PackedInt32Array(0, 983041, 2, 65536, 983041, 3, 1, 1048577, 2, 65537, 1048577, 3, 2, 1114113, 2, 65538, 1114113, 3, 3, 1179649, 2, 65539, 1179649, 3, 4, 1245185, 2, 65540, 1245185, 3, 5, 1310721, 2, 65541, 1310721, 3, 6, 1376257, 2, 65542, 1376257, 3, 7, 1441793, 2, 65543, 1441793, 3, 8, 1507329, 2, 65544, 1507329, 3)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g1oi5"]
+texture = ExtResource("1_4lu0t")
+separation = Vector2i(1, 1)
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/terrain_set = 0
+0:0/0/terrain = 2
+1:0/0 = 0
+1:0/0/terrain_set = 0
+1:0/0/terrain = 2
+2:0/0 = 0
+2:0/0/terrain_set = 0
+2:0/0/terrain = 2
+7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+11:0/0 = 0
+12:0/0 = 0
+13:0/0 = 0
+0:1/0 = 0
+0:1/0/terrain_set = 0
+0:1/0/terrain = 2
+1:1/0 = 0
+1:1/0/terrain_set = 0
+1:1/0/terrain = 2
+2:1/0 = 0
+2:1/0/terrain_set = 0
+2:1/0/terrain = 2
+4:1/0 = 0
+4:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+5:1/0 = 0
+5:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+7:1/0 = 0
+8:1/0 = 0
+9:1/0 = 0
+11:1/0 = 0
+12:1/0 = 0
+13:1/0 = 0
+0:2/0 = 0
+0:2/0/terrain_set = 0
+0:2/0/terrain = 2
+1:2/0 = 0
+1:2/0/terrain_set = 0
+1:2/0/terrain = 2
+2:2/0 = 0
+2:2/0/terrain_set = 0
+2:2/0/terrain = 2
+7:2/0 = 0
+8:2/0 = 0
+9:2/0 = 0
+11:2/0 = 0
+12:2/0 = 0
+13:2/0 = 0
+0:3/0 = 0
+0:3/0/terrain_set = 0
+0:3/0/terrain = 2
+1:3/0 = 0
+1:3/0/terrain_set = 0
+1:3/0/terrain = 2
+2:3/0 = 0
+2:3/0/terrain_set = 0
+2:3/0/terrain = 2
+4:3/0 = 0
+0:4/0 = 0
+0:4/0/terrain_set = 0
+0:4/0/terrain = 2
+1:4/0 = 0
+1:4/0/terrain_set = 0
+1:4/0/terrain = 2
+4:4/0 = 0
+4:2/0 = 0
+3:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4lu0t"]
 texture = ExtResource("1_lxgq7")
@@ -746,6 +820,9 @@ terrain_set_0/terrain_0/name = "Sand"
 terrain_set_0/terrain_0/color = Color(0.160784, 0.345098, 0.792157, 1)
 terrain_set_0/terrain_1/name = "Grass"
 terrain_set_0/terrain_1/color = Color(0.5, 0.4375, 0.25, 1)
+terrain_set_0/terrain_2/name = "2.0 Sand"
+terrain_set_0/terrain_2/color = Color(0.46875, 0.5, 0.25, 1)
 terrain_set_1/mode = 0
 sources/1 = SubResource("TileSetAtlasSource_4lu0t")
+sources/0 = SubResource("TileSetAtlasSource_g1oi5")
 pattern_0 = SubResource("TileMapPattern_lxgq7")

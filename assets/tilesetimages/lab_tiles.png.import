@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2ae4utsdlg6k"
-path="res://.godot/imported/only_mount.png-3e41d8b5d66a7a2560837124cc7170ba.ctex"
+uid="uid://bbvcs217x08xs"
+path="res://.godot/imported/lab_tiles.png-06e1cf334bbeb51d34cbac13dd6af0ab.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/player/only_mount.png"
-dest_files=["res://.godot/imported/only_mount.png-3e41d8b5d66a7a2560837124cc7170ba.ctex"]
+source_file="res://assets/tilesetimages/lab_tiles.png"
+dest_files=["res://.godot/imported/lab_tiles.png-06e1cf334bbeb51d34cbac13dd6af0ab.ctex"]
 
 [params]
 

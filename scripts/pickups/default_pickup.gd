@@ -64,7 +64,7 @@ func disable():
 	for sig_dict in pickup_destroyed.get_connections():
 		sig_dict.signal.disconnect(sig_dict.callable)
 	set_state(DISABLED)
-
+	
 func enable():
 	in_use = true
 	set_deferred("process_mode", PROCESS_MODE_INHERIT)

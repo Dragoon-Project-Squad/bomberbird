@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cr55xtcn6wxja"
-path="res://.godot/imported/alt_girl_doki_mount.png-32d25d408e8f44d78c74dbbcfb89012e.ctex"
+uid="uid://qwpj02wtajsm"
+path="res://.godot/imported/summerdoki_walk.png-88333c64a0356bfb9d19b4137dd1d0a3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/player/alt_girl_doki_mount.png"
-dest_files=["res://.godot/imported/alt_girl_doki_mount.png-32d25d408e8f44d78c74dbbcfb89012e.ctex"]
+source_file="res://assets/player/summerdoki_walk.png"
+dest_files=["res://.godot/imported/summerdoki_walk.png-88333c64a0356bfb9d19b4137dd1d0a3.ctex"]
 
 [params]
 

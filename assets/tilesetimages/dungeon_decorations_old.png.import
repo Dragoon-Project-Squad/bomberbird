@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://n5dwo1eoj5al"
-path="res://.godot/imported/dokibh_mount.png-b0f32402194be8e0ab01300bcd7a0dd1.ctex"
+uid="uid://d4hiuycixdn3g"
+path="res://.godot/imported/dungeon_decorations_old.png-63dbe7719f1b68fab71b79b57cc1943b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/player/dokibh_mount.png"
-dest_files=["res://.godot/imported/dokibh_mount.png-b0f32402194be8e0ab01300bcd7a0dd1.ctex"]
+source_file="res://assets/tilesetimages/dungeon_decorations_old.png"
+dest_files=["res://.godot/imported/dungeon_decorations_old.png-63dbe7719f1b68fab71b79b57cc1943b.ctex"]
 
 [params]
 

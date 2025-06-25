@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2ae4utsdlg6k"
-path="res://.godot/imported/only_mount.png-3e41d8b5d66a7a2560837124cc7170ba.ctex"
+uid="uid://byn23oc4q1y2q"
+path="res://.godot/imported/lab_decorations_old.png-8bf025a0e17e3628e79fb571cddf3b8a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/player/only_mount.png"
-dest_files=["res://.godot/imported/only_mount.png-3e41d8b5d66a7a2560837124cc7170ba.ctex"]
+source_file="res://assets/tilesetimages/lab_decorations_old.png"
+dest_files=["res://.godot/imported/lab_decorations_old.png-8bf025a0e17e3628e79fb571cddf3b8a.ctex"]
 
 [params]
 

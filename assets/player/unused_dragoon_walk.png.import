@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://0i70nhgux7"
-path="res://.godot/imported/mint_mount.png-d0975bc9bd89dc07e5451a95fd2408df.ctex"
+uid="uid://b7rv0qfbrhqcy"
+path="res://.godot/imported/unused_dragoon_walk.png-595661e753d92cb947bfcf65a50ec7e7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/player/mint_mount.png"
-dest_files=["res://.godot/imported/mint_mount.png-d0975bc9bd89dc07e5451a95fd2408df.ctex"]
+source_file="res://assets/player/unused_dragoon_walk.png"
+dest_files=["res://.godot/imported/unused_dragoon_walk.png-595661e753d92cb947bfcf65a50ec7e7.ctex"]
 
 [params]
 

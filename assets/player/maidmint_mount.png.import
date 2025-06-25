@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2ae4utsdlg6k"
-path="res://.godot/imported/only_mount.png-3e41d8b5d66a7a2560837124cc7170ba.ctex"
+uid="uid://culjy5f1pn81n"
+path="res://.godot/imported/maidmint_mount.png-1e2386673bb094a70bf8403dd2b54cdb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/player/only_mount.png"
-dest_files=["res://.godot/imported/only_mount.png-3e41d8b5d66a7a2560837124cc7170ba.ctex"]
+source_file="res://assets/player/maidmint_mount.png"
+dest_files=["res://.godot/imported/maidmint_mount.png-1e2386673bb094a70bf8403dd2b54cdb.ctex"]
 
 [params]
 

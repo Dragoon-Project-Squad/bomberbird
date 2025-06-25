@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5j4pnbklxtr0"
-path="res://.godot/imported/dragoon_walk.png-3fbb0c92d0e6c15fe7ec023938372573.ctex"
+uid="uid://d3wbncnrxc3du"
+path="res://.godot/imported/altdoki_mount.png-75031678fa6d89a154471d721077c6f1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/player/dragoon_walk.png"
-dest_files=["res://.godot/imported/dragoon_walk.png-3fbb0c92d0e6c15fe7ec023938372573.ctex"]
+source_file="res://assets/player/altdoki_mount.png"
+dest_files=["res://.godot/imported/altdoki_mount.png-75031678fa6d89a154471d721077c6f1.ctex"]
 
 [params]
 

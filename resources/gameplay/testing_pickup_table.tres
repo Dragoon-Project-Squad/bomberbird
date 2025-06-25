@@ -8,6 +8,7 @@ extra_bomb = 2
 explosion_boost = 0
 speed_boost = 4
 speed_down = 4
+heart = 0
 max_explosion = 4
 punch_ability = 2
 throw_ability = 2

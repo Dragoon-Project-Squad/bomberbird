@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2ae4utsdlg6k"
-path="res://.godot/imported/only_mount.png-3e41d8b5d66a7a2560837124cc7170ba.ctex"
+uid="uid://et3oujpu16ko"
+path="res://.godot/imported/chonkgoon_mount.png-af17e34bde2eef4bca3f3076f6a29077.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/player/only_mount.png"
-dest_files=["res://.godot/imported/only_mount.png-3e41d8b5d66a7a2560837124cc7170ba.ctex"]
+source_file="res://assets/player/chonkgoon_mount.png"
+dest_files=["res://.godot/imported/chonkgoon_mount.png-af17e34bde2eef4bca3f3076f6a29077.ctex"]
 
 [params]
 

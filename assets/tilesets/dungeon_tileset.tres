@@ -1,6 +1,48 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://dfvqpfmyvsgrk"]
+[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://dfvqpfmyvsgrk"]
 
+[ext_resource type="Texture2D" uid="uid://cy18gmmhqd2oj" path="res://assets/tilesetimages/dungeon_tiles.png" id="1_6qcrk"]
 [ext_resource type="Texture2D" uid="uid://bbgde27yd0ual" path="res://assets/tilesetimages/walltile_dungeon.png" id="1_cqqpv"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yct7i"]
+texture = ExtResource("1_6qcrk")
+separation = Vector2i(1, 1)
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/terrain_set = 0
+0:0/0/terrain = 1
+1:0/0 = 0
+1:0/0/terrain_set = 0
+1:0/0/terrain = 1
+2:0/0 = 0
+2:0/0/terrain_set = 0
+2:0/0/terrain = 1
+3:0/0 = 0
+4:0/0 = 0
+0:1/0 = 0
+0:1/0/terrain_set = 0
+0:1/0/terrain = 1
+1:1/0 = 0
+1:1/0/terrain_set = 0
+1:1/0/terrain = 1
+2:1/0 = 0
+2:1/0/terrain_set = 0
+2:1/0/terrain = 1
+3:1/0 = 0
+3:1/0/terrain_set = 0
+3:1/0/terrain = 1
+4:1/0 = 0
+0:2/0 = 0
+0:2/0/terrain_set = 0
+0:2/0/terrain = 2
+0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+1:2/0 = 0
+1:2/0/terrain_set = 0
+1:2/0/terrain = 2
+1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+2:2/0 = 0
+2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+3:2/0 = 0
+4:2/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6qcrk"]
 resource_name = "dungeon"
@@ -730,6 +772,11 @@ texture_region_size = Vector2i(32, 32)
 tile_size = Vector2i(32, 32)
 physics_layer_0/collision_layer = 1
 terrain_set_0/mode = 0
-terrain_set_0/terrain_0/name = "Terrain 0"
+terrain_set_0/terrain_0/name = "1.0 Floor"
 terrain_set_0/terrain_0/color = Color(0.160784, 0.345098, 0.792157, 1)
+terrain_set_0/terrain_1/name = "2.0 Floor"
+terrain_set_0/terrain_1/color = Color(0.5, 0.4375, 0.25, 1)
+terrain_set_0/terrain_2/name = "2.0 Walls"
+terrain_set_0/terrain_2/color = Color(0.46875, 0.5, 0.25, 1)
 sources/1 = SubResource("TileSetAtlasSource_6qcrk")
+sources/0 = SubResource("TileSetAtlasSource_yct7i")
