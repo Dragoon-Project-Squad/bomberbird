@@ -53,7 +53,7 @@ func disable():
 	hide()
 	self.position = Vector2.ZERO
 	self.indestructable = false
-	process_mode = PROCESS_MODE_DISABLED
+	set_deferred("process_mode", PROCESS_MODE_DISABLED)
 	self.in_use = false
 	self.time = 0
 	self.time_total = 0
@@ -67,7 +67,7 @@ func disable():
 
 func enable():
 	in_use = true
-	process_mode = PROCESS_MODE_INHERIT
+	set_deferred("process_mode", PROCESS_MODE_INHERIT)
 	_pickup_pick_up_barrier = false
 	_pickup_destroyed_barrier = false
 	enable_collison()
@@ -94,7 +94,6 @@ func _on_body_entered(body: Node2D) -> void:
 			self.crush.rpc()
 		else:
 			return
-	if body is Boss && self is VirusPickup: return # Bosses have the vaccine.
 	if self.state != PLACED: return
 	if _pickup_pick_up_barrier: return
 	_pickup_pick_up_barrier = true

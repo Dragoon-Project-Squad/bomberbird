@@ -164,6 +164,7 @@ func place(pos: Vector2):
 func punch_bomb(direction: Vector2i):
 	if !is_multiplayer_authority():
 		return
+	if(globals.game.stage_done): return
 	if !pickups.held_pickups[globals.pickups.BOMB_PUNCH]:
 		return
 	
@@ -179,6 +180,7 @@ func punch_bomb(direction: Vector2i):
 	bomb.do_punch.rpc(direction)
 
 func carry_bomb():
+	if(globals.game.stage_done): return
 	if not pickups.held_pickups[globals.pickups.POWER_GLOVE]:
 		return 1
 	if not is_multiplayer_authority(): return 5
@@ -201,6 +203,7 @@ func carry_bomb_effect():
 	$BombSprite.visible = true
 
 func throw_bomb(direction: Vector2i):
+	if(globals.game.stage_done): return
 	if bomb_to_throw == null: return
 	bomb_to_throw.do_throw.rpc(direction, self.position)
 	bomb_to_throw = null
@@ -213,6 +216,7 @@ func throw_bomb_effect():
 	$BombSprite.visible = false
 
 func kick_bomb(direction: Vector2i):
+	if(globals.game.stage_done): return
 	if pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] != pickups.exclusive.KICK:
 		return 1
 	
@@ -247,6 +251,7 @@ func kick_bomb(direction: Vector2i):
 
 ## places a bomb if the current position is valid
 func place_bomb():
+	if(globals.game.stage_done): return
 	if(world_data.is_tile(world_data.tiles.BOMB, self.global_position)): return
 	
 	var bombPos = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(synced_position))
@@ -346,12 +351,18 @@ func reset():
 	process_mode = PROCESS_MODE_INHERIT
 	player_revived.emit()
 	animation_player.play("player_animations/revive")
+	bomb_to_throw = null
+	bomb_kicked = null
+	$BombSprite.visible = false
 	$Hitbox.set_deferred("disabled", 0)
 	await animation_player.animation_finished
 	stunned = false
 	is_dead = false
+	bomb_count = bomb_total
 	self.stop_movement = false
 	self.time_is_stopped = false
+	self.invulnerable = false
+	unvirus()
 	show()
 
 ## resets the pickups back to the inital state
@@ -602,7 +613,6 @@ func unvirus():
 	is_reverse = false
 	is_nonstop = false
 	is_unbomb = false
-	set_process(false)
 
 func stop_time(user: String, is_player: bool):
 	if is_player && user == self.name:

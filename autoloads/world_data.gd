@@ -325,7 +325,7 @@ func get_paths_to_safe(start_pos: Vector2, valid_tiles: Array[int] = [tiles.EMPT
 
 	var found_safe_at_length: int = -1
 	var path_queue: Array[Array] = [[start_matrix_pos]]
-	if _is_safe_cell(start_matrix_pos): return path_queue
+	if _is_safe_cell(start_matrix_pos): return [[start_pos]]
 	while !path_queue.is_empty():
 		var path = path_queue.pop_front()
 		if found_safe_at_length == len(path):

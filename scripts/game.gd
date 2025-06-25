@@ -20,7 +20,6 @@ var stage: World
 var game_ui
 var win_screen
 var time_stopped_timer: SceneTreeTimer
-
 var stage_done: bool = false
 var players_are_spawned: bool = false
 

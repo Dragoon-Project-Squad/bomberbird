@@ -44,6 +44,12 @@ var curr_bomb: BombRoot
 var kicked_bomb: BombRoot
 var bomb_to_throw: BombRoot
 
+func _ready() -> void:
+	super()
+	if self.has_node("DebugMarker2"):
+		if OS.is_debug_build(): self.get_node("DebugMarker2").show()
+		else: self.get_node("DebugMarker2").hide()
+
 func place(pos: Vector2, path: String):
 	super(pos, path)
 	if(!is_multiplayer_authority()): return 1

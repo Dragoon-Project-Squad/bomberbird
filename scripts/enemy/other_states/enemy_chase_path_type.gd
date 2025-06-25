@@ -69,11 +69,13 @@ func _physics_update(delta):
 		if self.enemy.kicked_bomb.state == BombRoot.SLIDING:
 			self.enemy.kicked_bomb.stop_kick()
 
-	if arrived && !world_data.is_safe(self.enemy.position): #dodge again
+	if arrived && !world_data.is_safe(self.enemy.position):
 		state_changed.emit(self, "dodge")
+		return
 	elif arrived && self.curr_path.is_empty(): #change to wander or ability
 		if detect(): return
 		state_changed.emit(self, "wander")
+		return
 	elif arrived && self.distance >= self.recheck_distance:
 		self.distance = 0
 		self.curr_path = get_chase_path()

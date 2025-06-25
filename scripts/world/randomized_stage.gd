@@ -38,7 +38,6 @@ func _generate_breakables_with_amounts(breakable_table: BreakableTable, pickup_t
 	if not is_multiplayer_authority(): return
 	var rand_breakable_spawn_dict: Dictionary
 	var rand_breakable_arr: Array[Vector2i]
-	var breakables_spawned := 0
 	for x in range(0, world_data.world_width):	
 		for y in range(0, world_data.world_height):
 			breakable_spawn_chance = get_final_breakable_rate()
@@ -50,25 +49,26 @@ func _generate_breakables_with_amounts(breakable_table: BreakableTable, pickup_t
 			if spawnpoints.any(skip_checker): continue
 			if enemy_table && enemy_table.get_coords().any(skip_checker): continue
 			
-			if _rng.randf() < breakable_spawn_chance:
-				rand_breakable_arr.append(current_cell)
+			rand_breakable_arr.append(current_cell)
 	rand_breakable_arr.shuffle()
 	
 	var br_counter: int = 0
 	for pickup_type in pickup_table.pickup_weights.keys():
-		if rand_breakable_arr.is_empty(): break
+		if rand_breakable_arr.size() <= br_counter: break
 		for _i in range (pickup_table.pickup_weights[pickup_type]):
-			if rand_breakable_arr.is_empty(): break
+			if rand_breakable_arr.size() <= br_counter: break
 			rand_breakable_spawn_dict[rand_breakable_arr[br_counter]] = pickup_type
 			br_counter += 1
 	
-	for breakable_entry in rand_breakable_arr:
-		if rand_breakable_spawn_dict.has(breakable_entry):
-			_spawn_breakable(breakable_entry, rand_breakable_spawn_dict[breakable_entry])
-			++breakables_spawned
+	var rand_count: int = 0
+	for i in range(rand_breakable_arr.size()):
+		if _rng.randf() > breakable_spawn_chance: rand_count += 1
+
+	for i in range(max(br_counter, rand_count)):
+		if rand_breakable_spawn_dict.has(rand_breakable_arr[i]):
+			_spawn_breakable(rand_breakable_arr[i], rand_breakable_spawn_dict[rand_breakable_arr[i]])
 		else:
-			_spawn_breakable(breakable_entry, globals.pickups.NONE)
-			++breakables_spawned
+			_spawn_breakable(rand_breakable_arr[i], globals.pickups.NONE)
 
 ## returns true iff [param pos] is in a designated area around [param spawn] of size [param size] [br]
 ## [param size] Size of the area [br]
