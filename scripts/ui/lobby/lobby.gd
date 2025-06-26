@@ -1,6 +1,6 @@
 extends Control
 
-@onready var connect_screen: Panel = $Connect
+@onready var connect_screen: PanelContainer = $Connect
 @onready var character_select_screen: Control = $CharacterSelect
 @onready var battle_settings_screen: Control = $BattleSettings
 @onready var stage_select_screen: Control = $StageSelect
@@ -13,7 +13,6 @@ func _ready() -> void:
 	if not multiplayer.get_peers().is_empty():
 		print("I AM ONLINE")
 		show_character_select_screen()
-	
 
 func start_the_battle() -> void:
 	

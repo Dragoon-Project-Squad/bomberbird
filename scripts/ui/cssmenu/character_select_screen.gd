@@ -181,4 +181,4 @@ func proceed_to_next_screen():
 	characters_confirmed.emit()
 
 func _on_find_public_ip_pressed():
-	OS.shell_open("https://icanhazip.com/")
+	Steam.activateGameOverlay("Friends")
