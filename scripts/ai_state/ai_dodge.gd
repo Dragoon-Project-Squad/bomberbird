@@ -133,3 +133,8 @@ func is_new_target_valid(new_target : Vector2i, unsafe_cells : Array[Vector2i]) 
 	var is_safe = new_target not in unsafe_cells
 	var is_not_blocked = not world_data.is_tile(world_data.tiles.UNBREAKABLE, world_data.tile_map.map_to_local(new_target)) and not world_data.is_tile(world_data.tiles.UNBREAKABLE, world_data.tile_map.map_to_local(new_target))
 	return is_safe and is_not_blocked
+
+
+func _reset():
+	super()
+	just_entered = false

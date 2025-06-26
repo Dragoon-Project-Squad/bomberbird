@@ -24,7 +24,7 @@ var state: int = DISABLED
 var indestructable: bool = false
 var _pickup_pick_up_barrier: bool = false
 var _pickup_destroyed_barrier: bool = false
-var in_use: bool = false
+@export var in_use: bool = false
 var pickup_type: int = globals.pickups.NONE:
 	set(type): #i don't like setters but it only enforces something here so its okey
 		assert(globals.is_valid_pickup(type))
@@ -121,7 +121,8 @@ func exploded(_from_player):
 	if _pickup_destroyed_barrier: return
 	_pickup_destroyed_barrier = true
 	self.pickup_destroyed.emit()
-	disable_collison_and_hide()
+	if is_multiplayer_authority():
+		disable_collison_and_hide.rpc()
 	if $anim:
 		$anim.play("pickup/explode_pickup")
 		#pickup_sfx_player.stream = explosion_sfx
@@ -130,8 +131,9 @@ func exploded(_from_player):
 		#if pickup_sfx_player.playing:
 			#await pickup_sfx_player.finished
 		if globals.game.stage_done: return # if stage finished in the meantime just terminate here
-	disable()
-	globals.game.pickup_pool.return_obj(self) #Pickup returns itself to the pool
+	if is_multiplayer_authority():
+		disable()
+		globals.game.pickup_pool.return_obj.call_deferred(self) #Pickup returns itself to the pool
 	_pickup_destroyed_barrier = false
 
 @rpc("call_local")
@@ -141,9 +143,10 @@ func crush():
 	if _pickup_destroyed_barrier: return
 	_pickup_destroyed_barrier = true
 	self.pickup_destroyed.emit()
-	disable_collison_and_hide()
-	disable()
-	globals.game.pickup_pool.return_obj(self) #Pickup returns itself to the pool
+	if is_multiplayer_authority():
+		disable_collison_and_hide.rpc()
+		disable.rpc()
+		globals.game.pickup_pool.return_obj.call_deferred(self) #Pickup returns itself to the pool
 	_pickup_destroyed_barrier = false
 
 ## sets an internal state for throw pickup

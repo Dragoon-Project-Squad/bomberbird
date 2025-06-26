@@ -1,5 +1,5 @@
 class_name FallingUnbreakable extends Node2D
-@onready var unbreakable_sfx_player := $UnbreakableSound
+@onready var unbreakable_sfx_player: AkEvent2D = $UnbreakableSound
 var empty_tile = true
 
 @rpc("call_local")
@@ -25,7 +25,7 @@ func crush_colliding_obj(objs: Array):
 			# Check if body is on same tile
 			if floor_tile_layer.local_to_map(obj.position) == floor_tile_layer.local_to_map(self.position):
 				obj.exploded.rpc(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID)
-	if self.empty_tile:
+	if self.empty_tile: #This needed?
 		unbreakable_sfx_player.post_event()
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:

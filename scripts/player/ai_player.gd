@@ -1,13 +1,14 @@
 class_name AIPlayer extends Player
 
-@onready var inputs = $Inputs
-@onready var anim_player = $AnimationPlayer
+@onready var inputs: Node = $Inputs
+@onready var anim_player: AnimationPlayer = $AnimationPlayer
+@onready var statemachine: Node = $StateMachine
 
 var bombs_near : Array[Bomb]
 var players_near : Array[Player]
 
 # World node to obtain grid pathfinding
-@export var movement_vector = Vector2(0,0)
+@export var movement_vector = Vector2.ZERO
 
 func _ready():
 	player_type = "ai"
@@ -50,3 +51,10 @@ func _on_object_detection_area_exited(area):
 		bombs_near.remove_at(bombs_near.find(body))
 	if body is Player and body in players_near:
 		players_near.remove_at(players_near.find(body))
+
+func reset():
+	super()
+	bombs_near = []
+	players_near = []
+	movement_vector = Vector2.ZERO
+	statemachine.reset()

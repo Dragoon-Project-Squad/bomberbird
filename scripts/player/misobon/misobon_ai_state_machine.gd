@@ -12,6 +12,8 @@ func _ready():
 		if state_node is MisobonAiState:
 			states[state_node.name.to_lower()] = state_node
 			state_node.state_changed.connect(_on_state_changed)
+			state_node.player = player
+			state_node.raycasts = player.get_node("Raycasts")
 	
 	if initial_state:
 		initial_state._enter()
@@ -34,3 +36,11 @@ func _on_state_changed(state, new_state):
 	
 	next_state._enter()
 	current_state = next_state
+
+func reset():
+	for state in states.keys():
+		states[state]._reset()
+	if current_state: current_state._exit()
+	if initial_state:
+		initial_state._enter()
+		current_state = initial_state

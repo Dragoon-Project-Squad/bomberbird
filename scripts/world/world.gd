@@ -142,11 +142,13 @@ func enable(
 		send_spawn_data.rpc(spawnpoints)
 
 	_set_spawnpoints()
+
 	if is_multiplayer_authority():
 		if !globals.game.players_are_spawned: _spawn_player()
 		else: _place_players.rpc()
 		if enemy_table:
 			_spawn_enemies.rpc()
+
 	if pickup_table.are_amounts:
 		_generate_breakables_with_amounts(breakable_table, pickup_table)
 	else:
@@ -169,13 +171,14 @@ func reset():
 		for exit in globals.game.exit_pool.get_children().filter(func (e): return e is Exit && e.in_use):
 			if is_multiplayer_authority():
 				exit.disable.rpc()
-			globals.game.exit_pool.return_obj(exit)
+				globals.game.exit_pool.return_obj(exit)
 	if globals.game.enemy_pool:
 		for enemy in alive_enemies:
-			enemy.disable()
-			globals.game.clock_pickup_time_paused.disconnect(enemy.stop_time)
-			globals.game.clock_pickup_time_unpaused.disconnect(enemy.start_time)
-			globals.game.enemy_pool.return_obj(enemy)
+			if is_multiplayer_authority():
+				enemy.disable()
+				globals.game.clock_pickup_time_paused.disconnect(enemy.stop_time)
+				globals.game.clock_pickup_time_unpaused.disconnect(enemy.start_time)
+				globals.game.enemy_pool.return_obj(enemy)
 			
 		alive_enemies = []
 	for sig_arr in all_enemied_died.get_connections():
