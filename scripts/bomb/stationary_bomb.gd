@@ -158,10 +158,8 @@ func _kill(obj):
 	if obj == self: return
 	elif bomb_root.bomb_owner:
 		obj.exploded.rpc(str(bomb_root.bomb_owner.name).to_int())
-	elif obj is Area2D:
-		obj.exploded.rpc(gamestate.ENEMY_KILL_PLAYER_ID)
 	else:
-		obj.exploded.rpc(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID)
+		obj.exploded.rpc(gamestate.ENEMY_KILL_PLAYER_ID)
 	if (
 		obj is Player
 		&& bomb_root.bomb_owner
