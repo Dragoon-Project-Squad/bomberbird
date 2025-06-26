@@ -107,7 +107,8 @@ func _ready():
 	pickups.reset()
 	self.animation_player.play("RESET")
 	init_pickups()
-	do_invulnerabilty()
+	if is_multiplayer_authority():
+		do_invulnerabilty.rpc()
 
 func init_pickups():
 	if !is_multiplayer_authority(): return
@@ -154,10 +155,13 @@ func _physics_process(_delta: float):
 	pass
 
 func place(pos: Vector2):
+	process_mode = PROCESS_MODE_INHERIT
 	self.position = pos
 	self.show()
 	self.animation_player.play("RESET")
-	do_invulnerabilty()
+	await animation_player.animation_finished
+	if is_multiplayer_authority():
+		do_invulnerabilty.rpc()
 	_died_barrier = false
 
 ## executes the punch_bomb ability if the player has the appropiate pickup
@@ -344,28 +348,29 @@ func exit_death_state():
 	await animation_player.animation_finished
 	stunned = false
 	is_dead = false
-	do_invulnerabilty()
+	if is_multiplayer_authority():
+		do_invulnerabilty.rpc()
 
 @rpc("call_local")
 func reset():
-	process_mode = PROCESS_MODE_INHERIT
-	player_revived.emit()
-	animation_player.play("player_animations/revive")
-	bomb_to_throw = null
-	bomb_kicked = null
+	process_mode = PROCESS_MODE_DISABLED
+	animation_player.play("RESET")
+	self.bomb_to_throw = null
+	self.current_anim = ""
+	self.bomb_kicked = null
 	$BombSprite.visible = false
 	$Hitbox.set_deferred("disabled", 0)
 	await animation_player.animation_finished
-	stunned = false
-	is_dead = false
-	bomb_count = bomb_total
-	self.stop_movement = false
+	self.stunned = false
+	self.is_dead = false
+	self.bomb_count = self.bomb_total
 	self.time_is_stopped = false
 	self.invulnerable = false
 	unvirus()
 	show()
 
 ## resets the pickups back to the inital state
+@rpc("call_local")
 func reset_pickups():
 	movement_speed = movement_speed_reset
 	bomb_total = bomb_total_reset
@@ -381,8 +386,8 @@ func reset_pickups():
 
 ## spreads all pickups the player held on the ground
 func spread_items():
-	if !is_multiplayer_authority():
-		return
+	if !is_multiplayer_authority(): return
+	if globals.player_manager.get_alive_players().reduce(func (sum, p): return sum + 1 if p != self else sum, 0) <= 1: return
 	
 	var pickup_types: Array[int] = []
 	var pickup_count: Array[int] = []
@@ -439,6 +444,7 @@ func spread_items():
 			world_data.reset_empty_cells.call_deferred(temp)
 
 ## starts the invulnerability and its animation
+@rpc("call_local")
 func do_invulnerabilty():
 	invulnerable_remaining_time = INVULNERABILITY_SPAWN_TIME
 	invulnerable = true
@@ -520,9 +526,13 @@ func return_bomb(is_mine := false):
 @rpc("call_local")
 ## plays the victory animation and stops the player from moving
 func play_victory(reenable: bool) -> Signal:
-	stunned = true
+	stop_movement = true
+	
+	$sprite.self_modulate = Color8(255, 255, 255)
+	$sprite.rotation = 0
+	$sprite.frame = 0
 	animation_player.play("player_animations/victory")
-	if reenable: animation_player.animation_finished.connect(func (_x): stunned = false, CONNECT_ONE_SHOT)
+	if reenable: animation_player.animation_finished.connect(func (_x): stop_movement = false, CONNECT_ONE_SHOT)
 	return animation_player.animation_finished
 
 func do_hurt() -> void:

@@ -36,7 +36,7 @@ func _detect_surroundings() -> void:
 
 ## Choose random point to wander to and create pathing
 func randomize_target() -> bool:
-	#BUG: this is calculated by each client but only the multiplayer authorities result is actually used.
+	# BUG: this is calculated by each client but only the multiplayer authorities result is actually used.
 	# This is normaly no problem as predicting the next move for each client is usually a good idea but
 	# since this function contains randomisation each client will get a potentialy vastly different result causeing
 	# unnessessary calculations.
@@ -64,12 +64,9 @@ func randomize_target() -> bool:
 	
 	# Remove first point in path which is the current position
 	path.pop_front()
-	#print("AiPlayer " + aiplayer.name + "'s Wander path: "+str(path))
 	return !path.is_empty()
 
-#func is_unbreakable(point : Vector2i, offset : Vector2i) -> bool:
-#	return (point.x-offset.x+1)%2==0 and (point.y-offset.y+1)%2==0
-#
+
 func is_breakable_in_front() -> bool:
 	if path.size()==0:
 		return false

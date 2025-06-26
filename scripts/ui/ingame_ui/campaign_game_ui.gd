@@ -61,3 +61,6 @@ func update_icon_color(color: Color, player_id: int):
 	for health_panel in player_health_panel:
 		if health_panel.player_id == player_id:
 			health_panel.update_icon_color(color)
+
+func reset():
+	pass

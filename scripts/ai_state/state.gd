@@ -4,7 +4,6 @@ class_name State
 signal state_changed
 
 # Utils
-var world : World
 var aiplayer : AIPlayer
 var area : Rect2i
 
@@ -30,7 +29,7 @@ func _exit() -> void:
 	target = Vector2i()
 	path = []
 	next_point = Vector2()
-	currently_moving  = false
+	currently_moving = false
 	idle_time = default_idle_time
 	stuck_time = default_stuck_time
 	idle = false
@@ -137,3 +136,17 @@ func move_to_next_point() -> void:
 # the next point.
 func reached_next_point() -> bool:
 	return aiplayer.global_position.distance_to(next_point) < arrival_tolerance
+
+func _reset():
+	target = Vector2i.ZERO
+	path = []
+	next_point = Vector2.ZERO
+	currently_moving = false
+	default_idle_time = 0.5
+	idle_time = default_idle_time
+	default_stuck_time = 1
+	stuck_time = default_stuck_time
+	idle = false
+	prev_pos = Vector2.ZERO
+	detect = false
+	arrival_tolerance = 1
