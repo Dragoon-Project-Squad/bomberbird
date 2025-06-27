@@ -26,7 +26,7 @@ jobs:
     - name: Install Wwise dependencies
       if: runner.os == 'Linux'
       run: |
-        sudo apt-get -y install tbb #Wwise dependencies
+        sudo apt-get -y install libtbb-dev #Wwise dependencies
     - name: install wine
       id: wine_install
       run: |
