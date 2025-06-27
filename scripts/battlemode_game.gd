@@ -12,6 +12,7 @@ func _ready():
 func start():
 	if !stage:
 		load_stage()
+		stage.reset.call_deferred()
 	stage.enable.call_deferred() #Set up the stage.
 	freeze_players.call_deferred()
 	await remove_the_darkness()
@@ -50,7 +51,6 @@ func remove_the_darkness():
 func wipe_stage():
 	game_ui.reset()
 	reset()
-	print("wipe_stage ->")
 	stage.reset()
 	stage.disable()
 	
