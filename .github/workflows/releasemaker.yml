@@ -23,20 +23,16 @@ jobs:
     - name: checkout
       uses: actions/checkout@v4
       # Enable the following once issues are resolved
-    - name: Install system dependencies
+    - name: Install Wwise dependencies
       if: runner.os == 'Linux'
       run: |
-        sudo apt-get -y install libtbbmalloc2 #Wwise dependencies
-        while read -r cmd
-        do
-          eval sudo $cmd
-        done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
+        sudo apt-get -y install tbb #Wwise dependencies
     - name: install wine
       id: wine_install
       run: |
         sudo dpkg --add-architecture i386
         sudo apt update
-        sudo apt install -y wine64 wine32
+        sudo apt install -y wine64 wine32 tbb
         echo "WINE_PATH=$(which wine)" >> $GITHUB_OUTPUT
         echo "$GITHUB_OUTPUT"
     - name: Copy Export Preset
