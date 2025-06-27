@@ -19,8 +19,9 @@ func start() -> void:
 	hurry_up_start_timer.wait_time = max(5.0, SettingsContainer.get_match_time() - SettingsContainer.get_hurry_up_time())
 	if SettingsContainer.get_hurry_up_state():
 		hurry_up_start_timer.start()
-	hurry_up_start.connect(globals.player_manager._on_hurry_up_start)
-	hurry_up_start.connect(globals.game.game_ui._on_hurry_up_start)
+	if falling_unbreakables.is_empty():
+		hurry_up_start.connect(globals.player_manager._on_hurry_up_start)
+		hurry_up_start.connect(globals.game.game_ui._on_hurry_up_start)
 
 	current_tile_index = 0
 	current_falling_unbreakable_index = 0
