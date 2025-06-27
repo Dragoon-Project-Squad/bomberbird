@@ -46,6 +46,7 @@ var _tileset_id: int
 var _rng = RandomNumberGenerator.new()
 var _exit_spawned_barrier: bool = false
 var alive_enemies: Array
+var total_number_of_non_unbreakable_spaces: int = 0
 
 # PRIVATE FUNCTIONS
 
@@ -76,6 +77,10 @@ func spawn_exits():
 		exit.place(exit_pos, children_ids[iter]) 
 		iter += 1
 
+func stop_hurry_up():
+	if hurry_up && globals.current_gamemode != globals.gamemode.CAMPAIGN:
+		hurry_up.disable()
+
 ## Disabled this world so another may be enabled
 func disable():
 	hide()
@@ -103,8 +108,6 @@ func enable(
 	globals.current_world = self
 	all_enemied_died.connect(globals.game._check_ending_condition, CONNECT_ONE_SHOT)
 
-	if hurry_up && globals.current_gamemode != globals.gamemode.CAMPAIGN:
-		hurry_up.start()
 
 	_exit_spawned_barrier = false
 	bounds_layer.collision_enabled = true
@@ -154,6 +157,9 @@ func enable(
 	else:
 		_generate_breakables_with_weights(breakable_table)
 
+	if hurry_up && globals.current_gamemode != globals.gamemode.CAMPAIGN:
+		hurry_up.start()
+
 	world_data.finish_init()
 	astargrid_handler.astargrid_set_initial_solidpoints()
 
@@ -165,8 +171,7 @@ func stop_music():
 	
 ## resets a stage s.t. it may be reused later
 func reset():
-	#if hurry_up && globals.current_gamemode != globals.gamemode.CAMPAIGN:
-	#	hurry_up.disable()
+	self.total_number_of_non_unbreakable_spaces = 0
 	if globals.game.exit_pool:
 		for exit in globals.game.exit_pool.get_children().filter(func (e): return e is Exit && e.in_use):
 			if is_multiplayer_authority():
@@ -312,7 +317,7 @@ func _spawn_player():
 	var misobonspawner: MultiplayerSpawner = globals.game.misobon_player_spawner
 	var spawningdata = {}
 	var misobondata = {}
-	var player: Player 
+	var player: Player
 	for p_id in spawn_points:
 		spawn_pos = world_data.tile_map.map_to_local(spawnpoints[spawn_points[p_id]])
 		spawningdata = {"spawndata": spawn_pos, "pid": p_id, "defaultname": gamestate.player_name, "playerdict": gamestate.player_data_master_dict[p_id]}

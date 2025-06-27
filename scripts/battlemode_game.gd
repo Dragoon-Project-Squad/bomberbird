@@ -10,8 +10,8 @@ func _ready():
 	super()
 	
 func start():
-	load_stage()
-	stage.reset.call_deferred()
+	if !stage:
+		load_stage()
 	stage.enable.call_deferred() #Set up the stage.
 	freeze_players.call_deferred()
 	await remove_the_darkness()
@@ -50,6 +50,8 @@ func remove_the_darkness():
 func wipe_stage():
 	game_ui.reset()
 	reset()
+	print("wipe_stage ->")
+	stage.reset()
 	stage.disable()
 	
 func defuse_all_bombs():
@@ -76,12 +78,12 @@ func activate_ui_and_music():
 func freeze_players():
 	var players: Array[Player] = globals.player_manager.get_players()
 	for player in players:
-		player.stop_movement = true
+		player.outside_of_game = true
 
 func unfreeze_players():
 	var players: Array[Player] = globals.player_manager.get_players()
 	for player in players:
-		player.stop_movement = false
+		player.outside_of_game = false
 
 func hide_all_players():
 	var players: Array[Player] = globals.player_manager.get_players()
@@ -95,12 +97,12 @@ func show_all_players():
 			
 func load_new_stage():
 	stage_done = true
-	stage.queue_free()
 	start.call_deferred()
 
 func stop_the_match():
 	game_ended = true
 	stage.stop_music()
+	stage.stop_hurry_up()
 	%MatchTimer.stop()
 	game_ui.stop_timer()
 	lock_misobon()

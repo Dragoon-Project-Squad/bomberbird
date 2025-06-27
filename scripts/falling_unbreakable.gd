@@ -1,6 +1,7 @@
 class_name FallingUnbreakable extends Node2D
 @onready var unbreakable_sfx_player: AkEvent2D = $UnbreakableSound
 var empty_tile = true
+var hurry_up_tilemap: TileMapLayer
 
 @rpc("call_local")
 func place(pos: Vector2):
@@ -28,12 +29,18 @@ func crush_colliding_obj(objs: Array):
 	if self.empty_tile: #This needed?
 		unbreakable_sfx_player.post_event()
 
-func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name != "slam": return
 	crush_colliding_obj($HitDetection.get_overlapping_bodies())
 	crush_colliding_obj($HitDetection.get_overlapping_areas())
 
-	var hurry_up_tilemap: TileMapLayer = get_parent()
 	hurry_up_tilemap.place(self.position)
 	
+	self.position = Vector2.ZERO
+	self.empty_tile = true
+
+@rpc("call_local")
+func stop():
+	$AnimationPlayer.play("RESET")
 	self.position = Vector2.ZERO
 	self.empty_tile = true
