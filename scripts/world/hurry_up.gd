@@ -55,7 +55,6 @@ func get_sudden_death_non_unbreakable_spaces():
 			if world_data._is_tile(world_data.tiles.UNBREAKABLE, Vector2i(x, y)): continue
 			if x >= top_left.x && x < bottom_right.x && y >= top_left.y && y < bottom_right.y: continue
 			count += 1
-	print(count)
 	return count
 
 @rpc("call_local")
