@@ -21,11 +21,11 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if current_state && !player.time_is_stopped && !player.stop_movement && !player.is_dead && !player.stunned:
+	if current_state && !player.time_is_stopped && !player.stop_movement && !player.is_dead && !player.stunned && !player.outside_of_game:
 		current_state._update(delta)
 
 func _physics_process(delta):
-	if current_state && !player.time_is_stopped && !player.stop_movement && !player.is_dead && !player.stunned:
+	if current_state && !player.time_is_stopped && !player.stop_movement && !player.is_dead && !player.stunned && !player.outside_of_game:
 		current_state._physics_update(delta)
 
 func _on_state_changed(state, new_state):

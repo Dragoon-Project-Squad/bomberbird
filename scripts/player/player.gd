@@ -2,9 +2,9 @@ class_name Player extends CharacterBody2D
 ## Base class for the player
 
 signal player_health_updated
-signal player_hurt
-signal player_died
-signal player_revived
+signal player_hurt(player: Player)
+signal player_died(player: Player)
+signal player_revived(player: Player)
 
 ## Player Movement Speed
 const TILE_SIZE: int = 32
@@ -38,6 +38,9 @@ var current_anim: String = ""
 var is_dead: bool = false
 var _died_barrier: bool = false
 var stop_movement: bool = false
+var outside_of_game: bool = false
+
+
 var time_is_stopped: bool = false
 var player_type: String
 var hurry_up_started: bool = false 
@@ -322,7 +325,7 @@ func do_crushed_state():
 	animation_player.play("player_animations/crush")
 	$Hitbox.set_deferred("disabled", 1)
 	await animation_player.animation_finished
-	player_died.emit()
+	player_died.emit(self)
 	process_mode = PROCESS_MODE_DISABLED
 
 
@@ -334,14 +337,14 @@ func enter_death_state():
 		spread_items()
 		reset_pickups()
 	await animation_player.animation_finished
-	player_died.emit()
+	player_died.emit(self)
 	hide()
 	process_mode = PROCESS_MODE_DISABLED
 
 @rpc("call_local")
 func exit_death_state():
 	process_mode = PROCESS_MODE_INHERIT
-	player_revived.emit()
+	player_revived.emit(self)
 	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
 	animation_player.play("player_animations/revive")
 	$Hitbox.set_deferred("disabled", 0)
@@ -353,8 +356,8 @@ func exit_death_state():
 
 @rpc("call_local")
 func reset():
-	process_mode = PROCESS_MODE_DISABLED
 	animation_player.play("RESET")
+	process_mode = PROCESS_MODE_DISABLED
 	self.bomb_to_throw = null
 	self.current_anim = ""
 	self.bomb_kicked = null
@@ -363,6 +366,7 @@ func reset():
 	await animation_player.animation_finished
 	self.stunned = false
 	self.is_dead = false
+	self._died_barrier = false
 	self.bomb_count = self.bomb_total
 	self.time_is_stopped = false
 	self.invulnerable = false
@@ -526,20 +530,20 @@ func return_bomb(is_mine := false):
 @rpc("call_local")
 ## plays the victory animation and stops the player from moving
 func play_victory(reenable: bool) -> Signal:
-	stop_movement = true
+	self.outside_of_game = true
 	
 	$sprite.self_modulate = Color8(255, 255, 255)
 	$sprite.rotation = 0
 	$sprite.frame = 0
 	animation_player.play("player_animations/victory")
-	if reenable: animation_player.animation_finished.connect(func (_x): stop_movement = false, CONNECT_ONE_SHOT)
+	if reenable: animation_player.animation_finished.connect(func (_x): self.outside_of_game = false, CONNECT_ONE_SHOT)
 	return animation_player.animation_finished
 
 func do_hurt() -> void:
-	stop_movement = true
+	self.stop_movement = true
 	animation_player.play("player_animations/death")
 	await animation_player.animation_finished
-	player_hurt.emit()
+	player_hurt.emit(self)
 	stop_movement = false
 
 @rpc("call_local")
@@ -632,3 +636,7 @@ func stop_time(user: String, is_player: bool):
 	
 func start_time():
 	self.time_is_stopped = false
+
+func _cur_anim_changed(anim_name: String):
+	#print(self.name, " plays ", anim_name)
+	pass

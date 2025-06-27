@@ -292,3 +292,5 @@ replication_config = SubResource("SceneReplicationConfig_w53uu")
 
 [node name="HurtSoundPlayer" type="AkEvent2D" parent="."]
 event = ExtResource("10_jvckf")
+
+[connection signal="current_animation_changed" from="AnimationPlayer" to="." method="_cur_anim_changed"]
