@@ -31,7 +31,7 @@ func start() -> void:
 
 	var hurry_up_time: float = SettingsContainer.get_hurry_up_time() + 1.5 #idk wy this +1.5 is needed but otherwise it does not stop at a nice 00:00
 	var total_number_of_non_unbreakable_spaces: int
-	if SettingsContainer.get_sudden_death_state():
+	if !SettingsContainer.get_sudden_death_state():
 		total_number_of_non_unbreakable_spaces = get_sudden_death_non_unbreakable_spaces()
 	else:
 		total_number_of_non_unbreakable_spaces = globals.current_world.total_number_of_non_unbreakable_spaces
@@ -81,7 +81,7 @@ func disable() -> void:
 
 func generate_spiral(width: int, height: int) -> Array[Vector2i]:
 	var spiral: Array[Vector2i]
-	if SettingsContainer.get_sudden_death_state():
+	if !SettingsContainer.get_sudden_death_state():
 		spiral.resize(width * height - SUDDEN_DEATH_SIZE.x * SUDDEN_DEATH_SIZE.y)
 	else:
 		spiral.resize(width * height)
@@ -97,7 +97,7 @@ func generate_spiral(width: int, height: int) -> Array[Vector2i]:
 	var index: int = 0
 	
 	while left <= right and top <= bottom:
-		if SettingsContainer.get_sudden_death_state():
+		if !SettingsContainer.get_sudden_death_state():
 			if Vector2i(left, top) == top_left && Vector2i(right + 1, bottom + 1) == bottom_right: break
 
 		# Move Right

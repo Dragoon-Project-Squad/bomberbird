@@ -157,7 +157,7 @@ func is_tile(tile: int, global_pos: Vector2):
 	var matrix_pos: Vector2i = tile_map.local_to_map(global_pos) - floor_origin
 	return tile == _world_matrix[_vec_to_index(matrix_pos)]
 
-## checks if the tile at 'global_pos' is 'tile'
+## checks if the tile at 'pos' is 'tile'
 func _is_tile(tile: int, pos: Vector2i):
 	return tile == _world_matrix[_vec_to_index(pos)]
 
