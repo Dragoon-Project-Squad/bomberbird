@@ -1,11 +1,12 @@
 [gd_scene load_steps=7 format=4 uid="uid://cs40haapyvaf0"]
 
 [ext_resource type="Script" uid="uid://bebhr7v8s7t8y" path="res://scripts/world/runtime_build_stage.gd" id="1_pudkg"]
-[ext_resource type="Texture2D" uid="uid://6q3fm0c6xt2f" path="res://assets/tilesetimages/desert_background.png" id="2_i86d0"]
+[ext_resource type="Texture2D" uid="uid://6q3fm0c6xt2f" path="res://assets/tilesetimages/desert_background_old.png" id="2_i86d0"]
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/tilesets/desert_tileset.tres" id="2_mvwba"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="3_r0mt7"]
 [ext_resource type="TileSet" uid="uid://rloj8u7pcig6" path="res://assets/tilesets/desert_obstacle.tres" id="4_7gu8t"]
 [ext_resource type="PackedScene" uid="uid://ul0n27wk45l7" path="res://scenes/mus/bountyhunterjam.tscn" id="4_pudkg"]
+
 
 [node name="RuntimeBuildDesertStage" type="Node2D"]
 texture_filter = 1

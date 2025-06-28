@@ -135,11 +135,8 @@ guid = "{AF41BCA1-3B3D-4DB7-A468-8A67F0390435}"
 id = 393239870
 
 [sub_resource type="WwiseTreeObject" id="WwiseTreeObject_5n8hf"]
-path = "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus"
 children = [SubResource("WwiseTreeObject_yyrou"), SubResource("WwiseTreeObject_geu6g")]
-type = 2
 name = "Master Audio Bus"
-guid = "{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}"
 id = 3803692087
 
 [sub_resource type="WwiseTreeObject" id="WwiseTreeObject_tnib1"]
