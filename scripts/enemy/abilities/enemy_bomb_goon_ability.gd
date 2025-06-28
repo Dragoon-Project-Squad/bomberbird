@@ -20,16 +20,19 @@ func _enter() -> void:
 
 	await self.enemy.anim_player.animation_finished
 	if globals.game.stage_done || self.enemy.disabled: return
+	if !(world_data.is_tile(world_data.tiles.BOMB, self.enemy.position)):
 
-	astargrid_handler.astargrid_set_point(self.enemy.position, true)
-	var bomb: BombRoot = globals.game.bomb_pool.request()
-	bomb.set_bomb_owner("")
-	bomb.set_bomb_type(HeldPickups.bomb_types.DEFAULT)
-	bomb.do_place(bombPos, 0)
+		astargrid_handler.astargrid_set_point(self.enemy.position, true)
+		var bomb: BombRoot = globals.game.bomb_pool.request()
+		bomb.set_bomb_owner("")
+		bomb.set_bomb_type(HeldPickups.bomb_types.DEFAULT)
+		bomb.do_place(bombPos, 0)
 
-	self.enemy.sprite.hide()
+		self.enemy.sprite.hide()
 
-	await bomb.bomb_finished
+		await bomb.bomb_finished
+	else:
+		await get_tree().create_timer(3).timeout
 	if globals.game.stage_done || self.enemy.disabled: return
 
 	self.enemy.sprite.show()

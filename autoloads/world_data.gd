@@ -313,7 +313,9 @@ func get_path_to_empty_tile(start_pos: Vector2) -> Array[Vector2]:
 			var next_pos: Vector2i = path[-1] + dir
 			if next_pos in path: continue
 			if _is_walkable(next_pos, [tiles.EMPTY]):
-				return _to_real_path(path)
+				var ret_path = path.duplicate() 
+				ret_path.append(next_pos)
+				return _to_real_path(ret_path)
 			var new_path = path.duplicate() 
 			new_path.append(next_pos)
 			path_queue.append(new_path)

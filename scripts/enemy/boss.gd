@@ -146,7 +146,7 @@ func exploded(by_whom: int):
 	if path.is_empty(): return
 	valid_pos = path[-1]
 	if valid_pos == Vector2.ZERO: return
-	pickup.place.rpc(valid_pos, true)
+	pickup.place.call_deferred(valid_pos, true)
 
 func reset_pickups():
 	self.bomb_carry_sprite.hide()
