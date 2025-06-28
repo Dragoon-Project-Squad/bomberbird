@@ -40,19 +40,17 @@ func create_dict() -> Dictionary:
 	return new_dict
 
 func update_internal_dict() -> void:
-	var new_dict = {
-		"desert" : desert_path,
-		"beach" : beach_path,
-		"dungeon" : dungeon_path,
-		"lab" : lab_path,
-		"secret" : secret_path
-	}
-	obstacle_path_dict = new_dict
+	obstacle_path_dict = create_dict()
 
 func get_value_by_stage_choice() -> String:
 	update_internal_dict()
 	var path_to_load : String
-	match SettingsContainer.get_stage_choice():
+	return path_to_load
+
+func get_value_by_argument(choice: int):
+	update_internal_dict()
+	var path_to_load : String
+	match choice:
 		SettingsContainer.multiplayer_stages_secret_enabled.SALOON:
 			path_to_load = obstacle_path_dict.desert
 		SettingsContainer.multiplayer_stages_secret_enabled.BEACH:
