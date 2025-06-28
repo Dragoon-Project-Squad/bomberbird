@@ -57,7 +57,7 @@ func exploded(by_who):
 	astargrid_handler.astargrid_set_point(global_position, false)
 	if is_multiplayer_authority():
 		disable.rpc()
-	globals.game.breakable_pool.return_obj(self)
+		globals.game.breakable_pool.return_obj(self)
 
 @rpc("call_local")
 func crush():
@@ -74,7 +74,7 @@ func crush():
 	if globals.game.stage_done: return
 	if is_multiplayer_authority():
 		disable.rpc()
-	globals.game.breakable_pool.return_obj(self)
+		globals.game.breakable_pool.return_obj(self)
 	
 func set_selected_sprite(new_path : String):
 	$Sprite.texture = load(new_path)

@@ -44,14 +44,20 @@ func restart(reset_player: bool = true):
 	
 
 @rpc("call_local")
-func restart_current_stage(reset_player: bool = false):
+func restart_current_stage(player: Player = null, reset_player: bool = false):
 	stage_done = true
 	fade.play("fade_out")
+	if player: player.outside_of_game = true
 	await fade.animation_finished
 
 	reset.call_deferred()
 	stage.reset.call_deferred()
 
+	if reset_player:
+		reset_players.call_deferred()
+		score = 0
+	else:
+		soft_reset_players()
 	await get_tree().create_timer(1).timeout
 
 	stage.enable.call_deferred(
@@ -62,11 +68,6 @@ func restart_current_stage(reset_player: bool = false):
 		stage_data_arr[curr_stage_idx].unbreakable_resource,
 		stage_data_arr[curr_stage_idx].breakable_resource,
 	)
-	if reset_player:
-		reset_players.call_deferred()
-		score = 0
-	else:
-		soft_reset_players()
 	stage_announce_label.text = stage_data_arr[curr_stage_idx].stage_node_title
 	stage_announce_label.show()
 
@@ -78,6 +79,7 @@ func restart_current_stage(reset_player: bool = false):
 		stage.all_enemied_died.emit(0)
 	get_tree().create_timer(2).timeout.connect(func (): stage_announce_label.hide())
 	stage_done = false
+	if player: player.outside_of_game = false
 
 @rpc("call_local")
 ## starts the complete reset for all stage related states and then loads the next stage given by
@@ -88,7 +90,7 @@ func next_stage(id: int, player: HumanPlayer):
 	stage_done = true
 	# prevents two exits from triggering (Tho in general we proabily should not have 2 exits close enought next to each other to trigger that)
 
-	await player.play_victory(true)
+	await player.play_victory(false)
 
 	if id == -1:
 		save_on_finish(score, player)
@@ -144,6 +146,7 @@ func next_stage(id: int, player: HumanPlayer):
 	_exit_spawned_barrier = false
 	stage_done = false 
 	load_next_stage_set(curr_stage_idx)
+	player.outside_of_game = true
 
 ## for a given stage loads the next stages into the tree with a lookahead in a BDS approach
 ## [param id] int index of the choosen stage in the stage_data_arr
