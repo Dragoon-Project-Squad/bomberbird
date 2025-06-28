@@ -1,10 +1,9 @@
-[gd_scene load_steps=9 format=4 uid="uid://bwxeyyja07ed6"]
+[gd_scene load_steps=8 format=4 uid="uid://bwxeyyja07ed6"]
 
 [ext_resource type="Script" uid="uid://c7rrhgeevwtus" path="res://scripts/world/randomized_stage.gd" id="1_34e23"]
 [ext_resource type="Resource" uid="uid://cb6rkpxf72x4o" path="res://resources/gameplay/dungeon_pickup_table.tres" id="2_0xxxu"]
 [ext_resource type="TileSet" uid="uid://dfvqpfmyvsgrk" path="res://assets/tilesets/dungeon_tileset.tres" id="3_34e23"]
 [ext_resource type="Texture2D" uid="uid://bjgruof3t5j4y" path="res://assets/tilesetimages/dungeon_background.png" id="3_ooktv"]
-[ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/tilesets/desert_tileset.tres" id="4_hly1x"]
 [ext_resource type="TileSet" uid="uid://cnoloqgn2qgfe" path="res://assets/tilesets/dungeon_obstacle.tres" id="4_qtpac"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="5_wqbs2"]
 [ext_resource type="PackedScene" uid="uid://bn58fqv6ar4sr" path="res://scenes/mus/dad_drive.tscn" id="6_0xxxu"]
@@ -39,6 +38,7 @@ tile_map_data = PackedByteArray("AAACAAwAAAABAAAAAAAEAAwAAAABAAAAAAAGAAwAAAABAAA
 tile_set = ExtResource("4_qtpac")
 
 [node name="HurryUp" parent="." instance=ExtResource("5_wqbs2")]
-tile_set = ExtResource("4_hly1x")
+tile_set = ExtResource("4_qtpac")
+falling_unbreakable_color = Color(0.25098, 0.321569, 0.611765, 1)
 
 [node name="Music" parent="." instance=ExtResource("6_0xxxu")]

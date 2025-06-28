@@ -26,6 +26,7 @@ func setup_default_character_select_paths() -> void:
 
 func setup_for_host() -> void:
 	refresh_lobby_panel()
+	_on_dragoon_pressed()
 
 @rpc("call_remote")
 func setup_for_peers() -> void:
