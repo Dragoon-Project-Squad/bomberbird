@@ -26,6 +26,7 @@ func _generate_breakables_with_weights(_breakable_table: BreakableTable = null):
 			var current_cell = Vector2i(x, y) + world_data.floor_origin
 			if world_data.is_tile(world_data.tiles.UNBREAKABLE, world_data.tile_map.map_to_local(current_cell)):
 				continue # Skip cells where solid tiles are placed
+			self.total_number_of_non_unbreakable_spaces += 1
 			var skip_checker: Callable = _is_in_spawn_area.bind(1, current_cell)
 			if spawnpoints.any(skip_checker): continue
 			if enemy_table && enemy_table.get_coords().any(skip_checker): continue
@@ -45,6 +46,7 @@ func _generate_breakables_with_amounts(breakable_table: BreakableTable, pickup_t
 			var current_cell = Vector2i(x, y) + world_data.floor_origin
 			if world_data.is_tile(world_data.tiles.UNBREAKABLE, world_data.tile_map.map_to_local(current_cell)):
 				continue # Skip cells where solid tiles are placed
+			self.total_number_of_non_unbreakable_spaces += 1
 			var skip_checker: Callable = _is_in_spawn_area.bind(1, current_cell)
 			if spawnpoints.any(skip_checker): continue
 			if enemy_table && enemy_table.get_coords().any(skip_checker): continue

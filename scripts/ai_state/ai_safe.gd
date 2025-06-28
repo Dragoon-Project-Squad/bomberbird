@@ -43,3 +43,7 @@ func bombs_added() -> bool:
 		if bomb not in bomb_snapshot:
 			return true
 	return false
+
+func _reset():
+	super()
+	bomb_snapshot = []

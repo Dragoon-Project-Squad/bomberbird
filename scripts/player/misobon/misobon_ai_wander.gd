@@ -5,11 +5,8 @@ const WANDER_COOLDOWN: float = 1
 ## cooldown between checking for a target (if this is too low it might be laggy)
 const TARGET_CHECKING_COOLDOWN: float = 0.1
 
-
-
 var wander_cooldown: float = WANDER_COOLDOWN
 var target_checking_cooldown: float = TARGET_CHECKING_COOLDOWN
-var raycasts: Node2D #Set by the get_parent().player
 
 func _update(delta: float) -> void:
 	wander_cooldown += delta
@@ -87,3 +84,7 @@ func _check_raycasts() -> bool:
 		if ray.get_collider() is Player:
 			return true
 	return false
+
+func _reset():
+	wander_cooldown = WANDER_COOLDOWN
+	target_checking_cooldown = TARGET_CHECKING_COOLDOWN
