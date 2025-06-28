@@ -74,7 +74,7 @@ func spawn_exits():
 			exit = globals.game.exit_pool.request(EXIT_VISITED_COLOR)
 		else:
 			exit = globals.game.exit_pool.request(exit_entry.color)
-		exit.place(exit_pos, children_ids[iter]) 
+		exit.place.call_deferred(exit_pos, children_ids[iter]) 
 		iter += 1
 
 func stop_hurry_up():

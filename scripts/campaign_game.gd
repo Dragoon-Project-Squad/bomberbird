@@ -146,7 +146,7 @@ func next_stage(id: int, player: HumanPlayer):
 	_exit_spawned_barrier = false
 	stage_done = false 
 	load_next_stage_set(curr_stage_idx)
-	player.outside_of_game = true
+	player.outside_of_game = false
 
 ## for a given stage loads the next stages into the tree with a lookahead in a BDS approach
 ## [param id] int index of the choosen stage in the stage_data_arr
