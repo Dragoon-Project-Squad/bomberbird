@@ -2,10 +2,10 @@ class_name Player extends CharacterBody2D
 ## Base class for the player
 
 signal player_health_updated
-signal player_hurt
-signal player_died
-signal player_mounted
-signal player_revived
+signal player_hurt(player: Player)
+signal player_died(player: Player)
+signal player_revived(player: Player)
+signal player_mounted(player: Player)
 
 ## Player Movement Speed
 const TILE_SIZE: int = 32
@@ -40,6 +40,9 @@ var is_dead: bool = false
 var is_mounted: bool = false
 var _died_barrier: bool = false
 var stop_movement: bool = false
+var outside_of_game: bool = false
+
+
 var time_is_stopped: bool = false
 var player_type: String
 var hurry_up_started: bool = false 
@@ -109,7 +112,8 @@ func _ready():
 	pickups.reset()
 	self.animation_player.play("RESET")
 	init_pickups()
-	do_invulnerabilty()
+	if is_multiplayer_authority():
+		do_invulnerabilty.rpc()
 
 func init_pickups():
 	if !is_multiplayer_authority(): return
@@ -156,10 +160,13 @@ func _physics_process(_delta: float):
 	pass
 
 func place(pos: Vector2):
+	process_mode = PROCESS_MODE_INHERIT
 	self.position = pos
 	self.show()
 	self.animation_player.play("RESET")
-	do_invulnerabilty()
+	await animation_player.animation_finished
+	if is_multiplayer_authority():
+		do_invulnerabilty.rpc()
 	_died_barrier = false
 
 ## executes the punch_bomb ability if the player has the appropiate pickup
@@ -320,7 +327,7 @@ func do_crushed_state():
 	animation_player.play("player_animations/crush")
 	$Hitbox.set_deferred("disabled", 1)
 	await animation_player.animation_finished
-	player_died.emit()
+	player_died.emit(self)
 	process_mode = PROCESS_MODE_DISABLED
 
 
@@ -332,42 +339,44 @@ func enter_death_state():
 		spread_items()
 		reset_pickups()
 	await animation_player.animation_finished
-	player_died.emit()
+	player_died.emit(self)
 	hide()
 	process_mode = PROCESS_MODE_DISABLED
 
 @rpc("call_local")
 func exit_death_state():
 	process_mode = PROCESS_MODE_INHERIT
-	player_revived.emit()
+	player_revived.emit(self)
 	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
 	animation_player.play("player_animations/revive")
 	$Hitbox.set_deferred("disabled", 0)
 	await animation_player.animation_finished
 	stunned = false
 	is_dead = false
-	do_invulnerabilty()
+	if is_multiplayer_authority():
+		do_invulnerabilty.rpc()
 
 @rpc("call_local")
 func reset():
-	process_mode = PROCESS_MODE_INHERIT
-	player_revived.emit()
-	animation_player.play("player_animations/revive")
-	bomb_to_throw = null
-	bomb_kicked = null
+	animation_player.play("RESET")
+	process_mode = PROCESS_MODE_DISABLED
+	self.bomb_to_throw = null
+	self.current_anim = ""
+	self.bomb_kicked = null
 	$BombSprite.visible = false
 	$Hitbox.set_deferred("disabled", 0)
 	await animation_player.animation_finished
-	stunned = false
-	is_dead = false
-	bomb_count = bomb_total
-	self.stop_movement = false
+	self.stunned = false
+	self.is_dead = false
+	self._died_barrier = false
+	self.bomb_count = self.bomb_total
 	self.time_is_stopped = false
 	self.invulnerable = false
 	unvirus()
 	show()
 
 ## resets the pickups back to the inital state
+@rpc("call_local")
 func reset_pickups():
 	movement_speed = movement_speed_reset
 	bomb_total = bomb_total_reset
@@ -383,8 +392,8 @@ func reset_pickups():
 
 ## spreads all pickups the player held on the ground
 func spread_items():
-	if !is_multiplayer_authority():
-		return
+	if !is_multiplayer_authority(): return
+	if globals.player_manager.get_alive_players().reduce(func (sum, p): return sum + 1 if p != self else sum, 0) <= 1: return
 	
 	var pickup_types: Array[int] = []
 	var pickup_count: Array[int] = []
@@ -441,6 +450,7 @@ func spread_items():
 			world_data.reset_empty_cells.call_deferred(temp)
 
 ## starts the invulnerability and its animation
+@rpc("call_local")
 func do_invulnerabilty():
 	invulnerable_remaining_time = INVULNERABILITY_SPAWN_TIME
 	invulnerable = true
@@ -527,16 +537,20 @@ func return_bomb(is_mine := false):
 @rpc("call_local")
 ## plays the victory animation and stops the player from moving
 func play_victory(reenable: bool) -> Signal:
-	stunned = true
+	self.outside_of_game = true
+	
+	$sprite.self_modulate = Color8(255, 255, 255)
+	$sprite.rotation = 0
+	$sprite.frame = 0
 	animation_player.play("player_animations/victory")
-	if reenable: animation_player.animation_finished.connect(func (_x): stunned = false, CONNECT_ONE_SHOT)
+	if reenable: animation_player.animation_finished.connect(func (_x): self.outside_of_game = false, CONNECT_ONE_SHOT)
 	return animation_player.animation_finished
 
 func do_hurt() -> void:
-	stop_movement = true
+	self.stop_movement = true
 	animation_player.play("player_animations/death")
 	await animation_player.animation_finished
-	player_hurt.emit()
+	player_hurt.emit(self)
 	stop_movement = false
 
 @rpc("call_local")
@@ -629,3 +643,7 @@ func stop_time(user: String, is_player: bool):
 	
 func start_time():
 	self.time_is_stopped = false
+
+func _cur_anim_changed(anim_name: String):
+	#print(self.name, " plays ", anim_name)
+	pass

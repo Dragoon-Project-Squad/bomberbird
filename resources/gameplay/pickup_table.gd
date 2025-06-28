@@ -139,10 +139,10 @@ func determine_base_pickup_rate() -> void:
 	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
 		pickup_spawn_chance = base_pickup_spawn_chance
 		return
-	if SettingsContainer.get_pickup_spawn_rule() == 0:
+	if SettingsContainer.get_pickup_spawn_rule() == SettingsContainer.pickup_spawn_rule_setting_states.STAGE:
 		pickup_spawn_chance = base_pickup_spawn_chance
 		return # Use the value decided by the STAGE
-	elif SettingsContainer.get_pickup_spawn_rule() == 1:
+	elif SettingsContainer.get_pickup_spawn_rule() == SettingsContainer.pickup_spawn_rule_setting_states.CUSTOM:
 		# Custom Mode, use the Global Percent
 		pickup_spawn_chance = SettingsContainer.get_pickup_chance()
 
@@ -150,7 +150,7 @@ func to_json() -> Dictionary:
 	self.update()
 	return {"weights": pickup_weights, "are_amounts": are_amounts, "base_pickup_spawn_chance": base_pickup_spawn_chance}
 
-func from_json(tabel: Dictionary):
+func from_json(pickup_table: Dictionary):
 	for pickup in range(globals.pickups.NONE):
 		match pickup:
 			globals.pickups.GENERIC_COUNT: continue
@@ -158,12 +158,12 @@ func from_json(tabel: Dictionary):
 			globals.pickups.GENERIC_EXCLUSIVE: continue
 			globals.pickups.GENERIC_BOMB: continue
 
-		if tabel.weights.has(str(pickup)):
-			self.pickup_weights[pickup] = tabel.weights[str(pickup)]
+		if pickup_table.weights.has(str(pickup)):
+			self.pickup_weights[pickup] = pickup_table.weights[str(pickup)]
 		else: 
 			self.pickup_weights[pickup] = 0
 	self.reverse_update()
 	self.is_uptodate = true
-	self.are_amounts = tabel.are_amounts
-	self.base_pickup_spawn_chance = tabel.base_pickup_spawn_chance
+	self.are_amounts = pickup_table.are_amounts
+	self.base_pickup_spawn_chance = pickup_table.base_pickup_spawn_chance
 	

@@ -29,7 +29,7 @@ resource_name = "explosion_small"
 
 [sub_resource type="Animation" id="Animation_21j5c"]
 resource_name = "fuse_and_call_detonate()"
-length = 4.0
+length = 3.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true

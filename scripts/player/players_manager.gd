@@ -29,12 +29,12 @@ func get_players(type: String = "all") -> Array[Player]:
 		_:
 			return Array(get_children().filter(func (p): return (p is HumanPlayer || p is AIPlayer)), TYPE_OBJECT, "CharacterBody2D", Player)
 
-func _on_player_died():
+func _on_player_died(_player: Player):
 	#If SUPER and killer is dead he would be revived so nothing meaningfull has actualy changed
 	players_left -= 1
 	alive_players_changed.emit(-1)
 
-func _on_player_revived():
+func _on_player_revived(_player: Player):
 	players_left += 1
 
 func _on_hurry_up_start() -> void:

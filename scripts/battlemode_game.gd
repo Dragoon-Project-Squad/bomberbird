@@ -10,10 +10,11 @@ func _ready():
 	super()
 	
 func start():
-	load_stage()
-	stage.reset.call_deferred()
+	if !stage:
+		load_stage()
+		stage.reset.call_deferred()
 	stage.enable.call_deferred() #Set up the stage.
-	call_deferred("freeze_players") #Lock all players movement.
+	freeze_players.call_deferred()
 	await remove_the_darkness()
 	show_all_players()
 	await start_stage_start_countdown() #
@@ -48,7 +49,9 @@ func remove_the_darkness():
 		await game_anim_player.animation_finished
 	
 func wipe_stage():
+	game_ui.reset()
 	reset()
+	stage.reset()
 	stage.disable()
 	
 func defuse_all_bombs():
@@ -63,9 +66,9 @@ func lock_misobon():
 		for misoplayer in misoplayers:
 			misoplayer.disable_at_end_of_round.rpc()
 
-func start_stage_start_countdown():
+func start_stage_start_countdown() -> Signal:
 	game_anim_player.play("countdown")
-	await game_anim_player.animation_finished
+	return game_anim_player.animation_finished
 
 func activate_ui_and_music():
 	stage.start_music()
@@ -74,39 +77,32 @@ func activate_ui_and_music():
 	
 func freeze_players():
 	var players: Array[Player] = globals.player_manager.get_players()
-	if is_multiplayer_authority():
-		for player in players:
-			player.stunned = true
+	for player in players:
+		player.outside_of_game = true
 
 func unfreeze_players():
 	var players: Array[Player] = globals.player_manager.get_players()
-	if is_multiplayer_authority():
-		for player in players:
-			player.stunned = false
+	for player in players:
+		player.outside_of_game = false
 
 func hide_all_players():
 	var players: Array[Player] = globals.player_manager.get_players()
-	if is_multiplayer_authority():
-		for player in players:
-			player.hide()
+	for player in players:
+		player.hide()
 			
 func show_all_players():
 	var players: Array[Player] = globals.player_manager.get_players()
-	if is_multiplayer_authority():
-		for player in players:
-			player.show()
-			
-
+	for player in players:
+		player.show()
 			
 func load_new_stage():
 	stage_done = true
-	stage.queue_free()
-	start()
-
+	start.call_deferred()
 
 func stop_the_match():
 	game_ended = true
 	stage.stop_music()
+	stage.stop_hurry_up()
 	%MatchTimer.stop()
 	game_ui.stop_timer()
 	lock_misobon()
@@ -128,8 +124,6 @@ func _check_ending_condition(_alive_enemies: int = 0):
 	if game_ended: 
 		return
 	var alive_players: Array[Player] = globals.player_manager.get_alive_players()
-	if len(alive_players) > 1: 
-		return
 	if len(alive_players) < 2:
 		game_ended = true
 		await get_tree().create_timer(0.5).timeout
@@ -147,7 +141,7 @@ func _check_ending_condition(_alive_enemies: int = 0):
 		await play_fade_out()
 		await get_tree().create_timer(2).timeout
 		#DO WIN SCREEN STUFF
-		if game_ui.get_player_score(alive_players[0].name.to_int()) >= SettingsContainer.get_points_to_win():
+		if !alive_players.is_empty() && game_ui.get_player_score(alive_players[0].name.to_int()) >= SettingsContainer.get_points_to_win():
 			if is_multiplayer_authority():
 				gamestate.set_player_scores(globals.game.game_ui.get_all_scores())
 				show_victory_screen.rpc(gamestate.player_data_master_dict.duplicate())
@@ -155,7 +149,6 @@ func _check_ending_condition(_alive_enemies: int = 0):
 			#RESET GAME STATE
 			wipe_stage()
 			reset_players()
-			freeze_players()
 			#LOAD NEW STAGE
 			load_new_stage()
 		return
