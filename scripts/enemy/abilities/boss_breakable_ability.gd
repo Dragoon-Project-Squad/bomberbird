@@ -43,7 +43,7 @@ func place_breakable():
 		breakable.add_collision_exception_with(self.enemy)
 		breakable.breakable_destroyed.connect(func (): breakable.remove_collision_exception_with(self.enemy))
 		world_data.set_tile(world_data.tiles.BREAKABLE, breakablePos)
-		breakable.place.rpc(breakablePos, globals.pickups.NONE)
+		breakable.place.rpc(breakablePos, globals.pickups.NONE, globals.current_world._breakable_texture_path)
 
 ## places a bomb if the current position is valid
 func place_bomb():
