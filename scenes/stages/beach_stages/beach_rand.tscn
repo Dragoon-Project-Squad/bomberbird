@@ -1,35 +1,13 @@
-[gd_scene load_steps=10 format=4 uid="uid://d4ep51hwr8uxd"]
+[gd_scene load_steps=9 format=4 uid="uid://d4ep51hwr8uxd"]
 
 [ext_resource type="Script" uid="uid://c7rrhgeevwtus" path="res://scripts/world/randomized_stage.gd" id="1_5v275"]
-[ext_resource type="Script" uid="uid://bta1elkd6rmla" path="res://resources/gameplay/pickup_table.gd" id="2_vhk3c"]
+[ext_resource type="Resource" uid="uid://dsfsq7ekrcaf6" path="res://resources/gameplay/beach_pickup_table.tres" id="2_fj5a6"]
 [ext_resource type="TileSet" uid="uid://mxtw88b7dngl" path="res://assets/tilesets/beach_tileset.tres" id="3_5v275"]
 [ext_resource type="Texture2D" uid="uid://rk7al24b3cfe" path="res://assets/tilesetimages/beach_background.png" id="3_okef0"]
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/tilesets/desert_tileset.tres" id="4_1svj4"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="5_cn8oy"]
 [ext_resource type="TileSet" uid="uid://c2yyknft750gb" path="res://assets/tilesets/beach_obstacle.tres" id="5_fj5a6"]
 [ext_resource type="PackedScene" uid="uid://bbtw8lckcv2kj" path="res://scenes/mus/rush.tscn" id="6_twvbe"]
-
-[sub_resource type="Resource" id="Resource_6r5we"]
-script = ExtResource("2_vhk3c")
-extra_bomb = 500
-explosion_boost = 500
-speed_boost = 500
-speed_down = 300
-heart = 50
-max_explosion = 20
-punch_ability = 50
-throw_ability = 50
-wallthrough = 50
-timer = 10
-invincibility_vest = 15000
-virus = 50
-kick = 50
-bombthrough = 50
-piercing_bomb = 50
-land_mine = 50
-are_amounts = false
-base_pickup_spawn_chance = 1.0
-metadata/_custom_type_script = "uid://bta1elkd6rmla"
 
 [node name="RandomizedBeachStage" type="Node2D"]
 texture_filter = 1
@@ -39,7 +17,7 @@ tileset_id = 1
 _arena_rect = Rect2i(1, 3, 13, 11)
 _world_edge_rect = Rect2i(-2, -2, 19, 19)
 spawnpoints = Array[Vector2i]([Vector2i(1, 3), Vector2i(13, 3), Vector2i(1, 13), Vector2i(13, 13)])
-pickup_table = SubResource("Resource_6r5we")
+pickup_table = ExtResource("2_fj5a6")
 
 [node name="Background" type="Sprite2D" parent="."]
 position = Vector2(240, 208)
