@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bsqen21avp17e"]
+[gd_scene load_steps=9 format=3 uid="uid://bsqen21avp17e"]
 
 [ext_resource type="Script" uid="uid://cyqpfq102elly" path="res://scripts/pickups/default_pickup.gd" id="1_cd4dq"]
 [ext_resource type="Texture2D" uid="uid://t64vkd8wb6n1" path="res://assets/pickups/genericpowerup.png" id="1_tu3yp"]
@@ -35,6 +35,14 @@ animations = [{
 "speed": 3.0
 }]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wupfw"]
+properties/0/path = NodePath(".:in_use")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:visible")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+
 [node name="DefaultPickup" type="Area2D" groups=["thrown_pickup_bounces"]]
 texture_filter = 1
 collision_layer = 16
@@ -48,5 +56,8 @@ shape = SubResource("RectangleShape2D_41uh0")
 sprite_frames = SubResource("SpriteFrames_y24j8")
 animation = &"idle"
 frame_progress = 0.0251961
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_wupfw")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

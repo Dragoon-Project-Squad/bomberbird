@@ -36,4 +36,4 @@ func _on_restart_pressed() -> void:
 	if won:
 		globals.game.restart(true)
 	else:
-		globals.game.restart_current_stage(true)
+		globals.game.restart_current_stage(null, true)

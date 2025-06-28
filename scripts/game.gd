@@ -42,19 +42,19 @@ func reset():
 	for bomb in bomb_pool.get_children().filter(func (b): return b is BombRoot && b.in_use):
 		if is_multiplayer_authority():
 			bomb.disable.rpc()
-		bomb_pool.return_obj(bomb)
+			bomb_pool.return_obj(bomb)
 
 	for pickup in pickup_pool.get_children().filter(func (p): return p is Pickup && p.in_use):
 		if is_multiplayer_authority():
 			pickup.disable_collison_and_hide.rpc()
 			pickup.disable.rpc()
-		pickup_pool.return_obj(pickup)
+			pickup_pool.return_obj(pickup)
 
 	for breakable in breakable_pool.get_children().filter(func (b): return b is Breakable && b.in_use):
 		if is_multiplayer_authority():
 			breakable.disable_collison_and_hide.rpc()
 			breakable.disable.rpc()
-		breakable_pool.return_obj(breakable)
+			breakable_pool.return_obj(breakable)
 
 func pause_time(_user: String, _is_player: bool):
 	time_stopped_timer = get_tree().create_timer(16)
@@ -82,10 +82,10 @@ func _check_ending_condition(_alive_enemies: int):
 	
 func reset_players():
 	var misoplayers: Array[MisobonPlayer] = Array($MisobonPath.get_children().filter(func (p): return (p is MisobonPlayer)), TYPE_OBJECT, "PathFollow2D", MisobonPlayer)
-	var deadplayers: Array[Player] = globals.player_manager.get_dead_players()
+	var players: Array[Player] = globals.player_manager.get_players()
 	if is_multiplayer_authority():
 		for misoplayer in misoplayers:
-			misoplayer.reset(stage.spawnpoints[0])
-		for deadplayer in deadplayers:
-			deadplayer.reset()
-			deadplayer.reset_pickups()
+			misoplayer.reset.rpc(stage.spawnpoints[0])
+		for player in players:
+			player.reset.rpc()
+			player.reset_pickups.rpc()

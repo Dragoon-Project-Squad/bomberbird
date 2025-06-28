@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://c2q3ttulq4cmu"]
+[gd_scene load_steps=24 format=3 uid="uid://c2q3ttulq4cmu"]
 
 [ext_resource type="Script" uid="uid://tf4lqf0ig6p4" path="res://scripts/player/ai_player.gd" id="1_ql62k"]
 [ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_oae17"]
@@ -8,10 +8,11 @@
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="5_qbktl"]
 [ext_resource type="AnimationLibrary" uid="uid://b6igytp0a077" path="res://animations/player_animations.tres" id="5_vobde"]
 [ext_resource type="Script" uid="uid://cvneoqre4h1ct" path="res://scripts/player/human_player_controls.gd" id="6_rxnmx"]
+[ext_resource type="Texture2D" uid="uid://colmsqhmxnr47" path="res://assets/egg_bomb.png" id="6_xhrxh"]
 [ext_resource type="Script" uid="uid://cj45k03q8plvf" path="res://scripts/ai_state/ai_state_machine.gd" id="8_5j1t4"]
 [ext_resource type="Script" uid="uid://cic1u132cjhpf" path="res://scripts/ai_state/ai_wander.gd" id="9_67dp8"]
 [ext_resource type="Script" uid="uid://boifqm64sjt73" path="res://scripts/ai_state/ai_dodge.gd" id="10_aefyb"]
-[ext_resource type="Script" uid="uid://b27rh453d1gqt" path="res://scripts/ai_state/ai_bomb.gd" id="11_njo8t"]
+[ext_resource type="Script" uid="uid://0ywunhnh15xu" path="res://scripts/ai_state/ai_bomb.gd" id="11_njo8t"]
 [ext_resource type="Script" uid="uid://dprat677sf6sb" path="res://scripts/ai_state/ai_safe.gd" id="12_ulae3"]
 
 [sub_resource type="Resource" id="Resource_2solf"]
@@ -43,9 +44,9 @@ radius = 15.9
 a = Vector2(0, 16)
 b = Vector2(0, 32)
 
-[sub_resource type="Animation" id="Animation_2ljjh"]
+[sub_resource type="Animation" id="Animation_xhrxh"]
 resource_name = "RESET"
-length = 0.001
+length = 0.002
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -61,19 +62,127 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("sprite:self_modulate")
+tracks/1/path = NodePath("sprite:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("sprite:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.0750351, 6.23615)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("sprite:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("label:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-82, -35)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("sprite:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-6.28319]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("sprite:self_modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
 "values": [Color(1, 1, 1, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("BombSprite:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [false]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("kaboom:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [false]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("sprite:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [true]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("label:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_bboyf"]
 _data = {
-&"RESET": SubResource("Animation_2ljjh")
+&"RESET": SubResource("Animation_xhrxh")
 }
 
 [sub_resource type="LabelSettings" id="LabelSettings_5huhx"]
@@ -118,7 +227,7 @@ properties/2/replication_mode = 1
 z_index = 10
 texture_filter = 1
 collision_layer = 2
-collision_mask = 31
+collision_mask = 29
 motion_mode = 1
 script = ExtResource("1_ql62k")
 synced_position = Vector2(649, 72)
@@ -143,6 +252,13 @@ position = Vector2(-1.07288e-06, 3.57628e-07)
 scale = Vector2(0.333333, 0.351648)
 texture = ExtResource("4_e087y")
 hframes = 9
+
+[node name="BombSprite" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -30)
+texture = ExtResource("6_xhrxh")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 32)
 
 [node name="ObjectDetection" type="Area2D" parent="."]
 light_mask = 7

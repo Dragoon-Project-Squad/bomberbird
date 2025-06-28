@@ -31,6 +31,7 @@ func add_player(player_id: int, player_dict : Dictionary):
 	used_player_score_panel_len += 1
 
 func start_timer(gametime := SettingsContainer.get_match_time()):
+	reset()
 	match_timer.start(gametime)
 	
 func stop_timer():
@@ -68,4 +69,7 @@ func time_to_string(time := 120.0) -> String:
 	return actual_time_string
 
 func _on_hurry_up_start() -> void:
-	time_label.add_theme_color_override("font_color", Color(255, 0, 0)) # Replace with function body.
+	time_label.add_theme_color_override("font_color", Color(255, 0, 0))
+
+func reset() -> void:
+	time_label.add_theme_color_override("font_color", Color(255, 255, 255))

@@ -58,7 +58,7 @@ func _physics_process(delta: float):
 		# The client simply updates the position to the last known one.
 		position = synced_position
 	
-	if stop_movement || time_is_stopped: return
+	if stop_movement || time_is_stopped || outside_of_game: return
 	
 	var direction: Vector2 = (
 		inputs.motion.normalized() if inputs.motion != Vector2.ZERO 
@@ -76,7 +76,7 @@ func _physics_process(delta: float):
 	if not stunned and inputs.secondary_ability:
 		kick_bomb(direction)
 
-	if not is_unbomb and not stunned and not stop_movement and bomb_count > 0:
+	if not is_unbomb and not stunned and bomb_count > 0:
 		if inputs.bombing:
 			set_bomb_pressed_once = true
 			bomb_hold_timer += delta
