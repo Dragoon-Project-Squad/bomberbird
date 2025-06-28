@@ -4,6 +4,7 @@ extends Control
 @onready var options_menu: Control = $OptionsMenu
 @onready var graph_selection: Control = $DebugCampaignSelector
 @onready var main_menu_music_player: AudioStreamPlayer = $AudioStreamPlayer
+@onready var GodotCredits: Control = $Credits
 signal options_menu_entered
 
 # Called when the node enters the scene tree for the first time.
@@ -14,6 +15,10 @@ func switch_to_options_menu() -> void:
 	hide_main_menu()
 	options_menu.visible = true
 	options_menu.options_music_player.play()
+	
+func switch_to_credits_menu() -> void:
+	hide_main_menu()
+	GodotCredits.visible = true
 	
 func hide_main_menu() -> void:
 	graph_selection.hide()
@@ -42,6 +47,9 @@ func _on_multiplayer_pressed() -> void:
 func _on_options_pressed() -> void:
 	pause_main_menu_music()
 	switch_to_options_menu()
+	
+func _on_credits_pressed() -> void:
+	switch_to_credits_menu()
 
 func _on_options_menu_options_menu_exited() -> void:
 	reveal_main_menu()
