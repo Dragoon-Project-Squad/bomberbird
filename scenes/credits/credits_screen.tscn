@@ -1,0 +1,70 @@
+[gd_scene load_steps=6 format=3 uid="uid://cmmk31d282i46"]
+
+[ext_resource type="Script" uid="uid://80svhygfbc4y" path="res://scripts/ui/credits_screen.gd" id="1_i3mkj"]
+[ext_resource type="FontFile" uid="uid://do0laogygl6cd" path="res://assets/fonts/ThaleahFat.ttf" id="2_poocm"]
+[ext_resource type="Texture2D" uid="uid://bsu1o1vymo51p" path="res://assets/aesprite/Domber doki cenario1.png" id="2_u1mrg"]
+[ext_resource type="Shader" uid="uid://c0qwo7bogo6j7" path="res://assets/shaders/blur.gdshader" id="3_poocm"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iivma"]
+resource_local_to_scene = true
+shader = ExtResource("3_poocm")
+shader_parameter/strength = 2.5
+
+[node name="Credits" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_i3mkj")
+title_font = ExtResource("2_poocm")
+text_font = ExtResource("2_poocm")
+
+[node name="BG" type="Sprite2D" parent="."]
+self_modulate = Color(0.501961, 0.501961, 0.501961, 1)
+texture_filter = 1
+position = Vector2(576, 337.5)
+scale = Vector2(3, 3)
+texture = ExtResource("2_u1mrg")
+
+[node name="BGBlur" type="Panel" parent="."]
+material = SubResource("ShaderMaterial_iivma")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CreditsContainer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 146.0
+offset_top = 3.0
+offset_right = -115.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProcessingLine" type="Label" parent="CreditsContainer"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 625.0
+offset_bottom = 648.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 40
+horizontal_alignment = 1
