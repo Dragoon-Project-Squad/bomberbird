@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dgfv37m0j3grk"]
+[gd_scene load_steps=12 format=3 uid="uid://dgfv37m0j3grk"]
 
 [ext_resource type="Script" uid="uid://bq6xc0g4f6lhf" path="res://scripts/ui/main_menu.gd" id="1_qmksv"]
 [ext_resource type="Texture2D" uid="uid://bsu1o1vymo51p" path="res://assets/aesprite/Domber doki cenario1.png" id="2_u3scb"]
@@ -10,6 +10,7 @@
 [ext_resource type="StyleBox" uid="uid://c07q8xvjxkea6" path="res://assets/styles/main_menu_style.tres" id="7_nrhvf"]
 [ext_resource type="PackedScene" uid="uid://drj31ll2cuftl" path="res://scenes/options_menu/options_menu.tscn" id="8_m4i44"]
 [ext_resource type="PackedScene" uid="uid://c6osao13wt47c" path="res://scenes/doki_subscribe_link.tscn" id="11_flqon"]
+[ext_resource type="PackedScene" uid="uid://cmmk31d282i46" path="res://scenes/CREDITS/GodotCredits.tscn" id="11_lgwnu"]
 
 [node name="MainMenu" type="Control"]
 process_mode = 3
@@ -25,7 +26,7 @@ script = ExtResource("1_qmksv")
 
 [node name="Untitled" type="Sprite2D" parent="TitleSceen"]
 texture_filter = 1
-position = Vector2(576, 337.5)
+position = Vector2(578, 312)
 scale = Vector2(3, 3)
 texture = ExtResource("2_u3scb")
 
@@ -57,7 +58,7 @@ grow_vertical = 2
 
 [node name="Singleplayer" type="Button" parent="ButtonBox" groups=["ui_button"]]
 layout_mode = 2
-focus_neighbor_top = NodePath("../Options")
+focus_neighbor_top = NodePath("../Credits")
 focus_neighbor_bottom = NodePath("../Multiplayer")
 theme = ExtResource("6_hrcjh")
 toggle_mode = true
@@ -78,7 +79,7 @@ metadata/_custom_type_script = "uid://boq3i75yls51h"
 texture_filter = 1
 layout_mode = 2
 focus_neighbor_top = NodePath("../Multiplayer")
-focus_neighbor_bottom = NodePath("../Singleplayer")
+focus_neighbor_bottom = NodePath("../Credits")
 theme = ExtResource("6_hrcjh")
 theme_override_styles/hover = ExtResource("7_2iy8e")
 theme_override_styles/normal = ExtResource("7_nrhvf")
@@ -99,6 +100,13 @@ text = "Exit"
 script = ExtResource("5_lgwnu")
 metadata/_custom_type_script = "uid://boq3i75yls51h"
 
+[node name="Credits" type="Button" parent="ButtonBox"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../Options")
+focus_neighbor_bottom = NodePath("../Singleplayer")
+theme = ExtResource("6_hrcjh")
+text = "CREDITS"
+
 [node name="OptionsMenu" parent="." instance=ExtResource("8_m4i44")]
 visible = false
 layout_mode = 1
@@ -117,8 +125,17 @@ offset_bottom = 0.0
 grow_horizontal = 0
 grow_vertical = 0
 
+[node name="Credits" parent="." instance=ExtResource("11_lgwnu")]
+visible = false
+layout_mode = 1
+offset_left = 168.0
+offset_right = -178.0
+to_scene = null
+
 [connection signal="pressed" from="ButtonBox/Singleplayer" to="." method="_on_single_player_pressed"]
 [connection signal="pressed" from="ButtonBox/Multiplayer" to="." method="_on_multiplayer_pressed"]
 [connection signal="pressed" from="ButtonBox/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="ButtonBox/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="ButtonBox/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="ButtonBox/Credits" to="Credits" method="_on_credits_button_pressed"]
 [connection signal="options_menu_exited" from="OptionsMenu" to="." method="_on_options_menu_options_menu_exited"]
