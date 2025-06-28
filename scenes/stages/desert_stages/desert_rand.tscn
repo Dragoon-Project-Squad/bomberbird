@@ -35,6 +35,7 @@ tile_map_data = PackedByteArray("AAAEAAwAAAABAAAAAAAGAAwAAAABAAAAAAAIAAwAAAABAAA
 tile_set = ExtResource("5_bnkse")
 
 [node name="HurryUp" parent="." instance=ExtResource("4_nxou1")]
-tile_set = ExtResource("3_bnkse")
+tile_set = ExtResource("5_bnkse")
+falling_unbreakable_color = Color(0.882353, 0.701961, 0.615686, 1)
 
 [node name="Music" parent="." instance=ExtResource("5_rgqiq")]

@@ -131,7 +131,6 @@ texture = ExtResource("2_ls4hb")
 
 [node name="fallingsprite" type="Sprite2D" parent="."]
 visible = false
-modulate = Color(0.882353, 0.701961, 0.615686, 1)
 texture = ExtResource("3_c53sl")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

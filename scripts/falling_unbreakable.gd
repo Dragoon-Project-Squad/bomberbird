@@ -1,5 +1,6 @@
 class_name FallingUnbreakable extends Node2D
 @onready var unbreakable_sfx_player: AkEvent2D = $UnbreakableSound
+@onready var sprite: Sprite2D = $fallingsprite
 var empty_tile = true
 var hurry_up_tilemap: TileMapLayer
 
@@ -44,3 +45,6 @@ func stop():
 	$AnimationPlayer.play("RESET")
 	self.position = Vector2.ZERO
 	self.empty_tile = true
+
+func set_color(color: Color):
+	sprite.modulate = color

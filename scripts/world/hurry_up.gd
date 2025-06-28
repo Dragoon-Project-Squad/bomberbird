@@ -9,6 +9,8 @@ const SUDDEN_DEATH_SIZE: Vector2i = Vector2i(9, 7)
 @onready var falling_unbreakable_holder: Node2D= get_node("FallingUnbreakableHolder")
 @onready var falling_unbreakable_spawner: MultiplayerSpawner = get_node("FallingUnbreakableHolder/MultiplayerSpawner")
 
+@export var falling_unbreakable_color: Color = Color8(255, 179, 157)
+
 var falling_unbreakables: Array[FallingUnbreakable] = []
 var target_tiles: Array[Vector2i]
 var current_tile_index = 0
@@ -63,6 +65,7 @@ func populate_falling_unbreakables():
 	for child in falling_unbreakable_holder.get_children():
 		if !child is FallingUnbreakable: continue
 		child.hurry_up_tilemap = self
+		child.set_color(falling_unbreakable_color)
 		falling_unbreakables.append(child)
 	assert(!falling_unbreakables.is_empty())
 
@@ -134,7 +137,7 @@ func spiral_to_world(index: int) -> Vector2:
 func place(pos: Vector2):
 	var cell: Vector2i = local_to_map(pos)
 	
-	set_cell(cell, 3, Vector2i(6, 0))
+	set_cell(cell, globals.current_world._tileset_id, globals.current_world._unbreakable_tile)
 	world_data.set_tile(world_data.tiles.UNBREAKABLE, pos)
 
 func _on_hurry_up_start_timer_timeout():
