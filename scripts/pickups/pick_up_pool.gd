@@ -1,22 +1,22 @@
 class_name PickupPool extends ObjectPool
 
 @export_group("Initial Pickup Spawn Amount")
-@export var extra_bomb: int = 8
-@export var explosion_boost: int = 5
-@export var speed_boost: int = 4
-@export var speed_down: int = 2
-var heart: int = 0 #BANNED - Absolutely unfun
-@export var max_explosion: int = 1
-@export var punch_ability: int = 2
-@export var throw_ability: int = 2
-var wallthrough: int = 0 #BANNED - Unfun
-var timer: int = 0 #BANNED - Absolutely not.
-var invincibility_vest: int = 0 #BANNED - Major bugs, unfun
-@export var virus: int = 1
-@export var kick: int = 2
-var bombthrough: int = 0 #BANNED - Unfun
-@export var piercing_bomb: int = 1
-@export var land_mine: int = 1
+@export var extra_bomb: int = 0
+@export var explosion_boost: int = 0
+@export var speed_boost: int = 0
+@export var speed_down: int = 0
+@export var heart: int = 0
+@export var max_explosion: int = 0
+@export var punch_ability: int = 0
+@export var throw_ability: int = 0
+@export var wallthrough: int = 0
+@export var timer: int = 0
+@export var invincibility_vest: int = 0
+@export var virus: int = 0
+@export var kick: int = 0
+@export var bombthrough: int = 0
+@export var piercing_bomb: int = 0
+@export var land_mine: int = 0
 #@export var remote_control: int = 0
 #@export var seeker_bomb: int = 0
 
