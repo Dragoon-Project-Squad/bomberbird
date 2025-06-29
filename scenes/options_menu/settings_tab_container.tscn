@@ -235,6 +235,7 @@ layout_mode = 2
 [node name="SoundTest" parent="TabContainer/Sound/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("8_ntcmh")]
 layout_mode = 2
 
+[connection signal="options_menu_exited" from="." to="TabContainer/Sound/MarginContainer/ScrollContainer/VBoxContainer/SoundTest" method="_on_settings_tab_container_options_menu_exited"]
 [connection signal="pressed" from="TabContainer/General/MarginContainer/VBoxContainer/HBoxContainer/PasswordSubmit" to="." method="_on_password_submit_pressed"]
 [connection signal="pressed" from="TabContainer/General/MarginContainer/VBoxContainer/Reset" to="." method="_on_reset_pressed"]
 [connection signal="canceled" from="TabContainer/General/MarginContainer/ResetConfirmationDialog" to="." method="_on_reset_cancelled"]

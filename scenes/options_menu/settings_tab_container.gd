@@ -65,3 +65,7 @@ func _on_reset_confirmed():
 
 func _on_reset_cancelled():
 	reset_dialog.hide()
+
+
+func _on_exit_pressed() -> void:
+	options_menu_exited.emit()

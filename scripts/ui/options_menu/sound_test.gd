@@ -54,3 +54,7 @@ func _on_sfx_dropdown_item_selected(index: int) -> void:
 
 func _on_sfx_play_button_pressed() -> void:
 	Wwise.post_event(selected_sfx,sfx_player)
+
+func _on_settings_tab_container_options_menu_exited() -> void:
+	#Call stop on the mus event HERE
+	pass # Replace with function body.
