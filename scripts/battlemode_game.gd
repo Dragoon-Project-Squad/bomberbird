@@ -147,8 +147,8 @@ func _check_ending_condition(_alive_enemies: int = 0):
 				show_victory_screen.rpc(gamestate.player_data_master_dict.duplicate())
 		else:
 			#RESET GAME STATE
-			wipe_stage()
 			reset_players()
+			wipe_stage()
 			#LOAD NEW STAGE
 			load_new_stage()
 		return
