@@ -147,8 +147,8 @@ func _check_ending_condition(_alive_enemies: int = 0):
 				show_victory_screen.rpc(gamestate.player_data_master_dict.duplicate())
 		else:
 			#RESET GAME STATE
-			reset_players()
-			wipe_stage()
+			reset_players() 
+			wipe_stage() #Must occur after players reset to avoid AI pathing error.
 			#LOAD NEW STAGE
 			load_new_stage()
 		return
