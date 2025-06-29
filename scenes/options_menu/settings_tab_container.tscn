@@ -78,10 +78,23 @@ max_length = 20
 layout_mode = 2
 text = "SUBMIT"
 
+[node name="Reset" type="Button" parent="TabContainer/General/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "RESET"
+
 [node name="PasswordStatus" type="Label" parent="TabContainer/General/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "\"...\""
 horizontal_alignment = 1
+
+[node name="ResetConfirmationDialog" type="ConfirmationDialog" parent="TabContainer/General/MarginContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+size = Vector2i(344, 100)
+ok_button_text = "Yes"
+dialog_text = "Are your sure you wish to reset all unlocks"
+dialog_autowrap = true
+cancel_button_text = "No"
 
 [node name="Graphics" type="TabBar" parent="TabContainer"]
 visible = false
@@ -219,3 +232,6 @@ bus_name = "Music"
 layout_mode = 2
 
 [connection signal="pressed" from="TabContainer/General/MarginContainer/VBoxContainer/HBoxContainer/PasswordSubmit" to="." method="_on_password_submit_pressed"]
+[connection signal="pressed" from="TabContainer/General/MarginContainer/VBoxContainer/HBoxContainer/Reset" to="." method="_on_reset_pressed"]
+[connection signal="canceled" from="TabContainer/General/MarginContainer/ResetConfirmationDialog" to="." method="_on_reset_cancelled"]
+[connection signal="confirmed" from="TabContainer/General/MarginContainer/ResetConfirmationDialog" to="." method="_on_reset_confirmed"]
