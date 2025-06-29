@@ -2,19 +2,26 @@ Event	ID	Name			Wwise Object Path	Notes
 	230359828	play_music_battle			\Default Work Unit\music\play_music_battle	
 	712210112	snd_pickup_powerup			\Default Work Unit\sfx\gameplay\snd_pickup_powerup	
 	970815282	pause_music_dragoon_cafe			\Default Work Unit\music\dragoon cafe\pause_music_dragoon_cafe	
+	979156697	st_rush			\Default Work Unit\music_sound_test\st_rush	
 	1021163675	snd_bomb_explode			\Default Work Unit\sfx\gameplay\snd_bomb_explode	
 	1466666825	snd_error			\Default Work Unit\sfx\snd_error	
 	1893277663	pause_music_main_menu			\Default Work Unit\music\main menu\pause_music_main_menu	
 	1948188490	snd_thrown_bomb_land			\Default Work Unit\sfx\gameplay\snd_thrown_bomb_land	
+	1964974217	st_dragoon_cafe			\Default Work Unit\music_sound_test\st_dragoon_cafe	
 	2124105734	snd_throw_bomb			\Default Work Unit\sfx\gameplay\snd_throw_bomb	
 	2141685911	snd_click			\Default Work Unit\sfx\snd_click	
+	2151371268	st_doki_comes_home			\Default Work Unit\music_sound_test\st_doki_comes_home	
 	2372074968	play_music_dragoon_cafe			\Default Work Unit\music\dragoon cafe\play_music_dragoon_cafe	
 	2418319985	snd_secret			\Default Work Unit\sfx\snd_secret	
+	2548511007	st_stop_music			\Default Work Unit\music_sound_test\st_stop_music	
 	2626686445	snd_place_bomb			\Default Work Unit\sfx\gameplay\snd_place_bomb	
+	2715300416	st_bh_jam			\Default Work Unit\music_sound_test\st_bh_jam	
 	2726913135	unpause_music_dragoon_cafe			\Default Work Unit\music\dragoon cafe\unpause_music_dragoon_cafe	
 	2837384057	stop_music			\Default Work Unit\music\stop_music	
 	3304910170	snd_player_hurt			\Default Work Unit\sfx\gameplay\snd_player_hurt	
 	3772742044	snd_debris			\Default Work Unit\sfx\gameplay\snd_debris	
+	3787626250	st_dad			\Default Work Unit\music_sound_test\st_dad	
+	3862449989	st_minki			\Default Work Unit\music_sound_test\st_minki	
 	3895502332	unpause_music_main_menu			\Default Work Unit\music\main menu\unpause_music_main_menu	
 	3968446557	play_music_main_menu			\Default Work Unit\music\main menu\play_music_main_menu	
 
