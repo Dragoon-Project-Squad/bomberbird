@@ -1,4 +1,4 @@
-extends VBoxContainer
+extends Control
 @onready var mus_dropdown: OptionButton = $MusContainer/MusDropdown
 @onready var sfx_dropdown: OptionButton = $SFXContainer/SFXDropdown
 @onready var mus_player: AkEvent2D = $MusPlayer
@@ -7,7 +7,7 @@ extends VBoxContainer
 var selected_mus = "st_doki_comes_home"
 var selected_sfx = "snd_click"
 
-@onready var options_menu = mus_player.get_parent().get_parent().get_parent().get_parent().get_parent().get_parent().get_parent().get_parent().get_parent().get_parent()
+@onready var options_menu = get_node("/root/MainMenu/OptionsMenu")
 
 enum music_enum {DOKIDOKICOMESHOME, DRAGOONCAFE, BHJAM, RUSH, DADDRIVE, MINKI}
 enum sfx_enum {CLICK, ERROR, EXPLODE, DEBRIS, PICKUP, DEFEATED, PLACE, THROW, LAND, SECRET}
@@ -39,11 +39,9 @@ func _ready() -> void:
 		mus_dropdown.add_item(mus)
 	for sfx in sfx_dict.keys():
 		sfx_dropdown.add_item(sfx)
-	print("Options menu = " + str(options_menu))
 
 func _on_mus_dropdown_item_selected(index: int) -> void:
 	selected_mus = mus_dict[mus_dict.keys()[index]]
-	print(selected_mus)
 	
 func _on_mus_play_button_pressed() -> void:
 	Wwise.post_event("st_stop_music", mus_player)
@@ -61,5 +59,4 @@ func _on_sfx_play_button_pressed() -> void:
 	Wwise.post_event(selected_sfx,sfx_player)
 
 func _on_settings_tab_container_options_menu_exited() -> void:
-	#Call stop on the mus event HERE
-	pass # Replace with function body.
+	Wwise.post_event("st_stop_music", mus_player)
