@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://fsg6gwfw5fbi"]
+[gd_scene load_steps=23 format=3 uid="uid://fsg6gwfw5fbi"]
 
 [ext_resource type="Script" uid="uid://c38ml0k45w55u" path="res://scripts/ui/cssmenu/character_select_screen.gd" id="1_ehcif"]
 [ext_resource type="WwiseEvent" uid="uid://bak0yi1280a42" path="res://Wwise/resources/Event/{7CDF280F-85BA-44B7-AF42-B2759FD386B0}.tres" id="2_e6qlr"]
@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://bpx3jen13addh" path="res://assets/css/tomato.png" id="12_5agtp"]
 [ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="12_7kvbo"]
 [ext_resource type="Texture2D" uid="uid://bcm64uj7bwp87" path="res://assets/css/crowki.png" id="12_kkj3o"]
+[ext_resource type="Texture2D" uid="uid://bo3qpj0w0drkm" path="res://assets/css/summerdoki.png" id="12_mfnxv"]
 [ext_resource type="Texture2D" uid="uid://cefndan5pti47" path="res://assets/css/wisp.png" id="14_nuw7a"]
 [ext_resource type="Texture2D" uid="uid://bngq754xh3q18" path="res://assets/css/maidmint.png" id="15_kkj3o"]
 
@@ -156,6 +157,13 @@ layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
 texture_normal = ExtResource("9_ehcif")
+stretch_mode = 0
+
+[node name="summerdoki" type="TextureButton" parent="SkinBG/CharacterGrid"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("12_mfnxv")
 stretch_mode = 0
 
 [node name="retrodoki" type="TextureButton" parent="SkinBG/CharacterGrid"]
@@ -312,6 +320,7 @@ auto_translate_mode = 1
 [connection signal="pressed" from="SkinBG/CharacterGrid/longoon" to="." method="_on_longoon_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/dad" to="." method="_on_dad_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/bhdoki" to="." method="_on_bhdoki_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/summerdoki" to="." method="_on_summerdoki_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/retrodoki" to="." method="_on_retrodoki_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/altdoki" to="." method="_on_altdoki_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/crowki" to="." method="_on_crowki_pressed"]

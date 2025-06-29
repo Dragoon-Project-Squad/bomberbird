@@ -18,7 +18,6 @@ func get_final_breakable_rate() -> float:
 func _generate_breakables_with_weights(_breakable_table: BreakableTable = null):
 	if not is_multiplayer_authority():
 		return
-	var breakables_spawned := 0
 	for x in range(0, world_data.world_width):	
 		for y in range(0, world_data.world_height):
 			breakable_spawn_chance = get_final_breakable_rate()
@@ -33,7 +32,6 @@ func _generate_breakables_with_weights(_breakable_table: BreakableTable = null):
 
 			if _rng.randf() < breakable_spawn_chance:
 				_spawn_breakable(current_cell, globals.pickups.RANDOM)
-				++breakables_spawned
 				
 func _generate_breakables_with_amounts(breakable_table: BreakableTable, pickup_table: PickupTable):
 	if not is_multiplayer_authority(): return

@@ -45,6 +45,7 @@ var _unbreakable_tile: Vector2i
 var _tileset_id: int
 var _rng = RandomNumberGenerator.new()
 var _exit_spawned_barrier: bool = false
+var _breakable_texture_path: String
 var alive_enemies: Array
 var total_number_of_non_unbreakable_spaces: int = 0
 
@@ -74,7 +75,7 @@ func spawn_exits():
 			exit = globals.game.exit_pool.request(EXIT_VISITED_COLOR)
 		else:
 			exit = globals.game.exit_pool.request(exit_entry.color)
-		exit.place(exit_pos, children_ids[iter]) 
+		exit.place.call_deferred(exit_pos, children_ids[iter]) 
 		iter += 1
 
 func stop_hurry_up():
@@ -261,7 +262,7 @@ func _spawn_breakable(cell: Vector2i, pickup_type: int):
 	world_data.init_breakable(cell)
 	var spawn_coords = world_data.tile_map.map_to_local(cell)
 	astargrid_handler.astargrid_set_point.rpc(spawn_coords, true)
-	globals.game.breakable_pool.request().place.rpc(spawn_coords, pickup)
+	globals.game.breakable_pool.request().place.rpc(spawn_coords, pickup, _breakable_texture_path)
 
 #TODO: This way of randomly choosing spawnpoints is kinda dumb so we have to make a better one
 ## sets spawnpoints selecting random ones if the are less spawnpoints given then players

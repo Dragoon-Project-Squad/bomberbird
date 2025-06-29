@@ -31,6 +31,7 @@ var host_player_name = ""
 # Character Textures Resources
 
 var character_texture_paths: CharacterSelectDataResource = preload("res://resources/css/character_texture_paths_default.tres")
+var obstaclepaths: ObstaclePathResource = preload("res://resources/gameplay/default_obstacle_paths.tres")
 var DEFAULT_PLAYER_TEXTURE_PATH = character_texture_paths.NORMALGOON_PLAYER_TEXTURE_PATH
 
 # Player Data Master Dictionary

@@ -2,7 +2,10 @@ extends Control
 @onready var title_sceen: Node2D = $TitleSceen
 @onready var button_box: VBoxContainer = $ButtonBox
 @onready var options_menu: Control = $OptionsMenu
+@onready var credits_screen: Control = $Credits
+signal options_menu_entered
 
+var preload_credits_scene = preload("res://scenes/credits/credits_screen.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
@@ -20,6 +23,10 @@ func switch_to_options_menu() -> void:
 	
 	# plays the options music resource in the OptionsMenu node
 	options_menu.options_music.post(options_menu)
+	
+func switch_to_credits_menu() -> void:
+	hide_main_menu()
+	credits_screen.visible = true
 	
 func hide_main_menu() -> void:
 	title_sceen.hide()
@@ -60,6 +67,9 @@ func _on_multiplayer_pressed() -> void:
 func _on_options_pressed() -> void:
 	pause_main_menu_music()
 	switch_to_options_menu()
+	
+func _on_credits_pressed() -> void:
+	switch_to_credits_menu()
 
 func _on_options_menu_options_menu_exited() -> void:
 	reveal_main_menu()
@@ -67,3 +77,6 @@ func _on_options_menu_options_menu_exited() -> void:
 
 func _on_exit_pressed() -> void:
 	get_tree().quit() # Replace with function body.
+
+func _on_credits_credits_ended() -> void:
+	reveal_main_menu()

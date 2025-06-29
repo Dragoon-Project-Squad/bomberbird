@@ -24,7 +24,7 @@ const ENEMY_DIR: Dictionary = {
 	"Warping (red) Wisp": "wisp_enemy_type2.tscn",
 	"Shooting (purple) Wisp": "wisp_enemy_type3.tscn",
 	"Tomato Doki Boss": "tomato_boss.tscn",
-	"Retro Doki Boss": "retro_doki_boss.tscn",
+	"Summer Doki Boss": "summer_doki_boss.tscn",
 	"Crowki Boss": "crowki_boss.tscn",
 	"Alt Doki Boss": "alt_doki_boss.tscn",
 	"Mint Boss": "mint_boss.tscn",

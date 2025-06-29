@@ -12,6 +12,22 @@ const MOTION_SPEED_DECREASE: int = TILE_SIZE / 2
 @onready var bomb_carry_sprite: Sprite2D = $BombSprite
 
 @export_subgroup("Boss variables")
+@export_enum(
+	"egggoon",
+	"normalgoon",
+	"chonkgoon",
+	"longgoon",
+	"dad",
+	"bhdoki",
+	"summerdoki",
+	"retrodoki",
+	"altgirldoki",
+	"crowki",
+	"tomatodoki",
+	"secretone",
+	"secrettwo",
+	) var skin: String
+@export var ui_color: Color = Color.WHITE
 @export var is_secret_boss: bool = false
 @export var pickups: HeldPickups
 @export var ability_detector: Area2D
@@ -43,9 +59,14 @@ var curr_target: Node2D
 var curr_bomb: BombRoot
 var kicked_bomb: BombRoot
 var bomb_to_throw: BombRoot
+var skin_paths: Dictionary
+var ui_index: int = -1
 
 func _ready() -> void:
 	super()
+	assert(skin != "")
+	self.skin_paths = gamestate.character_texture_paths.characters[skin]
+	self.sprite.texture = load(self.skin_paths.walk)
 	if self.has_node("DebugMarker2"):
 		if OS.is_debug_build(): self.get_node("DebugMarker2").show()
 		else: self.get_node("DebugMarker2").hide()
@@ -59,11 +80,24 @@ func place(pos: Vector2, path: String):
 	self.cooldown_done = true
 	self.statemachine.reset()
 	init_pickups()
+	enable_boss_ui()
+
+func disable():
+	super()
+	disable_boss_ui()
+
+func enable_boss_ui():
+	ui_index = globals.game.game_ui.add_boss(self.health, self.enemy_health_lost, self.skin_paths, self.ui_color)
+
+func disable_boss_ui():
+	if ui_index < 0: return
+	globals.game.game_ui.delete_boss(self.enemy_health_lost, ui_index)
+	ui_index = -1
 
 func init_pickups():
 	for _speed_up in range(self.pickups.held_pickups[globals.pickups.SPEED_UP]):
 		increase_speed()
-	for _speed_down in range(self.pickups.held_pickups[globals.pickups.SPEED_UP]):
+	for _speed_down in range(self.pickups.held_pickups[globals.pickups.SPEED_DOWN]):
 		decrease_speed()
 	if self.pickups.held_pickups[globals.pickups.WALLTHROUGH]:
 		enable_wallclip()
@@ -133,20 +167,20 @@ func exploded(by_whom: int):
 	super(by_whom)
 	if(self.health >= 1): return
 	if !is_multiplayer_authority(): return
-	var pickup_type: int = globals.get_pickup_type_from_name(self.dropped_pickup)
 	if self.is_secret_boss:
 		pass #TODO: unlock mint for this player
 
+	var pickup_type: int = globals.get_pickup_type_from_name(self.dropped_pickup)
 	if pickup_type == globals.pickups.NONE: return
 	var curr_pos = self.position
 	if globals.game.stage_done: return #if we entered the portal and the stage is disabled don't spawn the pickup
-	var pickup: Pickup = globals.game.pickup_pool.request(pickup_type)
 	var valid_pos: Vector2 = Vector2.ZERO
 	var path: Array[Vector2] = world_data.get_path_to_empty_tile(curr_pos)
 	if path.is_empty(): return
 	valid_pos = path[-1]
 	if valid_pos == Vector2.ZERO: return
-	pickup.place.rpc(valid_pos, true)
+	var pickup: Pickup = globals.game.pickup_pool.request(pickup_type)
+	pickup.place.call_deferred(valid_pos, true)
 
 func reset_pickups():
 	self.bomb_carry_sprite.hide()

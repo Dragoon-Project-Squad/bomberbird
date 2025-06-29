@@ -19,9 +19,11 @@ func disable():
 	self.position = Vector2.ZERO
 
 @rpc("call_local")
-func place(pos: Vector2, pickup: int):
+func place(pos: Vector2, pickup: int, texture_path: String):
 	assert(globals.is_not_pickup_seperator(pickup))
 	assert(pickup != globals.pickups.RANDOM)
+
+	$Sprite.texture = load(texture_path)
 	$AnimationPlayer.play("RESET")
 	contained_pickup = pickup
 	in_use = true
@@ -75,6 +77,3 @@ func crush():
 	if is_multiplayer_authority():
 		disable.rpc()
 		globals.game.breakable_pool.return_obj(self)
-	
-func set_selected_sprite(new_path : String):
-	$Sprite.texture = load(new_path)
