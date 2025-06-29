@@ -188,6 +188,15 @@ func carry():
 	set_state(AIRBORN)
 
 @rpc("call_local")
+func boss_carry(): # boss just be build different ig
+	if state != DISABLED && state != STATIONARY:
+		return
+	if self.type == HeldPickups.bomb_types.MINE:
+		return
+	self.in_use = false
+	set_state(AIRBORN)
+
+@rpc("call_local")
 func do_kick(direction: Vector2i):
 	if state != STATIONARY:
 		printerr("Bomb already active")
