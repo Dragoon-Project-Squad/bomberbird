@@ -1,6 +1,7 @@
 class_name Enemy extends CharacterBody2D
 
 signal enemy_died
+signal enemy_health_lost(health: int)
 
 const INVULNERABILITY_TIME: float = 2
 const INVULNERABILITY_FLASH_TIME: float = 0.125
@@ -17,7 +18,10 @@ const INVULNERABILITY_FLASH_TIME: float = 0.125
 @export var detection_handler: Node
 @export var health_ability: Node
 @export var animation_sub: String = "enemy"
-@export var health: int = 1
+@export var health: int = 1:
+	set(val):
+		enemy_health_lost.emit(val)
+		health = val
 @export var wallthrought: bool = false
 @export var bombthrought: bool = false
 @export_group("Multiplayer Variables")

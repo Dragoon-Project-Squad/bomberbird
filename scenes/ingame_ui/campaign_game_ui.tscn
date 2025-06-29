@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dvck17j6oqwyh"]
+[gd_scene load_steps=8 format=3 uid="uid://dvck17j6oqwyh"]
 
 [ext_resource type="Texture2D" uid="uid://27c5jtc8uveu" path="res://assets/ui/campaign_ui_sheet.png" id="1_nmudk"]
 [ext_resource type="Script" uid="uid://d110byvcgqo6j" path="res://scripts/ui/ingame_ui/campaign_game_ui.gd" id="1_xkb3f"]
 [ext_resource type="FontFile" uid="uid://do0laogygl6cd" path="res://assets/fonts/ThaleahFat.ttf" id="2_xkb3f"]
 [ext_resource type="PackedScene" uid="uid://dbfc2i61afeeq" path="res://scenes/ingame_ui/health_panel.tscn" id="4_rbuxl"]
+[ext_resource type="PackedScene" uid="uid://d1tntiu0jyk1h" path="res://scenes/ingame_ui/health_panel_mirrored.tscn" id="5_k22gw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rbuxl"]
 atlas = ExtResource("1_nmudk")
@@ -72,24 +73,51 @@ theme_override_fonts/font = ExtResource("2_xkb3f")
 theme_override_font_sizes/font_size = 16
 text = "000000"
 
-[node name="HealthPanelContainer" type="VBoxContainer" parent="."]
+[node name="PlayerHealthPanelContainer" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
 offset_top = 60.0
 offset_bottom = 156.0
 scale = Vector2(2, 2)
 theme_override_constants/separation = 23
 
-[node name="HealthPanel_P1" parent="HealthPanelContainer" instance=ExtResource("4_rbuxl")]
+[node name="HealthPanel_P1" parent="PlayerHealthPanelContainer" instance=ExtResource("4_rbuxl")]
 layout_mode = 2
 
-[node name="HealthPanel_P2" parent="HealthPanelContainer" instance=ExtResource("4_rbuxl")]
+[node name="HealthPanel_P2" parent="PlayerHealthPanelContainer" instance=ExtResource("4_rbuxl")]
 visible = false
 layout_mode = 2
 
-[node name="HealthPanel_P3" parent="HealthPanelContainer" instance=ExtResource("4_rbuxl")]
+[node name="HealthPanel_P3" parent="PlayerHealthPanelContainer" instance=ExtResource("4_rbuxl")]
 visible = false
 layout_mode = 2
 
-[node name="HealthPanel_P4" parent="HealthPanelContainer" instance=ExtResource("4_rbuxl")]
+[node name="HealthPanel_P4" parent="PlayerHealthPanelContainer" instance=ExtResource("4_rbuxl")]
+visible = false
+layout_mode = 2
+
+[node name="BossHealthPanelContainer" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_top = 60.0
+offset_bottom = 156.0
+grow_horizontal = 0
+scale = Vector2(2, 2)
+theme_override_constants/separation = 23
+
+[node name="HealthPanel_B1" parent="BossHealthPanelContainer" instance=ExtResource("5_k22gw")]
+visible = false
+layout_mode = 2
+
+[node name="HealthPanel_B2" parent="BossHealthPanelContainer" instance=ExtResource("5_k22gw")]
+visible = false
+layout_mode = 2
+
+[node name="HealthPanel_B3" parent="BossHealthPanelContainer" instance=ExtResource("5_k22gw")]
+visible = false
+layout_mode = 2
+
+[node name="HealthPanel_B4" parent="BossHealthPanelContainer" instance=ExtResource("5_k22gw")]
 visible = false
 layout_mode = 2
