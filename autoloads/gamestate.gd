@@ -108,7 +108,6 @@ func update_server_player_lists(client_player_name):
 	add_ai_players(ai_count)
 	establish_player_counts()
 	assign_player_numbers()
-	sync_playerdata_across_players.rpc(player_data_master_dict.duplicate())
 
 #@rpc("call_local")
 #func sync_gamestate_across_players(in_players, in_player_numbers, in_host_player_name, in_characters):
@@ -253,7 +252,6 @@ func establish_player_counts() -> void:
 			human_player_count = human_player_count + 1
 	total_player_count = human_player_count + ai_player_count
 	#print("epc: cpus: ", ai_player_count, ", players: ", human_player_count)
-	assert(multiplayer.is_server())
 		
 @rpc("call_local")
 func load_world(game_scene):

@@ -49,8 +49,8 @@ func randomize_target() -> bool:
 	var max_target_range = 4
 	while !valid_point:
 		# Generate random cell to move to
-		var posx = clamp(number_generator.randi_range(current_cell.x-max_target_range, current_cell.x+max_target_range+1), offset.x, end.x-1)
-		var posy = clamp(number_generator.randi_range(current_cell.y-max_target_range, current_cell.y+max_target_range+1), offset.y, end.y-1)
+		var posx = clampi(number_generator.randi_range(current_cell.x-max_target_range, current_cell.x+max_target_range+1), offset.x, end.x-1)
+		var posy = clampi(number_generator.randi_range(current_cell.y-max_target_range, current_cell.y+max_target_range+1), offset.y, end.y-1)
 		new_target = Vector2i(posx, posy)
 		# If the point is valid, finish
 		if (!world_data.is_tile(world_data.tiles.UNBREAKABLE, world_data.tile_map.map_to_local(new_target)) and new_target != current_cell):

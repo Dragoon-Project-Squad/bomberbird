@@ -181,6 +181,7 @@ func report_kill(killed_player: Player):
 
 func crush():
 	if is_exploded: return
+	is_exploded = true
 	if(get_parent().bomb_owner && !get_parent().bomb_owner.is_dead):
 		get_parent().bomb_owner.return_bomb.rpc()
 	$AnimationPlayer.stop()
