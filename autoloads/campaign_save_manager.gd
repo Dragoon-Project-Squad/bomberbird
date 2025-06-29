@@ -14,6 +14,7 @@ const EMPTY_SAVE: Dictionary = {
 	"last_stage": 0,
 	"visited_exits": {}, # contains dicts with {"stage: int", "exit: Array[int]" } of exits that have already been visited in this safe
 	"current_score": 0,
+	"stage_count": -1,
 	"exit_count": -1,
 	"has_finished": false,
 	"fresh_save": true,
