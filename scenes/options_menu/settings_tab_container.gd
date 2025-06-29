@@ -4,6 +4,7 @@ extends Control
 @onready var tab_container: TabContainer = $TabContainer
 @onready var line_edit: LineEdit = $TabContainer/General/MarginContainer/VBoxContainer/HBoxContainer/LineEdit
 @onready var password_status: Label = $TabContainer/General/MarginContainer/VBoxContainer/PasswordStatus
+@onready var reset_dialog: ConfirmationDialog = %ResetConfirmationDialog
 
 signal options_menu_exited
 signal correct_secret_inputted
@@ -52,3 +53,19 @@ func _on_password_submit_pressed() -> void:
 		accept_password()
 	else:
 		reject_password()
+
+func _on_reset_pressed():
+	reset_dialog.popup_centered()
+
+func _on_reset_confirmed():
+	reset_dialog.hide()
+	globals.secrets_enabled = false
+	SettingsContainer.clean_data_flag()
+	SaveManager.on_secret_delete()
+
+func _on_reset_cancelled():
+	reset_dialog.hide()
+
+
+func _on_exit_pressed() -> void:
+	options_menu_exited.emit()

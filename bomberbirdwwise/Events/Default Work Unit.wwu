@@ -60,7 +60,6 @@
 										<Action Name="" ID="{AF06F2ED-88E2-4215-B8AB-5A315F1A0E11}" ShortID="595465545">
 											<PropertyList>
 												<Property Name="ActionType" Type="int16" Value="7"/>
-												<Property Name="Scope" Type="int16" Value="1"/>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Target">
@@ -86,7 +85,6 @@
 										<Action Name="" ID="{4F268D62-6CE6-4254-B0D0-2953E7CDAC71}" ShortID="174220273">
 											<PropertyList>
 												<Property Name="ActionType" Type="int16" Value="9"/>
-												<Property Name="Scope" Type="int16" Value="1"/>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Target">
@@ -116,7 +114,6 @@
 										<Action Name="" ID="{9BEADE24-E99A-47E0-9181-D31B51E0F091}" ShortID="659367013">
 											<PropertyList>
 												<Property Name="ActionType" Type="int16" Value="7"/>
-												<Property Name="Scope" Type="int16" Value="1"/>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Target">
@@ -131,7 +128,6 @@
 										<Action Name="" ID="{6CD1AA07-88F8-4E29-BD5B-1EC33F3435F1}" ShortID="715825521">
 											<PropertyList>
 												<Property Name="ActionType" Type="int16" Value="9"/>
-												<Property Name="Scope" Type="int16" Value="1"/>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Target">
@@ -261,6 +257,140 @@
 								</Event>
 							</ChildrenList>
 						</Folder>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="music_sound_test" ID="{2F669679-065B-4DE2-89A0-478BCFC6E297}" ShortID="1007835556">
+					<ChildrenList>
+						<Event Name="st_stop_music" ID="{BAAB02EA-1E47-47D6-9FD3-8001A3A68AFC}">
+							<ChildrenList>
+								<Action Name="" ID="{BA7E72FC-3802-40CB-B952-DCE1175EB467}" ShortID="979924571">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="rush" ID="{EF961D58-90B5-4B2E-AC1F-B749FDA9E3AA}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{8415F03B-AA4F-46F1-B47F-093EB11C6E19}" ShortID="769431622">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="minki" ID="{2906055F-739C-465C-B007-2578EC973F55}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{FFE6528D-0375-4EE4-9C1B-CC0CACF46353}" ShortID="720595628">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="dad_drive" ID="{BE66999E-82AF-40EC-872A-86B06F6E903A}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{90197A51-0CCE-4971-B1D0-CF2EE3E3D3BF}" ShortID="752998748">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="bountyhunterjam" ID="{32CEAC02-18C8-4EF7-A1CF-2F13B6A059FB}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{E64496E9-26D7-4FC9-88BB-668FAE96593C}" ShortID="94472506">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="dragoon_cafe" ID="{D10A1CD5-8952-498B-A201-AA90F03E9524}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{89287468-268D-4FAC-AAD4-4AE97AD27D64}" ShortID="758904748">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="menu" ID="{2CFFB407-CEB9-4312-AB8C-E47E8D84E158}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="st_doki_comes_home" ID="{23C287DA-F7B4-4776-B890-E038E622D77D}">
+							<ChildrenList>
+								<Action Name="" ID="{E933E493-1509-4042-B812-B9041673A694}" ShortID="489201579">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="menu" ID="{2CFFB407-CEB9-4312-AB8C-E47E8D84E158}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="st_dragoon_cafe" ID="{21B929D4-7E0E-4796-B3FA-6AFB586060FF}">
+							<ChildrenList>
+								<Action Name="" ID="{C61B7D23-E671-40E0-8A2E-17F977199DC3}" ShortID="138797981">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="dragoon_cafe" ID="{D10A1CD5-8952-498B-A201-AA90F03E9524}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="st_bh_jam" ID="{41363DA3-03FA-4198-83CA-390F3BA3D80D}">
+							<ChildrenList>
+								<Action Name="" ID="{02F3375C-0CAA-4355-8662-8EF80C2E278E}" ShortID="240018188">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="bountyhunterjam" ID="{32CEAC02-18C8-4EF7-A1CF-2F13B6A059FB}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="st_rush" ID="{6044EF81-C63C-4D64-BA30-BCAA64AE5202}">
+							<ChildrenList>
+								<Action Name="" ID="{689D9C30-8EA4-4F37-B6B2-0A9081220FD9}" ShortID="758347931">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="rush" ID="{EF961D58-90B5-4B2E-AC1F-B749FDA9E3AA}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="st_dad" ID="{006B02F4-8DC0-49FC-AB9A-5D590C85CE10}">
+							<ChildrenList>
+								<Action Name="" ID="{0B1B58BC-3411-4AB4-8F85-769ECAE9F3F8}" ShortID="1000755621">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="dad_drive" ID="{BE66999E-82AF-40EC-872A-86B06F6E903A}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="st_minki" ID="{5E62F73D-30A2-4925-BA68-DA056CA7506D}">
+							<ChildrenList>
+								<Action Name="" ID="{4B89F781-3023-4AEC-AD3A-67301374B71B}" ShortID="740194967">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="minki" ID="{2906055F-739C-465C-B007-2578EC973F55}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 			</ChildrenList>

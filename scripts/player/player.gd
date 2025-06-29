@@ -490,11 +490,11 @@ func maximize_bomb_level():
 
 @rpc("call_local")
 func increase_speed():
+	if movement_speed < MAX_MOTION_SPEED:
+		movement_speed += MOTION_SPEED_INCREASE
 	if movement_speed >= MAX_MOTION_SPEED:
 		if globals.current_gamemode == globals.gamemode.CAMPAIGN: globals.game.score += 100
-	else:
-		movement_speed += MOTION_SPEED_INCREASE
-	movement_speed = clamp(movement_speed, MIN_MOTION_SPEED, MAX_MOTION_SPEED)
+		movement_speed = MAX_MOTION_SPEED
 
 @rpc("call_local")
 func decrease_speed():

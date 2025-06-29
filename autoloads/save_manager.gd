@@ -40,6 +40,12 @@ func on_secret_save(data : Dictionary) -> void:
 	var json_data_string = JSON.stringify(data)
 	secret_data_file.store_line(json_data_string)
 
+func on_secret_delete():
+	if !FileAccess.file_exists(SECRET_SAVE_PATH):
+		push_error("attempted to delete a nonexisting secret_file: " + SECRET_SAVE_PATH)
+		return
+	DirAccess.remove_absolute(SECRET_SAVE_PATH)
+
 func load_secret_data() -> void:
 	if not FileAccess.file_exists(SECRET_SAVE_PATH):
 		return
