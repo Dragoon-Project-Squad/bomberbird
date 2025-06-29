@@ -97,7 +97,7 @@ func disable_boss_ui():
 func init_pickups():
 	for _speed_up in range(self.pickups.held_pickups[globals.pickups.SPEED_UP]):
 		increase_speed()
-	for _speed_down in range(self.pickups.held_pickups[globals.pickups.SPEED_UP]):
+	for _speed_down in range(self.pickups.held_pickups[globals.pickups.SPEED_DOWN]):
 		decrease_speed()
 	if self.pickups.held_pickups[globals.pickups.WALLTHROUGH]:
 		enable_wallclip()
