@@ -43,7 +43,8 @@ func _on_hurry_up_start() -> void:
 	for player in get_children():
 		if player is MultiplayerSpawner: continue
 		player.hurry_up_started = true
-		if !player.is_dead: continue
-		if !is_multiplayer_authority(): continue
+		if not player.is_dead: continue
+		if not is_multiplayer_authority(): continue
+		if player.misobon_player == null: continue 
 		player.misobon_player.play_despawn_animation.rpc()
 		player.misobon_player.disable.rpc(true)
