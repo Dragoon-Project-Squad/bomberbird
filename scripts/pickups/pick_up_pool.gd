@@ -17,7 +17,7 @@ var invincibility_vest: int = 0 #BANNED - Major bugs, unfun
 var bombthrough: int = 0 #BANNED - Unfun
 @export var piercing_bomb: int = 1
 @export var land_mine: int = 1
-#@export var remote_control: int = 0
+@export var remote_control: int = 0
 #@export var seeker_bomb: int = 0
 
 #NOTE: If we have a rate table for each pickup we could dynamically calculate the expected value to set initial spawn count
@@ -38,7 +38,7 @@ var bombthrough: int = 0 #BANNED - Unfun
 	globals.pickups.BOMBTHROUGH: bombthrough,
 	globals.pickups.PIERCING: piercing_bomb,
 	globals.pickups.MINE: land_mine,
-	#globals.pickups.REMOTE: remote_control,
+	globals.pickups.REMOTE: remote_control,
 	#globals.pickups.SEEKER: seeker_bomb,
 	}
 
