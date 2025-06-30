@@ -58,6 +58,7 @@ var bomb_total: int
 var bomb_to_throw: BombRoot
 var bomb_kicked: BombRoot
 var mine_placed: bool
+var remote_bombs: Array[int]
 
 @export_subgroup("player properties") #Set in inspector
 @export var movement_speed: float = BASE_MOTION_SPEED
@@ -100,6 +101,7 @@ func _ready():
 	movement_speed_reset = movement_speed
 	bomb_total_reset = bomb_total
 	explosion_boost_count_reset = explosion_boost_count
+	remote_bombs.resize(6)
 	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
 		player_health_updated.connect(func (s: Player, health: int): game_ui.update_health(health, int(s.name)))
 	match globals.current_gamemode:
@@ -166,6 +168,8 @@ func place(pos: Vector2):
 	if is_multiplayer_authority():
 		do_invulnerabilty.rpc()
 	_died_barrier = false
+
+#region all bomb functions
 
 ## executes the punch_bomb ability if the player has the appropiate pickup
 func punch_bomb(direction: Vector2i):
@@ -256,6 +260,12 @@ func kick_bomb(direction: Vector2i):
 	else:
 		bomb_kicked = null
 
+func call_remote_bomb():
+	if pickups.held_pickups[globals.pickups.GENERIC_BOMB] != pickups.bomb_types.REMOTE:
+		return
+	var number = remote_bombs.get(0)
+	BombSignalBus.call_bomb.emit(number if number != null else -1)
+
 ## places a bomb if the current position is valid
 func place_bomb():
 	if(globals.game.stage_done): return
@@ -267,6 +277,9 @@ func place_bomb():
 	
 	# Adding bomb to astargrid so bombs have collision inside the grid
 	astargrid_handler.astargrid_set_point(synced_position, true)
+	
+	var bomb_phone_number := randi()
+	remote_bombs.push_back(bomb_phone_number)
 	
 	if is_multiplayer_authority():
 		var bomb: BombRoot = bomb_pool.request()
@@ -280,7 +293,10 @@ func place_bomb():
 		else:
 			bomb.set_bomb_type.rpc(pickups.held_pickups[globals.pickups.GENERIC_BOMB])
 		bomb.set_fuse_length.rpc(fuse_speed)
+		bomb.set_bomb_number.rpc(bomb_phone_number)
 		bomb.do_place.rpc(bombPos, -1 if infected_explosion else explosion_boost_count)
+
+#endregion
 
 ## updates the animation depending on the movement direction
 func update_animation(direction: Vector2):
@@ -526,6 +542,7 @@ func return_bomb(is_mine := false):
 	if pickups.held_pickups[globals.pickups.GENERIC_BOMB] == HeldPickups.bomb_types.MINE and is_mine:
 		mine_placed = false
 	bomb_count = min(bomb_count+1, bomb_total)
+	remote_bombs.pop_front()
 
 @rpc("call_local")
 ## plays the victory animation and stops the player from moving
