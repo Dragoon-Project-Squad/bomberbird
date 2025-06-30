@@ -10,7 +10,7 @@ size = Vector2(24, 24)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jpe16"]
 atlas = ExtResource("2_ar3j0")
-region = Rect2(120, 24, 24, 24)
+region = Rect2(0, 0, 24, 24)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_0hn6b"]
 animations = [{
