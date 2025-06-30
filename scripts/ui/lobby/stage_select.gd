@@ -40,13 +40,16 @@ func _on_dropdown_item_selected(index: int) -> void:
 	SettingsSignalBus.emit_on_stage_set(index)
 	if is_multiplayer_authority():
 		set_remote_player_dropdown_item_selected.rpc(index)
+
 	
 func _on_back_pressed() -> void:
 	if is_multiplayer_authority():
+		SettingsSignalBus.emit_set_settings_dictionary(SettingsContainer.create_storage_dictionary())
 		back_to_previous_screen.rpc()
 
 func _on_start_pressed() -> void:
 	if is_multiplayer_authority():
+		SettingsSignalBus.emit_set_settings_dictionary(SettingsContainer.create_storage_dictionary())
 		proceed_to_battle.rpc()
 	
 @rpc("call_local")
