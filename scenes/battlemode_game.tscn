@@ -332,6 +332,11 @@ script = ExtResource("6_a5m7k")
 [node name="BreakablePool" parent="." instance=ExtResource("7_vrcl4")]
 
 [node name="PickupPool" parent="." instance=ExtResource("9_bsfbc")]
+extra_bomb = 15
+explosion_boost = 15
+speed_boost = 15
+max_explosion = 5
+punch_ability = 10
 
 [node name="EnemyPool" parent="." instance=ExtResource("6_3bvga")]
 
