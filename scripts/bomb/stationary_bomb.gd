@@ -14,6 +14,7 @@ var is_exploded: bool = false
 # bomb addons
 var pierce := false
 var mine := false
+var remote := false
 
 ## A Wwise event containing the bomb placing sound effect. Trigger with .post(self)
 @export var bomb_place_audio: WwiseEvent
@@ -58,7 +59,7 @@ func set_bomb_type(bomb_type: int):
 		HeldPickups.bomb_types.MINE:
 			mine = true
 		HeldPickups.bomb_types.REMOTE:
-			pass
+			remote = true
 		HeldPickups.bomb_types.SEEKER:
 			pass
 		_: # bomb type does not exist
@@ -75,6 +76,9 @@ func place(bombPos: Vector2, fuse_time_passed: float = 0, force_collision: bool 
 	if mine:
 		armed = false
 		animation.play("hide")
+	elif remote:
+		animation.play("fuse_and_call_detonate()")
+		animation.pause()
 	else:
 		animation.play("fuse_and_call_detonate()", -1.0, bomb_root.fuse_length, false)
 		animation.advance(fuse_time_passed) #continue the animation from where it was left of
@@ -152,8 +156,10 @@ func done():
 
 @rpc("call_local")
 func exploded(_by_who):
+	if not $AnimationPlayer.is_playing():
+		$AnimationPlayer.play()
 	if $AnimationPlayer.current_animation_position < 2.8:
-		$AnimationPlayer.advance(2.79)
+		$AnimationPlayer.seek(2.79)
 
 func remote_call_recieved(number: int):
 	if number == bomb_root.cell_number:

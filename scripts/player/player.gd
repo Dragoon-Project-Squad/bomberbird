@@ -261,9 +261,10 @@ func kick_bomb(direction: Vector2i):
 		bomb_kicked = null
 
 func call_remote_bomb():
+	if pickups.held_pickups[globals.pickups.GENERIC_BOMB] != pickups.bomb_types.REMOTE:
+		return
 	var number = remote_bombs.get(0)
 	BombSignalBus.call_bomb.emit(number if number != null else -1)
-	print(remote_bombs)
 
 ## places a bomb if the current position is valid
 func place_bomb():
