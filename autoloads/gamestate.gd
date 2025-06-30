@@ -165,9 +165,9 @@ func register_player(new_player_name: String, id: int):
 		"is_ai" = false,
 		"is_enabled" = true
 	}
-	player_list_changed.emit()
 	if is_multiplayer_authority():
 		set_secret_status.rpc_id(id, globals.secrets_enabled)
+		sync_playerdata_across_players.rpc(player_data_master_dict)
 	
 @rpc("authority", "call_local")
 func unregister_player(id):
