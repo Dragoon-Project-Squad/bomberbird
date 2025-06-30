@@ -335,7 +335,6 @@ script = ExtResource("6_a5m7k")
 extra_bomb = 15
 explosion_boost = 15
 speed_boost = 15
-max_explosion = 5
 punch_ability = 10
 
 [node name="EnemyPool" parent="." instance=ExtResource("6_3bvga")]
@@ -406,3 +405,8 @@ text = "1"
 horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
+
+[node name="ErrorDialog" type="AcceptDialog" parent="."]
+auto_translate_mode = 1
+
+[connection signal="confirmed" from="ErrorDialog" to="." method="_on_error_dialog_confirmed"]

@@ -427,9 +427,12 @@ func end_game():
 	if globals.game != null: # Game is in progress.
 		# End it
 		globals.game.queue_free()
-	if multiplayer.has_multiplayer_peer(): 
-		if not multiplayer.is_server(): #I'm not the host.
-			multiplayer.multiplayer_peer.disconnect_peer(1) #Tell the host to kick me.
+	if multiplayer.has_multiplayer_peer():
+		var peer_still_connected : bool
+		peer_still_connected = false if peer.get_connection_status() == 0 else true
+		if peer_still_connected && multiplayer.is_server(): #I'm the host.
+			for peers in multiplayer.get_peers():
+				multiplayer.multiplayer_peer.disconnect_peer(peers) #Tell the host to kick everyone.
 		peer.close() #Close the peer so everyone really knows I'm leaving.
 		peer = OfflineMultiplayerPeer.new() #Tell Godot that we're in Offline mode and to safely retarget all RPC codes for a singleplayer experience.
 		multiplayer.set_multiplayer_peer(peer)

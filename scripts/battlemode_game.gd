@@ -8,6 +8,7 @@ extends Game
 var game_ended: bool = false
 func _ready():
 	super()
+	gamestate.game_error.connect(_on_game_error)
 	
 func start():
 	if !stage:
@@ -152,3 +153,15 @@ func _check_ending_condition(_alive_enemies: int = 0):
 			#LOAD NEW STAGE
 			load_new_stage()
 		return
+
+func _on_game_error(errtxt):
+	if is_inside_tree():
+		$ErrorDialog.dialog_text = errtxt
+		$ErrorDialog.popup_centered()
+		
+func _on_error_dialog_confirmed() -> void:
+	gamestate.end_game()
+	if gamestate.peer:
+		gamestate.peer.close()
+	if is_inside_tree():
+		get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
