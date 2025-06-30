@@ -24,6 +24,7 @@ const FUSES = {
 	FAST = 2.0
 }
 var fuse_length := FUSES.NORMAL
+var cell_number: int
 
 enum {DISABLED, STATIONARY, AIRBORN, SLIDING, SIZE} #all states plus a SIZE constant that has to remain the last entry
 var state: int = DISABLED #this is the authority if ever somehow two state nodes try to execute text_overrun_behavior
@@ -71,6 +72,11 @@ func set_bomb_owner(player_id: String):
 		self.bomb_owner = null
 		return
 	self.bomb_owner = globals.player_manager.get_node(str(player_id))
+
+@rpc("call_local")
+func  set_bomb_number(number: int):
+	if number >= 0:
+		cell_number = number
 
 ## sets the addon
 @rpc("call_local")

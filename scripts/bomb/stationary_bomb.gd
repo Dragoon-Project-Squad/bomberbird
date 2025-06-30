@@ -32,6 +32,7 @@ func _ready():
 	self.explosion.is_finished_exploding.connect(done)
 	self.explosion.has_killed.connect(_kill)
 	self.visible = false
+	BombSignalBus.call_bomb.connect(remote_call_recieved)
 
 func disable():
 	self.position = Vector2.ZERO
@@ -153,6 +154,10 @@ func done():
 func exploded(_by_who):
 	if $AnimationPlayer.current_animation_position < 2.8:
 		$AnimationPlayer.advance(2.79)
+
+func remote_call_recieved(number: int):
+	if number == bomb_root.cell_number:
+		self.exploded(bomb_root.bomb_owner.name.to_int())
 
 func _kill(obj):
 	if obj == self: return
