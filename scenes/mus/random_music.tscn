@@ -8,4 +8,3 @@ script = ExtResource("1_bcpyr")
 
 [node name="AkState" type="AkState" parent="."]
 state = ExtResource("2_be75g")
-trigger_on = 1
