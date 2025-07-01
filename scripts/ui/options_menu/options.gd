@@ -17,7 +17,6 @@ func _on_exit_pressed() -> void:
 	if self.visible:
 		# stops the options menu music in the OptionsMenu node
 		options_music.stop(self)
-		
 		SettingsSignalBus.emit_set_settings_dictionary(SettingsContainer.create_storage_dictionary())
 		switch_to_main_menu()
 		#get_tree().change_scene_to_file("res://scenes/main_menu.tscn")

@@ -8,4 +8,3 @@ script = ExtResource("1_dftng")
 
 [node name="AkState" type="AkState" parent="."]
 state = ExtResource("3_3lcuc")
-trigger_on = 1

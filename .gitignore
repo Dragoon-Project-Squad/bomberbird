@@ -17,3 +17,4 @@ mono_crash.*.json
 *.pck
 *.zip
 .build/
+addons/Wwise/native/lib/win64/editor/profile/~libwwise.windows.editor.profile.dll

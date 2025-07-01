@@ -98,6 +98,9 @@ func _physics_process(delta: float):
 		move_and_slide()
 		# Also update the animation based on the last known player input state
 		update_animation(inputs.motion)
+	
+	if inputs.remote_ability:
+		call_remote_bomb()
 
 func write_to_save():
 	gamestate.current_save.health = self.lives

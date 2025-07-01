@@ -10,6 +10,7 @@ var hold_bomb := false
 var throw_ability := false
 var punch_ability := false
 var secondary_ability := false
+var remote_ability := false
 var last_input = Vector2(0,0)
 
 func update():
@@ -32,3 +33,4 @@ func update():
 	bombing = Input.is_action_pressed("set_bomb")
 	punch_ability = Input.is_action_pressed("punch_action")
 	secondary_ability = Input.is_action_just_pressed("secondary_action")
+	remote_ability = Input.is_action_just_pressed("detonate_rc")

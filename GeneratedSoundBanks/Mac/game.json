@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{0538B80F-BD38-4678-ADB9-028154C3B6E7}",
     "Language": "SFX",
-    "Hash": "{B02155AB-3F78-7C01-49B9-323608D73232}",
+    "Hash": "{346DB6AA-8D2B-0EF9-6AB5-8C617C574073}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\game",
     "ShortName": "game",
     "Path": "game.bnk",
@@ -438,6 +438,94 @@
       ]
      },
      {
+      "Id": "2715300416",
+      "Name": "st_bh_jam",
+      "ObjectPath": "\\Events\\Default Work Unit\\music_sound_test\\st_bh_jam",
+      "GUID": "{41363DA3-03FA-4198-83CA-390F3BA3D80D}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "341177717"
+       }
+      ]
+     },
+     {
+      "Id": "3787626250",
+      "Name": "st_dad",
+      "ObjectPath": "\\Events\\Default Work Unit\\music_sound_test\\st_dad",
+      "GUID": "{006B02F4-8DC0-49FC-AB9A-5D590C85CE10}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "575326219"
+       }
+      ]
+     },
+     {
+      "Id": "2151371268",
+      "Name": "st_doki_comes_home",
+      "ObjectPath": "\\Events\\Default Work Unit\\music_sound_test\\st_doki_comes_home",
+      "GUID": "{23C287DA-F7B4-4776-B890-E038E622D77D}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "279787638"
+       },
+       {
+        "Id": "396803010"
+       }
+      ]
+     },
+     {
+      "Id": "1964974217",
+      "Name": "st_dragoon_cafe",
+      "ObjectPath": "\\Events\\Default Work Unit\\music_sound_test\\st_dragoon_cafe",
+      "GUID": "{21B929D4-7E0E-4796-B3FA-6AFB586060FF}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "1067920505"
+       }
+      ]
+     },
+     {
+      "Id": "3862449989",
+      "Name": "st_minki",
+      "ObjectPath": "\\Events\\Default Work Unit\\music_sound_test\\st_minki",
+      "GUID": "{5E62F73D-30A2-4925-BA68-DA056CA7506D}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "510097468"
+       }
+      ]
+     },
+     {
+      "Id": "979156697",
+      "Name": "st_rush",
+      "ObjectPath": "\\Events\\Default Work Unit\\music_sound_test\\st_rush",
+      "GUID": "{6044EF81-C63C-4D64-BA30-BCAA64AE5202}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "67906233"
+       },
+       {
+        "Id": "663920872"
+       }
+      ]
+     },
+     {
+      "Id": "2548511007",
+      "Name": "st_stop_music",
+      "ObjectPath": "\\Events\\Default Work Unit\\music_sound_test\\st_stop_music",
+      "GUID": "{BAAB02EA-1E47-47D6-9FD3-8001A3A68AFC}",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
+     },
+     {
       "Id": "2837384057",
       "Name": "stop_music",
       "ObjectPath": "\\Events\\Default Work Unit\\music\\stop_music",
@@ -522,6 +610,6 @@
     ]
    }
   ],
-  "FileHash": "{5B2415D2-C098-B2CD-8700-6EF7326617C2}"
+  "FileHash": "{FB4822B9-6C89-719A-4A91-025FF7F4A674}"
  }
 }

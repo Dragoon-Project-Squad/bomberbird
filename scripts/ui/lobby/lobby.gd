@@ -68,6 +68,14 @@ func hide_all_lobby_screens() -> void:
 	battle_settings_screen.hide()
 	stage_select_screen.hide()
 
+func disconnect_signals_before_game() -> void:
+	if gamestate.player_list_changed.is_connected(character_select_screen.refresh_lobby_panel):
+		gamestate.player_list_changed.disconnect(character_select_screen.refresh_lobby_panel)
+	if gamestate.game_ended.is_connected(_on_game_ended):
+		gamestate.game_ended.disconnect(_on_game_ended)
+	if gamestate.game_error.is_connected(_on_game_error):
+		gamestate.game_error.disconnect(_on_game_error)
+
 func _on_game_error(errtxt):
 	if is_inside_tree():
 		$ErrorDialog.dialog_text = errtxt
@@ -96,14 +104,21 @@ func _on_stage_select_stage_select_aborted() -> void:
 	show_battle_settings_screen()
 
 func _on_stage_select_stage_selected() -> void:
+	disconnect_signals_before_game()
 	start_the_battle()
 
 func _on_secret_status_sent() -> void:
 	if globals.secrets_enabled:
 		character_select_screen.reveal_secrets()
 		stage_select_screen.switch_to_secret_stages()
+		
 func _on_error_dialog_confirmed() -> void:
-	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	gamestate.end_game()
+	if gamestate.peer:
+		gamestate.peer.close()
+	if is_inside_tree():
+		get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
 func _on_game_ended():
-	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	if is_inside_tree():
+		get_tree().change_scene_to_file("res://scenes/main_menu.tscn")

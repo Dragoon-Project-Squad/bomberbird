@@ -76,3 +76,4 @@ script = ExtResource("5_8eue1")
 metadata/_custom_type_script = "uid://boq3i75yls51h"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Exit" to="MarginContainer/VBoxContainer/SettingsTabContainer" method="_on_exit_pressed"]

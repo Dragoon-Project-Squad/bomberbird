@@ -12,7 +12,7 @@ config_version=5
 
 config/name="BomberBird"
 config/description="What of Bomberman but Doki"
-config/version="0.9.6.0"
+config/version="0.9.8.0"
 config/tags=PackedStringArray("2d", "network")
 run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.4")
@@ -30,6 +30,7 @@ SaveManager="*res://autoloads/save_manager.gd"
 AudioManager="*res://autoloads/audio_manager.gd"
 campaign_save_manager="*res://autoloads/campaign_save_manager.gd"
 WwiseRuntimeManager="*res://addons/Wwise/runtime/wwise_runtime_manager.gd"
+BombSignalBus="*res://autoloads/bomb_signal_bus.gd"
 
 [display]
 
