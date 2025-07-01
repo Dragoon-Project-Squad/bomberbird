@@ -16,7 +16,7 @@ func _ready() -> void:
 @rpc("call_local")
 func exploded(_by_whom: int):
 	if(!is_multiplayer_authority()): return 1
-	if invulnerable || damage_invulnerable: return 1
+	if invulnerable: return 1
 	if _exploded_barrier: return
 	_exploded_barrier = true
 	self.statemachine.stop_process = true

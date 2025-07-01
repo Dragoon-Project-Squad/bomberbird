@@ -46,7 +46,7 @@ func place_summon():
 	var summon: Enemy = globals.game.enemy_pool.request(summon_path)
 	summon.place(summonPos, summon_path)
 	summons_placed += 1
-	summon.enable()
+	summon.enable(false)
 	globals.current_world.alive_enemies.append(summon)
 	globals.game.clock_pickup_time_paused.connect(summon.stop_time)
 	globals.game.clock_pickup_time_unpaused.connect(summon.start_time)

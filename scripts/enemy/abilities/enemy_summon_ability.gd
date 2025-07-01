@@ -6,7 +6,7 @@ extends EnemyState
 func _enter() -> void:
 	var summon: Enemy = globals.game.enemy_pool.request(summon_path)
 	summon.place(self.enemy.position, summon_path)
-	summon.enable()
+	summon.enable(false)
 
 	globals.current_world.alive_enemies.append(summon)
 	globals.game.clock_pickup_time_paused.connect(summon.stop_time)
