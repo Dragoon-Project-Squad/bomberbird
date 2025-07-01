@@ -480,7 +480,6 @@ offset_bottom = 417.0
 [connection signal="pressed" from="SkinBG/CharacterGrid/dad" to="." method="_on_dad_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/bhdoki" to="." method="_on_bhdoki_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/summerdoki" to="." method="_on_summerdoki_pressed"]
-[connection signal="pressed" from="SkinBG/CharacterGrid/summerdoki" to="." method="_on_bhdoki_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/retrodoki" to="." method="_on_retrodoki_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/altdoki" to="." method="_on_altdoki_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/crowki" to="." method="_on_crowki_pressed"]
