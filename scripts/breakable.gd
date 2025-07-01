@@ -56,8 +56,7 @@ func exploded(by_who):
 	breakable_destroyed.emit()
 	if is_multiplayer_authority():
 		disable_collison_and_hide.rpc()
-	astargrid_handler.astargrid_set_point(global_position, false)
-	if is_multiplayer_authority():
+		astargrid_handler.astargrid_set_point.rpc(global_position, false)
 		disable.rpc()
 		globals.game.breakable_pool.return_obj(self)
 
