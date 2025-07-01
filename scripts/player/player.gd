@@ -139,6 +139,8 @@ func init_pickups():
 		do_invulnerabilty.rpc(INVULNERABILITY_POWERUP_TIME)
 	if self.pickups.held_pickups[globals.pickups.VIRUS] > pickups.virus.DEFAULT:
 		virus.rpc()
+	if self.pickups.held_pickups[globals.pickups.MOUNTGOON]:
+		mount_dragoon.rpc()
 
 func _process(delta: float):
 	if !is_autodrop:
@@ -532,6 +534,11 @@ func disable_bombclip():
 func mount_dragoon():
 	is_mounted = true
 	print("Mount time!")
+	
+@rpc("call_local")
+func mount_exploded():
+	is_mounted = false
+	print("Mount killed!")
 
 @rpc("call_local")
 func increment_bomb_count():
@@ -576,6 +583,9 @@ func exploded(_by_who):
 	if stunned || invulnerable || stop_movement: return
 	if _died_barrier: return
 	_died_barrier = true
+	if is_mounted:
+		mount_exploded()
+		return
 	lives -= 1
 	hurt_sfx_player.post_event()
 	if lives <= 0:

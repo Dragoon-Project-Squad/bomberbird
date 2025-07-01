@@ -28,6 +28,7 @@ initial_power_glove = false
 initial_wallthrough = false
 initial_freeze = false
 initial_invincibility_vest = false
+initial_mountgoon = false
 metadata/_custom_type_script = "uid://dfosda1bstp2m"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_oj3wr"]
