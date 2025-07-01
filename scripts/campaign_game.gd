@@ -110,6 +110,7 @@ func next_stage(id: int, player: HumanPlayer):
 	gamestate.current_level += 1
 	
 	fade.play("fade_out")
+	soft_reset_players()
 	await fade.animation_finished
 
 	# disable the old stage

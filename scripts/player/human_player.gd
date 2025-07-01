@@ -101,6 +101,13 @@ func _physics_process(delta: float):
 	
 	if inputs.remote_ability:
 		call_remote_bomb()
+@rpc("call_local")
+func reset():
+	set_bomb_pressed_once = false
+	punch_pressed_once = false
+	is_carrying_bomb = false
+	bomb_hold_timer = 0.0
+	super()
 
 func write_to_save():
 	gamestate.current_save.health = self.lives
