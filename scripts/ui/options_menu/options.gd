@@ -8,6 +8,13 @@ signal options_menu_exited
 
 func _ready():
 	settings_tab_container.options_menu_exited.connect(_on_exit_pressed)
+	settings_tab_container.get_node("%SoundTest").options_menu = self
+
+func show_sound_test():
+	settings_tab_container.get_node("%SoundTest").hide()
+
+func hide_sound_test():
+	settings_tab_container.get_node("%SoundTest").hide()
 
 func switch_to_main_menu() -> void:
 	self.visible = false

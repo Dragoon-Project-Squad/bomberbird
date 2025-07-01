@@ -24,7 +24,6 @@ const MAX_EXPLOSION_BOOSTS_PERMITTED: int = 6
 ## NOTE: MISOBON_RESPAWN_TIME is additive to the animation time for both spawning and despawning the misobon player
 const MISOBON_RESPAWN_TIME: float = 0.5 
 const INVULNERABILITY_SPAWN_TIME: float = 2
-const INVULNERABILITY_FLASH_TIME: float = 0.125
 const INVULNERABILITY_POWERUP_TIME: float = 16.0
 
 @export var synced_position := Vector2()
@@ -33,6 +32,7 @@ const INVULNERABILITY_POWERUP_TIME: float = 16.0
 
 @onready var hurt_sfx_player := $HurtSoundPlayer
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var invul_player: AnimationPlayer = $InvulPlayer
 
 var current_anim: String = ""
 var is_dead: bool = false
@@ -40,16 +40,18 @@ var _died_barrier: bool = false
 var stop_movement: bool = false
 var outside_of_game: bool = false
 
-
 var time_is_stopped: bool = false
 var player_type: String
 var hurry_up_started: bool = false 
 var misobon_player: MisobonPlayer
+var last_movement_vector: Vector2 = Vector2(1, 0):
+	set(val):
+		if val.length() == 0: return
+		last_movement_vector = val
 
 var game_ui
 
-var invulnerable_animation_time: float
-var invulnerable_remaining_time: float = 2
+var invul_timer: SceneTreeTimer
 
 var pickup_pool: PickupPool
 var bomb_pool: BombPool
@@ -132,24 +134,14 @@ func init_pickups():
 	if self.pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] == HeldPickups.exclusive.BOMBTHROUGH:
 		enable_bombclip.rpc()
 	if self.pickups.held_pickups[globals.pickups.INVINCIBILITY_VEST]:
-		start_invul.rpc()
+		do_invulnerabilty.rpc(INVULNERABILITY_POWERUP_TIME)
 	if self.pickups.held_pickups[globals.pickups.VIRUS] > pickups.virus.DEFAULT:
 		virus.rpc()
 
 func _process(delta: float):
-	if !invulnerable and !is_autodrop:
-		show()
+	if !is_autodrop:
 		set_process(false)
 		return
-	if invulnerable:
-		invulnerable_remaining_time -= delta
-		invulnerable_animation_time += delta
-		if invulnerable_remaining_time <= 0:
-			invulnerable = false
-			pickups.held_pickups[globals.pickups.INVINCIBILITY_VEST] = false
-		elif invulnerable_animation_time <= INVULNERABILITY_FLASH_TIME:
-			self.visible = !self.visible
-			invulnerable_animation_time = 0	
 	if is_autodrop:
 		drop_timer -= delta
 		if drop_timer <= 0:
@@ -299,10 +291,18 @@ func place_bomb():
 #endregion
 
 ## updates the animation depending on the movement direction
-func update_animation(direction: Vector2):
-	var new_anim: String = "standing"
+func update_animation(direction: Vector2, old_direction: Vector2):
+	var new_anim: String = "standing_down"
 	if direction.length() == 0:
-		new_anim = "standing"
+		assert(old_direction.length() != 0)
+		if old_direction.y < 0:
+			new_anim = "standing_up"
+		elif old_direction.y > 0:
+			new_anim = "standing_down"
+		elif old_direction.x < 0:
+			new_anim = "standing_left"
+		elif old_direction.x > 0:
+			new_anim = "standing_right"
 	elif direction.y < 0:
 		new_anim = "walk_up"
 	elif direction.y > 0:
@@ -373,6 +373,8 @@ func exit_death_state():
 @rpc("call_local")
 func reset():
 	animation_player.play("RESET")
+	if self.invul_timer: self.invul_timer.timeout.disconnect(stop_invulnerability)
+	stop_invulnerability()
 	process_mode = PROCESS_MODE_DISABLED
 	self.bomb_to_throw = null
 	self.current_anim = ""
@@ -392,6 +394,8 @@ func reset():
 ## resets the pickups back to the inital state
 @rpc("call_local")
 func reset_pickups():
+	if self.invul_timer: self.invul_timer.timeout.disconnect(stop_invulnerability)
+	stop_invulnerability()
 	movement_speed = movement_speed_reset
 	bomb_total = bomb_total_reset
 	bomb_count = bomb_total
@@ -462,13 +466,6 @@ func spread_items():
 				to_place_pickups[pickup_types[i]][j].place.rpc(pos_array[j])
 				temp.append(pos_array[j])
 			world_data.reset_empty_cells.call_deferred(temp)
-
-## starts the invulnerability and its animation
-@rpc("call_local")
-func do_invulnerabilty():
-	invulnerable_remaining_time = INVULNERABILITY_SPAWN_TIME
-	invulnerable = true
-	set_process(true)
 
 func do_stun():
 	animation_player.play("player_animations/stunned") #Note this animation sets stunned automatically
@@ -548,6 +545,9 @@ func return_bomb(is_mine := false):
 ## plays the victory animation and stops the player from moving
 func play_victory(reenable: bool) -> Signal:
 	self.outside_of_game = true
+
+	if self.invul_timer: self.invul_timer.timeout.disconnect(stop_invulnerability)
+	stop_invulnerability()
 	
 	$sprite.self_modulate = Color8(255, 255, 255)
 	$sprite.rotation = 0
@@ -589,11 +589,26 @@ func crush():
 func set_selected_character(value_path : String):
 	$sprite.texture = load(value_path)
 
+## starts the invulnerability and its animation
 @rpc("call_local")
-func start_invul():
-	invulnerable_remaining_time = INVULNERABILITY_POWERUP_TIME
-	invulnerable = true
-	set_process(true)
+func do_invulnerabilty(time: float = INVULNERABILITY_SPAWN_TIME):
+	# if there is already a longer invulnerability just leave that be
+	if self.invul_timer && self.invul_timer.time_left >= time: return
+	# if there is already a shorter invulnerability overwrite it
+	elif self.invul_timer: self.invul_timer.timeout.disconnect(stop_invulnerability)
+	#if there is no (or a shorter) on write a new invulnerability
+	self.invul_timer = get_tree().create_timer(time)
+	self.invul_player.play("Invul")
+	self.invulnerable = true
+	self.invul_timer.timeout.connect(stop_invulnerability)
+
+func stop_invulnerability():
+	self.invul_player.stop()
+	if self.invul_timer && self.invul_timer.timeout.is_connected(stop_invulnerability):
+		self.invul_timer.timeout.disconnect(stop_invulnerability)
+	self.invulnerable = false
+	self.invul_timer = null
+	self.pickups.held_pickups[globals.pickups.INVINCIBILITY_VEST] = false
 
 @rpc("call_local")
 func virus():

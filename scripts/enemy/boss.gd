@@ -104,21 +104,7 @@ func init_pickups():
 	if self.pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] == HeldPickups.exclusive.BOMBTHROUGH:
 		enable_bombclip()
 	if self.pickups.held_pickups[globals.pickups.INVINCIBILITY_VEST]:
-		start_invul()
-
-func _process(delta: float):
-	if !damage_invulnerable:
-		show()
-		set_process(false)
-		return
-	invulnerable_remaining_time -= delta
-	invulnerable_animation_time += delta
-	if invulnerable_remaining_time <= 0:
-		damage_invulnerable = false
-		pickups.held_pickups[globals.pickups.INVINCIBILITY_VEST] = false
-	elif invulnerable_animation_time <= INVULNERABILITY_FLASH_TIME:
-		self.visible = !self.visible
-		invulnerable_animation_time = 0
+		do_invulnerabilty(Player.INVULNERABILITY_POWERUP_TIME)
 
 func get_current_bomb_count() -> int:
 	return init_bomb_count + pickups.held_pickups[globals.pickups.BOMB_UP]
@@ -155,14 +141,8 @@ func disable_bombclip():
 	self.set_collision_mask_value(4, true)
 
 @rpc("call_local")
-func start_invul():
-	invulnerable_remaining_time = INVULNERABILITY_POWERUP_TIME
-	damage_invulnerable = true
-	set_process(true)
-
-@rpc("call_local")
 func exploded(by_whom: int):
-	if invulnerable || damage_invulnerable: return 1
+	if invulnerable: return 1
 	if _exploded_barrier: return
 	super(by_whom)
 	if(self.health >= 1): return
@@ -189,7 +169,8 @@ func unlock_secret():
 
 func reset_pickups():
 	self.bomb_carry_sprite.hide()
-	damage_invulnerable = false
+	if self.invul_timer: self.invul_timer.timeout.disconnect(stop_invulnerability)
+	stop_invulnerability()
 	self.set_collision_mask_value(4, true)
 	self.set_collision_mask_value(3, true)
 	pickups.reset()

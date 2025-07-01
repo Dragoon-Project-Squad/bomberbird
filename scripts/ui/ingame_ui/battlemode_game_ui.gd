@@ -4,6 +4,8 @@ extends CanvasLayer
 @onready var score_panel_container: Container = %ScorePanelContainer
 @onready var time_label: Label = %TimeLabel
 
+signal matchtimer_timeout
+
 const COLOR_ARR: Array[Color] = [Color8(255, 100, 100), Color8(100, 255, 255), Color8(255, 178, 100), Color8(163, 255, 156)]
 
 var player_labels = {}
@@ -73,3 +75,7 @@ func _on_hurry_up_start() -> void:
 
 func reset() -> void:
 	time_label.add_theme_color_override("font_color", Color(255, 255, 255))
+
+
+func _on_match_timer_timeout() -> void:
+	matchtimer_timeout.emit()

@@ -4,9 +4,9 @@ signal enemy_died
 signal enemy_health_lost(health: int)
 
 const INVULNERABILITY_TIME: float = 2
-const INVULNERABILITY_FLASH_TIME: float = 0.125
 
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
+@onready var invul_player: AnimationPlayer = $InvulPlayer
 @onready var statemachine: Node = $StateMachine
 @onready var hitbox: CollisionShape2D = $Hitbox
 @onready var hurtbox: Area2D = $Hurtbox
@@ -27,20 +27,22 @@ const INVULNERABILITY_FLASH_TIME: float = 0.125
 @export_group("Multiplayer Variables")
 @export var movement_vector = Vector2(0,0)
 @export var synced_position := Vector2()
+var last_movement_vector: Vector2 = Vector2(1, 0):
+	set(val):
+		if val.length() == 0: return
+		last_movement_vector = val
 
 var current_anim: String = ""
 var enemy_path: String = ""
 var stunned: bool = false
 var invulnerable: bool = false
-var damage_invulnerable: bool = false
 var stop_moving: bool = false
 var time_is_stopped: bool = false
 var disabled: bool = false
 var _health: int
 var _exploded_barrier: bool = false
 
-var invulnerable_animation_time: float = 0
-var invulnerable_remaining_time: float = 0
+var invul_timer: SceneTreeTimer
 
 func _ready() -> void:
 	assert(detection_handler, "please make sure a detectionhandler is selected for the enemy: " + self.name)
@@ -60,28 +62,24 @@ func init_clipping() -> void:
 	if self.bombthrought:
 		self.set_collision_mask_value(4, false)
 
-func _process(delta: float):
-	if !damage_invulnerable:
-		show()
-		set_process(false)
-		return
-	invulnerable_remaining_time -= delta
-	invulnerable_animation_time += delta
-	if invulnerable_remaining_time <= 0:
-		damage_invulnerable = false
-	elif invulnerable_animation_time <= INVULNERABILITY_FLASH_TIME:
-		self.visible = !self.visible
-		invulnerable_animation_time = 0
-
 func _physics_process(_delta):
 	# update the animation based on the last known player input state
+	last_movement_vector = movement_vector.normalized()
 	if stunned || stop_moving: return
-	update_animation(movement_vector.normalized())
+	update_animation(movement_vector.normalized(), last_movement_vector)
 
-func update_animation(direction: Vector2):
-	var new_anim: String = "standing"
+func update_animation(direction: Vector2, old_direction: Vector2 = Vector2.DOWN):
+	var new_anim: String = "standing_down"
 	if direction.length() == 0:
-		new_anim = "standing"
+		assert(old_direction.length() != 0)
+		if old_direction.y < 0:
+			new_anim = "standing_up"
+		elif old_direction.y > 0:
+			new_anim = "standing_down"
+		elif old_direction.x < 0:
+			new_anim = "standing_left"
+		elif old_direction.x > 0:
+			new_anim = "standing_right"
 	elif direction.y < 0:
 		new_anim = "walk_up"
 	elif direction.y > 0:
@@ -94,6 +92,26 @@ func update_animation(direction: Vector2):
 	if new_anim != current_anim:
 		current_anim = new_anim
 		$AnimationPlayer.play(animation_sub + "/" + current_anim)
+
+## starts the invulnerability and its animation
+@rpc("call_local")
+func do_invulnerabilty(time: float = INVULNERABILITY_TIME):
+	# if there is already a longer invulnerability just leave that be
+	if self.invul_timer && self.invul_timer.time_left >= time: return
+	# if there is already a shorter invulnerability overwrite it
+	elif self.invul_timer: self.invul_timer.timeout.disconnect(stop_invulnerability)
+	#if there is no (or a shorter) on write a new invulnerability
+	self.invul_timer = get_tree().create_timer(time)
+	self.invul_player.play("Invul")
+	self.invulnerable = true
+	self.invul_timer.timeout.connect(stop_invulnerability)
+
+func stop_invulnerability():
+	self.invul_player.stop()
+	if self.invul_timer && self.invul_timer.timeout.is_connected(stop_invulnerability):
+		self.invul_timer.timeout.disconnect(stop_invulnerability)
+	self.invulnerable = false
+	self.invul_timer = null
 
 func do_stun():
 	stunned = true
@@ -118,25 +136,25 @@ func place(pos: Vector2, path: String):
 	self.enemy_path = path
 	stop_moving = false
 
-func enable():
+func enable(with_invul: bool = false):
 	self.process_mode = Node.PROCESS_MODE_INHERIT
 	self.disabled = false
 	self.hurtbox.body_entered.connect(func (player: Player): player.exploded(gamestate.ENEMY_KILL_PLAYER_ID))
 	self.detection_handler.on()
 	self.statemachine.enable()
+	if with_invul: do_invulnerabilty()
 
 @rpc("call_local")
 func exploded(_by_whom: int):
 	if(!is_multiplayer_authority()): return 1
-	if invulnerable || damage_invulnerable: return 1
+	if invulnerable: return 1
 	if _exploded_barrier: return
 	_exploded_barrier = true
 	self.health -= 1
 	if self.health_ability:
 		self.health_ability.apply()
 	if(self.health >= 1):
-		invulnerable_remaining_time = INVULNERABILITY_TIME
-		damage_invulnerable = true
+		do_invulnerabilty()
 		set_process(true)
 		_exploded_barrier = false
 		return 1
@@ -170,6 +188,8 @@ func disable():
 		health_ability.reset()
 	self.hide()
 	health = _health
+	if self.invul_timer: self.invul_timer.timeout.disconnect(stop_invulnerability)
+	stop_invulnerability()
 	for connection in self.hurtbox.body_entered.get_connections():
 		self.hurtbox.body_entered.disconnect(connection.callable)
 	for sig_dict in self.enemy_died.get_connections():

@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://b2vuc8710pjyc"]
+[gd_scene load_steps=35 format=3 uid="uid://b2vuc8710pjyc"]
 
 [ext_resource type="Script" uid="uid://c2f6wib7o63aw" path="res://scripts/enemy/boss.gd" id="1_dpfu0"]
 [ext_resource type="Script" uid="uid://dfosda1bstp2m" path="res://resources/gameplay/held_pickups.gd" id="2_8i32n"]
@@ -99,6 +99,56 @@ _data = {
 &"burry": SubResource("Animation_0x7uk")
 }
 
+[sub_resource type="Animation" id="Animation_jvckf"]
+resource_name = "Invul"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("shadowsprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_5hw36"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7v3pb"]
+_data = {
+&"Invul": SubResource("Animation_jvckf"),
+&"RESET": SubResource("Animation_5hw36")
+}
+
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hwcqj"]
 
 [node name="MintBoss" type="CharacterBody2D" node_paths=PackedStringArray("ability_detector", "detection_handler") groups=["thrown_bomb_bounces"]]
@@ -185,6 +235,11 @@ libraries = {
 &"": SubResource("AnimationLibrary_rwxvx"),
 &"TomatoBoss": SubResource("AnimationLibrary_irj8q"),
 &"enemy": ExtResource("9_ogvte")
+}
+
+[node name="InvulPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_7v3pb")
 }
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]

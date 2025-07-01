@@ -236,6 +236,7 @@ bus_name = "Music"
 layout_mode = 2
 
 [node name="SoundTest" parent="TabContainer/Sound/MarginContainer/ScrollContainer/Control" instance=ExtResource("8_ntcmh")]
+unique_name_in_owner = true
 layout_mode = 2
 anchors_preset = 0
 anchor_left = 0.0

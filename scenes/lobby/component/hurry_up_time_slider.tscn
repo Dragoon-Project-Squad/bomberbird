@@ -38,7 +38,9 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_4k2yx")
 custom_minimum_size = Vector2(200, 32)
 layout_mode = 2
 size_flags_vertical = 1
+min_value = 30.0
 max_value = 600.0
+value = 30.0
 rounded = true
 
 [node name="VSeparator2" type="VSeparator" parent="HBoxContainer"]
