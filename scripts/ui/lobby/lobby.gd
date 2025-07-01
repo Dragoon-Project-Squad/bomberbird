@@ -13,7 +13,11 @@ func _ready() -> void:
 	if not multiplayer.get_peers().is_empty():
 		print("I AM ONLINE")
 		show_character_select_screen()
-	
+	play_lobby_music()
+
+func play_lobby_music() -> void:
+	Wwise.post_event("stop_music", self)
+	Wwise.post_event("play_music_dragoon_cafe", self)
 
 func start_the_battle() -> void:
 	
@@ -39,10 +43,6 @@ func show_character_select_screen() -> void:
 	character_select_screen.show()
 	battle_settings_screen.hide()
 	stage_select_screen.hide()
-	
-	# plays "dragoon cafe" while players are picking their characters.
-	# music continues into the stage select but not past due to start_the_battle
-	Wwise.post_event("play_music_dragoon_cafe", self)
 	
 func show_battle_settings_screen() -> void:
 	connect_screen.hide()
