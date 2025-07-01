@@ -88,6 +88,7 @@ var is_reverse = false
 var is_nonstop = false
 var is_unbomb = false
 var drop_timer = 0
+var pre_virus_speed = BASE_MOTION_SPEED
 const AUTODROP_INTERVAL = 3
 
 func _ready():
@@ -613,6 +614,7 @@ func stop_invulnerability():
 @rpc("call_local")
 func virus():
 	is_virus = true
+	pre_virus_speed = movement_speed
 	match pickups.held_pickups[globals.pickups.VIRUS]:
 		pickups.virus.SPEEDDOWN:
 			print("Slow movement!")
@@ -651,10 +653,11 @@ func virus():
 
 @rpc("call_local")	
 func unvirus():
+	if !is_virus: return
 	is_virus = false
 	infected_explosion = false
 	fuse_speed = BombRoot.FUSES.NORMAL
-	movement_speed = BASE_MOTION_SPEED
+	movement_speed = pre_virus_speed
 	is_autodrop = false
 	is_reverse = false
 	is_nonstop = false
