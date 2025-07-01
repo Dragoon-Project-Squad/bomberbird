@@ -10,7 +10,7 @@ var resolution_index := 0
 var master_volume := 0.0
 var music_volume := 0.0
 var sfx_volume := 0.0
-var data_flag := "" #Controls access to secret.
+var data_flag := "not_boo" #Controls access to secret.
 
 #Multiplayer Enums
 enum cpu_difficulty_setting_states {STATIONARY, EASY, MEDIUM, HARD}
@@ -59,7 +59,7 @@ func create_storage_dictionary() -> Dictionary:
 		"breakable_chance" : breakable_chance,
 		"pickup_spawn_rule" : pickup_spawn_rule,
 		"pickup_chance" : pickup_chance,
-		"stage_choice" : multiplayer_stages.SALOON
+		"stage_choice" : stage_choice
 	}
 	return settings_container_dict
 
@@ -341,6 +341,10 @@ func set_battle_settings_vars_from_dict(datadict : Dictionary) -> void:
 	set_pickup_chance(datadict.pickup_chance if datadict.has('pickup_chance') else BATTLE_SETTINGS.DEFAULT_PICKUP_CHANCE)
 	set_stage_choice(datadict.stage_choice if datadict.has('stage_choice') else BATTLE_SETTINGS.DEFAULT_STAGE)
 
+@rpc("call_local")
+func set_stage_choice_from_dict(datadict : Dictionary) -> void:
+	set_stage_choice(datadict.stage_choice if datadict.has('stage_choice') else BATTLE_SETTINGS.DEFAULT_STAGE)
+
 func set_all_vars_from_dict(datadict : Dictionary) -> void:
 	set_options_settings_vars_from_dict(datadict)
 	set_battle_settings_vars_from_dict(datadict)
@@ -358,6 +362,9 @@ func get_data_flag() -> String:
 func set_data_flag(secretcode : String) -> void: #Marks save data to be saved with permanent secret unlock.
 	if secretcode.to_lower() != "boo": return
 	data_flag = "boo"
+
+func clean_data_flag() -> void:
+	data_flag = "not_boo"
 
 func create_secret_file() -> Dictionary: #Saves save data as permanent secret unlock.
 	var secret_file : Dictionary = {

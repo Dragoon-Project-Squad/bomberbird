@@ -28,6 +28,13 @@ namespace AK
         static const AkUniqueID SND_SECRET = 2418319985U;
         static const AkUniqueID SND_THROW_BOMB = 2124105734U;
         static const AkUniqueID SND_THROWN_BOMB_LAND = 1948188490U;
+        static const AkUniqueID ST_BH_JAM = 2715300416U;
+        static const AkUniqueID ST_DAD = 3787626250U;
+        static const AkUniqueID ST_DOKI_COMES_HOME = 2151371268U;
+        static const AkUniqueID ST_DRAGOON_CAFE = 1964974217U;
+        static const AkUniqueID ST_MINKI = 3862449989U;
+        static const AkUniqueID ST_RUSH = 979156697U;
+        static const AkUniqueID ST_STOP_MUSIC = 2548511007U;
         static const AkUniqueID STOP_MUSIC = 2837384057U;
         static const AkUniqueID UNPAUSE_MUSIC_DRAGOON_CAFE = 2726913135U;
         static const AkUniqueID UNPAUSE_MUSIC_MAIN_MENU = 3895502332U;

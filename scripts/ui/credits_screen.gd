@@ -149,8 +149,7 @@ var credits = [
 		"Thaleah Fat by Rick Hoppmann",
 	],[
 		"Special Thanks",
-		"Dragoon Project Squad",
-		"Super B*mberman R's Netcode"
+		"Dragoon Project Squad"
 	],[
 		"And of course",
 		"Dokibird"

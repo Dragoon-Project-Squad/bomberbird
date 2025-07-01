@@ -8,4 +8,3 @@ script = ExtResource("1_nhewe")
 
 [node name="AkState" type="AkState" parent="."]
 state = ExtResource("3_ji2h4")
-trigger_on = 1

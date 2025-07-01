@@ -1,0 +1,59 @@
+[gd_scene load_steps=6 format=3 uid="uid://d1tntiu0jyk1h"]
+
+[ext_resource type="Script" uid="uid://4t2eaf2uusjs" path="res://scripts/ui/ingame_ui/health_panel.gd" id="1_vx1av"]
+[ext_resource type="Texture2D" uid="uid://27c5jtc8uveu" path="res://assets/ui/campaign_ui_sheet.png" id="2_4g8ja"]
+[ext_resource type="FontFile" uid="uid://do0laogygl6cd" path="res://assets/fonts/ThaleahFat.ttf" id="3_gxj1l"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_373cf"]
+atlas = ExtResource("2_4g8ja")
+region = Rect2(2, 64, 70, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b0naa"]
+atlas = ExtResource("2_4g8ja")
+region = Rect2(0, 128, 64, 32)
+
+[node name="HealthPanel_B1" type="Control"]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 0
+offset_right = 32.0
+offset_bottom = 32.0
+script = ExtResource("1_vx1av")
+
+[node name="Background" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_right = 72.0
+offset_bottom = 32.0
+scale = Vector2(-1, 1)
+texture = SubResource("AtlasTexture_373cf")
+
+[node name="ColoredTexture" type="TextureRect" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 32.0
+scale = Vector2(-1, 1)
+texture = SubResource("AtlasTexture_b0naa")
+
+[node name="HealthLabel" type="Label" parent="ColoredTexture"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 49.0
+offset_top = 6.0
+offset_right = 57.0
+offset_bottom = 21.0
+scale = Vector2(-1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_gxj1l")
+theme_override_font_sizes/font_size = 16
+text = "3"
+
+[node name="Icon" type="TextureRect" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+scale = Vector2(-1, 1)

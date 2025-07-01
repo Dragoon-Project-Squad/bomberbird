@@ -99,7 +99,6 @@ func update_server_player_lists(client_player_name):
 	add_ai_players(ai_count)
 	establish_player_counts()
 	assign_player_numbers()
-	sync_playerdata_across_players.rpc(player_data_master_dict.duplicate())
 
 #@rpc("call_local")
 #func sync_gamestate_across_players(in_players, in_player_numbers, in_host_player_name, in_characters):
@@ -166,9 +165,9 @@ func register_player(new_player_name: String, id: int):
 		"is_ai" = false,
 		"is_enabled" = true
 	}
-	player_list_changed.emit()
 	if is_multiplayer_authority():
 		set_secret_status.rpc_id(id, globals.secrets_enabled)
+		sync_playerdata_across_players.rpc(player_data_master_dict)
 	
 @rpc("authority", "call_local")
 func unregister_player(id):
@@ -237,7 +236,6 @@ func establish_player_counts() -> void:
 			human_player_count = human_player_count + 1
 	total_player_count = human_player_count + ai_player_count
 	#print("epc: cpus: ", ai_player_count, ", players: ", human_player_count)
-	assert(multiplayer.is_server())
 		
 @rpc("call_local")
 func load_world(game_scene):
@@ -429,9 +427,12 @@ func end_game():
 	if globals.game != null: # Game is in progress.
 		# End it
 		globals.game.queue_free()
-	if multiplayer.has_multiplayer_peer(): 
-		if not multiplayer.is_server(): #I'm not the host.
-			multiplayer.multiplayer_peer.disconnect_peer(1) #Tell the host to kick me.
+	if multiplayer.has_multiplayer_peer():
+		var peer_still_connected : bool
+		peer_still_connected = false if peer.get_connection_status() == 0 else true
+		if peer_still_connected && multiplayer.is_server(): #I'm the host.
+			for peers in multiplayer.get_peers():
+				multiplayer.multiplayer_peer.disconnect_peer(peers) #Tell the host to kick everyone.
 		peer.close() #Close the peer so everyone really knows I'm leaving.
 		peer = OfflineMultiplayerPeer.new() #Tell Godot that we're in Offline mode and to safely retarget all RPC codes for a singleplayer experience.
 		multiplayer.set_multiplayer_peer(peer)

@@ -16,6 +16,7 @@ static func bfs_get_values(graph_array: Array, get_value: Callable, get_graph_ch
 		var temp_pair = queue.pop_back()
 		var curr_node = temp_pair[0]
 		var curr_depth = temp_pair[1]
+		if visited.has(curr_node): continue
 		if(!result.has(get_value.call(curr_node))):
 			result[get_value.call(curr_node)] = 0
 		else:
@@ -42,6 +43,7 @@ static func bfs_fold(graph_array: Array, init_value, fold_func: Callable, get_gr
 		var temp_pair = queue.pop_back()
 		var curr_node = temp_pair[0]
 		var curr_depth = temp_pair[1]
+		if visited.has(curr_node): continue
 		result = fold_func.call(result, curr_node)
 		visited[curr_node] = null
 		for idx in get_graph_children.call(curr_node):
@@ -61,6 +63,7 @@ static func bfs_are_unreachable(graph_array: Array, get_value: Callable, get_gra
 	var queue: Array = [graph_array[start_idx]]
 	while !queue.is_empty():
 		var curr_node = queue.pop_back()
+		if visited.has(curr_node): continue
 		var val = get_value.call(curr_node)
 		if result.has(val):
 			result.erase(val)

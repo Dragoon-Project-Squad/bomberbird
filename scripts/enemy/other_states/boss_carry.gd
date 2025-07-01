@@ -16,7 +16,7 @@ func _enter() -> void:
 	await get_tree().create_timer(0.2).timeout
 	if self.enemy.health != 0 && !bomb.state_map[1].is_exploded:
 		self.enemy.bomb_carry_sprite.show()
-		bomb.carry.rpc()
+		bomb.boss_carry.rpc()
 		self.enemy.bomb_to_throw = bomb
 	await get_tree().create_timer(0.01).timeout
 

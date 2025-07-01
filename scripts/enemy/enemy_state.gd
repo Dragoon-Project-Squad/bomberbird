@@ -34,6 +34,7 @@ func _move(_delta, speed_boost: float = 1):
 		self.enemy.position = self.enemy.synced_position
 	
 	# Also update the animation based on the last known player input state
+	self.enemy.last_movement_vector = self.enemy.movement_vector.normalized()
 	if self.enemy.stunned: return
 	self.enemy.velocity = self.enemy.movement_vector.normalized() * self.enemy.movement_speed * speed_boost
 	self.enemy.move_and_slide()

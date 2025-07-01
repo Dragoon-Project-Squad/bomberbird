@@ -13,7 +13,6 @@ func setup_for_host() -> void:
 	
 @rpc("call_remote") ##Call remote is default, but I like doing it this way for documentation.
 func setup_for_peers() -> void:
-	print("I am not the multiplayer authority.")
 	confirm_button.disabled = true
 	confirm_button.text = "Waiting for host"
 	var options = battle_settings_container.find_child("VBoxContainer", true).get_children()

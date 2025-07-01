@@ -2,7 +2,7 @@ extends TileMapLayer
 
 signal hurry_up_start
 
-const SUDDEN_DEATH_SIZE: Vector2i = Vector2i(9, 7)
+const FINAL_ARENA_SIZE := Vector2i(9, 7)
 
 @onready var hurry_up_start_timer: Timer = get_node("Timers/HurryUpStartTimer")
 @onready var hurry_up_step_timer: Timer = get_node("Timers/HurryUpStepTimer")
@@ -24,8 +24,7 @@ func start() -> void:
 	if SettingsContainer.get_hurry_up_state():
 		hurry_up_start_timer.start()
 	if falling_unbreakables.is_empty():
-		hurry_up_start.connect(globals.player_manager._on_hurry_up_start)
-		hurry_up_start.connect(globals.game.game_ui._on_hurry_up_start)
+		connect_hurry_up_signals()
 
 	current_tile_index = 0
 	current_falling_unbreakable_index = 0
@@ -34,11 +33,12 @@ func start() -> void:
 	var hurry_up_time: float = SettingsContainer.get_hurry_up_time() + 1.5 #idk wy this +1.5 is needed but otherwise it does not stop at a nice 00:00
 	var total_number_of_non_unbreakable_spaces: int
 	if !SettingsContainer.get_sudden_death_state():
-		total_number_of_non_unbreakable_spaces = get_sudden_death_non_unbreakable_spaces()
+		total_number_of_non_unbreakable_spaces = get_final_area_non_unbreakable_spaces()
 	else:
 		total_number_of_non_unbreakable_spaces = globals.current_world.total_number_of_non_unbreakable_spaces
 
-	var falling_unbreakable_speed: float = hurry_up_time / total_number_of_non_unbreakable_spaces
+	#Sudden death and Normal Hurry Up should fall at the same speed.
+	var falling_unbreakable_speed: float = hurry_up_time / globals.current_world.total_number_of_non_unbreakable_spaces
 	hurry_up_step_timer.wait_time = falling_unbreakable_speed
 	assert(falling_unbreakable_speed != 0)
 	var anim_time: float = 0.5
@@ -47,10 +47,16 @@ func start() -> void:
 		for i in range(falling_unbreakables_needed - len(falling_unbreakables)):
 			falling_unbreakable_spawner.spawn(null)
 
-func get_sudden_death_non_unbreakable_spaces():
+func connect_hurry_up_signals():
+	if not hurry_up_start.is_connected(globals.player_manager._on_hurry_up_start):
+		hurry_up_start.connect(globals.player_manager._on_hurry_up_start)
+	if not hurry_up_start.is_connected(globals.game.game_ui._on_hurry_up_start):
+		hurry_up_start.connect(globals.game.game_ui._on_hurry_up_start)
+
+func get_final_area_non_unbreakable_spaces():
 	var count: int = 0
 	@warning_ignore("INTEGER_DIVISION") # this is supposed to be an int div still don't now wy this is even a warning
-	var top_left: Vector2i = Vector2i((world_data.world_width - SUDDEN_DEATH_SIZE.x) / 2, (world_data.world_height - SUDDEN_DEATH_SIZE.y) / 2)
+	var top_left: Vector2i = Vector2i((world_data.world_width - FINAL_ARENA_SIZE.x) / 2, (world_data.world_height - FINAL_ARENA_SIZE.y) / 2)
 	var bottom_right: Vector2i = Vector2i(world_data.world_width, world_data.world_height) - top_left
 	for x in range(world_data.world_width):
 		for y in range(world_data.world_height):
@@ -84,13 +90,13 @@ func disable() -> void:
 
 func generate_spiral(width: int, height: int) -> Array[Vector2i]:
 	var spiral: Array[Vector2i]
-	if !SettingsContainer.get_sudden_death_state():
-		spiral.resize(width * height - SUDDEN_DEATH_SIZE.x * SUDDEN_DEATH_SIZE.y)
+	if not SettingsContainer.get_sudden_death_state():
+		spiral.resize(width * height - FINAL_ARENA_SIZE.x * FINAL_ARENA_SIZE.y)
 	else:
 		spiral.resize(width * height)
 	
 	@warning_ignore("INTEGER_DIVISION") # this is supposed to be an int div still don't now wy this is even a warning
-	var top_left: Vector2i = Vector2i((world_data.world_width - SUDDEN_DEATH_SIZE.x) / 2, (world_data.world_height - SUDDEN_DEATH_SIZE.y) / 2)
+	var top_left: Vector2i = Vector2i((world_data.world_width - FINAL_ARENA_SIZE.x) / 2, (world_data.world_height - FINAL_ARENA_SIZE.y) / 2)
 	var bottom_right: Vector2i = Vector2i(world_data.world_width, world_data.world_height) - top_left
 
 	var left: int = 0

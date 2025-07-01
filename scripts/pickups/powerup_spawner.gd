@@ -15,6 +15,7 @@ const INVUL_PICKUP_SCENE_PATH : String = "res://scenes/pickups/invul_star.tscn"
 const VIRUS_PICKUP_SCENE_PATH : String = "res://scenes/pickups/virus.tscn"
 const KICK_PICKUP_SCENE_PATH: String = "res://scenes/pickups/kick_ability.tscn"
 const FREEZE_PICKUP_SCENE_PATH: String = "res://scenes/pickups/clock.tscn"
+const REMOTE_PICKUP_SCENE_PATH: String = "res://scenes/pickups/remote_bomb.tscn"
 
 
 func _init():
@@ -47,6 +48,8 @@ func spawn_chosen_pickup(ptype: int) -> Pickup:
 			spawned_pickup = preload(PIERCING_BOMB_PICKUP_SCENE_PATH).instantiate()
 		globals.pickups.MINE:
 			spawned_pickup = preload(LAND_MINE_PICKUP_SCENE_PATH).instantiate()
+		globals.pickups.REMOTE:
+			spawned_pickup = preload(REMOTE_PICKUP_SCENE_PATH).instantiate()
 		globals.pickups.POWER_GLOVE:
 			spawned_pickup = preload(THROW_BOMB_PICKUP_SCENE_PATH).instantiate()
 		globals.pickups.INVINCIBILITY_VEST:

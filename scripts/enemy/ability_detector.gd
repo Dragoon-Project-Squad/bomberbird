@@ -19,12 +19,12 @@ func _ready() -> void:
 
 func check_ability_usage() -> int:
 	if !timeout_expired: return ability.NONE
-	timeout_expired = false
 	get_tree().create_timer(timeout).timeout.connect(func (): timeout_expired = true, CONNECT_ONE_SHOT)
 
 	self.enemy.curr_bomb = get_bomb()
 	if self.enemy.curr_bomb == null: return ability.NONE
 	if self.enemy.curr_bomb.type == HeldPickups.bomb_types.MINE: return ability.NONE
+	timeout_expired = false
 	var probability: float = _rand.randf()
 	if use_ability <= probability: return ability.NONE
 	var abilities: Array[int] = []
@@ -45,7 +45,7 @@ func get_bomb() -> BombRoot:
 	return bodies.pick_random().get_parent()
 
 func check_throw() -> bool:
-	if self.enemy.bomb_to_throw == null || self.enemy.movement_vector: return false
+	if self.enemy.bomb_to_throw == null: return false
 	return do_throw >= _rand.randf()
 
 func check_stop_kick() -> bool:

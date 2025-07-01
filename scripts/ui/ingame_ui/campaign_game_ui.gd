@@ -1,7 +1,8 @@
 extends CanvasLayer
 
 @onready var match_timer: Timer = %MatchTimer
-@onready var health_panel_container: Container = %HealthPanelContainer
+@onready var player_health_panel_container: Container = %PlayerHealthPanelContainer
+@onready var boss_health_panel_container: Container = %BossHealthPanelContainer
 @onready var time_label: Label = %TimeLabel
 @onready var score_label: Label = %ScoreLabel
 
@@ -9,12 +10,18 @@ const COLOR_ARR: Array[Color] = [Color8(255, 100, 100), Color8(100, 255, 255), C
 
 var player_health_panel: Array[HealthPanel]
 var used_player_health_panel_len: int = 0
+var boss_health_panel: Array[HealthPanel]
+var used_boss_health_panel_len: int = 0
 
 func _ready() -> void:
 	globals.game.game_ui = self
-	for child in health_panel_container.get_children():
+	for child in player_health_panel_container.get_children():
 		if child is HealthPanel:
 			player_health_panel.append(child)
+	for child in boss_health_panel_container.get_children():
+		if child is HealthPanel:
+			boss_health_panel.append(child)
+
 
 @rpc("call_local")
 func add_player(player_id: int, player_dict : Dictionary):
@@ -24,6 +31,22 @@ func add_player(player_id: int, player_dict : Dictionary):
 	player_health_panel[used_player_health_panel_len].update_icon(player_dict.spritepaths)
 	player_health_panel[used_player_health_panel_len].update_icon_color(COLOR_ARR[used_player_health_panel_len])
 	used_player_health_panel_len += 1
+
+func add_boss(health: int, health_signal: Signal, sprite_paths: Dictionary, color: Color) -> int:
+	assert(used_boss_health_panel_len <= 3, "attempted to add a 5th boss but only 4 are supported")
+	boss_health_panel[used_boss_health_panel_len].show()
+	boss_health_panel[used_boss_health_panel_len].update_health(health)
+	health_signal.connect(boss_health_panel[used_boss_health_panel_len].update_health)
+	boss_health_panel[used_boss_health_panel_len].update_icon(sprite_paths)
+	boss_health_panel[used_boss_health_panel_len].update_icon_color(color)
+	used_boss_health_panel_len += 1
+	return used_boss_health_panel_len - 1
+
+func delete_boss(health_signal: Signal, ui_idx: int):
+	if used_boss_health_panel_len <= ui_idx: return
+	boss_health_panel[ui_idx].hide()
+	health_signal.disconnect(boss_health_panel[ui_idx].update_health)
+	used_boss_health_panel_len -= 1
 
 
 func start_timer(gametime := 180):

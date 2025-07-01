@@ -8,6 +8,13 @@ signal options_menu_exited
 
 func _ready():
 	settings_tab_container.options_menu_exited.connect(_on_exit_pressed)
+	settings_tab_container.get_node("%SoundTest").options_menu = self
+
+func show_sound_test():
+	settings_tab_container.get_node("%SoundTest").hide()
+
+func hide_sound_test():
+	settings_tab_container.get_node("%SoundTest").hide()
 
 func switch_to_main_menu() -> void:
 	self.visible = false
@@ -17,7 +24,6 @@ func _on_exit_pressed() -> void:
 	if self.visible:
 		# stops the options menu music in the OptionsMenu node
 		options_music.stop(self)
-		
 		SettingsSignalBus.emit_set_settings_dictionary(SettingsContainer.create_storage_dictionary())
 		switch_to_main_menu()
 		#get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
