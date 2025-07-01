@@ -19,6 +19,7 @@ var curr_path: Array[Vector2] = []:
 			self.enemy.get_node("DebugMarker").position = val[-1]
 		curr_path = val
 var distance: int = 0
+var last_goal_pos: Vector2 = Vector2.ZERO
 
 func _enter():
 	assert(self.enemy is Boss)
@@ -32,6 +33,7 @@ func _exit():
 	curr_path = []
 	self.distance = 0
 	self.enemy.curr_target = null
+	self.last_goal_pos = Vector2.ZERO
 
 
 func _physics_update(delta):
@@ -62,7 +64,7 @@ func _physics_update(delta):
 		if self.enemy.movement_vector != Vector2.ZERO:
 			self.enemy.bomb_to_throw.do_throw(self.enemy.movement_vector, self.enemy.position)
 		else:
-			self.enemy.bomb_to_throw.do_throw(Vector2.DOWN, self.enemy.position)
+			self.enemy.bomb_to_throw.do_throw(self.enemy.last_movement_vector, self.enemy.position)
 		self.enemy.bomb_to_throw = null
 
 	if arrived && self.enemy.kicked_bomb && self.enemy.ability_detector.check_stop_kick():
@@ -73,6 +75,7 @@ func _physics_update(delta):
 		state_changed.emit(self, "dodge")
 		return
 	elif arrived && self.curr_path.is_empty(): #change to wander or ability
+		last_goal_pos = Vector2.ZERO
 		if detect(): return
 		state_changed.emit(self, "wander")
 		return
@@ -111,16 +114,29 @@ func get_chase_path() -> Array[Vector2]:
 		safe_tiles.append(world_data.tiles.BOMB)
 	var corrected_target_pos: Vector2i = world_data.tile_map.local_to_map(self.enemy.curr_target.position)
 	var goal_pos_arr: Array[Vector2] = []
-	for dir in [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT, Vector2i.DOWN]:
-		var goal_pos: Vector2 = world_data.tile_map.map_to_local(corrected_target_pos + dir * (_rng.randi_range(chase_min_dist, chase_max_dist)))
-		if valid_tile(goal_pos): goal_pos_arr.append(goal_pos)
-
 	var path: Array[Vector2]
+	if last_goal_pos != Vector2.ZERO:
+		path = world_data.get_target_path(self.enemy.position, last_goal_pos, true, safe_tiles)
+
+		if !path.is_empty():
+			path.pop_front()
+			return path
+	for dir in [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT, Vector2i.DOWN]:
+		var not_valid_dir: bool = false
+		for r in range(0, chase_max_dist + 1):
+			var goal_pos: Vector2 = world_data.tile_map.map_to_local(corrected_target_pos + dir * r)
+			if world_data.is_out_of_bounds(goal_pos) != world_data.bounds.IN || world_data.is_tile(world_data.tiles.UNBREAKABLE, goal_pos):
+				not_valid_dir = true
+				break
+			if valid_tile(goal_pos) && r >= chase_min_dist: goal_pos_arr.append(goal_pos)
+
+	goal_pos_arr.shuffle()
 	for goal_pos in goal_pos_arr:
 		path = world_data.get_target_path(self.enemy.position, goal_pos, true, safe_tiles)
 
 		if !path.is_empty():
 			path.pop_front()
+			last_goal_pos = goal_pos
 			break
 
 	return path 

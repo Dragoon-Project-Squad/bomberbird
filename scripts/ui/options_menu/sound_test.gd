@@ -7,7 +7,7 @@ extends Control
 var selected_mus = "st_doki_comes_home"
 var selected_sfx = "snd_click"
 
-@onready var options_menu = get_node("/root/MainMenu/OptionsMenu")
+var options_menu
 
 enum music_enum {DOKIDOKICOMESHOME, DRAGOONCAFE, BHJAM, RUSH, DADDRIVE, MINKI}
 enum sfx_enum {CLICK, ERROR, EXPLODE, DEBRIS, PICKUP, DEFEATED, PLACE, THROW, LAND, SECRET}

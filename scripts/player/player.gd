@@ -40,11 +40,14 @@ var _died_barrier: bool = false
 var stop_movement: bool = false
 var outside_of_game: bool = false
 
-
 var time_is_stopped: bool = false
 var player_type: String
 var hurry_up_started: bool = false 
 var misobon_player: MisobonPlayer
+var last_movement_vector: Vector2 = Vector2(1, 0):
+	set(val):
+		if val.length() == 0: return
+		last_movement_vector = val
 
 var game_ui
 
@@ -288,10 +291,18 @@ func place_bomb():
 #endregion
 
 ## updates the animation depending on the movement direction
-func update_animation(direction: Vector2):
-	var new_anim: String = "standing"
+func update_animation(direction: Vector2, old_direction: Vector2):
+	var new_anim: String = "standing_down"
 	if direction.length() == 0:
-		new_anim = "standing"
+		assert(old_direction.length() != 0)
+		if old_direction.y < 0:
+			new_anim = "standing_up"
+		elif old_direction.y > 0:
+			new_anim = "standing_down"
+		elif old_direction.x < 0:
+			new_anim = "standing_left"
+		elif old_direction.x > 0:
+			new_anim = "standing_right"
 	elif direction.y < 0:
 		new_anim = "walk_up"
 	elif direction.y > 0:
@@ -593,6 +604,8 @@ func do_invulnerabilty(time: float = INVULNERABILITY_SPAWN_TIME):
 
 func stop_invulnerability():
 	self.invul_player.stop()
+	if self.invul_timer && self.invul_timer.timeout.is_connected(stop_invulnerability):
+		self.invul_timer.timeout.disconnect(stop_invulnerability)
 	self.invulnerable = false
 	self.invul_timer = null
 	self.pickups.held_pickups[globals.pickups.INVINCIBILITY_VEST] = false

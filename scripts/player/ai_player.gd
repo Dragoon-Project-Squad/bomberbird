@@ -25,14 +25,19 @@ func _physics_process(delta):
 		# The client simply updates the position to the last known one.
 		position = synced_position
 	
-	if stop_movement || time_is_stopped || outside_of_game: return
+
+	if time_is_stopped:
+		update_animation(Vector2.ZERO, last_movement_vector)
+		return
+	if outside_of_game || stop_movement: return
+	last_movement_vector = movement_vector.normalized()
 	
 	# Also update the animation based on the last known player input state
 	if !is_dead && !stunned:
 		velocity = movement_vector.normalized() * movement_speed
 		move_and_slide()
 		# Also update the animation based on the last known player input state
-		update_animation(movement_vector.normalized())
+		update_animation(inputs.motion, self.last_movement_vector)
 
 func _on_object_detection_area_entered(area):
 	var body = area.get_parent()
