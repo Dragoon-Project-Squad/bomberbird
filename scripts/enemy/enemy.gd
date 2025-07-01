@@ -27,6 +27,10 @@ const INVULNERABILITY_TIME: float = 2
 @export_group("Multiplayer Variables")
 @export var movement_vector = Vector2(0,0)
 @export var synced_position := Vector2()
+var last_movement_vector: Vector2 = Vector2(1, 0):
+	set(val):
+		if val.length() == 0: return
+		last_movement_vector = val
 
 var current_anim: String = ""
 var enemy_path: String = ""
@@ -60,13 +64,22 @@ func init_clipping() -> void:
 
 func _physics_process(_delta):
 	# update the animation based on the last known player input state
+	last_movement_vector = movement_vector.normalized()
 	if stunned || stop_moving: return
-	update_animation(movement_vector.normalized())
+	update_animation(movement_vector.normalized(), last_movement_vector)
 
-func update_animation(direction: Vector2):
-	var new_anim: String = "standing"
+func update_animation(direction: Vector2, old_direction: Vector2 = Vector2.DOWN):
+	var new_anim: String = "standing_down"
 	if direction.length() == 0:
-		new_anim = "standing"
+		assert(old_direction.length() != 0)
+		if old_direction.y < 0:
+			new_anim = "standing_up"
+		elif old_direction.y > 0:
+			new_anim = "standing_down"
+		elif old_direction.x < 0:
+			new_anim = "standing_left"
+		elif old_direction.x > 0:
+			new_anim = "standing_right"
 	elif direction.y < 0:
 		new_anim = "walk_up"
 	elif direction.y > 0:
@@ -95,6 +108,8 @@ func do_invulnerabilty(time: float = INVULNERABILITY_TIME):
 
 func stop_invulnerability():
 	self.invul_player.stop()
+	if self.invul_timer && self.invul_timer.timeout.is_connected(stop_invulnerability):
+		self.invul_timer.timeout.disconnect(stop_invulnerability)
 	self.invulnerable = false
 	self.invul_timer = null
 

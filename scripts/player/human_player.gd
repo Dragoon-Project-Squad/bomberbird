@@ -57,12 +57,17 @@ func _physics_process(delta: float):
 	else:
 		# The client simply updates the position to the last known one.
 		position = synced_position
+
 	
-	if stop_movement || time_is_stopped || outside_of_game: return
+	if time_is_stopped:
+		update_animation(Vector2.ZERO, last_movement_vector)
+		return
+	if stop_movement || outside_of_game: return
+	last_movement_vector = inputs.motion.normalized()
 	
 	var direction: Vector2 = (
 		inputs.motion.normalized() if inputs.motion != Vector2.ZERO 
-		else Vector2.DOWN
+		else last_movement_vector
 	).sign()
 	if direction.x != 0 and direction.y != 0:
 		direction = [Vector2(direction.x, 0), Vector2(0, direction.y)][randi() % 2]
@@ -97,7 +102,7 @@ func _physics_process(delta: float):
 		velocity = inputs.motion.normalized() * movement_speed
 		move_and_slide()
 		# Also update the animation based on the last known player input state
-		update_animation(inputs.motion)
+		update_animation(inputs.motion, self.last_movement_vector)
 	
 	if inputs.remote_ability:
 		call_remote_bomb()

@@ -12,11 +12,13 @@ func _on_continue_pressed() -> void:
 func _on_settings_pressed() -> void:
 	pause_menu_ui.hide()
 	options_menu.show()
+	options_menu.hide_sound_test()
 	#options_menu.options_music.post(options_menu)
 
 func _on_option_menu_exited() -> void:
 	pause_menu_ui.show()
 	options_menu.hide()
+	options_menu.show_sound_test()
 
 func _on_exit_pressed() -> void:
 	get_tree().paused = false

@@ -12,6 +12,7 @@ signal correct_secret_inputted
 @export var error_sound: WwiseEvent
 @export var correct_sound: WwiseEvent
 
+
 func _process(_delta):
 	options_menu_inputs()
 

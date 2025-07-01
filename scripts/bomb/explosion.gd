@@ -32,6 +32,8 @@ func reset():
 	
 	hide()
 	$AnimationPlayer.stop()
+	if $AnimationPlayer.animation_finished.is_connected(finish_detonate):
+		$AnimationPlayer.animation_finished.disconnect(finish_detonate)
 	detection_area.get_child(0).set_deferred("disabled", 1)
 	detection_area.get_child(1).set_deferred("disabled", 1)
 	process_mode = PROCESS_MODE_DISABLED
@@ -99,9 +101,11 @@ func do_detonate():
 	process_mode = PROCESS_MODE_INHERIT
 	detection_area.get_child(0).set_deferred("disabled", 0)
 	detection_area.get_child(1).set_deferred("disabled", 0)
-	await $AnimationPlayer.animation_finished
-	self.is_finished_exploding.emit()
+	$AnimationPlayer.animation_finished.connect(finish_detonate, CONNECT_ONE_SHOT)
 
+func finish_detonate(anim_name: String):
+	assert(anim_name == "boom")
+	self.is_finished_exploding.emit()
 	
 func _on_body_entered(body: Node2D) -> void:
 	if is_multiplayer_authority() && body.has_method("exploded"):
