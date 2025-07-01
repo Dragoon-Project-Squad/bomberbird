@@ -12,7 +12,7 @@
 [ext_resource type="Script" uid="uid://cj45k03q8plvf" path="res://scripts/ai_state/ai_state_machine.gd" id="8_5j1t4"]
 [ext_resource type="Script" uid="uid://cic1u132cjhpf" path="res://scripts/ai_state/ai_wander.gd" id="9_67dp8"]
 [ext_resource type="Script" uid="uid://boifqm64sjt73" path="res://scripts/ai_state/ai_dodge.gd" id="10_aefyb"]
-[ext_resource type="Script" uid="uid://0ywunhnh15xu" path="res://scripts/ai_state/ai_bomb.gd" id="11_njo8t"]
+[ext_resource type="Script" uid="uid://b27rh453d1gqt" path="res://scripts/ai_state/ai_bomb.gd" id="11_njo8t"]
 [ext_resource type="Script" uid="uid://dprat677sf6sb" path="res://scripts/ai_state/ai_safe.gd" id="12_ulae3"]
 
 [sub_resource type="Resource" id="Resource_2solf"]
@@ -185,21 +185,6 @@ _data = {
 &"RESET": SubResource("Animation_xhrxh")
 }
 
-[sub_resource type="Animation" id="Animation_5hw36"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("sprite:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
 [sub_resource type="Animation" id="Animation_jvckf"]
 resource_name = "Invul"
 length = 0.1
@@ -227,6 +212,21 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_5hw36"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7v3pb"]
