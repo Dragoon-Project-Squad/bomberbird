@@ -398,7 +398,7 @@ pivot_offset = Vector2(52.5, 74.5)
 size_flags_horizontal = 4
 theme = ExtResource("15_egtpy")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 0.355007)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 theme_override_constants/outline_size = 25
 theme_override_font_sizes/font_size = 161
 text = "1"
@@ -409,4 +409,5 @@ metadata/_edit_use_anchors_ = true
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
 auto_translate_mode = 1
 
+[connection signal="matchtimer_timeout" from="MultiplayerGameUI" to="." method="_on_multiplayer_game_ui_matchtimer_timeout"]
 [connection signal="confirmed" from="ErrorDialog" to="." method="_on_error_dialog_confirmed"]

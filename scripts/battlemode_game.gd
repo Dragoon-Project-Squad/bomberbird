@@ -70,6 +70,8 @@ func lock_misobon():
 func start_stage_start_countdown() -> Signal:
 	game_anim_player.play("countdown")
 	return game_anim_player.animation_finished
+	#Animation contains unfreeze_players()
+	#Animation contains activate_ui_and_music()
 
 func activate_ui_and_music():
 	stage.start_music()
@@ -104,11 +106,11 @@ func stop_the_match():
 	game_ended = true
 	stage.stop_music()
 	stage.stop_hurry_up()
-	%MatchTimer.stop()
-	game_ui.stop_timer()
+	if not %MatchTimer.is_stopped():
+		%MatchTimer.stop()
+		game_ui.stop_timer()
 	lock_misobon()
 	defuse_all_bombs()
-	# Halt Hurry Up
 	
 func play_fade_out():
 	game_anim_player.play("fade_out")
@@ -165,3 +167,16 @@ func _on_error_dialog_confirmed() -> void:
 		gamestate.peer.close()
 	if is_inside_tree():
 		get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+
+
+func _on_multiplayer_game_ui_matchtimer_timeout() -> void:
+	#DRAW GAME DUE TO TIME
+	stop_the_match()
+	freeze_players()
+	await play_fade_out()
+	await get_tree().create_timer(2).timeout
+	#RESET GAME STATE
+	reset_players() 
+	wipe_stage() #Must occur after players reset to avoid AI pathing error.
+	#LOAD NEW STAGE
+	load_new_stage()
