@@ -1,11 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://crrkmxwyf4bqw"]
+[gd_scene load_steps=6 format=3 uid="uid://crrkmxwyf4bqw"]
 
 [ext_resource type="Script" uid="uid://7qjp01vhgu48" path="res://scripts/bomb/bomb_root_fsm.gd" id="1_pel47"]
 [ext_resource type="PackedScene" uid="uid://ct3sf5ul21w14" path="res://scenes/bombs/stationary_bomb.tscn" id="2_ijtvv"]
 [ext_resource type="PackedScene" uid="uid://cag7boglclvqo" path="res://scenes/bombs/airborn_bombs.tscn" id="3_mn2mc"]
 [ext_resource type="PackedScene" uid="uid://nvwyn5bi81k6" path="res://scenes/bombs/sliding_bomb.tscn" id="4_rr0ry"]
 
-[node name="BombRoot" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rr0ry"]
+size = Vector2(30, 30)
+
+[node name="BombRoot" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 34
 script = ExtResource("1_pel47")
 
 [node name="StationaryBomb" parent="." groups=["thrown_bomb_bounces"] instance=ExtResource("2_ijtvv")]
@@ -17,3 +22,6 @@ unique_name_in_owner = true
 
 [node name="SlidingBomb" parent="." groups=["should_be_wrapped"] instance=ExtResource("4_rr0ry")]
 unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_rr0ry")
