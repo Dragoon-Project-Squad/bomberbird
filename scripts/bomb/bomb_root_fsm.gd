@@ -1,5 +1,5 @@
 #BombRoot is responsible the handle any outside interaction with bombs or in otherwords if any outside object want to interact with a bomb it must call to a function in this file. BombRoot then may or may not change its state if nessessary (hence hand authority to another child node) and give the appropiate information to the appropiate child to handle the interaction.
-class_name BombRoot extends Node2D
+class_name BombRoot extends CharacterBody2D
 
 signal bomb_finished
 
