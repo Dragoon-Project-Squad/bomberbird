@@ -1,4 +1,4 @@
-[gd_resource type="AnimationLibrary" load_steps=15 format=3 uid="uid://b6igytp0a077"]
+[gd_resource type="AnimationLibrary" load_steps=16 format=3 uid="uid://b6igytp0a077"]
 
 [sub_resource type="Animation" id="Animation_mullw"]
 length = 0.2
@@ -516,11 +516,114 @@ tracks/1/keys = {
 "values": [3.14159]
 }
 
+[sub_resource type="Animation" id="Animation_xqoro"]
+length = 1.0
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [18]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MountSprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.133333, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("sprite:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.0833333, 0.1, 0.116667, 0.133333, 0.15, 0.1501, 0.166667, 0.183333, 0.2, 0.216667, 0.233333, 0.25, 0.283333, 0.3, 0.316667, 0.333333, 0.366667, 0.4, 0.416667, 0.533333, 0.566667, 0.583333, 0.616667, 0.633333, 0.666667, 0.683333, 0.7, 0.733333, 0.75, 0.766667, 0.783333, 0.816667, 0.833333, 0.85, 0.866667, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 6), Vector2(0, 5), Vector2(0, 4), Vector2(0, 3), Vector2(0, 2), Vector2(0, 1), Vector2(0, 0), Vector2(1, 0), Vector2(0, -1), Vector2(0, -2), Vector2(0, -3), Vector2(0, -4), Vector2(0, -5), Vector2(0, -6), Vector2(0, -7), Vector2(0, -8), Vector2(0, -9), Vector2(0, -10), Vector2(0, -11), Vector2(0, -12), Vector2(0, -12), Vector2(0, -12), Vector2(0, -11), Vector2(0, -10), Vector2(0, -9), Vector2(0, -8), Vector2(0, -7), Vector2(0, -6), Vector2(0, -5), Vector2(0, -4), Vector2(0, -3), Vector2(0, -2), Vector2(0, -1), Vector2(0, 0), Vector2(0, 1), Vector2(0, 2), Vector2(0, 3), Vector2(0.075, 6.236)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("FrontArea:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("MountSprite:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [18]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.9),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"set_sprite_to_mounted"
+}]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:invulnerable")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath(".:stunned")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
 [resource]
 _data = {
 &"crush": SubResource("Animation_mullw"),
 &"death": SubResource("Animation_ivjsy"),
 &"hurt": SubResource("Animation_23qrq"),
+&"mount_summoned": SubResource("Animation_xqoro"),
 &"revive": SubResource("Animation_uhsui"),
 &"standing_down": SubResource("2"),
 &"standing_left": SubResource("Animation_x4bq8"),
