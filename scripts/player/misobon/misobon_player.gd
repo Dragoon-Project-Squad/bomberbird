@@ -33,7 +33,7 @@ func _process(_delta: float) -> void:
 ## set the given player to the owner of this misobon player
 func set_player(player_id: int):
 	self.player = get_node("../../Players/" + str(player_id))
-	$sprite.texture = player.get_node("./sprite").texture
+	$sprite.texture = player.spritepaths.walk
 
 @rpc("call_local")
 func enable(starting_progress: float):

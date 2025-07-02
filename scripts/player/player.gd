@@ -63,6 +63,7 @@ var bomb_to_throw: BombRoot
 var bomb_kicked: BombRoot
 var mine_placed: bool
 var remote_bombs: Array[int]
+var spritepaths: Dictionary
 
 @export_subgroup("player properties") #Set in inspector
 @export var movement_speed: float = BASE_MOTION_SPEED
@@ -533,6 +534,12 @@ func disable_bombclip():
 @rpc("call_local")
 func mount_dragoon():
 	is_mounted = true
+	#invulnerable = true
+	#stunned = true
+	#animation_player.play("player_animations/mount_summoned")
+	#await animation_player.animation_finished
+	#invulnerable = false
+	#stunned = false
 	print("Mount time!")
 	
 @rpc("call_local")
@@ -603,8 +610,18 @@ func crush():
 	_died_barrier = true
 	do_crushed_state()
 
-func set_selected_character(value_path : String):
+func set_active_sprite(value_path : String):
 	$sprite.texture = load(value_path)
+	
+func set_selected_spritepaths(newspritepaths : Dictionary):
+	spritepaths = newspritepaths.duplicate()
+	set_active_sprite(spritepaths.walk)
+
+func set_sprite_to_mounted() -> void:
+	set_active_sprite(spritepaths.mount)
+
+func set_sprite_to_walk() -> void:
+	set_active_sprite(spritepaths.walk)
 
 ## starts the invulnerability and its animation
 @rpc("call_local")

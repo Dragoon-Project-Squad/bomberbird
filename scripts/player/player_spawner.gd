@@ -18,5 +18,5 @@ func _spawn_player(data) -> Player:
 	spawningplayer.synced_position = data.spawndata
 	spawningplayer.name = str(data.pid)
 	spawningplayer.set_player_name(data.defaultname if data.pid == multiplayer.get_unique_id() || data.pid == 1 else data.playerdict.playername)
-	spawningplayer.set_selected_character(data.playerdict.spritepaths.walk)
+	spawningplayer.set_selected_spritepaths(data.playerdict.spritepaths)
 	return spawningplayer
