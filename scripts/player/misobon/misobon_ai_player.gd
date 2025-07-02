@@ -27,4 +27,3 @@ func reset(pos: Vector2):
 	move_direction = 0
 	ai_throw_bomb = false
 	state_machine.reset()
-
