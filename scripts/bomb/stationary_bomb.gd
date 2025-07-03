@@ -5,9 +5,6 @@ class_name Bomb
 @onready var bomb_root: BombRoot = get_parent()
 @onready var bomb_pool: Node2D = get_parent().get_parent()
 
-# speed = to base player movement speed
-const BASE_SEEKERBOMB_SPEED: float = (32 * 2)
-
 var explosion_width := 2
 const MAX_EXPLOSION_WIDTH := 8
 var animation_finish := false
@@ -18,17 +15,6 @@ var is_exploded: bool = false
 var pierce := false
 var mine := false
 var remote := false
-var seeker := false
-
-# seeker vars
-var seeker_target
-var seeking := false
-var moving := false
-var movement_vector := Vector2(0, 0)
-var next_point : Vector2
-var velocity
-var arrival_tolerance: float = 1
-var waiting := false
 
 ## A Wwise event containing the bomb placing sound effect. Trigger with .post(self)
 @export var bomb_place_audio: WwiseEvent
@@ -48,20 +34,6 @@ func _ready():
 	self.explosion.has_killed.connect(_kill)
 	self.visible = false
 	BombSignalBus.call_bomb.connect(remote_call_recieved)
-
-func _physics_process(delta):
-	if !is_multiplayer_authority(): return
-	if waiting:
-		seeking_path()
-	if seeking:
-		if moving:
-			print("moving")
-			bomb_root.velocity = movement_vector.normalized() * BASE_SEEKERBOMB_SPEED
-			bomb_root.move_and_slide()
-			self.global_position = bomb_root.global_position
-			move_to_next_point()
-			if reached_next_point():
-				seeking_path()
 
 func disable():
 	self.position = Vector2.ZERO
@@ -89,7 +61,7 @@ func set_bomb_type(bomb_type: int):
 		HeldPickups.bomb_types.REMOTE:
 			remote = true
 		HeldPickups.bomb_types.SEEKER:
-			seeker = true
+			pass
 		_: # bomb type does not exist
 			return
 
@@ -121,11 +93,6 @@ func hide_mine():
 
 ## started the detonation call chain, calculates the true range of the explosion by checking for any breakables in its path, destroys those and corrects its exposion size before telling the exposion child to activate
 func detonate():
-	if seeker:
-		seeking = false
-		#centers the bomb to its closest cell before exploding
-		#bomb_root.global_position = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(bomb_root.global_position))
-		#self.global_position = bomb_root.global_position
 	is_exploded = true
 	explosion_audio.post(self)
 	var exp_range = {Vector2i.RIGHT: explosion_width, Vector2i.DOWN: explosion_width, Vector2i.LEFT: explosion_width, Vector2i.UP: explosion_width}
@@ -259,38 +226,3 @@ func _on_detect_area_body_exit(body: Node2D):
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name != "idle":
 		animation_finish = true
-
-# Start of functions added for seeking bomb
-## Player and enemy detection, starts movement, locked on the first body to enter
-func _on_enemy_chasing_area_body_entered(body):
-	if seeker and not seeking:
-		if (body is Enemy) or (body is Player):
-			if body == bomb_root.bomb_owner:
-				return
-			seeker_target = body
-			seeking = true
-			moving = true
-			seeking_path()
-
-## Creates pathing to find the next cell to move to
-func seeking_path() -> void:
-	if seeker_target:
-		var target_cell_pos = world_data.tile_map.local_to_map(seeker_target.global_position)
-		var path = astargrid_handler.create_path(bomb_root.global_position, target_cell_pos)
-		if path.size() <= 1:
-			waiting = true
-			return
-		path.pop_front()
-		next_point = world_data.tile_map.map_to_local(path.pop_front())
-		waiting = false
-
-## Generates the movement vector for the seeking bomb
-func move_to_next_point() -> void:
-	if !is_multiplayer_authority(): return
-	if next_point && bomb_root.global_position.distance_to(next_point) > arrival_tolerance:
-		movement_vector = Vector2(next_point.x - bomb_root.global_position.x, next_point.y - bomb_root.global_position.y)
-	else:
-		movement_vector = Vector2(0, 0)
-	
-func reached_next_point() -> bool:
-	return bomb_root.global_position.distance_to(next_point) < arrival_tolerance

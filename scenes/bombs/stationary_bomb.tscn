@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://ct3sf5ul21w14"]
+[gd_scene load_steps=13 format=3 uid="uid://ct3sf5ul21w14"]
 
 [ext_resource type="Script" uid="uid://bqtpsqboowpbk" path="res://scripts/bomb/stationary_bomb.gd" id="1"]
 [ext_resource type="WwiseEvent" uid="uid://dwwb8yu7cd33h" path="res://Wwise/resources/Event/{13841212-A10A-4076-B4A6-0A27CC773EE7}.tres" id="2_0y1f5"]
@@ -138,9 +138,6 @@ _data = {
 &"mine_explode": SubResource("Animation_5ti60")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_0y1f5"]
-radius = 80.0
-
 [node name="Bomb" type="StaticBody2D"]
 texture_filter = 1
 collision_layer = 8
@@ -199,14 +196,6 @@ region_rect = Rect2(0, 0, 96, 32)
 
 [node name="Explosion" parent="." instance=ExtResource("4_4i8os")]
 
-[node name="EnemyChasingArea" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 34
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyChasingArea"]
-shape = SubResource("CircleShape2D_0y1f5")
-
 [connection signal="body_entered" from="DetectArea" to="." method="_on_detect_area_body_entered"]
 [connection signal="body_exited" from="DetectArea" to="." method="_on_detect_area_body_exit"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
-[connection signal="body_entered" from="EnemyChasingArea" to="." method="_on_enemy_chasing_area_body_entered"]
