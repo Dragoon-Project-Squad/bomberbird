@@ -30,6 +30,9 @@ const INVULNERABILITY_POWERUP_TIME: float = 16.0
 @export var synced_position := Vector2()
 @export var stunned: bool = false
 @export var invulnerable: bool = false
+@export var time_is_stopped: bool = false
+@export var is_dead: bool = false
+@export var stop_movement: bool = false
 
 @onready var hurt_sfx_player := $HurtSoundPlayer
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -39,10 +42,8 @@ var current_anim: String = ""
 var is_dead: bool = false
 var is_mounted: bool = false
 var _died_barrier: bool = false
-var stop_movement: bool = false
 var outside_of_game: bool = false
 
-var time_is_stopped: bool = false
 var player_type: String
 var hurry_up_started: bool = false 
 var misobon_player: MisobonPlayer
@@ -64,6 +65,7 @@ var bomb_kicked: BombRoot
 var mine_placed: bool
 var remote_bombs: Array[int]
 var spritepaths: Dictionary
+var remote_bomb_id: int = 0
 
 @export_subgroup("player properties") #Set in inspector
 @export var movement_speed: float = BASE_MOTION_SPEED
@@ -91,6 +93,7 @@ var is_reverse = false
 var is_nonstop = false
 var is_unbomb = false
 var drop_timer = 0
+var pre_virus_speed = BASE_MOTION_SPEED
 const AUTODROP_INTERVAL = 3
 
 func _ready():
@@ -106,7 +109,7 @@ func _ready():
 	movement_speed_reset = movement_speed
 	bomb_total_reset = bomb_total
 	explosion_boost_count_reset = explosion_boost_count
-	remote_bombs.resize(6)
+	remote_bombs.resize(8)
 	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
 		player_health_updated.connect(func (s: Player, health: int): game_ui.update_health(health, int(s.name)))
 	match globals.current_gamemode:
@@ -155,6 +158,10 @@ func _process(delta: float):
 
 func _physics_process(_delta: float):
 	pass
+
+@rpc("call_local")
+func add_pickup(pickup_type: int):
+	pickups.add(pickup_type)
 
 func place(pos: Vector2):
 	process_mode = PROCESS_MODE_INHERIT
@@ -258,10 +265,14 @@ func kick_bomb(direction: Vector2i):
 		bomb_kicked = null
 
 func call_remote_bomb():
-	if pickups.held_pickups[globals.pickups.GENERIC_BOMB] != pickups.bomb_types.REMOTE:
-		return
-	var number = remote_bombs.get(0)
-	BombSignalBus.call_bomb.emit(number if number != null else -1)
+	if !is_multiplayer_authority(): return
+	if pickups.held_pickups[globals.pickups.GENERIC_BOMB] != pickups.bomb_types.REMOTE: return
+	emit_remote_call_bomb.rpc()
+
+@rpc("call_local")
+func emit_remote_call_bomb():
+	if remote_bombs.is_empty(): return
+	globals.player_manager.remote_call_bomb.emit(str(self.name), remote_bombs.pop_front()) #removing the element here is fine since the return bomb func calls erase and erase will just do nothing if the element is not in the array
 
 ## places a bomb if the current position is valid
 func place_bomb():
@@ -275,9 +286,6 @@ func place_bomb():
 	# Adding bomb to astargrid so bombs have collision inside the grid
 	astargrid_handler.astargrid_set_point(synced_position, true)
 	
-	var bomb_phone_number := randi()
-	remote_bombs.push_back(bomb_phone_number)
-	
 	if is_multiplayer_authority():
 		var bomb: BombRoot = bomb_pool.request()
 		bomb.set_bomb_owner.rpc(self.name)
@@ -289,11 +297,17 @@ func place_bomb():
 				bomb.set_bomb_type.rpc(HeldPickups.bomb_types.DEFAULT)
 		else:
 			bomb.set_bomb_type.rpc(pickups.held_pickups[globals.pickups.GENERIC_BOMB])
+
+		if pickups.held_pickups[globals.pickups.GENERIC_BOMB] == pickups.bomb_types.REMOTE:
+			bomb.set_bomb_number.rpc(remote_bomb_id)
+			register_remote_bomb.rpc()
 		bomb.set_fuse_length.rpc(fuse_speed)
-		bomb.set_bomb_number.rpc(bomb_phone_number)
 		bomb.do_place.rpc(bombPos, -1 if infected_explosion else explosion_boost_count)
 
-#endregion
+@rpc("call_local")
+func register_remote_bomb():
+	remote_bombs.push_back(remote_bomb_id)
+	remote_bomb_id += 1
 
 ## updates the animation depending on the movement direction
 func update_animation(direction: Vector2, old_direction: Vector2):
@@ -381,6 +395,8 @@ func reset():
 	if self.invul_timer: self.invul_timer.timeout.disconnect(stop_invulnerability)
 	stop_invulnerability()
 	process_mode = PROCESS_MODE_DISABLED
+	self.remote_bombs.clear()
+	self.remote_bomb_id = 0
 	self.bomb_to_throw = null
 	self.current_anim = ""
 	self.bomb_kicked = null
@@ -570,7 +586,7 @@ func return_bomb(is_mine := false):
 	if pickups.held_pickups[globals.pickups.GENERIC_BOMB] == HeldPickups.bomb_types.MINE and is_mine:
 		mine_placed = false
 	bomb_count = min(bomb_count+1, bomb_total)
-	remote_bombs.pop_front()
+	remote_bombs.erase(remote_bomb_id)
 
 @rpc("call_local")
 ## plays the victory animation and stops the player from moving
@@ -656,6 +672,7 @@ func stop_invulnerability():
 @rpc("call_local")
 func virus():
 	is_virus = true
+	pre_virus_speed = movement_speed
 	match pickups.held_pickups[globals.pickups.VIRUS]:
 		pickups.virus.SPEEDDOWN:
 			print("Slow movement!")
@@ -694,10 +711,11 @@ func virus():
 
 @rpc("call_local")	
 func unvirus():
+	if !is_virus: return
 	is_virus = false
 	infected_explosion = false
 	fuse_speed = BombRoot.FUSES.NORMAL
-	movement_speed = BASE_MOTION_SPEED
+	movement_speed = pre_virus_speed
 	is_autodrop = false
 	is_reverse = false
 	is_nonstop = false

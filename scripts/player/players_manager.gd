@@ -2,6 +2,7 @@
 class_name PlayerManager extends Node2D
 
 signal alive_players_changed
+signal remote_call_bomb(id: int)
 
 @onready var players_left = gamestate.total_player_count
 

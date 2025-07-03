@@ -107,6 +107,7 @@ func _physics_process(delta: float):
 	if inputs.remote_ability:
 		call_remote_bomb()
 		
+
 @rpc("call_local")
 func reset():
 	set_bomb_pressed_once = false
