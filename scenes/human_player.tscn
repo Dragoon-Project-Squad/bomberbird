@@ -251,6 +251,12 @@ properties/4/replication_mode = 2
 properties/5/path = NodePath(".:visible")
 properties/5/spawn = true
 properties/5/replication_mode = 2
+properties/6/path = NodePath(".:stop_movement")
+properties/6/spawn = true
+properties/6/replication_mode = 2
+properties/7/path = NodePath(".:time_is_stopped")
+properties/7/spawn = true
+properties/7/replication_mode = 2
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_w53uu"]
 properties/0/path = NodePath(".:motion")
@@ -265,6 +271,12 @@ properties/2/replication_mode = 1
 properties/3/path = NodePath(".:secondary_ability")
 properties/3/spawn = true
 properties/3/replication_mode = 1
+properties/4/path = NodePath(".:throw_ability")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath(".:remote_ability")
+properties/5/spawn = true
+properties/5/replication_mode = 1
 
 [node name="player" type="CharacterBody2D"]
 z_index = 10
