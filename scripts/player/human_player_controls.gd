@@ -1,17 +1,18 @@
 extends Node
 
-var motion = Vector2():
+@export var motion = Vector2():
 	set(value):
 		# This will be sent by players, make sure values are within limits.
 		motion = clamp(value, Vector2(-1, -1), Vector2(1, 1))
 
-var bombing := false
-var hold_bomb := false
-var throw_ability := false
-var punch_ability := false
-var secondary_ability := false
-var remote_ability := false
-var last_input = Vector2(0,0)
+@export var bombing := false
+@export var hold_bomb := false
+@export var throw_ability := false
+@export var punch_ability := false
+@export var secondary_ability := false
+@export var remote_ability := false
+@export var last_input = Vector2(0,0)
+## Keep these as exports so the InputsSync can see them
 
 func update():
 	var m = Vector2()
