@@ -545,6 +545,9 @@ func mount_dragoon():
 @rpc("call_local")
 func mount_exploded():
 	is_mounted = false
+	set_sprite_to_walk()
+	$sprite.position = Vector2(0.075,6.236)
+	do_invulnerabilty.rpc()
 	print("Mount killed!")
 
 @rpc("call_local")
@@ -621,7 +624,7 @@ func set_sprite_to_mounted() -> void:
 
 func set_sprite_to_walk() -> void:
 	set_active_sprite(spritepaths.walk)
-
+	
 ## starts the invulnerability and its animation
 @rpc("call_local")
 func do_invulnerabilty(time: float = INVULNERABILITY_SPAWN_TIME):
