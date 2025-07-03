@@ -225,7 +225,7 @@ func throw_bomb_effect():
 
 func kick_bomb(direction: Vector2i):
 	if(globals.game.stage_done): return
-	if pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] != pickups.exclusive.KICK:
+	if not pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] == pickups.exclusive.KICK and not is_mounted:
 		return 1
 	
 	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
@@ -534,12 +534,12 @@ func disable_bombclip():
 @rpc("call_local")
 func mount_dragoon():
 	is_mounted = true
-	#invulnerable = true
-	#stunned = true
-	#animation_player.play("player_animations/mount_summoned")
-	#await animation_player.animation_finished
-	#invulnerable = false
-	#stunned = false
+	invulnerable = true
+	stunned = true
+	animation_player.play("player_animations/mount_summoned")
+	await animation_player.animation_finished
+	invulnerable = false
+	stunned = false
 	print("Mount time!")
 	
 @rpc("call_local")
@@ -587,12 +587,11 @@ func do_hurt() -> void:
 @rpc("call_local")
 ## kills this player and awards whoever killed it
 func exploded(_by_who):
-	if stunned || invulnerable || stop_movement: return
-	if _died_barrier: return
-	_died_barrier = true
+	if stunned || invulnerable || stop_movement || _died_barrier: return
 	if is_mounted:
 		mount_exploded()
 		return
+	_died_barrier = true
 	lives -= 1
 	hurt_sfx_player.post_event()
 	if lives <= 0:
@@ -602,7 +601,7 @@ func exploded(_by_who):
 		match globals.current_gamemode:
 			globals.gamemode.BATTLEMODE: do_stun()
 			globals.gamemode.CAMPAIGN: do_hurt()
-			_: push_error("A player died while no gamemode was active")
+			_: push_error("A player was exploded while no gamemode was active")
 
 @rpc("call_local")
 func crush():
