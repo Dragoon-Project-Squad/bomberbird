@@ -16,7 +16,8 @@ const VIRUS_PICKUP_SCENE_PATH : String = "res://scenes/pickups/virus.tscn"
 const KICK_PICKUP_SCENE_PATH: String = "res://scenes/pickups/kick_ability.tscn"
 const FREEZE_PICKUP_SCENE_PATH: String = "res://scenes/pickups/clock.tscn"
 const REMOTE_PICKUP_SCENE_PATH: String = "res://scenes/pickups/remote_bomb.tscn"
-
+const SEEKER_PICKUP_SCENE_PATH: String = "res://scenes/pickups/heat_seeker.tscn"
+const MOUNTGOON_PICKUP_SCENE_PATH: String = "res://scenes/pickups/mount_goon.tscn"
 
 func _init():
 	spawn_function = _spawn_pickup
@@ -60,6 +61,10 @@ func spawn_chosen_pickup(ptype: int) -> Pickup:
 			spawned_pickup = preload(KICK_PICKUP_SCENE_PATH).instantiate()
 		globals.pickups.FREEZE:
 			spawned_pickup = preload(FREEZE_PICKUP_SCENE_PATH).instantiate()
+		globals.pickups.SEEKER:
+			spawned_pickup = preload(SEEKER_PICKUP_SCENE_PATH).instantiate()
+		globals.pickups.MOUNTGOON:
+			spawned_pickup = preload(MOUNTGOON_PICKUP_SCENE_PATH).instantiate()
 		_:
 			push_error("invalid pickup type passed to the spawn function")
 			spawned_pickup = preload(EXPLOSION_BOOST_PICKUP_SCENE_PATH).instantiate()

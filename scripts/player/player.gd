@@ -5,6 +5,7 @@ signal player_health_updated
 signal player_hurt(player: Player)
 signal player_died(player: Player)
 signal player_revived(player: Player)
+signal player_mounted(player: Player)
 
 ## Player Movement Speed
 const TILE_SIZE: int = 32
@@ -38,6 +39,8 @@ const INVULNERABILITY_POWERUP_TIME: float = 16.0
 @onready var invul_player: AnimationPlayer = $InvulPlayer
 
 var current_anim: String = ""
+var is_dead: bool = false
+var is_mounted: bool = false
 var _died_barrier: bool = false
 var outside_of_game: bool = false
 
@@ -61,6 +64,7 @@ var bomb_to_throw: BombRoot
 var bomb_kicked: BombRoot
 var mine_placed: bool
 var remote_bombs: Array[int]
+var spritepaths: Dictionary
 var remote_bomb_id: int = 0
 
 @export_subgroup("player properties") #Set in inspector
@@ -139,6 +143,8 @@ func init_pickups():
 		do_invulnerabilty.rpc(INVULNERABILITY_POWERUP_TIME)
 	if self.pickups.held_pickups[globals.pickups.VIRUS] > pickups.virus.DEFAULT:
 		virus.rpc()
+	if self.pickups.held_pickups[globals.pickups.MOUNTGOON]:
+		mount_dragoon.rpc()
 
 func _process(delta: float):
 	if !is_autodrop:
@@ -226,7 +232,7 @@ func throw_bomb_effect():
 
 func kick_bomb(direction: Vector2i):
 	if(globals.game.stage_done): return
-	if pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] != pickups.exclusive.KICK:
+	if not pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] == pickups.exclusive.KICK and not is_mounted:
 		return 1
 	
 	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
@@ -404,6 +410,9 @@ func reset():
 	self.time_is_stopped = false
 	self.invulnerable = false
 	unvirus()
+	self.is_mounted = false
+	set_sprite_to_walk()
+	reset_graphic_positions()
 	show()
 
 ## resets the pickups back to the inital state
@@ -483,6 +492,7 @@ func spread_items():
 			world_data.reset_empty_cells.call_deferred(temp)
 
 func do_stun():
+	if stunned || invulnerable: return
 	animation_player.play("player_animations/stunned") #Note this animation sets stunned automatically
 
 @rpc("call_local")
@@ -542,6 +552,28 @@ func disable_bombclip():
 	self.set_collision_mask_value(4, true)
 
 @rpc("call_local")
+func mount_dragoon():
+	is_mounted = true
+	invulnerable = true
+	stunned = true
+	animation_player.play("player_animations/mount_summoned")
+	await animation_player.animation_finished
+	invulnerable = false
+	stunned = false
+	player_mounted.emit()
+	
+@rpc("call_local")
+func mount_exploded() -> void:
+	is_mounted = false
+	set_sprite_to_walk()
+	reset_graphic_positions()
+	do_invulnerabilty.rpc()
+
+func reset_graphic_positions() -> void:
+	$sprite.position = Vector2(0.075,6.236)
+	$label.position = Vector2(-82.0,-35.0)
+
+@rpc("call_local")
 func increment_bomb_count():
 	if bomb_total >= MAX_BOMBS_OWNABLE:
 		if globals.current_gamemode == globals.gamemode.CAMPAIGN: globals.game.score += 100
@@ -581,8 +613,10 @@ func do_hurt() -> void:
 @rpc("call_local")
 ## kills this player and awards whoever killed it
 func exploded(_by_who):
-	if stunned || invulnerable || stop_movement: return
-	if _died_barrier: return
+	if stunned || invulnerable || stop_movement || _died_barrier: return
+	if is_mounted:
+		mount_exploded()
+		return
 	_died_barrier = true
 	lives -= 1
 	hurt_sfx_player.post_event()
@@ -593,7 +627,7 @@ func exploded(_by_who):
 		match globals.current_gamemode:
 			globals.gamemode.BATTLEMODE: do_stun()
 			globals.gamemode.CAMPAIGN: do_hurt()
-			_: push_error("A player died while no gamemode was active")
+			_: push_error("A player was exploded while no gamemode was active")
 
 @rpc("call_local")
 func crush():
@@ -601,9 +635,19 @@ func crush():
 	_died_barrier = true
 	do_crushed_state()
 
-func set_selected_character(value_path : String):
+func set_active_sprite(value_path : String):
 	$sprite.texture = load(value_path)
+	
+func set_selected_spritepaths(newspritepaths : Dictionary):
+	spritepaths = newspritepaths.duplicate()
+	set_active_sprite(spritepaths.walk)
 
+func set_sprite_to_mounted() -> void:
+	set_active_sprite(spritepaths.mount)
+
+func set_sprite_to_walk() -> void:
+	set_active_sprite(spritepaths.walk)
+	
 ## starts the invulnerability and its animation
 @rpc("call_local")
 func do_invulnerabilty(time: float = INVULNERABILITY_SPAWN_TIME):

@@ -4,22 +4,25 @@
 
 [resource]
 script = ExtResource("1_1jfd4")
-extra_bomb = 2
+extra_bomb = 0
 explosion_boost = 0
-speed_boost = 4
-speed_down = 4
+speed_boost = 0
+speed_down = 0
 heart = 0
-max_explosion = 4
-punch_ability = 2
-throw_ability = 2
+max_explosion = 0
+punch_ability = 0
+throw_ability = 0
 wallthrough = 0
 timer = 0
 invincibility_vest = 0
-virus = 10
+virus = 0
 kick = 0
 bombthrough = 0
 piercing_bomb = 0
 land_mine = 0
+remote_control = 0
+seeker_bomb = 0
+mount_goon = 25
 are_amounts = true
 base_pickup_spawn_chance = 1.0
 metadata/_custom_type_script = "uid://bta1elkd6rmla"

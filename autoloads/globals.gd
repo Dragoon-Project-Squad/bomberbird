@@ -28,6 +28,7 @@ enum pickups {
 	MINE,
 	REMOTE,
 	SEEKER,
+	MOUNTGOON,
 	GENERIC_BOMB, # A generic value describing a pickup that changes the bomb type (also mutaly exclusive with other bomb types)
 	NONE, # A value describing the absens of a pickup
 	RANDOM, # A value describing a random pickup
@@ -55,6 +56,7 @@ static var pickup_name_str: Dictionary = {
 	pickups.MINE: "land_mine",
 	pickups.REMOTE: "remote_control",
 	pickups.SEEKER: "seeker_bomb",
+	pickups.MOUNTGOON: "mount_goon",
 	pickups.GENERIC_BOMB: "bomb_type_pickups",
 	pickups.NONE: "no_pickup",
 	pickups.RANDOM: "random",
