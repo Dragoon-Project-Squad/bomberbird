@@ -394,6 +394,9 @@ func reset():
 	self.time_is_stopped = false
 	self.invulnerable = false
 	unvirus()
+	self.is_mounted = false
+	set_sprite_to_walk()
+	reset_graphic_positions()
 	show()
 
 ## resets the pickups back to the inital state
@@ -473,6 +476,7 @@ func spread_items():
 			world_data.reset_empty_cells.call_deferred(temp)
 
 func do_stun():
+	if stunned || invulnerable: return
 	animation_player.play("player_animations/stunned") #Note this animation sets stunned automatically
 
 @rpc("call_local")
@@ -540,14 +544,18 @@ func mount_dragoon():
 	await animation_player.animation_finished
 	invulnerable = false
 	stunned = false
+	player_mounted.emit()
 	
 @rpc("call_local")
-func mount_exploded():
+func mount_exploded() -> void:
 	is_mounted = false
 	set_sprite_to_walk()
+	reset_graphic_positions()
+	do_invulnerabilty.rpc()
+
+func reset_graphic_positions() -> void:
 	$sprite.position = Vector2(0.075,6.236)
 	$label.position = Vector2(-82.0,-35.0)
-	do_invulnerabilty.rpc()
 
 @rpc("call_local")
 func increment_bomb_count():

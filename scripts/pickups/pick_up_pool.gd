@@ -18,7 +18,7 @@ var bombthrough: int = 1 #BANNED IN MP
 @export var piercing_bomb: int = 1
 @export var land_mine: int = 1
 @export var remote_control: int = 0 #BANNED IN MP
-@export var seeker_bomb: int = 1
+#@export var seeker_bomb: int = 1
 @export var mount_goon: int = 1
 
 #NOTE: If we have a rate table for each pickup we could dynamically calculate the expected value to set initial spawn count
@@ -40,7 +40,7 @@ var bombthrough: int = 1 #BANNED IN MP
 	globals.pickups.PIERCING: piercing_bomb,
 	globals.pickups.MINE: land_mine,
 	globals.pickups.REMOTE: remote_control,
-	globals.pickups.SEEKER: seeker_bomb,
+	#globals.pickups.SEEKER: seeker_bomb,
 	globals.pickups.MOUNTGOON: mount_goon
 	}
 

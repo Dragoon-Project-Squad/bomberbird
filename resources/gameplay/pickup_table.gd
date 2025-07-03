@@ -23,7 +23,7 @@ const PICKUP_SPAWN_BASE_CHANCE: float = 1.0
 @export var piercing_bomb: int = 1
 @export var land_mine: int = 1
 @export var remote_control: int = 0
-@export var seeker_bomb: int = 1
+#@export var seeker_bomb: int = 1
 @export var mount_goon: int = 2
 
 @export_group("Others")
@@ -59,7 +59,7 @@ func update():
 		globals.pickups.PIERCING: piercing_bomb,
 		globals.pickups.MINE: land_mine,
 		globals.pickups.REMOTE: remote_control,
-		globals.pickups.SEEKER: seeker_bomb,
+		#globals.pickups.SEEKER: seeker_bomb,
 		globals.pickups.MOUNTGOON: mount_goon
 		}
 	is_uptodate = true
@@ -100,8 +100,8 @@ func reverse_update():
 		land_mine = pickup_weights[globals.pickups.MINE]
 	if pickup_weights.has(globals.pickups.REMOTE):
 		remote_control = pickup_weights[globals.pickups.REMOTE]
-	if pickup_weights.has(globals.pickups.SEEKER):
-		seeker_bomb = pickup_weights[globals.pickups.SEEKER]
+	#if pickup_weights.has(globals.pickups.SEEKER):
+		#seeker_bomb = pickup_weights[globals.pickups.SEEKER]
 	if pickup_weights.has(globals.pickups.MOUNTGOON):
 		mount_goon = pickup_weights[globals.pickups.MOUNTGOON]
 
