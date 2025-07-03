@@ -540,15 +540,14 @@ func mount_dragoon():
 	await animation_player.animation_finished
 	invulnerable = false
 	stunned = false
-	print("Mount time!")
 	
 @rpc("call_local")
 func mount_exploded():
 	is_mounted = false
 	set_sprite_to_walk()
 	$sprite.position = Vector2(0.075,6.236)
+	$label.position = Vector2(-82.0,-35.0)
 	do_invulnerabilty.rpc()
-	print("Mount killed!")
 
 @rpc("call_local")
 func increment_bomb_count():
