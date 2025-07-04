@@ -409,17 +409,31 @@ text = "Start"
 script = ExtResource("17_sdw0t")
 metadata/_custom_type_script = "uid://boq3i75yls51h"
 
-[node name="Exit" type="Button" parent="." groups=["ui_button"]]
-layout_mode = 0
-offset_left = 542.0
-offset_top = 600.0
-offset_right = 620.0
-offset_bottom = 638.0
-focus_neighbor_top = NodePath("../Multiplayer")
-focus_neighbor_bottom = NodePath("../SinglePlayer")
+[node name="Exit" type="Button" parent="." node_paths=PackedStringArray("shortcut_context")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -81.0
+offset_right = 80.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+focus_neighbor_top = NodePath("../../Saves/Right/SaveSelectButton_6")
+focus_neighbor_bottom = NodePath("../../Saves/Right/SaveSelectButton_4")
+focus_next = NodePath("../../Saves/Left/SaveSelectButton_1")
+shortcut_context = NodePath("")
 theme = ExtResource("3_5sbwn")
-theme_override_colors/font_focus_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 46
 text = "Back"
+icon_alignment = 1
 script = ExtResource("17_sdw0t")
 metadata/_custom_type_script = "uid://boq3i75yls51h"
 
@@ -466,7 +480,8 @@ placeholder_text = "Player1"
 max_length = 12
 emoji_menu_enabled = false
 
-[node name="DebugCampaignSelector" parent="." instance=ExtResource("19_dhy2l")]
+[node name="CampaignSelector" parent="." instance=ExtResource("19_dhy2l")]
+unique_name_in_owner = true
 layout_mode = 1
 offset_left = 599.0
 offset_top = 417.0

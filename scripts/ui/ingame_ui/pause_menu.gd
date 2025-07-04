@@ -22,9 +22,9 @@ func _on_option_menu_exited() -> void:
 
 func _on_exit_pressed() -> void:
 	get_tree().paused = false
-	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
+	if globals.is_singleplayer():
 		gamestate.end_sp_game()
-	elif globals.current_gamemode == globals.gamemode.BATTLEMODE:
+	elif globals.is_multiplayer():
 		gamestate.end_game()
 	else:
 		push_error("game could not end since the current_gamemode variable in global is corrupt")

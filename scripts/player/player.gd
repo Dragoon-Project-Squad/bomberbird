@@ -109,10 +109,11 @@ func _ready():
 	bomb_total_reset = bomb_total
 	explosion_boost_count_reset = explosion_boost_count
 	remote_bombs.resize(8)
-	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
+	if globals.is_singleplayer():
 		player_health_updated.connect(func (s: Player, health: int): game_ui.update_health(health, int(s.name)))
 	match globals.current_gamemode:
 		globals.gamemode.CAMPAIGN: lives = 3
+		globals.gamemode.BOSSRUSH: lives = 3
 		globals.gamemode.BATTLEMODE: lives = 1
 		_: lives = 1
 	lives_reset = lives
@@ -367,7 +368,7 @@ func enter_death_state():
 	is_dead = true
 	animation_player.play("player_animations/death")
 	$Hitbox.set_deferred("disabled", 1)
-	if globals.current_gamemode == globals.gamemode.BATTLEMODE:
+	if globals.is_battle_mode():
 		spread_items()
 		reset_pickups()
 	await animation_player.animation_finished
@@ -507,21 +508,21 @@ func get_player_name() -> String:
 @rpc("call_local")
 func increase_live():
 	if lives >= MAX_HEALTH:
-		if globals.current_gamemode == globals.gamemode.CAMPAIGN: globals.game.score += 100
+		if globals.is_singleplayer(): globals.game.score += 100
 	else:
 		lives += 1
 
 @rpc("call_local")
 func increase_bomb_level():
 	if explosion_boost_count >= MAX_EXPLOSION_BOOSTS_PERMITTED:
-		if globals.current_gamemode == globals.gamemode.CAMPAIGN: globals.game.score += 100
+		if globals.is_singleplayer(): globals.game.score += 100
 	else:
 		explosion_boost_count += 1
 
 @rpc("call_local")
 func maximize_bomb_level():
 	if explosion_boost_count >= MAX_EXPLOSION_BOOSTS_PERMITTED:
-		if globals.current_gamemode == globals.gamemode.CAMPAIGN: globals.game.score += 100
+		if globals.is_singleplayer(): globals.game.score += 100
 	else:
 		explosion_boost_count = MAX_EXPLOSION_BOOSTS_PERMITTED
 
@@ -530,7 +531,7 @@ func increase_speed():
 	if movement_speed < MAX_MOTION_SPEED:
 		movement_speed += MOTION_SPEED_INCREASE
 	if movement_speed >= MAX_MOTION_SPEED:
-		if globals.current_gamemode == globals.gamemode.CAMPAIGN: globals.game.score += 100
+		if globals.is_singleplayer(): globals.game.score += 100
 		movement_speed = MAX_MOTION_SPEED
 
 @rpc("call_local")
@@ -575,7 +576,7 @@ func reset_graphic_positions() -> void:
 @rpc("call_local")
 func increment_bomb_count():
 	if bomb_total >= MAX_BOMBS_OWNABLE:
-		if globals.current_gamemode == globals.gamemode.CAMPAIGN: globals.game.score += 100
+		if globals.is_singleplayer(): globals.game.score += 100
 	else:
 		bomb_total += 1
 	bomb_count = min(bomb_count+1, bomb_total)
@@ -624,8 +625,9 @@ func exploded(_by_who):
 		enter_misobon()
 	else:
 		match globals.current_gamemode:
-			globals.gamemode.BATTLEMODE: do_stun()
 			globals.gamemode.CAMPAIGN: do_hurt()
+			globals.gamemode.BATTLEMODE: do_stun()
+			globals.gamemode.BOSSRUSH: do_hurt()
 			_: push_error("A player was exploded while no gamemode was active")
 	_died_barrier = false
 	

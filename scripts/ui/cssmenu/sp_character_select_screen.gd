@@ -4,6 +4,7 @@ extends Control
 @onready var secret_1: TextureButton = $SkinBG/CharacterGrid/secret1
 @onready var secret_2: TextureButton = $SkinBG/CharacterGrid/secret2
 @onready var last_selected_panel: Panel = %CharacterGrid.get_node("eggoon/Panel")
+@onready var campaign_selector: Control = %CampaignSelector
 
 @export var supersecretvisible := false
 
@@ -24,6 +25,8 @@ func _ready() -> void:
 
 func enter() -> void:
 	show()
+	campaign_selector.enter()
+
 
 	# select the default
 	show_selected_panel("eggoon")
