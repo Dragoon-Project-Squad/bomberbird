@@ -4,6 +4,7 @@ class_name HeldPickups extends Resource
 enum bomb_types {DEFAULT = 0, PIERCING, MINE, REMOTE, SEEKER}
 enum exclusive {DEFAULT = 0, KICK, BOMBTHROUGH}
 enum virus {DEFAULT = 0, SPEEDDOWN, SPEEDUP, FIREDOWN, SLOWFUSE_A, SLOWFUSE_B, FASTFUSE, AUTOBOMB, INVERSE_CONTROL, NON_STOP_MOTION, NOBOMBS}
+enum mounts {DEFAULT = 0, PINK, CYAN, PURPLE, GREEN, RED} # see https://bomberman.fandom.com/wiki/Louies
 
 const MAX_BOMB_UPGRADE_PERMITTED: int = 6
 const MAX_EXPLOSION_BOOSTS_PERMITTED: int = 6
@@ -15,6 +16,7 @@ const MAX_HEALTH_PERMITTED: int = 6
 @export_enum("NONE", "PIERCING", "MINE", "REMOTE", "SEEKER") var initial_bomb_type: int = 0
 @export_enum("NONE", "KICK", "BOMBTHROUGH") var initial_exlusive: int = 0
 @export_enum("NONE", "SPEEDDOWN", "SPEEDUP", "FIREDOWN", "SLOWFUSE_A", "SLOWFUSE_B", "FASTFUSE", "AUTOBOMB", "INVERSE_CONTROL", "NON_STOP_MOTION", "NOBOMBS") var initial_virus: int = 0
+@export_enum("NONE", "PINK", "CYAN", "PURPLE", "GREEN", "RED") var initial_mountgoon: int = 0
 @export var initial_bomb_up: int = 0
 @export var initial_fire_up: int = 0
 @export var initial_speed_up: int = 0
@@ -26,12 +28,12 @@ const MAX_HEALTH_PERMITTED: int = 6
 @export var initial_wallthrough: bool = false
 @export var initial_freeze: bool = false
 @export var initial_invincibility_vest: bool = false
-@export var initial_mountgoon: bool = false
 
 var held_pickups: Dictionary = {
 	globals.pickups.GENERIC_BOMB: bomb_types.DEFAULT,
 	globals.pickups.GENERIC_EXCLUSIVE: exclusive.DEFAULT,
 	globals.pickups.VIRUS: virus.DEFAULT,
+	globals.pickups.MOUNTGOON: mounts.DEFAULT, # this should maybe be changed to a enum with DEFAULT=0 being no mount
 	globals.pickups.BOMB_UP: 0,
 	globals.pickups.FIRE_UP: 0,
 	globals.pickups.SPEED_UP: 0,
@@ -108,6 +110,6 @@ func add(pickup_type: int):
 		globals.pickups.INVINCIBILITY_VEST:
 			held_pickups[pickup_type] = true
 		globals.pickups.MOUNTGOON:
-			held_pickups[pickup_type] = true
+			held_pickups[pickup_type] = mounts.values()[randi_range(mounts.DEFAULT + 1, mounts.RED)]
 		_:
 			push_error("unknown pickup type... picked up")

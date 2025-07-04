@@ -18,6 +18,7 @@ script = ExtResource("2_05k0c")
 initial_bomb_type = 0
 initial_exlusive = 0
 initial_virus = 0
+initial_mountgoon = 0
 initial_bomb_up = 0
 initial_fire_up = 0
 initial_speed_up = 0
@@ -29,7 +30,6 @@ initial_power_glove = false
 initial_wallthrough = false
 initial_freeze = false
 initial_invincibility_vest = false
-initial_mountgoon = false
 metadata/_custom_type_script = "uid://dfosda1bstp2m"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_oj3wr"]

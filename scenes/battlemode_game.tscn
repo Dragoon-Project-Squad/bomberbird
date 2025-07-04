@@ -335,7 +335,13 @@ script = ExtResource("6_a5m7k")
 extra_bomb = 15
 explosion_boost = 15
 speed_boost = 15
+heart = 0
 punch_ability = 10
+wallthrough = 0
+timer = 0
+invincibility_vest = 0
+bombthrough = 0
+remote_control = 0
 
 [node name="EnemyPool" parent="." instance=ExtResource("6_3bvga")]
 

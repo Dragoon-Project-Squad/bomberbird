@@ -39,7 +39,6 @@ const INVULNERABILITY_POWERUP_TIME: float = 16.0
 @onready var invul_player: AnimationPlayer = $InvulPlayer
 
 var current_anim: String = ""
-var is_dead: bool = false
 var is_mounted: bool = false
 var _died_barrier: bool = false
 var outside_of_game: bool = false
@@ -232,7 +231,7 @@ func throw_bomb_effect():
 
 func kick_bomb(direction: Vector2i):
 	if(globals.game.stage_done): return
-	if not pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] == pickups.exclusive.KICK and not is_mounted:
+	if pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] != pickups.exclusive.KICK and not is_mounted:
 		return 1
 	
 	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
@@ -614,10 +613,10 @@ func do_hurt() -> void:
 ## kills this player and awards whoever killed it
 func exploded(_by_who):
 	if stunned || invulnerable || stop_movement || _died_barrier: return
+	_died_barrier = true
 	if is_mounted:
 		mount_exploded()
 		return
-	_died_barrier = true
 	lives -= 1
 	hurt_sfx_player.post_event()
 	if lives <= 0:
@@ -628,12 +627,15 @@ func exploded(_by_who):
 			globals.gamemode.BATTLEMODE: do_stun()
 			globals.gamemode.CAMPAIGN: do_hurt()
 			_: push_error("A player was exploded while no gamemode was active")
+	_died_barrier = false
+	
 
 @rpc("call_local")
 func crush():
 	if _died_barrier: return
 	_died_barrier = true
 	do_crushed_state()
+	_died_barrier = false
 
 func set_active_sprite(value_path : String):
 	$sprite.texture = load(value_path)

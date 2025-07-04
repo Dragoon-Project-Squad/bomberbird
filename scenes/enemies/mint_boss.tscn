@@ -26,6 +26,7 @@ script = ExtResource("2_8i32n")
 initial_bomb_type = 1
 initial_exlusive = 2
 initial_virus = 0
+initial_mountgoon = 0
 initial_bomb_up = 3
 initial_fire_up = 0
 initial_speed_up = 0

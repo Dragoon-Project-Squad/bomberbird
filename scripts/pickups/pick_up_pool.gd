@@ -5,19 +5,19 @@ class_name PickupPool extends ObjectPool
 @export var explosion_boost: int = 5
 @export var speed_boost: int = 4
 @export var speed_down: int = 2
-var heart: int = 1 #BANNED IN MP - Absolutely unfun
+@export var heart: int = 1
 @export var max_explosion: int = 1
 @export var punch_ability: int = 2
 @export var throw_ability: int = 2
-var wallthrough: int = 1 #BANNED IN MP
-var timer: int = 1 #BANNED IN MP - Absolutely not.
-var invincibility_vest: int = 1 #BANNED IN MP
+@export var wallthrough: int = 1
+@export var timer: int = 1
+@export var invincibility_vest: int = 1
 @export var virus: int = 1
 @export var kick: int = 2
-var bombthrough: int = 1 #BANNED IN MP
+@export var bombthrough: int = 1
 @export var piercing_bomb: int = 1
 @export var land_mine: int = 1
-@export var remote_control: int = 0 #BANNED IN MP
+@export var remote_control: int = 1
 #@export var seeker_bomb: int = 1
 @export var mount_goon: int = 1
 
