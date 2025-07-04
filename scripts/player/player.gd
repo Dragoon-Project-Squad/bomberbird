@@ -95,6 +95,9 @@ var drop_timer = 0
 var pre_virus_speed = BASE_MOTION_SPEED
 const AUTODROP_INTERVAL = 3
 
+enum mount_ability {NONE = 0, BREAKABLEPUSH, JUMP, MOUNTKICK, RAPIDBOMB, CHARGE, PUNCH}
+var current_mount_ability := 0
+
 func _ready():
 	player_died.connect(globals.player_manager._on_player_died)
 	player_revived.connect(globals.player_manager._on_player_revived)
@@ -556,18 +559,47 @@ func mount_dragoon():
 	is_mounted = true
 	invulnerable = true
 	stunned = true
+	assign_mount_ability()
 	animation_player.play("player_animations/mount_summoned")
 	await animation_player.animation_finished
 	invulnerable = false
 	stunned = false
 	player_mounted.emit()
 	
+func assign_mount_ability() -> void:
+	match pickups.held_pickups[globals.pickups.MOUNTGOON]:
+			pickups.mounts.YELLOW:
+				print("Block push!")
+				current_mount_ability = mount_ability.BREAKABLEPUSH
+			pickups.mounts.PINK:
+				print("Jump!")
+				current_mount_ability = mount_ability.JUMP
+			pickups.mounts.CYAN:
+				print("Bomb kick!")
+				current_mount_ability = mount_ability.MOUNTKICK
+			pickups.mounts.PURPLE:
+				print("Rapid bomb!")
+				current_mount_ability = mount_ability.RAPIDBOMB
+			pickups.mounts.GREEN:
+				print("Charge!")
+				current_mount_ability = mount_ability.CHARGE
+			pickups.mounts.RED:
+				print("Punch!")
+				current_mount_ability = mount_ability.PUNCH
+			_:
+				push_warning("Unknown mount!")
+
+func remove_mount_ability() -> void:
+	current_mount_ability = mount_ability.NONE
+	
 @rpc("call_local")
 func mount_exploded() -> void:
 	is_mounted = false
 	set_sprite_to_walk()
 	reset_graphic_positions()
+	remove_mount_ability()
 	do_invulnerabilty.rpc()
+	_died_barrier = false
 
 func reset_graphic_positions() -> void:
 	$sprite.position = Vector2(0.075,6.236)
