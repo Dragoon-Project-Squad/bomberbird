@@ -1,6 +1,8 @@
 extends Control
 
-const DEFAULT_GRAPH_NAME: String = "campaign_v1"
+const DEFAULT_CAMPAIGN_GRAPH_NAME: String = "campaign_v1"
+const DEFAULT_BOSS_RUSH_GRAPH_NAME: String = "BossRush"
+const DEFAULT_BOSS_RUSH_SECRET_GRAPH_NAME: String = "BossRush"
 const LEVEL_GRAPH_SCENE := preload("res://scenes/level_graph/level_graph.tscn")
 
 @onready var selector: OptionButton = get_node("HBoxContainer/CampaignSelector")
@@ -41,11 +43,26 @@ func _ready() -> void:
 				user_file.close()
 
 			res_file.close()
-	_update_and_set(DEFAULT_GRAPH_NAME)
+
+	_update_and_set(DEFAULT_CAMPAIGN_GRAPH_NAME)
+
 	if OS.is_debug_build(): self.show()
 	else: self.hide()
 
-func _update_and_set(item_name: String = DEFAULT_GRAPH_NAME):
+func enter():
+	if globals.is_campaign_mode():
+		_update_and_set(DEFAULT_CAMPAIGN_GRAPH_NAME)
+	elif globals.is_boss_rush_mode():
+		if globals.secrets_enabled:
+			_update_and_set(DEFAULT_BOSS_RUSH_SECRET_GRAPH_NAME)
+		else:
+			_update_and_set(DEFAULT_BOSS_RUSH_GRAPH_NAME)
+	else:
+		push_error("current_gamemode not correcly set")
+		_update_and_set(DEFAULT_CAMPAIGN_GRAPH_NAME)
+
+
+func _update_and_set(item_name: String = DEFAULT_CAMPAIGN_GRAPH_NAME):
 	_get_file_name_from_dir(LevelGraph.SAVE_PATH)
 	gamestate.current_graph = item_name
 	for idx in range(selector.item_count):

@@ -3,7 +3,8 @@ extends Node
 enum gamemode {
 	NONE,
 	CAMPAIGN,
-	BATTLEMODE
+	BATTLEMODE,
+	BOSSRUSH
 }
 
 enum pickups {
@@ -98,3 +99,18 @@ func get_pickup_type_from_name(pickup_name: String) -> int:
 		if globals.pickup_name_str[pickup] == pickup_name:
 			return pickup
 	return -1
+
+func is_singleplayer():
+	return self.current_gamemode == gamemode.CAMPAIGN || self.current_gamemode == gamemode.BOSSRUSH
+
+func is_multiplayer():
+	return self.current_gamemode == gamemode.BATTLEMODE
+
+func is_campaign_mode():
+	return self.current_gamemode == gamemode.CAMPAIGN
+
+func is_boss_rush_mode():
+	return self.current_gamemode == gamemode.BOSSRUSH
+
+func is_battle_mode():
+	return self.current_gamemode == gamemode.BATTLEMODE

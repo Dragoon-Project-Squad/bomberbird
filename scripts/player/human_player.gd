@@ -24,16 +24,18 @@ func _ready():
 	movement_speed_reset = movement_speed
 	bomb_total_reset = bomb_total
 	explosion_boost_count_reset = explosion_boost_count
-	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
+	if globals.is_singleplayer():
 		player_health_updated.connect(func (s: Player, health: int): game_ui.update_health(health, int(s.name)))
+
 	match globals.current_gamemode:
 		globals.gamemode.CAMPAIGN: lives = 3
+		globals.gamemode.BOSSRUSH: lives = 3
 		globals.gamemode.BATTLEMODE: lives = 1
 		_: lives = 1
 	lives_reset = lives
 	pickups.reset()
 
-	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
+	if globals.is_campaign_mode():
 		if gamestate.current_save.player_pickups.is_empty():
 			write_to_save()
 		else:
