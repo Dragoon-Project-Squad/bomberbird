@@ -4,7 +4,7 @@ class_name HeldPickups extends Resource
 enum bomb_types {DEFAULT = 0, PIERCING, MINE, REMOTE, SEEKER}
 enum exclusive {DEFAULT = 0, KICK, BOMBTHROUGH}
 enum virus {DEFAULT = 0, SPEEDDOWN, SPEEDUP, FIREDOWN, SLOWFUSE_A, SLOWFUSE_B, FASTFUSE, AUTOBOMB, INVERSE_CONTROL, NON_STOP_MOTION, NOBOMBS}
-enum mounts {DEFAULT = 0, PINK, CYAN, PURPLE, GREEN, RED} # see https://bomberman.fandom.com/wiki/Louies
+enum mounts {DEFAULT = 0, YELLOW, PINK, CYAN, PURPLE, GREEN, RED} # see https://bomberman.fandom.com/wiki/Louies
 
 const MAX_BOMB_UPGRADE_PERMITTED: int = 6
 const MAX_EXPLOSION_BOOSTS_PERMITTED: int = 6
