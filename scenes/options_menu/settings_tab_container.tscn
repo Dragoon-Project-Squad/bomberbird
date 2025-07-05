@@ -37,7 +37,7 @@ offset_bottom = -50.0
 grow_horizontal = 2
 grow_vertical = 2
 tab_alignment = 1
-current_tab = 3
+current_tab = 1
 
 [node name="General" type="TabBar" parent="TabContainer"]
 visible = false
@@ -99,7 +99,6 @@ dialog_autowrap = true
 cancel_button_text = "No"
 
 [node name="Graphics" type="TabBar" parent="TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -198,6 +197,7 @@ theme_override_constants/separation = 12
 theme_override_styles/separator = SubResource("StyleBoxEmpty_xs6b0")
 
 [node name="Sound" type="TabBar" parent="TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 3
 
@@ -220,35 +220,31 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Sound/MarginContainer/ScrollContainer/Control"]
-layout_mode = 2
-offset_bottom = 192.0
-theme_override_constants/separation = 64
+layout_mode = 1
+offset_right = 708.0
+offset_bottom = 343.0
+theme_override_constants/separation = 32
 
 [node name="AudioSliderSettings" parent="TabContainer/Sound/MarginContainer/ScrollContainer/Control/VBoxContainer" instance=ExtResource("1_0xsqn")]
 layout_mode = 2
+size_flags_horizontal = 0
 bus_name = "Master"
 
 [node name="AudioSliderSettings2" parent="TabContainer/Sound/MarginContainer/ScrollContainer/Control/VBoxContainer" instance=ExtResource("1_0xsqn")]
 layout_mode = 2
+size_flags_horizontal = 0
 bus_name = "Music"
 
 [node name="AudioSliderSettings3" parent="TabContainer/Sound/MarginContainer/ScrollContainer/Control/VBoxContainer" instance=ExtResource("1_0xsqn")]
 layout_mode = 2
+size_flags_horizontal = 0
 
-[node name="SoundTest" parent="TabContainer/Sound/MarginContainer/ScrollContainer/Control" instance=ExtResource("8_ntcmh")]
+[node name="SoundTest" parent="TabContainer/Sound/MarginContainer/ScrollContainer/Control/VBoxContainer" instance=ExtResource("8_ntcmh")]
 unique_name_in_owner = true
 layout_mode = 2
-anchors_preset = 0
-anchor_left = 0.0
-anchor_right = 0.0
-offset_left = 0.0
-offset_top = 207.0
-offset_right = 0.0
-offset_bottom = 207.0
-grow_vertical = 2
-size_flags_horizontal = 4
+size_flags_vertical = 3
 
-[connection signal="options_menu_exited" from="." to="TabContainer/Sound/MarginContainer/ScrollContainer/Control/SoundTest" method="_on_settings_tab_container_options_menu_exited"]
+[connection signal="options_menu_exited" from="." to="TabContainer/Sound/MarginContainer/ScrollContainer/Control/VBoxContainer/SoundTest" method="_on_settings_tab_container_options_menu_exited"]
 [connection signal="pressed" from="TabContainer/General/MarginContainer/VBoxContainer/HBoxContainer/PasswordSubmit" to="." method="_on_password_submit_pressed"]
 [connection signal="pressed" from="TabContainer/General/MarginContainer/VBoxContainer/Reset" to="." method="_on_reset_pressed"]
 [connection signal="canceled" from="TabContainer/General/MarginContainer/ResetConfirmationDialog" to="." method="_on_reset_cancelled"]
