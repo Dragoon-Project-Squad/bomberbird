@@ -402,7 +402,8 @@ func is_name_free(playername: String) -> bool:
 	return true
 			
 func save_sp_game():
-	campaign_save_manager.save(current_save, current_save_file)
+	if globals.is_campaign_mode(): # do not write boss_rush data to a file
+		campaign_save_manager.save(current_save, current_save_file)
 
 func end_sp_game():
 	save_sp_game()

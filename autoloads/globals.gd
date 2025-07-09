@@ -35,6 +35,29 @@ enum pickups {
 	RANDOM, # A value describing a random pickup
 }
 
+static var pickup_name_region: Dictionary = {
+	"extra_bomb": Rect2i(168, 24, 24, 24),
+	"explosion_boost": Rect2i(192, 0, 24, 24),
+	"speed_boost": Rect2i(216, 24, 24, 24),
+	"speed_down": Rect2i(216, 0, 24, 24),
+	"hearth": Rect2i(0, 24, 24, 24),
+	"max_explosion": Rect2i(168, 0, 24, 24),
+	"punch_ability": Rect2i(144, 0, 24, 24),
+	"throw_ability": Rect2i(120, 24, 24, 24),
+	"wallthrough": Rect2i(96, 24, 24, 24),
+	"timer": Rect2i(24, 0, 24, 24),
+	"invincibility_vest": Rect2i(24, 24, 24, 24),
+	"virus": Rect2i(96, 0, 24, 24),
+	"kick": Rect2i(144, 24, 24, 24),
+	"bombthrough": Rect2i(72, 24, 24, 24),
+	"piercing_bomb": Rect2i(48, 0, 24, 24),
+	"land_mine": Rect2i(72, 0, 24, 24),
+	"remote_control": Rect2i(0, 0, 24, 24),
+	"seeker_bomb": Rect2i(120, 0, 24, 24),
+	"mount_goon": Rect2i(48, 24, 24, 24),
+	"no_pickup": null,
+	}
+
 static var pickup_name_str: Dictionary = {
 	pickups.BOMB_UP: "extra_bomb",
 	pickups.FIRE_UP: "explosion_boost",
@@ -50,7 +73,7 @@ static var pickup_name_str: Dictionary = {
 	pickups.INVINCIBILITY_VEST: "invincibility_vest",
 	pickups.VIRUS: "virus",
 	pickups.MOUNTGOON: "mount_goon",
-	pickups.GENERIC_BOOL: "on/off_pickups",
+	pickups.GENERIC_BOOL: "on/off_pickups", 
 	pickups.KICK: "kick",
 	pickups.BOMBTHROUGH: "bombthrough",
 	pickups.GENERIC_EXCLUSIVE: "exclusive_pickups",
