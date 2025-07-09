@@ -119,13 +119,13 @@ func reset():
 	super()
 
 func write_to_save():
-	gamestate.current_save.health = self.lives
+	gamestate.current_save.player_health = self.lives
 	gamestate.current_save.player_pickups = self.pickups.held_pickups.duplicate()
 
 func load_from_save():
-	self.lives = gamestate.current_save.health
+	self.lives = gamestate.current_save.player_health
 	self.pickups.held_pickups = gamestate.current_save.player_pickups.duplicate()
 
 func clear_save():
-	gamestate.current_save.health = lives_reset
+	gamestate.current_save.player_health = lives_reset
 	gamestate.current_save.player_pickups = {}

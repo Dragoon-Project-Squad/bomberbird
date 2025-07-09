@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cui0yxsmxis71"]
+[gd_scene load_steps=10 format=3 uid="uid://cui0yxsmxis71"]
 
 [ext_resource type="Script" uid="uid://d2cpplwd6ifoe" path="res://scripts/ui/lobby/sp_lobby.gd" id="1_418fn"]
 [ext_resource type="WwiseEvent" uid="uid://cf8gacuqqx41t" path="res://Wwise/resources/Event/{1E19996F-F80F-41CF-A16A-4AA69ECDB05A}.tres" id="2_sjg7r"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cwhum362lt6ww" path="res://scenes/cssmenu/sp_character_select_screen.tscn" id="4_418fn"]
 [ext_resource type="PackedScene" uid="uid://mjnlboref67" path="res://scenes/lobby/save_select.tscn" id="4_j0dtp"]
 [ext_resource type="PackedScene" uid="uid://dtkyb1rk23fmb" path="res://scenes/lobby/mode_select.tscn" id="5_sjg7r"]
+[ext_resource type="PackedScene" uid="uid://cuc5gsxl6umbl" path="res://scenes/ingame_ui/pickup_shop.tscn" id="8_twxis"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_m8hcm"]
 resource_local_to_scene = true
@@ -46,10 +47,14 @@ grow_vertical = 2
 layout_mode = 1
 
 [node name="SaveMenu" parent="." instance=ExtResource("4_j0dtp")]
+visible = false
 layout_mode = 1
 
 [node name="CharacterSelectScreen" parent="." instance=ExtResource("4_418fn")]
 visible = false
+
+[node name="PickupShop" parent="." instance=ExtResource("8_twxis")]
+layout_mode = 1
 
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
 auto_translate_mode = 1
@@ -61,4 +66,6 @@ auto_translate_mode = 1
 [connection signal="save_menu_existing_save" from="SaveMenu" to="." method="_on_game_start"]
 [connection signal="save_menu_new_save" from="SaveMenu" to="." method="show_character_select_screen"]
 [connection signal="characters_back_pressed" from="CharacterSelectScreen" to="." method="show_save_menu_screen"]
-[connection signal="characters_confirmed" from="CharacterSelectScreen" to="." method="_on_game_start"]
+[connection signal="characters_confirmed" from="CharacterSelectScreen" to="." method="finished_character_select_screen"]
+[connection signal="pickup_shop_back" from="PickupShop" to="." method="show_character_select_screen"]
+[connection signal="pickup_shop_next" from="PickupShop" to="." method="_on_game_start"]

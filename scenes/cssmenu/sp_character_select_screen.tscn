@@ -389,6 +389,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_m7566")
 
 [node name="Start" type="Button" parent="." groups=["ui_button"]]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -409,7 +410,7 @@ text = "Start"
 script = ExtResource("17_sdw0t")
 metadata/_custom_type_script = "uid://boq3i75yls51h"
 
-[node name="Exit" type="Button" parent="." node_paths=PackedStringArray("shortcut_context")]
+[node name="Exit" type="Button" parent="."]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(160, 0)
 layout_mode = 1
@@ -429,7 +430,6 @@ size_flags_vertical = 2
 focus_neighbor_top = NodePath("../../Saves/Right/SaveSelectButton_6")
 focus_neighbor_bottom = NodePath("../../Saves/Right/SaveSelectButton_4")
 focus_next = NodePath("../../Saves/Left/SaveSelectButton_1")
-shortcut_context = NodePath("")
 theme = ExtResource("3_5sbwn")
 theme_override_font_sizes/font_size = 46
 text = "Back"

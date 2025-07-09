@@ -13,7 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_nkq8c")
 
-[node name="Back" type="Button" parent="." node_paths=PackedStringArray("shortcut_context")]
+[node name="Back" type="Button" parent="."]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(160, 0)
 layout_mode = 1
@@ -33,7 +33,6 @@ size_flags_vertical = 2
 focus_neighbor_top = NodePath("../../Saves/Right/SaveSelectButton_6")
 focus_neighbor_bottom = NodePath("../../Saves/Right/SaveSelectButton_4")
 focus_next = NodePath("../../Saves/Left/SaveSelectButton_1")
-shortcut_context = NodePath("")
 theme = ExtResource("1_xfevh")
 theme_override_font_sizes/font_size = 46
 text = "Back"
