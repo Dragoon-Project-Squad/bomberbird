@@ -16,9 +16,12 @@ grow_vertical = 2
 script = ExtResource("1_dogy7")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 0
-offset_right = 1152.0
-offset_bottom = 648.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("2_ljws0")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
@@ -32,9 +35,9 @@ text = "BATTLE SETTINGS"
 vertical_alignment = 1
 
 [node name="BattleSettingsContainer" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_ljws0")]
-custom_minimum_size = Vector2(1088, 512)
+custom_minimum_size = Vector2(960, 412)
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -54,6 +57,7 @@ metadata/_custom_type_script = "uid://boq3i75yls51h"
 [node name="ConfirmButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" groups=["ui_button"]]
 layout_mode = 2
 size_flags_horizontal = 4
+size_flags_vertical = 8
 text = "CONFIRM"
 script = ExtResource("4_p4kcj")
 metadata/_custom_type_script = "uid://boq3i75yls51h"

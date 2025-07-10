@@ -28,75 +28,70 @@
 
 [node name="CharacterSelectScreen" type="Control"]
 layout_mode = 3
-anchors_preset = 0
-offset_left = 2.0
-offset_right = 1154.0
-offset_bottom = 648.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
 script = ExtResource("1_ehcif")
 error_sound = ExtResource("2_e6qlr")
 select_sound = ExtResource("3_mfnxv")
 
-[node name="Players" type="BoxContainer" parent="."]
+[node name="Players" type="HBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -576.0
-offset_top = -200.0
-offset_right = 568.0
+offset_top = 384.0
+offset_bottom = -132.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
 
 [node name="Player1" parent="Players" instance=ExtResource("6_e6qlr")]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 8
 player_number = "Player 1"
 
 [node name="VSeparator" type="VSeparator" parent="Players"]
 layout_mode = 2
-theme_override_constants/separation = 96
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 72
 theme_override_styles/separator = SubResource("StyleBoxEmpty_q6qq2")
 
 [node name="Player2" parent="Players" instance=ExtResource("6_e6qlr")]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 8
+size_flags_vertical = 4
 player_number = "Player 2"
 
 [node name="VSeparator2" type="VSeparator" parent="Players"]
 layout_mode = 2
-theme_override_constants/separation = 384
+theme_override_constants/separation = 200
 theme_override_styles/separator = SubResource("StyleBoxEmpty_rgcd7")
 
 [node name="Player3" parent="Players" instance=ExtResource("6_e6qlr")]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 8
 player_number = "Player 3"
 
 [node name="VSeparator3" type="VSeparator" parent="Players"]
 layout_mode = 2
-theme_override_constants/separation = 96
+theme_override_constants/separation = 72
 theme_override_styles/separator = SubResource("StyleBoxEmpty_lqo1b")
 
 [node name="Player4" parent="Players" instance=ExtResource("6_e6qlr")]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 8
+size_flags_vertical = 4
 player_number = "Player 4"
 
 [node name="CSSLabel" type="Label" parent="."]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -288.5
-offset_right = 288.5
+offset_left = 111.0
+offset_right = 865.0
 offset_bottom = 69.0
-grow_horizontal = 2
 theme = ExtResource("7_mfnxv")
 theme_override_font_sizes/font_size = 75
 text = "CHOOSE YOUR CHARACTER"
@@ -106,10 +101,10 @@ vertical_alignment = 1
 [node name="SkinBG" type="PanelContainer" parent="."]
 texture_filter = 3
 layout_mode = 0
-offset_left = 90.0
-offset_top = 104.0
-offset_right = 746.0
-offset_bottom = 376.0
+offset_left = 16.0
+offset_top = 69.0
+offset_right = 672.0
+offset_bottom = 341.0
 theme = ExtResource("7_mfnxv")
 
 [node name="CharacterGrid" type="GridContainer" parent="SkinBG"]
@@ -212,31 +207,37 @@ stretch_mode = 0
 
 [node name="Start" type="Button" parent="." groups=["ui_button"]]
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = 8
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -120.0
-offset_top = -200.0
-offset_right = 120.0
-offset_bottom = -136.0
+anchor_bottom = 0.5
+offset_left = -88.0
+offset_top = 140.0
+offset_right = 92.0
+offset_bottom = 188.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
 theme = ExtResource("7_mfnxv")
-theme_override_font_sizes/font_size = 46
+theme_override_font_sizes/font_size = 28
 text = "Confirm"
 script = ExtResource("12_7kvbo")
 metadata/_custom_type_script = "uid://boq3i75yls51h"
 
 [node name="Exit" type="Button" parent="." groups=["ui_button"]]
-layout_mode = 0
-offset_left = 544.0
-offset_top = 600.0
-offset_right = 614.0
-offset_bottom = 638.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -35.0
+offset_top = -38.0
+offset_right = 35.0
+grow_horizontal = 2
+grow_vertical = 0
 focus_neighbor_top = NodePath("../Multiplayer")
 focus_neighbor_bottom = NodePath("../SinglePlayer")
 theme = ExtResource("7_mfnxv")
@@ -253,10 +254,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 235.0
-offset_top = -219.0
-offset_right = 487.0
-offset_bottom = -44.0
+offset_left = 208.0
+offset_top = -198.0
+offset_right = 452.0
+offset_bottom = -23.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 2

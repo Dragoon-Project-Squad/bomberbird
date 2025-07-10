@@ -4,7 +4,16 @@
 [ext_resource type="Script" uid="uid://c0246a4lls5fi" path="res://scripts/ui/lobby/pickup_spawn_rule_dropdown_button.gd" id="2_cpj3h"]
 
 [node name="PickupSpawnRuleDropdownButton" instance=ExtResource("1_dw7ex")]
+anchors_preset = 10
+anchor_bottom = 0.0
+grow_vertical = 1
 script = ExtResource("2_cpj3h")
+
+[node name="HBoxContainer" parent="." index="0"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = 0.0
+grow_horizontal = 2
 
 [node name="Label" parent="HBoxContainer" index="0"]
 text = "PICKUP SPAWN RULE"
