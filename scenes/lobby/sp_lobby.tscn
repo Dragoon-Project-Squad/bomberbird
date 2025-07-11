@@ -29,8 +29,8 @@ lobby_music = ExtResource("2_sjg7r")
 [node name="BG" type="Sprite2D" parent="."]
 self_modulate = Color(0.501961, 0.501961, 0.501961, 1)
 texture_filter = 1
-position = Vector2(576, 337.5)
-scale = Vector2(3, 3)
+position = Vector2(509, 268)
+scale = Vector2(2.4, 2.4)
 texture = ExtResource("2_yd478")
 
 [node name="BGBlur" type="Panel" parent="."]
