@@ -206,82 +206,90 @@ script = ExtResource("1_wdgif")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(583.5, 329.5)
-scale = Vector2(37.4688, 21.5938)
+position = Vector2(574, 274)
+scale = Vector2(82.25, 47.4018)
 texture = ExtResource("1_ujlt3")
 
 [node name="Label" type="Label" parent="."]
-layout_mode = 2
-offset_left = 229.0
-offset_top = 39.0
-offset_right = 934.0
-offset_bottom = 149.0
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -352.5
+offset_right = 352.5
+offset_bottom = 110.0
 grow_horizontal = 2
 theme = ExtResource("3_ll51u")
 theme_override_font_sizes/font_size = 80
 text = "The winner is You!"
 horizontal_alignment = 1
+text_overrun_behavior = 3
 
 [node name="Control" type="Control" parent="."]
-layout_mode = 2
-anchors_preset = 0
-offset_left = 227.0
-offset_top = 222.0
-offset_right = 265.0
-offset_bottom = 269.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -19.0
+offset_top = -23.5
+offset_right = 19.0
+offset_bottom = 23.5
+grow_horizontal = 2
+grow_vertical = 2
 pivot_offset = Vector2(87.88, 86.45)
 
 [node name="Node2D" type="Node2D" parent="Control"]
-position = Vector2(-368, -4)
 scale = Vector2(4, 4)
 
 [node name="Sprite2D6" type="Sprite2D" parent="Control/Node2D"]
-position = Vector2(196.333, 21)
+position = Vector2(12.416, 9.375)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_ll51u")
 region_enabled = true
 region_rect = Rect2(33, 0, 32, 32)
 
 [node name="Sprite2D2" type="Sprite2D" parent="Control/Node2D"]
-position = Vector2(183.5, 21)
+position = Vector2(-0.417007, 9.375)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_ll51u")
 region_enabled = true
 region_rect = Rect2(33, 0, 32, 32)
 
 [node name="Sprite2D3" type="Sprite2D" parent="Control/Node2D"]
-position = Vector2(183.5, 13.5)
+position = Vector2(-0.417007, 1.875)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_ll51u")
 region_enabled = true
 region_rect = Rect2(33, 0, 32, 32)
 
 [node name="Sprite2D" type="Sprite2D" parent="Control/Node2D"]
-position = Vector2(183.5, 6)
+position = Vector2(-0.417007, -5.625)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_ll51u")
 region_enabled = true
 region_rect = Rect2(33, 0, 32, 32)
 
 [node name="Sprite2D4" type="Sprite2D" parent="Control/Node2D"]
-position = Vector2(170.667, 20.8333)
+position = Vector2(-13.25, 9.2083)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_ll51u")
 region_enabled = true
 region_rect = Rect2(33, 0, 32, 32)
 
 [node name="Sprite2D5" type="Sprite2D" parent="Control/Node2D"]
-position = Vector2(170.667, 13.3333)
+position = Vector2(-13.25, 1.7083)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_ll51u")
 region_enabled = true
 region_rect = Rect2(33, 0, 32, 32)
 
 [node name="Label" type="Label" parent="Control/Node2D"]
-offset_left = 168.0
-offset_top = 3.66667
-offset_right = 269.0
-offset_bottom = 77.6667
+offset_left = -15.917
+offset_top = -7.95833
+offset_right = 85.083
+offset_bottom = 66.0417
 scale = Vector2(0.3, 0.3)
 theme = ExtResource("3_ll51u")
 theme_override_font_sizes/font_size = 80
@@ -289,10 +297,10 @@ text = "1"
 horizontal_alignment = 1
 
 [node name="Label2" type="Label" parent="Control/Node2D"]
-offset_left = 163.0
-offset_top = 12.6667
-offset_right = 264.0
-offset_bottom = 86.6667
+offset_left = -20.917
+offset_top = 1.0417
+offset_right = 80.083
+offset_bottom = 75.0417
 scale = Vector2(0.15, 0.2)
 theme = ExtResource("3_ll51u")
 theme_override_font_sizes/font_size = 80
@@ -300,10 +308,10 @@ text = "2"
 horizontal_alignment = 1
 
 [node name="Label3" type="Label" parent="Control/Node2D"]
-offset_left = 190.667
-offset_top = 21.3333
-offset_right = 291.667
-offset_bottom = 95.3333
+offset_left = 6.75002
+offset_top = 9.7083
+offset_right = 107.75
+offset_bottom = 83.7083
 scale = Vector2(0.1, 0.1)
 theme = ExtResource("3_ll51u")
 theme_override_font_sizes/font_size = 80
@@ -312,7 +320,7 @@ horizontal_alignment = 1
 
 [node name="1st" type="Sprite2D" parent="Control"]
 visible = false
-position = Vector2(365, -3)
+position = Vector2(0.150024, -38.028)
 scale = Vector2(2, 2)
 texture = ExtResource("3_rixwf")
 offset = Vector2(-0.075, -8.236)
@@ -327,6 +335,7 @@ offset_bottom = -21.5
 theme = ExtResource("6_a2cu1")
 text = "player1"
 horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="AnimationPlayer1" type="AnimationPlayer" parent="Control"]
 root_node = NodePath("../..")
@@ -336,7 +345,7 @@ libraries = {
 
 [node name="2nd" type="Sprite2D" parent="Control"]
 visible = false
-position = Vector2(312, 26)
+position = Vector2(-52.85, -9.028)
 scale = Vector2(2, 2)
 texture = ExtResource("6_wbi6c")
 offset = Vector2(-0.075, -8.236)
@@ -354,7 +363,7 @@ horizontal_alignment = 2
 
 [node name="3rd" type="Sprite2D" parent="Control"]
 visible = false
-position = Vector2(416, 53)
+position = Vector2(51.15, 17.972)
 scale = Vector2(2, 2)
 texture = ExtResource("7_u4hde")
 offset = Vector2(-0.075, -8.236)
@@ -371,12 +380,12 @@ text = "player3"
 
 [node name="Puddle" type="Sprite2D" parent="Control"]
 visible = false
-position = Vector2(645, 224)
+position = Vector2(280.15, 188.972)
 texture = ExtResource("8_66hvp")
 
 [node name="4th" type="Sprite2D" parent="Control"]
 visible = false
-position = Vector2(648, 208)
+position = Vector2(283.15, 172.972)
 rotation = -1.55509
 scale = Vector2(2, 2)
 texture = ExtResource("3_rixwf")
@@ -399,7 +408,7 @@ horizontal_alignment = 1
 
 [node name="Kaboom" type="Sprite2D" parent="Control"]
 visible = false
-position = Vector2(638, 214)
+position = Vector2(273.15, 178.972)
 scale = Vector2(0.333333, 0.351648)
 texture = ExtResource("8_u4hde")
 hframes = 9

@@ -24,11 +24,11 @@ script = ExtResource("1_rs434")
 options_music = ExtResource("2_y4bli")
 
 [node name="BG" type="Sprite2D" parent="."]
-self_modulate = Color(0.501961, 0.501961, 0.501961, 1)
 texture_filter = 1
-position = Vector2(576, 337.5)
-scale = Vector2(3, 3)
+position = Vector2(-150, 0)
+scale = Vector2(2.4, 2.4)
 texture = ExtResource("2_mqvme")
+centered = false
 
 [node name="BGBlur" type="Panel" parent="."]
 material = SubResource("ShaderMaterial_rwie7")

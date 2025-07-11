@@ -6,22 +6,19 @@
 
 [node name="CSSPlayerView" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchor_right = 0.15
+anchor_bottom = 0.267
+offset_right = -144.0
+offset_bottom = -144.18
+size_flags_horizontal = 6
+size_flags_vertical = 6
 script = ExtResource("1_es03b")
 
 [node name="PlayerPanel" type="Panel" parent="."]
 texture_filter = 1
 layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -144.0
 offset_right = 144.0
-grow_vertical = 0
+offset_bottom = 144.0
 theme = ExtResource("2_4gt7n")
 
 [node name="Image" type="TextureRect" parent="PlayerPanel"]
@@ -35,7 +32,6 @@ texture = ExtResource("2_es03b")
 expand_mode = 2
 
 [node name="Text" type="Label" parent="PlayerPanel"]
-visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -44,24 +40,28 @@ offset_left = -64.0
 offset_top = -37.0
 offset_right = 64.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 28
 text = "PLAYER_NUM"
 horizontal_alignment = 1
 vertical_alignment = 1
+text_overrun_behavior = 1
+uppercase = true
 
 [node name="ClickPrompt" type="Label" parent="PlayerPanel"]
-visible = false
 modulate = Color(0.513726, 0.52549, 0.537255, 1)
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-offset_left = -68.0
-offset_top = 12.0
-offset_right = 70.0
-offset_bottom = 129.0
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -58.5
+offset_right = 48.0
+offset_bottom = 58.5
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 40
+grow_vertical = 2
+theme_override_font_sizes/font_size = 28
 text = "CLICK TO
 ADD
 CPU"
@@ -71,9 +71,6 @@ vertical_alignment = 1
 [node name="Button" type="Button" parent="PlayerPanel"]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.028
-anchor_bottom = 0.028
 offset_right = 139.968
 offset_bottom = 139.968
 

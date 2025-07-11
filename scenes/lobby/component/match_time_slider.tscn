@@ -9,17 +9,19 @@
 
 [node name="MatchTimeSetting" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
 grow_horizontal = 2
-grow_vertical = 2
+size_flags_horizontal = 4
 script = ExtResource("1_krq13")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
-offset_right = 1024.0
-offset_bottom = 64.0
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 32.0
+grow_horizontal = 2
 theme = ExtResource("1_bo60c")
 theme_override_constants/separation = 42
 

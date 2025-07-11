@@ -153,6 +153,7 @@ spawn_path = NodePath("..")
 script = ExtResource("6_8w4nb")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(96, 76)
 offset = Vector2(-336, -105)
 anchor_mode = 0
 

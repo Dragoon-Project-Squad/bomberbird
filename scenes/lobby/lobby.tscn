@@ -123,6 +123,7 @@ offset_bottom = 89.5
 
 [node name="CharacterSelect" parent="." instance=ExtResource("3_stkcr")]
 visible = false
+layout_mode = 1
 
 [node name="BattleSettings" parent="." instance=ExtResource("4_iytm0")]
 visible = false

@@ -4,7 +4,17 @@
 [ext_resource type="Script" uid="uid://cgw0sfjocxt82" path="res://scripts/ui/lobby/misobon_dropdown_button.gd" id="2_8q3x8"]
 
 [node name="MisobonDropdownButton" instance=ExtResource("1_27ky2")]
+anchors_preset = 10
+anchor_bottom = 0.0
+grow_vertical = 1
+size_flags_vertical = 4
 script = ExtResource("2_8q3x8")
+
+[node name="HBoxContainer" parent="." index="0"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = 0.0
+grow_horizontal = 2
 
 [node name="Label" parent="HBoxContainer" index="0"]
 text = "RAIL LAUNCHER"

@@ -12,7 +12,7 @@ region = Rect2(0, 0, 72, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k22gw"]
 atlas = ExtResource("1_nmudk")
-region = Rect2(72, 64, 505, 31)
+region = Rect2(72, 32, 310, 31)
 
 [node name="CampaignGameUI" type="CanvasLayer"]
 script = ExtResource("1_xkb3f")
