@@ -50,6 +50,7 @@ layout_mode = 1
 
 [node name="CharacterSelectScreen" parent="." instance=ExtResource("4_418fn")]
 visible = false
+layout_mode = 1
 
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
 auto_translate_mode = 1

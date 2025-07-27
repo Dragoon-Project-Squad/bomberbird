@@ -356,7 +356,7 @@ script = ExtResource("4_l4xky")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(96, 76)
-offset = Vector2(-336, -105)
+offset = Vector2(-336, -140)
 anchor_mode = 0
 
 [node name="Timers" type="Node" parent="."]
