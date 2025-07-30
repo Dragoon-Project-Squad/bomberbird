@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cuc5gsxl6umbl"]
+[gd_scene load_steps=10 format=3 uid="uid://cuc5gsxl6umbl"]
 
 [ext_resource type="Script" uid="uid://dhl231rxht8c4" path="res://scripts/ui/lobby/pickup_shop.gd" id="1_cmhj8"]
 [ext_resource type="Texture2D" uid="uid://27c5jtc8uveu" path="res://assets/ui/campaign_ui_sheet.png" id="1_k2iq3"]
@@ -6,6 +6,7 @@
 [ext_resource type="Theme" uid="uid://bgj72vffexht" path="res://assets/styles/panel_theme.tres" id="3_s6p8y"]
 [ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="4_wt7v3"]
 [ext_resource type="PackedScene" uid="uid://dkmu2o86hxfoh" path="res://scenes/ingame_ui/pickup_button.tscn" id="5_4u2ue"]
+[ext_resource type="Theme" uid="uid://wfdn1qbkwu46" path="res://assets/styles/main_menu_theme.tres" id="6_s6p8y"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oooui"]
 atlas = ExtResource("1_k2iq3")
@@ -16,6 +17,7 @@ atlas = ExtResource("1_k2iq3")
 region = Rect2(72, 64, 505, 31)
 
 [node name="PickupShop" type="Control"]
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -125,121 +127,143 @@ icon_alignment = 1
 script = ExtResource("4_wt7v3")
 metadata/_custom_type_script = "uid://boq3i75yls51h"
 
-[node name="Shop" type="VBoxContainer" parent="."]
+[node name="ShopPanel" type="Panel" parent="."]
 layout_mode = 0
-offset_left = 258.0
-offset_top = 76.0
-offset_right = 578.0
-offset_bottom = 294.0
+offset_left = 221.0
+offset_top = 80.0
+offset_right = 573.0
+offset_bottom = 311.0
 scale = Vector2(2, 2)
 
-[node name="PickupsLabel" type="Label" parent="Shop"]
-layout_mode = 2
-text = "Pickups:"
+[node name="Shop" type="VBoxContainer" parent="ShopPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -109.0
+offset_right = 160.0
+offset_bottom = 109.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Pickups" type="GridContainer" parent="Shop"]
+[node name="PickupsLabel" type="Label" parent="ShopPanel/Shop"]
+layout_mode = 2
+theme = ExtResource("6_s6p8y")
+text = "Pickups:"
+horizontal_alignment = 1
+
+[node name="Pickups" type="GridContainer" parent="ShopPanel/Shop"]
 unique_name_in_owner = true
 layout_mode = 2
 columns = 9
 
-[node name="ExtraBombButton" parent="Shop/Pickups" instance=ExtResource("5_4u2ue")]
+[node name="ExtraBombButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
 layout_mode = 2
 max_amount = 9
 
-[node name="ExplosionBoostButton" parent="Shop/Pickups" instance=ExtResource("5_4u2ue")]
+[node name="ExplosionBoostButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
 layout_mode = 2
 max_amount = 8
 pickup_name = "explosion_boost"
 
-[node name="MaxExplosionButton" parent="Shop/Pickups" instance=ExtResource("5_4u2ue")]
+[node name="MaxExplosionButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
 layout_mode = 2
 max_amount = 1
 pickup_name = "max_explosion"
 price = 750
 
-[node name="SpeedBoostButton" parent="Shop/Pickups" instance=ExtResource("5_4u2ue")]
+[node name="SpeedBoostButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
 layout_mode = 2
 max_amount = 9
 pickup_name = "speed_boost"
 
-[node name="HealthButton" parent="Shop/Pickups" instance=ExtResource("5_4u2ue")]
+[node name="HealthButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
 layout_mode = 2
 max_amount = 6
 pickup_name = "hearth"
 
-[node name="PunchButton" parent="Shop/Pickups" instance=ExtResource("5_4u2ue")]
+[node name="PunchButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
 layout_mode = 2
 max_amount = 1
 pickup_name = "punch_ability"
 price = 500
 
-[node name="ThrowButton" parent="Shop/Pickups" instance=ExtResource("5_4u2ue")]
+[node name="ThrowButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
 layout_mode = 2
 max_amount = 1
 pickup_name = "throw_ability"
 price = 500
 
-[node name="WallthroughButton" parent="Shop/Pickups" instance=ExtResource("5_4u2ue")]
+[node name="WallthroughButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
 layout_mode = 2
 max_amount = 1
 pickup_name = "wallthrough"
 price = 500
 
-[node name="MountButton" parent="Shop/Pickups" instance=ExtResource("5_4u2ue")]
+[node name="MountButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
 layout_mode = 2
 max_amount = 1
 pickup_name = "mount_goon"
 price = 750
 
-[node name="ExclusivePickupsLabel" type="Label" parent="Shop"]
+[node name="ExclusivePickupsLabel" type="Label" parent="ShopPanel/Shop"]
 layout_mode = 2
+theme = ExtResource("6_s6p8y")
 text = "Exclusive Pickups:"
+horizontal_alignment = 1
 
-[node name="ExclusivePickups" type="GridContainer" parent="Shop"]
+[node name="ExclusivePickups" type="GridContainer" parent="ShopPanel/Shop"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 4
 columns = 2
 
-[node name="KickButton" parent="Shop/ExclusivePickups" instance=ExtResource("5_4u2ue")]
+[node name="KickButton" parent="ShopPanel/Shop/ExclusivePickups" instance=ExtResource("5_4u2ue")]
 layout_mode = 2
 max_amount = 1
 pickup_name = "kick"
 price = 500
 
-[node name="BombthroughButton" parent="Shop/ExclusivePickups" instance=ExtResource("5_4u2ue")]
+[node name="BombthroughButton" parent="ShopPanel/Shop/ExclusivePickups" instance=ExtResource("5_4u2ue")]
 layout_mode = 2
 max_amount = 1
 pickup_name = "bombthrough"
 price = 500
 
-[node name="BombUpgradeLabel" type="Label" parent="Shop"]
+[node name="BombUpgradeLabel" type="Label" parent="ShopPanel/Shop"]
 layout_mode = 2
+theme = ExtResource("6_s6p8y")
 text = "Bomb Upgrade Pickups:"
+horizontal_alignment = 1
 
-[node name="BombUpgrades" type="GridContainer" parent="Shop"]
+[node name="BombUpgrades" type="GridContainer" parent="ShopPanel/Shop"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 4
 columns = 4
 
-[node name="PiercingButton" parent="Shop/BombUpgrades" instance=ExtResource("5_4u2ue")]
+[node name="PiercingButton" parent="ShopPanel/Shop/BombUpgrades" instance=ExtResource("5_4u2ue")]
 layout_mode = 2
 max_amount = 1
 pickup_name = "piercing_bomb"
 price = 500
 
-[node name="LandmineButton" parent="Shop/BombUpgrades" instance=ExtResource("5_4u2ue")]
+[node name="LandmineButton" parent="ShopPanel/Shop/BombUpgrades" instance=ExtResource("5_4u2ue")]
 layout_mode = 2
 max_amount = 1
 pickup_name = "land_mine"
 price = 500
 
-[node name="RemoteControlButton" parent="Shop/BombUpgrades" instance=ExtResource("5_4u2ue")]
+[node name="RemoteControlButton" parent="ShopPanel/Shop/BombUpgrades" instance=ExtResource("5_4u2ue")]
 layout_mode = 2
 max_amount = 1
 pickup_name = "remote_control"
 price = 500
 
-[node name="SeekerButton" parent="Shop/BombUpgrades" instance=ExtResource("5_4u2ue")]
+[node name="SeekerButton" parent="ShopPanel/Shop/BombUpgrades" instance=ExtResource("5_4u2ue")]
 layout_mode = 2
 max_amount = 1
 pickup_name = "seeker_bomb"
