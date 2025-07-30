@@ -65,7 +65,7 @@ auto_translate_mode = 1
 [connection signal="save_menu_back" from="SaveMenu" to="." method="show_mode_select_screen"]
 [connection signal="save_menu_existing_save" from="SaveMenu" to="." method="_on_game_start"]
 [connection signal="save_menu_new_save" from="SaveMenu" to="." method="show_character_select_screen"]
-[connection signal="characters_back_pressed" from="CharacterSelectScreen" to="." method="show_save_menu_screen"]
+[connection signal="characters_back_pressed" from="CharacterSelectScreen" to="." method="back_from_character_select_screen"]
 [connection signal="characters_confirmed" from="CharacterSelectScreen" to="." method="finished_character_select_screen"]
 [connection signal="pickup_shop_back" from="PickupShop" to="." method="show_character_select_screen"]
 [connection signal="pickup_shop_next" from="PickupShop" to="." method="_on_game_start"]
