@@ -142,7 +142,7 @@ func decide_pickup_type() -> int:
 	return get_type_from_weight(rng_result)
 	
 func determine_base_pickup_rate() -> void:
-	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
+	if globals.is_singleplayer():
 		pickup_spawn_chance = base_pickup_spawn_chance
 		return
 	if SettingsContainer.get_pickup_spawn_rule() == SettingsContainer.pickup_spawn_rule_setting_states.STAGE:

@@ -242,7 +242,7 @@ func load_world(game_scene):
 	# Change scene.
 	var game = load(game_scene).instantiate()
 	get_tree().get_root().add_child(game)
-	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
+	if globals.is_singleplayer():
 		if self.current_save.campaign != "": current_graph = self.current_save.campaign
 		else: self.current_save.campaign = current_graph
 		game.load_level_graph(current_graph)
@@ -306,7 +306,6 @@ func get_player_scores() -> Dictionary:
 	return scores
 
 func begin_singleplayer_game():
-	globals.current_gamemode = globals.gamemode.CAMPAIGN
 	SettingsContainer.misobon_setting = SettingsContainer.misobon_setting_states.OFF
 	human_player_count = 1
 	total_player_count = human_player_count
@@ -416,14 +415,30 @@ func end_sp_game():
 		var main_menu = get_node("/root/MainMenu")
 		main_menu.show()
 		main_menu.unpause_main_menu_music()
-	elif has_node("/root/lobby"):
-		var lobby: Node2D = get_node("/root/lobby")
+	elif has_node("/root/Lobby"):
+		var lobby: Control = get_node("/root/Lobby")
 		lobby.get_back_to_menu()
 	game_ended.emit() #Listen to this signal to tell other nodes to cease the game.
 	player_data_master_dict.clear()
 	resetvars()
 	world_data.reset()
-		
+
+func boss_rush_back_to_lobby():
+	save_sp_game()
+	if globals.game != null: # Game is in progress.
+		# End it
+		globals.game.queue_free()
+	await get_tree().create_timer(0.05).timeout #The game scene needs to DIE.
+	# Only run if Main Menu is currently loaded in the scene.
+	assert(has_node("/root/Lobby"))
+	var lobby: Control = get_node("/root/Lobby")
+	lobby.show_character_select_screen()
+
+	game_ended.emit() #Listen to this signal to tell other nodes to cease the game.
+	player_data_master_dict.clear()
+	resetvars()
+	world_data.reset()
+
 func end_game():
 	if globals.game != null: # Game is in progress.
 		# End it

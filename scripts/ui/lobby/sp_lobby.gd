@@ -9,7 +9,6 @@ extends Control
 @export var lobby_music: WwiseEvent
 
 func _ready() -> void:
-	gamestate.game_ended.connect(_on_game_ended)
 	gamestate.game_error.connect(_on_game_error)
 	
 	# activates the lobby music Wwise Event
@@ -18,12 +17,14 @@ func _ready() -> void:
 	show_mode_select_screen()
 
 func show_mode_select_screen() -> void:
+	show()
 	mode_select_screen.show()
 	save_select_screen.hide()
 	character_select_screen.hide()
 	pickup_shop_screen.hide()
 
 func show_save_menu_screen() -> void:
+	show()
 	mode_select_screen.hide()
 	save_select_screen.show()
 	character_select_screen.hide()
@@ -33,6 +34,7 @@ func show_character_select_screen() -> void:
 	assert(gamestate.current_save_file != "")
 	assert(gamestate.current_save.has("character_paths"))
 	assert(gamestate.current_save.has("player_name"))
+	show()
 	mode_select_screen.hide()
 	character_select_screen.enter()
 	save_select_screen.hide()
@@ -49,7 +51,14 @@ func finished_character_select_screen() -> void:
 	elif globals.is_campaign_mode():
 		_on_game_start()
 
+func back_from_character_select_screen() -> void:
+	if globals.is_boss_rush_mode():
+		show_mode_select_screen()
+	elif globals.is_campaign_mode():
+		show_save_menu_screen()
+
 func show_pickup_shop_screen():
+	show()
 	mode_select_screen.hide()
 	save_select_screen.hide()
 	character_select_screen.hide()
@@ -78,7 +87,4 @@ func _on_game_start() -> void:
 	hide_all_lobby_screens()
 
 func _on_error_dialog_confirmed() -> void:
-	get_back_to_menu()
-
-func _on_game_ended():
 	get_back_to_menu()

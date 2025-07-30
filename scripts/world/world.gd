@@ -79,7 +79,7 @@ func spawn_exits():
 		iter += 1
 
 func stop_hurry_up():
-	if hurry_up && globals.current_gamemode != globals.gamemode.CAMPAIGN:
+	if hurry_up && globals.is_singleplayer():
 		hurry_up.disable()
 
 ## Disabled this world so another may be enabled
@@ -141,7 +141,7 @@ func enable(
 			if _rng.randf_range(0, 1) > spawnpoint.probability: continue
 			spawnpoints.append(spawnpoint.coords + world_data.floor_origin)
 			
-	if is_multiplayer_authority() && globals.current_gamemode == globals.gamemode.BATTLEMODE:
+	if is_multiplayer_authority() && globals.is_multiplayer():
 		randomize_spawnpoints()
 		send_spawn_data.rpc(spawnpoints)
 
@@ -158,7 +158,7 @@ func enable(
 	else:
 		_generate_breakables_with_weights(breakable_table)
 
-	if hurry_up && globals.current_gamemode != globals.gamemode.CAMPAIGN:
+	if hurry_up && globals.is_multiplayer():
 		hurry_up.start()
 
 	world_data.finish_init()
@@ -333,7 +333,7 @@ func _spawn_player():
 
 		player = playerspawner.spawn(spawningdata)
 		var misobon_player = null
-		if globals.current_gamemode == globals.gamemode.CAMPAIGN:
+		if globals.is_singleplayer():
 			player.player_hurt.connect(globals.game.restart_current_stage)
 		if SettingsContainer.misobon_setting != SettingsContainer.misobon_setting_states.OFF:
 			misobondata.name = player.get_player_name()
