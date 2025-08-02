@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=4 uid="uid://bvmptnd1aktad"]
 
 [ext_resource type="Script" uid="uid://bebhr7v8s7t8y" path="res://scripts/world/runtime_build_stage.gd" id="1_sfhov"]
-[ext_resource type="Texture2D" uid="uid://xo8x8r75mtv2" path="res://assets/tilesetimages/lab_background.png" id="2_8kvfv"]
+[ext_resource type="Texture2D" uid="uid://cue6il0ob2ea4" path="res://assets/tilesetimages/lab_background_540.png" id="2_8kvfv"]
 [ext_resource type="TileSet" uid="uid://cx8n6oa7chiix" path="res://assets/tilesets/lab_tileset.tres" id="3_8ftkg"]
 [ext_resource type="TileSet" uid="uid://bbo4w3umv1ovk" path="res://assets/tilesets/lab_obstacle.tres" id="3_qyd28"]
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/tilesets/desert_tileset.tres" id="4_hxxxt"]

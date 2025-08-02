@@ -42,12 +42,11 @@ metadata/_custom_type_script = "uid://boq3i75yls51h"
 
 [node name="DescriptionPanel" type="Panel" parent="."]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 offset_left = 20.0
 offset_top = 30.0
-offset_right = 420.0
-offset_bottom = 530.0
+offset_right = 392.0
+offset_bottom = 528.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 theme = ExtResource("1_xfevh")
@@ -117,7 +116,7 @@ grow_vertical = 2
 theme_override_constants/separation = 50
 
 [node name="Campaign" type="Button" parent="ButtonBox"]
-custom_minimum_size = Vector2(350, 80)
+custom_minimum_size = Vector2(300, 40)
 layout_mode = 2
 focus_neighbor_bottom = NodePath("../BossRush")
 theme = ExtResource("1_xfevh")
@@ -127,7 +126,7 @@ script = ExtResource("2_nkq8c")
 metadata/_custom_type_script = "uid://boq3i75yls51h"
 
 [node name="BossRush" type="Button" parent="ButtonBox"]
-custom_minimum_size = Vector2(350, 80)
+custom_minimum_size = Vector2(300, 40)
 layout_mode = 2
 focus_neighbor_top = NodePath("../Campaign")
 theme = ExtResource("1_xfevh")

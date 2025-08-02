@@ -1,5 +1,5 @@
 extends Control
-@onready var title_sceen: Node2D = $TitleSceen
+@onready var title_screen: Control = $TitleScreen
 @onready var button_box: VBoxContainer = $ButtonBox
 @onready var options_menu: Control = $OptionsMenu
 @onready var credits_screen: Control = $Credits
@@ -29,12 +29,12 @@ func switch_to_credits_menu() -> void:
 	credits_screen.visible = true
 	
 func hide_main_menu() -> void:
-	title_sceen.hide()
+	title_screen.hide()
 	button_box.hide()
 	$DokiSubscribeLink.hide()
 	
 func reveal_main_menu() -> void:
-	title_sceen.visible = true
+	title_screen.visible = true
 	button_box.visible = true
 	$DokiSubscribeLink.show()
 
