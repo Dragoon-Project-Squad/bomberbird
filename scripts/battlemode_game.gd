@@ -38,6 +38,8 @@ func load_chosen_stage() -> String:
 			stage_path_to_load = globals.DUNGEON_RAND_STAGE_PATH
 		SettingsContainer.multiplayer_stages_secret_enabled.LAB:
 			stage_path_to_load = globals.LAB_RAND_STAGE_PATH
+		SettingsContainer.multiplayer_stages_secret_enabled.SCHOOL:
+			stage_path_to_load = globals.SCHOOL_RAND_STAGE_PATH
 		SettingsContainer.multiplayer_stages_secret_enabled.SECRET:
 			stage_path_to_load = globals.SECRET_RAND_STAGE_PATH
 		_:
