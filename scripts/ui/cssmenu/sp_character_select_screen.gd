@@ -5,6 +5,7 @@ extends Control
 @onready var secret_2: TextureButton = $SkinBG/CharacterGrid/secret2
 @onready var last_selected_panel: Panel = %CharacterGrid.get_node("eggoon/Panel")
 @onready var campaign_selector: Control = %CampaignSelector
+@onready var start_button: SeButton = %Start
 
 @export var supersecretvisible := false
 
@@ -27,12 +28,18 @@ func enter() -> void:
 	show()
 	campaign_selector.enter()
 
-
 	# select the default
 	show_selected_panel("eggoon")
 	gamestate.current_save.character_paths = "egggoon"
 	gamestate.current_save.player_name = "Player1"
 	%PlayerName.text = ""
+
+func make_starting_screen():
+	start_button.text = "Start"
+
+func make_next_screen():
+	start_button.text = "Next"
+
 
 
 func play_error_audio() -> void:
@@ -127,3 +134,5 @@ func _on_confirm_pressed() -> void:
 func _on_player_name_text_changed(new_text: String) -> void:
 	if new_text == "": gamestate.current_save.player_name = "Player1"
 	else: gamestate.current_save.player_name = new_text
+
+

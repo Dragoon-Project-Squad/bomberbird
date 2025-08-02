@@ -132,6 +132,8 @@ func init_pickups():
 		increase_speed.rpc()
 	for _speed_down in range(self.pickups.held_pickups[globals.pickups.SPEED_DOWN]):
 		decrease_speed.rpc()
+	for _health_up in range(self.pickups.held_pickups[globals.pickups.HP_UP]):
+		increase_live.rpc()
 	for _bomb_level_up in range(self.pickups.held_pickups[globals.pickups.FIRE_UP]):
 		increase_bomb_level.rpc()
 	for _bomb_count_up in range(self.pickups.held_pickups[globals.pickups.BOMB_UP]):
