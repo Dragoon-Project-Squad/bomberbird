@@ -5,7 +5,7 @@
 [ext_resource type="TileSet" uid="uid://cep6ug4u2nyaj" path="res://assets/tilesets/secret_tileset.tres" id="3_o685d"]
 [ext_resource type="TileSet" uid="uid://dtqaw8ji43d4n" path="res://assets/tilesets/school_obstacle.tres" id="4_5kmid"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="5_sue31"]
-[ext_resource type="PackedScene" uid="uid://bn58fqv6ar4sr" path="res://scenes/mus/dad_drive.tscn" id="6_yfj0h"]
+[ext_resource type="PackedScene" uid="uid://ul0n27wk45l7" path="res://scenes/mus/bountyhunterjam.tscn" id="6_5kmid"]
 
 [node name="RuntimeBuildSecretStage" type="Node2D" groups=["thrown_pickup_bounces"]]
 texture_filter = 1
@@ -35,4 +35,4 @@ tile_set = ExtResource("4_5kmid")
 [node name="HurryUp" parent="." instance=ExtResource("5_sue31")]
 tile_set = ExtResource("4_5kmid")
 
-[node name="Music" parent="." instance=ExtResource("6_yfj0h")]
+[node name="Music" parent="." instance=ExtResource("6_5kmid")]

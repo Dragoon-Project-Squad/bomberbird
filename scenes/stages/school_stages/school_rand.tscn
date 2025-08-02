@@ -6,7 +6,7 @@
 [ext_resource type="TileSet" uid="uid://cep6ug4u2nyaj" path="res://assets/tilesets/secret_tileset.tres" id="4_0u432"]
 [ext_resource type="TileSet" uid="uid://dtqaw8ji43d4n" path="res://assets/tilesets/school_obstacle.tres" id="5_mekou"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="6_ete5h"]
-[ext_resource type="PackedScene" uid="uid://ddr8h7grhxrtn" path="res://scenes/mus/secret_mus.tscn" id="7_wgxs3"]
+[ext_resource type="PackedScene" uid="uid://ul0n27wk45l7" path="res://scenes/mus/bountyhunterjam.tscn" id="7_mekou"]
 
 [node name="RandomizedSchoolStage" type="Node2D"]
 texture_filter = 1
@@ -39,4 +39,4 @@ tile_set = ExtResource("5_mekou")
 tile_set = ExtResource("5_mekou")
 falling_unbreakable_color = Color(0.317647, 0.364706, 0.509804, 1)
 
-[node name="Music" parent="." instance=ExtResource("7_wgxs3")]
+[node name="Music" parent="." instance=ExtResource("7_mekou")]
