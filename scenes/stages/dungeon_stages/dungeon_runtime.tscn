@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=4 uid="uid://yw8js4gg4cem"]
 
 [ext_resource type="Script" uid="uid://bebhr7v8s7t8y" path="res://scripts/world/runtime_build_stage.gd" id="1_e5lk7"]
-[ext_resource type="Texture2D" uid="uid://bjgruof3t5j4y" path="res://assets/tilesetimages/dungeon_background.png" id="2_5wjyb"]
+[ext_resource type="Texture2D" uid="uid://dropunqq5h5m3" path="res://assets/tilesetimages/dungeon_background_540.png" id="2_5wjyb"]
 [ext_resource type="TileSet" uid="uid://dfvqpfmyvsgrk" path="res://assets/tilesets/dungeon_tileset.tres" id="3_jsoac"]
 [ext_resource type="TileSet" uid="uid://cnoloqgn2qgfe" path="res://assets/tilesets/dungeon_obstacle.tres" id="3_mov85"]
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/tilesets/desert_tileset.tres" id="4_lhkpt"]

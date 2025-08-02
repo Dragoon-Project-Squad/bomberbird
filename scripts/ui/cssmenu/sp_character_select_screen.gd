@@ -134,5 +134,3 @@ func _on_confirm_pressed() -> void:
 func _on_player_name_text_changed(new_text: String) -> void:
 	if new_text == "": gamestate.current_save.player_name = "Player1"
 	else: gamestate.current_save.player_name = new_text
-
-
