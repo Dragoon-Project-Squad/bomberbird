@@ -88,6 +88,11 @@ func _on_summerdoki_pressed() -> void:
 	show_selected_panel("summerdoki")
 	gamestate.current_save.character_paths = "summerdoki"
 	play_select_audio.rpc()
+	
+func _on_schooldoki_pressed() -> void:
+	show_selected_panel("schooldoki")
+	gamestate.current_save.character_paths = "schooldoki"
+	play_select_audio.rpc()
 
 func _on_retrodoki_pressed() -> void:
 	show_selected_panel("retrodoki")
