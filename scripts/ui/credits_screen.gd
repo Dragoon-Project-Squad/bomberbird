@@ -148,6 +148,9 @@ var credits = [
 		"Fonts",
 		"Thaleah Fat by Rick Hoppmann",
 	],[
+		"Powered by Wwise",
+		"© 2006 – 2025 Audiokinetic Inc. All rights reserved.",
+	],[
 		"Special Thanks",
 		"Dragoon Project Squad",
 		"Super B*mberman R's Netcode"
