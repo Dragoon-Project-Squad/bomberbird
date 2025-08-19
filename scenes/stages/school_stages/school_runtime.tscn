@@ -1,38 +1,38 @@
-[gd_scene load_steps=7 format=4 uid="uid://c0dwd6cr5kool"]
+[gd_scene load_steps=7 format=4 uid="uid://coh4j5pk3472r"]
 
-[ext_resource type="Script" uid="uid://bebhr7v8s7t8y" path="res://scripts/world/runtime_build_stage.gd" id="1_0kfxx"]
-[ext_resource type="Texture2D" uid="uid://cg7omo0tgw4dc" path="res://assets/tilesetimages/secret_background_540.png" id="2_3a0xe"]
-[ext_resource type="TileSet" uid="uid://cep6ug4u2nyaj" path="res://assets/tilesets/secret_tileset.tres" id="2_3xkh4"]
-[ext_resource type="TileSet" uid="uid://cplthfpsgy3e2" path="res://assets/tilesets/secret_obstacle.tres" id="4_bstlg"]
-[ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="4_r10gi"]
-[ext_resource type="PackedScene" uid="uid://bn58fqv6ar4sr" path="res://scenes/mus/dad_drive.tscn" id="5_q3n0w"]
+[ext_resource type="Script" uid="uid://bebhr7v8s7t8y" path="res://scripts/world/runtime_build_stage.gd" id="1_dyrnj"]
+[ext_resource type="Texture2D" uid="uid://5fnj8pam6cw1" path="res://assets/tilesetimages/school_background_540.png" id="2_5kmid"]
+[ext_resource type="TileSet" uid="uid://cep6ug4u2nyaj" path="res://assets/tilesets/secret_tileset.tres" id="3_o685d"]
+[ext_resource type="TileSet" uid="uid://dtqaw8ji43d4n" path="res://assets/tilesets/school_obstacle.tres" id="4_5kmid"]
+[ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="5_sue31"]
+[ext_resource type="PackedScene" uid="uid://ul0n27wk45l7" path="res://scenes/mus/bountyhunterjam.tscn" id="6_5kmid"]
 
 [node name="RuntimeBuildSecretStage" type="Node2D" groups=["thrown_pickup_bounces"]]
 texture_filter = 1
-script = ExtResource("1_0kfxx")
+script = ExtResource("1_dyrnj")
 unbreakable_tile = Vector2i(1, 0)
-breakable_texture = 5
+breakable_texture = 4
 _arena_rect = Rect2i(1, 3, 13, 11)
 _world_edge_rect = Rect2i(-2, -2, 19, 19)
 spawnpoints = Array[Vector2i]([Vector2i(1, 3), Vector2i(13, 3), Vector2i(1, 13), Vector2i(13, 13)])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(240, 208)
-texture = ExtResource("2_3a0xe")
+texture = ExtResource("2_5kmid")
 
 [node name="Floor" type="TileMapLayer" parent="."]
 visible = false
-tile_set = ExtResource("2_3xkh4")
+tile_set = ExtResource("3_o685d")
 
 [node name="Bounds" type="TileMapLayer" parent="." groups=["bombstop", "thrown_bomb_bounces", "thrown_pickup_bounces"]]
 visible = false
 tile_map_data = PackedByteArray("AAAPAAAAAgAFAAIAAAAPAA4AAgAFAAIAAAAPAA8AAgAFAAIAAAAOAA8AAgAFAAIAAAANAA8AAgAFAAIAAAAMAA8AAgAFAAIAAAALAA8AAgAFAAIAAAAKAA8AAgAFAAIAAAAJAA8AAgAFAAIAAAAIAA8AAgAFAAIAAAAHAA8AAgAFAAIAAAAGAA8AAgAFAAIAAAAFAA8AAgAFAAIAAAAEAA8AAgAFAAIAAAADAA8AAgAFAAIAAAACAA8AAgAFAAIAAAABAA8AAgAFAAIAAAAAAA8AAgAFAAIAAAD//w8AAgAFAAIAAAD//w4AAgAFAAIAAAD//w0AAgAFAAIAAAD//wwAAgAFAAIAAAD//wsAAgAFAAIAAAD//woAAgAFAAIAAAD//wkAAgAFAAIAAAD//wgAAgAFAAIAAAD//wcAAgAFAAIAAAD//wYAAgAFAAIAAAD//wUAAgAFAAIAAAD//wQAAgAFAAIAAAD//wMAAgAFAAIAAAD//wIAAgAFAAIAAAD//wEAAgAFAAIAAAD//wAAAgAFAAIAAAAPAAEAAgAFAAIAAAAPAAIAAgAFAAIAAAAPAAMAAgAFAAIAAAAPAAQAAgAFAAIAAAAPAAUAAgAFAAIAAAAPAAYAAgAFAAIAAAAPAAcAAgAFAAIAAAAPAAgAAgAFAAIAAAAPAAkAAgAFAAIAAAAPAAoAAgAFAAIAAAAPAAsAAgAFAAIAAAAPAAwAAgAFAAIAAAAPAA0AAgAFAAIAAAD/////AgAFAAIAAAAAAP//AgAFAAIAAAABAP//AgAFAAIAAAACAP//AgAFAAIAAAADAP//AgAFAAIAAAAEAP//AgAFAAIAAAAFAP//AgAFAAIAAAAGAP//AgAFAAIAAAAHAP//AgAFAAIAAAAIAP//AgAFAAIAAAAJAP//AgAFAAIAAAAKAP//AgAFAAIAAAALAP//AgAFAAIAAAAMAP//AgAFAAIAAAANAP//AgAFAAIAAAAOAP//AgAFAAIAAAAPAP//AgAFAAIAAAABAAEAAgAEAAIAAAABAAIAAgAEAAIAAAACAAEAAgAEAAIAAAACAAIAAgAEAAIAAAADAAEAAgAEAAIAAAADAAIAAgAEAAIAAAAEAAEAAgAEAAIAAAAEAAIAAgAEAAIAAAAFAAEAAgAEAAIAAAAFAAIAAgAEAAIAAAAGAAEAAgAEAAIAAAAGAAIAAgAEAAIAAAAHAAEAAgAEAAIAAAAHAAIAAgAEAAIAAAAIAAEAAgAEAAIAAAAIAAIAAgAEAAIAAAAJAAEAAgAEAAIAAAAJAAIAAgAEAAIAAAAKAAEAAgAEAAIAAAAKAAIAAgAEAAIAAAALAAEAAgAEAAIAAAALAAIAAgAEAAIAAAAMAAEAAgAEAAIAAAAMAAIAAgAEAAIAAAANAAEAAgAEAAIAAAANAAIAAgAEAAIAAAAAAAAAAgAFAAIAAAABAAAAAgAFAAIAAAACAAAAAgAFAAIAAAADAAAAAgAFAAIAAAAEAAAAAgAFAAIAAAAFAAAAAgAFAAIAAAAGAAAAAgAFAAIAAAAHAAAAAgAFAAIAAAAIAAAAAgAFAAIAAAAJAAAAAgAFAAIAAAAKAAAAAgAFAAIAAAALAAAAAgAFAAIAAAAMAAAAAgAFAAIAAAANAAAAAgAFAAIAAAAOAAAAAgAFAAIAAAAAAAEAAgAFAAIAAAAAAAIAAgAFAAIAAAAAAAMAAgAFAAIAAAAAAAQAAgAFAAIAAAAAAAUAAgAFAAIAAAAAAAYAAgAFAAIAAAAAAAcAAgAFAAIAAAAAAAgAAgAFAAIAAAAAAAkAAgAFAAIAAAAAAAoAAgAFAAIAAAAAAAsAAgAFAAIAAAAAAA0AAgAFAAIAAAAAAA4AAgAFAAIAAAAAAAwAAgAFAAIAAAABAA4AAgAFAAIAAAACAA4AAgAFAAIAAAADAA4AAgAFAAIAAAAEAA4AAgAFAAIAAAAFAA4AAgAFAAIAAAAGAA4AAgAFAAIAAAAHAA4AAgAFAAIAAAAIAA4AAgAFAAIAAAAJAA4AAgAFAAIAAAAKAA4AAgAFAAIAAAALAA4AAgAFAAIAAAAMAA4AAgAFAAIAAAANAA4AAgAFAAIAAAAOAA4AAgAFAAIAAAAOAA0AAgAFAAIAAAAOAAwAAgAFAAIAAAAOAAsAAgAFAAIAAAAOAAoAAgAFAAIAAAAOAAkAAgAFAAIAAAAOAAgAAgAFAAIAAAAOAAcAAgAFAAIAAAAOAAYAAgAFAAIAAAAOAAUAAgAFAAIAAAAOAAQAAgAFAAIAAAAOAAMAAgAFAAIAAAAOAAIAAgAFAAIAAAAOAAEAAgAFAAIAAAA=")
-tile_set = ExtResource("2_3xkh4")
+tile_set = ExtResource("3_o685d")
 
 [node name="Obstacles" type="TileMapLayer" parent="." groups=["bombstop", "thrown_bomb_bounces", "thrown_pickup_bounces"]]
-tile_set = ExtResource("4_bstlg")
+tile_set = ExtResource("4_5kmid")
 
-[node name="HurryUp" parent="." instance=ExtResource("4_r10gi")]
-tile_set = ExtResource("4_bstlg")
+[node name="HurryUp" parent="." instance=ExtResource("5_sue31")]
+tile_set = ExtResource("4_5kmid")
 
-[node name="Music" parent="." instance=ExtResource("5_q3n0w")]
+[node name="Music" parent="." instance=ExtResource("6_5kmid")]

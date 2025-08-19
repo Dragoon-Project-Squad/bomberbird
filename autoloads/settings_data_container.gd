@@ -17,8 +17,8 @@ enum cpu_difficulty_setting_states {STATIONARY, EASY, MEDIUM, HARD}
 enum misobon_setting_states {OFF, ON, SUPER}
 enum breakable_spawn_rule_setting_states {STAGE, CUSTOM}
 enum pickup_spawn_rule_setting_states {STAGE, CUSTOM}
-enum multiplayer_stages {SALOON=0, BEACH=1, DUNGEON=2, LAB=3}
-enum multiplayer_stages_secret_enabled {SALOON=0, BEACH=1, DUNGEON=2, LAB=3, SECRET=4}
+enum multiplayer_stages {SALOON=0, BEACH=1, DUNGEON=2, LAB=3, SCHOOL=4}
+enum multiplayer_stages_secret_enabled {SALOON=0, BEACH=1, DUNGEON=2, LAB=3, SCHOOL=4, SECRET=5}
 # Multiplayer
 var points_to_win := 3
 var cpu_difficulty := cpu_difficulty_setting_states.MEDIUM #The dropdown is set to a dictionary.

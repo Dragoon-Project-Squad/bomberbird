@@ -134,6 +134,11 @@ func _on_summerdoki_pressed() -> void:
 	gamestate.change_character_player.rpc_id(1, character_texture_paths.summerdoki_paths)
 	play_select_audio.rpc()
 	
+func _on_schooldoki_pressed() -> void:
+	change_slot_texture.rpc_id(1, character_texture_paths.SCHOOLDOKI_SELECT_TEXTURE_PATH)
+	gamestate.change_character_player.rpc_id(1, character_texture_paths.schooldoki_paths)
+	play_select_audio.rpc()
+	
 func _on_retrodoki_pressed() -> void:
 	change_slot_texture.rpc_id(1, character_texture_paths.RETRODOKI_SELECT_TEXTURE_PATH)
 	gamestate.change_character_player.rpc_id(1, character_texture_paths.retrodoki_paths)

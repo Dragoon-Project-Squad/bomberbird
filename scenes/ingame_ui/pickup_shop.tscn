@@ -128,11 +128,14 @@ script = ExtResource("4_wt7v3")
 metadata/_custom_type_script = "uid://boq3i75yls51h"
 
 [node name="ShopPanel" type="Panel" parent="."]
-layout_mode = 0
-offset_left = 221.0
-offset_top = 87.0
-offset_right = 573.0
-offset_bottom = 308.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
 scale = Vector2(2, 2)
 
 [node name="Shop" type="VBoxContainer" parent="ShopPanel"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cwhum362lt6ww"]
+[gd_scene load_steps=24 format=3 uid="uid://cwhum362lt6ww"]
 
 [ext_resource type="Script" uid="uid://diwfw63wskeam" path="res://scripts/ui/cssmenu/sp_character_select_screen.gd" id="1_m7566"]
 [ext_resource type="WwiseEvent" uid="uid://bak0yi1280a42" path="res://Wwise/resources/Event/{7CDF280F-85BA-44B7-AF42-B2759FD386B0}.tres" id="2_8ct70"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://d0y2r3fljtvvk" path="res://assets/css/altdoki.png" id="11_cwf8a"]
 [ext_resource type="Texture2D" uid="uid://bo3qpj0w0drkm" path="res://assets/css/summerdoki.png" id="12_5yoqc"]
 [ext_resource type="Texture2D" uid="uid://bcm64uj7bwp87" path="res://assets/css/crowki.png" id="12_yf0se"]
+[ext_resource type="Texture2D" uid="uid://cg4n2605bc2xc" path="res://assets/css/schooldoki.png" id="13_8ct70"]
 [ext_resource type="Texture2D" uid="uid://bpx3jen13addh" path="res://assets/css/tomato.png" id="13_bx7t6"]
 [ext_resource type="Texture2D" uid="uid://cefndan5pti47" path="res://assets/css/wisp.png" id="14_dj41s"]
 [ext_resource type="Texture2D" uid="uid://bngq754xh3q18" path="res://assets/css/maidmint.png" id="15_y4rb0"]
@@ -228,6 +229,30 @@ texture_normal = ExtResource("12_5yoqc")
 stretch_mode = 0
 
 [node name="Panel" type="Panel" parent="SkinBG/CharacterGrid/summerdoki"]
+visible = false
+show_behind_parent = true
+z_as_relative = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_right = 2.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_m7566")
+
+[node name="schooldoki" type="TextureButton" parent="SkinBG/CharacterGrid"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+toggle_mode = true
+button_group = ExtResource("3_m7566")
+texture_normal = ExtResource("13_8ct70")
+stretch_mode = 0
+
+[node name="Panel" type="Panel" parent="SkinBG/CharacterGrid/schooldoki"]
 visible = false
 show_behind_parent = true
 z_as_relative = false
@@ -502,6 +527,7 @@ offset_bottom = 417.0
 [connection signal="pressed" from="SkinBG/CharacterGrid/dad" to="." method="_on_dad_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/bhdoki" to="." method="_on_bhdoki_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/summerdoki" to="." method="_on_summerdoki_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/schooldoki" to="." method="_on_schooldoki_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/retrodoki" to="." method="_on_retrodoki_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/altdoki" to="." method="_on_altdoki_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/crowki" to="." method="_on_crowki_pressed"]
