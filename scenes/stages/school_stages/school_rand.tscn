@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=4 uid="uid://bl2nen5wep7q5"]
+[gd_scene load_steps=14 format=4 uid="uid://bl2nen5wep7q5"]
 
 [ext_resource type="Script" uid="uid://c7rrhgeevwtus" path="res://scripts/world/randomized_stage.gd" id="1_7e5g2"]
 [ext_resource type="Resource" uid="uid://yt4d2kbqmpeb" path="res://resources/gameplay/school_pickup_table.tres" id="2_mekou"]
@@ -7,6 +7,43 @@
 [ext_resource type="TileSet" uid="uid://dtqaw8ji43d4n" path="res://assets/tilesets/school_obstacle.tres" id="5_mekou"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="6_ete5h"]
 [ext_resource type="PackedScene" uid="uid://ul0n27wk45l7" path="res://scenes/mus/bountyhunterjam.tscn" id="7_mekou"]
+[ext_resource type="Texture2D" uid="uid://ogckx80yrs60" path="res://assets/tilesetimages/a_standinggoon.png" id="8_qe880"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ykmj3"]
+atlas = ExtResource("8_qe880")
+region = Rect2(0, 0, 32, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mqx6f"]
+atlas = ExtResource("8_qe880")
+region = Rect2(32, 0, 32, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vfin2"]
+atlas = ExtResource("8_qe880")
+region = Rect2(64, 0, 32, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gp6u7"]
+atlas = ExtResource("8_qe880")
+region = Rect2(96, 0, 32, 31)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_noqne"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ykmj3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mqx6f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vfin2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gp6u7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 4.0
+}]
 
 [node name="RandomizedSchoolStage" type="Node2D"]
 texture_filter = 1
@@ -40,3 +77,9 @@ tile_set = ExtResource("5_mekou")
 falling_unbreakable_color = Color(0.317647, 0.364706, 0.509804, 1)
 
 [node name="Music" parent="." instance=ExtResource("7_mekou")]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-24, 176)
+sprite_frames = SubResource("SpriteFrames_noqne")
+autoplay = "default"
+frame_progress = 0.506281
