@@ -8,6 +8,9 @@ extends Control
 ## plays lobby music for the singleplayer lobby only.
 @export var lobby_music: WwiseEvent
 
+enum campaign_type { SHORT_CAMPAIGN, NORMAL_CAMPAIGN }
+var curr_campaign_type = campaign_type.NORMAL_CAMPAIGN
+
 func _ready() -> void:
 	gamestate.game_error.connect(_on_game_error)
 	
@@ -15,6 +18,12 @@ func _ready() -> void:
 	lobby_music.post(self)
 	
 	show_mode_select_screen()
+
+func set_campaign_type_short():
+	curr_campaign_type = campaign_type.SHORT_CAMPAIGN
+
+func set_campaign_type_normal():
+	curr_campaign_type = campaign_type.NORMAL_CAMPAIGN
 
 func show_mode_select_screen() -> void:
 	show()
