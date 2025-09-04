@@ -1,5 +1,6 @@
 extends Control
 
+const DEFAULT_SHORTER_CAMPAIGN_GRAPH_NAME: String = "shorter_campaign_v1"
 const DEFAULT_CAMPAIGN_GRAPH_NAME: String = "campaign_v1"
 const DEFAULT_BOSS_RUSH_GRAPH_NAME: String = "BossRush"
 const DEFAULT_BOSS_RUSH_SECRET_GRAPH_NAME: String = "BossRush"
@@ -51,7 +52,10 @@ func _ready() -> void:
 
 func enter():
 	if globals.is_campaign_mode():
-		_update_and_set(DEFAULT_CAMPAIGN_GRAPH_NAME)
+		if has_node("/root/Lobby") && get_node("/root/Lobby").curr_campaign_type == get_node("/root/Lobby").campaign_type.SHORT_CAMPAIGN:
+			_update_and_set(DEFAULT_SHORTER_CAMPAIGN_GRAPH_NAME)
+		else:
+			_update_and_set(DEFAULT_CAMPAIGN_GRAPH_NAME)
 	elif globals.is_boss_rush_mode():
 		if globals.secrets_enabled:
 			_update_and_set(DEFAULT_BOSS_RUSH_SECRET_GRAPH_NAME)

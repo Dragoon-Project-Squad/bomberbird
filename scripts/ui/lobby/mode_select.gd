@@ -1,11 +1,13 @@
 extends Control
 
 signal mode_select_back
+signal enter_short_campaign_mode
 signal enter_campaign_mode
 signal enter_boss_rush_mode
 
 @onready var description_panel: Panel = %DescriptionPanel
 @onready var title_label: Label = %Title
+@onready var short_campaign_label: Label = %ShortCampaignDescription
 @onready var campaign_label: Label = %CampaignDescription
 @onready var boss_rush_label: Label = %BossRushDescription
 
@@ -18,6 +20,10 @@ func _exit():
 
 func _on_back_pressed():
 	mode_select_back.emit()
+
+func _on_short_campaign_pressed():
+	globals.current_gamemode = globals.gamemode.CAMPAIGN
+	enter_short_campaign_mode.emit()
 
 func _on_campaign_pressed():
 	globals.current_gamemode = globals.gamemode.CAMPAIGN

@@ -55,6 +55,7 @@ visible = false
 layout_mode = 1
 
 [node name="PickupShop" parent="." instance=ExtResource("8_twxis")]
+visible = false
 layout_mode = 1
 
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
@@ -62,6 +63,9 @@ auto_translate_mode = 1
 
 [connection signal="enter_boss_rush_mode" from="ModeSelect" to="." method="show_character_select_screen"]
 [connection signal="enter_campaign_mode" from="ModeSelect" to="." method="show_save_menu_screen"]
+[connection signal="enter_campaign_mode" from="ModeSelect" to="." method="set_campaign_type_normal"]
+[connection signal="enter_short_campaign_mode" from="ModeSelect" to="." method="set_campaign_type_short"]
+[connection signal="enter_short_campaign_mode" from="ModeSelect" to="." method="show_save_menu_screen"]
 [connection signal="mode_select_back" from="ModeSelect" to="." method="get_back_to_menu"]
 [connection signal="save_menu_back" from="SaveMenu" to="." method="show_mode_select_screen"]
 [connection signal="save_menu_existing_save" from="SaveMenu" to="." method="_on_game_start"]
