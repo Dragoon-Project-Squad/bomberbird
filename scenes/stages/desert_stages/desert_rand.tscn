@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=4 uid="uid://dfsostr8uaxid"]
+[gd_scene load_steps=9 format=4 uid="uid://dfsostr8uaxid"]
 
 [ext_resource type="Script" uid="uid://c7rrhgeevwtus" path="res://scripts/world/randomized_stage.gd" id="1_vgw80"]
 [ext_resource type="Resource" uid="uid://cl4yeiw43e6l2" path="res://resources/gameplay/desert_pickup_table.tres" id="2_bnkse"]
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/tilesets/desert_tileset.tres" id="3_bnkse"]
 [ext_resource type="Texture2D" uid="uid://cvisbmqvqmv0b" path="res://assets/tilesetimages/desert_background_540.png" id="3_nxou1"]
+[ext_resource type="SpriteFrames" uid="uid://cfsihq53auf3o" path="res://scenes/stages/desert_rand.tres" id="3_rgqiq"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="4_nxou1"]
 [ext_resource type="TileSet" uid="uid://rloj8u7pcig6" path="res://assets/tilesets/desert_obstacle.tres" id="5_bnkse"]
 [ext_resource type="PackedScene" uid="uid://ul0n27wk45l7" path="res://scenes/mus/bountyhunterjam.tscn" id="5_rgqiq"]
@@ -17,7 +18,13 @@ _world_edge_rect = Rect2i(-2, -2, 19, 19)
 spawnpoints = Array[Vector2i]([Vector2i(1, 3), Vector2i(13, 3), Vector2i(1, 13), Vector2i(13, 13)])
 pickup_table = ExtResource("2_bnkse")
 
-[node name="Background" type="Sprite2D" parent="."]
+[node name="Background" type="AnimatedSprite2D" parent="."]
+position = Vector2(240, 208)
+sprite_frames = ExtResource("3_rgqiq")
+autoplay = "default"
+
+[node name="BackgroundOldge" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(240, 208)
 texture = ExtResource("3_nxou1")
 

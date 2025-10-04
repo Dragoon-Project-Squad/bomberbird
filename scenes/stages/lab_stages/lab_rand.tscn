@@ -1,180 +1,13 @@
-[gd_scene load_steps=49 format=4 uid="uid://cweqoqxedyaxv"]
+[gd_scene load_steps=9 format=4 uid="uid://cweqoqxedyaxv"]
 
 [ext_resource type="Script" uid="uid://c7rrhgeevwtus" path="res://scripts/world/randomized_stage.gd" id="1_ja737"]
 [ext_resource type="Resource" uid="uid://dtqcmg620eyuh" path="res://resources/gameplay/lab_pickup_table.tres" id="2_ru4ht"]
-[ext_resource type="Texture2D" uid="uid://ev2xfk5bs4kh" path="res://assets/tilesetimages/lab_frames/lab_background1.png" id="3_24p5s"]
 [ext_resource type="Texture2D" uid="uid://cue6il0ob2ea4" path="res://assets/tilesetimages/lab_background_540.png" id="3_ig8h6"]
 [ext_resource type="TileSet" uid="uid://cx8n6oa7chiix" path="res://assets/tilesets/lab_tileset.tres" id="3_ja737"]
-[ext_resource type="Texture2D" uid="uid://mq113f4wn66g" path="res://assets/tilesetimages/lab_frames/lab_background2.png" id="4_8igj5"]
+[ext_resource type="SpriteFrames" uid="uid://navrkf1xhnp" path="res://scenes/stages/lab_rand.tres" id="3_ru4ht"]
 [ext_resource type="TileSet" uid="uid://bbo4w3umv1ovk" path="res://assets/tilesets/lab_obstacle.tres" id="4_ig8h6"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="5_0poyn"]
-[ext_resource type="Texture2D" uid="uid://cql6u0d1mdkjg" path="res://assets/tilesetimages/lab_frames/lab_background3.png" id="5_xyrr0"]
 [ext_resource type="PackedScene" uid="uid://bn58fqv6ar4sr" path="res://scenes/mus/dad_drive.tscn" id="6_8nh8g"]
-[ext_resource type="Texture2D" uid="uid://db6tcii8swsp3" path="res://assets/tilesetimages/lab_frames/lab_background4.png" id="6_ittwy"]
-[ext_resource type="Texture2D" uid="uid://otqiipug6j1b" path="res://assets/tilesetimages/lab_frames/lab_background5.png" id="7_nb23m"]
-[ext_resource type="Texture2D" uid="uid://cs1b431218udu" path="res://assets/tilesetimages/lab_frames/lab_background6.png" id="8_isfjd"]
-[ext_resource type="Texture2D" uid="uid://cw3ev4yrctvm6" path="res://assets/tilesetimages/lab_frames/lab_background7.png" id="9_urg3q"]
-[ext_resource type="Texture2D" uid="uid://dg7bn6ahb5d6" path="res://assets/tilesetimages/lab_frames/lab_background8.png" id="10_qxopg"]
-[ext_resource type="Texture2D" uid="uid://bor77alagpj43" path="res://assets/tilesetimages/lab_frames/lab_background9.png" id="11_te72e"]
-[ext_resource type="Texture2D" uid="uid://b4gu2ns85hh0t" path="res://assets/tilesetimages/lab_frames/lab_background10.png" id="12_s7kpb"]
-[ext_resource type="Texture2D" uid="uid://bdaoljsorghsp" path="res://assets/tilesetimages/lab_frames/lab_background11.png" id="13_a2c3i"]
-[ext_resource type="Texture2D" uid="uid://b5vspksu04jv2" path="res://assets/tilesetimages/lab_frames/lab_background12.png" id="14_esimf"]
-[ext_resource type="Texture2D" uid="uid://buwfy1x834kt" path="res://assets/tilesetimages/lab_frames/lab_background13.png" id="15_08dqu"]
-[ext_resource type="Texture2D" uid="uid://cpe3s4otmu8m0" path="res://assets/tilesetimages/lab_frames/lab_background14.png" id="16_ir88b"]
-[ext_resource type="Texture2D" uid="uid://doexu27uv31as" path="res://assets/tilesetimages/lab_frames/lab_background15.png" id="17_ma8h3"]
-[ext_resource type="Texture2D" uid="uid://u0wewlxxnw64" path="res://assets/tilesetimages/lab_frames/lab_background16.png" id="18_a1wcq"]
-[ext_resource type="Texture2D" uid="uid://ckr21yeg68ol0" path="res://assets/tilesetimages/lab_frames/lab_background17.png" id="19_lxuwy"]
-[ext_resource type="Texture2D" uid="uid://bsjsvgipjjli0" path="res://assets/tilesetimages/lab_frames/lab_background18.png" id="20_7jpl6"]
-[ext_resource type="Texture2D" uid="uid://d1f4tu7xde0hs" path="res://assets/tilesetimages/lab_frames/lab_background19.png" id="21_lylae"]
-[ext_resource type="Texture2D" uid="uid://b431wfno5ilqn" path="res://assets/tilesetimages/lab_frames/lab_background20.png" id="22_fwu7f"]
-[ext_resource type="Texture2D" uid="uid://dyc6prvsuke5u" path="res://assets/tilesetimages/lab_frames/lab_background21.png" id="23_2dxy5"]
-[ext_resource type="Texture2D" uid="uid://ddvmn0adwmll2" path="res://assets/tilesetimages/lab_frames/lab_background22.png" id="24_8n1mb"]
-[ext_resource type="Texture2D" uid="uid://cerelyts1c8gw" path="res://assets/tilesetimages/lab_frames/lab_background23.png" id="25_1lv1h"]
-[ext_resource type="Texture2D" uid="uid://bcdkxfuq1j0p2" path="res://assets/tilesetimages/lab_frames/lab_background24.png" id="26_dw21j"]
-[ext_resource type="Texture2D" uid="uid://bdqfffo366a6t" path="res://assets/tilesetimages/lab_frames/lab_background25.png" id="27_86003"]
-[ext_resource type="Texture2D" uid="uid://dmh8fcj2dwchw" path="res://assets/tilesetimages/lab_frames/lab_background26.png" id="28_gddxw"]
-[ext_resource type="Texture2D" uid="uid://c2mboaml6jd0x" path="res://assets/tilesetimages/lab_frames/lab_background27.png" id="29_ahuur"]
-[ext_resource type="Texture2D" uid="uid://cg3m5ok4gyeda" path="res://assets/tilesetimages/lab_frames/lab_background28.png" id="30_nk6dx"]
-[ext_resource type="Texture2D" uid="uid://oecbt3bq2rgm" path="res://assets/tilesetimages/lab_frames/lab_background29.png" id="31_mr013"]
-[ext_resource type="Texture2D" uid="uid://donq4v33ukbgm" path="res://assets/tilesetimages/lab_frames/lab_background30.png" id="32_nwtbu"]
-[ext_resource type="Texture2D" uid="uid://do6hnfnh1gss0" path="res://assets/tilesetimages/lab_frames/lab_background31.png" id="33_eq3p8"]
-[ext_resource type="Texture2D" uid="uid://c2vpxdvm7rnmk" path="res://assets/tilesetimages/lab_frames/lab_background32.png" id="34_tmot7"]
-[ext_resource type="Texture2D" uid="uid://dblrjri523bro" path="res://assets/tilesetimages/lab_frames/lab_background33.png" id="35_hrki4"]
-[ext_resource type="Texture2D" uid="uid://brtn0tbp5y3ag" path="res://assets/tilesetimages/lab_frames/lab_background34.png" id="36_2sis3"]
-[ext_resource type="Texture2D" uid="uid://nfpqo7vq22lu" path="res://assets/tilesetimages/lab_frames/lab_background35.png" id="37_fp4ti"]
-[ext_resource type="Texture2D" uid="uid://bmcb5m88by0f4" path="res://assets/tilesetimages/lab_frames/lab_background36.png" id="38_vt5jl"]
-[ext_resource type="Texture2D" uid="uid://cyqy2unxhb0if" path="res://assets/tilesetimages/lab_frames/lab_background37.png" id="39_2yw3g"]
-[ext_resource type="Texture2D" uid="uid://bski2cbkwlto1" path="res://assets/tilesetimages/lab_frames/lab_background38.png" id="40_4bhl5"]
-[ext_resource type="Texture2D" uid="uid://c1u22l2fhnnoj" path="res://assets/tilesetimages/lab_frames/lab_background39.png" id="41_fswg8"]
-[ext_resource type="Texture2D" uid="uid://ctu056wkg0xgw" path="res://assets/tilesetimages/lab_frames/lab_background40.png" id="42_1qmcd"]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_flesn"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("3_24p5s")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_8igj5")
-}, {
-"duration": 1.0,
-"texture": ExtResource("5_xyrr0")
-}, {
-"duration": 1.0,
-"texture": ExtResource("6_ittwy")
-}, {
-"duration": 1.0,
-"texture": ExtResource("7_nb23m")
-}, {
-"duration": 1.0,
-"texture": ExtResource("8_isfjd")
-}, {
-"duration": 1.0,
-"texture": ExtResource("9_urg3q")
-}, {
-"duration": 1.0,
-"texture": ExtResource("10_qxopg")
-}, {
-"duration": 1.0,
-"texture": ExtResource("11_te72e")
-}, {
-"duration": 1.0,
-"texture": ExtResource("12_s7kpb")
-}, {
-"duration": 1.0,
-"texture": ExtResource("13_a2c3i")
-}, {
-"duration": 1.0,
-"texture": ExtResource("14_esimf")
-}, {
-"duration": 1.0,
-"texture": ExtResource("15_08dqu")
-}, {
-"duration": 1.0,
-"texture": ExtResource("16_ir88b")
-}, {
-"duration": 1.0,
-"texture": ExtResource("17_ma8h3")
-}, {
-"duration": 1.0,
-"texture": ExtResource("18_a1wcq")
-}, {
-"duration": 1.0,
-"texture": ExtResource("19_lxuwy")
-}, {
-"duration": 1.0,
-"texture": ExtResource("20_7jpl6")
-}, {
-"duration": 1.0,
-"texture": ExtResource("21_lylae")
-}, {
-"duration": 1.0,
-"texture": ExtResource("22_fwu7f")
-}, {
-"duration": 1.0,
-"texture": ExtResource("23_2dxy5")
-}, {
-"duration": 1.0,
-"texture": ExtResource("24_8n1mb")
-}, {
-"duration": 1.0,
-"texture": ExtResource("25_1lv1h")
-}, {
-"duration": 1.0,
-"texture": ExtResource("26_dw21j")
-}, {
-"duration": 1.0,
-"texture": ExtResource("27_86003")
-}, {
-"duration": 1.0,
-"texture": ExtResource("28_gddxw")
-}, {
-"duration": 1.0,
-"texture": ExtResource("29_ahuur")
-}, {
-"duration": 1.0,
-"texture": ExtResource("30_nk6dx")
-}, {
-"duration": 1.0,
-"texture": ExtResource("31_mr013")
-}, {
-"duration": 1.0,
-"texture": ExtResource("32_nwtbu")
-}, {
-"duration": 1.0,
-"texture": ExtResource("33_eq3p8")
-}, {
-"duration": 1.0,
-"texture": ExtResource("34_tmot7")
-}, {
-"duration": 1.0,
-"texture": ExtResource("35_hrki4")
-}, {
-"duration": 1.0,
-"texture": ExtResource("36_2sis3")
-}, {
-"duration": 1.0,
-"texture": ExtResource("37_fp4ti")
-}, {
-"duration": 1.0,
-"texture": ExtResource("38_vt5jl")
-}, {
-"duration": 1.0,
-"texture": ExtResource("39_2yw3g")
-}, {
-"duration": 1.0,
-"texture": ExtResource("40_4bhl5")
-}, {
-"duration": 1.0,
-"texture": ExtResource("41_fswg8")
-}, {
-"duration": 1.0,
-"texture": ExtResource("42_1qmcd")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
 
 [node name="RandomizedLabStage" type="Node2D"]
 texture_filter = 1
@@ -188,8 +21,10 @@ pickup_table = ExtResource("2_ru4ht")
 
 [node name="Background" type="AnimatedSprite2D" parent="."]
 position = Vector2(240, 208)
-sprite_frames = SubResource("SpriteFrames_flesn")
+sprite_frames = ExtResource("3_ru4ht")
 autoplay = "default"
+frame = 37
+frame_progress = 0.393984
 
 [node name="BackgroundOldge" type="Sprite2D" parent="."]
 visible = false

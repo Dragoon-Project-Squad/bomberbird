@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=4 uid="uid://d4ep51hwr8uxd"]
+[gd_scene load_steps=9 format=4 uid="uid://d4ep51hwr8uxd"]
 
 [ext_resource type="Script" uid="uid://c7rrhgeevwtus" path="res://scripts/world/randomized_stage.gd" id="1_5v275"]
 [ext_resource type="Resource" uid="uid://dsfsq7ekrcaf6" path="res://resources/gameplay/beach_pickup_table.tres" id="2_6mhws"]
 [ext_resource type="TileSet" uid="uid://mxtw88b7dngl" path="res://assets/tilesets/beach_tileset.tres" id="3_5v275"]
 [ext_resource type="Texture2D" uid="uid://5qxppytyot6c" path="res://assets/tilesetimages/beach_background_540.png" id="3_6mhws"]
+[ext_resource type="SpriteFrames" uid="uid://ctcbmrf2ddrl7" path="res://scenes/stages/beach_rand.tres" id="3_fj5a6"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="5_cn8oy"]
 [ext_resource type="TileSet" uid="uid://c2yyknft750gb" path="res://assets/tilesets/beach_obstacle.tres" id="5_fj5a6"]
 [ext_resource type="PackedScene" uid="uid://bbtw8lckcv2kj" path="res://scenes/mus/rush.tscn" id="6_twvbe"]
@@ -18,7 +19,13 @@ _world_edge_rect = Rect2i(-2, -2, 19, 19)
 spawnpoints = Array[Vector2i]([Vector2i(1, 3), Vector2i(13, 3), Vector2i(1, 13), Vector2i(13, 13)])
 pickup_table = ExtResource("2_6mhws")
 
-[node name="Background" type="Sprite2D" parent="."]
+[node name="Background" type="AnimatedSprite2D" parent="."]
+position = Vector2(240, 208)
+sprite_frames = ExtResource("3_fj5a6")
+autoplay = "default"
+
+[node name="BackgroundOldge" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(240, 208)
 texture = ExtResource("3_6mhws")
 

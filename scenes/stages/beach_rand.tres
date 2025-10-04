@@ -1,0 +1,170 @@
+[gd_resource type="SpriteFrames" load_steps=41 format=3 uid="uid://ctcbmrf2ddrl7"]
+
+[ext_resource type="Texture2D" uid="uid://cpudt2j71waul" path="res://assets/stage/beach_frames/beach_background_frame1.png" id="1_rlp6c"]
+[ext_resource type="Texture2D" uid="uid://craad011mbvs2" path="res://assets/stage/beach_frames/beach_background_frame2.png" id="2_jrxo3"]
+[ext_resource type="Texture2D" uid="uid://c5b6ojgd2phrg" path="res://assets/stage/beach_frames/beach_background_frame3.png" id="3_lgltq"]
+[ext_resource type="Texture2D" uid="uid://b3im608th616y" path="res://assets/stage/beach_frames/beach_background_frame4.png" id="4_8w6mk"]
+[ext_resource type="Texture2D" uid="uid://0cq40emf233x" path="res://assets/stage/beach_frames/beach_background_frame5.png" id="5_abssm"]
+[ext_resource type="Texture2D" uid="uid://0k4nc47ua6mv" path="res://assets/stage/beach_frames/beach_background_frame6.png" id="6_kpyqy"]
+[ext_resource type="Texture2D" uid="uid://dunxyffkhv4cb" path="res://assets/stage/beach_frames/beach_background_frame7.png" id="7_267px"]
+[ext_resource type="Texture2D" uid="uid://cp5gvxc4yehqd" path="res://assets/stage/beach_frames/beach_background_frame8.png" id="8_42ml3"]
+[ext_resource type="Texture2D" uid="uid://bppvbd1agni1b" path="res://assets/stage/beach_frames/beach_background_frame9.png" id="9_wduxu"]
+[ext_resource type="Texture2D" uid="uid://doknu0ijk0xtk" path="res://assets/stage/beach_frames/beach_background_frame10.png" id="10_le61s"]
+[ext_resource type="Texture2D" uid="uid://opgisev5rx7f" path="res://assets/stage/beach_frames/beach_background_frame11.png" id="11_qcgva"]
+[ext_resource type="Texture2D" uid="uid://csfuly0yjw56v" path="res://assets/stage/beach_frames/beach_background_frame12.png" id="12_caqb2"]
+[ext_resource type="Texture2D" uid="uid://dwjf7g2u4ffq6" path="res://assets/stage/beach_frames/beach_background_frame13.png" id="13_m6u2q"]
+[ext_resource type="Texture2D" uid="uid://bb180f2878tsk" path="res://assets/stage/beach_frames/beach_background_frame14.png" id="14_tbfb4"]
+[ext_resource type="Texture2D" uid="uid://dv1mgirh2dtd" path="res://assets/stage/beach_frames/beach_background_frame15.png" id="15_ia4uc"]
+[ext_resource type="Texture2D" uid="uid://dg0aw4fr0v0o5" path="res://assets/stage/beach_frames/beach_background_frame16.png" id="16_cac6g"]
+[ext_resource type="Texture2D" uid="uid://woy5rv76ag27" path="res://assets/stage/beach_frames/beach_background_frame17.png" id="17_74aid"]
+[ext_resource type="Texture2D" uid="uid://dn4njh3xgjmmc" path="res://assets/stage/beach_frames/beach_background_frame18.png" id="18_2vueq"]
+[ext_resource type="Texture2D" uid="uid://brxdk6mh66rgx" path="res://assets/stage/beach_frames/beach_background_frame19.png" id="19_to1h2"]
+[ext_resource type="Texture2D" uid="uid://bory7jq7nx5ab" path="res://assets/stage/beach_frames/beach_background_frame20.png" id="20_to30b"]
+[ext_resource type="Texture2D" uid="uid://6kji6nhn7dp3" path="res://assets/stage/beach_frames/beach_background_frame21.png" id="21_ksm2k"]
+[ext_resource type="Texture2D" uid="uid://c3kfrphhjo385" path="res://assets/stage/beach_frames/beach_background_frame22.png" id="22_20gsi"]
+[ext_resource type="Texture2D" uid="uid://biirgbb0so4j7" path="res://assets/stage/beach_frames/beach_background_frame23.png" id="23_rc8jp"]
+[ext_resource type="Texture2D" uid="uid://5b2pp7bsvjvn" path="res://assets/stage/beach_frames/beach_background_frame24.png" id="24_ccux0"]
+[ext_resource type="Texture2D" uid="uid://dphlg3cnj4mtv" path="res://assets/stage/beach_frames/beach_background_frame25.png" id="25_2bc87"]
+[ext_resource type="Texture2D" uid="uid://dxq0vlxhctgxn" path="res://assets/stage/beach_frames/beach_background_frame26.png" id="26_oay33"]
+[ext_resource type="Texture2D" uid="uid://cufnowhx80vm4" path="res://assets/stage/beach_frames/beach_background_frame27.png" id="27_yqvi4"]
+[ext_resource type="Texture2D" uid="uid://w58q4osbts20" path="res://assets/stage/beach_frames/beach_background_frame28.png" id="28_dnyj8"]
+[ext_resource type="Texture2D" uid="uid://hqylu0jo1wg2" path="res://assets/stage/beach_frames/beach_background_frame29.png" id="29_knau7"]
+[ext_resource type="Texture2D" uid="uid://mpt2qoynrwrf" path="res://assets/stage/beach_frames/beach_background_frame30.png" id="30_320ce"]
+[ext_resource type="Texture2D" uid="uid://clbvi38cuv2at" path="res://assets/stage/beach_frames/beach_background_frame31.png" id="31_87ku7"]
+[ext_resource type="Texture2D" uid="uid://8cii0ot0pchm" path="res://assets/stage/beach_frames/beach_background_frame32.png" id="32_jik1k"]
+[ext_resource type="Texture2D" uid="uid://c1frsv1tv5iv8" path="res://assets/stage/beach_frames/beach_background_frame33.png" id="33_dtrst"]
+[ext_resource type="Texture2D" uid="uid://cub44rxi6vb2b" path="res://assets/stage/beach_frames/beach_background_frame34.png" id="34_qdsia"]
+[ext_resource type="Texture2D" uid="uid://igxeeg8iyyvv" path="res://assets/stage/beach_frames/beach_background_frame35.png" id="35_rcxwb"]
+[ext_resource type="Texture2D" uid="uid://cp6et63p48r50" path="res://assets/stage/beach_frames/beach_background_frame36.png" id="36_k5ar7"]
+[ext_resource type="Texture2D" uid="uid://c0q5pdyxosalk" path="res://assets/stage/beach_frames/beach_background_frame37.png" id="37_7wcue"]
+[ext_resource type="Texture2D" uid="uid://dv46mnamubk1u" path="res://assets/stage/beach_frames/beach_background_frame38.png" id="38_ncns1"]
+[ext_resource type="Texture2D" uid="uid://fvtg12eydpws" path="res://assets/stage/beach_frames/beach_background_frame39.png" id="39_vpjyi"]
+[ext_resource type="Texture2D" uid="uid://dkqgv4ab5lal" path="res://assets/stage/beach_frames/beach_background_frame40.png" id="40_yso6b"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_rlp6c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_jrxo3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_lgltq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_8w6mk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_abssm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_kpyqy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_267px")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_42ml3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_wduxu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_le61s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_qcgva")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_caqb2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_m6u2q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_tbfb4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_ia4uc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_cac6g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_74aid")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_2vueq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_to1h2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_to30b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_ksm2k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_20gsi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_rc8jp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_ccux0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_2bc87")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_oay33")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_yqvi4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_dnyj8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_knau7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_320ce")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_87ku7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_jik1k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_dtrst")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_qdsia")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_rcxwb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_k5ar7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_7wcue")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_ncns1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_vpjyi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_yso6b")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

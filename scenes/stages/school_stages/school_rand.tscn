@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=4 uid="uid://bl2nen5wep7q5"]
+[gd_scene load_steps=15 format=4 uid="uid://bl2nen5wep7q5"]
 
 [ext_resource type="Script" uid="uid://c7rrhgeevwtus" path="res://scripts/world/randomized_stage.gd" id="1_7e5g2"]
 [ext_resource type="Resource" uid="uid://yt4d2kbqmpeb" path="res://resources/gameplay/school_pickup_table.tres" id="2_mekou"]
 [ext_resource type="Texture2D" uid="uid://5fnj8pam6cw1" path="res://assets/tilesetimages/school_background_540.png" id="3_mekou"]
+[ext_resource type="SpriteFrames" uid="uid://do275jxmnaeep" path="res://scenes/stages/school_rand.tres" id="3_ykmj3"]
 [ext_resource type="TileSet" uid="uid://cep6ug4u2nyaj" path="res://assets/tilesets/secret_tileset.tres" id="4_0u432"]
 [ext_resource type="TileSet" uid="uid://dtqaw8ji43d4n" path="res://assets/tilesets/school_obstacle.tres" id="5_mekou"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="6_ete5h"]
@@ -55,12 +56,17 @@ _world_edge_rect = Rect2i(-2, -2, 19, 19)
 spawnpoints = Array[Vector2i]([Vector2i(3, 5), Vector2i(11, 5), Vector2i(3, 11), Vector2i(11, 11)])
 pickup_table = ExtResource("2_mekou")
 
-[node name="Background" type="Sprite2D" parent="."]
+[node name="Background" type="AnimatedSprite2D" parent="."]
+position = Vector2(240, 208)
+sprite_frames = ExtResource("3_ykmj3")
+autoplay = "default"
+
+[node name="BackgroundOldge" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(240, 208)
 texture = ExtResource("3_mekou")
 
 [node name="Floor" type="TileMapLayer" parent="."]
-visible = false
 tile_set = ExtResource("4_0u432")
 
 [node name="Bounds" type="TileMapLayer" parent="." groups=["bombstop", "thrown_bomb_bounces", "thrown_pickup_bounces"]]
