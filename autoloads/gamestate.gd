@@ -499,10 +499,10 @@ func assign_dict_to_spritepaths(playerdict: Dictionary):
 			playerdict.spritepaths = character_texture_paths.crowki_paths
 		"tomatodoki":
 			playerdict.spritepaths = character_texture_paths.tomatodoki_paths
-		"secretone":
-			playerdict.spritepaths = character_texture_paths.secretone_paths
-		"secrettwp":
-			playerdict.spritepaths = character_texture_paths.secrettwo_paths
+		"wisp":
+			playerdict.spritepaths = character_texture_paths.wisp_paths
+		"mint":
+			playerdict.spritepaths = character_texture_paths.mint_paths
 		_:
 			push_error("Could not identify character!")
 			playerdict.spritepaths = character_texture_paths.egggoon_paths

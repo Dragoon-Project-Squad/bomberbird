@@ -118,16 +118,16 @@ func _on_secret_1_pressed() -> void:
 	if not supersecretvisible and not globals.secrets_enabled:
 		play_error_audio() #Not yet available
 	else:
-		show_selected_panel("secret1")
-		gamestate.current_save.character_paths = "secretone"
+		show_selected_panel("wisp")
+		gamestate.current_save.character_paths = "wisp"
 		play_select_audio.rpc()
 
 func _on_secret_2_pressed() -> void:
 	if not supersecretvisible and not globals.secrets_enabled:
 		play_error_audio()
 	else:
-		show_selected_panel("secret2")
-		gamestate.current_save.character_paths = "secrettwo"
+		show_selected_panel("mint")
+		gamestate.current_save.character_paths = "mint"
 		play_select_audio.rpc()
 
 func _on_exit_pressed() -> void:

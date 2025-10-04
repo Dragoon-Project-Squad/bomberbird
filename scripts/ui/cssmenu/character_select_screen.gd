@@ -163,15 +163,15 @@ func _on_secret_1_pressed() -> void:
 	if not supersecretvisible:
 		play_error_audio() #Not yet available
 	else:
-		change_slot_texture.rpc_id(1, character_texture_paths.SECRET1_SELECT_TEXTURE_PATH)
-		gamestate.change_character_player.rpc_id(1, character_texture_paths.secretone_paths)
+		change_slot_texture.rpc_id(1, character_texture_paths.WISP_SELECT_TEXTURE_PATH)
+		gamestate.change_character_player.rpc_id(1, character_texture_paths.wisp_paths)
 		play_select_audio.rpc()
 func _on_secret_2_pressed() -> void:
 	if not supersecretvisible:
 		play_error_audio() #Not yet available
 	else:
-		change_slot_texture.rpc_id(1, character_texture_paths.SECRET2_SELECT_TEXTURE_PATH)
-		gamestate.change_character_player.rpc_id(1, character_texture_paths.secrettwo_paths)
+		change_slot_texture.rpc_id(1, character_texture_paths.MINT_SELECT_TEXTURE_PATH)
+		gamestate.change_character_player.rpc_id(1, character_texture_paths.mint_paths)
 		play_select_audio.rpc()
 
 func _on_exit_pressed() -> void:

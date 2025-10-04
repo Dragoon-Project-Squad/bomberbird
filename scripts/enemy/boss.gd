@@ -24,8 +24,11 @@ const MOTION_SPEED_DECREASE: int = TILE_SIZE / 2
 	"altgirldoki",
 	"crowki",
 	"tomatodoki",
-	"secretone",
-	"secrettwo",
+	"wisp",
+	"mint",
+	"snuffy",
+	"laimu",
+	"dooby"
 	) var skin: String
 @export var ui_color: Color = Color.WHITE
 @export var is_secret_boss: bool = false
