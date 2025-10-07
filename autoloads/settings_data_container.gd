@@ -109,7 +109,7 @@ func get_sfx_volume() -> float:
 	
 func get_keybind(action: String):
 	if not loaded_data.has("keybinds"): #If there is no keybinds...
-		print("No loaded data!")
+		print_debug("No loaded data for keybind " + action + "!")
 		return retrieve_default_keybind(action) #Get the original keybinds.
 	else:
 		return retrieve_custom_keybind(action) #Get the custom keybinds.

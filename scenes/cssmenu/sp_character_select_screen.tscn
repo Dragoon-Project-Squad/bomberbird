@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://cwhum362lt6ww"]
+[gd_scene load_steps=27 format=3 uid="uid://cwhum362lt6ww"]
 
 [ext_resource type="Script" uid="uid://diwfw63wskeam" path="res://scripts/ui/cssmenu/sp_character_select_screen.gd" id="1_m7566"]
 [ext_resource type="WwiseEvent" uid="uid://bak0yi1280a42" path="res://Wwise/resources/Event/{7CDF280F-85BA-44B7-AF42-B2759FD386B0}.tres" id="2_8ct70"]
@@ -22,6 +22,9 @@
 [ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="17_sdw0t"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="18_bappc"]
 [ext_resource type="PackedScene" uid="uid://c7x6djajavw8b" path="res://scenes/debug_campaign_selector.tscn" id="19_dhy2l"]
+[ext_resource type="Texture2D" uid="uid://dlus0qeq68skp" path="res://assets/css/snuffy.png" id="20_yavy2"]
+[ext_resource type="Texture2D" uid="uid://bowvpb6hltbyf" path="res://assets/css/laimu.png" id="21_fameb"]
+[ext_resource type="Texture2D" uid="uid://c53wc2ir1rn10" path="res://assets/css/dooby.png" id="22_gox0l"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m7566"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -363,7 +366,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_m7566")
 
-[node name="secret1" type="TextureButton" parent="SkinBG/CharacterGrid"]
+[node name="wisp" type="TextureButton" parent="SkinBG/CharacterGrid"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 6
@@ -373,7 +376,7 @@ button_group = ExtResource("3_m7566")
 texture_normal = ExtResource("14_dj41s")
 stretch_mode = 0
 
-[node name="Panel" type="Panel" parent="SkinBG/CharacterGrid/secret1"]
+[node name="Panel" type="Panel" parent="SkinBG/CharacterGrid/wisp"]
 visible = false
 show_behind_parent = true
 z_as_relative = false
@@ -388,7 +391,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_m7566")
 
-[node name="secret2" type="TextureButton" parent="SkinBG/CharacterGrid"]
+[node name="mint" type="TextureButton" parent="SkinBG/CharacterGrid"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 6
@@ -398,7 +401,82 @@ button_group = ExtResource("3_m7566")
 texture_normal = ExtResource("15_y4rb0")
 stretch_mode = 0
 
-[node name="Panel" type="Panel" parent="SkinBG/CharacterGrid/secret2"]
+[node name="Panel" type="Panel" parent="SkinBG/CharacterGrid/mint"]
+visible = false
+show_behind_parent = true
+z_as_relative = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_right = 2.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_m7566")
+
+[node name="snuffy" type="TextureButton" parent="SkinBG/CharacterGrid"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+toggle_mode = true
+button_group = ExtResource("3_m7566")
+texture_normal = ExtResource("20_yavy2")
+stretch_mode = 0
+
+[node name="Panel" type="Panel" parent="SkinBG/CharacterGrid/snuffy"]
+visible = false
+show_behind_parent = true
+z_as_relative = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_right = 2.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_m7566")
+
+[node name="laimu" type="TextureButton" parent="SkinBG/CharacterGrid"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+toggle_mode = true
+button_group = ExtResource("3_m7566")
+texture_normal = ExtResource("21_fameb")
+stretch_mode = 0
+
+[node name="Panel" type="Panel" parent="SkinBG/CharacterGrid/laimu"]
+visible = false
+show_behind_parent = true
+z_as_relative = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_right = 2.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_m7566")
+
+[node name="dooby" type="TextureButton" parent="SkinBG/CharacterGrid"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+toggle_mode = true
+button_group = ExtResource("3_m7566")
+texture_normal = ExtResource("22_gox0l")
+stretch_mode = 0
+
+[node name="Panel" type="Panel" parent="SkinBG/CharacterGrid/dooby"]
 visible = false
 show_behind_parent = true
 z_as_relative = false
@@ -532,8 +610,11 @@ offset_bottom = 417.0
 [connection signal="pressed" from="SkinBG/CharacterGrid/altdoki" to="." method="_on_altdoki_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/crowki" to="." method="_on_crowki_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/tomato" to="." method="_on_tomato_pressed"]
-[connection signal="pressed" from="SkinBG/CharacterGrid/secret1" to="." method="_on_secret_1_pressed"]
-[connection signal="pressed" from="SkinBG/CharacterGrid/secret2" to="." method="_on_secret_2_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/wisp" to="." method="_on_secret_1_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/mint" to="." method="_on_secret_2_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/snuffy" to="." method="_on_snuffy_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/laimu" to="." method="_on_laimu_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/dooby" to="." method="_on_dooby_pressed"]
 [connection signal="pressed" from="Start" to="." method="_on_confirm_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
 [connection signal="text_changed" from="PlayerList/PlayerName" to="." method="_on_player_name_text_changed"]
