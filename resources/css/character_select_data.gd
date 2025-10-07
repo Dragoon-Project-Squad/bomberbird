@@ -16,9 +16,9 @@ extends Resource
 @export var TOMATODOKI_SELECT_TEXTURE_PATH: String = "res://assets/css/tomato.png"
 @export var WISP_SELECT_TEXTURE_PATH: String = "res://assets/css/wisp.png"
 @export var MINT_SELECT_TEXTURE_PATH: String = "res://assets/css/maidmint.png"
-@export var SNUFFY_SELECT_TEXTURE_PATH: String = "res://assets/css/tomato.png"
-@export var LAIMU_SELECT_TEXTURE_PATH: String = "res://assets/css/wisp.png"
-@export var DOOBY_SELECT_TEXTURE_PATH: String = "res://assets/css/maidmint.png"
+@export var SNUFFY_SELECT_TEXTURE_PATH: String = "res://assets/css/snuffy.png"
+@export var LAIMU_SELECT_TEXTURE_PATH: String = "res://assets/css/laimu.png"
+@export var DOOBY_SELECT_TEXTURE_PATH: String = "res://assets/css/dooby.png"
 
 # Player Texture Paths
 @export var EGGOON_PLAYER_TEXTURE_PATH: String = "res://assets/player/eggoon_walk.png"

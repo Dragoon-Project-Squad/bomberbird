@@ -7,7 +7,7 @@ extends Control
 @onready var campaign_selector: Control = %CampaignSelector
 @onready var start_button: SeButton = %Start
 
-@export var supersecretvisible := false
+@export var mint_visible := false
 
 signal characters_confirmed
 signal characters_back_pressed
@@ -19,7 +19,7 @@ signal characters_back_pressed
 @export var select_sound: WwiseEvent
 
 func _ready() -> void:
-	if supersecretvisible or globals.secrets_enabled:
+	if mint_visible or globals.secrets.mint:
 		secret_1.show()
 		secret_2.show()
 
@@ -115,7 +115,7 @@ func _on_tomato_pressed() -> void:
 	play_select_audio.rpc()
 
 func _on_secret_1_pressed() -> void:
-	if not supersecretvisible and not globals.secrets_enabled:
+	if not mint_visible and not globals.secrets.mint:
 		play_error_audio() #Not yet available
 	else:
 		show_selected_panel("wisp")
@@ -123,7 +123,7 @@ func _on_secret_1_pressed() -> void:
 		play_select_audio.rpc()
 
 func _on_secret_2_pressed() -> void:
-	if not supersecretvisible and not globals.secrets_enabled:
+	if not mint_visible and not globals.secrets.mint:
 		play_error_audio()
 	else:
 		show_selected_panel("mint")

@@ -10,7 +10,11 @@ var resolution_index := 0
 var master_volume := 0.0
 var music_volume := 0.0
 var sfx_volume := 0.0
-var data_flag := "not_boo" #Controls access to secret.
+var mint_flag := "not_boo" #Controls access to secret character Mint.
+var snuffy_flag := "not_shiny" #Controls access to secret character Snuffy.
+var laimu_flag := "not_ferret" #Controls access to secret character Laimu.
+var dooby_flag := "not_doobinit" #Controls access to secret character Dooby.
+var nimi_flag := "otsubakuwa" #Controls access to secret character Nimi.
 
 #Multiplayer Enums
 enum cpu_difficulty_setting_states {STATIONARY, EASY, MEDIUM, HARD}
@@ -354,27 +358,106 @@ func on_settings_data_loaded(data : Dictionary) -> void:
 	loaded_data = data
 	set_all_vars_from_dict(loaded_data)
 	
-func get_data_flag() -> String:
+func get_mint_flag() -> String:
 	if loaded_data == {}:
 		return ""
-	return data_flag	
+	return mint_flag
 	
-func set_data_flag(secretcode : String) -> void: #Marks save data to be saved with permanent secret unlock.
+func get_snuffy_flag() -> String:
+	if loaded_data == {}:
+		return ""
+	return snuffy_flag
+	
+func get_laimu_flag() -> String:
+	if loaded_data == {}:
+		return ""
+	return laimu_flag
+	
+func get_dooby_flag() -> String:
+	if loaded_data == {}:
+		return ""
+	return dooby_flag
+	
+func get_nimi_flag() -> String:
+	if loaded_data == {}:
+		return ""
+	return nimi_flag
+	
+func set_mint_flag(secretcode : String) -> void: #Sets Mint flag to unlocked magic number.
 	if secretcode.to_lower() != "boo": return
-	data_flag = "boo"
+	mint_flag = "boo"
+	
+func set_snuffy_flag(secretcode : String) -> void: #Sets Snuffy flag to unlocked magic number.
+	if secretcode.to_lower() != "shiny": return
+	snuffy_flag = "shiny"
 
-func clean_data_flag() -> void:
-	data_flag = "not_boo"
+func set_laimu_flag(secretcode : String) -> void: #Sets Laimu flag to unlocked magic number.
+	if secretcode.to_lower() != "ferret": return
+	laimu_flag = "ferret"
+
+func set_dooby_flag(secretcode : String) -> void: #Sets Dooby flag to unlocked magic number.
+	if secretcode.to_lower() != "doobinit": return
+	dooby_flag = "doobinit"
+
+func set_nimi_flag(secretcode : String) -> void: #Sets Nimi flag to unlocked magic number.
+	if secretcode.to_lower() != "konbakuwa": return
+	nimi_flag = "konbakuwa"
+
+func clean_all_unlock_flags() -> void:
+	clean_mint_flag()
+	clean_snuffy_flag()
+	clean_laimu_flag()
+	clean_dooby_flag()
+	clean_nimi_flag()
+
+func clean_mint_flag() -> void:
+	mint_flag = "not_boo"
+	
+func clean_snuffy_flag() -> void:
+	snuffy_flag = "not_shiny"
+	
+func clean_laimu_flag() -> void:
+	laimu_flag = "not_ferret"
+	
+func clean_dooby_flag() -> void:
+	dooby_flag = "not_doobinit"
+	
+func clean_nimi_flag() -> void:
+	nimi_flag = "otsubakuwa"
 
 func create_secret_file() -> Dictionary: #Saves save data as permanent secret unlock.
 	var secret_file : Dictionary = {
-		"data_flag" = data_flag
+		"mint_flag" = mint_flag,
+		"snuffy_flag" = snuffy_flag,
+		"laimu_flag" = laimu_flag,
+		"dooby_flag" = dooby_flag,
+		"nimi_flag" = nimi_flag
 	}
 	return secret_file
 	
+func unlock_secret_permanently(secret_to_unlock: String):
+	match secret_to_unlock: #First set the flag to the correct one.
+		"mint":
+			set_mint_flag("boo")
+		"snuffy":
+			set_snuffy_flag("shiny")
+		"laimu":
+			set_laimu_flag("ferret")
+		"dooby":
+			set_dooby_flag("doobinit")
+		"nimi":
+			set_nimi_flag("konbakuwa")
+		_:
+			return
+	var secret_dict: Dictionary = create_secret_file() #Next, save that to a file.
+	SettingsSignalBus.emit_secret_file_data(secret_dict)
+	
 func on_secret_data_loaded(secretdata : Dictionary) -> void:
-	set_data_flag(secretdata.data_flag if secretdata.has('data_flag') else DEFAULT_SETTINGS.DEFAULT_DATA_FLAG)
-
+	set_mint_flag(secretdata.mint_flag if secretdata.has('mint_flag') else "invalidcode")
+	set_snuffy_flag(secretdata.snuffy_flag if secretdata.has('snuffy_flag') else "invalidcode")
+	set_laimu_flag(secretdata.laimu_flag if secretdata.has('laimu_flag') else "invalidcode")
+	set_dooby_flag(secretdata.dooby_flag if secretdata.has('dooby_flag') else "invalidcode")
+	set_nimi_flag(secretdata.nimi_flag if secretdata.has('nimi_flag') else "invalidcode")
 	
 func handle_signals() -> void:
 	SettingsSignalBus.on_window_mode_selected.connect(set_window_mode)

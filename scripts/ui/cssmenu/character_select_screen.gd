@@ -1,10 +1,18 @@
 extends Control
 
 @onready var character_texture_paths: CharacterSelectDataResource = preload("res://resources/css/character_texture_paths_default.tres")
-@onready var secret_1: TextureButton = $SkinBG/CharacterGrid/secret1
-@onready var secret_2: TextureButton = $SkinBG/CharacterGrid/secret2
+@onready var wisp: TextureButton = $SkinBG/CharacterGrid/wisp
+@onready var mint: TextureButton = $SkinBG/CharacterGrid/mint
+@onready var snuffy: TextureButton = $SkinBG/CharacterGrid/snuffy
+@onready var laimu: TextureButton = $SkinBG/CharacterGrid/laimu
+@onready var dooby: TextureButton = $SkinBG/CharacterGrid/dooby
+@onready var nimi: TextureButton = $SkinBG/CharacterGrid/nimi
 
-@export var supersecretvisible := globals.secrets_enabled
+@export var mint_visible : bool = globals.secrets.mint
+@export var snuffy_visible : bool = globals.secrets.snuffy
+@export var laimu_visible : bool = globals.secrets.laimu
+@export var dooby_visible : bool = globals.secrets.dooby
+@export var nimi_visible : bool = globals.secrets.mint
 
 signal characters_confirmed
 
@@ -12,13 +20,25 @@ signal characters_confirmed
 @export var select_sound: WwiseEvent
 
 func _ready() -> void:
-	if supersecretvisible:
-		secret_1.show()
-		secret_2.show()
+	reveal_secret_characters()
 	setup_default_character_select_paths()
 	gamestate.player_list_changed.connect(refresh_lobby_panel)
 	refresh_lobby_panel()
 
+@rpc("call_remote")
+func reveal_secret_characters() -> void:
+	if mint_visible:
+		wisp.show()
+		mint.show()
+	if snuffy_visible:
+		snuffy.show()
+	if laimu_visible:
+		laimu.show()
+	if dooby_visible:
+		dooby.show()
+	#if nimi_visible:
+		#nimi.show()
+		
 func setup_default_character_select_paths() -> void:
 	$Players/Player2.set_texture(character_texture_paths.DEFAULT_PLAYER_2_SELECT)
 	$Players/Player3.set_texture(character_texture_paths.DEFAULT_PLAYER_3_SELECT)
@@ -31,12 +51,6 @@ func setup_for_host() -> void:
 @rpc("call_remote")
 func setup_for_peers() -> void:
 	$Start.disabled = true
-	
-@rpc("call_remote")
-func reveal_secrets() -> void:
-	print("Can you see them?")
-	secret_1.show()
-	secret_2.show()
 
 @rpc("call_local")
 func update_char_screen(total_player_count: int) -> void:
@@ -159,20 +173,55 @@ func _on_tomato_pressed() -> void:
 	gamestate.change_character_player.rpc_id(1, character_texture_paths.tomatodoki_paths)
 	play_select_audio.rpc()
 
-func _on_secret_1_pressed() -> void:
-	if not supersecretvisible:
+func _on_wisp_pressed() -> void:
+	if not mint_visible:
 		play_error_audio() #Not yet available
 	else:
 		change_slot_texture.rpc_id(1, character_texture_paths.WISP_SELECT_TEXTURE_PATH)
 		gamestate.change_character_player.rpc_id(1, character_texture_paths.wisp_paths)
 		play_select_audio.rpc()
-func _on_secret_2_pressed() -> void:
-	if not supersecretvisible:
+		
+func _on_mint_pressed() -> void:
+	if not mint_visible:
 		play_error_audio() #Not yet available
 	else:
 		change_slot_texture.rpc_id(1, character_texture_paths.MINT_SELECT_TEXTURE_PATH)
 		gamestate.change_character_player.rpc_id(1, character_texture_paths.mint_paths)
 		play_select_audio.rpc()
+
+func _on_snuffy_pressed() -> void:
+	if not snuffy_visible:
+		play_error_audio() #Not yet available
+	else:
+		change_slot_texture.rpc_id(1, character_texture_paths.SNUFFY_SELECT_TEXTURE_PATH)
+		gamestate.change_character_player.rpc_id(1, character_texture_paths.snuffy_paths)
+		play_select_audio.rpc()
+		
+func _on_laimu_pressed() -> void:
+	if not laimu_visible:
+		play_error_audio() #Not yet available
+	else:
+		change_slot_texture.rpc_id(1, character_texture_paths.LAIMU_SELECT_TEXTURE_PATH)
+		gamestate.change_character_player.rpc_id(1, character_texture_paths.laimu_paths)
+		play_select_audio.rpc()
+		
+func _on_dooby_pressed() -> void:
+	if not dooby_visible:
+		play_error_audio() #Not yet available
+	else:
+		change_slot_texture.rpc_id(1, character_texture_paths.DOOBY_SELECT_TEXTURE_PATH)
+		gamestate.change_character_player.rpc_id(1, character_texture_paths.dooby_paths)
+		play_select_audio.rpc()
+
+func _on_nimi_pressed() -> void:
+	if not dooby_visible:
+		play_error_audio() #Not yet available
+	else:
+		play_error_audio() #Not yet available
+		#change_slot_texture.rpc_id(1, character_texture_paths.NIMI_SELECT_TEXTURE_PATH)
+		#gamestate.change_character_player.rpc_id(1, character_texture_paths.nimi_paths)
+		#play_select_audio.rpc()
+
 
 func _on_exit_pressed() -> void:
 	gamestate.end_game()
