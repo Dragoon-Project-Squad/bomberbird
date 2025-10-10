@@ -6,6 +6,13 @@ signal breakable_destroyed
 var in_use: bool = false
 var contained_pickup: int
 var _exploded_barrier: bool = false
+var pushed: bool = false
+var direction: Vector2i
+
+func _physics_process(delta: float) -> void:
+	if pushed:
+		velocity = direction * 32 * 2
+		move_and_slide()
 
 @rpc("call_local")
 func disable_collison_and_hide():
@@ -76,3 +83,10 @@ func crush():
 	if is_multiplayer_authority():
 		disable.rpc()
 		globals.game.breakable_pool.return_obj(self)
+
+@rpc("call_local")
+func push(direction: Vector2i):
+	if !is_multiplayer_authority(): return
+	self.direction = direction
+	pushed = true
+	collision_layer = 0

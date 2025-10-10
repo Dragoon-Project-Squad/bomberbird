@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://buqb4lwbo75bg"
-path="res://.godot/imported/egggoon_mount.png-8503715ee821b624167e5c0fd085143e.ctex"
+path="res://.godot/imported/eggoon_mount.png-e8ebcdf8866f8b5ac6f1225a3c499ce3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/player/egggoon_mount.png"
-dest_files=["res://.godot/imported/egggoon_mount.png-8503715ee821b624167e5c0fd085143e.ctex"]
+source_file="res://assets/player/eggoon_mount.png"
+dest_files=["res://.godot/imported/eggoon_mount.png-e8ebcdf8866f8b5ac6f1225a3c499ce3.ctex"]
 
 [params]
 
