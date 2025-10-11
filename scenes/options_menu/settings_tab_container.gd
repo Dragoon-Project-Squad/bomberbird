@@ -108,8 +108,7 @@ func _on_password_submit_pressed() -> void:
 	elif line_edit.text.to_upper() == "YELLOW WOMEN UNITE":
 		unlock_dooby()
 	elif line_edit.text.to_upper() == "LIBRARY OF LETOURNEAU":
-		#unlock_nimi() SHE'S NOT READY YET
-		reject_password()
+		unlock_nimi()
 	elif line_edit.text.to_upper() == "OR ELSE, DRAGOON":
 		unlock_all()
 	else:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://fsg6gwfw5fbi"]
+[gd_scene load_steps=28 format=3 uid="uid://fsg6gwfw5fbi"]
 
 [ext_resource type="Script" uid="uid://c38ml0k45w55u" path="res://scripts/ui/cssmenu/character_select_screen.gd" id="1_ehcif"]
 [ext_resource type="WwiseEvent" uid="uid://bak0yi1280a42" path="res://Wwise/resources/Event/{7CDF280F-85BA-44B7-AF42-B2759FD386B0}.tres" id="2_e6qlr"]
@@ -23,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://dlus0qeq68skp" path="res://assets/css/snuffy.png" id="20_lxxyg"]
 [ext_resource type="Texture2D" uid="uid://bowvpb6hltbyf" path="res://assets/css/laimu.png" id="21_63x5c"]
 [ext_resource type="Texture2D" uid="uid://c53wc2ir1rn10" path="res://assets/css/dooby.png" id="22_63x5c"]
+[ext_resource type="Texture2D" uid="uid://cwb37y2nmvemx" path="res://assets/css/nimi.png" id="23_5agtp"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q6qq2"]
 
@@ -245,7 +246,7 @@ visible = false
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
-texture_normal = ExtResource("15_kkj3o")
+texture_normal = ExtResource("23_5agtp")
 stretch_mode = 0
 
 [node name="Start" type="Button" parent="." groups=["ui_button"]]

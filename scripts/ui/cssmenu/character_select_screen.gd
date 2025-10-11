@@ -12,7 +12,7 @@ extends Control
 @export var snuffy_visible : bool = globals.secrets.snuffy
 @export var laimu_visible : bool = globals.secrets.laimu
 @export var dooby_visible : bool = globals.secrets.dooby
-@export var nimi_visible : bool = globals.secrets.mint
+@export var nimi_visible : bool = globals.secrets.nimi
 
 signal characters_confirmed
 
@@ -36,8 +36,8 @@ func reveal_secret_characters() -> void:
 		laimu.show()
 	if dooby_visible:
 		dooby.show()
-	#if nimi_visible:
-		#nimi.show()
+	if nimi_visible:
+		nimi.show()
 		
 func setup_default_character_select_paths() -> void:
 	$Players/Player2.set_texture(character_texture_paths.DEFAULT_PLAYER_2_SELECT)
@@ -214,13 +214,12 @@ func _on_dooby_pressed() -> void:
 		play_select_audio.rpc()
 
 func _on_nimi_pressed() -> void:
-	if not dooby_visible:
+	if not nimi_visible:
 		play_error_audio() #Not yet available
 	else:
-		play_error_audio() #Not yet available
-		#change_slot_texture.rpc_id(1, character_texture_paths.NIMI_SELECT_TEXTURE_PATH)
-		#gamestate.change_character_player.rpc_id(1, character_texture_paths.nimi_paths)
-		#play_select_audio.rpc()
+		change_slot_texture.rpc_id(1, character_texture_paths.NIMI_SELECT_TEXTURE_PATH)
+		gamestate.change_character_player.rpc_id(1, character_texture_paths.nimi_paths)
+		play_select_audio.rpc()
 
 
 func _on_exit_pressed() -> void:

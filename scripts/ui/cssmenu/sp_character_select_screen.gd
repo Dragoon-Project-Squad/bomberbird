@@ -6,7 +6,7 @@ extends Control
 @onready var snuffy: TextureButton = $SkinBG/CharacterGrid/snuffy
 @onready var laimu: TextureButton = $SkinBG/CharacterGrid/laimu
 @onready var dooby: TextureButton = $SkinBG/CharacterGrid/dooby
-#@onready var nimi: TextureButton = $SkinBG/CharacterGrid/nimi #Not yet available
+@onready var nimi: TextureButton = $SkinBG/CharacterGrid/nimi
 
 
 @onready var last_selected_panel: Panel = %CharacterGrid.get_node("eggoon/Panel")
@@ -17,7 +17,7 @@ extends Control
 @export var snuffy_visible : bool = globals.secrets.snuffy
 @export var laimu_visible : bool = globals.secrets.laimu
 @export var dooby_visible : bool = globals.secrets.dooby
-@export var nimi_visible : bool = globals.secrets.nimi #Not yet available
+@export var nimi_visible : bool = globals.secrets.nimi 
 
 signal characters_confirmed
 signal characters_back_pressed
@@ -44,8 +44,8 @@ func reveal_secret_characters() -> void:
 		laimu.show()
 	if dooby_visible:
 		dooby.show()
-	#if nimi_visible:
-		#nimi.show()
+	if nimi_visible:
+		nimi.show()
 
 func enter() -> void:
 	show()
@@ -177,14 +177,13 @@ func _on_dooby_pressed() -> void:
 		gamestate.current_save.character_paths = "dooby"
 		play_select_audio.rpc()
 		
-func _on_nimi_pressed() -> void: #Not yet available
+func _on_nimi_pressed() -> void: 
 	if not nimi_visible and not globals.secrets.nimi:
 		play_error_audio()
-	else: #Not yet available
-		play_error_audio()
-		#show_selected_panel("nimi")
-		#gamestate.current_save.character_paths = "nimi"
-		#play_select_audio.rpc()
+	else: 
+		show_selected_panel("nimi")
+		gamestate.current_save.character_paths = "nimi"
+		play_select_audio.rpc()
 		
 
 func _on_exit_pressed() -> void:

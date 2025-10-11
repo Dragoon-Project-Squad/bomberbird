@@ -19,6 +19,7 @@ extends Resource
 @export var SNUFFY_SELECT_TEXTURE_PATH: String = "res://assets/css/snuffy.png"
 @export var LAIMU_SELECT_TEXTURE_PATH: String = "res://assets/css/laimu.png"
 @export var DOOBY_SELECT_TEXTURE_PATH: String = "res://assets/css/dooby.png"
+@export var NIMI_SELECT_TEXTURE_PATH: String = "res://assets/css/nimi.png"
 
 # Player Texture Paths
 @export var EGGOON_PLAYER_TEXTURE_PATH: String = "res://assets/player/eggoon_walk.png"
@@ -38,6 +39,7 @@ extends Resource
 @export var SNUFFY_PLAYER_TEXTURE_PATH: String = "res://assets/player/snuffy_walk.png"
 @export var LAIMU_PLAYER_TEXTURE_PATH: String = "res://assets/player/laimu_walk.png"
 @export var DOOBY_PLAYER_TEXTURE_PATH: String = "res://assets/player/dooby_walk.png"
+@export var NIMI_PLAYER_TEXTURE_PATH: String = "res://assets/player/nimi_walk.png"
 
 # Mount Texture Paths
 @export var EGGOON_MOUNT_TEXTURE_PATH: String = "res://assets/player/eggoon_mount.png"
@@ -57,6 +59,7 @@ extends Resource
 @export var SNUFFY_MOUNT_TEXTURE_PATH: String = "res://assets/player/snuffy_mount.png"
 @export var LAIMU_MOUNT_TEXTURE_PATH: String = "res://assets/player/laimu_mount.png"
 @export var DOOBY_MOUNT_TEXTURE_PATH: String = "res://assets/player/dooby_mount.png"
+@export var NIMI_MOUNT_TEXTURE_PATH: String = "res://assets/player/nimi_mount.png"
 
 # UI Faces Textures
 @export var FACE_UI_TEXTURE: String = "res://assets/ui/ui_faces.png"
@@ -77,6 +80,7 @@ extends Resource
 @export var SNUFFY_FACE_RECT: String = var_to_str(Rect2(288, 0, 32, 32))
 @export var LAIMU_FACE_RECT: String = var_to_str(Rect2(320, 0, 32, 32))
 @export var DOOBY_FACE_RECT: String = var_to_str(Rect2(352, 0, 32, 32))
+@export var NIMI_FACE_RECT: String = var_to_str(Rect2(352, 0, 32, 32))
 
 # Character Dicts
 var egggoon_paths = {
@@ -192,10 +196,17 @@ var laimu_paths = {
 	}
 	
 var dooby_paths = {
-	"select": LAIMU_SELECT_TEXTURE_PATH, 
-	"walk": LAIMU_PLAYER_TEXTURE_PATH, 
-	"mount": LAIMU_MOUNT_TEXTURE_PATH,
-	"face": { "path": FACE_UI_TEXTURE, "rect": LAIMU_FACE_RECT },
+	"select": DOOBY_SELECT_TEXTURE_PATH, 
+	"walk": DOOBY_PLAYER_TEXTURE_PATH, 
+	"mount": DOOBY_MOUNT_TEXTURE_PATH,
+	"face": { "path": FACE_UI_TEXTURE, "rect": DOOBY_FACE_RECT },
+	}
+	
+var nimi_paths = {
+	"select": NIMI_SELECT_TEXTURE_PATH, 
+	"walk": NIMI_PLAYER_TEXTURE_PATH, 
+	"mount": NIMI_MOUNT_TEXTURE_PATH,
+	"face": { "path": FACE_UI_TEXTURE, "rect": NIMI_FACE_RECT },
 	}
 	
 var characters: Dictionary = {
@@ -215,6 +226,7 @@ var characters: Dictionary = {
 	"snuffy": snuffy_paths,
 	"laimu": laimu_paths,
 	"dooby": dooby_paths,
+	"nimi": nimi_paths
 	}
 
 var DEFAULT_PLAYER_2_SELECT = NORMALGOON_SELECT_TEXTURE_PATH
