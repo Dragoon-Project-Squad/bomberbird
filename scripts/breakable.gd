@@ -4,7 +4,7 @@ class_name Breakable
 signal breakable_destroyed
 
 const TILESIZE := 32
-const collisions_array := []
+var collisions_array := []
 
 var in_use: bool = false
 var contained_pickup: int
@@ -27,7 +27,7 @@ func _physics_process(delta: float) -> void:
 			new_position = Vector2.ZERO
 		elif collide:
 			var hit_obj := collide.get_collider()
-			new_position = world_data.tile_map.local_to_map(collide.get_position() - direction)
+			new_position = world_data.tile_map.local_to_map(collide.get_position())
 			if hit_obj is Player or hit_obj is Enemy:
 				if not hit_obj.stunned:
 					hit_obj.do_stun()
@@ -36,11 +36,8 @@ func _physics_process(delta: float) -> void:
 			elif hit_obj is Breakable:
 				hit_obj.push(direction)
 				new_position -= direction
-			if (
-					direction == Vector2.LEFT
-					or direction == Vector2.UP
-				):
-				new_position += direction
+			if hit_obj is TileMapLayer:
+				new_position = world_data.tile_map.local_to_map(global_position)
 			new_position = world_data.tile_map.map_to_local(new_position)
 
 @rpc("call_local")
