@@ -62,25 +62,25 @@ extends Resource
 @export var NIMI_MOUNT_TEXTURE_PATH: String = "res://assets/player/nimi_mount.png"
 
 # UI Faces Textures
-@export var FACE_UI_TEXTURE: String = "res://assets/ui/ui_faces.png"
-@export var EGGOON_FACE_RECT: String = var_to_str(Rect2(256, 0, 32, 32))
-@export var NORMALGOON_FACE_RECT: String = var_to_str(Rect2(160, 0, 32, 32))
-@export var CHONKGOON_FACE_RECT: String = var_to_str(Rect2(224, 0, 32, 32))
-@export var LONGGOON_FACE_RECT: String = var_to_str(Rect2(192, 0, 32, 32))
-@export var DAD_FACE_RECT: String = var_to_str(Rect2(128, 0, 32, 32))
-@export var BHDOKI_FACE_RECT: String = var_to_str(Rect2(0, 0, 32, 32))
-@export var SUMMERDOKI_FACE_RECT: String = var_to_str(Rect2(384, 0, 32, 32))
-@export var SCHOOLDOKI_FACE_RECT: String = var_to_str(Rect2(416, 0, 32, 32))
-@export var RETRODOKI_FACE_RECT: String = var_to_str(Rect2(64, 0, 32, 32))
-@export var ALTGIRLDOKI_FACE_RECT: String = var_to_str(Rect2(32, 0, 32, 32))
-@export var CROWKI_FACE_RECT: String = var_to_str(Rect2(96, 0, 32, 32))
-@export var TOMATODOKI_FACE_RECT: String = var_to_str(Rect2(288, 0, 32, 32))
-@export var WISP_FACE_RECT: String = var_to_str(Rect2(320, 0, 32, 32))
-@export var MINT_FACE_RECT: String = var_to_str(Rect2(352, 0, 32, 32))
-@export var SNUFFY_FACE_RECT: String = var_to_str(Rect2(288, 0, 32, 32))
-@export var LAIMU_FACE_RECT: String = var_to_str(Rect2(320, 0, 32, 32))
-@export var DOOBY_FACE_RECT: String = var_to_str(Rect2(352, 0, 32, 32))
-@export var NIMI_FACE_RECT: String = var_to_str(Rect2(352, 0, 32, 32))
+@export var FACE_UI_TEXTURE: String = "res://assets/ui/uifaces.png"
+@export var EGGOON_FACE_RECT: String = var_to_str(Rect2(54, 36, 18, 18))
+@export var NORMALGOON_FACE_RECT: String = var_to_str(Rect2(0, 36, 18, 18))
+@export var CHONKGOON_FACE_RECT: String = var_to_str(Rect2(36, 36, 18, 18))
+@export var LONGGOON_FACE_RECT: String = var_to_str(Rect2(18, 36, 18, 18))
+@export var DAD_FACE_RECT: String = var_to_str(Rect2(0, 18, 18, 18))
+@export var BHDOKI_FACE_RECT: String = var_to_str(Rect2(108, 0, 18, 18))
+@export var SUMMERDOKI_FACE_RECT: String = var_to_str(Rect2(72, 36, 18, 18))
+@export var SCHOOLDOKI_FACE_RECT: String = var_to_str(Rect2(90, 36, 18, 18))
+@export var RETRODOKI_FACE_RECT: String = var_to_str(Rect2(72, 18, 18, 18))
+@export var ALTGIRLDOKI_FACE_RECT: String = var_to_str(Rect2(90, 18, 18, 18))
+@export var CROWKI_FACE_RECT: String = var_to_str(Rect2(18, 0, 18, 18))
+@export var TOMATODOKI_FACE_RECT: String = var_to_str(Rect2(54, 18, 18, 18))
+@export var WISP_FACE_RECT: String = var_to_str(Rect2(36, 0, 18, 18))
+@export var MINT_FACE_RECT: String = var_to_str(Rect2(0, 0, 18, 18))
+@export var SNUFFY_FACE_RECT: String = var_to_str(Rect2(54, 0, 18, 18))
+@export var LAIMU_FACE_RECT: String = var_to_str(Rect2(36, 0, 18, 18))
+@export var DOOBY_FACE_RECT: String = var_to_str(Rect2(18, 0, 18, 18))
+@export var NIMI_FACE_RECT: String = var_to_str(Rect2(72, 0, 18, 18))
 
 # Character Dicts
 var egggoon_paths = {
