@@ -24,8 +24,11 @@ const MOTION_SPEED_DECREASE: int = TILE_SIZE / 2
 	"altgirldoki",
 	"crowki",
 	"tomatodoki",
-	"secretone",
-	"secrettwo",
+	"wisp",
+	"mint",
+	"snuffy",
+	"laimu",
+	"dooby"
 	) var skin: String
 @export var ui_color: Color = Color.WHITE
 @export var is_secret_boss: bool = false
@@ -148,8 +151,8 @@ func exploded(by_whom: int):
 	super(by_whom)
 	if(self.health >= 1): return
 	if !is_multiplayer_authority(): return
-	if self.is_secret_boss:
-		unlock_secret()
+	if self.is_mint_boss:
+		SettingsContainer.unlock_secret_permanently("mint")
 
 	var pickup_type: int = globals.get_pickup_type_from_name(self.dropped_pickup)
 	if pickup_type == globals.pickups.NONE: return
@@ -162,11 +165,6 @@ func exploded(by_whom: int):
 	if valid_pos == Vector2.ZERO: return
 	var pickup: Pickup = globals.game.pickup_pool.request(pickup_type)
 	pickup.place.call_deferred(valid_pos, true)
-
-func unlock_secret():
-	SettingsContainer.set_data_flag("boo")
-	var secret_dict: Dictionary = SettingsContainer.create_secret_file()
-	SettingsSignalBus.emit_secret_file_data(secret_dict)
 
 func reset_pickups():
 	self.bomb_carry_sprite.hide()

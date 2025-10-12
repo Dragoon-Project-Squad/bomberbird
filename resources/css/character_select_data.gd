@@ -14,9 +14,12 @@ extends Resource
 @export var ALTGIRLDOKI_SELECT_TEXTURE_PATH: String = "res://assets/css/altdoki.png"
 @export var CROWKI_SELECT_TEXTURE_PATH: String = "res://assets/css/crowki.png"
 @export var TOMATODOKI_SELECT_TEXTURE_PATH: String = "res://assets/css/tomato.png"
-@export var SECRET1_SELECT_TEXTURE_PATH: String = "res://assets/css/wisp.png"
-@export var SECRET2_SELECT_TEXTURE_PATH: String = "res://assets/css/maidmint.png"
-
+@export var WISP_SELECT_TEXTURE_PATH: String = "res://assets/css/wisp.png"
+@export var MINT_SELECT_TEXTURE_PATH: String = "res://assets/css/maidmint.png"
+@export var SNUFFY_SELECT_TEXTURE_PATH: String = "res://assets/css/snuffy.png"
+@export var LAIMU_SELECT_TEXTURE_PATH: String = "res://assets/css/laimu.png"
+@export var DOOBY_SELECT_TEXTURE_PATH: String = "res://assets/css/dooby.png"
+@export var NIMI_SELECT_TEXTURE_PATH: String = "res://assets/css/nimi.png"
 
 # Player Texture Paths
 @export var EGGOON_PLAYER_TEXTURE_PATH: String = "res://assets/player/eggoon_walk.png"
@@ -31,8 +34,12 @@ extends Resource
 @export var ALTGIRLDOKI_PLAYER_TEXTURE_PATH: String = "res://assets/player/altdoki_walk.png"
 @export var CROWKI_PLAYER_TEXTURE_PATH: String = "res://assets/player/crowki_walk.png"
 @export var TOMATODOKI_PLAYER_TEXTURE_PATH: String = "res://assets/player/tomatodoki_walk.png"
-@export var SECRET1_PLAYER_TEXTURE_PATH: String = "res://assets/player/wisp_walk.png"
-@export var SECRET2_PLAYER_TEXTURE_PATH: String = "res://assets/player/maidmint_walk.png"
+@export var WISP_PLAYER_TEXTURE_PATH: String = "res://assets/player/wisp_walk.png"
+@export var MINT_PLAYER_TEXTURE_PATH: String = "res://assets/player/maidmint_walk.png"
+@export var SNUFFY_PLAYER_TEXTURE_PATH: String = "res://assets/player/snuffy_walk.png"
+@export var LAIMU_PLAYER_TEXTURE_PATH: String = "res://assets/player/laimu_walk.png"
+@export var DOOBY_PLAYER_TEXTURE_PATH: String = "res://assets/player/dooby_walk.png"
+@export var NIMI_PLAYER_TEXTURE_PATH: String = "res://assets/player/nimi_walk.png"
 
 # Mount Texture Paths
 @export var EGGOON_MOUNT_TEXTURE_PATH: String = "res://assets/player/eggoon_mount.png"
@@ -47,25 +54,33 @@ extends Resource
 @export var ALTGIRLDOKI_MOUNT_TEXTURE_PATH: String = "res://assets/player/altdoki_mount.png"
 @export var CROWKI_MOUNT_TEXTURE_PATH: String = "res://assets/player/crowki_mount.png"
 @export var TOMATODOKI_MOUNT_TEXTURE_PATH: String = "res://assets/player/tomato_mount.png"
-@export var SECRET1_MOUNT_TEXTURE_PATH: String = "res://assets/player/wisp_mount.png"
-@export var SECRET2_MOUNT_TEXTURE_PATH: String = "res://assets/player/maidmint_mount.png"
+@export var WISP_MOUNT_TEXTURE_PATH: String = "res://assets/player/wisp_mount.png"
+@export var MINT_MOUNT_TEXTURE_PATH: String = "res://assets/player/maidmint_mount.png"
+@export var SNUFFY_MOUNT_TEXTURE_PATH: String = "res://assets/player/snuffy_mount.png"
+@export var LAIMU_MOUNT_TEXTURE_PATH: String = "res://assets/player/laimu_mount.png"
+@export var DOOBY_MOUNT_TEXTURE_PATH: String = "res://assets/player/dooby_mount.png"
+@export var NIMI_MOUNT_TEXTURE_PATH: String = "res://assets/player/nimi_mount.png"
 
 # UI Faces Textures
-@export var FACE_UI_TEXTURE: String = "res://assets/ui/ui_faces.png"
-@export var EGGOON_FACE_RECT: String = var_to_str(Rect2(256, 0, 32, 32))
-@export var NORMALGOON_FACE_RECT: String = var_to_str(Rect2(160, 0, 32, 32))
-@export var CHONKGOON_FACE_RECT: String = var_to_str(Rect2(224, 0, 32, 32))
-@export var LONGGOON_FACE_RECT: String = var_to_str(Rect2(192, 0, 32, 32))
-@export var DAD_FACE_RECT: String = var_to_str(Rect2(128, 0, 32, 32))
-@export var BHDOKI_FACE_RECT: String = var_to_str(Rect2(0, 0, 32, 32))
-@export var SUMMERDOKI_FACE_RECT: String = var_to_str(Rect2(384, 0, 32, 32))
-@export var SCHOOLDOKI_FACE_RECT: String = var_to_str(Rect2(416, 0, 32, 32))
-@export var RETRODOKI_FACE_RECT: String = var_to_str(Rect2(64, 0, 32, 32))
-@export var ALTGIRLDOKI_FACE_RECT: String = var_to_str(Rect2(32, 0, 32, 32))
-@export var CROWKI_FACE_RECT: String = var_to_str(Rect2(96, 0, 32, 32))
-@export var TOMATODOKI_FACE_RECT: String = var_to_str(Rect2(288, 0, 32, 32))
-@export var SECRET1_FACE_RECT: String = var_to_str(Rect2(320, 0, 32, 32))
-@export var SECRET2_FACE_RECT: String = var_to_str(Rect2(352, 0, 32, 32))
+@export var FACE_UI_TEXTURE: String = "res://assets/ui/uifaces.png"
+@export var EGGOON_FACE_RECT: String = var_to_str(Rect2(54, 36, 18, 18))
+@export var NORMALGOON_FACE_RECT: String = var_to_str(Rect2(0, 36, 18, 18))
+@export var CHONKGOON_FACE_RECT: String = var_to_str(Rect2(36, 36, 18, 18))
+@export var LONGGOON_FACE_RECT: String = var_to_str(Rect2(18, 36, 18, 18))
+@export var DAD_FACE_RECT: String = var_to_str(Rect2(0, 18, 18, 18))
+@export var BHDOKI_FACE_RECT: String = var_to_str(Rect2(108, 0, 18, 18))
+@export var SUMMERDOKI_FACE_RECT: String = var_to_str(Rect2(72, 36, 18, 18))
+@export var SCHOOLDOKI_FACE_RECT: String = var_to_str(Rect2(90, 36, 18, 18))
+@export var RETRODOKI_FACE_RECT: String = var_to_str(Rect2(72, 18, 18, 18))
+@export var ALTGIRLDOKI_FACE_RECT: String = var_to_str(Rect2(90, 18, 18, 18))
+@export var CROWKI_FACE_RECT: String = var_to_str(Rect2(18, 0, 18, 18))
+@export var TOMATODOKI_FACE_RECT: String = var_to_str(Rect2(54, 18, 18, 18))
+@export var WISP_FACE_RECT: String = var_to_str(Rect2(36, 0, 18, 18))
+@export var MINT_FACE_RECT: String = var_to_str(Rect2(0, 0, 18, 18))
+@export var SNUFFY_FACE_RECT: String = var_to_str(Rect2(54, 0, 18, 18))
+@export var LAIMU_FACE_RECT: String = var_to_str(Rect2(36, 0, 18, 18))
+@export var DOOBY_FACE_RECT: String = var_to_str(Rect2(18, 0, 18, 18))
+@export var NIMI_FACE_RECT: String = var_to_str(Rect2(72, 0, 18, 18))
 
 # Character Dicts
 var egggoon_paths = {
@@ -152,18 +167,46 @@ var tomatodoki_paths = {
 	"face": { "path": FACE_UI_TEXTURE, "rect": TOMATODOKI_FACE_RECT },
 	}
   
-var secretone_paths = {
-	"select": SECRET1_SELECT_TEXTURE_PATH, 
-	"walk": SECRET1_PLAYER_TEXTURE_PATH, 
-	"mount": SECRET1_MOUNT_TEXTURE_PATH,
-	"face": { "path": FACE_UI_TEXTURE, "rect": SECRET1_FACE_RECT },
+var wisp_paths = {
+	"select": WISP_SELECT_TEXTURE_PATH, 
+	"walk": WISP_PLAYER_TEXTURE_PATH, 
+	"mount": WISP_MOUNT_TEXTURE_PATH,
+	"face": { "path": FACE_UI_TEXTURE, "rect": WISP_FACE_RECT },
 	}
   
-var secrettwo_paths = {
-	"select": SECRET2_SELECT_TEXTURE_PATH, 
-	"walk": SECRET2_PLAYER_TEXTURE_PATH, 
-	"mount": SECRET2_MOUNT_TEXTURE_PATH,
-	"face": { "path": FACE_UI_TEXTURE, "rect": SECRET2_FACE_RECT },
+var mint_paths = {
+	"select": MINT_SELECT_TEXTURE_PATH, 
+	"walk": MINT_PLAYER_TEXTURE_PATH, 
+	"mount": MINT_MOUNT_TEXTURE_PATH,
+	"face": { "path": FACE_UI_TEXTURE, "rect": MINT_FACE_RECT },
+	}
+	
+var snuffy_paths = {
+	"select": SNUFFY_SELECT_TEXTURE_PATH, 
+	"walk": SNUFFY_PLAYER_TEXTURE_PATH, 
+	"mount": SNUFFY_MOUNT_TEXTURE_PATH,
+	"face": { "path": FACE_UI_TEXTURE, "rect": SNUFFY_FACE_RECT },
+	}
+	
+var laimu_paths = {
+	"select": LAIMU_SELECT_TEXTURE_PATH, 
+	"walk": LAIMU_PLAYER_TEXTURE_PATH, 
+	"mount": LAIMU_MOUNT_TEXTURE_PATH,
+	"face": { "path": FACE_UI_TEXTURE, "rect": LAIMU_FACE_RECT },
+	}
+	
+var dooby_paths = {
+	"select": DOOBY_SELECT_TEXTURE_PATH, 
+	"walk": DOOBY_PLAYER_TEXTURE_PATH, 
+	"mount": DOOBY_MOUNT_TEXTURE_PATH,
+	"face": { "path": FACE_UI_TEXTURE, "rect": DOOBY_FACE_RECT },
+	}
+	
+var nimi_paths = {
+	"select": NIMI_SELECT_TEXTURE_PATH, 
+	"walk": NIMI_PLAYER_TEXTURE_PATH, 
+	"mount": NIMI_MOUNT_TEXTURE_PATH,
+	"face": { "path": FACE_UI_TEXTURE, "rect": NIMI_FACE_RECT },
 	}
 	
 var characters: Dictionary = {
@@ -178,8 +221,12 @@ var characters: Dictionary = {
 	"altgirldoki": altgirldoki_paths,
 	"crowki": crowki_paths,
 	"tomatodoki": tomatodoki_paths,
-	"secretone": secretone_paths,
-	"secrettwo": secrettwo_paths,
+	"wisp": wisp_paths,
+	"mint": mint_paths,
+	"snuffy": snuffy_paths,
+	"laimu": laimu_paths,
+	"dooby": dooby_paths,
+	"nimi": nimi_paths
 	}
 
 var DEFAULT_PLAYER_2_SELECT = NORMALGOON_SELECT_TEXTURE_PATH

@@ -115,7 +115,7 @@ func sync_playerdata_across_players(newplayer_data_master_dict):
 
 @rpc("call_remote")
 func set_secret_status(host_secret_status):
-	globals.secrets_enabled = host_secret_status
+	globals.secrets = host_secret_status.duplicate()
 	secret_status_sent.emit()
 
 # Callback from SceneTree.
@@ -166,7 +166,7 @@ func register_player(new_player_name: String, id: int):
 		"is_enabled" = true
 	}
 	if is_multiplayer_authority():
-		set_secret_status.rpc_id(id, globals.secrets_enabled)
+		set_secret_status.rpc_id(id, globals.secrets)
 		sync_playerdata_across_players.rpc(player_data_master_dict)
 	
 @rpc("authority", "call_local")
@@ -499,10 +499,10 @@ func assign_dict_to_spritepaths(playerdict: Dictionary):
 			playerdict.spritepaths = character_texture_paths.crowki_paths
 		"tomatodoki":
 			playerdict.spritepaths = character_texture_paths.tomatodoki_paths
-		"secretone":
-			playerdict.spritepaths = character_texture_paths.secretone_paths
-		"secrettwp":
-			playerdict.spritepaths = character_texture_paths.secrettwo_paths
+		"wisp":
+			playerdict.spritepaths = character_texture_paths.wisp_paths
+		"mint":
+			playerdict.spritepaths = character_texture_paths.mint_paths
 		_:
 			push_error("Could not identify character!")
 			playerdict.spritepaths = character_texture_paths.egggoon_paths

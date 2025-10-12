@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=4 uid="uid://cweqoqxedyaxv"]
+[gd_scene load_steps=9 format=4 uid="uid://cweqoqxedyaxv"]
 
 [ext_resource type="Script" uid="uid://c7rrhgeevwtus" path="res://scripts/world/randomized_stage.gd" id="1_ja737"]
 [ext_resource type="Resource" uid="uid://dtqcmg620eyuh" path="res://resources/gameplay/lab_pickup_table.tres" id="2_ru4ht"]
 [ext_resource type="Texture2D" uid="uid://cue6il0ob2ea4" path="res://assets/tilesetimages/lab_background_540.png" id="3_ig8h6"]
 [ext_resource type="TileSet" uid="uid://cx8n6oa7chiix" path="res://assets/tilesets/lab_tileset.tres" id="3_ja737"]
+[ext_resource type="SpriteFrames" uid="uid://navrkf1xhnp" path="res://scenes/stages/lab_rand.tres" id="3_ru4ht"]
 [ext_resource type="TileSet" uid="uid://bbo4w3umv1ovk" path="res://assets/tilesets/lab_obstacle.tres" id="4_ig8h6"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="5_0poyn"]
 [ext_resource type="PackedScene" uid="uid://bn58fqv6ar4sr" path="res://scenes/mus/dad_drive.tscn" id="6_8nh8g"]
@@ -18,7 +19,15 @@ _world_edge_rect = Rect2i(-2, -2, 19, 19)
 spawnpoints = Array[Vector2i]([Vector2i(1, 3), Vector2i(13, 3), Vector2i(1, 13), Vector2i(13, 13)])
 pickup_table = ExtResource("2_ru4ht")
 
-[node name="Background" type="Sprite2D" parent="."]
+[node name="Background" type="AnimatedSprite2D" parent="."]
+position = Vector2(240, 208)
+sprite_frames = ExtResource("3_ru4ht")
+autoplay = "default"
+frame = 37
+frame_progress = 0.393984
+
+[node name="BackgroundOldge" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(240, 208)
 texture = ExtResource("3_ig8h6")
 

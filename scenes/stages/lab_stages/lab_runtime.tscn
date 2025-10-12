@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=4 uid="uid://bvmptnd1aktad"]
+[gd_scene load_steps=9 format=4 uid="uid://bvmptnd1aktad"]
 
 [ext_resource type="Script" uid="uid://bebhr7v8s7t8y" path="res://scripts/world/runtime_build_stage.gd" id="1_sfhov"]
+[ext_resource type="SpriteFrames" uid="uid://navrkf1xhnp" path="res://scenes/stages/lab_rand.tres" id="2_8ftkg"]
 [ext_resource type="Texture2D" uid="uid://cue6il0ob2ea4" path="res://assets/tilesetimages/lab_background_540.png" id="2_8kvfv"]
 [ext_resource type="TileSet" uid="uid://cx8n6oa7chiix" path="res://assets/tilesets/lab_tileset.tres" id="3_8ftkg"]
 [ext_resource type="TileSet" uid="uid://bbo4w3umv1ovk" path="res://assets/tilesets/lab_obstacle.tres" id="3_qyd28"]
@@ -17,7 +18,13 @@ _arena_rect = Rect2i(1, 3, 13, 11)
 _world_edge_rect = Rect2i(-2, -2, 19, 19)
 spawnpoints = Array[Vector2i]([Vector2i(1, 3), Vector2i(13, 3), Vector2i(1, 13), Vector2i(13, 13)])
 
-[node name="Background" type="Sprite2D" parent="."]
+[node name="Background" type="AnimatedSprite2D" parent="."]
+position = Vector2(240, 208)
+sprite_frames = ExtResource("2_8ftkg")
+autoplay = "default"
+
+[node name="BackgroundOldge" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(240, 208)
 texture = ExtResource("2_8kvfv")
 

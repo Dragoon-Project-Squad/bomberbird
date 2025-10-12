@@ -74,7 +74,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "SUPER SECRET CODES HERE"
 alignment = 1
-max_length = 20
+max_length = 25
 
 [node name="PasswordSubmit" type="Button" parent="TabContainer/General/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2

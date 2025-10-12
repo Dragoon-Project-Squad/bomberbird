@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=4 uid="uid://yw8js4gg4cem"]
+[gd_scene load_steps=9 format=4 uid="uid://yw8js4gg4cem"]
 
 [ext_resource type="Script" uid="uid://bebhr7v8s7t8y" path="res://scripts/world/runtime_build_stage.gd" id="1_e5lk7"]
 [ext_resource type="Texture2D" uid="uid://dropunqq5h5m3" path="res://assets/tilesetimages/dungeon_background_540.png" id="2_5wjyb"]
+[ext_resource type="SpriteFrames" uid="uid://c21jc22n8kop8" path="res://scenes/stages/dungeon_rand.tres" id="2_jsoac"]
 [ext_resource type="TileSet" uid="uid://dfvqpfmyvsgrk" path="res://assets/tilesets/dungeon_tileset.tres" id="3_jsoac"]
 [ext_resource type="TileSet" uid="uid://cnoloqgn2qgfe" path="res://assets/tilesets/dungeon_obstacle.tres" id="3_mov85"]
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/tilesets/desert_tileset.tres" id="4_lhkpt"]
@@ -17,7 +18,13 @@ _arena_rect = Rect2i(1, 3, 13, 11)
 _world_edge_rect = Rect2i(-2, -2, 19, 19)
 spawnpoints = Array[Vector2i]([Vector2i(1, 3), Vector2i(13, 3), Vector2i(1, 13), Vector2i(13, 13)])
 
-[node name="Background" type="Sprite2D" parent="."]
+[node name="Background" type="AnimatedSprite2D" parent="."]
+position = Vector2(240, 208)
+sprite_frames = ExtResource("2_jsoac")
+autoplay = "default"
+
+[node name="BackgroundOldge" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(240, 208)
 texture = ExtResource("2_5wjyb")
 

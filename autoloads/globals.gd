@@ -98,7 +98,13 @@ var config = Config.new()
 var game: Node2D
 var current_world: World
 var player_manager: PlayerManager
-var secrets_enabled := false
+var secrets : Dictionary = {
+	"mint" : false,
+	"snuffy" : false,
+	"laimu" : false,
+	"dooby" : false,
+	"nimi" : false
+}
 
 func is_valid_pickup(pickup: int):
 	match pickup:

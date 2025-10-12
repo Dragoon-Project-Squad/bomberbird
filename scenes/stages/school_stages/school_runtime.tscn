@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=4 uid="uid://coh4j5pk3472r"]
+[gd_scene load_steps=8 format=4 uid="uid://coh4j5pk3472r"]
 
 [ext_resource type="Script" uid="uid://bebhr7v8s7t8y" path="res://scripts/world/runtime_build_stage.gd" id="1_dyrnj"]
 [ext_resource type="Texture2D" uid="uid://5fnj8pam6cw1" path="res://assets/tilesetimages/school_background_540.png" id="2_5kmid"]
+[ext_resource type="SpriteFrames" uid="uid://do275jxmnaeep" path="res://scenes/stages/school_rand.tres" id="2_pwg0b"]
 [ext_resource type="TileSet" uid="uid://cep6ug4u2nyaj" path="res://assets/tilesets/secret_tileset.tres" id="3_o685d"]
 [ext_resource type="TileSet" uid="uid://dtqaw8ji43d4n" path="res://assets/tilesets/school_obstacle.tres" id="4_5kmid"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="5_sue31"]
@@ -16,7 +17,13 @@ _arena_rect = Rect2i(1, 3, 13, 11)
 _world_edge_rect = Rect2i(-2, -2, 19, 19)
 spawnpoints = Array[Vector2i]([Vector2i(1, 3), Vector2i(13, 3), Vector2i(1, 13), Vector2i(13, 13)])
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Background" type="AnimatedSprite2D" parent="."]
+position = Vector2(240, 208)
+sprite_frames = ExtResource("2_pwg0b")
+autoplay = "default"
+
+[node name="BackgroundOldge" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(240, 208)
 texture = ExtResource("2_5kmid")
 

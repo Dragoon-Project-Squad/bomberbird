@@ -47,10 +47,22 @@ func unpause_main_menu_music() -> void:
 	Wwise.post_event("unpause_music_main_menu", self)
 	
 func check_secret() -> void:
-	if SettingsContainer.get_data_flag() == "boo":
-		globals.secrets_enabled = true
-		print("You found a secret!!!")
 	#Do NOT set it to false if the data isn't there.
+	if SettingsContainer.get_mint_flag() == "boo":
+		globals.secrets.mint = true
+		print_debug("Mint Secret TRUE")
+	if SettingsContainer.get_snuffy_flag() == "shiny":
+		globals.secrets.snuffy = true
+		print_debug("Snuffy Secret TRUE")
+	if SettingsContainer.get_laimu_flag() == "ferret":
+		globals.secrets.laimu = true
+		print_debug("Laimu Secret TRUE")
+	if SettingsContainer.get_dooby_flag() == "doobinit":
+		globals.secrets.dooby = true
+		print_debug("Dooby Secret TRUE")
+	if SettingsContainer.get_nimi_flag() == "konbakuwa":
+		globals.secrets.nimi = true
+		print_debug("Nimi Secret TRUE")
 
 func _on_single_player_pressed() -> void:
 	# stops ALL music

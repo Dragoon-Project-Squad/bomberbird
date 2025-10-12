@@ -109,10 +109,10 @@ func _on_stage_select_stage_selected() -> void:
 	start_the_battle()
 
 func _on_secret_status_sent() -> void:
-	if globals.secrets_enabled:
-		character_select_screen.reveal_secrets()
+	character_select_screen.reveal_secret_characters()
+	if globals.secrets.mint:
 		stage_select_screen.switch_to_secret_stages()
-		
+
 func _on_error_dialog_confirmed() -> void:
 	gamestate.end_game()
 	if gamestate.peer:

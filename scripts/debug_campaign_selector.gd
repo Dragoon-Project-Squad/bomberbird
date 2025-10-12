@@ -57,7 +57,7 @@ func enter():
 		else:
 			_update_and_set(DEFAULT_CAMPAIGN_GRAPH_NAME)
 	elif globals.is_boss_rush_mode():
-		if globals.secrets_enabled:
+		if globals.secrets.mint: #If Mint secret enabled
 			_update_and_set(DEFAULT_BOSS_RUSH_SECRET_GRAPH_NAME)
 		else:
 			_update_and_set(DEFAULT_BOSS_RUSH_GRAPH_NAME)
