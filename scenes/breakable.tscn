@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ckqu3x0hcmuux" path="res://assets/tilesetimages/desert_obstacles.png" id="2_kwo4r"]
 
 [sub_resource type="RectangleShape2D" id="1"]
-size = Vector2(32, 32)
+size = Vector2(30, 30)
 
 [sub_resource type="Animation" id="Animation_kwo4r"]
 length = 0.001
@@ -50,7 +50,7 @@ _data = {
 [node name="Breakable" type="CharacterBody2D" groups=["bombstop", "thrown_bomb_bounces", "thrown_pickup_bounces"]]
 texture_filter = 1
 collision_layer = 4
-collision_mask = 11
+collision_mask = 47
 motion_mode = 1
 script = ExtResource("1")
 

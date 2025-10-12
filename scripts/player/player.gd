@@ -314,6 +314,26 @@ func register_remote_bomb():
 	remote_bombs.push_back(remote_bomb_id)
 	remote_bomb_id += 1
 
+#endregion
+
+#region mount abilities
+
+func kick_breakable(direction: Vector2i):
+	if (globals.game.stage_done): return
+	if current_mount_ability != mount_ability.BREAKABLEPUSH: return
+	
+	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
+	var box_pushed: Breakable
+	for body in bodies:
+		if body is Breakable:
+			box_pushed = body
+			break
+	if box_pushed == null:
+		return 1
+	box_pushed.push.rpc(direction)
+
+#endregion
+
 ## updates the animation depending on the movement direction
 func update_animation(direction: Vector2, old_direction: Vector2):
 	var new_anim: String = "standing_down"

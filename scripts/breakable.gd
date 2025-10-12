@@ -3,9 +3,42 @@ class_name Breakable
 
 signal breakable_destroyed
 
+const TILESIZE := 32
+var collisions_array := []
+
 var in_use: bool = false
 var contained_pickup: int
 var _exploded_barrier: bool = false
+var pushed: bool = false
+var direction: Vector2
+var new_position := Vector2.ZERO
+
+func _physics_process(delta: float) -> void:
+	if pushed:
+		velocity = direction * TILESIZE * 5
+		var collide = move_and_collide(velocity * delta)
+		if new_position and (global_position - new_position).dot(direction) >= 0:
+			global_position = new_position
+			remove_collision_exception_with(self)
+			if collisions_array.size() > 0:
+				collisions_array.map(func(body): remove_collision_exception_with(body))
+				collisions_array.clear()
+			pushed = false
+			new_position = Vector2.ZERO
+		elif collide:
+			var hit_obj := collide.get_collider()
+			new_position = world_data.tile_map.local_to_map(collide.get_position())
+			if hit_obj is Player or hit_obj is Enemy:
+				if not hit_obj.stunned:
+					hit_obj.do_stun()
+					add_collision_exception_with(hit_obj)
+					collisions_array.append(hit_obj)
+			elif hit_obj is Breakable:
+				hit_obj.push(direction)
+				new_position -= direction
+			if hit_obj is TileMapLayer:
+				new_position = world_data.tile_map.local_to_map(global_position)
+			new_position = world_data.tile_map.map_to_local(new_position)
 
 @rpc("call_local")
 func disable_collison_and_hide():
@@ -76,3 +109,10 @@ func crush():
 	if is_multiplayer_authority():
 		disable.rpc()
 		globals.game.breakable_pool.return_obj(self)
+
+@rpc("call_local")
+func push(direction: Vector2i):
+	if !is_multiplayer_authority(): return
+	self.direction = direction
+	pushed = true
+	add_collision_exception_with(self)

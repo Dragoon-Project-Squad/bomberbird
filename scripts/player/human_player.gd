@@ -81,7 +81,10 @@ func _physics_process(delta: float):
 		punch_pressed_once = false
 	
 	if not stunned and inputs.secondary_ability:
-		kick_bomb(direction)
+		if is_mounted:
+			kick_breakable(direction)
+		else:
+			kick_bomb(direction)
 
 	if not is_unbomb and not stunned and bomb_count > 0:
 		if inputs.bombing:
