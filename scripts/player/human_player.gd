@@ -101,6 +101,8 @@ func _physics_process(delta: float):
 				place_bomb()
 			bomb_hold_timer = 0.0
 			set_bomb_pressed_once = false
+		elif inputs.secondary_ability and current_mount_ability == mount_ability.RAPIDBOMB:
+			place_bomb(direction)
 
 	if !is_dead && !stunned:
 		# Everybody runs physics. I.e. clients tries to predict where they will be during the next frame.
