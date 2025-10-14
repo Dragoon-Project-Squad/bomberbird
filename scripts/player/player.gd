@@ -292,9 +292,12 @@ func place_bomb(line_direction := Vector2.ZERO):
 			bombPos += Vector2i(line_direction * place_count)
 			place_count += 1
 		bombPos = world_data.tile_map.map_to_local(bombPos)
-		if world_data.is_out_of_bounds(bombPos) != world_data.bounds.IN:
+		if (
+				world_data.is_out_of_bounds(bombPos) != world_data.bounds.IN
+				or not world_data.is_tile(world_data.tiles.EMPTY, bombPos)
+		):
 			bomb_count += 1
-			return
+			break
 		# Adding bomb to astargrid so bombs have collision inside the grid
 		astargrid_handler.astargrid_set_point(bombPos, true)
 		
@@ -599,7 +602,7 @@ func mount_dragoon():
 	player_mounted.emit()
 	
 func assign_mount_ability() -> void:
-	match pickups.mounts.PURPLE:#pickups.held_pickups[globals.pickups.MOUNTGOON]:
+	match pickups.held_pickups[globals.pickups.MOUNTGOON]:
 			pickups.mounts.YELLOW:
 				print("Block push!")
 				current_mount_ability = mount_ability.BREAKABLEPUSH
