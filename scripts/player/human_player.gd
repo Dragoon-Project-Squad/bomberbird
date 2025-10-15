@@ -74,9 +74,12 @@ func _physics_process(delta: float):
 	if direction.x != 0 and direction.y != 0:
 		direction = [Vector2(direction.x, 0), Vector2(0, direction.y)][randi() % 2]
 	
-	if not stunned and inputs.punch_ability and not punch_pressed_once:
-		punch_pressed_once = true
-		punch_bomb(direction)
+	if not stunned and inputs.punch_ability:
+		if is_mounted:
+			punch_enemy()
+		if not punch_pressed_once:
+			punch_pressed_once = true
+			punch_bomb(direction)
 	elif !inputs.punch_ability and punch_pressed_once:
 		punch_pressed_once = false
 	

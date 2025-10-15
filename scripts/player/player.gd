@@ -237,7 +237,7 @@ func throw_bomb_effect():
 
 func kick_bomb(direction: Vector2i):
 	if(globals.game.stage_done): return
-	if pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] != pickups.exclusive.KICK and not is_mounted:
+	if pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] != pickups.exclusive.KICK and current_mount_ability != mount_ability.MOUNTKICK:
 		return 1
 	
 	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
@@ -331,6 +331,17 @@ func kick_breakable(direction: Vector2i):
 	if box_pushed == null:
 		return 1
 	box_pushed.push.rpc(direction)
+
+
+func punch_enemy():
+	if (globals.game.stage_done): return
+	if current_mount_ability != mount_ability.PUNCH: return
+	
+	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
+	for body in bodies:
+		if body.has_method("do_stun"):
+			body.do_stun.rpc()
+
 
 #endregion
 
@@ -516,6 +527,7 @@ func spread_items():
 				temp.append(pos_array[j])
 			world_data.reset_empty_cells.call_deferred(temp)
 
+@rpc("call_local")
 func do_stun():
 	if stunned || invulnerable: return
 	animation_player.play("player_animations/stunned") #Note this animation sets stunned automatically
