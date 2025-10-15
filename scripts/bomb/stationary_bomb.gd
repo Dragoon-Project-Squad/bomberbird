@@ -123,15 +123,12 @@ func detonate():
 			var map := world_data.tile_map
 			var origin := map.local_to_map(self.global_position)
 			var collision := map.local_to_map(ray.get_collision_point())
-			var range := absi((origin - collision).length())
-			if ray_direction == Vector2i.LEFT or ray_direction == Vector2i.UP:
-				range += 1
+			@warning_ignore("narrowing_conversion")
+			var ray_range := absi((origin - collision).length())
 			if target.is_class("TileMapLayer"):
-				range -= 1
-			var bounds_check := self.global_position + Vector2(ray_direction * range * TILE_SIZE)
-			if world_data.is_out_of_bounds(bounds_check) != world_data.bounds.IN:
-				range -= 1
-			exp_range[ray_direction] = clampi(range, 0, MAX_EXPLOSION_WIDTH)
+				if ray_direction != Vector2i.UP and ray_direction != Vector2i.LEFT:
+					ray_range -= 1
+			exp_range[ray_direction] = clampi(ray_range, 0, MAX_EXPLOSION_WIDTH)
 	if bomb_root.bomb_owner:
 		remove_collision_exception_with(bomb_root.bomb_owner)
 	if is_multiplayer_authority(): #multiplayer auth. now starts the transition to the explosion

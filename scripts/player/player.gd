@@ -280,34 +280,47 @@ func emit_remote_call_bomb():
 	globals.player_manager.remote_call_bomb.emit(str(self.name), remote_bombs.pop_front()) #removing the element here is fine since the return bomb func calls erase and erase will just do nothing if the element is not in the array
 
 ## places a bomb if the current position is valid
-func place_bomb():
+func place_bomb(line_direction := Vector2.ZERO):
 	if(globals.game.stage_done): return
 	if(world_data.is_tile(world_data.tiles.BOMB, self.global_position)): return
-	
-	var bombPos = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(synced_position))
-	bomb_count -= 1
-	last_bomb_time = 0
-	
-	# Adding bomb to astargrid so bombs have collision inside the grid
-	astargrid_handler.astargrid_set_point(synced_position, true)
-	
-	if is_multiplayer_authority():
-		var bomb: BombRoot = bomb_pool.request()
-		bomb.set_bomb_owner.rpc(self.name)
-		if pickups.held_pickups[globals.pickups.GENERIC_BOMB] == HeldPickups.bomb_types.MINE:
-			if not mine_placed:
-				bomb.set_bomb_type.rpc(HeldPickups.bomb_types.MINE)
-				mine_placed = not mine_placed
+	var place_count := 0
+	while bomb_count > 0:
+		var bombPos = world_data.tile_map.local_to_map(synced_position)
+		bomb_count -= 1
+		last_bomb_time = 0
+		if line_direction:
+			bombPos += Vector2i(line_direction * place_count)
+			place_count += 1
+		bombPos = world_data.tile_map.map_to_local(bombPos)
+		if (
+				world_data.is_out_of_bounds(bombPos) != world_data.bounds.IN
+				or not world_data.is_tile(world_data.tiles.EMPTY, bombPos)
+		):
+			bomb_count += 1
+			break
+		# Adding bomb to astargrid so bombs have collision inside the grid
+		astargrid_handler.astargrid_set_point(bombPos, true)
+		
+		if is_multiplayer_authority():
+			var bomb: BombRoot = bomb_pool.request()
+			bomb.set_bomb_owner.rpc(self.name)
+			if pickups.held_pickups[globals.pickups.GENERIC_BOMB] == HeldPickups.bomb_types.MINE:
+				if not mine_placed:
+					bomb.set_bomb_type.rpc(HeldPickups.bomb_types.MINE)
+					mine_placed = not mine_placed
+				else:
+					bomb.set_bomb_type.rpc(HeldPickups.bomb_types.DEFAULT)
 			else:
-				bomb.set_bomb_type.rpc(HeldPickups.bomb_types.DEFAULT)
-		else:
-			bomb.set_bomb_type.rpc(pickups.held_pickups[globals.pickups.GENERIC_BOMB])
+				bomb.set_bomb_type.rpc(pickups.held_pickups[globals.pickups.GENERIC_BOMB])
 
-		if pickups.held_pickups[globals.pickups.GENERIC_BOMB] == pickups.bomb_types.REMOTE:
-			bomb.set_bomb_number.rpc(remote_bomb_id)
-			register_remote_bomb.rpc()
-		bomb.set_fuse_length.rpc(fuse_speed)
-		bomb.do_place.rpc(bombPos, -1 if infected_explosion else explosion_boost_count)
+			if pickups.held_pickups[globals.pickups.GENERIC_BOMB] == pickups.bomb_types.REMOTE:
+				bomb.set_bomb_number.rpc(remote_bomb_id)
+				register_remote_bomb.rpc()
+			bomb.set_fuse_length.rpc(fuse_speed)
+			bomb.do_place.rpc(bombPos, -1 if infected_explosion else explosion_boost_count)
+		
+		if not line_direction:
+			break
 
 @rpc("call_local")
 func register_remote_bomb():
