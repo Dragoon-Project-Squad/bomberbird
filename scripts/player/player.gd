@@ -237,7 +237,7 @@ func throw_bomb_effect():
 
 func kick_bomb(direction: Vector2i):
 	if(globals.game.stage_done): return
-	if pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] != pickups.exclusive.KICK and not is_mounted:
+	if pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] != pickups.exclusive.KICK and current_mount_ability != mount_ability.MOUNTKICK:
 		return 1
 	
 	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()

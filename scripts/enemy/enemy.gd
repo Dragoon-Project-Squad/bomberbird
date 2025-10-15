@@ -113,6 +113,7 @@ func stop_invulnerability():
 	self.invulnerable = false
 	self.invul_timer = null
 
+@rpc("call_local")
 func do_stun():
 	stunned = true
 	$AnimationPlayer.play("enemy/stunned")
