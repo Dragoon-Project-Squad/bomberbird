@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{0538B80F-BD38-4678-ADB9-028154C3B6E7}",
     "Language": "SFX",
-    "Hash": "{346DB6AA-8D2B-0EF9-6AB5-8C617C574073}",
+    "Hash": "{197CD128-0082-2817-36C6-EC87A2F83886}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\game",
     "ShortName": "game",
     "Path": "game.bnk",
@@ -18,9 +18,10 @@
      {
       "Id": "67906233",
       "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
+      "Streaming": "true",
+      "Location": "Loose",
       "ShortName": "rush_loop.wav",
+      "Path": "Media/67906233.wem",
       "CachePath": "D4/{D4AF26B0-AEFF-D271-BE33-AD18BFAECABF}.wem"
      },
      {
@@ -42,10 +43,20 @@
      {
       "Id": "279787638",
       "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
+      "Streaming": "true",
+      "Location": "Loose",
       "ShortName": "menu_loop.wav",
+      "Path": "Media/279787638.wem",
       "CachePath": "0A/{0AC76D6E-A2E5-DFA2-773A-DB9D64475EEE}.wem"
+     },
+     {
+      "Id": "309653924",
+      "Language": "SFX",
+      "Streaming": "true",
+      "Location": "Loose",
+      "ShortName": "Menu Music.wav",
+      "Path": "Media/309653924.wem",
+      "CachePath": "FD/{FDCB02C6-8BCC-6760-8D0F-1205EE398126}.wem"
      },
      {
       "Id": "337709377",
@@ -58,9 +69,10 @@
      {
       "Id": "341177717",
       "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
+      "Streaming": "true",
+      "Location": "Loose",
       "ShortName": "bountyhunterjam_loop.wav",
+      "Path": "Media/341177717.wem",
       "CachePath": "0A/{0ACB7EBE-98CF-8A30-0D8A-42BA7A691EF9}.wem"
      },
      {
@@ -74,33 +86,46 @@
      {
       "Id": "396803010",
       "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
+      "Streaming": "true",
+      "Location": "Loose",
       "ShortName": "menu_intro.wav",
+      "Path": "Media/396803010.wem",
       "CachePath": "5A/{5A89DF5E-725E-9668-7FBB-B049EA4A28EA}.wem"
      },
      {
       "Id": "510097468",
       "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
+      "Streaming": "true",
+      "Location": "Loose",
       "ShortName": "minki_loop.wav",
+      "Path": "Media/510097468.wem",
       "CachePath": "41/{41B6D17D-CB42-DA21-1332-84C294371E79}.wem"
+     },
+     {
+      "Id": "562747014",
+      "Language": "SFX",
+      "Streaming": "true",
+      "Location": "Loose",
+      "ShortName": "minki_4.wav",
+      "Path": "Media/562747014.wem",
+      "CachePath": "84/{8429E9EB-188F-2D3E-941F-4192EDCDCF1A}.wem"
      },
      {
       "Id": "575326219",
       "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
+      "Streaming": "true",
+      "Location": "Loose",
       "ShortName": "dad drive_loop.wav",
+      "Path": "Media/575326219.wem",
       "CachePath": "EB/{EB706188-7A23-E1A4-1289-776211AF4988}.wem"
      },
      {
       "Id": "663920872",
       "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
+      "Streaming": "true",
+      "Location": "Loose",
       "ShortName": "rush_intro.wav",
+      "Path": "Media/663920872.wem",
       "CachePath": "65/{6518C3FE-87DF-40E0-F4F7-5175DCC104BF}.wem"
      },
      {
@@ -154,9 +179,10 @@
      {
       "Id": "1067920505",
       "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
+      "Streaming": "true",
+      "Location": "Loose",
       "ShortName": "dragoon cafe_loop.wav",
+      "Path": "Media/1067920505.wem",
       "CachePath": "09/{096664C6-93E0-1A43-60BD-B2E185E7C34E}.wem"
      }
     ],
@@ -240,6 +266,9 @@
         "MediaRefs": [
          {
           "Id": "510097468"
+         },
+         {
+          "Id": "562747014"
          }
         ]
        },
@@ -290,10 +319,7 @@
       "DurationType": "Infinite",
       "MediaRefs": [
        {
-        "Id": "279787638"
-       },
-       {
-        "Id": "396803010"
+        "Id": "309653924"
        }
       ]
      },
@@ -497,6 +523,9 @@
       "MediaRefs": [
        {
         "Id": "510097468"
+       },
+       {
+        "Id": "562747014"
        }
       ]
      },
@@ -610,6 +639,6 @@
     ]
    }
   ],
-  "FileHash": "{FB84D1F2-91CA-9BFC-4C87-17F6BE3A5ECD}"
+  "FileHash": "{82EE7371-F1B7-5298-B3CD-BA2244D93E3E}"
  }
 }
