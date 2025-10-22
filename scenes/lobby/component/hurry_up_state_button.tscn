@@ -5,8 +5,18 @@
 [ext_resource type="Theme" uid="uid://d2oqlxohwao3c" path="res://assets/styles/battle_settings_menu.tres" id="2_dfpae"]
 
 [node name="HurryUpStateButton" instance=ExtResource("1_h7dvg")]
+anchors_preset = 10
+anchor_bottom = 0.0
+grow_vertical = 1
+size_flags_horizontal = 4
 theme = ExtResource("2_dfpae")
 script = ExtResource("2_75yrr")
+
+[node name="HBoxContainer" parent="." index="0"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = 0.0
+grow_horizontal = 2
 
 [node name="Label" parent="HBoxContainer" index="0"]
 text = "Hurry UP"

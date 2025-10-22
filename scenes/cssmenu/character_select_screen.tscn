@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://fsg6gwfw5fbi"]
+[gd_scene load_steps=28 format=3 uid="uid://fsg6gwfw5fbi"]
 
 [ext_resource type="Script" uid="uid://c38ml0k45w55u" path="res://scripts/ui/cssmenu/character_select_screen.gd" id="1_ehcif"]
 [ext_resource type="WwiseEvent" uid="uid://bak0yi1280a42" path="res://Wwise/resources/Event/{7CDF280F-85BA-44B7-AF42-B2759FD386B0}.tres" id="2_e6qlr"]
@@ -17,8 +17,13 @@
 [ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="12_7kvbo"]
 [ext_resource type="Texture2D" uid="uid://bcm64uj7bwp87" path="res://assets/css/crowki.png" id="12_kkj3o"]
 [ext_resource type="Texture2D" uid="uid://bo3qpj0w0drkm" path="res://assets/css/summerdoki.png" id="12_mfnxv"]
+[ext_resource type="Texture2D" uid="uid://cg4n2605bc2xc" path="res://assets/css/schooldoki.png" id="13_8vflw"]
 [ext_resource type="Texture2D" uid="uid://cefndan5pti47" path="res://assets/css/wisp.png" id="14_nuw7a"]
 [ext_resource type="Texture2D" uid="uid://bngq754xh3q18" path="res://assets/css/maidmint.png" id="15_kkj3o"]
+[ext_resource type="Texture2D" uid="uid://dlus0qeq68skp" path="res://assets/css/snuffy.png" id="20_lxxyg"]
+[ext_resource type="Texture2D" uid="uid://bowvpb6hltbyf" path="res://assets/css/laimu.png" id="21_63x5c"]
+[ext_resource type="Texture2D" uid="uid://c53wc2ir1rn10" path="res://assets/css/dooby.png" id="22_63x5c"]
+[ext_resource type="Texture2D" uid="uid://cwb37y2nmvemx" path="res://assets/css/nimi.png" id="23_5agtp"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q6qq2"]
 
@@ -28,75 +33,70 @@
 
 [node name="CharacterSelectScreen" type="Control"]
 layout_mode = 3
-anchors_preset = 0
-offset_left = 2.0
-offset_right = 1154.0
-offset_bottom = 648.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
 script = ExtResource("1_ehcif")
 error_sound = ExtResource("2_e6qlr")
 select_sound = ExtResource("3_mfnxv")
 
-[node name="Players" type="BoxContainer" parent="."]
+[node name="Players" type="HBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -576.0
-offset_top = -200.0
-offset_right = 568.0
+offset_top = 384.0
+offset_bottom = -132.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
 
 [node name="Player1" parent="Players" instance=ExtResource("6_e6qlr")]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 8
 player_number = "Player 1"
 
 [node name="VSeparator" type="VSeparator" parent="Players"]
 layout_mode = 2
-theme_override_constants/separation = 96
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 72
 theme_override_styles/separator = SubResource("StyleBoxEmpty_q6qq2")
 
 [node name="Player2" parent="Players" instance=ExtResource("6_e6qlr")]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 8
+size_flags_vertical = 4
 player_number = "Player 2"
 
 [node name="VSeparator2" type="VSeparator" parent="Players"]
 layout_mode = 2
-theme_override_constants/separation = 384
+theme_override_constants/separation = 200
 theme_override_styles/separator = SubResource("StyleBoxEmpty_rgcd7")
 
 [node name="Player3" parent="Players" instance=ExtResource("6_e6qlr")]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 8
 player_number = "Player 3"
 
 [node name="VSeparator3" type="VSeparator" parent="Players"]
 layout_mode = 2
-theme_override_constants/separation = 96
+theme_override_constants/separation = 72
 theme_override_styles/separator = SubResource("StyleBoxEmpty_lqo1b")
 
 [node name="Player4" parent="Players" instance=ExtResource("6_e6qlr")]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 8
+size_flags_vertical = 4
 player_number = "Player 4"
 
 [node name="CSSLabel" type="Label" parent="."]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -288.5
-offset_right = 288.5
+offset_left = 111.0
+offset_right = 865.0
 offset_bottom = 69.0
-grow_horizontal = 2
 theme = ExtResource("7_mfnxv")
 theme_override_font_sizes/font_size = 75
 text = "CHOOSE YOUR CHARACTER"
@@ -106,10 +106,10 @@ vertical_alignment = 1
 [node name="SkinBG" type="PanelContainer" parent="."]
 texture_filter = 3
 layout_mode = 0
-offset_left = 90.0
-offset_top = 104.0
-offset_right = 746.0
-offset_bottom = 376.0
+offset_left = 16.0
+offset_top = 69.0
+offset_right = 672.0
+offset_bottom = 341.0
 theme = ExtResource("7_mfnxv")
 
 [node name="CharacterGrid" type="GridContainer" parent="SkinBG"]
@@ -166,6 +166,13 @@ size_flags_vertical = 6
 texture_normal = ExtResource("12_mfnxv")
 stretch_mode = 0
 
+[node name="schooldoki" type="TextureButton" parent="SkinBG/CharacterGrid"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("13_8vflw")
+stretch_mode = 0
+
 [node name="retrodoki" type="TextureButton" parent="SkinBG/CharacterGrid"]
 layout_mode = 2
 size_flags_horizontal = 6
@@ -194,7 +201,7 @@ size_flags_vertical = 6
 texture_normal = ExtResource("12_5agtp")
 stretch_mode = 0
 
-[node name="secret1" type="TextureButton" parent="SkinBG/CharacterGrid"]
+[node name="wisp" type="TextureButton" parent="SkinBG/CharacterGrid"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 6
@@ -202,7 +209,7 @@ size_flags_vertical = 6
 texture_normal = ExtResource("14_nuw7a")
 stretch_mode = 0
 
-[node name="secret2" type="TextureButton" parent="SkinBG/CharacterGrid"]
+[node name="mint" type="TextureButton" parent="SkinBG/CharacterGrid"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 6
@@ -210,33 +217,71 @@ size_flags_vertical = 6
 texture_normal = ExtResource("15_kkj3o")
 stretch_mode = 0
 
+[node name="snuffy" type="TextureButton" parent="SkinBG/CharacterGrid"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("20_lxxyg")
+stretch_mode = 0
+
+[node name="laimu" type="TextureButton" parent="SkinBG/CharacterGrid"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("21_63x5c")
+stretch_mode = 0
+
+[node name="dooby" type="TextureButton" parent="SkinBG/CharacterGrid"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("22_63x5c")
+stretch_mode = 0
+
+[node name="nimi" type="TextureButton" parent="SkinBG/CharacterGrid"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture_normal = ExtResource("23_5agtp")
+stretch_mode = 0
+
 [node name="Start" type="Button" parent="." groups=["ui_button"]]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -88.0
+offset_top = 140.0
+offset_right = 92.0
+offset_bottom = 188.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+theme = ExtResource("7_mfnxv")
+theme_override_font_sizes/font_size = 28
+text = "Confirm"
+script = ExtResource("12_7kvbo")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
+
+[node name="Exit" type="Button" parent="." groups=["ui_button"]]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -120.0
-offset_top = -200.0
-offset_right = 120.0
-offset_bottom = -136.0
+offset_left = -35.0
+offset_top = -38.0
+offset_right = 35.0
 grow_horizontal = 2
 grow_vertical = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-theme = ExtResource("7_mfnxv")
-theme_override_font_sizes/font_size = 46
-text = "Confirm"
-script = ExtResource("12_7kvbo")
-metadata/_custom_type_script = "uid://boq3i75yls51h"
-
-[node name="Exit" type="Button" parent="." groups=["ui_button"]]
-layout_mode = 0
-offset_left = 544.0
-offset_top = 600.0
-offset_right = 614.0
-offset_bottom = 638.0
 focus_neighbor_top = NodePath("../Multiplayer")
 focus_neighbor_bottom = NodePath("../SinglePlayer")
 theme = ExtResource("7_mfnxv")
@@ -253,10 +298,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 235.0
-offset_top = -219.0
-offset_right = 487.0
-offset_bottom = -44.0
+offset_left = 208.0
+offset_top = -198.0
+offset_right = 452.0
+offset_bottom = -23.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 2
@@ -323,12 +368,17 @@ auto_translate_mode = 1
 [connection signal="pressed" from="SkinBG/CharacterGrid/dad" to="." method="_on_dad_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/bhdoki" to="." method="_on_bhdoki_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/summerdoki" to="." method="_on_summerdoki_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/schooldoki" to="." method="_on_schooldoki_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/retrodoki" to="." method="_on_retrodoki_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/altdoki" to="." method="_on_altdoki_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/crowki" to="." method="_on_crowki_pressed"]
 [connection signal="pressed" from="SkinBG/CharacterGrid/tomato" to="." method="_on_tomato_pressed"]
-[connection signal="pressed" from="SkinBG/CharacterGrid/secret1" to="." method="_on_secret_1_pressed"]
-[connection signal="pressed" from="SkinBG/CharacterGrid/secret2" to="." method="_on_secret_2_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/wisp" to="." method="_on_wisp_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/mint" to="." method="_on_mint_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/snuffy" to="." method="_on_snuffy_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/laimu" to="." method="_on_laimu_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/dooby" to="." method="_on_dooby_pressed"]
+[connection signal="pressed" from="SkinBG/CharacterGrid/nimi" to="." method="_on_nimi_pressed"]
 [connection signal="pressed" from="Start" to="." method="_on_confirm_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
 [connection signal="pressed" from="PlayerList/FindPublicIP" to="." method="_on_find_public_ip_pressed"]

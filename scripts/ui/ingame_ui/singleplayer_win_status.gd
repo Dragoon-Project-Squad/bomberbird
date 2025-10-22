@@ -33,7 +33,12 @@ func _on_exit_game_pressed():
 func _on_restart_pressed() -> void:
 	get_tree().paused = false
 	hide()
-	if won:
-		globals.game.restart(true)
-	else:
-		globals.game.restart_current_stage(null, true)
+	print("restarting and is campaign mode: ", globals.is_campaign_mode())
+	print("restarting and is boss_rush: ", globals.is_boss_rush_mode())
+	if globals.is_campaign_mode():
+		if won:
+			globals.game.restart(true)
+		else:
+			globals.game.restart_current_stage(null, true)
+	elif globals.is_boss_rush_mode():
+		gamestate.boss_rush_back_to_lobby()

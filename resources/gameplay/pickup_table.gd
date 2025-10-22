@@ -6,24 +6,31 @@ const PICKUP_SPAWN_BASE_CHANCE: float = 1.0
 
 
 @export_group("Pickup Weights")
-@export var extra_bomb: int = 500
-@export var explosion_boost: int = 500
-@export var speed_boost: int = 500
-@export var speed_down: int = 300
-@export var heart: int = 50
-@export var max_explosion: int = 100
-@export var punch_ability: int = 50
-@export var throw_ability: int = 50
-@export var wallthrough: int = 50
-@export var timer: int = 10
-@export var invincibility_vest: int = 50
-@export var virus: int = 50
-@export var kick: int = 50
-@export var bombthrough: int = 50
-@export var piercing_bomb: int = 50
-@export var land_mine: int = 50
-#@export var remote_control: int = 0
-#@export var seeker_bomb: int = 0
+@export var extra_bomb: int = 10
+@export var explosion_boost: int = 5
+@export var speed_boost: int = 5
+@export var speed_down: int = 1
+## BANNED IN MP - Absolutely unfun
+@export var heart: int = 0
+@export var max_explosion: int = 1
+@export var punch_ability: int = 2
+@export var throw_ability: int = 2
+## BANNED IN MP
+@export var wallthrough: int = 0
+## BANNED IN MP - Absolutely not.
+@export var timer: int = 0
+## BANNED IN MP
+@export var invincibility_vest: int = 0
+@export var virus: int = 1
+@export var kick: int = 2
+## BANNED IN MP
+@export var bombthrough: int = 0
+@export var piercing_bomb: int = 1
+@export var land_mine: int = 1
+## BANNED IN MP
+@export var remote_control: int = 0
+#@export var seeker_bomb: int = 1
+@export var mount_goon: int = 2
 
 @export_group("Others")
 ## if are_amounts is true pickups will not be spawned by weights but instead in such a way that if possible exactly 'weight' amounts of each pickups are spawned
@@ -57,8 +64,9 @@ func update():
 		globals.pickups.BOMBTHROUGH: bombthrough,
 		globals.pickups.PIERCING: piercing_bomb,
 		globals.pickups.MINE: land_mine,
-		#globals.pickups.REMOTE: remote_control,
+		globals.pickups.REMOTE: remote_control,
 		#globals.pickups.SEEKER: seeker_bomb,
+		globals.pickups.MOUNTGOON: mount_goon
 		}
 	is_uptodate = true
 
@@ -96,10 +104,12 @@ func reverse_update():
 		piercing_bomb = pickup_weights[globals.pickups.PIERCING]
 	if pickup_weights.has(globals.pickups.MINE):
 		land_mine = pickup_weights[globals.pickups.MINE]
-	#if pickup_weights.has(globals.pickups.REMOTE):
-		#remote_control = pickup_weights[globals.pickups.REMOTE]
+	if pickup_weights.has(globals.pickups.REMOTE):
+		remote_control = pickup_weights[globals.pickups.REMOTE]
 	#if pickup_weights.has(globals.pickups.SEEKER):
 		#seeker_bomb = pickup_weights[globals.pickups.SEEKER]
+	if pickup_weights.has(globals.pickups.MOUNTGOON):
+		mount_goon = pickup_weights[globals.pickups.MOUNTGOON]
 
 ## calulates the total weight of all weights in the dict
 func total_weight() -> int:
@@ -132,7 +142,7 @@ func decide_pickup_type() -> int:
 	return get_type_from_weight(rng_result)
 	
 func determine_base_pickup_rate() -> void:
-	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
+	if globals.is_singleplayer():
 		pickup_spawn_chance = base_pickup_spawn_chance
 		return
 	if SettingsContainer.get_pickup_spawn_rule() == SettingsContainer.pickup_spawn_rule_setting_states.STAGE:

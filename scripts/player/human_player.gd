@@ -24,16 +24,18 @@ func _ready():
 	movement_speed_reset = movement_speed
 	bomb_total_reset = bomb_total
 	explosion_boost_count_reset = explosion_boost_count
-	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
+	if globals.is_singleplayer():
 		player_health_updated.connect(func (s: Player, health: int): game_ui.update_health(health, int(s.name)))
+
 	match globals.current_gamemode:
 		globals.gamemode.CAMPAIGN: lives = 3
+		globals.gamemode.BOSSRUSH: lives = 3
 		globals.gamemode.BATTLEMODE: lives = 1
 		_: lives = 1
 	lives_reset = lives
 	pickups.reset()
 
-	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
+	if globals.is_campaign_mode():
 		if gamestate.current_save.player_pickups.is_empty():
 			write_to_save()
 		else:
@@ -72,14 +74,20 @@ func _physics_process(delta: float):
 	if direction.x != 0 and direction.y != 0:
 		direction = [Vector2(direction.x, 0), Vector2(0, direction.y)][randi() % 2]
 	
-	if not stunned and inputs.punch_ability and not punch_pressed_once:
-		punch_pressed_once = true
-		punch_bomb(direction)
+	if not stunned and inputs.punch_ability:
+		if is_mounted:
+			punch_enemy()
+		if not punch_pressed_once:
+			punch_pressed_once = true
+			punch_bomb(direction)
 	elif !inputs.punch_ability and punch_pressed_once:
 		punch_pressed_once = false
 	
 	if not stunned and inputs.secondary_ability:
-		kick_bomb(direction)
+		if is_mounted:
+			kick_breakable(direction)
+		else:
+			kick_bomb(direction)
 
 	if not is_unbomb and not stunned and bomb_count > 0:
 		if inputs.bombing:
@@ -96,6 +104,8 @@ func _physics_process(delta: float):
 				place_bomb()
 			bomb_hold_timer = 0.0
 			set_bomb_pressed_once = false
+		elif inputs.secondary_ability and current_mount_ability == mount_ability.RAPIDBOMB:
+			place_bomb(direction)
 
 	if !is_dead && !stunned:
 		# Everybody runs physics. I.e. clients tries to predict where they will be during the next frame.
@@ -106,6 +116,8 @@ func _physics_process(delta: float):
 	
 	if inputs.remote_ability:
 		call_remote_bomb()
+		
+
 @rpc("call_local")
 func reset():
 	set_bomb_pressed_once = false
@@ -115,13 +127,13 @@ func reset():
 	super()
 
 func write_to_save():
-	gamestate.current_save.health = self.lives
+	gamestate.current_save.player_health = self.lives
 	gamestate.current_save.player_pickups = self.pickups.held_pickups.duplicate()
 
 func load_from_save():
-	self.lives = gamestate.current_save.health
+	self.lives = gamestate.current_save.player_health
 	self.pickups.held_pickups = gamestate.current_save.player_pickups.duplicate()
 
 func clear_save():
-	gamestate.current_save.health = lives_reset
+	gamestate.current_save.player_health = lives_reset
 	gamestate.current_save.player_pickups = {}

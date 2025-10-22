@@ -1,0 +1,17 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://dtqaw8ji43d4n"]
+
+[ext_resource type="Texture2D" uid="uid://f5lk0btp2524" path="res://assets/tilesetimages/school_obstacles.png" id="1_i5k14"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6u61a"]
+resource_name = "obstacles"
+texture = ExtResource("1_i5k14")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+
+[resource]
+tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 1
+sources/1 = SubResource("TileSetAtlasSource_6u61a")
