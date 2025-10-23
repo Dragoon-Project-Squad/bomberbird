@@ -12,6 +12,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	2141685911	snd_click			\Default Work Unit\sfx\snd_click	
 	2151371268	st_doki_comes_home			\Default Work Unit\music_sound_test\st_doki_comes_home	
 	2372074968	play_music_dragoon_cafe			\Default Work Unit\music\dragoon cafe\play_music_dragoon_cafe	
+	2391074366	snd_breakable			\Default Work Unit\sfx\gameplay\snd_breakable	
 	2418319985	snd_secret			\Default Work Unit\sfx\snd_secret	
 	2548511007	st_stop_music			\Default Work Unit\music_sound_test\st_stop_music	
 	2626686445	snd_place_bomb			\Default Work Unit\sfx\gameplay\snd_place_bomb	
@@ -37,23 +38,34 @@ State	ID	Name	State Group			Notes
 	3432696479	minki	battle_track			
 	3671065912	bounty_hunter_jam	battle_track			
 
+Effect plug-ins	ID	Name	Type				Notes
+	485564799	Parametric EQ (Custom)	Wwise Parametric EQ			
+
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	67906233	rush_loop	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\D4\{D4AF26B0-AEFF-D271-BE33-AD18BFAECABF}.wem		\Interactive Music Hierarchy\Battle Music\battle\battle\rush\rush_loop\rush_loop		4459351
-	108028471	bombthrow	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\B6\{B669CA62-BE0D-87E8-A36D-13D214E45CAA}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\bombthrow		192096
-	223997808	explosion	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\3B\{3B6514EB-97B1-9CCC-8379-9AC7CEF23E82}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\explosion		159224
-	279787638	menu_loop	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\0A\{0AC76D6E-A2E5-DFA2-773A-DB9D64475EEE}.wem		\Interactive Music Hierarchy\UI\ui\menu\doki_comes_home_loop\menu_loop		1131470
-	337709377	playerhurt	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\50\{50173AEA-0AE0-3B6D-9095-2B5BB83006B3}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\playerhurt		288096
-	341177717	bountyhunterjam_loop	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\0A\{0ACB7EBE-98CF-8A30-0D8A-42BA7A691EF9}.wem		\Interactive Music Hierarchy\Battle Music\battle\battle\bountyhunterjam\bountyhunterjam_loop\bountyhunterjam_loop		3114539
-	343780711	secret	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\0F\{0F6DCCD7-BA1C-B49E-8D16-3432C4791128}.wem		\Actor-Mixer Hierarchy\SFX\SFX\secret		192096
-	396803010	menu_intro	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\5A\{5A89DF5E-725E-9668-7FBB-B049EA4A28EA}.wem		\Interactive Music Hierarchy\UI\ui\menu\doki_comes_home_intro\menu_intro		263279
-	510097468	minki_loop	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\41\{41B6D17D-CB42-DA21-1332-84C294371E79}.wem		\Interactive Music Hierarchy\Battle Music\battle\battle\random\minki_loop\minki_loop		5598826
-	575326219	dad drive_loop	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\EB\{EB706188-7A23-E1A4-1289-776211AF4988}.wem		\Interactive Music Hierarchy\Battle Music\battle\battle\random\dad drive_loop\dad drive_loop		4292603
-	663920872	rush_intro	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\65\{6518C3FE-87DF-40E0-F4F7-5175DCC104BF}.wem		\Interactive Music Hierarchy\Battle Music\battle\battle\rush\rush_intro\rush_intro		4482049
-	750254234	error	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\D4\{D49C251F-47B1-4B70-E7C7-33382055A1A5}.wem		\Actor-Mixer Hierarchy\SFX\SFX\error		288096
-	813215202	debris	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\7F\{7FD192B3-52C4-157B-3D68-6852971FB902}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\debris		96096
-	867475308	bombland	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\B6\{B652C8F9-B6A3-A6D9-0A6D-A72C8B36F292}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\bombland		96096
-	909197063	click	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\D3\{D35F7BD1-4621-2FCB-2655-83C66CA19ADC}.wem		\Actor-Mixer Hierarchy\SFX\SFX\click		96096
-	928220902	powerup	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\43\{4322E8D8-B7EB-A393-2517-CFF27C85D634}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\powerup		96096
-	987020498	bombdrop	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\32\{325F6DD5-7CC5-2519-AE10-34175EA7DD66}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\bombdrop		180712
-	1067920505	dragoon cafe_loop	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\09\{096664C6-93E0-1A43-60BD-B2E185E7C34E}.wem		\Interactive Music Hierarchy\UI\ui\dragoon_cafe\dragoon cafe_loop\dragoon cafe_loop		833974
+	108028471	bombthrow	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\B6\{B669CA62-BE0D-87E8-A36D-13D214E45CAA}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\bombthrow		192096
+	223997808	explosion	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\3B\{3B6514EB-97B1-9CCC-8379-9AC7CEF23E82}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\explosion		159224
+	337709377	playerhurt	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\50\{50173AEA-0AE0-3B6D-9095-2B5BB83006B3}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\playerhurt		288096
+	343780711	secret	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\0F\{0F6DCCD7-BA1C-B49E-8D16-3432C4791128}.wem		\Actor-Mixer Hierarchy\SFX\SFX\secret		192096
+	562747014	minki_4	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\B5\{B55D5B10-4D84-4DFC-122A-A8DE49FF87CD}.wem		\Interactive Music Hierarchy\Battle Music\battle\battle\minki\minki_loop\minki_4		5600942
+	601603259	breakable_sweetener_4	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\F4\{F4D0977C-E3AD-C12B-70B2-1CA9E00846E9}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\breakable\breakable_sweetener\breakable_sweetener_4		768096
+	657951930	breakable_main	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\B3\{B376E09B-5F7F-4A41-33D0-A9A28F06880B}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\breakable\breakable_main		768096
+	687550742	breakable_sweetener_3	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\4D\{4DC4BD8F-F79D-CFEF-DE01-1718B25A9B2C}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\breakable\breakable_sweetener\breakable_sweetener_3		768096
+	750254234	error	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\D4\{D49C251F-47B1-4B70-E7C7-33382055A1A5}.wem		\Actor-Mixer Hierarchy\SFX\SFX\error		288096
+	813215202	debris	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\7F\{7FD192B3-52C4-157B-3D68-6852971FB902}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\debris		96096
+	867475308	bombland	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\B6\{B652C8F9-B6A3-A6D9-0A6D-A72C8B36F292}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\bombland		96096
+	909197063	click	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\D3\{D35F7BD1-4621-2FCB-2655-83C66CA19ADC}.wem		\Actor-Mixer Hierarchy\SFX\SFX\click		96096
+	928220902	powerup	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\43\{4322E8D8-B7EB-A393-2517-CFF27C85D634}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\powerup		96096
+	946799811	breakable_sweetener_1	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\2F\{2F0F9CFD-DC8D-0DBE-B1DB-B6C63466BBB5}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\breakable\breakable_sweetener\breakable_sweetener_1		768096
+	987020498	bombdrop	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\32\{325F6DD5-7CC5-2519-AE10-34175EA7DD66}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\bombdrop		180712
+	989697125	breakable_sweetener_2	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\8A\{8AD31D41-C84A-CFD0-E1A6-95F2471213EA}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\breakable\breakable_sweetener\breakable_sweetener_2		768096
+
+Streamed Audio	ID	Name	Audio source file	Generated audio file	Wwise Object Path	Notes
+	67906233	rush_loop	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\D4\{D4AF26B0-AEFF-D271-BE33-AD18BFAECABF}.wem	67906233.wem	\Interactive Music Hierarchy\Battle Music\battle\battle\rush\rush_loop\rush_loop	
+	279787638	menu_loop	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\0A\{0AC76D6E-A2E5-DFA2-773A-DB9D64475EEE}.wem	279787638.wem	\Interactive Music Hierarchy\UI\ui\doki_comes_home\doki_comes_home_loop\menu_loop	
+	341177717	bountyhunterjam_loop	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\0A\{0ACB7EBE-98CF-8A30-0D8A-42BA7A691EF9}.wem	341177717.wem	\Interactive Music Hierarchy\Battle Music\battle\battle\bountyhunterjam\bountyhunterjam_loop\bountyhunterjam_loop	
+	396803010	menu_intro	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\5A\{5A89DF5E-725E-9668-7FBB-B049EA4A28EA}.wem	396803010.wem	\Interactive Music Hierarchy\UI\ui\doki_comes_home\doki_comes_home_intro\menu_intro	
+	510097468	minki_loop	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\41\{41B6D17D-CB42-DA21-1332-84C294371E79}.wem	510097468.wem	\Interactive Music Hierarchy\Battle Music\battle\battle\random\minki_loop\minki_loop	
+	575326219	dad drive_loop	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\EB\{EB706188-7A23-E1A4-1289-776211AF4988}.wem	575326219.wem	\Interactive Music Hierarchy\Battle Music\battle\battle\random\dad drive_loop\dad drive_loop	
+	663920872	rush_intro	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\65\{6518C3FE-87DF-40E0-F4F7-5175DCC104BF}.wem	663920872.wem	\Interactive Music Hierarchy\Battle Music\battle\battle\rush\rush_intro\rush_intro	
+	1067920505	dragoon cafe_loop	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\09\{096664C6-93E0-1A43-60BD-B2E185E7C34E}.wem	1067920505.wem	\Interactive Music Hierarchy\UI\ui\dragoon_cafe\dragoon cafe_loop\dragoon cafe_loop	
 

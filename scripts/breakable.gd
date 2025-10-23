@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name Breakable
 
 signal breakable_destroyed
+@onready var breakable_sfx_player: AkEvent2D = $BreakableSound
 
 const TILESIZE := 32
 var collisions_array := []
@@ -70,9 +71,8 @@ func exploded(by_who):
 	if _exploded_barrier: return #prevents a racecondition of the game attempting to spawn a pickup twice
 	_exploded_barrier = true
 	
-	# I don't like the breakable sound. Will add a new one if I'm told to do so.
-	# -Monsto
-	#breakable_sfx_player.play()
+	#posts the breakable sound event.
+	breakable_sfx_player.post_event()
 	
 	$AnimationPlayer.play("explode")
 	await $AnimationPlayer.animation_finished #Wait for the animation to finish
@@ -98,6 +98,7 @@ func crush():
 	
 	# may or may not re add this sound
 	#crushed_sfx_player.play()
+	breakable_sfx_player.post_event()
 	
 	$AnimationPlayer.play("crush")
 	if is_multiplayer_authority():

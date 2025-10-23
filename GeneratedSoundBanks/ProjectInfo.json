@@ -3,7 +3,7 @@
   "Project": {
    "Name": "bomberbirdwwise",
    "GUID": "{4EFB4D7B-E26C-4B63-9BEB-86CACAAB3BAA}",
-   "Generator": "2024.1.5.8803"
+   "Generator": "2024.1.8.8898"
   },
   "CacheRoot": "../bomberbirdwwise/.cache",
   "Platforms": [
@@ -38,6 +38,6 @@
     "UseAsStandIn": "true"
    }
   ],
-  "FileHash": "{605BEE49-A1DC-F2E5-7E73-0A911C1D8D2C}"
+  "FileHash": "{ADDF6FFD-A14B-61E8-E644-5734CB0B529C}"
  }
 }

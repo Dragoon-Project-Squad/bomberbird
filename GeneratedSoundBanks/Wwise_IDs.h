@@ -19,6 +19,7 @@ namespace AK
         static const AkUniqueID PLAY_MUSIC_DRAGOON_CAFE = 2372074968U;
         static const AkUniqueID PLAY_MUSIC_MAIN_MENU = 3968446557U;
         static const AkUniqueID SND_BOMB_EXPLODE = 1021163675U;
+        static const AkUniqueID SND_BREAKABLE = 2391074366U;
         static const AkUniqueID SND_CLICK = 2141685911U;
         static const AkUniqueID SND_DEBRIS = 3772742044U;
         static const AkUniqueID SND_ERROR = 1466666825U;

@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{0538B80F-BD38-4678-ADB9-028154C3B6E7}",
     "Language": "SFX",
-    "Hash": "{346DB6AA-8D2B-0EF9-6AB5-8C617C574073}",
+    "Hash": "{CE0E6F4B-49CA-BD25-1759-70A46BF1DA8B}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\game",
     "ShortName": "game",
     "Path": "game.bnk",
@@ -18,9 +18,10 @@
      {
       "Id": "67906233",
       "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
+      "Streaming": "true",
+      "Location": "Loose",
       "ShortName": "rush_loop.wav",
+      "Path": "Media/67906233.wem",
       "CachePath": "D4/{D4AF26B0-AEFF-D271-BE33-AD18BFAECABF}.wem"
      },
      {
@@ -42,9 +43,10 @@
      {
       "Id": "279787638",
       "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
+      "Streaming": "true",
+      "Location": "Loose",
       "ShortName": "menu_loop.wav",
+      "Path": "Media/279787638.wem",
       "CachePath": "0A/{0AC76D6E-A2E5-DFA2-773A-DB9D64475EEE}.wem"
      },
      {
@@ -58,9 +60,10 @@
      {
       "Id": "341177717",
       "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
+      "Streaming": "true",
+      "Location": "Loose",
       "ShortName": "bountyhunterjam_loop.wav",
+      "Path": "Media/341177717.wem",
       "CachePath": "0A/{0ACB7EBE-98CF-8A30-0D8A-42BA7A691EF9}.wem"
      },
      {
@@ -74,34 +77,70 @@
      {
       "Id": "396803010",
       "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
+      "Streaming": "true",
+      "Location": "Loose",
       "ShortName": "menu_intro.wav",
+      "Path": "Media/396803010.wem",
       "CachePath": "5A/{5A89DF5E-725E-9668-7FBB-B049EA4A28EA}.wem"
      },
      {
       "Id": "510097468",
       "Language": "SFX",
+      "Streaming": "true",
+      "Location": "Loose",
+      "ShortName": "minki_loop.wav",
+      "Path": "Media/510097468.wem",
+      "CachePath": "41/{41B6D17D-CB42-DA21-1332-84C294371E79}.wem"
+     },
+     {
+      "Id": "562747014",
+      "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
-      "ShortName": "minki_loop.wav",
-      "CachePath": "41/{41B6D17D-CB42-DA21-1332-84C294371E79}.wem"
+      "ShortName": "minki_4.wav",
+      "CachePath": "B5/{B55D5B10-4D84-4DFC-122A-A8DE49FF87CD}.wem"
      },
      {
       "Id": "575326219",
       "Language": "SFX",
+      "Streaming": "true",
+      "Location": "Loose",
+      "ShortName": "dad drive_loop.wav",
+      "Path": "Media/575326219.wem",
+      "CachePath": "EB/{EB706188-7A23-E1A4-1289-776211AF4988}.wem"
+     },
+     {
+      "Id": "601603259",
+      "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
-      "ShortName": "dad drive_loop.wav",
-      "CachePath": "EB/{EB706188-7A23-E1A4-1289-776211AF4988}.wem"
+      "ShortName": "breakable_sweetener_4.wav",
+      "CachePath": "F4/{F4D0977C-E3AD-C12B-70B2-1CA9E00846E9}.wem"
+     },
+     {
+      "Id": "657951930",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "breakable_main.wav",
+      "CachePath": "B3/{B376E09B-5F7F-4A41-33D0-A9A28F06880B}.wem"
      },
      {
       "Id": "663920872",
       "Language": "SFX",
+      "Streaming": "true",
+      "Location": "Loose",
+      "ShortName": "rush_intro.wav",
+      "Path": "Media/663920872.wem",
+      "CachePath": "65/{6518C3FE-87DF-40E0-F4F7-5175DCC104BF}.wem"
+     },
+     {
+      "Id": "687550742",
+      "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
-      "ShortName": "rush_intro.wav",
-      "CachePath": "65/{6518C3FE-87DF-40E0-F4F7-5175DCC104BF}.wem"
+      "ShortName": "breakable_sweetener_3.wav",
+      "CachePath": "4D/{4DC4BD8F-F79D-CFEF-DE01-1718B25A9B2C}.wem"
      },
      {
       "Id": "750254234",
@@ -144,6 +183,14 @@
       "CachePath": "43/{4322E8D8-B7EB-A393-2517-CFF27C85D634}.wem"
      },
      {
+      "Id": "946799811",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "breakable_sweetener_1.wav",
+      "CachePath": "2F/{2F0F9CFD-DC8D-0DBE-B1DB-B6C63466BBB5}.wem"
+     },
+     {
       "Id": "987020498",
       "Language": "SFX",
       "Streaming": "false",
@@ -152,14 +199,35 @@
       "CachePath": "32/{325F6DD5-7CC5-2519-AE10-34175EA7DD66}.wem"
      },
      {
-      "Id": "1067920505",
+      "Id": "989697125",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
+      "ShortName": "breakable_sweetener_2.wav",
+      "CachePath": "8A/{8AD31D41-C84A-CFD0-E1A6-95F2471213EA}.wem"
+     },
+     {
+      "Id": "1067920505",
+      "Language": "SFX",
+      "Streaming": "true",
+      "Location": "Loose",
       "ShortName": "dragoon cafe_loop.wav",
+      "Path": "Media/1067920505.wem",
       "CachePath": "09/{096664C6-93E0-1A43-60BD-B2E185E7C34E}.wem"
      }
     ],
+    "Plugins": {
+     "Custom": [
+      {
+       "Id": "485564799",
+       "Name": "Parametric EQ (Custom)",
+       "ObjectPath": "\\Actor-Mixer Hierarchy\\SFX\\SFX\\gameplay\\breakable\\breakable_main\\[Effect Slot [0]: (Parametric EQ)]\\Parametric EQ (Custom)",
+       "GUID": "{0C7B3EFC-5351-4079-9830-328975AE8F4E}",
+       "LibName": "Wwise Parametric EQ",
+       "LibId": "6881283"
+      }
+     ]
+    },
     "Events": [
      {
       "Id": "970815282",
@@ -239,7 +307,7 @@
         },
         "MediaRefs": [
          {
-          "Id": "510097468"
+          "Id": "562747014"
          }
         ]
        },
@@ -310,6 +378,39 @@
         "Id": "223997808"
        }
       ]
+     },
+     {
+      "Id": "2391074366",
+      "Name": "snd_breakable",
+      "ObjectPath": "\\Events\\Default Work Unit\\sfx\\gameplay\\snd_breakable",
+      "GUID": "{58C512CA-C516-4006-9564-AA5EFDE9753B}",
+      "DurationType": "OneShot",
+      "DurationMin": "4",
+      "DurationMax": "4",
+      "MediaRefs": [
+       {
+        "Id": "601603259"
+       },
+       {
+        "Id": "657951930"
+       },
+       {
+        "Id": "687550742"
+       },
+       {
+        "Id": "946799811"
+       },
+       {
+        "Id": "989697125"
+       }
+      ],
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "485564799"
+        }
+       ]
+      }
      },
      {
       "Id": "2141685911",
@@ -496,7 +597,7 @@
       "DurationType": "Infinite",
       "MediaRefs": [
        {
-        "Id": "510097468"
+        "Id": "562747014"
        }
       ]
      },
@@ -610,6 +711,6 @@
     ]
    }
   ],
-  "FileHash": "{F949581D-8840-040A-B067-A16B86E5D857}"
+  "FileHash": "{22B3B082-642B-514E-6562-8CCE1FB340EB}"
  }
 }
