@@ -496,7 +496,7 @@
 									<ChildrenList>
 										<MusicSegment Name="minki_loop" ID="{34F98764-4060-4666-A187-FBD821BFFA19}" ShortID="627364629">
 											<PropertyList>
-												<Property Name="EndPosition" Type="Real64" Value="401043.019699547"/>
+												<Property Name="EndPosition" Type="Real64" Value="200275.873015873"/>
 												<Property Name="OverrideClockSettings" Type="bool" Value="True"/>
 												<Property Name="Tempo" Type="Real64" Value="145"/>
 											</PropertyList>
@@ -509,21 +509,14 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<MusicTrack Name="minki_loop" ID="{D2183173-0B98-4351-831E-27BFE1DD6342}" ShortID="857029128">
-													<PropertyList>
-														<Property Name="IsStreamingEnabled" Type="bool">
-															<ValueList>
-																<Value>True</Value>
-															</ValueList>
-														</Property>
-													</PropertyList>
+												<MusicTrack Name="minki_4" ID="{7FABE0B5-8F0D-400D-BD21-EB4A694A5F8C}" ShortID="982821246">
 													<ReferenceList>
 														<Reference Name="OutputBus">
 															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
 														</Reference>
 														<Reference Name="TransitionRoot">
 															<Custom>
-																<MusicTransition Name="Root" ID="{A6C99431-09B9-46C9-8677-E6DAFB9E706F}">
+																<MusicTransition Name="Root" ID="{B4D4433F-348E-4475-89D2-33849B4F6DFF}">
 																	<PropertyList>
 																		<Property Name="IsFolder" Type="bool" Value="True"/>
 																	</PropertyList>
@@ -533,14 +526,7 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="minki_loop" ID="{BC85D94B-0F78-43F5-9983-2CAD1B18E1AF}">
-															<Language>SFX</Language>
-															<AudioFile>minki_loop.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="510097468"/>
-															</MediaIDList>
-														</AudioFileSource>
-														<AudioFileSource Name="minki_4" ID="{34F0B646-BA94-4660-98CB-D1F693755DC8}">
+														<AudioFileSource Name="minki_4" ID="{26094C63-7861-4412-BC06-41872F5C9898}">
 															<Language>SFX</Language>
 															<AudioFile>minki_4.wav</AudioFile>
 															<MediaIDList>
@@ -552,31 +538,18 @@
 														<ObjectList Name="Sequences">
 															<Reference>
 																<Local>
-																	<MusicTrackSequence Name="" ID="{F1B84393-74BB-44FA-8764-246FBDDF7AE8}">
+																	<MusicTrackSequence Name="" ID="{FC8A4D0A-2E16-40E3-BAC4-CCBEB82DD434}">
 																		<ObjectLists>
 																			<ObjectList Name="Clips">
 																				<Reference>
 																					<Local>
-																						<MusicClip Name="minki_loop" ID="{91EBB952-9742-4CF6-93BE-09582E13160F}">
+																						<MusicClip Name="minki_4" ID="{FAEBF38E-D9CB-4624-B290-EB102526D109}">
 																							<PropertyList>
-																								<Property Name="EndTrimOffset" Type="Real64" Value="200275.854166667"/>
+																								<Property Name="EndTrimOffset" Type="Real64" Value="200275.873015873"/>
 																								<Property Name="FadeInMode" Type="int16" Value="0"/>
 																								<Property Name="FadeOutMode" Type="int16" Value="0"/>
 																							</PropertyList>
-																							<AudioSourceRef Name="minki_loop" ID="{BC85D94B-0F78-43F5-9983-2CAD1B18E1AF}"/>
-																						</MusicClip>
-																					</Local>
-																				</Reference>
-																				<Reference>
-																					<Local>
-																						<MusicClip Name="minki_4" ID="{9ABCACA1-E618-409D-B362-12FAFB5F154F}">
-																							<PropertyList>
-																								<Property Name="EndTrimOffset" Type="Real64" Value="200767.16553288"/>
-																								<Property Name="FadeInMode" Type="int16" Value="0"/>
-																								<Property Name="FadeOutMode" Type="int16" Value="0"/>
-																								<Property Name="PlayAt" Type="Real64" Value="200275.854166667"/>
-																							</PropertyList>
-																							<AudioSourceRef Name="minki_4" ID="{34F0B646-BA94-4660-98CB-D1F693755DC8}"/>
+																							<AudioSourceRef Name="minki_4" ID="{26094C63-7861-4412-BC06-41872F5C9898}"/>
 																						</MusicClip>
 																					</Local>
 																				</Reference>
@@ -601,7 +574,7 @@
 															<MusicCue Name="Exit Cue" ID="{BCCF4538-41C4-455A-AA3E-E0C0336DA002}">
 																<PropertyList>
 																	<Property Name="CueType" Type="int16" Value="1"/>
-																	<Property Name="TimeMs" Type="Real64" Value="200275.854166667"/>
+																	<Property Name="TimeMs" Type="Real64" Value="200275.872166667"/>
 																</PropertyList>
 															</MusicCue>
 														</Local>

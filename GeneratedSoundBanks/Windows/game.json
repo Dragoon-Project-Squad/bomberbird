@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{0538B80F-BD38-4678-ADB9-028154C3B6E7}",
     "Language": "SFX",
-    "Hash": "{197CD128-0082-2817-36C6-EC87A2F83886}",
+    "Hash": "{F4508511-4143-ADF9-05F6-D7CC036ADF5F}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\game",
     "ShortName": "game",
     "Path": "game.bnk",
@@ -48,15 +48,6 @@
       "ShortName": "menu_loop.wav",
       "Path": "Media/279787638.wem",
       "CachePath": "0A/{0AC76D6E-A2E5-DFA2-773A-DB9D64475EEE}.wem"
-     },
-     {
-      "Id": "309653924",
-      "Language": "SFX",
-      "Streaming": "true",
-      "Location": "Loose",
-      "ShortName": "Menu Music.wav",
-      "Path": "Media/309653924.wem",
-      "CachePath": "FD/{FDCB02C6-8BCC-6760-8D0F-1205EE398126}.wem"
      },
      {
       "Id": "337709377",
@@ -104,11 +95,10 @@
      {
       "Id": "562747014",
       "Language": "SFX",
-      "Streaming": "true",
-      "Location": "Loose",
+      "Streaming": "false",
+      "Location": "Memory",
       "ShortName": "minki_4.wav",
-      "Path": "Media/562747014.wem",
-      "CachePath": "84/{8429E9EB-188F-2D3E-941F-4192EDCDCF1A}.wem"
+      "CachePath": "B5/{B55D5B10-4D84-4DFC-122A-A8DE49FF87CD}.wem"
      },
      {
       "Id": "575326219",
@@ -265,9 +255,6 @@
         },
         "MediaRefs": [
          {
-          "Id": "510097468"
-         },
-         {
           "Id": "562747014"
          }
         ]
@@ -319,7 +306,10 @@
       "DurationType": "Infinite",
       "MediaRefs": [
        {
-        "Id": "309653924"
+        "Id": "279787638"
+       },
+       {
+        "Id": "396803010"
        }
       ]
      },
@@ -522,9 +512,6 @@
       "DurationType": "Infinite",
       "MediaRefs": [
        {
-        "Id": "510097468"
-       },
-       {
         "Id": "562747014"
        }
       ]
@@ -639,6 +626,6 @@
     ]
    }
   ],
-  "FileHash": "{82EE7371-F1B7-5298-B3CD-BA2244D93E3E}"
+  "FileHash": "{3739139A-FFB9-20A3-1C93-8F5D8A5649F1}"
  }
 }
