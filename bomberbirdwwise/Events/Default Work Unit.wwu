@@ -255,6 +255,17 @@
 										</Action>
 									</ChildrenList>
 								</Event>
+								<Event Name="snd_breakable" ID="{58C512CA-C516-4006-9564-AA5EFDE9753B}">
+									<ChildrenList>
+										<Action Name="" ID="{5715AB78-D669-4E20-AEAA-B936892461BF}" ShortID="16242058">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="breakable" ID="{FF899B3E-FBE0-4CA2-9B40-01DA56056E1A}" WorkUnitID="{117B7D1D-55AF-426B-8FD8-E768576CFE9B}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
 							</ChildrenList>
 						</Folder>
 					</ChildrenList>

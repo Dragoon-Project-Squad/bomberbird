@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{0538B80F-BD38-4678-ADB9-028154C3B6E7}",
     "Language": "SFX",
-    "Hash": "{F4508511-4143-ADF9-05F6-D7CC036ADF5F}",
+    "Hash": "{CE0E6F4B-49CA-BD25-1759-70A46BF1DA8B}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\game",
     "ShortName": "game",
     "Path": "game.bnk",
@@ -110,6 +110,22 @@
       "CachePath": "EB/{EB706188-7A23-E1A4-1289-776211AF4988}.wem"
      },
      {
+      "Id": "601603259",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "breakable_sweetener_4.wav",
+      "CachePath": "F4/{F4D0977C-E3AD-C12B-70B2-1CA9E00846E9}.wem"
+     },
+     {
+      "Id": "657951930",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "breakable_main.wav",
+      "CachePath": "B3/{B376E09B-5F7F-4A41-33D0-A9A28F06880B}.wem"
+     },
+     {
       "Id": "663920872",
       "Language": "SFX",
       "Streaming": "true",
@@ -117,6 +133,14 @@
       "ShortName": "rush_intro.wav",
       "Path": "Media/663920872.wem",
       "CachePath": "65/{6518C3FE-87DF-40E0-F4F7-5175DCC104BF}.wem"
+     },
+     {
+      "Id": "687550742",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "breakable_sweetener_3.wav",
+      "CachePath": "4D/{4DC4BD8F-F79D-CFEF-DE01-1718B25A9B2C}.wem"
      },
      {
       "Id": "750254234",
@@ -159,12 +183,28 @@
       "CachePath": "43/{4322E8D8-B7EB-A393-2517-CFF27C85D634}.wem"
      },
      {
+      "Id": "946799811",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "breakable_sweetener_1.wav",
+      "CachePath": "2F/{2F0F9CFD-DC8D-0DBE-B1DB-B6C63466BBB5}.wem"
+     },
+     {
       "Id": "987020498",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "bombdrop.wav",
       "CachePath": "32/{325F6DD5-7CC5-2519-AE10-34175EA7DD66}.wem"
+     },
+     {
+      "Id": "989697125",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "breakable_sweetener_2.wav",
+      "CachePath": "8A/{8AD31D41-C84A-CFD0-E1A6-95F2471213EA}.wem"
      },
      {
       "Id": "1067920505",
@@ -176,6 +216,18 @@
       "CachePath": "09/{096664C6-93E0-1A43-60BD-B2E185E7C34E}.wem"
      }
     ],
+    "Plugins": {
+     "Custom": [
+      {
+       "Id": "485564799",
+       "Name": "Parametric EQ (Custom)",
+       "ObjectPath": "\\Actor-Mixer Hierarchy\\SFX\\SFX\\gameplay\\breakable\\breakable_main\\[Effect Slot [0]: (Parametric EQ)]\\Parametric EQ (Custom)",
+       "GUID": "{0C7B3EFC-5351-4079-9830-328975AE8F4E}",
+       "LibName": "Wwise Parametric EQ",
+       "LibId": "6881283"
+      }
+     ]
+    },
     "Events": [
      {
       "Id": "970815282",
@@ -326,6 +378,39 @@
         "Id": "223997808"
        }
       ]
+     },
+     {
+      "Id": "2391074366",
+      "Name": "snd_breakable",
+      "ObjectPath": "\\Events\\Default Work Unit\\sfx\\gameplay\\snd_breakable",
+      "GUID": "{58C512CA-C516-4006-9564-AA5EFDE9753B}",
+      "DurationType": "OneShot",
+      "DurationMin": "4",
+      "DurationMax": "4",
+      "MediaRefs": [
+       {
+        "Id": "601603259"
+       },
+       {
+        "Id": "657951930"
+       },
+       {
+        "Id": "687550742"
+       },
+       {
+        "Id": "946799811"
+       },
+       {
+        "Id": "989697125"
+       }
+      ],
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "485564799"
+        }
+       ]
+      }
      },
      {
       "Id": "2141685911",
@@ -626,6 +711,6 @@
     ]
    }
   ],
-  "FileHash": "{CE40D228-81E4-E168-E6FF-0106BE21FF7D}"
+  "FileHash": "{39ACB468-C650-B308-E17D-B9FA947AB375}"
  }
 }

@@ -4,6 +4,13 @@
   "BasePlatform": "Mac",
   "PluginLibs": [
    {
+    "LibName": "Wwise Parametric EQ",
+    "LibId": "6881283",
+    "Type": "Effect",
+    "DLL": "AkParametricEQ",
+    "StaticLib": "AkParametricEQFX"
+   },
+   {
     "LibName": "Wwise Peak Limiter",
     "LibId": "7208963",
     "Type": "Effect",
@@ -21,6 +28,6 @@
     "Type": "AudioDevice"
    }
   ],
-  "FileHash": "{1FEE6714-7384-1BEA-7193-020E6C1E94DC}"
+  "FileHash": "{8245BEE8-5933-4FF4-045B-AB7C59237157}"
  }
 }

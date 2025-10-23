@@ -352,6 +352,230 @@
 										<ActiveSource Name="powerup" ID="{B47CC853-60A1-41F9-8138-2709D7D431A9}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
+								<BlendContainer Name="breakable" ID="{FF899B3E-FBE0-4CA2-9B40-01DA56056E1A}" ShortID="264614961">
+									<PropertyList>
+										<Property Name="IsGlobalLimit" Type="int16" Value="1"/>
+										<Property Name="MaxSoundPerInstance" Type="int16">
+											<ValueList>
+												<Value>2</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Pitch" Type="int32">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{B0E00414-56EA-43F9-B195-9485F092F455}">
+														<PropertyList>
+															<Property Name="Max" Type="Real64" Value="125"/>
+															<Property Name="Min" Type="Real64" Value="-150"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+										<Property Name="UseMaxSoundPerInstance" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="breakable_main" ID="{BDE230F0-4C85-4A06-B93E-C46464A15808}" ShortID="205191151">
+											<PropertyList>
+												<Property Name="MakeUpGain" Type="Real64">
+													<ValueList>
+														<Value>-7</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="breakable_main" ID="{F7CC9298-CECF-409D-845C-874784ED61C9}">
+													<Language>SFX</Language>
+													<AudioFile>breakable_main.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="657951930"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<Reference>
+														<Local>
+															<EffectSlot Name="" ID="{C14514D7-0D4E-487E-8E95-08CA998F7E23}" ShortID="91768242">
+																<ReferenceList>
+																	<Reference Name="Effect">
+																		<Custom>
+																			<Effect Name="Parametric EQ (Custom)" ID="{0C7B3EFC-5351-4079-9830-328975AE8F4E}" ShortID="485564799" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+																				<PropertyList>
+																					<Property Name="FrequencyBand2" Type="Real32" Value="629"/>
+																					<Property Name="GainBand2" Type="Real32" Value="-24"/>
+																					<Property Name="QFactorBand2" Type="Real32" Value="43.5"/>
+																				</PropertyList>
+																			</Effect>
+																		</Custom>
+																	</Reference>
+																</ReferenceList>
+															</EffectSlot>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+											<ActiveSourceList>
+												<ActiveSource Name="breakable_main" ID="{F7CC9298-CECF-409D-845C-874784ED61C9}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<RandomSequenceContainer Name="breakable_sweetener" ID="{4651FCFA-188C-4E2E-9052-D35D6FEFA6CA}" ShortID="110765121">
+											<PropertyList>
+												<Property Name="IsGlobalLimit" Type="int16" Value="1"/>
+												<Property Name="MakeUpGain" Type="Real64">
+													<ValueList>
+														<Value>6</Value>
+													</ValueList>
+												</Property>
+												<Property Name="MaxSoundPerInstance" Type="int16">
+													<ValueList>
+														<Value>2</Value>
+													</ValueList>
+												</Property>
+												<Property Name="NormalOrShuffle" Type="int16" Value="0"/>
+												<Property Name="Pitch" Type="int32">
+													<ValueList>
+														<Value>350</Value>
+													</ValueList>
+													<ModifierList>
+														<ModifierInfo>
+															<Modifier Name="" ID="{A5BCD1FB-85A1-48B7-9B8F-9327329ECB84}">
+																<PropertyList>
+																	<Property Name="Enabled" Type="bool" Value="True"/>
+																	<Property Name="Max" Type="Real64" Value="350"/>
+																</PropertyList>
+															</Modifier>
+														</ModifierInfo>
+													</ModifierList>
+												</Property>
+												<Property Name="UseMaxSoundPerInstance" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="breakable_sweetener_1" ID="{DF065A36-4C43-4824-B9D4-F2338FB3A2FF}" ShortID="331181353">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="SFX" ID="{AF41BCA1-3B3D-4DB7-A468-8A67F0390435}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="breakable_sweetener_1" ID="{E99DCCCE-7D06-464D-9E95-DA52B273F29F}">
+															<Language>SFX</Language>
+															<AudioFile>breakable_sweetener_1.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="946799811"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="breakable_sweetener_1" ID="{E99DCCCE-7D06-464D-9E95-DA52B273F29F}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="breakable_sweetener_2" ID="{14B91928-F075-4267-A9D2-2A552626376C}" ShortID="79974458">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="SFX" ID="{AF41BCA1-3B3D-4DB7-A468-8A67F0390435}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="breakable_sweetener_2" ID="{3B77C46E-CFB2-4C09-A277-82CE465617C9}">
+															<Language>SFX</Language>
+															<AudioFile>breakable_sweetener_2.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="989697125"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="breakable_sweetener_2" ID="{3B77C46E-CFB2-4C09-A277-82CE465617C9}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="breakable_sweetener_3" ID="{50E15CBC-6616-45A9-BF02-3E8332C7EFCB}" ShortID="1024959220">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="SFX" ID="{AF41BCA1-3B3D-4DB7-A468-8A67F0390435}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="breakable_sweetener_3" ID="{687BEDD8-6D48-4CC8-89A6-8087A4B95C4F}">
+															<Language>SFX</Language>
+															<AudioFile>breakable_sweetener_3.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="687550742"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="breakable_sweetener_3" ID="{687BEDD8-6D48-4CC8-89A6-8087A4B95C4F}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="breakable_sweetener_4" ID="{86DABF47-4AE2-4997-8DD4-210898395E45}" ShortID="403008837">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="SFX" ID="{AF41BCA1-3B3D-4DB7-A468-8A67F0390435}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="breakable_sweetener_4" ID="{3DCEB039-5BAB-49CF-A0E8-9FDC96AF1D1B}">
+															<Language>SFX</Language>
+															<AudioFile>breakable_sweetener_4.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="601603259"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="breakable_sweetener_4" ID="{3DCEB039-5BAB-49CF-A0E8-9FDC96AF1D1B}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+									</ChildrenList>
+								</BlendContainer>
 							</ChildrenList>
 						</ActorMixer>
 					</ChildrenList>
