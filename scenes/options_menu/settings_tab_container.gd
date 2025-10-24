@@ -105,11 +105,11 @@ func _on_password_submit_pressed() -> void:
 		unlock_snuffy()
 	elif line_edit.text.contains("IONGRTEGRTIOY^T"):
 		unlock_laimu()
-	elif line_edit.text.to_upper() == "YELLOW WOMEN UNITE":
+	elif line_edit.text.to_upper() == "YELLOW WOMEN":
 		unlock_dooby()
-	elif line_edit.text.to_upper() == "LIBRARY OF LETOURNEAU":
+	elif line_edit.text.contains("LETOURNEAU"):
 		unlock_nimi()
-	elif line_edit.text.to_upper() == "OR ELSE, DRAGOON":
+	elif line_edit.text.to_upper() == "OR ELSE, DRAGOONS":
 		unlock_all()
 	else:
 		reject_password()
