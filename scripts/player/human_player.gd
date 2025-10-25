@@ -6,6 +6,7 @@ var set_bomb_pressed_once := false
 var punch_pressed_once := false
 var is_carrying_bomb := false
 var bomb_hold_timer := 0.0
+var jump_cooldown := 0.0
 
 func _ready():
 	player_type = "human"
@@ -85,10 +86,13 @@ func _physics_process(delta: float):
 	elif !inputs.punch_ability and punch_pressed_once:
 		punch_pressed_once = false
 	
+	jump_cooldown += delta
 	if not stunned and inputs.secondary_ability:
 		if is_mounted:
 			kick_breakable(direction)
-			mounted_jump(direction)
+			if jump_cooldown >= 5.0:
+				mounted_jump(direction)
+				jump_cooldown = 0.0
 		else:
 			kick_bomb(direction)
 

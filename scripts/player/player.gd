@@ -103,8 +103,6 @@ var jump_config: Dictionary[String, Variant] = {
 	"target":Vector2.ZERO,
 	"time": 0.0,
 	"total_time": 0.75,
-	"throw_gravity": Vector2.ZERO,
-	"speed": Vector2.ZERO,
 	"shadow_offset": Vector2.ZERO,
 	"shadow_relpos": Vector2.ZERO,
 }
@@ -372,62 +370,52 @@ func mounted_jump(direction: Vector2):
 	jump_config.direction = direction
 	jump_config.origin = global_position
 	var target = global_position + (direction * TILE_SIZE * 2)
-	## Internal function to calculate landing position
-	var corrected_pos = func corr(pos: Vector2) -> Vector2:
-		var new_pos := pos
-		# safety to stop from going into object or out of bounds
-		# gets the closest empty space if it exists
-		while (
-				world_data.is_out_of_bounds(new_pos) != world_data.bounds.IN
-				or (
-				not world_data.is_tile(world_data.tiles.EMPTY, new_pos)
-				and not world_data.is_tile(world_data.tiles.PICKUP, new_pos)
-				)
-		):
-			new_pos -= direction * TILE_SIZE
-
-		jump_config.target = new_pos
-		return new_pos
-
-	## Internal function to calculate arch animation
-	var calc_arch = func arch(dist_diff: Vector2, angle_rad: float) -> void:
-		jump_config.speed = Vector2.from_angle(angle_rad) * dist_diff.x / (cos(angle_rad) * jump_config.total_time)
-		jump_config.throw_gravity = 2 * (dist_diff - jump_config.speed * jump_config.total_time) / (jump_config.total_time ** 2)
-
-	var diff: Vector2 = corrected_pos.call(target) - global_position
-	var angle = PI
-	# set angle relative to distance
-	if diff.abs().length() >= TILE_SIZE * 2:
-		angle /= 4.0
+	var landing_check := func checker(pos: Vector2) -> bool:
+		return (
+			world_data.is_out_of_bounds(pos) == world_data.bounds.IN
+			and (
+			world_data.is_tile(world_data.tiles.EMPTY, pos)
+			or world_data.is_tile(world_data.tiles.PICKUP, pos)
+			)
+		)
+		
+	while not landing_check.call(target):
+		target -= direction * 4
+		if global_position.direction_to(target) != direction:
+			target = global_position
+			break
+	if world_data.tile_map.map_to_local(global_position) == world_data.tile_map.map_to_local(target):
+		target = global_position
 	else:
-		if diff.abs().length() >= TILE_SIZE:
-			angle /= 2.6
-		else:
-			return # lets just stop jumps when only valid place is current position
-	if direction == Vector2.UP or direction == Vector2.DOWN:
-		jump_config.throw_gravity = Vector2.ZERO
-		jump_config.speed = (diff.abs().y / jump_config.total_time) * direction
-	elif direction == Vector2.RIGHT:
-		calc_arch.call(diff, -angle)
-	elif direction == Vector2.LEFT:
-		calc_arch.call(diff, angle)
-	else:
-		push_error("error in parsing jumping angle")
-		return
-	invulnerable = true
-	is_jumping = true
+		if not landing_check.call(target + direction * 16):
+			target -= direction * 12
+		if not landing_check.call(target - direction * 16):
+			target += direction * 12
+
+	jump_config.target = target
 	jump_config.shadow_offset = $shadowsprite.global_position
 	jump_config.shadow_relpos = $shadowsprite.position
+	invulnerable = true
+	is_jumping = true
 
 ## The actual jump animation function. Should be called in [param _physics_process]
 func mounted_jump_process(delta: float) -> void:
 	jump_config.time += delta
-	var jump_time_total: float = jump_config.total_time
+	var origin: Vector2 = jump_config.origin
+	var target: Vector2 = jump_config.target
+	var weight: float = jump_config.time / jump_config.total_time
+	var curve := Vector2.ZERO
+	var midpoint := Vector2.ZERO
+	if jump_config.direction == Vector2.LEFT or jump_config.direction == Vector2.RIGHT:
+		midpoint = Vector2((origin.x + target.x) / 2, origin.y - (TILE_SIZE * 0.9))
+	else:
+		midpoint = Vector2(origin.x, (origin.y + target.y) / 2 - (TILE_SIZE * 1.5))
+	curve = (origin.lerp(midpoint, weight)).lerp(midpoint.lerp(target, weight), weight)
 	var shadow: Sprite2D = $shadowsprite
-	if jump_config.time < jump_time_total:
-		position = jump_config.origin + jump_config.speed * jump_config.time + 0.5 * jump_config.throw_gravity * (jump_config.time ** 2)
+	if jump_config.time <= jump_config.total_time:
+		global_position = curve
 		# show where the player is landing
-		if jump_config.throw_gravity == Vector2.ZERO:
+		if jump_config.direction == Vector2.UP or jump_config.direction == Vector2.DOWN:
 			shadow.global_position.x = jump_config.shadow_offset.x
 		else:
 			shadow.global_position.y = jump_config.shadow_offset.y
