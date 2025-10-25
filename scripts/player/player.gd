@@ -102,10 +102,11 @@ var jump_config: Dictionary[String, Variant] = {
 	"origin": Vector2.ZERO,
 	"target":Vector2.ZERO,
 	"time": 0.0,
-	"total_time": 1.0,
+	"total_time": 0.75,
 	"throw_gravity": Vector2.ZERO,
 	"speed": Vector2.ZERO,
-	"offset": Vector2.ZERO
+	"shadow_offset": Vector2.ZERO,
+	"shadow_relpos": Vector2.ZERO,
 }
 var is_jumping := false
 
@@ -341,7 +342,7 @@ func register_remote_bomb():
 #endregion
 
 #region mount abilities
-
+## kick a breakable
 func kick_breakable(direction: Vector2i):
 	if (globals.game.stage_done): return
 	if current_mount_ability != mount_ability.BREAKABLEPUSH: return
@@ -356,7 +357,7 @@ func kick_breakable(direction: Vector2i):
 		return 1
 	box_pushed.push.rpc(direction)
 
-
+## punch any enemy in front of the player
 func punch_enemy():
 	if (globals.game.stage_done): return
 	if current_mount_ability != mount_ability.PUNCH: return
@@ -366,54 +367,76 @@ func punch_enemy():
 		if body.has_method("do_stun"):
 			body.do_stun.rpc()
 
-
-## function for when a player has a mount that can jump
+## calculates and configs the jump parameters
 func mounted_jump(direction: Vector2):
 	jump_config.direction = direction
 	jump_config.origin = global_position
 	var target = global_position + (direction * TILE_SIZE * 2)
-	jump_config.target = target
+	## Internal function to calculate landing position
 	var corrected_pos = func corr(pos: Vector2) -> Vector2:
-		return world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(pos))
+		var new_pos := pos
+		# safety to stop from going into object or out of bounds
+		# gets the closest empty space if it exists
+		while (
+				world_data.is_out_of_bounds(new_pos) != world_data.bounds.IN
+				or (
+				not world_data.is_tile(world_data.tiles.EMPTY, new_pos)
+				and not world_data.is_tile(world_data.tiles.PICKUP, new_pos)
+				)
+		):
+			new_pos -= direction * TILE_SIZE
+
+		jump_config.target = new_pos
+		return new_pos
+
+	## Internal function to calculate arch animation
 	var calc_arch = func arch(dist_diff: Vector2, angle_rad: float) -> void:
-		jump_config.speed = Vector2(cos(angle_rad), sin(angle_rad)) * dist_diff.x / (cos(angle_rad) * jump_config.total_time)
+		jump_config.speed = Vector2.from_angle(angle_rad) * dist_diff.x / (cos(angle_rad) * jump_config.total_time)
 		jump_config.throw_gravity = 2 * (dist_diff - jump_config.speed * jump_config.total_time) / (jump_config.total_time ** 2)
+
 	var diff: Vector2 = corrected_pos.call(target) - global_position
+	var angle = PI
+	# set angle relative to distance
+	if diff.abs().length() >= TILE_SIZE * 2:
+		angle /= 4.0
+	else:
+		if diff.abs().length() >= TILE_SIZE:
+			angle /= 2.6
+		else:
+			return # lets just stop jumps when only valid place is current position
 	if direction == Vector2.UP or direction == Vector2.DOWN:
 		jump_config.throw_gravity = Vector2.ZERO
 		jump_config.speed = (diff.abs().y / jump_config.total_time) * direction
 	elif direction == Vector2.RIGHT:
-		var angle = -PI / 8
-		calc_arch.call(diff, angle)
+		calc_arch.call(diff, -angle)
 	elif direction == Vector2.LEFT:
-		var angle = PI - (-PI / 8)
 		calc_arch.call(diff, angle)
 	else:
 		push_error("error in parsing jumping angle")
 		return
 	invulnerable = true
 	is_jumping = true
-	jump_config.offset = $label.position
+	jump_config.shadow_offset = $shadowsprite.global_position
+	jump_config.shadow_relpos = $shadowsprite.position
 
-
+## The actual jump animation function. Should be called in [param _physics_process]
 func mounted_jump_process(delta: float) -> void:
 	jump_config.time += delta
 	var jump_time_total: float = jump_config.total_time
-	var label: Label = $label # the label rotating was odd so doing this to counter
+	var shadow: Sprite2D = $shadowsprite
 	if jump_config.time < jump_time_total:
-		rotation = -2 * PI / (jump_time_total / jump_config.time)
-		rotation *= jump_config.direction.x if jump_config.direction.x else jump_config.direction.y
 		position = jump_config.origin + jump_config.speed * jump_config.time + 0.5 * jump_config.throw_gravity * (jump_config.time ** 2)
-		var offset: Vector2 = jump_config.offset
-		label.position = offset.rotated(-rotation)
-		label.rotation = -rotation
+		# show where the player is landing
+		if jump_config.throw_gravity == Vector2.ZERO:
+			shadow.global_position.x = jump_config.shadow_offset.x
+		else:
+			shadow.global_position.y = jump_config.shadow_offset.y
 	else:
 		position = jump_config.target
-		rotation = 0
-		label.position = jump_config.offset
-		label.rotation = 0
+		shadow.position = jump_config.shadow_relpos
 		jump_config.time = 0.0
 		is_jumping = false
+		invulnerable = false
 
 #endregion
 
@@ -872,6 +895,6 @@ func stop_time(user: String, is_player: bool):
 func start_time():
 	self.time_is_stopped = false
 
-func _cur_anim_changed(anim_name: String):
-	#print(self.name, " plays ", anim_name)
+func _cur_anim_changed(_anim_name: String):
+	#print(self.name, " plays ", _anim_name)
 	pass
