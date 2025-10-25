@@ -684,7 +684,7 @@ func mount_dragoon():
 	player_mounted.emit()
 	
 func assign_mount_ability() -> void:
-	match pickups.mounts.PINK: #pickups.held_pickups[globals.pickups.MOUNTGOON]:
+	match pickups.held_pickups[globals.pickups.MOUNTGOON]:
 			pickups.mounts.YELLOW:
 				print("Block push!")
 				current_mount_ability = mount_ability.BREAKABLEPUSH
