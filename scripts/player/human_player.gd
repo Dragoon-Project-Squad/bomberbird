@@ -59,12 +59,14 @@ func _physics_process(delta: float):
 	else:
 		# The client simply updates the position to the last known one.
 		position = synced_position
-
 	
 	if time_is_stopped:
 		update_animation(Vector2.ZERO, last_movement_vector)
 		return
 	if stop_movement || outside_of_game: return
+	if is_jumping: 
+		mounted_jump_process(delta)
+		return
 	last_movement_vector = inputs.motion.normalized()
 	
 	var direction: Vector2 = (
@@ -86,6 +88,7 @@ func _physics_process(delta: float):
 	if not stunned and inputs.secondary_ability:
 		if is_mounted:
 			kick_breakable(direction)
+			mounted_jump(direction)
 		else:
 			kick_bomb(direction)
 

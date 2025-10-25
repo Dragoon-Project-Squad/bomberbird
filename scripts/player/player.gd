@@ -97,6 +97,17 @@ const AUTODROP_INTERVAL = 3
 
 enum mount_ability {NONE = 0, BREAKABLEPUSH, JUMP, MOUNTKICK, RAPIDBOMB, CHARGE, PUNCH}
 var current_mount_ability := 0
+var jump_config: Dictionary[String, Variant] = {
+	"direction": Vector2.ZERO,
+	"origin": Vector2.ZERO,
+	"target":Vector2.ZERO,
+	"time": 0.0,
+	"total_time": 1.0,
+	"throw_gravity": Vector2.ZERO,
+	"speed": Vector2.ZERO,
+	"offset": Vector2.ZERO
+}
+var is_jumping := false
 
 func _ready():
 	player_died.connect(globals.player_manager._on_player_died)
@@ -356,6 +367,54 @@ func punch_enemy():
 			body.do_stun.rpc()
 
 
+## function for when a player has a mount that can jump
+func mounted_jump(direction: Vector2):
+	jump_config.direction = direction
+	jump_config.origin = global_position
+	var target = global_position + (direction * TILE_SIZE * 2)
+	jump_config.target = target
+	var corrected_pos = func corr(pos: Vector2) -> Vector2:
+		return world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(pos))
+	var calc_arch = func arch(dist_diff: Vector2, angle_rad: float) -> void:
+		jump_config.speed = Vector2(cos(angle_rad), sin(angle_rad)) * dist_diff.x / (cos(angle_rad) * jump_config.total_time)
+		jump_config.throw_gravity = 2 * (dist_diff - jump_config.speed * jump_config.total_time) / (jump_config.total_time ** 2)
+	var diff: Vector2 = corrected_pos.call(target) - global_position
+	if direction == Vector2.UP or direction == Vector2.DOWN:
+		jump_config.throw_gravity = Vector2.ZERO
+		jump_config.speed = (diff.abs().y / jump_config.total_time) * direction
+	elif direction == Vector2.RIGHT:
+		var angle = -PI / 8
+		calc_arch.call(diff, angle)
+	elif direction == Vector2.LEFT:
+		var angle = PI - (-PI / 8)
+		calc_arch.call(diff, angle)
+	else:
+		push_error("error in parsing jumping angle")
+		return
+	invulnerable = true
+	is_jumping = true
+	jump_config.offset = $label.position
+
+
+func mounted_jump_process(delta: float) -> void:
+	jump_config.time += delta
+	var jump_time_total: float = jump_config.total_time
+	var label: Label = $label # the label rotating was odd so doing this to counter
+	if jump_config.time < jump_time_total:
+		rotation = -2 * PI / (jump_time_total / jump_config.time)
+		rotation *= jump_config.direction.x if jump_config.direction.x else jump_config.direction.y
+		position = jump_config.origin + jump_config.speed * jump_config.time + 0.5 * jump_config.throw_gravity * (jump_config.time ** 2)
+		var offset: Vector2 = jump_config.offset
+		label.position = offset.rotated(-rotation)
+		label.rotation = -rotation
+	else:
+		position = jump_config.target
+		rotation = 0
+		label.position = jump_config.offset
+		label.rotation = 0
+		jump_config.time = 0.0
+		is_jumping = false
+
 #endregion
 
 ## updates the animation depending on the movement direction
@@ -614,7 +673,7 @@ func mount_dragoon():
 	player_mounted.emit()
 	
 func assign_mount_ability() -> void:
-	match pickups.held_pickups[globals.pickups.MOUNTGOON]:
+	match pickups.mounts.PINK: #pickups.held_pickups[globals.pickups.MOUNTGOON]:
 			pickups.mounts.YELLOW:
 				print("Block push!")
 				current_mount_ability = mount_ability.BREAKABLEPUSH
