@@ -342,7 +342,7 @@ func register_remote_bomb():
 #region mount abilities
 ## kick a breakable
 func kick_breakable(direction: Vector2i):
-	if (globals.game.stage_done): return
+	if globals.game.stage_done: return
 	if current_mount_ability != mount_ability.BREAKABLEPUSH: return
 	
 	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
@@ -357,7 +357,7 @@ func kick_breakable(direction: Vector2i):
 
 ## punch any enemy in front of the player
 func punch_enemy():
-	if (globals.game.stage_done): return
+	if globals.game.stage_done: return
 	if current_mount_ability != mount_ability.PUNCH: return
 	
 	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
@@ -367,6 +367,8 @@ func punch_enemy():
 
 ## calculates and configs the jump parameters
 func mounted_jump(direction: Vector2):
+	if globals.game.stage_done: return
+	if current_mount_ability != mount_ability.JUMP: return
 	jump_config.direction = direction
 	jump_config.origin = global_position
 	var target = global_position + (direction * TILE_SIZE * 2)
