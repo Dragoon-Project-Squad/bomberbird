@@ -109,6 +109,12 @@ var jump_config: Dictionary[String, Variant] = {
 	"shadow_relpos": Vector2.ZERO,
 }
 var is_jumping := false
+var roll_config: Dictionary[String, Vector2] = {
+	"shadow_rpos": Vector2.ZERO,
+	"label_rpos": Vector2.ZERO,
+}
+var is_rolling := false
+var rolling_speed_reset := 0.0
 
 
 func _ready():
@@ -434,6 +440,36 @@ func mounted_jump_process(delta: float) -> void:
 		jump_config.time = 0.0
 		is_jumping = false
 		invulnerable = false
+
+## When player has the green mount, roll around at the speed of sound
+func mount_roller(active: bool):
+	if globals.game.stage_done: return
+	if current_mount_ability != mount_ability.CHARGE: return
+	if not is_rolling and active:
+		rolling_speed_reset = movement_speed
+		movement_speed = MAX_MOTION_SPEED
+		roll_config.shadow_rpos = $shadowsprite.position
+		roll_config.label_rpos = $label.position
+		is_rolling = true
+	elif is_rolling and not active:
+		movement_speed = rolling_speed_reset
+		rolling_speed_reset = 0.0
+		$shadowsprite.position = roll_config.shadow_rpos
+		$shadowsprite.rotation = 0.0
+		$label.position = roll_config.label_rpos
+		$label.rotation = 0.0
+		rotation = 0.0
+		is_rolling = false
+
+## "Charge" animation process, to be called in [param physics_process]
+func mount_roller_process(delta: float, direction: Vector2): 
+	var label: Label = $label
+	var shadow: Sprite2D = $shadowsprite
+	rotation += 2.8 * TAU * delta * direction.x if direction.x else direction.y
+	label.position = roll_config.label_rpos.rotated(-rotation)
+	label.rotation = -rotation
+	shadow.position = roll_config.shadow_rpos.rotated(-rotation)
+	shadow.rotation = -rotation
 
 #endregion
 
