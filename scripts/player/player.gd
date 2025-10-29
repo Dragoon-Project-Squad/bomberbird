@@ -443,34 +443,37 @@ func mounted_jump_process(delta: float) -> void:
 
 ## When player has the green mount, roll around at the speed of sound
 func mount_roller(active: bool):
-	if globals.game.stage_done: return
 	if current_mount_ability != mount_ability.CHARGE: return
 	if not is_rolling and active:
 		rolling_speed_reset = movement_speed
-		movement_speed = MAX_MOTION_SPEED
+		mount_roller_movement.rpc(MAX_MOTION_SPEED)
 		roll_config.shadow_rpos = $shadowsprite.position
 		roll_config.label_rpos = $label.position
 		is_rolling = true
 	elif is_rolling and not active:
-		movement_speed = rolling_speed_reset
+		mount_roller_movement.rpc(rolling_speed_reset)
 		rolling_speed_reset = 0.0
-		$shadowsprite.position = roll_config.shadow_rpos
-		$shadowsprite.rotation = 0.0
-		$label.position = roll_config.label_rpos
-		$label.rotation = 0.0
-		rotation = 0.0
+		mount_roller_sprite_moves.rpc(0.0, roll_config.label_rpos, roll_config.shadow_rpos)
 		is_rolling = false
 
 ## "Charge" animation process, to be called in [param physics_process]
 func mount_roller_process(delta: float, direction: Vector2): 
-	var label: Label = $label
-	var shadow: Sprite2D = $shadowsprite
-	rotation += 2.8 * TAU * delta * direction.x if direction.x else direction.y
-	label.position = roll_config.label_rpos.rotated(-rotation)
-	label.rotation = -rotation
-	shadow.position = roll_config.shadow_rpos.rotated(-rotation)
-	shadow.rotation = -rotation
+	var new_rotation = (2.8 * TAU * delta * direction.x if direction.x else direction.y) + self.rotation
+	var label_pos = roll_config.label_rpos.rotated(-new_rotation)
+	var shadow_pos = roll_config.shadow_rpos.rotated(-new_rotation)
+	mount_roller_sprite_moves.rpc(new_rotation, label_pos, shadow_pos)
 
+@rpc("call_local")
+func mount_roller_sprite_moves(new_rot: float, label_pos: Vector2, shadow_pos: Vector2):
+	self.rotation = new_rot
+	$label.position = label_pos
+	$label.rotation = -new_rot
+	$shadowsprite.position = shadow_pos
+	$shadowsprite.rotation = -new_rot
+
+@rpc("call_local")
+func mount_roller_movement(new_speed: float):
+	self.movement_speed = new_speed
 #endregion
 
 ## updates the animation depending on the movement direction
@@ -737,7 +740,7 @@ func mount_dragoon():
 	player_mounted.emit()
 	
 func assign_mount_ability() -> void:
-	match pickups.held_pickups[globals.pickups.MOUNTGOON]:
+	match pickups.mounts.GREEN:#pickups.held_pickups[globals.pickups.MOUNTGOON]:
 			pickups.mounts.YELLOW:
 				print("Block push!")
 				current_mount_ability = mount_ability.BREAKABLEPUSH
