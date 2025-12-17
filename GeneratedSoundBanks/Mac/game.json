@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{0538B80F-BD38-4678-ADB9-028154C3B6E7}",
     "Language": "SFX",
-    "Hash": "{CE0E6F4B-49CA-BD25-1759-70A46BF1DA8B}",
+    "Hash": "{B456C67D-633C-8C28-9436-EDF5C6E1289B}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\game",
     "ShortName": "game",
     "Path": "game.bnk",
@@ -93,12 +93,12 @@
       "CachePath": "41/{41B6D17D-CB42-DA21-1332-84C294371E79}.wem"
      },
      {
-      "Id": "562747014",
+      "Id": "569066806",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
-      "ShortName": "minki_4.wav",
-      "CachePath": "B5/{B55D5B10-4D84-4DFC-122A-A8DE49FF87CD}.wem"
+      "ShortName": "mint boss fight_2.wav",
+      "CachePath": "AB/{AB860FCD-C26E-D4BD-58EE-B75590439775}.wem"
      },
      {
       "Id": "575326219",
@@ -143,6 +143,14 @@
       "CachePath": "4D/{4DC4BD8F-F79D-CFEF-DE01-1718B25A9B2C}.wem"
      },
      {
+      "Id": "744519583",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "cockobo_summon.wav",
+      "CachePath": "73/{73C9848A-16E2-84E0-8047-BA17094594C0}.wem"
+     },
+     {
       "Id": "750254234",
       "Language": "SFX",
       "Streaming": "false",
@@ -167,6 +175,14 @@
       "CachePath": "B6/{B652C8F9-B6A3-A6D9-0A6D-A72C8B36F292}.wem"
      },
      {
+      "Id": "902376865",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "cockobo_death.wav",
+      "CachePath": "43/{431AF4C8-DE43-5355-EE2F-B4AAFA6DA2E1}.wem"
+     },
+     {
       "Id": "909197063",
       "Language": "SFX",
       "Streaming": "false",
@@ -189,6 +205,14 @@
       "Location": "Memory",
       "ShortName": "breakable_sweetener_1.wav",
       "CachePath": "2F/{2F0F9CFD-DC8D-0DBE-B1DB-B6C63466BBB5}.wem"
+     },
+     {
+      "Id": "984655289",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "cockobo_patter.wav",
+      "CachePath": "5D/{5D328DA6-EF43-C72A-BDF8-EFAF691B65B8}.wem"
      },
      {
       "Id": "987020498",
@@ -307,7 +331,7 @@
         },
         "MediaRefs": [
          {
-          "Id": "562747014"
+          "Id": "569066806"
          }
         ]
        },
@@ -423,6 +447,48 @@
       "MediaRefs": [
        {
         "Id": "909197063"
+       }
+      ]
+     },
+     {
+      "Id": "4032985042",
+      "Name": "snd_cockobo_die",
+      "ObjectPath": "\\Events\\Default Work Unit\\sfx\\gameplay\\cockobo\\snd_cockobo_die",
+      "GUID": "{9D6DA87B-53C0-4DE0-AA78-0763BAA77441}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.5",
+      "DurationMax": "0.5",
+      "MediaRefs": [
+       {
+        "Id": "902376865"
+       }
+      ]
+     },
+     {
+      "Id": "2872496426",
+      "Name": "snd_cockobo_footstep",
+      "ObjectPath": "\\Events\\Default Work Unit\\sfx\\gameplay\\cockobo\\snd_cockobo_footstep",
+      "GUID": "{8E6F453C-B47A-4A0D-86BB-7FDA3FF4755A}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.11402415",
+      "DurationMax": "0.15441783",
+      "MediaRefs": [
+       {
+        "Id": "984655289"
+       }
+      ]
+     },
+     {
+      "Id": "236594769",
+      "Name": "snd_cockobo_summon",
+      "ObjectPath": "\\Events\\Default Work Unit\\sfx\\gameplay\\cockobo\\snd_cockobo_summon",
+      "GUID": "{E83BFE6E-78E2-47FB-B4F7-CF945E402938}",
+      "DurationType": "OneShot",
+      "DurationMin": "1",
+      "DurationMax": "1",
+      "MediaRefs": [
+       {
+        "Id": "744519583"
        }
       ]
      },
@@ -597,7 +663,7 @@
       "DurationType": "Infinite",
       "MediaRefs": [
        {
-        "Id": "562747014"
+        "Id": "569066806"
        }
       ]
      },
@@ -711,6 +777,6 @@
     ]
    }
   ],
-  "FileHash": "{39ACB468-C650-B308-E17D-B9FA947AB375}"
+  "FileHash": "{8804458C-A9CC-076C-B3FC-80EEAC23DC4D}"
  }
 }

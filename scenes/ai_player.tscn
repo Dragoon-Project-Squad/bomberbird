@@ -23,6 +23,7 @@ script = ExtResource("2_xhrxh")
 initial_bomb_type = 0
 initial_exlusive = 0
 initial_virus = 0
+initial_mountgoon = 0
 initial_bomb_up = 0
 initial_fire_up = 0
 initial_speed_up = 0
@@ -34,7 +35,6 @@ initial_power_glove = false
 initial_wallthrough = false
 initial_freeze = false
 initial_invincibility_vest = false
-initial_mountgoon = false
 metadata/_custom_type_script = "uid://dfosda1bstp2m"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_na3x7"]
@@ -392,6 +392,11 @@ script = ExtResource("12_ulae3")
 
 [node name="HurtSoundPlayer" type="AkEvent2D" parent="."]
 event = ExtResource("16_l5yvx")
+
+[node name="MountStepTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.15
+one_shot = true
 
 [connection signal="area_entered" from="ObjectDetection" to="." method="_on_object_detection_area_entered"]
 [connection signal="area_exited" from="ObjectDetection" to="." method="_on_object_detection_area_exited"]
