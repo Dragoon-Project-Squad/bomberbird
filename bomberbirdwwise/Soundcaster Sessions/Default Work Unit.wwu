@@ -3,7 +3,7 @@
 	<SoundcasterSessions>
 		<WorkUnit Name="Default Work Unit" ID="{47D25B39-D343-48F1-B25A-91599FB29CE7}" PersistMode="Standalone">
 			<ChildrenList>
-				<SoundcasterSession Name="New Soundcaster Session" ID="{BD84563B-CF6F-4C39-A1B7-4966AE054BFD}">
+				<SoundcasterSession Name="Ingame test" ID="{BD84563B-CF6F-4C39-A1B7-4966AE054BFD}">
 					<ModuleList>
 						<Module>
 							<ObjectRef Name="play_music_main_menu" ID="{9DD6E647-6A86-4609-B83E-6E4D47162C95}" WorkUnitID="{8AD54DB8-D7FD-4BC5-8670-3A94D6020772}"/>
@@ -58,23 +58,8 @@
 							<Position X="3" Y="3"/>
 						</Module>
 					</ModuleList>
-					<RTPCValueList ShowAll="true">
-						<RTPCValue>
-							<GameParameterRef Name="Master" ID="{2DF48A93-DB65-4CF4-94E4-7694499A7DCA}"/>
-							<Value>2.25930896052669E-312</Value>
-						</RTPCValue>
-						<RTPCValue>
-							<GameParameterRef Name="Music" ID="{B6DFCC52-DC74-4D3E-B02A-6522E296E83D}"/>
-							<Value>1</Value>
-						</RTPCValue>
-						<RTPCValue>
-							<GameParameterRef Name="SFX" ID="{53D73489-9B3B-4EE1-AA1F-08B0448C5F63}"/>
-							<Value>1</Value>
-						</RTPCValue>
-					</RTPCValueList>
-					<CurrentStateList ShowAll="true">
-						<CurrentStateRef Name="rush" ID="{9F886BF6-0CCB-4BE4-AAE9-E2E996283B7D}"/>
-					</CurrentStateList>
+					<RTPCValueList ShowAll="true"/>
+					<CurrentStateList ShowAll="true"/>
 					<CurrentSwitchList ShowAll="true"/>
 				</SoundcasterSession>
 			</ChildrenList>
