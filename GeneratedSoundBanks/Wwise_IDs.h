@@ -21,6 +21,9 @@ namespace AK
         static const AkUniqueID SND_BOMB_EXPLODE = 1021163675U;
         static const AkUniqueID SND_BREAKABLE = 2391074366U;
         static const AkUniqueID SND_CLICK = 2141685911U;
+        static const AkUniqueID SND_COCKOBO_DIE = 4032985042U;
+        static const AkUniqueID SND_COCKOBO_FOOTSTEP = 2872496426U;
+        static const AkUniqueID SND_COCKOBO_SUMMON = 236594769U;
         static const AkUniqueID SND_DEBRIS = 3772742044U;
         static const AkUniqueID SND_ERROR = 1466666825U;
         static const AkUniqueID SND_PICKUP_POWERUP = 712210112U;

@@ -123,7 +123,14 @@ func _physics_process(delta: float):
 	
 	if inputs.remote_ability:
 		call_remote_bomb()
-		
+	
+	#mount movement sounds
+	if velocity.x != 0 or velocity.y != 0:
+		if is_mounted:
+			if mount_step_timer.time_left == 0:
+				mount_step_timer.start()
+				print("plap")
+				Wwise.post_event("snd_cockobo_footstep", self)
 
 @rpc("call_local")
 func reset():

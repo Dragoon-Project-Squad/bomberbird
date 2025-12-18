@@ -451,6 +451,13 @@
 									</ChildrenList>
 								</MusicPlaylistContainer>
 								<MusicPlaylistContainer Name="minki" ID="{2906055F-739C-465C-B007-2578EC973F55}" ShortID="406692718">
+									<PropertyList>
+										<Property Name="MakeUpGain" Type="Real64">
+											<ValueList>
+												<Value>6</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
@@ -496,7 +503,7 @@
 									<ChildrenList>
 										<MusicSegment Name="minki_loop" ID="{34F98764-4060-4666-A187-FBD821BFFA19}" ShortID="627364629">
 											<PropertyList>
-												<Property Name="EndPosition" Type="Real64" Value="200275.873015873"/>
+												<Property Name="EndPosition" Type="Real64" Value="200275.873279225"/>
 												<Property Name="OverrideClockSettings" Type="bool" Value="True"/>
 												<Property Name="Tempo" Type="Real64" Value="145"/>
 											</PropertyList>
@@ -526,11 +533,11 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="minki_4" ID="{26094C63-7861-4412-BC06-41872F5C9898}">
+														<AudioFileSource Name="mint boss fight_2" ID="{D941B528-311A-4E68-8329-5E065C4CFEB5}">
 															<Language>SFX</Language>
-															<AudioFile>minki_4.wav</AudioFile>
+															<AudioFile>mint boss fight_2.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="562747014"/>
+																<MediaID ID="569066806"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -543,13 +550,13 @@
 																			<ObjectList Name="Clips">
 																				<Reference>
 																					<Local>
-																						<MusicClip Name="minki_4" ID="{FAEBF38E-D9CB-4624-B290-EB102526D109}">
+																						<MusicClip Name="mint boss fight_2" ID="{22886BB3-AC6F-4AC9-BF3D-77C8F4824EFC}">
 																							<PropertyList>
 																								<Property Name="EndTrimOffset" Type="Real64" Value="200275.873015873"/>
 																								<Property Name="FadeInMode" Type="int16" Value="0"/>
 																								<Property Name="FadeOutMode" Type="int16" Value="0"/>
 																							</PropertyList>
-																							<AudioSourceRef Name="minki_4" ID="{26094C63-7861-4412-BC06-41872F5C9898}"/>
+																							<AudioSourceRef Name="mint boss fight_2" ID="{D941B528-311A-4E68-8329-5E065C4CFEB5}"/>
 																						</MusicClip>
 																					</Local>
 																				</Reference>

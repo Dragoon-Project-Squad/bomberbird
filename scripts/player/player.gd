@@ -38,6 +38,8 @@ const INVULNERABILITY_POWERUP_TIME: float = 16.0
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var invul_player: AnimationPlayer = $InvulPlayer
 
+@onready var mount_step_timer := $MountStepTimer
+
 var current_anim: String = ""
 var is_mounted: bool = false
 var _died_barrier: bool = false
@@ -679,6 +681,7 @@ func mount_dragoon():
 	invulnerable = true
 	stunned = true
 	assign_mount_ability()
+	Wwise.post_event("snd_cockobo_summon", self)
 	animation_player.play("player_animations/mount_summoned")
 	await animation_player.animation_finished
 	invulnerable = false
@@ -713,6 +716,7 @@ func remove_mount_ability() -> void:
 	
 @rpc("call_local")
 func mount_exploded() -> void:
+	Wwise.post_event("snd_cockobo_die", self)
 	is_mounted = false
 	set_sprite_to_walk()
 	reset_graphic_positions()

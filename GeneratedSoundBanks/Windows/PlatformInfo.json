@@ -3,7 +3,7 @@
   "Platform": {
    "Name": "Windows",
    "BasePlatform": "Windows",
-   "Generator": "2024.1.8.8898"
+   "Generator": "2024.1.9.8920"
   },
   "RootPaths": {
    "ProjectRoot": "../../bomberbirdwwise",
@@ -33,6 +33,6 @@
    "PrintObjectPath": "true",
    "PrintObjectColor": "true"
   },
-  "FileHash": "{215ADA61-290A-03B4-541B-0447EE3CBA94}"
+  "FileHash": "{BBDAD28C-11FF-2A7C-0DE8-C9AF78B8CB99}"
  }
 }
