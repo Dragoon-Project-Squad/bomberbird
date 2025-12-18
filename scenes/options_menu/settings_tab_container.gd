@@ -109,7 +109,7 @@ func _on_password_submit_pressed() -> void:
 		unlock_dooby()
 	elif line_edit.text.to_upper() == "LIBRARY OF LETOURNEAU":
 		unlock_nimi()
-	elif line_edit.text.to_upper() == "OR ELSE, DRAGOON":
+	elif line_edit.text.contains("8008135") or line_edit.text.contains("80085"):
 		unlock_all()
 	else:
 		reject_password()
