@@ -1,11 +1,23 @@
 extends Control
 
 @onready var character_texture_paths: CharacterSelectDataResource = preload("res://resources/css/character_texture_paths_default.tres")
-@onready var secret_1: TextureButton = $SkinBG/CharacterGrid/secret1
-@onready var secret_2: TextureButton = $SkinBG/CharacterGrid/secret2
-@onready var last_selected_panel: Panel = %CharacterGrid.get_node("eggoon/Panel")
+@onready var wisp: TextureButton = $SkinBG/CharacterGrid/wisp
+@onready var mint: TextureButton = $SkinBG/CharacterGrid/mint
+@onready var snuffy: TextureButton = $SkinBG/CharacterGrid/snuffy
+@onready var laimu: TextureButton = $SkinBG/CharacterGrid/laimu
+@onready var dooby: TextureButton = $SkinBG/CharacterGrid/dooby
+@onready var nimi: TextureButton = $SkinBG/CharacterGrid/nimi
 
-@export var supersecretvisible := false
+
+@onready var last_selected_panel: Panel = %CharacterGrid.get_node("eggoon/Panel")
+@onready var campaign_selector: Control = %CampaignSelector
+@onready var start_button: SeButton = %Start
+
+@export var mint_visible : bool = globals.secrets.mint
+@export var snuffy_visible : bool = globals.secrets.snuffy
+@export var laimu_visible : bool = globals.secrets.laimu
+@export var dooby_visible : bool = globals.secrets.dooby
+@export var nimi_visible : bool = globals.secrets.nimi 
 
 signal characters_confirmed
 signal characters_back_pressed
@@ -17,19 +29,40 @@ signal characters_back_pressed
 @export var select_sound: WwiseEvent
 
 func _ready() -> void:
-	if supersecretvisible or globals.secrets_enabled:
-		secret_1.show()
-		secret_2.show()
+	reveal_secret_characters()
+	if mint_visible or globals.secrets.mint:
+		wisp.show()
+		mint.show()
 
+func reveal_secret_characters() -> void:
+	if mint_visible:
+		wisp.show()
+		mint.show()
+	if snuffy_visible:
+		snuffy.show()
+	if laimu_visible:
+		laimu.show()
+	if dooby_visible:
+		dooby.show()
+	if nimi_visible:
+		nimi.show()
 
 func enter() -> void:
 	show()
+	campaign_selector.enter()
 
 	# select the default
 	show_selected_panel("eggoon")
 	gamestate.current_save.character_paths = "egggoon"
 	gamestate.current_save.player_name = "Player1"
 	%PlayerName.text = ""
+
+func make_starting_screen():
+	start_button.text = "Start"
+
+func make_next_screen():
+	start_button.text = "Next"
+
 
 
 func play_error_audio() -> void:
@@ -78,6 +111,11 @@ func _on_summerdoki_pressed() -> void:
 	show_selected_panel("summerdoki")
 	gamestate.current_save.character_paths = "summerdoki"
 	play_select_audio.rpc()
+	
+func _on_schooldoki_pressed() -> void:
+	show_selected_panel("schooldoki")
+	gamestate.current_save.character_paths = "schooldoki"
+	play_select_audio.rpc()
 
 func _on_retrodoki_pressed() -> void:
 	show_selected_panel("retrodoki")
@@ -99,21 +137,54 @@ func _on_tomato_pressed() -> void:
 	gamestate.current_save.character_paths = "tomatodoki"
 	play_select_audio.rpc()
 
-func _on_secret_1_pressed() -> void:
-	if not supersecretvisible and not globals.secrets_enabled:
-		play_error_audio() #Not yet available
+func _on_wisp_pressed() -> void:
+	if not mint_visible and not globals.secrets.mint:
+		play_error_audio() 
 	else:
-		show_selected_panel("secret1")
-		gamestate.current_save.character_paths = "secretone"
+		show_selected_panel("wisp")
+		gamestate.current_save.character_paths = "wisp"
 		play_select_audio.rpc()
 
-func _on_secret_2_pressed() -> void:
-	if not supersecretvisible and not globals.secrets_enabled:
+func _on_mint_pressed() -> void:
+	if not mint_visible and not globals.secrets.mint:
 		play_error_audio()
 	else:
-		show_selected_panel("secret2")
-		gamestate.current_save.character_paths = "secrettwo"
+		show_selected_panel("mint")
+		gamestate.current_save.character_paths = "mint"
 		play_select_audio.rpc()
+		
+func _on_snuffy_pressed() -> void:
+	if not snuffy_visible and not globals.secrets.snuffy:
+		play_error_audio()
+	else:
+		show_selected_panel("snuffy")
+		gamestate.current_save.character_paths = "snuffy"
+		play_select_audio.rpc()
+		
+func _on_laimu_pressed() -> void:
+	if not laimu_visible and not globals.secrets.laimu:
+		play_error_audio()
+	else:
+		show_selected_panel("laimu")
+		gamestate.current_save.character_paths = "laimu"
+		play_select_audio.rpc()
+		
+func _on_dooby_pressed() -> void:
+	if not dooby_visible and not globals.secrets.dooby:
+		play_error_audio()
+	else:
+		show_selected_panel("dooby")
+		gamestate.current_save.character_paths = "dooby"
+		play_select_audio.rpc()
+		
+func _on_nimi_pressed() -> void: 
+	if not nimi_visible and not globals.secrets.nimi:
+		play_error_audio()
+	else: 
+		show_selected_panel("nimi")
+		gamestate.current_save.character_paths = "nimi"
+		play_select_audio.rpc()
+		
 
 func _on_exit_pressed() -> void:
 	characters_back_pressed.emit()

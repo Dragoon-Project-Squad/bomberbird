@@ -5,6 +5,7 @@ signal player_health_updated
 signal player_hurt(player: Player)
 signal player_died(player: Player)
 signal player_revived(player: Player)
+signal player_mounted(player: Player)
 
 ## Player Movement Speed
 const TILE_SIZE: int = 32
@@ -29,18 +30,21 @@ const INVULNERABILITY_POWERUP_TIME: float = 16.0
 @export var synced_position := Vector2()
 @export var stunned: bool = false
 @export var invulnerable: bool = false
+@export var time_is_stopped: bool = false
+@export var is_dead: bool = false
+@export var stop_movement: bool = false
 
 @onready var hurt_sfx_player := $HurtSoundPlayer
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var invul_player: AnimationPlayer = $InvulPlayer
 
+@onready var mount_step_timer := $MountStepTimer
+
 var current_anim: String = ""
-var is_dead: bool = false
+var is_mounted: bool = false
 var _died_barrier: bool = false
-var stop_movement: bool = false
 var outside_of_game: bool = false
 
-var time_is_stopped: bool = false
 var player_type: String
 var hurry_up_started: bool = false 
 var misobon_player: MisobonPlayer
@@ -61,6 +65,8 @@ var bomb_to_throw: BombRoot
 var bomb_kicked: BombRoot
 var mine_placed: bool
 var remote_bombs: Array[int]
+var spritepaths: Dictionary
+var remote_bomb_id: int = 0
 
 @export_subgroup("player properties") #Set in inspector
 @export var movement_speed: float = BASE_MOTION_SPEED
@@ -88,7 +94,21 @@ var is_reverse = false
 var is_nonstop = false
 var is_unbomb = false
 var drop_timer = 0
+var pre_virus_speed = BASE_MOTION_SPEED
 const AUTODROP_INTERVAL = 3
+
+enum mount_ability {NONE = 0, BREAKABLEPUSH, JUMP, MOUNTKICK, RAPIDBOMB, CHARGE, PUNCH}
+var current_mount_ability := 0
+var jump_config: Dictionary[String, Variant] = {
+	"direction": Vector2.ZERO,
+	"origin": Vector2.ZERO,
+	"target":Vector2.ZERO,
+	"time": 0.0,
+	"total_time": 0.75,
+	"shadow_offset": Vector2.ZERO,
+	"shadow_relpos": Vector2.ZERO,
+}
+var is_jumping := false
 
 func _ready():
 	player_died.connect(globals.player_manager._on_player_died)
@@ -103,11 +123,12 @@ func _ready():
 	movement_speed_reset = movement_speed
 	bomb_total_reset = bomb_total
 	explosion_boost_count_reset = explosion_boost_count
-	remote_bombs.resize(6)
-	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
+	remote_bombs.resize(8)
+	if globals.is_singleplayer():
 		player_health_updated.connect(func (s: Player, health: int): game_ui.update_health(health, int(s.name)))
 	match globals.current_gamemode:
 		globals.gamemode.CAMPAIGN: lives = 3
+		globals.gamemode.BOSSRUSH: lives = 3
 		globals.gamemode.BATTLEMODE: lives = 1
 		_: lives = 1
 	lives_reset = lives
@@ -123,6 +144,8 @@ func init_pickups():
 		increase_speed.rpc()
 	for _speed_down in range(self.pickups.held_pickups[globals.pickups.SPEED_DOWN]):
 		decrease_speed.rpc()
+	for _health_up in range(self.pickups.held_pickups[globals.pickups.HP_UP]):
+		increase_live.rpc()
 	for _bomb_level_up in range(self.pickups.held_pickups[globals.pickups.FIRE_UP]):
 		increase_bomb_level.rpc()
 	for _bomb_count_up in range(self.pickups.held_pickups[globals.pickups.BOMB_UP]):
@@ -137,6 +160,8 @@ func init_pickups():
 		do_invulnerabilty.rpc(INVULNERABILITY_POWERUP_TIME)
 	if self.pickups.held_pickups[globals.pickups.VIRUS] > pickups.virus.DEFAULT:
 		virus.rpc()
+	if self.pickups.held_pickups[globals.pickups.MOUNTGOON]:
+		mount_dragoon.rpc()
 
 func _process(delta: float):
 	if !is_autodrop:
@@ -150,6 +175,10 @@ func _process(delta: float):
 
 func _physics_process(_delta: float):
 	pass
+
+@rpc("call_local")
+func add_pickup(pickup_type: int):
+	pickups.add(pickup_type)
 
 func place(pos: Vector2):
 	process_mode = PROCESS_MODE_INHERIT
@@ -220,7 +249,7 @@ func throw_bomb_effect():
 
 func kick_bomb(direction: Vector2i):
 	if(globals.game.stage_done): return
-	if pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] != pickups.exclusive.KICK:
+	if pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] != pickups.exclusive.KICK and current_mount_ability != mount_ability.MOUNTKICK:
 		return 1
 	
 	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
@@ -253,40 +282,153 @@ func kick_bomb(direction: Vector2i):
 		bomb_kicked = null
 
 func call_remote_bomb():
-	if pickups.held_pickups[globals.pickups.GENERIC_BOMB] != pickups.bomb_types.REMOTE:
-		return
-	var number = remote_bombs.get(0)
-	BombSignalBus.call_bomb.emit(number if number != null else -1)
+	if !is_multiplayer_authority(): return
+	if pickups.held_pickups[globals.pickups.GENERIC_BOMB] != pickups.bomb_types.REMOTE: return
+	emit_remote_call_bomb.rpc()
+
+@rpc("call_local")
+func emit_remote_call_bomb():
+	if remote_bombs.is_empty(): return
+	globals.player_manager.remote_call_bomb.emit(str(self.name), remote_bombs.pop_front()) #removing the element here is fine since the return bomb func calls erase and erase will just do nothing if the element is not in the array
 
 ## places a bomb if the current position is valid
-func place_bomb():
+func place_bomb(line_direction := Vector2.ZERO):
 	if(globals.game.stage_done): return
 	if(world_data.is_tile(world_data.tiles.BOMB, self.global_position)): return
-	
-	var bombPos = world_data.tile_map.map_to_local(world_data.tile_map.local_to_map(synced_position))
-	bomb_count -= 1
-	last_bomb_time = 0
-	
-	# Adding bomb to astargrid so bombs have collision inside the grid
-	astargrid_handler.astargrid_set_point(synced_position, true)
-	
-	var bomb_phone_number := randi()
-	remote_bombs.push_back(bomb_phone_number)
-	
-	if is_multiplayer_authority():
-		var bomb: BombRoot = bomb_pool.request()
-		bomb.set_bomb_owner.rpc(self.name)
-		if pickups.held_pickups[globals.pickups.GENERIC_BOMB] == HeldPickups.bomb_types.MINE:
-			if not mine_placed:
-				bomb.set_bomb_type.rpc(HeldPickups.bomb_types.MINE)
-				mine_placed = not mine_placed
+	var place_count := 0
+	while bomb_count > 0:
+		var bombPos = world_data.tile_map.local_to_map(synced_position)
+		bomb_count -= 1
+		last_bomb_time = 0
+		if line_direction:
+			bombPos += Vector2i(line_direction * place_count)
+			place_count += 1
+		bombPos = world_data.tile_map.map_to_local(bombPos)
+		if (
+				world_data.is_out_of_bounds(bombPos) != world_data.bounds.IN
+				or not world_data.is_tile(world_data.tiles.EMPTY, bombPos)
+		):
+			bomb_count += 1
+			break
+		# Adding bomb to astargrid so bombs have collision inside the grid
+		astargrid_handler.astargrid_set_point(bombPos, true)
+		
+		if is_multiplayer_authority():
+			var bomb: BombRoot = bomb_pool.request()
+			bomb.set_bomb_owner.rpc(self.name)
+			if pickups.held_pickups[globals.pickups.GENERIC_BOMB] == HeldPickups.bomb_types.MINE:
+				if not mine_placed:
+					bomb.set_bomb_type.rpc(HeldPickups.bomb_types.MINE)
+					mine_placed = not mine_placed
+				else:
+					bomb.set_bomb_type.rpc(HeldPickups.bomb_types.DEFAULT)
 			else:
-				bomb.set_bomb_type.rpc(HeldPickups.bomb_types.DEFAULT)
+				bomb.set_bomb_type.rpc(pickups.held_pickups[globals.pickups.GENERIC_BOMB])
+
+			if pickups.held_pickups[globals.pickups.GENERIC_BOMB] == pickups.bomb_types.REMOTE:
+				bomb.set_bomb_number.rpc(remote_bomb_id)
+				register_remote_bomb.rpc()
+			bomb.set_fuse_length.rpc(fuse_speed)
+			bomb.do_place.rpc(bombPos, -1 if infected_explosion else explosion_boost_count)
+		
+		if not line_direction:
+			break
+
+@rpc("call_local")
+func register_remote_bomb():
+	remote_bombs.push_back(remote_bomb_id)
+	remote_bomb_id += 1
+
+#endregion
+
+#region mount abilities
+## kick a breakable
+func kick_breakable(direction: Vector2i):
+	if globals.game.stage_done: return
+	if current_mount_ability != mount_ability.BREAKABLEPUSH: return
+	
+	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
+	var box_pushed: Breakable
+	for body in bodies:
+		if body is Breakable:
+			box_pushed = body
+			break
+	if box_pushed == null:
+		return 1
+	box_pushed.push.rpc(direction)
+
+## punch any enemy in front of the player
+func punch_enemy():
+	if globals.game.stage_done: return
+	if current_mount_ability != mount_ability.PUNCH: return
+	
+	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
+	for body in bodies:
+		if body.has_method("do_stun"):
+			body.do_stun.rpc()
+
+## calculates and configs the jump parameters
+func mounted_jump(direction: Vector2):
+	if globals.game.stage_done: return
+	if current_mount_ability != mount_ability.JUMP: return
+	jump_config.direction = direction
+	jump_config.origin = global_position
+	var target = global_position + (direction * TILE_SIZE * 2)
+	var landing_check := func checker(pos: Vector2) -> bool:
+		return (
+			world_data.is_out_of_bounds(pos) == world_data.bounds.IN
+			and (
+			world_data.is_tile(world_data.tiles.EMPTY, pos)
+			or world_data.is_tile(world_data.tiles.PICKUP, pos)
+			)
+		)
+		
+	while not landing_check.call(target):
+		target -= direction * 4
+		if global_position.direction_to(target) != direction:
+			target = global_position
+			break
+	if world_data.tile_map.map_to_local(global_position) == world_data.tile_map.map_to_local(target):
+		target = global_position
+	else:
+		if not landing_check.call(target + direction * 16):
+			target -= direction * 12
+		if not landing_check.call(target - direction * 16):
+			target += direction * 12
+
+	jump_config.target = target
+	jump_config.shadow_offset = $shadowsprite.global_position
+	jump_config.shadow_relpos = $shadowsprite.position
+	invulnerable = true
+	is_jumping = true
+
+## The actual jump animation function. Should be called in [param _physics_process]
+func mounted_jump_process(delta: float) -> void:
+	jump_config.time += delta
+	var origin: Vector2 = jump_config.origin
+	var target: Vector2 = jump_config.target
+	var weight: float = jump_config.time / jump_config.total_time
+	var curve := Vector2.ZERO
+	var midpoint := Vector2.ZERO
+	if jump_config.direction == Vector2.LEFT or jump_config.direction == Vector2.RIGHT:
+		midpoint = Vector2((origin.x + target.x) / 2, origin.y - (TILE_SIZE * 0.9))
+	else:
+		midpoint = Vector2(origin.x, (origin.y + target.y) / 2 - (TILE_SIZE * 1.5))
+	curve = (origin.lerp(midpoint, weight)).lerp(midpoint.lerp(target, weight), weight)
+	var shadow: Sprite2D = $shadowsprite
+	if jump_config.time <= jump_config.total_time:
+		global_position = curve
+		# show where the player is landing
+		if jump_config.direction == Vector2.UP or jump_config.direction == Vector2.DOWN:
+			shadow.global_position.x = jump_config.shadow_offset.x
 		else:
-			bomb.set_bomb_type.rpc(pickups.held_pickups[globals.pickups.GENERIC_BOMB])
-		bomb.set_fuse_length.rpc(fuse_speed)
-		bomb.set_bomb_number.rpc(bomb_phone_number)
-		bomb.do_place.rpc(bombPos, -1 if infected_explosion else explosion_boost_count)
+			shadow.global_position.y = jump_config.shadow_offset.y
+	else:
+		position = jump_config.target
+		shadow.position = jump_config.shadow_relpos
+		jump_config.time = 0.0
+		is_jumping = false
+		invulnerable = false
 
 #endregion
 
@@ -349,7 +491,7 @@ func enter_death_state():
 	is_dead = true
 	animation_player.play("player_animations/death")
 	$Hitbox.set_deferred("disabled", 1)
-	if globals.current_gamemode == globals.gamemode.BATTLEMODE:
+	if globals.is_battle_mode():
 		spread_items()
 		reset_pickups()
 	await animation_player.animation_finished
@@ -376,6 +518,8 @@ func reset():
 	if self.invul_timer: self.invul_timer.timeout.disconnect(stop_invulnerability)
 	stop_invulnerability()
 	process_mode = PROCESS_MODE_DISABLED
+	self.remote_bombs.clear()
+	self.remote_bomb_id = 0
 	self.bomb_to_throw = null
 	self.current_anim = ""
 	self.bomb_kicked = null
@@ -389,6 +533,9 @@ func reset():
 	self.time_is_stopped = false
 	self.invulnerable = false
 	unvirus()
+	self.is_mounted = false
+	set_sprite_to_walk()
+	reset_graphic_positions()
 	show()
 
 ## resets the pickups back to the inital state
@@ -467,7 +614,9 @@ func spread_items():
 				temp.append(pos_array[j])
 			world_data.reset_empty_cells.call_deferred(temp)
 
+@rpc("call_local")
 func do_stun():
+	if stunned || invulnerable: return
 	animation_player.play("player_animations/stunned") #Note this animation sets stunned automatically
 
 @rpc("call_local")
@@ -483,21 +632,21 @@ func get_player_name() -> String:
 @rpc("call_local")
 func increase_live():
 	if lives >= MAX_HEALTH:
-		if globals.current_gamemode == globals.gamemode.CAMPAIGN: globals.game.score += 100
+		if globals.is_singleplayer(): globals.game.score += 100
 	else:
 		lives += 1
 
 @rpc("call_local")
 func increase_bomb_level():
 	if explosion_boost_count >= MAX_EXPLOSION_BOOSTS_PERMITTED:
-		if globals.current_gamemode == globals.gamemode.CAMPAIGN: globals.game.score += 100
+		if globals.is_singleplayer(): globals.game.score += 100
 	else:
 		explosion_boost_count += 1
 
 @rpc("call_local")
 func maximize_bomb_level():
 	if explosion_boost_count >= MAX_EXPLOSION_BOOSTS_PERMITTED:
-		if globals.current_gamemode == globals.gamemode.CAMPAIGN: globals.game.score += 100
+		if globals.is_singleplayer(): globals.game.score += 100
 	else:
 		explosion_boost_count = MAX_EXPLOSION_BOOSTS_PERMITTED
 
@@ -506,7 +655,7 @@ func increase_speed():
 	if movement_speed < MAX_MOTION_SPEED:
 		movement_speed += MOTION_SPEED_INCREASE
 	if movement_speed >= MAX_MOTION_SPEED:
-		if globals.current_gamemode == globals.gamemode.CAMPAIGN: globals.game.score += 100
+		if globals.is_singleplayer(): globals.game.score += 100
 		movement_speed = MAX_MOTION_SPEED
 
 @rpc("call_local")
@@ -527,9 +676,62 @@ func disable_bombclip():
 	self.set_collision_mask_value(4, true)
 
 @rpc("call_local")
+func mount_dragoon():
+	is_mounted = true
+	invulnerable = true
+	stunned = true
+	assign_mount_ability()
+	Wwise.post_event("snd_cockobo_summon", self)
+	animation_player.play("player_animations/mount_summoned")
+	await animation_player.animation_finished
+	invulnerable = false
+	stunned = false
+	player_mounted.emit()
+	
+func assign_mount_ability() -> void:
+	match pickups.held_pickups[globals.pickups.MOUNTGOON]:
+			pickups.mounts.YELLOW:
+				print("Block push!")
+				current_mount_ability = mount_ability.BREAKABLEPUSH
+			pickups.mounts.PINK:
+				print("Jump!")
+				current_mount_ability = mount_ability.JUMP
+			pickups.mounts.CYAN:
+				print("Bomb kick!")
+				current_mount_ability = mount_ability.MOUNTKICK
+			pickups.mounts.PURPLE:
+				print("Rapid bomb!")
+				current_mount_ability = mount_ability.RAPIDBOMB
+			pickups.mounts.GREEN:
+				print("Charge!")
+				current_mount_ability = mount_ability.CHARGE
+			pickups.mounts.RED:
+				print("Punch!")
+				current_mount_ability = mount_ability.PUNCH
+			_:
+				push_warning("Unknown mount!")
+
+func remove_mount_ability() -> void:
+	current_mount_ability = mount_ability.NONE
+	
+@rpc("call_local")
+func mount_exploded() -> void:
+	Wwise.post_event("snd_cockobo_die", self)
+	is_mounted = false
+	set_sprite_to_walk()
+	reset_graphic_positions()
+	remove_mount_ability()
+	do_invulnerabilty.rpc()
+	_died_barrier = false
+
+func reset_graphic_positions() -> void:
+	$sprite.position = Vector2(0.075,6.236)
+	$label.position = Vector2(-82.0,-35.0)
+
+@rpc("call_local")
 func increment_bomb_count():
 	if bomb_total >= MAX_BOMBS_OWNABLE:
-		if globals.current_gamemode == globals.gamemode.CAMPAIGN: globals.game.score += 100
+		if globals.is_singleplayer(): globals.game.score += 100
 	else:
 		bomb_total += 1
 	bomb_count = min(bomb_count+1, bomb_total)
@@ -539,7 +741,7 @@ func return_bomb(is_mine := false):
 	if pickups.held_pickups[globals.pickups.GENERIC_BOMB] == HeldPickups.bomb_types.MINE and is_mine:
 		mine_placed = false
 	bomb_count = min(bomb_count+1, bomb_total)
-	remote_bombs.pop_front()
+	remote_bombs.erase(remote_bomb_id)
 
 @rpc("call_local")
 ## plays the victory animation and stops the player from moving
@@ -566,9 +768,11 @@ func do_hurt() -> void:
 @rpc("call_local")
 ## kills this player and awards whoever killed it
 func exploded(_by_who):
-	if stunned || invulnerable || stop_movement: return
-	if _died_barrier: return
+	if stunned || invulnerable || stop_movement || _died_barrier: return
 	_died_barrier = true
+	if is_mounted:
+		mount_exploded()
+		return
 	lives -= 1
 	hurt_sfx_player.post_event()
 	if lives <= 0:
@@ -576,19 +780,33 @@ func exploded(_by_who):
 		enter_misobon()
 	else:
 		match globals.current_gamemode:
-			globals.gamemode.BATTLEMODE: do_stun()
 			globals.gamemode.CAMPAIGN: do_hurt()
-			_: push_error("A player died while no gamemode was active")
+			globals.gamemode.BATTLEMODE: do_stun()
+			globals.gamemode.BOSSRUSH: do_hurt()
+			_: push_error("A player was exploded while no gamemode was active")
+	_died_barrier = false
+	
 
 @rpc("call_local")
 func crush():
 	if _died_barrier: return
 	_died_barrier = true
 	do_crushed_state()
+	_died_barrier = false
 
-func set_selected_character(value_path : String):
+func set_active_sprite(value_path : String):
 	$sprite.texture = load(value_path)
+	
+func set_selected_spritepaths(newspritepaths : Dictionary):
+	spritepaths = newspritepaths.duplicate()
+	set_active_sprite(spritepaths.walk)
 
+func set_sprite_to_mounted() -> void:
+	set_active_sprite(spritepaths.mount)
+
+func set_sprite_to_walk() -> void:
+	set_active_sprite(spritepaths.walk)
+	
 ## starts the invulnerability and its animation
 @rpc("call_local")
 func do_invulnerabilty(time: float = INVULNERABILITY_SPAWN_TIME):
@@ -613,6 +831,7 @@ func stop_invulnerability():
 @rpc("call_local")
 func virus():
 	is_virus = true
+	pre_virus_speed = movement_speed
 	match pickups.held_pickups[globals.pickups.VIRUS]:
 		pickups.virus.SPEEDDOWN:
 			print("Slow movement!")
@@ -651,10 +870,11 @@ func virus():
 
 @rpc("call_local")	
 func unvirus():
+	if !is_virus: return
 	is_virus = false
 	infected_explosion = false
 	fuse_speed = BombRoot.FUSES.NORMAL
-	movement_speed = BASE_MOTION_SPEED
+	movement_speed = pre_virus_speed
 	is_autodrop = false
 	is_reverse = false
 	is_nonstop = false
@@ -669,6 +889,6 @@ func stop_time(user: String, is_player: bool):
 func start_time():
 	self.time_is_stopped = false
 
-func _cur_anim_changed(anim_name: String):
-	#print(self.name, " plays ", anim_name)
+func _cur_anim_changed(_anim_name: String):
+	#print(self.name, " plays ", _anim_name)
 	pass

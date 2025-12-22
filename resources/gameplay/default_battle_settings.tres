@@ -10,5 +10,5 @@ BREAKABLE_SPAWN_RULE = 0
 breakable_chance = 100.0
 PICKUP_SPAWN_RULE = 0
 pickup_chance = 100.0
-data_flag = ""
+mint_flag = ""
 metadata/_custom_type_script = "uid://b3752hk5m1huy"

@@ -124,7 +124,7 @@ func sync_playerdata_across_players(newplayer_data_master_dict):
 
 @rpc("call_remote")
 func set_secret_status(host_secret_status):
-	globals.secrets_enabled = host_secret_status
+	globals.secrets = host_secret_status.duplicate()
 	secret_status_sent.emit()
 
 ## Steam-specific. Used whenever trying to join a lobby.
@@ -182,7 +182,7 @@ func register_player(new_player_name: String, id: int):
 		"is_enabled" = true
 	}
 	if is_multiplayer_authority():
-		set_secret_status.rpc_id(id, globals.secrets_enabled)
+		set_secret_status.rpc_id(id, globals.secrets)
 		sync_playerdata_across_players.rpc(player_data_master_dict)
 	
 @rpc("authority", "call_local")
@@ -258,7 +258,7 @@ func load_world(game_scene):
 	# Change scene.
 	var game = load(game_scene).instantiate()
 	get_tree().get_root().add_child(game)
-	if globals.current_gamemode == globals.gamemode.CAMPAIGN:
+	if globals.is_singleplayer():
 		if self.current_save.campaign != "": current_graph = self.current_save.campaign
 		else: self.current_save.campaign = current_graph
 		game.load_level_graph(current_graph)
@@ -339,7 +339,6 @@ func get_player_scores() -> Dictionary:
 	return scores
 
 func begin_singleplayer_game():
-	globals.current_gamemode = globals.gamemode.CAMPAIGN
 	SettingsContainer.misobon_setting = SettingsContainer.misobon_setting_states.OFF
 	human_player_count = 1
 	total_player_count = human_player_count
@@ -436,7 +435,8 @@ func is_name_free(playername: String) -> bool:
 	return true
 			
 func save_sp_game():
-	campaign_save_manager.save(current_save, current_save_file)
+	if globals.is_campaign_mode(): # do not write boss_rush data to a file
+		campaign_save_manager.save(current_save, current_save_file)
 
 func end_sp_game():
 	save_sp_game()
@@ -449,14 +449,30 @@ func end_sp_game():
 		var main_menu = get_node("/root/MainMenu")
 		main_menu.show()
 		main_menu.unpause_main_menu_music()
-	elif has_node("/root/lobby"):
-		var lobby: Node2D = get_node("/root/lobby")
+	elif has_node("/root/Lobby"):
+		var lobby: Control = get_node("/root/Lobby")
 		lobby.get_back_to_menu()
 	game_ended.emit() #Listen to this signal to tell other nodes to cease the game.
 	player_data_master_dict.clear()
 	resetvars()
 	world_data.reset()
-		
+
+func boss_rush_back_to_lobby():
+	save_sp_game()
+	if globals.game != null: # Game is in progress.
+		# End it
+		globals.game.queue_free()
+	await get_tree().create_timer(0.05).timeout #The game scene needs to DIE.
+	# Only run if Main Menu is currently loaded in the scene.
+	assert(has_node("/root/Lobby"))
+	var lobby: Control = get_node("/root/Lobby")
+	lobby.show_character_select_screen()
+
+	game_ended.emit() #Listen to this signal to tell other nodes to cease the game.
+	player_data_master_dict.clear()
+	resetvars()
+	world_data.reset()
+
 func end_game():
 	if globals.game != null: # Game is in progress.
 		# End it
@@ -518,10 +534,10 @@ func assign_dict_to_spritepaths(playerdict: Dictionary):
 			playerdict.spritepaths = character_texture_paths.crowki_paths
 		"tomatodoki":
 			playerdict.spritepaths = character_texture_paths.tomatodoki_paths
-		"secretone":
-			playerdict.spritepaths = character_texture_paths.secretone_paths
-		"secrettwp":
-			playerdict.spritepaths = character_texture_paths.secrettwo_paths
+		"wisp":
+			playerdict.spritepaths = character_texture_paths.wisp_paths
+		"mint":
+			playerdict.spritepaths = character_texture_paths.mint_paths
 		_:
 			push_error("Could not identify character!")
 			playerdict.spritepaths = character_texture_paths.egggoon_paths

@@ -1,0 +1,276 @@
+[gd_scene load_steps=10 format=3 uid="uid://cuc5gsxl6umbl"]
+
+[ext_resource type="Script" uid="uid://dhl231rxht8c4" path="res://scripts/ui/lobby/pickup_shop.gd" id="1_cmhj8"]
+[ext_resource type="Texture2D" uid="uid://27c5jtc8uveu" path="res://assets/ui/campaign_ui_sheet.png" id="1_k2iq3"]
+[ext_resource type="FontFile" uid="uid://do0laogygl6cd" path="res://assets/fonts/ThaleahFat.ttf" id="2_cmhj8"]
+[ext_resource type="Theme" uid="uid://bgj72vffexht" path="res://assets/styles/panel_theme.tres" id="3_s6p8y"]
+[ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="4_wt7v3"]
+[ext_resource type="PackedScene" uid="uid://dkmu2o86hxfoh" path="res://scenes/ingame_ui/pickup_button.tscn" id="5_4u2ue"]
+[ext_resource type="Theme" uid="uid://wfdn1qbkwu46" path="res://assets/styles/main_menu_theme.tres" id="6_s6p8y"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oooui"]
+atlas = ExtResource("1_k2iq3")
+region = Rect2(0, 0, 72, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mvhm8"]
+atlas = ExtResource("1_k2iq3")
+region = Rect2(72, 64, 505, 31)
+
+[node name="PickupShop" type="Control"]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cmhj8")
+
+[node name="TopBarContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = -576.0
+offset_bottom = 32.0
+grow_horizontal = 2
+scale = Vector2(2, 2)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Time" type="TextureRect" parent="TopBarContainer"]
+texture_filter = 1
+layout_mode = 2
+texture = SubResource("AtlasTexture_oooui")
+
+[node name="TimeLabel" type="Label" parent="TopBarContainer/Time"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 1
+offset_left = 18.0
+offset_top = 8.0
+offset_right = 54.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_cmhj8")
+theme_override_font_sizes/font_size = 16
+text = "00:00"
+
+[node name="Score" type="TextureRect" parent="TopBarContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+texture = SubResource("AtlasTexture_mvhm8")
+expand_mode = 2
+stretch_mode = 2
+
+[node name="ScoreLabel" type="Label" parent="TopBarContainer/Score"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 0
+offset_left = 45.0
+offset_top = 7.5
+offset_right = 93.0
+offset_bottom = 22.5
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_cmhj8")
+theme_override_font_sizes/font_size = 16
+text = "000000"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = -81.0
+offset_right = 400.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 480
+alignment = 1
+
+[node name="Next" type="Button" parent="HBoxContainer" groups=["ui_button"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+focus_neighbor_left = NodePath("../Back")
+focus_neighbor_top = NodePath("../../Saves/Left/SaveSelectButton_3")
+focus_neighbor_bottom = NodePath("../../Saves/Left/SaveSelectButton_1")
+focus_previous = NodePath("../../Saves/Right/SaveSelectButton_6")
+theme = ExtResource("3_s6p8y")
+theme_override_font_sizes/font_size = 46
+text = "Next
+"
+script = ExtResource("4_wt7v3")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
+
+[node name="Back" type="Button" parent="HBoxContainer" groups=["ui_button"]]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+focus_neighbor_top = NodePath("../../Saves/Right/SaveSelectButton_6")
+focus_neighbor_right = NodePath("../Next")
+focus_neighbor_bottom = NodePath("../../Saves/Right/SaveSelectButton_4")
+focus_next = NodePath("../../Saves/Left/SaveSelectButton_1")
+theme = ExtResource("3_s6p8y")
+theme_override_font_sizes/font_size = 46
+text = "Back"
+icon_alignment = 1
+script = ExtResource("4_wt7v3")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
+
+[node name="ShopPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+
+[node name="Shop" type="VBoxContainer" parent="ShopPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -100.0
+offset_right = 160.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PickupsLabel" type="Label" parent="ShopPanel/Shop"]
+layout_mode = 2
+theme = ExtResource("6_s6p8y")
+text = "Pickups:"
+horizontal_alignment = 1
+
+[node name="Pickups" type="GridContainer" parent="ShopPanel/Shop"]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 9
+
+[node name="ExtraBombButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
+layout_mode = 2
+max_amount = 9
+
+[node name="ExplosionBoostButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
+layout_mode = 2
+max_amount = 8
+pickup_name = "explosion_boost"
+
+[node name="MaxExplosionButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
+layout_mode = 2
+max_amount = 1
+pickup_name = "max_explosion"
+price = 750
+
+[node name="SpeedBoostButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
+layout_mode = 2
+max_amount = 9
+pickup_name = "speed_boost"
+
+[node name="HealthButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
+layout_mode = 2
+max_amount = 6
+pickup_name = "hearth"
+
+[node name="PunchButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
+layout_mode = 2
+max_amount = 1
+pickup_name = "punch_ability"
+price = 500
+
+[node name="ThrowButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
+layout_mode = 2
+max_amount = 1
+pickup_name = "throw_ability"
+price = 500
+
+[node name="WallthroughButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
+layout_mode = 2
+max_amount = 1
+pickup_name = "wallthrough"
+price = 500
+
+[node name="MountButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
+layout_mode = 2
+max_amount = 1
+pickup_name = "mount_goon"
+price = 750
+
+[node name="ExclusivePickupsLabel" type="Label" parent="ShopPanel/Shop"]
+layout_mode = 2
+theme = ExtResource("6_s6p8y")
+text = "Exclusive Pickups:"
+horizontal_alignment = 1
+
+[node name="ExclusivePickups" type="GridContainer" parent="ShopPanel/Shop"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 2
+
+[node name="KickButton" parent="ShopPanel/Shop/ExclusivePickups" instance=ExtResource("5_4u2ue")]
+layout_mode = 2
+max_amount = 1
+pickup_name = "kick"
+price = 500
+
+[node name="BombthroughButton" parent="ShopPanel/Shop/ExclusivePickups" instance=ExtResource("5_4u2ue")]
+layout_mode = 2
+max_amount = 1
+pickup_name = "bombthrough"
+price = 500
+
+[node name="BombUpgradeLabel" type="Label" parent="ShopPanel/Shop"]
+layout_mode = 2
+theme = ExtResource("6_s6p8y")
+text = "Bomb Upgrade Pickups:"
+horizontal_alignment = 1
+
+[node name="BombUpgrades" type="GridContainer" parent="ShopPanel/Shop"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 4
+
+[node name="PiercingButton" parent="ShopPanel/Shop/BombUpgrades" instance=ExtResource("5_4u2ue")]
+layout_mode = 2
+max_amount = 1
+pickup_name = "piercing_bomb"
+price = 500
+
+[node name="LandmineButton" parent="ShopPanel/Shop/BombUpgrades" instance=ExtResource("5_4u2ue")]
+layout_mode = 2
+max_amount = 1
+pickup_name = "land_mine"
+price = 500
+
+[node name="RemoteControlButton" parent="ShopPanel/Shop/BombUpgrades" instance=ExtResource("5_4u2ue")]
+layout_mode = 2
+max_amount = 1
+pickup_name = "remote_control"
+price = 500
+
+[node name="SeekerButton" parent="ShopPanel/Shop/BombUpgrades" instance=ExtResource("5_4u2ue")]
+layout_mode = 2
+max_amount = 1
+pickup_name = "seeker_bomb"
+price = 500
+
+[connection signal="pressed" from="HBoxContainer/Next" to="." method="_on_next_clicked"]
+[connection signal="pressed" from="HBoxContainer/Back" to="." method="_on_back_clicked"]

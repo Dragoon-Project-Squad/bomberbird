@@ -38,6 +38,14 @@ func _physics_process(delta):
 		move_and_slide()
 		# Also update the animation based on the last known player input state
 		update_animation(inputs.motion, self.last_movement_vector)
+	
+	#moiunt movement sounds
+	if velocity.x != 0 or velocity.y != 0:
+		if is_mounted:
+			if mount_step_timer.time_left == 0:
+				mount_step_timer.start()
+				print("plap")
+				Wwise.post_event("snd_cockobo_footstep", self)	
 
 func _on_object_detection_area_entered(area):
 	var body = area.get_parent()

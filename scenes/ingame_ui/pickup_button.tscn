@@ -1,0 +1,166 @@
+[gd_scene load_steps=8 format=3 uid="uid://dkmu2o86hxfoh"]
+
+[ext_resource type="FontFile" uid="uid://do0laogygl6cd" path="res://assets/fonts/ThaleahFat.ttf" id="1_4slcr"]
+[ext_resource type="Texture2D" uid="uid://t64vkd8wb6n1" path="res://assets/pickups/genericpowerup.png" id="2_m4uoj"]
+[ext_resource type="Script" uid="uid://bl3pj5rl7ba13" path="res://scripts/pickups/pickup_button.gd" id="4_6xeiv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nh6w6"]
+atlas = ExtResource("2_m4uoj")
+region = Rect2(0, 0, 24, 24)
+margin = Rect2(1, 2, 0, 0)
+
+[sub_resource type="Animation" id="Animation_m4uoj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_4slcr"]
+resource_name = "failure"
+length = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Color(0.999999, 0.245242, 0.187846, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_t6ylr"]
+_data = {
+&"RESET": SubResource("Animation_m4uoj"),
+&"failure": SubResource("Animation_4slcr")
+}
+
+[node name="PickupButton" type="Button"]
+texture_filter = 1
+custom_minimum_size = Vector2(32, 43)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1120.0
+offset_bottom = -605.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+theme_override_fonts/font = ExtResource("1_4slcr")
+theme_override_icons/icon = SubResource("AtlasTexture_nh6w6")
+button_mask = 3
+icon_alignment = 1
+vertical_icon_alignment = 0
+script = ExtResource("4_6xeiv")
+max_amount = 5
+metadata/_custom_type_script = "uid://cnb3ew6k6c5lb"
+
+[node name="Amounts" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Amount" type="Label" parent="Amounts"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = -5.0
+offset_top = 4.0
+offset_right = -5.0
+offset_bottom = 37.0
+grow_horizontal = 2
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("1_4slcr")
+text = "1
+"
+horizontal_alignment = 1
+
+[node name="Divide" type="Label" parent="Amounts"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 33.0
+grow_horizontal = 2
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("1_4slcr")
+theme_override_font_sizes/font_size = 32
+text = "/"
+horizontal_alignment = 1
+
+[node name="MaxAmount" type="Label" parent="Amounts"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 5.0
+offset_top = 14.0
+offset_right = 5.0
+offset_bottom = 47.0
+grow_horizontal = 2
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("1_4slcr")
+text = "3"
+horizontal_alignment = 1
+
+[node name="Price" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -15.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 1
+theme_override_fonts/font = ExtResource("1_4slcr")
+text = "100"
+horizontal_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_t6ylr")
+}
+
+[connection signal="left_click_pressed" from="." to="." method="_on_left_pressed"]
+[connection signal="right_click_pressed" from="." to="." method="_on_right_pressed"]

@@ -33,7 +33,7 @@ func _ready():
 	self.explosion.is_finished_exploding.connect(done)
 	self.explosion.has_killed.connect(_kill)
 	self.visible = false
-	BombSignalBus.call_bomb.connect(remote_call_recieved)
+	globals.player_manager.remote_call_bomb.connect(remote_call_recieved)
 
 func disable():
 	self.position = Vector2.ZERO
@@ -44,6 +44,7 @@ func disable():
 	self.armed = false
 	self.mine = false
 	self.pierce = false
+	self.remote = false
 	self.is_exploded = false
 	self.animation_finish = false
 	self.force_collision = false
@@ -122,15 +123,12 @@ func detonate():
 			var map := world_data.tile_map
 			var origin := map.local_to_map(self.global_position)
 			var collision := map.local_to_map(ray.get_collision_point())
-			var range := absi((origin - collision).length())
-			if ray_direction == Vector2i.LEFT or ray_direction == Vector2i.UP:
-				range += 1
+			@warning_ignore("narrowing_conversion")
+			var ray_range := absi((origin - collision).length())
 			if target.is_class("TileMapLayer"):
-				range -= 1
-			var bounds_check := self.global_position + Vector2(ray_direction * range * TILE_SIZE)
-			if world_data.is_out_of_bounds(bounds_check) != world_data.bounds.IN:
-				range -= 1
-			exp_range[ray_direction] = clampi(range, 0, MAX_EXPLOSION_WIDTH)
+				if ray_direction != Vector2i.UP and ray_direction != Vector2i.LEFT:
+					ray_range -= 1
+			exp_range[ray_direction] = clampi(ray_range, 0, MAX_EXPLOSION_WIDTH)
 	if bomb_root.bomb_owner:
 		remove_collision_exception_with(bomb_root.bomb_owner)
 	if is_multiplayer_authority(): #multiplayer auth. now starts the transition to the explosion
@@ -161,9 +159,13 @@ func exploded(_by_who):
 	if $AnimationPlayer.current_animation_position < 2.8:
 		$AnimationPlayer.seek(2.79)
 
-func remote_call_recieved(number: int):
-	if number == bomb_root.cell_number:
-		self.exploded(bomb_root.bomb_owner.name.to_int())
+func remote_call_recieved(player_name: String, number: int):
+	if is_exploded: return
+	if !remote: return
+	if bomb_root.bomb_owner == null && player_name != "": return
+	if !((bomb_root.bomb_owner == null && player_name == "") || player_name == str(bomb_root.bomb_owner.name)): return
+	if number != bomb_root.cell_number: return
+	self.exploded(bomb_root.bomb_owner.name.to_int())
 
 func _kill(obj):
 	if obj == self: return

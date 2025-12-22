@@ -9,16 +9,11 @@ extra_bomb = 10
 explosion_boost = 10
 speed_boost = 10
 speed_down = 5
-heart = 5
 max_explosion = 5
 punch_ability = 5
 throw_ability = 5
-wallthrough = 5
-timer = 5
-invincibility_vest = 5
 virus = 5
 kick = 5
-bombthrough = 5
 piercing_bomb = 5
 land_mine = 5
 

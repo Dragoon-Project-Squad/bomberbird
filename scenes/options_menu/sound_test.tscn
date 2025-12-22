@@ -4,30 +4,21 @@
 [ext_resource type="Script" uid="uid://c5hk6wof00gq1" path="res://scripts/ui/options_menu/sound_test.gd" id="2_26083"]
 [ext_resource type="WwiseEvent" uid="uid://b15pfcpwpul2n" path="res://Wwise/resources/Event/{8F2C20DE-883A-4CCF-8802-3C533F14AEEB}.tres" id="3_e3nkq"]
 
-[node name="SoundTest" type="Control"]
-layout_mode = 3
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -576.0
-offset_right = 576.0
-offset_bottom = 216.0
-grow_horizontal = 2
+[node name="SoundTest" type="VBoxContainer"]
+offset_right = 384.0
+offset_bottom = 152.0
+size_flags_horizontal = 6
 theme = ExtResource("1_2vmo8")
+theme_override_constants/separation = 8
 script = ExtResource("2_26083")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
-offset_right = 904.0
-offset_bottom = 30.0
 text = "SOUND TEST"
 horizontal_alignment = 1
 
 [node name="MusContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
-offset_top = 59.0
-offset_right = 808.0
-offset_bottom = 97.0
 size_flags_vertical = 6
 
 [node name="MusLabel" type="Label" parent="MusContainer"]
@@ -50,9 +41,6 @@ text = "STOP"
 
 [node name="SFXContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
-offset_top = 152.0
-offset_right = 734.0
-offset_bottom = 190.0
 size_flags_vertical = 6
 
 [node name="SFXLabel" type="Label" parent="SFXContainer"]

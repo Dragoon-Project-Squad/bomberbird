@@ -1,0 +1,170 @@
+[gd_resource type="SpriteFrames" load_steps=41 format=3 uid="uid://c21jc22n8kop8"]
+
+[ext_resource type="Texture2D" uid="uid://ciuvv0abc3dy3" path="res://assets/stage/dungeon_frames/dungeon_background_frame1.png" id="1_bssc5"]
+[ext_resource type="Texture2D" uid="uid://b26fijwoslm74" path="res://assets/stage/dungeon_frames/dungeon_background_frame2.png" id="2_yndjy"]
+[ext_resource type="Texture2D" uid="uid://pjp1vowxl3oq" path="res://assets/stage/dungeon_frames/dungeon_background_frame3.png" id="3_15eu2"]
+[ext_resource type="Texture2D" uid="uid://dd34bodtgbh48" path="res://assets/stage/dungeon_frames/dungeon_background_frame4.png" id="4_xsrqi"]
+[ext_resource type="Texture2D" uid="uid://dxpoeibc3gkh4" path="res://assets/stage/dungeon_frames/dungeon_background_frame5.png" id="5_p2wn3"]
+[ext_resource type="Texture2D" uid="uid://cp1dwitkmdpwr" path="res://assets/stage/dungeon_frames/dungeon_background_frame6.png" id="6_p5fg2"]
+[ext_resource type="Texture2D" uid="uid://of7xerjb62v1" path="res://assets/stage/dungeon_frames/dungeon_background_frame7.png" id="7_l5cfr"]
+[ext_resource type="Texture2D" uid="uid://bibeblufy8ha7" path="res://assets/stage/dungeon_frames/dungeon_background_frame8.png" id="8_xsx8n"]
+[ext_resource type="Texture2D" uid="uid://bfo3sp83y1q3y" path="res://assets/stage/dungeon_frames/dungeon_background_frame9.png" id="9_c61ov"]
+[ext_resource type="Texture2D" uid="uid://hjagm8b7hdh1" path="res://assets/stage/dungeon_frames/dungeon_background_frame10.png" id="10_bu3on"]
+[ext_resource type="Texture2D" uid="uid://bn0yey6dmh71i" path="res://assets/stage/dungeon_frames/dungeon_background_frame11.png" id="11_uwg0b"]
+[ext_resource type="Texture2D" uid="uid://df8xcvksamwmj" path="res://assets/stage/dungeon_frames/dungeon_background_frame12.png" id="12_h85qx"]
+[ext_resource type="Texture2D" uid="uid://fn6tnewpqe5" path="res://assets/stage/dungeon_frames/dungeon_background_frame13.png" id="13_whxwl"]
+[ext_resource type="Texture2D" uid="uid://ddlb4d6vi4mr6" path="res://assets/stage/dungeon_frames/dungeon_background_frame14.png" id="14_cpak1"]
+[ext_resource type="Texture2D" uid="uid://bafoit8r0aije" path="res://assets/stage/dungeon_frames/dungeon_background_frame15.png" id="15_gh8uk"]
+[ext_resource type="Texture2D" uid="uid://bnlflrtrdxyql" path="res://assets/stage/dungeon_frames/dungeon_background_frame16.png" id="16_seeux"]
+[ext_resource type="Texture2D" uid="uid://ct7ogm36atkd7" path="res://assets/stage/dungeon_frames/dungeon_background_frame17.png" id="17_vm540"]
+[ext_resource type="Texture2D" uid="uid://cbgm587rbldfk" path="res://assets/stage/dungeon_frames/dungeon_background_frame18.png" id="18_jv1wo"]
+[ext_resource type="Texture2D" uid="uid://3vtgr7l362lg" path="res://assets/stage/dungeon_frames/dungeon_background_frame19.png" id="19_rv1mq"]
+[ext_resource type="Texture2D" uid="uid://bowbikc4u267g" path="res://assets/stage/dungeon_frames/dungeon_background_frame20.png" id="20_n6two"]
+[ext_resource type="Texture2D" uid="uid://bw6mhyd6s2exk" path="res://assets/stage/dungeon_frames/dungeon_background_frame21.png" id="21_khika"]
+[ext_resource type="Texture2D" uid="uid://cs81it6nb8773" path="res://assets/stage/dungeon_frames/dungeon_background_frame22.png" id="22_cmqw8"]
+[ext_resource type="Texture2D" uid="uid://b3imjo18pxgdk" path="res://assets/stage/dungeon_frames/dungeon_background_frame23.png" id="23_q4k2r"]
+[ext_resource type="Texture2D" uid="uid://s8wwmk7b1xi7" path="res://assets/stage/dungeon_frames/dungeon_background_frame24.png" id="24_jgrj7"]
+[ext_resource type="Texture2D" uid="uid://c51n2bthuhawp" path="res://assets/stage/dungeon_frames/dungeon_background_frame25.png" id="25_lxnay"]
+[ext_resource type="Texture2D" uid="uid://h32rlmnaayaf" path="res://assets/stage/dungeon_frames/dungeon_background_frame26.png" id="26_6hr88"]
+[ext_resource type="Texture2D" uid="uid://qu0k6t2wsdx6" path="res://assets/stage/dungeon_frames/dungeon_background_frame27.png" id="27_2pydu"]
+[ext_resource type="Texture2D" uid="uid://dwlxihws5akwg" path="res://assets/stage/dungeon_frames/dungeon_background_frame28.png" id="28_sw10q"]
+[ext_resource type="Texture2D" uid="uid://xqcglhq6g434" path="res://assets/stage/dungeon_frames/dungeon_background_frame29.png" id="29_1acxu"]
+[ext_resource type="Texture2D" uid="uid://k7svdowp7smr" path="res://assets/stage/dungeon_frames/dungeon_background_frame30.png" id="30_ts08e"]
+[ext_resource type="Texture2D" uid="uid://cmtxs14hq8kh7" path="res://assets/stage/dungeon_frames/dungeon_background_frame31.png" id="31_fx0mj"]
+[ext_resource type="Texture2D" uid="uid://cfny3x8xawgxb" path="res://assets/stage/dungeon_frames/dungeon_background_frame32.png" id="32_vhqp5"]
+[ext_resource type="Texture2D" uid="uid://dlrqi4db1djew" path="res://assets/stage/dungeon_frames/dungeon_background_frame33.png" id="33_myvob"]
+[ext_resource type="Texture2D" uid="uid://du1y2p3mutgqb" path="res://assets/stage/dungeon_frames/dungeon_background_frame34.png" id="34_qe5wc"]
+[ext_resource type="Texture2D" uid="uid://cus0hqthj4ohj" path="res://assets/stage/dungeon_frames/dungeon_background_frame35.png" id="35_iwikj"]
+[ext_resource type="Texture2D" uid="uid://bol4p0t4fvby5" path="res://assets/stage/dungeon_frames/dungeon_background_frame36.png" id="36_6wagy"]
+[ext_resource type="Texture2D" uid="uid://b5sbx1tnk8c2q" path="res://assets/stage/dungeon_frames/dungeon_background_frame37.png" id="37_y161j"]
+[ext_resource type="Texture2D" uid="uid://dc6bo7ti8y22b" path="res://assets/stage/dungeon_frames/dungeon_background_frame38.png" id="38_54gwm"]
+[ext_resource type="Texture2D" uid="uid://cric3f1yh7ah3" path="res://assets/stage/dungeon_frames/dungeon_background_frame39.png" id="39_d6q2v"]
+[ext_resource type="Texture2D" uid="uid://dvwpmbvg6e6qp" path="res://assets/stage/dungeon_frames/dungeon_background_frame40.png" id="40_r457a"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_bssc5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_yndjy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_15eu2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_xsrqi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_p2wn3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_p5fg2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_l5cfr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_xsx8n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_c61ov")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_bu3on")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_uwg0b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_h85qx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_whxwl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_cpak1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_gh8uk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_seeux")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_vm540")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_jv1wo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_rv1mq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_n6two")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_khika")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_cmqw8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_q4k2r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_jgrj7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_lxnay")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_6hr88")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_2pydu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_sw10q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_1acxu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_ts08e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_fx0mj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_vhqp5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_myvob")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_qe5wc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_iwikj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_6wagy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_y161j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_54gwm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_d6q2v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_r457a")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

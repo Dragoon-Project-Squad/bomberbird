@@ -105,7 +105,7 @@ func _on_body_entered(body: Node2D) -> void:
 	Wwise.post_event("snd_pickup_powerup", self)
 	
 	var pickup_owner = body
-	pickup_owner.pickups.add(pickup_type)
+	pickup_owner.add_pickup.rpc(pickup_type)
 	apply_power_up(pickup_owner)
 	
 	# Ensure powerup has time to play before pickup is destroyed

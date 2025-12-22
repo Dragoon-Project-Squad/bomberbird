@@ -35,7 +35,7 @@ func start():
 
 ## resets the game s.t. a new stage can be loaded
 func reset():
-	if time_stopped_timer && globals.current_gamemode == globals.gamemode.CAMPAIGN:
+	if time_stopped_timer && globals.is_singleplayer():
 		for sig_dict in time_stopped_timer.timeout.get_connections():
 			sig_dict.signal.disconnect(sig_dict.callable)
 	clock_pickup_time_unpaused.emit()

@@ -3,7 +3,8 @@ extends Node
 enum gamemode {
 	NONE,
 	CAMPAIGN,
-	BATTLEMODE
+	BATTLEMODE,
+	BOSSRUSH
 }
 
 enum pickups {
@@ -20,6 +21,7 @@ enum pickups {
 	FREEZE,
 	INVINCIBILITY_VEST,
 	VIRUS,
+	MOUNTGOON,
 	GENERIC_BOOL, # A generic value describing some pickup that can only be held once
 	KICK,
 	BOMBTHROUGH,
@@ -32,6 +34,29 @@ enum pickups {
 	NONE, # A value describing the absens of a pickup
 	RANDOM, # A value describing a random pickup
 }
+
+static var pickup_name_region: Dictionary = {
+	"extra_bomb": Rect2i(168, 24, 24, 24),
+	"explosion_boost": Rect2i(192, 0, 24, 24),
+	"speed_boost": Rect2i(216, 24, 24, 24),
+	"speed_down": Rect2i(216, 0, 24, 24),
+	"hearth": Rect2i(0, 24, 24, 24),
+	"max_explosion": Rect2i(168, 0, 24, 24),
+	"punch_ability": Rect2i(144, 0, 24, 24),
+	"throw_ability": Rect2i(120, 24, 24, 24),
+	"wallthrough": Rect2i(96, 24, 24, 24),
+	"timer": Rect2i(24, 0, 24, 24),
+	"invincibility_vest": Rect2i(24, 24, 24, 24),
+	"virus": Rect2i(96, 0, 24, 24),
+	"kick": Rect2i(144, 24, 24, 24),
+	"bombthrough": Rect2i(72, 24, 24, 24),
+	"piercing_bomb": Rect2i(48, 0, 24, 24),
+	"land_mine": Rect2i(72, 0, 24, 24),
+	"remote_control": Rect2i(0, 0, 24, 24),
+	"seeker_bomb": Rect2i(120, 0, 24, 24),
+	"mount_goon": Rect2i(48, 24, 24, 24),
+	"no_pickup": null,
+	}
 
 static var pickup_name_str: Dictionary = {
 	pickups.BOMB_UP: "extra_bomb",
@@ -47,7 +72,8 @@ static var pickup_name_str: Dictionary = {
 	pickups.FREEZE: "timer",
 	pickups.INVINCIBILITY_VEST: "invincibility_vest",
 	pickups.VIRUS: "virus",
-	pickups.GENERIC_BOOL: "on/off_pickups",
+	pickups.MOUNTGOON: "mount_goon",
+	pickups.GENERIC_BOOL: "on/off_pickups", 
 	pickups.KICK: "kick",
 	pickups.BOMBTHROUGH: "bombthrough",
 	pickups.GENERIC_EXCLUSIVE: "exclusive_pickups",
@@ -64,6 +90,7 @@ const BEACH_RAND_STAGE_PATH = "res://scenes/stages/beach_stages/beach_rand.tscn"
 const DESERT_RAND_STAGE_PATH = "res://scenes/stages/desert_stages/desert_rand.tscn"
 const DUNGEON_RAND_STAGE_PATH = "res://scenes/stages/dungeon_stages/dungeon_rand.tscn"
 const LAB_RAND_STAGE_PATH = "res://scenes/stages/lab_stages/lab_rand.tscn"
+const SCHOOL_RAND_STAGE_PATH = "res://scenes/stages/school_stages/school_rand.tscn"
 const SECRET_RAND_STAGE_PATH = "res://scenes/stages/secret_stages/secret_rand.tscn"
 
 var current_gamemode := gamemode.NONE
@@ -71,7 +98,13 @@ var config = Config.new()
 var game: Node2D
 var current_world: World
 var player_manager: PlayerManager
-var secrets_enabled := false
+var secrets : Dictionary = {
+	"mint" : false,
+	"snuffy" : false,
+	"laimu" : false,
+	"dooby" : false,
+	"nimi" : false
+}
 
 func is_valid_pickup(pickup: int):
 	match pickup:
@@ -96,3 +129,18 @@ func get_pickup_type_from_name(pickup_name: String) -> int:
 		if globals.pickup_name_str[pickup] == pickup_name:
 			return pickup
 	return -1
+
+func is_singleplayer():
+	return self.current_gamemode == gamemode.CAMPAIGN || self.current_gamemode == gamemode.BOSSRUSH
+
+func is_multiplayer():
+	return self.current_gamemode == gamemode.BATTLEMODE
+
+func is_campaign_mode():
+	return self.current_gamemode == gamemode.CAMPAIGN
+
+func is_boss_rush_mode():
+	return self.current_gamemode == gamemode.BOSSRUSH
+
+func is_battle_mode():
+	return self.current_gamemode == gamemode.BATTLEMODE

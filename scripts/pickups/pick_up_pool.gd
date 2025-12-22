@@ -5,20 +5,21 @@ class_name PickupPool extends ObjectPool
 @export var explosion_boost: int = 5
 @export var speed_boost: int = 4
 @export var speed_down: int = 2
-var heart: int = 1 #BANNED - Absolutely unfun
+@export var heart: int = 1
 @export var max_explosion: int = 1
 @export var punch_ability: int = 2
 @export var throw_ability: int = 2
-var wallthrough: int = 1 #BANNED - Unfun
-var timer: int = 1 #BANNED - Absolutely not.
-var invincibility_vest: int = 1 #BANNED - Major bugs, unfun
+@export var wallthrough: int = 1
+@export var timer: int = 1
+@export var invincibility_vest: int = 1
 @export var virus: int = 1
 @export var kick: int = 2
-var bombthrough: int = 1 #BANNED - Unfun
+@export var bombthrough: int = 1
 @export var piercing_bomb: int = 1
 @export var land_mine: int = 1
 @export var remote_control: int = 1
-#@export var seeker_bomb: int = 0
+#@export var seeker_bomb: int = 1
+@export var mount_goon: int = 1
 
 #NOTE: If we have a rate table for each pickup we could dynamically calculate the expected value to set initial spawn count
 @onready var initial_spawn_counts := {
@@ -40,6 +41,7 @@ var bombthrough: int = 1 #BANNED - Unfun
 	globals.pickups.MINE: land_mine,
 	globals.pickups.REMOTE: remote_control,
 	#globals.pickups.SEEKER: seeker_bomb,
+	globals.pickups.MOUNTGOON: mount_goon
 	}
 
 func _ready():

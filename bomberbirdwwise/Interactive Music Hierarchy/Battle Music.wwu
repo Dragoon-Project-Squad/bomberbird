@@ -133,6 +133,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<MusicTrack Name="rush_intro" ID="{75EF9774-AD91-42E6-A604-95AAB7A7C4F5}" ShortID="563601136">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="OutputBus">
 															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
@@ -221,6 +228,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<MusicTrack Name="rush_loop" ID="{49C160DA-52B2-47C8-9DCE-7809A92EE083}" ShortID="658307709">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="OutputBus">
 															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
@@ -355,6 +369,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<MusicTrack Name="dad drive_loop" ID="{CF898CAA-D061-4125-A25F-9E34FC57DC28}" ShortID="1036116567">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="OutputBus">
 															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
@@ -430,6 +451,13 @@
 									</ChildrenList>
 								</MusicPlaylistContainer>
 								<MusicPlaylistContainer Name="minki" ID="{2906055F-739C-465C-B007-2578EC973F55}" ShortID="406692718">
+									<PropertyList>
+										<Property Name="MakeUpGain" Type="Real64">
+											<ValueList>
+												<Value>6</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
@@ -475,7 +503,7 @@
 									<ChildrenList>
 										<MusicSegment Name="minki_loop" ID="{34F98764-4060-4666-A187-FBD821BFFA19}" ShortID="627364629">
 											<PropertyList>
-												<Property Name="EndPosition" Type="Real64" Value="200275.854166667"/>
+												<Property Name="EndPosition" Type="Real64" Value="200275.873279225"/>
 												<Property Name="OverrideClockSettings" Type="bool" Value="True"/>
 												<Property Name="Tempo" Type="Real64" Value="145"/>
 											</PropertyList>
@@ -488,14 +516,14 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<MusicTrack Name="minki_loop" ID="{D2183173-0B98-4351-831E-27BFE1DD6342}" ShortID="857029128">
+												<MusicTrack Name="minki_4" ID="{7FABE0B5-8F0D-400D-BD21-EB4A694A5F8C}" ShortID="982821246">
 													<ReferenceList>
 														<Reference Name="OutputBus">
 															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
 														</Reference>
 														<Reference Name="TransitionRoot">
 															<Custom>
-																<MusicTransition Name="Root" ID="{A6C99431-09B9-46C9-8677-E6DAFB9E706F}">
+																<MusicTransition Name="Root" ID="{B4D4433F-348E-4475-89D2-33849B4F6DFF}">
 																	<PropertyList>
 																		<Property Name="IsFolder" Type="bool" Value="True"/>
 																	</PropertyList>
@@ -505,11 +533,11 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="minki_loop" ID="{BC85D94B-0F78-43F5-9983-2CAD1B18E1AF}">
+														<AudioFileSource Name="mint boss fight_2" ID="{D941B528-311A-4E68-8329-5E065C4CFEB5}">
 															<Language>SFX</Language>
-															<AudioFile>minki_loop.wav</AudioFile>
+															<AudioFile>mint boss fight_2.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="510097468"/>
+																<MediaID ID="569066806"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -517,18 +545,18 @@
 														<ObjectList Name="Sequences">
 															<Reference>
 																<Local>
-																	<MusicTrackSequence Name="" ID="{F1B84393-74BB-44FA-8764-246FBDDF7AE8}">
+																	<MusicTrackSequence Name="" ID="{FC8A4D0A-2E16-40E3-BAC4-CCBEB82DD434}">
 																		<ObjectLists>
 																			<ObjectList Name="Clips">
 																				<Reference>
 																					<Local>
-																						<MusicClip Name="minki_loop" ID="{91EBB952-9742-4CF6-93BE-09582E13160F}">
+																						<MusicClip Name="mint boss fight_2" ID="{22886BB3-AC6F-4AC9-BF3D-77C8F4824EFC}">
 																							<PropertyList>
-																								<Property Name="EndTrimOffset" Type="Real64" Value="200275.854166667"/>
+																								<Property Name="EndTrimOffset" Type="Real64" Value="200275.873015873"/>
 																								<Property Name="FadeInMode" Type="int16" Value="0"/>
 																								<Property Name="FadeOutMode" Type="int16" Value="0"/>
 																							</PropertyList>
-																							<AudioSourceRef Name="minki_loop" ID="{BC85D94B-0F78-43F5-9983-2CAD1B18E1AF}"/>
+																							<AudioSourceRef Name="mint boss fight_2" ID="{D941B528-311A-4E68-8329-5E065C4CFEB5}"/>
 																						</MusicClip>
 																					</Local>
 																				</Reference>
@@ -553,7 +581,7 @@
 															<MusicCue Name="Exit Cue" ID="{BCCF4538-41C4-455A-AA3E-E0C0336DA002}">
 																<PropertyList>
 																	<Property Name="CueType" Type="int16" Value="1"/>
-																	<Property Name="TimeMs" Type="Real64" Value="200275.854166667"/>
+																	<Property Name="TimeMs" Type="Real64" Value="200275.872166667"/>
 																</PropertyList>
 															</MusicCue>
 														</Local>
@@ -623,6 +651,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<MusicTrack Name="bountyhunterjam_loop" ID="{A81F4A85-C696-4A3C-8816-86C82368D0DB}" ShortID="493946410">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="OutputBus">
 															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
@@ -827,6 +862,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<MusicTrack Name="rush_intro" ID="{3ADF0257-3525-4D0F-9732-EA4176622D91}" ShortID="330965020">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="OutputBus">
 															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
@@ -915,6 +957,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<MusicTrack Name="rush_loop" ID="{C6A018A8-1C57-4904-822C-101403C73403}" ShortID="644836795">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="OutputBus">
 															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
@@ -1003,6 +1052,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<MusicTrack Name="dad drive_loop" ID="{36EA5D2C-F1E1-4161-ABDC-A937F00B63B9}" ShortID="442525272">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="OutputBus">
 															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
@@ -1091,6 +1147,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<MusicTrack Name="bountyhunterjam_loop" ID="{E986005C-54F8-4B18-A092-469A03185BD1}" ShortID="552020052">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="OutputBus">
 															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
@@ -1179,6 +1242,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<MusicTrack Name="minki_loop" ID="{55E1E2AD-6804-46F6-94C2-7C9FD2CA5203}" ShortID="38068855">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="OutputBus">
 															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
