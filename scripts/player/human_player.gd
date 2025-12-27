@@ -6,6 +6,7 @@ var set_bomb_pressed_once := false
 var punch_pressed_once := false
 var is_carrying_bomb := false
 var bomb_hold_timer := 0.0
+var jump_cooldown := 0.0
 
 func _ready():
 	player_type = "human"
@@ -59,12 +60,14 @@ func _physics_process(delta: float):
 	else:
 		# The client simply updates the position to the last known one.
 		position = synced_position
-
 	
 	if time_is_stopped:
 		update_animation(Vector2.ZERO, last_movement_vector)
 		return
 	if stop_movement || outside_of_game: return
+	if is_jumping: 
+		mounted_jump_process(delta)
+		return
 	last_movement_vector = inputs.motion.normalized()
 	
 	var direction: Vector2 = (
@@ -83,9 +86,13 @@ func _physics_process(delta: float):
 	elif !inputs.punch_ability and punch_pressed_once:
 		punch_pressed_once = false
 	
+	jump_cooldown += delta
 	if not stunned and inputs.secondary_ability:
 		if is_mounted:
 			kick_breakable(direction)
+			if jump_cooldown >= 5.0:
+				mounted_jump(direction)
+				jump_cooldown = 0.0
 		else:
 			kick_bomb(direction)
 
@@ -116,7 +123,13 @@ func _physics_process(delta: float):
 	
 	if inputs.remote_ability:
 		call_remote_bomb()
-		
+	
+	#mount movement sounds
+	if velocity.x != 0 or velocity.y != 0:
+		if is_mounted:
+			if mount_step_timer.time_left == 0:
+				mount_step_timer.start()
+				Wwise.post_event("snd_cockobo_footstep", self)
 
 @rpc("call_local")
 func reset():

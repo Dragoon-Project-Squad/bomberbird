@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://bao3yernlglws"]
+[gd_scene load_steps=9 format=3 uid="uid://bao3yernlglws"]
 
 [ext_resource type="Script" uid="uid://bq0qs07pxk3mm" path="res://scripts/breakable.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://ckqu3x0hcmuux" path="res://assets/tilesetimages/desert_obstacles.png" id="2_kwo4r"]
+[ext_resource type="WwiseEvent" uid="uid://blvw6tqmkggb1" path="res://Wwise/resources/Event/{58C512CA-C516-4006-9564-AA5EFDE9753B}.tres" id="3_u38ci"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(30, 30)
@@ -66,3 +67,6 @@ shape = SubResource("1")
 libraries = {
 &"": SubResource("AnimationLibrary_6pqaw")
 }
+
+[node name="BreakableSound" type="AkEvent2D" parent="."]
+event = ExtResource("3_u38ci")

@@ -418,4 +418,10 @@ replication_config = SubResource("SceneReplicationConfig_w53uu")
 [node name="HurtSoundPlayer" type="AkEvent2D" parent="."]
 event = ExtResource("10_jvckf")
 
+[node name="MountStepTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.15
+one_shot = true
+
 [connection signal="current_animation_changed" from="AnimationPlayer" to="." method="_cur_anim_changed"]
+[connection signal="timeout" from="MountStepTimer" to="." method="_on_mount_step_timer_timeout"]

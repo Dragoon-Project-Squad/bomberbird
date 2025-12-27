@@ -38,6 +38,8 @@ const INVULNERABILITY_POWERUP_TIME: float = 16.0
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var invul_player: AnimationPlayer = $InvulPlayer
 
+@onready var mount_step_timer := $MountStepTimer
+
 var current_anim: String = ""
 var is_mounted: bool = false
 var _died_barrier: bool = false
@@ -97,6 +99,16 @@ const AUTODROP_INTERVAL = 3
 
 enum mount_ability {NONE = 0, BREAKABLEPUSH, JUMP, MOUNTKICK, RAPIDBOMB, CHARGE, PUNCH}
 var current_mount_ability := 0
+var jump_config: Dictionary[String, Variant] = {
+	"direction": Vector2.ZERO,
+	"origin": Vector2.ZERO,
+	"target":Vector2.ZERO,
+	"time": 0.0,
+	"total_time": 0.75,
+	"shadow_offset": Vector2.ZERO,
+	"shadow_relpos": Vector2.ZERO,
+}
+var is_jumping := false
 
 func _ready():
 	player_died.connect(globals.player_manager._on_player_died)
@@ -330,9 +342,9 @@ func register_remote_bomb():
 #endregion
 
 #region mount abilities
-
+## kick a breakable
 func kick_breakable(direction: Vector2i):
-	if (globals.game.stage_done): return
+	if globals.game.stage_done: return
 	if current_mount_ability != mount_ability.BREAKABLEPUSH: return
 	
 	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
@@ -345,9 +357,9 @@ func kick_breakable(direction: Vector2i):
 		return 1
 	box_pushed.push.rpc(direction)
 
-
+## punch any enemy in front of the player
 func punch_enemy():
-	if (globals.game.stage_done): return
+	if globals.game.stage_done: return
 	if current_mount_ability != mount_ability.PUNCH: return
 	
 	var bodies: Array[Node2D] = $FrontArea.get_overlapping_bodies()
@@ -355,6 +367,68 @@ func punch_enemy():
 		if body.has_method("do_stun"):
 			body.do_stun.rpc()
 
+## calculates and configs the jump parameters
+func mounted_jump(direction: Vector2):
+	if globals.game.stage_done: return
+	if current_mount_ability != mount_ability.JUMP: return
+	jump_config.direction = direction
+	jump_config.origin = global_position
+	var target = global_position + (direction * TILE_SIZE * 2)
+	var landing_check := func checker(pos: Vector2) -> bool:
+		return (
+			world_data.is_out_of_bounds(pos) == world_data.bounds.IN
+			and (
+			world_data.is_tile(world_data.tiles.EMPTY, pos)
+			or world_data.is_tile(world_data.tiles.PICKUP, pos)
+			)
+		)
+		
+	while not landing_check.call(target):
+		target -= direction * 4
+		if global_position.direction_to(target) != direction:
+			target = global_position
+			break
+	if world_data.tile_map.map_to_local(global_position) == world_data.tile_map.map_to_local(target):
+		target = global_position
+	else:
+		if not landing_check.call(target + direction * 16):
+			target -= direction * 12
+		if not landing_check.call(target - direction * 16):
+			target += direction * 12
+
+	jump_config.target = target
+	jump_config.shadow_offset = $shadowsprite.global_position
+	jump_config.shadow_relpos = $shadowsprite.position
+	invulnerable = true
+	is_jumping = true
+
+## The actual jump animation function. Should be called in [param _physics_process]
+func mounted_jump_process(delta: float) -> void:
+	jump_config.time += delta
+	var origin: Vector2 = jump_config.origin
+	var target: Vector2 = jump_config.target
+	var weight: float = jump_config.time / jump_config.total_time
+	var curve := Vector2.ZERO
+	var midpoint := Vector2.ZERO
+	if jump_config.direction == Vector2.LEFT or jump_config.direction == Vector2.RIGHT:
+		midpoint = Vector2((origin.x + target.x) / 2, origin.y - (TILE_SIZE * 0.9))
+	else:
+		midpoint = Vector2(origin.x, (origin.y + target.y) / 2 - (TILE_SIZE * 1.5))
+	curve = (origin.lerp(midpoint, weight)).lerp(midpoint.lerp(target, weight), weight)
+	var shadow: Sprite2D = $shadowsprite
+	if jump_config.time <= jump_config.total_time:
+		global_position = curve
+		# show where the player is landing
+		if jump_config.direction == Vector2.UP or jump_config.direction == Vector2.DOWN:
+			shadow.global_position.x = jump_config.shadow_offset.x
+		else:
+			shadow.global_position.y = jump_config.shadow_offset.y
+	else:
+		position = jump_config.target
+		shadow.position = jump_config.shadow_relpos
+		jump_config.time = 0.0
+		is_jumping = false
+		invulnerable = false
 
 #endregion
 
@@ -607,6 +681,7 @@ func mount_dragoon():
 	invulnerable = true
 	stunned = true
 	assign_mount_ability()
+	Wwise.post_event("snd_cockobo_summon", self)
 	animation_player.play("player_animations/mount_summoned")
 	await animation_player.animation_finished
 	invulnerable = false
@@ -641,6 +716,7 @@ func remove_mount_ability() -> void:
 	
 @rpc("call_local")
 func mount_exploded() -> void:
+	Wwise.post_event("snd_cockobo_die", self)
 	is_mounted = false
 	set_sprite_to_walk()
 	reset_graphic_positions()
@@ -813,6 +889,6 @@ func stop_time(user: String, is_player: bool):
 func start_time():
 	self.time_is_stopped = false
 
-func _cur_anim_changed(anim_name: String):
-	#print(self.name, " plays ", anim_name)
+func _cur_anim_changed(_anim_name: String):
+	#print(self.name, " plays ", _anim_name)
 	pass
