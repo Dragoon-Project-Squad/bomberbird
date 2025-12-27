@@ -49,7 +49,7 @@ jobs:
         relative_project_path: ./
         archive_output: true
         #cache: true
-        #export_debug: true
+        export_debug: true
         #wine_path: ${{ steps.wine_install.outputs.WINE_PATH }} DISABLED TEMPORARILY set the wine path here which is the output of the wine_install step
 
       # This release action has worked well for me. However, you can most likely use any release action of your choosing.
