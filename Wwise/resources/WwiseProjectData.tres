@@ -135,11 +135,8 @@ guid = "{AF41BCA1-3B3D-4DB7-A468-8A67F0390435}"
 id = 393239870
 
 [sub_resource type="WwiseTreeObject" id="WwiseTreeObject_5n8hf"]
-path = "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus"
 children = [SubResource("WwiseTreeObject_yyrou"), SubResource("WwiseTreeObject_geu6g")]
-type = 2
 name = "Master Audio Bus"
-guid = "{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}"
 id = 3803692087
 
 [sub_resource type="WwiseTreeObject" id="WwiseTreeObject_tnib1"]
@@ -312,8 +309,8 @@ guid = "{9D6DA87B-53C0-4DE0-AA78-0763BAA77441}"
 id = 4032985042
 
 [sub_resource type="WwiseTreeObjectEvent" id="WwiseTreeObjectEvent_orwwv"]
-max_duration = 0.154418
-min_duration = 0.114024
+max_duration = 0.15441783
+min_duration = 0.11402415
 path = "\\Events\\Default Work Unit\\sfx\\gameplay\\cockobo\\snd_cockobo_footstep"
 type = 3
 name = "snd_cockobo_footstep"
@@ -335,8 +332,8 @@ name = "cockobo"
 id = 1464323665
 
 [sub_resource type="WwiseTreeObjectEvent" id="WwiseTreeObjectEvent_2m8v7"]
-max_duration = 0.828792
-min_duration = 0.828792
+max_duration = 0.8287917
+min_duration = 0.8287917
 path = "\\Events\\Default Work Unit\\sfx\\gameplay\\snd_bomb_explode"
 type = 3
 name = "snd_bomb_explode"
@@ -371,8 +368,8 @@ guid = "{0333EAEF-F64E-4F40-BFEF-2089F8413F47}"
 id = 712210112
 
 [sub_resource type="WwiseTreeObjectEvent" id="WwiseTreeObjectEvent_85ijg"]
-max_duration = 0.940708
-min_duration = 0.940708
+max_duration = 0.94070834
+min_duration = 0.94070834
 path = "\\Events\\Default Work Unit\\sfx\\gameplay\\snd_place_bomb"
 type = 3
 name = "snd_place_bomb"

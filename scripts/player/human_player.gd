@@ -129,7 +129,6 @@ func _physics_process(delta: float):
 		if is_mounted:
 			if mount_step_timer.time_left == 0:
 				mount_step_timer.start()
-				print("plap")
 				Wwise.post_event("snd_cockobo_footstep", self)
 
 @rpc("call_local")
