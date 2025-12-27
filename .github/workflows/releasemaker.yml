@@ -21,7 +21,9 @@ jobs:
       # Always include the checkout step so that 
       # your project is available for Godot to export
     - name: checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6.0.1
+      with:
+        lfs: 'true'
       # Enable the following once issues are resolved
     - name: Install Wwise dependencies
       if: runner.os == 'Linux'
