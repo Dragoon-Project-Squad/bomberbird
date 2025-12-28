@@ -79,15 +79,16 @@ var defaultcredits = [ #DO NOT REMOVE, This is here to allow smooth reloads.
 		"Kyle873",
 		"JohnnyLacone",
 	],[
-		"Developed with Godot Engine",
-		"https://godotengine.org/license",
-	],[
 		"Fonts",
 		"Thaleah Fat by Rick Hoppmann",
 	],[
+		"Developed with Godot Engine",
+		"https://godotengine.org/license",
+	],[
+		"Powered by Wwise Copyright 2006 – 2026 Audiokinetic Inc. All rights reserved.",
+	],[
 		"Special Thanks",
-		"Dragoon Project Squad",
-		"Super B*mberman R's Netcode"
+		"Dragoon Project Squad"
 	],[
 		"And of course",
 		"Dokibird"
