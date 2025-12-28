@@ -38,6 +38,8 @@ func load_chosen_stage() -> String:
 			stage_path_to_load = globals.DUNGEON_RAND_STAGE_PATH
 		SettingsContainer.multiplayer_stages_secret_enabled.LAB:
 			stage_path_to_load = globals.LAB_RAND_STAGE_PATH
+		SettingsContainer.multiplayer_stages_secret_enabled.SCHOOL:
+			stage_path_to_load = globals.SCHOOL_RAND_STAGE_PATH
 		SettingsContainer.multiplayer_stages_secret_enabled.SECRET:
 			stage_path_to_load = globals.SECRET_RAND_STAGE_PATH
 		_:
@@ -54,28 +56,27 @@ func wipe_stage():
 	reset()
 	stage.reset()
 	stage.disable()
-	
-func defuse_all_bombs():
-	var bombs: Array[BombRoot] = Array($BombPool.get_children().filter(func (p): return (p is BombRoot)), TYPE_OBJECT, "Node2D", BombRoot)
-	if is_multiplayer_authority():
-		for bomb in bombs:
-			bomb.disable.rpc()
-			
-func lock_misobon():
-	var misoplayers: Array[MisobonPlayer] = Array($MisobonPath.get_children().filter(func (p): return (p is MisobonPlayer)), TYPE_OBJECT, "PathFollow2D", MisobonPlayer)
-	if is_multiplayer_authority():
-		for misoplayer in misoplayers:
-			misoplayer.disable_at_end_of_round.rpc()
 
 func start_stage_start_countdown() -> Signal:
 	game_anim_player.play("countdown")
 	return game_anim_player.animation_finished
+	#Animation contains unfreeze_players()
+	#Animation contains activate_ui_and_music()
 
 func activate_ui_and_music():
 	stage.start_music()
 	%MatchTimer.start()
 	game_ui.start_timer()
 	
+func load_new_stage():
+	stage_done = true
+	start.call_deferred()
+	
+func show_all_players():
+	var players: Array[Player] = globals.player_manager.get_players()
+	for player in players:
+		player.show()
+
 func freeze_players():
 	var players: Array[Player] = globals.player_manager.get_players()
 	for player in players:
@@ -91,35 +92,7 @@ func hide_all_players():
 	for player in players:
 		player.hide()
 			
-func show_all_players():
-	var players: Array[Player] = globals.player_manager.get_players()
-	for player in players:
-		player.show()
 			
-func load_new_stage():
-	stage_done = true
-	start.call_deferred()
-
-func stop_the_match():
-	game_ended = true
-	stage.stop_music()
-	stage.stop_hurry_up()
-	%MatchTimer.stop()
-	game_ui.stop_timer()
-	lock_misobon()
-	defuse_all_bombs()
-	# Halt Hurry Up
-	
-func play_fade_out():
-	game_anim_player.play("fade_out")
-	await game_anim_player.animation_finished
-	hide_all_players()
-
-@rpc("call_local")
-func show_victory_screen(player_data):
-	gamestate.player_data_master_dict = player_data.duplicate()
-	get_tree().call_deferred("change_scene_to_file","res://scenes/victory_screen.tscn")
-	
 ## checks if there is only 1 alive player if so makes that player win, if there is no player is draws the game and for any other state this function does nothing
 func _check_ending_condition(_alive_enemies: int = 0):
 	if game_ended: 
@@ -154,6 +127,38 @@ func _check_ending_condition(_alive_enemies: int = 0):
 			load_new_stage()
 		return
 
+func stop_the_match():
+	game_ended = true
+	stage.stop_music()
+	stage.stop_hurry_up()
+	if not %MatchTimer.is_stopped():
+		%MatchTimer.stop()
+		game_ui.stop_timer()
+	disable_misobon()
+	defuse_all_bombs()
+	
+func disable_misobon():
+	var misoplayers: Array[MisobonPlayer] = Array($MisobonPath.get_children().filter(func (p): return (p is MisobonPlayer)), TYPE_OBJECT, "PathFollow2D", MisobonPlayer)
+	if is_multiplayer_authority():
+		for misoplayer in misoplayers:
+			misoplayer.disable_at_end_of_round.rpc()
+
+func defuse_all_bombs():
+	var bombs: Array[BombRoot] = Array($BombPool.get_children().filter(func (p): return (p is BombRoot)), TYPE_OBJECT, "Node2D", BombRoot)
+	if is_multiplayer_authority():
+		for bomb in bombs:
+			bomb.disable.rpc()
+
+func play_fade_out():
+	game_anim_player.play("fade_out")
+	await game_anim_player.animation_finished
+	hide_all_players()
+
+@rpc("call_local")
+func show_victory_screen(player_data):
+	gamestate.player_data_master_dict = player_data.duplicate()
+	get_tree().call_deferred("change_scene_to_file","res://scenes/victory_screen.tscn")
+
 func _on_game_error(errtxt):
 	if is_inside_tree():
 		$ErrorDialog.dialog_text = errtxt
@@ -165,3 +170,16 @@ func _on_error_dialog_confirmed() -> void:
 		gamestate.peer.close()
 	if is_inside_tree():
 		get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+
+
+func _on_multiplayer_game_ui_matchtimer_timeout() -> void:
+	#DRAW GAME DUE TO TIME
+	stop_the_match()
+	freeze_players()
+	await play_fade_out()
+	await get_tree().create_timer(2).timeout
+	#RESET GAME STATE
+	reset_players() 
+	wipe_stage() #Must occur after players reset to avoid AI pathing error.
+	#LOAD NEW STAGE
+	load_new_stage()

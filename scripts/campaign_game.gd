@@ -10,6 +10,7 @@ const MATCH_TIME: int = 180
 
 var stage_handler: StageHandler
 
+var init_score: int = 0
 var score: int = 0:
 	set(val):
 		score = min(val, 999999)
@@ -110,6 +111,7 @@ func next_stage(id: int, player: HumanPlayer):
 	gamestate.current_level += 1
 	
 	fade.play("fade_out")
+	soft_reset_players()
 	await fade.animation_finished
 
 	# disable the old stage
@@ -283,7 +285,7 @@ func init_new_save():
 	gamestate.current_save.exit_count = exit_sum
 	gamestate.current_save.stage_count = len(stage_data_arr)
 	gamestate.current_save.last_stage = 0
-	gamestate.current_save.current_score = 0
+	init_score = gamestate.current_save.current_score
 	gamestate.current_save.has_finished = false
 	gamestate.current_save.fresh_save = false
 
@@ -293,7 +295,7 @@ func save_on_finish(new_score: int, player: HumanPlayer):
 
 func save_on_restart():
 	gamestate.current_save.last_stage = 0
-	gamestate.current_save.current_score = 0
+	gamestate.current_save.current_score = init_score
 
 func update_save(next_stage_idx: int, this_stage_idx: int, new_score: int, player: HumanPlayer):
 	gamestate.current_save.last_stage = next_stage_idx

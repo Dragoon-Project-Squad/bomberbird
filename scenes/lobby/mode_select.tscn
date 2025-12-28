@@ -1,0 +1,183 @@
+[gd_scene load_steps=4 format=3 uid="uid://dtkyb1rk23fmb"]
+
+[ext_resource type="Script" uid="uid://o0ofat2vxprn" path="res://scripts/ui/lobby/mode_select.gd" id="1_nkq8c"]
+[ext_resource type="Theme" uid="uid://bgj72vffexht" path="res://assets/styles/panel_theme.tres" id="1_xfevh"]
+[ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="2_nkq8c"]
+
+[node name="ModeSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nkq8c")
+
+[node name="Back" type="Button" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -81.0
+offset_right = 80.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+focus_neighbor_top = NodePath("../../Saves/Right/SaveSelectButton_6")
+focus_neighbor_bottom = NodePath("../../Saves/Right/SaveSelectButton_4")
+focus_next = NodePath("../../Saves/Left/SaveSelectButton_1")
+theme = ExtResource("1_xfevh")
+theme_override_font_sizes/font_size = 46
+text = "Back"
+icon_alignment = 1
+script = ExtResource("2_nkq8c")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
+
+[node name="DescriptionPanel" type="Panel" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = 20.0
+offset_top = 30.0
+offset_right = 392.0
+offset_bottom = 528.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+theme = ExtResource("1_xfevh")
+
+[node name="Title" type="Label" parent="DescriptionPanel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -101.5
+offset_top = 10.0
+offset_right = 101.5
+offset_bottom = 43.0
+grow_horizontal = 2
+size_flags_horizontal = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 35
+text = "DESCRIPTIOn"
+horizontal_alignment = 1
+
+[node name="ShortCampaignDescription" type="Label" parent="DescriptionPanel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = 50.0
+offset_right = -30.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+text = "IDK WHAT TO WRITE HERE YET BUT IT SHOULD DESCRIBE WHAT THE SHORT CAMPAIGN IS"
+autowrap_mode = 3
+
+[node name="CampaignDescription" type="Label" parent="DescriptionPanel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = 50.0
+offset_right = -30.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+text = "IDK WHAT TO WRITE HERE YET BUT IT SHOULD DESCRIBE WHAT THE CAMPAIGN IS"
+autowrap_mode = 3
+
+[node name="BossRushDescription" type="Label" parent="DescriptionPanel"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = 50.0
+offset_right = -30.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+text = "IDK WHAT TO WRITE HERE YET BUT IT SHOULD DESCRIBE WHAT THE BOSS RUSH IS"
+autowrap_mode = 3
+
+[node name="ButtonBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -135.0
+offset_bottom = 75.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/separation = 50
+
+[node name="Short Campaign" type="Button" parent="ButtonBox"]
+custom_minimum_size = Vector2(450, 40)
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../BossRush")
+theme = ExtResource("1_xfevh")
+theme_override_font_sizes/font_size = 60
+text = "Short Campaign"
+script = ExtResource("2_nkq8c")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
+
+[node name="Campaign" type="Button" parent="ButtonBox"]
+custom_minimum_size = Vector2(300, 40)
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../BossRush")
+theme = ExtResource("1_xfevh")
+theme_override_font_sizes/font_size = 60
+text = "Campaign"
+script = ExtResource("2_nkq8c")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
+
+[node name="BossRush" type="Button" parent="ButtonBox"]
+custom_minimum_size = Vector2(300, 40)
+layout_mode = 2
+focus_neighbor_top = NodePath("../Campaign")
+theme = ExtResource("1_xfevh")
+theme_override_font_sizes/font_size = 60
+text = "Boss Rush"
+script = ExtResource("2_nkq8c")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
+
+[connection signal="enter_boss_rush_mode" from="." to="." method="_exit"]
+[connection signal="enter_campaign_mode" from="." to="." method="_exit"]
+[connection signal="enter_short_campaign_mode" from="." to="." method="_exit"]
+[connection signal="mode_select_back" from="." to="." method="_exit"]
+[connection signal="pressed" from="Back" to="." method="_on_back_pressed"]
+[connection signal="focus_entered" from="ButtonBox/Short Campaign" to="." method="_on_campaign_hover"]
+[connection signal="focus_exited" from="ButtonBox/Short Campaign" to="." method="_exit"]
+[connection signal="mouse_entered" from="ButtonBox/Short Campaign" to="." method="_on_campaign_hover"]
+[connection signal="mouse_exited" from="ButtonBox/Short Campaign" to="." method="_exit"]
+[connection signal="pressed" from="ButtonBox/Short Campaign" to="." method="_on_short_campaign_pressed"]
+[connection signal="focus_entered" from="ButtonBox/Campaign" to="." method="_on_campaign_hover"]
+[connection signal="focus_exited" from="ButtonBox/Campaign" to="." method="_exit"]
+[connection signal="mouse_entered" from="ButtonBox/Campaign" to="." method="_on_campaign_hover"]
+[connection signal="mouse_exited" from="ButtonBox/Campaign" to="." method="_exit"]
+[connection signal="pressed" from="ButtonBox/Campaign" to="." method="_on_campaign_pressed"]
+[connection signal="focus_entered" from="ButtonBox/BossRush" to="." method="_on_boss_rush_hover"]
+[connection signal="focus_exited" from="ButtonBox/BossRush" to="." method="_exit"]
+[connection signal="mouse_entered" from="ButtonBox/BossRush" to="." method="_on_boss_rush_hover"]
+[connection signal="mouse_exited" from="ButtonBox/BossRush" to="." method="_exit"]
+[connection signal="pressed" from="ButtonBox/BossRush" to="." method="_on_boss_rush_pressed"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://c0l1co0tqgs35"]
+[gd_scene load_steps=36 format=3 uid="uid://c0l1co0tqgs35"]
 
 [ext_resource type="Script" uid="uid://c2f6wib7o63aw" path="res://scripts/enemy/boss.gd" id="1_52d43"]
 [ext_resource type="Script" uid="uid://dfosda1bstp2m" path="res://resources/gameplay/held_pickups.gd" id="2_6ojfo"]
@@ -101,6 +101,56 @@ _data = {
 &"spin": SubResource("Animation_0x7uk")
 }
 
+[sub_resource type="Animation" id="Animation_jvckf"]
+resource_name = "Invul"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("shadowsprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_5hw36"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7v3pb"]
+_data = {
+&"Invul": SubResource("Animation_jvckf"),
+&"RESET": SubResource("Animation_5hw36")
+}
+
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hwcqj"]
 
 [node name="AltDokiBoss" type="CharacterBody2D" node_paths=PackedStringArray("ability_detector", "detection_handler") groups=["thrown_bomb_bounces"]]
@@ -152,7 +202,7 @@ shape = SubResource("CircleShape2D_i1su5")
 collision_layer = 0
 collision_mask = 8
 script = ExtResource("7_u1mgm")
-use_ability = 0.3
+use_ability = 0.2
 stop_kick = 0.6
 do_throw = 0.6
 
@@ -189,6 +239,11 @@ libraries = {
 &"enemy": ExtResource("9_xiwym")
 }
 
+[node name="InvulPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_7v3pb")
+}
+
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 root_path = NodePath("../StateMachine")
 replication_config = SubResource("SceneReplicationConfig_hwcqj")
@@ -221,7 +276,7 @@ idle_time = 0.8
 script = ExtResource("16_neyqp")
 chase_min_dist = 2
 chase_max_dist = 4
-recheck_distance = 3
+recheck_distance = 5
 
 [node name="Punch" type="Node" parent="StateMachine"]
 script = ExtResource("17_mbljd")

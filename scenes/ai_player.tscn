@@ -1,9 +1,10 @@
-[gd_scene load_steps=24 format=3 uid="uid://c2q3ttulq4cmu"]
+[gd_scene load_steps=29 format=3 uid="uid://c2q3ttulq4cmu"]
 
 [ext_resource type="Script" uid="uid://tf4lqf0ig6p4" path="res://scripts/player/ai_player.gd" id="1_ql62k"]
 [ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_oae17"]
 [ext_resource type="Script" uid="uid://dfosda1bstp2m" path="res://resources/gameplay/held_pickups.gd" id="2_xhrxh"]
 [ext_resource type="Texture2D" uid="uid://lckm0mdablaw" path="res://assets/player/chonkgoon_walk.png" id="3_5pkqt"]
+[ext_resource type="Texture2D" uid="uid://b2ae4utsdlg6k" path="res://assets/player/only_mount.png" id="4_2solf"]
 [ext_resource type="Texture2D" uid="uid://cx0pgv7haa1th" path="res://assets/explosion/kennynl_pixel_explosion_sheet.png" id="4_e087y"]
 [ext_resource type="FontFile" uid="uid://knb8u535cfkw" path="res://montserrat.otf" id="5_qbktl"]
 [ext_resource type="AnimationLibrary" uid="uid://b6igytp0a077" path="res://animations/player_animations.tres" id="5_vobde"]
@@ -14,6 +15,7 @@
 [ext_resource type="Script" uid="uid://boifqm64sjt73" path="res://scripts/ai_state/ai_dodge.gd" id="10_aefyb"]
 [ext_resource type="Script" uid="uid://b27rh453d1gqt" path="res://scripts/ai_state/ai_bomb.gd" id="11_njo8t"]
 [ext_resource type="Script" uid="uid://dprat677sf6sb" path="res://scripts/ai_state/ai_safe.gd" id="12_ulae3"]
+[ext_resource type="WwiseEvent" uid="uid://gcvy3qr42387" path="res://Wwise/resources/Event/{15332791-C615-4FDC-9DE2-3505AD1A2232}.tres" id="16_l5yvx"]
 
 [sub_resource type="Resource" id="Resource_2solf"]
 resource_local_to_scene = true
@@ -21,6 +23,7 @@ script = ExtResource("2_xhrxh")
 initial_bomb_type = 0
 initial_exlusive = 0
 initial_virus = 0
+initial_mountgoon = 0
 initial_bomb_up = 0
 initial_fire_up = 0
 initial_speed_up = 0
@@ -185,6 +188,56 @@ _data = {
 &"RESET": SubResource("Animation_xhrxh")
 }
 
+[sub_resource type="Animation" id="Animation_jvckf"]
+resource_name = "Invul"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("shadowsprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_5hw36"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7v3pb"]
+_data = {
+&"Invul": SubResource("Animation_jvckf"),
+&"RESET": SubResource("Animation_5hw36")
+}
+
 [sub_resource type="LabelSettings" id="LabelSettings_5huhx"]
 outline_size = 8
 outline_color = Color(0, 0, 0, 1)
@@ -238,6 +291,15 @@ position = Vector2(0, 8)
 scale = Vector2(1, 0.5)
 texture = ExtResource("2_oae17")
 
+[node name="MountSprite" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -8)
+texture = ExtResource("4_2solf")
+offset = Vector2(0, -9)
+hframes = 6
+vframes = 4
+frame = 18
+
 [node name="sprite" type="Sprite2D" parent="."]
 position = Vector2(0.0750351, 6.23615)
 rotation = -6.28319
@@ -285,6 +347,11 @@ libraries = {
 &"player_animations": ExtResource("5_vobde")
 }
 
+[node name="InvulPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_7v3pb")
+}
+
 [node name="label" type="Label" parent="."]
 offset_left = -82.0
 offset_top = -35.0
@@ -324,6 +391,12 @@ script = ExtResource("11_njo8t")
 script = ExtResource("12_ulae3")
 
 [node name="HurtSoundPlayer" type="AkEvent2D" parent="."]
+event = ExtResource("16_l5yvx")
+
+[node name="MountStepTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.15
+one_shot = true
 
 [connection signal="area_entered" from="ObjectDetection" to="." method="_on_object_detection_area_entered"]
 [connection signal="area_exited" from="ObjectDetection" to="." method="_on_object_detection_area_exited"]

@@ -18,9 +18,12 @@ const DEFAULT_BREAKABLE_CHANCE := 50.0
 # PICKUP
 const DEFAULT_PICKUP_SPAWN_RULE := 0
 const DEFAULT_PICKUP_CHANCE := 100.0
-# ???
-const DEFAULT_DATA_FLAG := ""
-
+# SECRETS
+const DEFAULT_MINT_FLAG := "X"
+const DEFAULT_SNUFFY_FLAG := "X"
+const DEFAULT_LAIMU_FLAG := "X"
+const DEFAULT_DOOBY_FLAG := "X"
+const DEFAULT_NIMI_FLAG := "X"
 
 # General Settings
 var points_to_win := 1
@@ -49,4 +52,4 @@ var is_sudden_death_enabled := false # Sudden Death Mode makes the Hurry Up bloc
 #Use the PickupPreset resource to manage Pickup Presets.
 
 #???
-@export var data_flag := ""
+@export var mint_flag := ""

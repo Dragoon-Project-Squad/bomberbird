@@ -23,8 +23,8 @@ const FUSES = {
 	SLOW_B = 0.75,
 	FAST = 2.0
 }
-var fuse_length := FUSES.NORMAL
-var cell_number: int
+var fuse_length: float = FUSES.NORMAL
+var cell_number: int = -1
 
 enum {DISABLED, STATIONARY, AIRBORN, SLIDING, SIZE} #all states plus a SIZE constant that has to remain the last entry
 var state: int = DISABLED #this is the authority if ever somehow two state nodes try to execute text_overrun_behavior
@@ -60,6 +60,7 @@ func disable() -> int:
 	self.position = Vector2.ZERO
 	self.fuse_time_passed = 0
 	self.type = HeldPickups.bomb_types.DEFAULT
+	self.cell_number = -1
 	for sig_dict in bomb_finished.get_connections():
 		sig_dict.signal.disconnect(sig_dict.callable)
 	set_state(DISABLED)
@@ -74,9 +75,9 @@ func set_bomb_owner(player_id: String):
 	self.bomb_owner = globals.player_manager.get_node(str(player_id))
 
 @rpc("call_local")
-func  set_bomb_number(number: int):
+func set_bomb_number(number: int):
 	if number >= 0:
-		cell_number = number
+		self.cell_number = number
 
 ## sets the addon
 @rpc("call_local")
@@ -190,7 +191,7 @@ func carry():
 		return
 	if self.type == HeldPickups.bomb_types.MINE:
 		return
-	self.in_use = false
+	self.in_use = false # this might be a problem if world reset happens while a player is carrying a bomb causing this bomb not be be reset properly
 	set_state(AIRBORN)
 
 @rpc("call_local")
@@ -199,7 +200,7 @@ func boss_carry(): # boss just be build different ig
 		return
 	if self.type == HeldPickups.bomb_types.MINE:
 		return
-	self.in_use = false
+	world_data.set_tile(world_data.tiles.EMPTY, self.global_position)	
 	set_state(AIRBORN)
 
 @rpc("call_local")
@@ -227,3 +228,8 @@ func stop_kick():
 	var bomb_auth := state_map[state]
 	bomb_auth.halt()
 	return 0
+
+func remote_call_recieved(number: int):
+	if state != STATIONARY: return # if bomb is not in a state to be exploded just dont
+	var bomb_auth := state_map[state]
+	bomb_auth.remote_call_recieved(number)

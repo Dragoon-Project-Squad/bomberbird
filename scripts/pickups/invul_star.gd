@@ -7,8 +7,8 @@ func _ready():
 func apply_power_up(pickup_owner: Node2D):
 	super(pickup_owner)
 	if pickup_owner is HumanPlayer: #If this is a human
-		pickup_owner.start_invul.rpc()
+		pickup_owner.do_invulnerabilty.rpc(Player.INVULNERABILITY_POWERUP_TIME)
 	elif pickup_owner is AIPlayer: #This is an AI
-		pickup_owner.start_invul()
+		pickup_owner.do_invulnerabilty(Player.INVULNERABILITY_POWERUP_TIME)
 	elif pickup_owner is Boss:
-		pickup_owner.start_invul()
+		pickup_owner.do_invulnerabilty(Player.INVULNERABILITY_POWERUP_TIME)

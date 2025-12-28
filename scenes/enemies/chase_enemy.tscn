@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cmgv1oltwsh3"]
+[gd_scene load_steps=17 format=3 uid="uid://cmgv1oltwsh3"]
 
 [ext_resource type="Script" uid="uid://dibr3o26b8gcx" path="res://scripts/enemy/enemy.gd" id="1_jtd0l"]
 [ext_resource type="Texture2D" uid="uid://cpi4w3fgdon0o" path="res://assets/player/playershadow.png" id="2_lxrh8"]
@@ -14,6 +14,56 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_i1su5"]
 radius = 9.0
+
+[sub_resource type="Animation" id="Animation_5hw36"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_jvckf"]
+resource_name = "Invul"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("shadowsprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7v3pb"]
+_data = {
+&"Invul": SubResource("Animation_jvckf"),
+&"RESET": SubResource("Animation_5hw36")
+}
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hwcqj"]
 
@@ -62,6 +112,12 @@ script = ExtResource("5_lxrh8")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"enemy": ExtResource("6_dk4by")
+}
+
+[node name="InvulPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../MultiplayerSynchronizer")
+libraries = {
+&"": SubResource("AnimationLibrary_7v3pb")
 }
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]

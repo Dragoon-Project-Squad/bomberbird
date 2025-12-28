@@ -1,35 +1,38 @@
-[gd_scene load_steps=3 format=3 uid="uid://btedou2ck0dq2"]
+[gd_scene load_steps=5 format=3 uid="uid://btedou2ck0dq2"]
 
 [ext_resource type="Theme" uid="uid://m30a0nncwbm0" path="res://assets/styles/options_menu.tres" id="1_02rl6"]
 [ext_resource type="Script" uid="uid://wou57u28uys4" path="res://scripts/ui/options_menu/audio_slider_settings.gd" id="1_cr6x5"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_13n86"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t7hn0"]
+
 [node name="AudioSliderSettings" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+size_flags_horizontal = 4
 script = ExtResource("1_cr6x5")
 bus_name = "SFX"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
+layout_mode = 1
+offset_right = 613.0
 offset_bottom = 40.0
 theme = ExtResource("1_02rl6")
 theme_override_constants/separation = 42
 
 [node name="AudioNameLabel" type="Label" parent="HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(202, 0)
 layout_mode = 2
-text = "Meme Volume"
+text = "Mememe Volume"
 
 [node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 10
+theme_override_styles/separator = SubResource("StyleBoxEmpty_13n86")
 
 [node name="HSlider" type="HSlider" parent="HBoxContainer"]
-custom_minimum_size = Vector2(200, 32)
+custom_minimum_size = Vector2(175, 32)
 layout_mode = 2
 size_flags_vertical = 1
 max_value = 1.0
@@ -37,10 +40,12 @@ step = 0.001
 
 [node name="VSeparator2" type="VSeparator" parent="HBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 10
+theme_override_styles/separator = SubResource("StyleBoxEmpty_t7hn0")
 
 [node name="AudioNumberLabel" type="Label" parent="HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 text = "999"
 
 [connection signal="value_changed" from="HBoxContainer/HSlider" to="." method="_on_value_changed"]

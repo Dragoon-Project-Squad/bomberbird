@@ -9,17 +9,18 @@
 
 [node name="HurryUpTimeSetting" type="Control"]
 layout_mode = 3
-anchors_preset = 15
+anchors_preset = 10
 anchor_right = 1.0
-anchor_bottom = 1.0
 grow_horizontal = 2
-grow_vertical = 2
+size_flags_horizontal = 4
 script = ExtResource("1_ea6ru")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
-offset_right = 1024.0
-offset_bottom = 64.0
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 32.0
+grow_horizontal = 2
 theme = ExtResource("1_v021r")
 theme_override_constants/separation = 42
 
@@ -38,7 +39,9 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_4k2yx")
 custom_minimum_size = Vector2(200, 32)
 layout_mode = 2
 size_flags_vertical = 1
+min_value = 30.0
 max_value = 600.0
+value = 30.0
 rounded = true
 
 [node name="VSeparator2" type="VSeparator" parent="HBoxContainer"]
