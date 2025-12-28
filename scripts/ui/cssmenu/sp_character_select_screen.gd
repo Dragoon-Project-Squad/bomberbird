@@ -30,9 +30,6 @@ signal characters_back_pressed
 
 func _ready() -> void:
 	reveal_secret_characters()
-	if mint_visible or globals.secrets.mint:
-		wisp.show()
-		mint.show()
 
 func reveal_secret_characters() -> void:
 	if mint_visible:
