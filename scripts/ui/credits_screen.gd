@@ -102,7 +102,7 @@ var credits = [
 		"Medi"
 	],[
 		"Programming Lead",
-		"[Patcheresu] Anton Namtet"
+		"Patcheresu"
 	],[
 		"Programming",
 		"Rhekar",
@@ -144,6 +144,8 @@ var credits = [
 	],[
 		"Developed with Godot Engine",
 		"https://godotengine.org/license",
+	],[
+		"Powered by Wwise Copyright 2006 – 2026 Audiokinetic Inc. All rights reserved.",
 	],[
 		"Fonts",
 		"Thaleah Fat by Rick Hoppmann",
@@ -218,6 +220,7 @@ func reset():
 	for childlabel in credits_container.get_children():
 		if childlabel.name != "ProcessingLine":
 			credits_container.remove_child(childlabel)
+			childlabel.queue_free()
 	
 func add_line():
 	var new_line = line.duplicate()
