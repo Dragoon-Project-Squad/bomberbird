@@ -39,7 +39,7 @@ var defaultcredits = [ #DO NOT REMOVE, This is here to allow smooth reloads.
 		"Medi"
 	],[
 		"Programming Lead",
-		"[Patcheresu] Anton Namtet"
+		"Patcheresu"
 	],[
 		"Programming",
 		"Rhekar",
@@ -79,15 +79,16 @@ var defaultcredits = [ #DO NOT REMOVE, This is here to allow smooth reloads.
 		"Kyle873",
 		"JohnnyLacone",
 	],[
-		"Developed with Godot Engine",
-		"https://godotengine.org/license",
-	],[
 		"Fonts",
 		"Thaleah Fat by Rick Hoppmann",
 	],[
+		"Developed with Godot Engine",
+		"https://godotengine.org/license",
+	],[
+		"Powered by Wwise Copyright 2006 – 2026 Audiokinetic Inc. All rights reserved.",
+	],[
 		"Special Thanks",
-		"Dragoon Project Squad",
-		"Super B*mberman R's Netcode"
+		"Dragoon Project Squad"
 	],[
 		"And of course",
 		"Dokibird"
@@ -102,7 +103,7 @@ var credits = [
 		"Medi"
 	],[
 		"Programming Lead",
-		"[Patcheresu] Anton Namtet"
+		"Patcheresu"
 	],[
 		"Programming",
 		"Rhekar",
@@ -142,11 +143,13 @@ var credits = [
 		"Kyle873",
 		"JohnnyLacone",
 	],[
+		"Fonts",
+		"Thaleah Fat by Rick Hoppmann",
+	],[
 		"Developed with Godot Engine",
 		"https://godotengine.org/license",
 	],[
-		"Fonts",
-		"Thaleah Fat by Rick Hoppmann",
+		"Powered by Wwise Copyright 2006 – 2026 Audiokinetic Inc. All rights reserved.",
 	],[
 		"Special Thanks",
 		"Dragoon Project Squad"
@@ -218,6 +221,7 @@ func reset():
 	for childlabel in credits_container.get_children():
 		if childlabel.name != "ProcessingLine":
 			credits_container.remove_child(childlabel)
+			childlabel.queue_free()
 	
 func add_line():
 	var new_line = line.duplicate()
