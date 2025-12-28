@@ -142,13 +142,13 @@ var credits = [
 		"Kyle873",
 		"JohnnyLacone",
 	],[
+		"Fonts",
+		"Thaleah Fat by Rick Hoppmann",
+	],[
 		"Developed with Godot Engine",
 		"https://godotengine.org/license",
 	],[
 		"Powered by Wwise Copyright 2006 – 2026 Audiokinetic Inc. All rights reserved.",
-	],[
-		"Fonts",
-		"Thaleah Fat by Rick Hoppmann",
 	],[
 		"Special Thanks",
 		"Dragoon Project Squad"
