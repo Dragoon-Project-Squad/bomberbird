@@ -39,7 +39,7 @@ var defaultcredits = [ #DO NOT REMOVE, This is here to allow smooth reloads.
 		"Medi"
 	],[
 		"Programming Lead",
-		"[Patcheresu] Anton Namtet"
+		"Patcheresu"
 	],[
 		"Programming",
 		"Rhekar",
