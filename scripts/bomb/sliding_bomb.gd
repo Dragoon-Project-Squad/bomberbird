@@ -132,5 +132,5 @@ func halt():
 
 @rpc("call_local")
 func exploded(_by_who):
-	bomb_root.fuse_time_passed = 2.79
+	bomb_root.fuse_time_passed = 2.73
 	self.halt()
