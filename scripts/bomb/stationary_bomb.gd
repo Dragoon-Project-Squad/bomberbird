@@ -156,8 +156,8 @@ func done():
 func exploded(_by_who):
 	if not $AnimationPlayer.is_playing():
 		$AnimationPlayer.play()
-	if $AnimationPlayer.current_animation_position < 2.8:
-		$AnimationPlayer.seek(2.79)
+	if $AnimationPlayer.current_animation_position < 2.74:
+		$AnimationPlayer.seek(2.73)
 
 func remote_call_recieved(player_name: String, number: int):
 	if is_exploded: return

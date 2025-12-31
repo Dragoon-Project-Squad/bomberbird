@@ -3,17 +3,17 @@ extends Control
 @onready var button_box: VBoxContainer = $ButtonBox
 @onready var options_menu: Control = $OptionsMenu
 @onready var credits_screen: Control = $Credits
-signal options_menu_entered
+@onready var version_number_text: Label = $VersionNumberPanel/VersionNumRichText
 
+signal options_menu_entered
 var preload_credits_scene = preload("res://scenes/credits/credits_screen.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	
 	# stops all music to be safe
 	Wwise.post_event("stop_music", self)
 	# plays the main menu music
 	Wwise.post_event("play_music_main_menu", self)
-
+	version_number_text.set_text("v" + ProjectSettings.get_setting("application/config/version"))
 	$ButtonBox/Singleplayer.grab_focus()
 	check_secret()
 
