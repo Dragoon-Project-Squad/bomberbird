@@ -17,8 +17,10 @@ func _spawn_misobon_player(data) -> MisobonPlayer:
 
 	var misobon_player: MisobonPlayer
 	if data.player_type == "human":
+		print_debug("Instantiated a human's misobon.")
 		misobon_player = misobon_player_scene.instantiate()
 	elif data.player_type == "ai":
+		print_debug("Instantiated an AI's misobon.")
 		misobon_player = misobon_aiplayer_scene.instantiate()
 	else:
 		push_error("data contained an unknown player type")
@@ -26,5 +28,5 @@ func _spawn_misobon_player(data) -> MisobonPlayer:
 	misobon_player.progress = data.spawn_here
 	misobon_player.name = str(data.pid)
 	misobon_player.set_player_name(data.name)
-
+	print_debug("Progress: " + str(misobon_player.get_progress()) + "/ Name: " + misobon_player.get_name() + "/ Player Name: " + misobon_player.get_player_name())
 	return misobon_player
