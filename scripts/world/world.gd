@@ -79,7 +79,7 @@ func spawn_exits():
 		iter += 1
 
 func stop_hurry_up():
-	if hurry_up && globals.is_singleplayer():
+	if hurry_up and not globals.is_singleplayer():
 		hurry_up.disable()
 
 ## Disabled this world so another may be enabled
