@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{0538B80F-BD38-4678-ADB9-028154C3B6E7}",
     "Language": "SFX",
-    "Hash": "{B456C67D-633C-8C28-9436-EDF5C6E1289B}",
+    "Hash": "{80B3F710-0C0F-785F-5142-0C9C2C8A7D2A}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\game",
     "ShortName": "game",
     "Path": "game.bnk",
@@ -95,9 +95,10 @@
      {
       "Id": "569066806",
       "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
+      "Streaming": "true",
+      "Location": "Loose",
       "ShortName": "mint boss fight_2.wav",
+      "Path": "Media/569066806.wem",
       "CachePath": "AB/{AB860FCD-C26E-D4BD-58EE-B75590439775}.wem"
      },
      {
@@ -207,12 +208,20 @@
       "CachePath": "2F/{2F0F9CFD-DC8D-0DBE-B1DB-B6C63466BBB5}.wem"
      },
      {
+      "Id": "961484265",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Bounty Hunter Blitz-2.wav",
+      "CachePath": "89/{897D0A8D-D960-8087-D350-1C8E6E052A18}.wem"
+     },
+     {
       "Id": "984655289",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "cockobo_patter.wav",
-      "CachePath": "5D/{5D328DA6-EF43-C72A-BDF8-EFAF691B65B8}.wem"
+      "CachePath": "24/{2413D067-D523-29B7-3EDF-6A89C72D9EF0}.wem"
      },
      {
       "Id": "987020498",
@@ -357,6 +366,19 @@
          },
          {
           "Id": "663920872"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "State",
+         "GroupId": "896293863",
+         "Id": "2175638193",
+         "GUID": "{97A706A9-F6CB-4798-B19D-D7A6E2522462}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "961484265"
          }
         ]
        }
@@ -743,6 +765,12 @@
         "GUID": "{5BC471B7-4859-450E-93CE-FB7F414DB77B}"
        },
        {
+        "Id": "2175638193",
+        "Name": "bounty_hunter_blitz",
+        "ObjectPath": "\\States\\Default Work Unit\\battle_track\\bounty_hunter_blitz",
+        "GUID": "{97A706A9-F6CB-4798-B19D-D7A6E2522462}"
+       },
+       {
         "Id": "2275039111",
         "Name": "rush",
         "ObjectPath": "\\States\\Default Work Unit\\battle_track\\rush",
@@ -777,6 +805,6 @@
     ]
    }
   ],
-  "FileHash": "{139B6048-0705-1B0E-E807-C4438BBD7B65}"
+  "FileHash": "{6E6F5A45-9055-7CA2-0069-0D7A4BB44A73}"
  }
 }

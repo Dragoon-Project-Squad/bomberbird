@@ -7,7 +7,7 @@
 [ext_resource type="SpriteFrames" uid="uid://cfsihq53auf3o" path="res://scenes/stages/desert_rand.tres" id="3_rgqiq"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="4_nxou1"]
 [ext_resource type="TileSet" uid="uid://rloj8u7pcig6" path="res://assets/tilesets/desert_obstacle.tres" id="5_bnkse"]
-[ext_resource type="PackedScene" uid="uid://ul0n27wk45l7" path="res://scenes/mus/bountyhunterjam.tscn" id="5_rgqiq"]
+[ext_resource type="PackedScene" uid="uid://4078yw6deueu" path="res://scenes/mus/bountyhunterblitz.tscn" id="8_nxou1"]
 
 [node name="RandomizedDesertStage" type="Node2D"]
 texture_filter = 1
@@ -45,4 +45,4 @@ tile_set = ExtResource("5_bnkse")
 tile_set = ExtResource("5_bnkse")
 falling_unbreakable_color = Color(0.882353, 0.701961, 0.615686, 1)
 
-[node name="Music" parent="." instance=ExtResource("5_rgqiq")]
+[node name="Music" parent="." instance=ExtResource("8_nxou1")]

@@ -111,6 +111,12 @@
         "GUID": "{5BC471B7-4859-450E-93CE-FB7F414DB77B}"
        },
        {
+        "Id": "2175638193",
+        "Name": "bounty_hunter_blitz",
+        "ObjectPath": "\\States\\Default Work Unit\\battle_track\\bounty_hunter_blitz",
+        "GUID": "{97A706A9-F6CB-4798-B19D-D7A6E2522462}"
+       },
+       {
         "Id": "2275039111",
         "Name": "rush",
         "ObjectPath": "\\States\\Default Work Unit\\battle_track\\rush",
@@ -622,6 +628,6 @@
     ]
    }
   ],
-  "FileHash": "{CEAAF8F2-D3DA-D2EE-5AA6-3B481F5E126C}"
+  "FileHash": "{DE436490-C60E-F521-2167-1DEB3D70DB75}"
  }
 }
