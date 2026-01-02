@@ -62,9 +62,10 @@ var defaultcredits = [ #DO NOT REMOVE, This is here to allow smooth reloads.
 		"'Dragoon Cafe' by nownoir"
 	],[
 		"Battle Music",
-		"'BountyHunter Jam' by Peachii",
+		"BountyHunter Blitz by Aefen",
 		"'Rush (Game Mix)' by Aefen",
 		"'D.A.D Drive' by Peachii",
+		"'BountyHunter Jam' by Peachii",
 		"'Theme of Minki' by Peachii",
 	],[
 		"Sound Designer (SFX, Technical)",
@@ -126,9 +127,10 @@ var credits = [
 		"'Dragoon Cafe' by nownoir"
 	],[
 		"Battle Music",
-		"'BountyHunter Jam' by Peachii",
+		"BountyHunter Blitz by Aefen",
 		"'Rush (Game Mix)' by Aefen",
 		"'D.A.D Drive' by Peachii",
+		"'BountyHunter Jam' by Peachii",
 		"'Theme of Minki' by Peachii",
 	],[
 		"Sound Designer (SFX, Technical)",

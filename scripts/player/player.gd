@@ -537,6 +537,8 @@ func reset():
 	self.bomb_count = self.bomb_total
 	self.time_is_stopped = false
 	self.invulnerable = false
+	# This variable is set TRUE once and only once per round by a signal that fires when hurry up begins.
+	self.hurry_up_started = false
 	unvirus()
 	self.is_mounted = false
 	set_sprite_to_walk()
