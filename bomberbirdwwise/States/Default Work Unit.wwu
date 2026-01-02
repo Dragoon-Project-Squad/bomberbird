@@ -15,6 +15,7 @@
 						<State Name="dad_drive" ID="{77EE4228-9450-497E-BF7B-297D0A75E710}"/>
 						<State Name="minki" ID="{1B072E95-1A99-4EF2-A37D-AF6F7238DB93}"/>
 						<State Name="random" ID="{A258802D-1B1E-4885-976C-872C3B7D09FE}"/>
+						<State Name="bounty_hunter_blitz" ID="{97A706A9-F6CB-4798-B19D-D7A6E2522462}"/>
 					</ChildrenList>
 				</StateGroup>
 			</ChildrenList>
