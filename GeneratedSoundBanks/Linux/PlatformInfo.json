@@ -3,7 +3,7 @@
   "Platform": {
    "Name": "Linux",
    "BasePlatform": "Linux",
-   "Generator": "2024.1.9.8920"
+   "Generator": "2024.1.10.8979"
   },
   "RootPaths": {
    "ProjectRoot": "../../bomberbirdwwise",
@@ -33,6 +33,6 @@
    "PrintObjectPath": "true",
    "PrintObjectColor": "true"
   },
-  "FileHash": "{D7274BF3-4646-0657-F647-DFC3D942A80F}"
+  "FileHash": "{0A0BA962-984C-565F-89C3-D132F07B0CCB}"
  }
 }

@@ -517,6 +517,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<MusicTrack Name="minki_4" ID="{7FABE0B5-8F0D-400D-BD21-EB4A694A5F8C}" ShortID="982821246">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="OutputBus">
 															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
@@ -592,6 +599,13 @@
 									</ChildrenList>
 								</MusicPlaylistContainer>
 								<MusicPlaylistContainer Name="bountyhunterjam" ID="{32CEAC02-18C8-4EF7-A1CF-2F13B6A059FB}" ShortID="547990491">
+									<PropertyList>
+										<Property Name="MakeUpGain" Type="Real64">
+											<ValueList>
+												<Value>-3</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
@@ -1323,6 +1337,361 @@
 										</MusicSegment>
 									</ChildrenList>
 								</MusicPlaylistContainer>
+								<MusicPlaylistContainer Name="bountyhunterblitz" ID="{5D8107AD-4847-41EE-AF7F-B59FBE49C983}" ShortID="309622852">
+									<PropertyList>
+										<Property Name="Tempo" Type="Real64" Value="170"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+										</Reference>
+										<Reference Name="PlaylistRoot">
+											<Custom>
+												<MusicPlaylistItem Name="" ID="{2F303665-B39E-4A6F-9651-9CBF6FD217CB}" ShortID="190982129">
+													<ChildrenList>
+														<MusicPlaylistItem Name="" ID="{FFCCA877-60D3-4DA3-9B09-5D403E78C858}" ShortID="876902126">
+															<PropertyList>
+																<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+															</PropertyList>
+															<ReferenceList>
+																<Reference Name="Segment">
+																	<ObjectRef Name="bountyhunterblitz_intro" ID="{8B60D8F6-C8AA-4765-A5D2-8FF7FEA11404}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+																</Reference>
+															</ReferenceList>
+														</MusicPlaylistItem>
+														<MusicPlaylistItem Name="" ID="{79794424-434E-4B50-80E9-76037CC77ED7}" ShortID="507951872">
+															<PropertyList>
+																<Property Name="LoopCount" Type="int16" Value="0"/>
+																<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+															</PropertyList>
+															<ReferenceList>
+																<Reference Name="Segment">
+																	<ObjectRef Name="bountyhunterblitz_loop" ID="{9D4FAFCF-2966-4244-85EB-124737B27254}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+																</Reference>
+															</ReferenceList>
+														</MusicPlaylistItem>
+													</ChildrenList>
+												</MusicPlaylistItem>
+											</Custom>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{5CC25B89-B1F4-48EB-8D50-2D77DFBDC2B2}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<ChildrenList>
+														<MusicTransition Name="Transition" ID="{5CDFCFA8-E314-45DA-B8A9-7601AB92EE41}">
+															<TransitionInfo/>
+														</MusicTransition>
+													</ChildrenList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<MusicSegment Name="bountyhunterblitz_loop" ID="{9D4FAFCF-2966-4244-85EB-124737B27254}" ShortID="205608419">
+											<PropertyList>
+												<Property Name="EndPosition" Type="Real64" Value="79058.8285060494"/>
+												<Property Name="OverrideClockSettings" Type="bool" Value="True"/>
+												<Property Name="Tempo" Type="Real64" Value="170"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<MusicTrack Name="Bounty Hunter Blitz-2" ID="{16417D66-3C83-443A-AFAC-88CEDB01CA68}" ShortID="736985415">
+													<ReferenceList>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+														</Reference>
+														<Reference Name="TransitionRoot">
+															<Custom>
+																<MusicTransition Name="Root" ID="{DB4A1F58-A787-45A6-8B70-D51F8055FA28}">
+																	<PropertyList>
+																		<Property Name="IsFolder" Type="bool" Value="True"/>
+																	</PropertyList>
+																	<TransitionInfo/>
+																</MusicTransition>
+															</Custom>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="Bounty Hunter Blitz-2" ID="{FCB92143-22E1-45F8-A47A-E105DB7F695E}">
+															<Language>SFX</Language>
+															<AudioFile>Bounty Hunter Blitz-2.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="961484265"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists>
+														<ObjectList Name="Sequences">
+															<Reference>
+																<Local>
+																	<MusicTrackSequence Name="" ID="{BDE8B15D-CFAD-44F5-AD40-DEC97EF56D20}">
+																		<ObjectLists>
+																			<ObjectList Name="Clips">
+																				<Reference>
+																					<Local>
+																						<MusicClip Name="Bounty Hunter Blitz-2" ID="{24CFAB42-E077-4988-97E7-64CE71229115}">
+																							<PropertyList>
+																								<Property Name="BeginTrimOffset" Type="Real64" Value="1411.76470588235"/>
+																								<Property Name="EndTrimOffset" Type="Real64" Value="80470.589569161"/>
+																								<Property Name="FadeInMode" Type="int16" Value="0"/>
+																								<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																								<Property Name="PlayAt" Type="Real64" Value="-1411.76470588235"/>
+																							</PropertyList>
+																							<AudioSourceRef Name="Bounty Hunter Blitz-2" ID="{FCB92143-22E1-45F8-A47A-E105DB7F695E}"/>
+																							<PropertyCurveList>
+																								<PropertyCurve PropertyName="Highpass">
+																									<Curve Name="" ID="{E335E7FC-755F-4463-9F9D-43957F26947D}">
+																										<PropertyList>
+																											<Property Name="Flags" Type="int32" Value="1"/>
+																										</PropertyList>
+																										<PointList>
+																											<Point>
+																												<XPos>1.41176</XPos>
+																												<YPos>0</YPos>
+																												<Flags>5</Flags>
+																											</Point>
+																											<Point>
+																												<XPos>80.470589569161</XPos>
+																												<YPos>0</YPos>
+																												<Flags>37</Flags>
+																											</Point>
+																										</PointList>
+																									</Curve>
+																								</PropertyCurve>
+																								<PropertyCurve PropertyName="Lowpass">
+																									<Curve Name="" ID="{9F25F542-155E-4ACD-A0C6-7D575389922A}">
+																										<PropertyList>
+																											<Property Name="Flags" Type="int32" Value="1"/>
+																										</PropertyList>
+																										<PointList>
+																											<Point>
+																												<XPos>1.41176</XPos>
+																												<YPos>0</YPos>
+																												<Flags>5</Flags>
+																											</Point>
+																											<Point>
+																												<XPos>80.470589569161</XPos>
+																												<YPos>0</YPos>
+																												<Flags>37</Flags>
+																											</Point>
+																										</PointList>
+																									</Curve>
+																								</PropertyCurve>
+																								<PropertyCurve PropertyName="Volume">
+																									<Curve Name="" ID="{C2E0F894-CD52-43E9-A03E-2FF48522873A}">
+																										<PropertyList>
+																											<Property Name="Flags" Type="int32" Value="3"/>
+																										</PropertyList>
+																										<PointList>
+																											<Point>
+																												<XPos>1.41176</XPos>
+																												<YPos>0</YPos>
+																												<Flags>5</Flags>
+																											</Point>
+																											<Point>
+																												<XPos>80.470589569161</XPos>
+																												<YPos>0</YPos>
+																												<Flags>37</Flags>
+																											</Point>
+																										</PointList>
+																									</Curve>
+																								</PropertyCurve>
+																							</PropertyCurveList>
+																						</MusicClip>
+																					</Local>
+																				</Reference>
+																			</ObjectList>
+																		</ObjectLists>
+																	</MusicTrackSequence>
+																</Local>
+															</Reference>
+														</ObjectList>
+													</ObjectLists>
+												</MusicTrack>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Cues">
+													<Reference>
+														<Local>
+															<MusicCue Name="Entry Cue" ID="{EB50AADD-0980-4542-9252-444CDE2813F1}"/>
+														</Local>
+													</Reference>
+													<Reference>
+														<Local>
+															<MusicCue Name="Exit Cue" ID="{75727F10-19FC-4674-A182-21B244375CA8}">
+																<PropertyList>
+																	<Property Name="CueType" Type="int16" Value="1"/>
+																	<Property Name="TimeMs" Type="Real64" Value="79058.8235294118"/>
+																</PropertyList>
+															</MusicCue>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicSegment>
+										<MusicSegment Name="bountyhunterblitz_intro" ID="{8B60D8F6-C8AA-4765-A5D2-8FF7FEA11404}" ShortID="38749851">
+											<PropertyList>
+												<Property Name="EndPosition" Type="Real64" Value="5647.05882352936"/>
+												<Property Name="OverrideClockSettings" Type="bool" Value="True"/>
+												<Property Name="Tempo" Type="Real64" Value="170"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<MusicTrack Name="Bounty Hunter Blitz-2" ID="{97912929-F1AE-4072-B0F6-4C5E9D21835A}" ShortID="212449705">
+													<ReferenceList>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+														</Reference>
+														<Reference Name="TransitionRoot">
+															<Custom>
+																<MusicTransition Name="Root" ID="{AC0B4124-5CB6-489F-90D5-3EB21B294210}">
+																	<PropertyList>
+																		<Property Name="IsFolder" Type="bool" Value="True"/>
+																	</PropertyList>
+																	<TransitionInfo/>
+																</MusicTransition>
+															</Custom>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="Bounty Hunter Blitz-2" ID="{D99BAD77-A8F3-4769-A044-0F71A8F690F4}">
+															<Language>SFX</Language>
+															<AudioFile>Bounty Hunter Blitz-2.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="961484265"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists>
+														<ObjectList Name="Sequences">
+															<Reference>
+																<Local>
+																	<MusicTrackSequence Name="" ID="{43C632D0-2E34-4CC1-9C44-AF136271A0CA}">
+																		<ObjectLists>
+																			<ObjectList Name="Clips">
+																				<Reference>
+																					<Local>
+																						<MusicClip Name="Bounty Hunter Blitz-2" ID="{34582201-5B13-41E4-90D5-4538824EF886}">
+																							<PropertyList>
+																								<Property Name="EndTrimOffset" Type="Real64" Value="1411.7647058823"/>
+																								<Property Name="FadeInMode" Type="int16" Value="0"/>
+																								<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																							</PropertyList>
+																							<AudioSourceRef Name="Bounty Hunter Blitz-2" ID="{D99BAD77-A8F3-4769-A044-0F71A8F690F4}"/>
+																							<PropertyCurveList>
+																								<PropertyCurve PropertyName="Highpass">
+																									<Curve Name="" ID="{12C84C94-77AC-450F-AE19-22D16D8E5EAA}">
+																										<PropertyList>
+																											<Property Name="Flags" Type="int32" Value="1"/>
+																										</PropertyList>
+																										<PointList>
+																											<Point>
+																												<XPos>0</XPos>
+																												<YPos>0</YPos>
+																												<Flags>5</Flags>
+																											</Point>
+																											<Point>
+																												<XPos>1.41176</XPos>
+																												<YPos>0</YPos>
+																												<Flags>37</Flags>
+																											</Point>
+																										</PointList>
+																									</Curve>
+																								</PropertyCurve>
+																								<PropertyCurve PropertyName="Lowpass">
+																									<Curve Name="" ID="{F65206C2-CA3C-442F-BF76-6B6FBF8B1D29}">
+																										<PropertyList>
+																											<Property Name="Flags" Type="int32" Value="1"/>
+																										</PropertyList>
+																										<PointList>
+																											<Point>
+																												<XPos>0</XPos>
+																												<YPos>0</YPos>
+																												<Flags>5</Flags>
+																											</Point>
+																											<Point>
+																												<XPos>1.41176</XPos>
+																												<YPos>0</YPos>
+																												<Flags>37</Flags>
+																											</Point>
+																										</PointList>
+																									</Curve>
+																								</PropertyCurve>
+																								<PropertyCurve PropertyName="Volume">
+																									<Curve Name="" ID="{93A63ECC-CCBE-4A6C-B187-7D2B26AB88B6}">
+																										<PropertyList>
+																											<Property Name="Flags" Type="int32" Value="3"/>
+																										</PropertyList>
+																										<PointList>
+																											<Point>
+																												<XPos>0</XPos>
+																												<YPos>0</YPos>
+																												<Flags>5</Flags>
+																											</Point>
+																											<Point>
+																												<XPos>1.41176</XPos>
+																												<YPos>0</YPos>
+																												<Flags>37</Flags>
+																											</Point>
+																										</PointList>
+																									</Curve>
+																								</PropertyCurve>
+																							</PropertyCurveList>
+																						</MusicClip>
+																					</Local>
+																				</Reference>
+																			</ObjectList>
+																		</ObjectLists>
+																	</MusicTrackSequence>
+																</Local>
+															</Reference>
+														</ObjectList>
+													</ObjectLists>
+												</MusicTrack>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Cues">
+													<Reference>
+														<Local>
+															<MusicCue Name="Entry Cue" ID="{3972A461-F460-43E2-9F53-FAD9716AC9AA}"/>
+														</Local>
+													</Reference>
+													<Reference>
+														<Local>
+															<MusicCue Name="Exit Cue" ID="{1749015A-32A8-4567-907E-B6A5B215E000}">
+																<PropertyList>
+																	<Property Name="CueType" Type="int16" Value="1"/>
+																	<Property Name="TimeMs" Type="Real64" Value="1411.76470588235"/>
+																</PropertyList>
+															</MusicCue>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicSegment>
+									</ChildrenList>
+								</MusicPlaylistContainer>
 							</ChildrenList>
 							<ObjectLists>
 								<ObjectList Name="Arguments">
@@ -1433,6 +1802,24 @@
 													<ObjectList Name="EntryPath">
 														<Reference>
 															<ObjectRef Name="random" ID="{A258802D-1B1E-4885-976C-872C3B7D09FE}" WorkUnitID="{D0003C71-216D-472C-93A1-FB29287A9FDA}"/>
+														</Reference>
+													</ObjectList>
+												</ObjectLists>
+											</MultiSwitchEntry>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MultiSwitchEntry Name="" ID="{F3CD4D94-5F38-4BEA-9399-42B255C2DFEC}">
+												<ReferenceList>
+													<Reference Name="AudioNode">
+														<ObjectRef Name="bountyhunterblitz" ID="{5D8107AD-4847-41EE-AF7F-B59FBE49C983}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+													</Reference>
+												</ReferenceList>
+												<ObjectLists>
+													<ObjectList Name="EntryPath">
+														<Reference>
+															<ObjectRef Name="bounty_hunter_blitz" ID="{97A706A9-F6CB-4798-B19D-D7A6E2522462}" WorkUnitID="{D0003C71-216D-472C-93A1-FB29287A9FDA}"/>
 														</Reference>
 													</ObjectList>
 												</ObjectLists>

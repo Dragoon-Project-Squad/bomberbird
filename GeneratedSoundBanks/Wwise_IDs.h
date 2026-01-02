@@ -52,6 +52,7 @@ namespace AK
 
             namespace STATE
             {
+                static const AkUniqueID BOUNTY_HUNTER_BLITZ = 2175638193U;
                 static const AkUniqueID BOUNTY_HUNTER_JAM = 3671065912U;
                 static const AkUniqueID DAD_DRIVE = 3284605273U;
                 static const AkUniqueID DUNGEON = 608898761U;
