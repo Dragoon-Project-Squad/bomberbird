@@ -44,7 +44,6 @@ func _physics_process(delta):
 		if is_mounted:
 			if mount_step_timer.time_left == 0:
 				mount_step_timer.start()
-				print("plap")
 				Wwise.post_event("snd_cockobo_footstep", self)	
 
 func _on_object_detection_area_entered(area):

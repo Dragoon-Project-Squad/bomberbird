@@ -8,7 +8,7 @@
 [ext_resource type="StyleBox" uid="uid://dah145apm30c3" path="res://assets/styles/main_menu_select_style.tres" id="7_2iy8e"]
 [ext_resource type="StyleBox" uid="uid://c07q8xvjxkea6" path="res://assets/styles/main_menu_style.tres" id="7_nrhvf"]
 [ext_resource type="PackedScene" uid="uid://drj31ll2cuftl" path="res://scenes/options_menu/options_menu.tscn" id="8_m4i44"]
-[ext_resource type="PackedScene" uid="uid://cmmk31d282i46" path="res://scenes/CREDITS/credits_screen.tscn" id="10_lgwnu"]
+[ext_resource type="PackedScene" uid="uid://cmmk31d282i46" path="res://scenes/credits/credits_screen.tscn" id="10_lgwnu"]
 [ext_resource type="PackedScene" uid="uid://c6osao13wt47c" path="res://scenes/doki_subscribe_link.tscn" id="11_flqon"]
 
 [node name="MainMenu" type="Control"]
@@ -79,8 +79,8 @@ texture_filter = 1
 layout_mode = 2
 focus_neighbor_top = NodePath("../Multiplayer")
 theme = ExtResource("6_hrcjh")
-theme_override_styles/hover = ExtResource("7_2iy8e")
 theme_override_styles/normal = ExtResource("7_nrhvf")
+theme_override_styles/hover = ExtResource("7_2iy8e")
 text = "Options
 "
 script = ExtResource("5_lgwnu")
@@ -91,8 +91,8 @@ texture_filter = 1
 layout_mode = 2
 focus_neighbor_top = NodePath("../Multiplayer")
 theme = ExtResource("6_hrcjh")
-theme_override_styles/hover = ExtResource("7_2iy8e")
 theme_override_styles/normal = ExtResource("7_nrhvf")
+theme_override_styles/hover = ExtResource("7_2iy8e")
 text = "Credits
 "
 script = ExtResource("5_lgwnu")
@@ -104,8 +104,8 @@ layout_mode = 2
 focus_neighbor_top = NodePath("../Options")
 focus_neighbor_bottom = NodePath("../Singleplayer")
 theme = ExtResource("6_hrcjh")
-theme_override_styles/hover = ExtResource("7_2iy8e")
 theme_override_styles/normal = ExtResource("7_nrhvf")
+theme_override_styles/hover = ExtResource("7_2iy8e")
 text = "Exit"
 script = ExtResource("5_lgwnu")
 metadata/_custom_type_script = "uid://boq3i75yls51h"
@@ -131,6 +131,30 @@ offset_right = 0.0
 offset_bottom = 0.0
 grow_horizontal = 0
 grow_vertical = 0
+
+[node name="VersionNumberPanel" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 376.0
+grow_vertical = 0
+theme = ExtResource("6_hrcjh")
+
+[node name="VersionNumRichText" type="Label" parent="VersionNumberPanel"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -15.0
+offset_right = 256.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.05490196, 0.19607843, 0.36078432, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "VERSION NUMBER HERE"
 
 [connection signal="pressed" from="ButtonBox/Singleplayer" to="." method="_on_single_player_pressed"]
 [connection signal="pressed" from="ButtonBox/Multiplayer" to="." method="_on_multiplayer_pressed"]

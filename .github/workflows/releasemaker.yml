@@ -8,7 +8,7 @@ jobs:
   # job id, can be anything
   export_game:
     env:
-      GODOT_VERSION: 4.4
+      GODOT_VERSION: 4.5.1
       GODOT_BUILD: 'stable'
     # Always use ubuntu-latest for this action
     runs-on: ubuntu-latest
@@ -21,12 +21,14 @@ jobs:
       # Always include the checkout step so that 
       # your project is available for Godot to export
     - name: checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6.0.1
+      with:
+        lfs: true
       # Enable the following once issues are resolved
     - name: Install Wwise dependencies
       if: runner.os == 'Linux'
       run: |
-        sudo apt-get -y install libtbb-dev #Wwise dependencies
+        sudo apt-get -y install libtbb-dev pulseaudio #Wwise dependencies
     - name: install wine
       id: wine_install
       run: |
@@ -41,19 +43,20 @@ jobs:
     - name: export game
       id: export
       # Use latest version (see releases for all versions)
-      uses: firebelley/godot-export@v6.0.0
+      uses: firebelley/godot-export@v7.0.0
       with:
         # Defining all the required inputs
         godot_executable_download_url: https://github.com/godotengine/godot/releases/download/${{ env.GODOT_VERSION }}-${{ env.GODOT_BUILD }}/Godot_v${{ env.GODOT_VERSION }}-${{ env.GODOT_BUILD }}_linux.x86_64.zip
         godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/${{ env.GODOT_VERSION }}-${{ env.GODOT_BUILD }}/Godot_v${{ env.GODOT_VERSION }}-${{ env.GODOT_BUILD }}_export_templates.tpz
         relative_project_path: ./
         archive_output: true
+        cache: true
         #wine_path: ${{ steps.wine_install.outputs.WINE_PATH }} DISABLED TEMPORARILY set the wine path here which is the output of the wine_install step
 
       # This release action has worked well for me. However, you can most likely use any release action of your choosing.
       # https://github.com/ncipollo/release-action
     - name: create release
-      uses: ncipollo/release-action@v1.14.0
+      uses: ncipollo/release-action@v1.20.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         generateReleaseNotes: true

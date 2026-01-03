@@ -89,16 +89,15 @@ func check_space():
 			collision.do_stun()
 		elif collision.has_method("crush"):
 			if collision is Breakable:
-				if direction == Vector2i.LEFT or direction == Vector2i.UP:
-					place_position += Vector2(direction * TILESIZE)
-			collision.crush()
+				place_position -= Vector2(direction * TILESIZE)
 		else:
-			printerr("what the heck is this collision: ", collision)
+			printerr("collision not accounted for: ", collision)
 		if (self.global_position - place_position).dot(direction) >= 0:
 			set_state(PLACING)
 		else:
 			self.collision_layer =  0
 			$CollisionShape2D.set_deferred("disabled",true)
+			place_position = Vector2.ZERO
 			set_state(SLIDING)
 
 func to_stationary_bomb():
@@ -119,9 +118,10 @@ func slides(direction: Vector2i):
 	set_state(SLIDING)
 
 func correct_coords(current_coords: Vector2) -> Vector2:
-	return world_data.tile_map.map_to_local(
-		world_data.tile_map.local_to_map(current_coords)
-	)
+	var mapped := world_data.tile_map.local_to_map(current_coords)
+	#print("Local: ", current_coords, "\nMapped: ", mapped)
+	#print("MappedLocal: ", world_data.tile_map.map_to_local(mapped))
+	return world_data.tile_map.map_to_local(mapped)
 
 @rpc("call_local")
 func halt():
@@ -132,5 +132,5 @@ func halt():
 
 @rpc("call_local")
 func exploded(_by_who):
-	bomb_root.fuse_time_passed = 2.79
+	bomb_root.fuse_time_passed = 2.73
 	self.halt()

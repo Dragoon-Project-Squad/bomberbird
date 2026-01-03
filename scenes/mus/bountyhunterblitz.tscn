@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://4078yw6deueu"]
+
+[ext_resource type="Script" uid="uid://dgwlvvxb85sln" path="res://scripts/music.gd" id="1_huj7o"]
+[ext_resource type="WwiseState" uid="uid://gqbqvakh4e8k" path="res://Wwise/resources/State/{97A706A9-F6CB-4798-B19D-D7A6E2522462}.tres" id="2_huj7o"]
+
+[node name="Music" type="Node"]
+script = ExtResource("1_huj7o")
+
+[node name="AkState" type="AkState" parent="."]
+state = ExtResource("2_huj7o")

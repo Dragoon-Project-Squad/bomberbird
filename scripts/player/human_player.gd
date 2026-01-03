@@ -88,13 +88,12 @@ func _physics_process(delta: float):
 	
 	jump_cooldown += delta
 	if not stunned and inputs.secondary_ability:
+		kick_bomb(direction)
 		if is_mounted:
 			kick_breakable(direction)
 			if jump_cooldown >= 5.0:
 				mounted_jump(direction)
 				jump_cooldown = 0.0
-		else:
-			kick_bomb(direction)
 
 	if not is_unbomb and not stunned and bomb_count > 0:
 		if inputs.bombing:
@@ -129,7 +128,6 @@ func _physics_process(delta: float):
 		if is_mounted:
 			if mount_step_timer.time_left == 0:
 				mount_step_timer.start()
-				print("plap")
 				Wwise.post_event("snd_cockobo_footstep", self)
 
 @rpc("call_local")

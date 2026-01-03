@@ -136,6 +136,9 @@ func play_despawn_animation():
 	var animations = ["despawn_top", "despawn_right", "despawn_bottom", "despawn_left"]
 	current_anim = animations[seg_index]
 	$AnimationPlayer.play("misobon_player_animation/" + current_anim)
+	
+func get_player_name() -> String:
+	return $label.get_text()
 
 func set_player_name(new_name: String):
 	$label.set_text(new_name)

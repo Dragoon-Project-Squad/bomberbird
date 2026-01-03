@@ -113,6 +113,13 @@ func _on_secret_status_sent() -> void:
 	if globals.secrets.mint:
 		stage_select_screen.switch_to_secret_stages()
 
+func _on_exit_pressed() -> void:
+	# Game should not have started yet.
+	if gamestate.peer:
+		gamestate.peer.close()
+	if is_inside_tree():
+		get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+		
 func _on_error_dialog_confirmed() -> void:
 	gamestate.end_game()
 	if gamestate.peer:

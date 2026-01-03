@@ -6,7 +6,7 @@
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/tilesets/desert_tileset.tres" id="2_mvwba"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="3_r0mt7"]
 [ext_resource type="TileSet" uid="uid://rloj8u7pcig6" path="res://assets/tilesets/desert_obstacle.tres" id="4_7gu8t"]
-[ext_resource type="PackedScene" uid="uid://ul0n27wk45l7" path="res://scenes/mus/bountyhunterjam.tscn" id="4_pudkg"]
+[ext_resource type="PackedScene" uid="uid://4078yw6deueu" path="res://scenes/mus/bountyhunterblitz.tscn" id="7_7gu8t"]
 
 [node name="RuntimeBuildDesertStage" type="Node2D"]
 texture_filter = 1
@@ -42,4 +42,4 @@ tile_set = ExtResource("4_7gu8t")
 visible = false
 tile_set = ExtResource("2_mvwba")
 
-[node name="Music" parent="." instance=ExtResource("4_pudkg")]
+[node name="Music" parent="." instance=ExtResource("7_7gu8t")]

@@ -99,11 +99,11 @@ func reject_password() -> void:
 	password_status.text = "NUH UH: WRONG PASSWORD"
 
 func _on_password_submit_pressed() -> void:
-	if line_edit.text.to_upper() == "DOWNWARDDOG":
+	if line_edit.text.to_upper().contains("KEPT YOU WAITING") or line_edit.text.to_upper().contains("JINZOU FAIYA"):
 		unlock_mint()
 	elif line_edit.text.to_upper() == "GIMMIE THE GARBAGE":
 		unlock_snuffy()
-	elif line_edit.text.contains("IONGRTEGRTIOY^T"):
+	elif line_edit.text.to_upper().contains("IONGRTEGRTIOY^T"):
 		unlock_laimu()
 	elif line_edit.text.to_upper() == "YELLOW WOMEN UNITE":
 		unlock_dooby()

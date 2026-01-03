@@ -79,7 +79,7 @@ func spawn_exits():
 		iter += 1
 
 func stop_hurry_up():
-	if hurry_up && globals.is_singleplayer():
+	if hurry_up and not globals.is_singleplayer():
 		hurry_up.disable()
 
 ## Disabled this world so another may be enabled
@@ -319,6 +319,7 @@ func _spawn_player():
 	var spawningdata = {}
 	var misobondata = {}
 	var player: Player
+	var misobon_player = null
 	for p_id in spawn_points:
 		spawn_pos = world_data.tile_map.map_to_local(spawnpoints[spawn_points[p_id]])
 		spawningdata = {"spawndata": spawn_pos, "pid": p_id, "defaultname": gamestate.player_name, "playerdict": gamestate.player_data_master_dict[p_id]}
@@ -332,7 +333,6 @@ func _spawn_player():
 			misobondata.player_type = "ai"
 
 		player = playerspawner.spawn(spawningdata)
-		var misobon_player = null
 		if globals.is_singleplayer():
 			player.player_hurt.connect(globals.game.restart_current_stage)
 		if SettingsContainer.misobon_setting != SettingsContainer.misobon_setting_states.OFF:

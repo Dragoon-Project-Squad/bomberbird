@@ -461,11 +461,14 @@ func update_animation(direction: Vector2, old_direction: Vector2):
 ## Enables this players correspoing misobon player if misobon is atleast on
 func enter_misobon():
 	if SettingsContainer.misobon_setting == SettingsContainer.misobon_setting_states.OFF || hurry_up_started:
+		print_debug("Player can't misobon! The rules won't let it happen!")
 		return
 	
+	print_debug("Waiting " + str(MISOBON_RESPAWN_TIME) + " to respawn player...")
 	await get_tree().create_timer(MISOBON_RESPAWN_TIME).timeout
 	#Check if nothing changed in the meantime
 	if SettingsContainer.misobon_setting == SettingsContainer.misobon_setting_states.OFF || hurry_up_started:
+		print_debug("Player can't misobon! The rules won't let it happen!")
 		return
 	
 	if is_multiplayer_authority():
@@ -475,6 +478,7 @@ func enter_misobon():
 			misobon_player.get_parent().get_progress_from_vector(position) 
 			)
 		misobon_player.play_spawn_animation.rpc()
+		print_debug("Spawning Misobon!")
 
 ## Do crushed specific things to player
 func do_crushed_state():
@@ -507,6 +511,7 @@ func exit_death_state():
 	animation_player.play("player_animations/revive")
 	$Hitbox.set_deferred("disabled", 0)
 	await animation_player.animation_finished
+	show()
 	stunned = false
 	is_dead = false
 	if is_multiplayer_authority():
@@ -532,6 +537,8 @@ func reset():
 	self.bomb_count = self.bomb_total
 	self.time_is_stopped = false
 	self.invulnerable = false
+	# This variable is set TRUE once and only once per round by a signal that fires when hurry up begins.
+	self.hurry_up_started = false
 	unvirus()
 	self.is_mounted = false
 	set_sprite_to_walk()

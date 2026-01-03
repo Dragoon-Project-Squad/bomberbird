@@ -53,7 +53,7 @@ extends Resource
 @export var RETRODOKI_MOUNT_TEXTURE_PATH: String = "res://assets/player/retrodoki_mount.png"
 @export var ALTGIRLDOKI_MOUNT_TEXTURE_PATH: String = "res://assets/player/altdoki_mount.png"
 @export var CROWKI_MOUNT_TEXTURE_PATH: String = "res://assets/player/crowki_mount.png"
-@export var TOMATODOKI_MOUNT_TEXTURE_PATH: String = "res://assets/player/tomato_mount.png"
+@export var TOMATODOKI_MOUNT_TEXTURE_PATH: String = "res://assets/player/tomatodoki_mount.png"
 @export var WISP_MOUNT_TEXTURE_PATH: String = "res://assets/player/wisp_mount.png"
 @export var MINT_MOUNT_TEXTURE_PATH: String = "res://assets/player/maidmint_mount.png"
 @export var SNUFFY_MOUNT_TEXTURE_PATH: String = "res://assets/player/snuffy_mount.png"
@@ -68,14 +68,14 @@ extends Resource
 @export var CHONKGOON_FACE_RECT: String = var_to_str(Rect2(36, 36, 18, 18))
 @export var LONGGOON_FACE_RECT: String = var_to_str(Rect2(18, 36, 18, 18))
 @export var DAD_FACE_RECT: String = var_to_str(Rect2(0, 18, 18, 18))
-@export var BHDOKI_FACE_RECT: String = var_to_str(Rect2(108, 0, 18, 18))
+@export var BHDOKI_FACE_RECT: String = var_to_str(Rect2(108, 18, 18, 18))
 @export var SUMMERDOKI_FACE_RECT: String = var_to_str(Rect2(72, 36, 18, 18))
 @export var SCHOOLDOKI_FACE_RECT: String = var_to_str(Rect2(90, 36, 18, 18))
 @export var RETRODOKI_FACE_RECT: String = var_to_str(Rect2(72, 18, 18, 18))
 @export var ALTGIRLDOKI_FACE_RECT: String = var_to_str(Rect2(90, 18, 18, 18))
-@export var CROWKI_FACE_RECT: String = var_to_str(Rect2(18, 0, 18, 18))
+@export var CROWKI_FACE_RECT: String = var_to_str(Rect2(18, 18, 18, 18))
 @export var TOMATODOKI_FACE_RECT: String = var_to_str(Rect2(54, 18, 18, 18))
-@export var WISP_FACE_RECT: String = var_to_str(Rect2(36, 0, 18, 18))
+@export var WISP_FACE_RECT: String = var_to_str(Rect2(36, 18, 18, 18))
 @export var MINT_FACE_RECT: String = var_to_str(Rect2(0, 0, 18, 18))
 @export var SNUFFY_FACE_RECT: String = var_to_str(Rect2(54, 0, 18, 18))
 @export var LAIMU_FACE_RECT: String = var_to_str(Rect2(36, 0, 18, 18))
