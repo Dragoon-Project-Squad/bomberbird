@@ -124,18 +124,9 @@ offset_right = 138.5
 offset_bottom = 89.5
 
 [node name="Exit" type="Button" parent="Connect" groups=["ui_button"]]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -32.0
-offset_top = 136.5
-offset_right = 38.0
-offset_bottom = 174.5
-grow_horizontal = 2
-grow_vertical = 0
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
 focus_neighbor_top = NodePath("../Multiplayer")
 focus_neighbor_bottom = NodePath("../SinglePlayer")
 theme = ExtResource("5_m8hcm")
