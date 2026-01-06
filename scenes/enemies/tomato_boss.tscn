@@ -24,20 +24,7 @@
 [sub_resource type="Resource" id="Resource_0x7uk"]
 resource_local_to_scene = true
 script = ExtResource("2_rwxvx")
-initial_bomb_type = 0
-initial_exlusive = 0
-initial_virus = 0
-initial_bomb_up = 0
-initial_fire_up = 0
 initial_speed_up = 1
-initial_speed_down = 0
-initial_hp_up = 0
-initial_full_fire = false
-initial_bomb_punch = false
-initial_power_glove = false
-initial_wallthrough = false
-initial_freeze = false
-initial_invincibility_vest = false
 metadata/_custom_type_script = "uid://dfosda1bstp2m"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_i1su5"]
@@ -100,21 +87,6 @@ _data = {
 &"burry": SubResource("Animation_0x7uk")
 }
 
-[sub_resource type="Animation" id="Animation_5hw36"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("sprite:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
 [sub_resource type="Animation" id="Animation_jvckf"]
 resource_name = "Invul"
 length = 0.1
@@ -142,6 +114,21 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_5hw36"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7v3pb"]
