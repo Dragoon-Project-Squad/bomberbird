@@ -10,7 +10,7 @@ var selected_sfx = "snd_click"
 var options_menu
 
 enum music_enum {DOKIDOKICOMESHOME, DRAGOONCAFE, BHJAM, RUSH, DADDRIVE, MINKI}
-enum sfx_enum {CLICK, ERROR, EXPLODE, DEBRIS, PICKUP, DEFEATED, PLACE, THROW, LAND, SECRET}
+enum sfx_enum {CLICK, ERROR, EXPLODE, DEBRIS, PICKUP, DEFEATED, PLACE, THROW, LAND, SECRET, MNTSUMMON, MNTSTEP, MNTDIE}
 
 var mus_dict = {
 	"Doki Doki Comes Home" = "st_doki_comes_home",
@@ -31,7 +31,10 @@ var sfx_dict = {
 	"Place Bomb" = "snd_place_bomb",
 	"Throw Bomb" = "snd_throw_bomb",
 	"Bomb Landing" = "snd_thrown_bomb_land",
-	"Secret" = "snd_secret"
+	"Secret" = "snd_secret",
+	"Mount Summon" = "snd_cockobo_summon",
+	"Mount Step" = "snd_cockobo_footstep",
+	"Mount Death" = "snd_cockobo_die"
 	}
 	
 func _ready() -> void:
