@@ -32,6 +32,7 @@ namespace AK
         static const AkUniqueID SND_SECRET = 2418319985U;
         static const AkUniqueID SND_THROW_BOMB = 2124105734U;
         static const AkUniqueID SND_THROWN_BOMB_LAND = 1948188490U;
+        static const AkUniqueID ST_BH_BLITZ = 3122553865U;
         static const AkUniqueID ST_BH_JAM = 2715300416U;
         static const AkUniqueID ST_DAD = 3787626250U;
         static const AkUniqueID ST_DOKI_COMES_HOME = 2151371268U;

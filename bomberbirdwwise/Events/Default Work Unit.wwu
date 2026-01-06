@@ -371,6 +371,26 @@
 										</Reference>
 									</ReferenceList>
 								</Action>
+								<Action Name="" ID="{BF3CC77D-E5FF-48A7-8AEC-0B772F7A74B6}" ShortID="694987517">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="bountyhunterblitz" ID="{5D8107AD-4847-41EE-AF7F-B59FBE49C983}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{DC73CE7C-BE6D-4478-91A5-8B85787331EE}" ShortID="523932924">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="dungeon" ID="{54BFD200-422C-4207-9BF8-1C3C92FF99A4}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
 							</ChildrenList>
 						</Event>
 						<Event Name="st_doki_comes_home" ID="{23C287DA-F7B4-4776-B890-E038E622D77D}">
@@ -434,6 +454,17 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="minki" ID="{2906055F-739C-465C-B007-2578EC973F55}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="st_bh_blitz" ID="{E88A75A9-EE04-40EB-83C4-DBAC66154E9D}">
+							<ChildrenList>
+								<Action Name="" ID="{FC6CB8E1-2AD1-471E-9ACB-6760B61C7B88}" ShortID="180202548">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="bountyhunterblitz" ID="{5D8107AD-4847-41EE-AF7F-B59FBE49C983}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
