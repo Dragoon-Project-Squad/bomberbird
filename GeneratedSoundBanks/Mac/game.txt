@@ -21,6 +21,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	2726913135	unpause_music_dragoon_cafe			\Default Work Unit\music\dragoon cafe\unpause_music_dragoon_cafe	
 	2837384057	stop_music			\Default Work Unit\music\stop_music	
 	2872496426	snd_cockobo_footstep			\Default Work Unit\sfx\gameplay\cockobo\snd_cockobo_footstep	
+	3122553865	st_bh_blitz			\Default Work Unit\music_sound_test\st_bh_blitz	
 	3304910170	snd_player_hurt			\Default Work Unit\sfx\gameplay\snd_player_hurt	
 	3772742044	snd_debris			\Default Work Unit\sfx\gameplay\snd_debris	
 	3787626250	st_dad			\Default Work Unit\music_sound_test\st_dad	
@@ -61,7 +62,6 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	909197063	click	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\D3\{D35F7BD1-4621-2FCB-2655-83C66CA19ADC}.wem		\Actor-Mixer Hierarchy\SFX\SFX\click		96096
 	928220902	powerup	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\43\{4322E8D8-B7EB-A393-2517-CFF27C85D634}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\powerup		96096
 	946799811	breakable_sweetener_1	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\2F\{2F0F9CFD-DC8D-0DBE-B1DB-B6C63466BBB5}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\breakable\breakable_sweetener\breakable_sweetener_1		768096
-	961484265	Bounty Hunter Blitz-2	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\89\{897D0A8D-D960-8087-D350-1C8E6E052A18}.wem		\Interactive Music Hierarchy\Battle Music\battle\battle\bountyhunterblitz\bountyhunterblitz_loop\Bounty Hunter Blitz-2		2360097
 	984655289	cockobo_patter	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\24\{2413D067-D523-29B7-3EDF-6A89C72D9EF0}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\cockobo\cockobo_patter		10548
 	987020498	bombdrop	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\32\{325F6DD5-7CC5-2519-AE10-34175EA7DD66}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\bombdrop		180712
 	989697125	breakable_sweetener_2	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\8A\{8AD31D41-C84A-CFD0-E1A6-95F2471213EA}.wem		\Actor-Mixer Hierarchy\SFX\SFX\gameplay\breakable\breakable_sweetener\breakable_sweetener_2		768096
@@ -75,5 +75,6 @@ Streamed Audio	ID	Name	Audio source file	Generated audio file	Wwise Object Path	
 	569066806	minki_4	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\AB\{AB860FCD-C26E-D4BD-58EE-B75590439775}.wem	569066806.wem	\Interactive Music Hierarchy\Battle Music\battle\battle\minki\minki_loop\minki_4	
 	575326219	dad drive_loop	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\EB\{EB706188-7A23-E1A4-1289-776211AF4988}.wem	575326219.wem	\Interactive Music Hierarchy\Battle Music\battle\battle\random\dad drive_loop\dad drive_loop	
 	663920872	rush_intro	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\65\{6518C3FE-87DF-40E0-F4F7-5175DCC104BF}.wem	663920872.wem	\Interactive Music Hierarchy\Battle Music\battle\battle\rush\rush_intro\rush_intro	
+	961484265	Bounty Hunter Blitz-2	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\89\{897D0A8D-D960-8087-D350-1C8E6E052A18}.wem	961484265.wem	\Interactive Music Hierarchy\Battle Music\battle\battle\bountyhunterblitz\bountyhunterblitz_loop\Bounty Hunter Blitz-2	
 	1067920505	dragoon cafe_loop	C:\Users\monst\Game Dev\Engine Projects\Doki Roguelike\bomberbird\bomberbirdwwise\.cache\09\{096664C6-93E0-1A43-60BD-B2E185E7C34E}.wem	1067920505.wem	\Interactive Music Hierarchy\UI\ui\dragoon_cafe\dragoon cafe_loop\dragoon cafe_loop	
 

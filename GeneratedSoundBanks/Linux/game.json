@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{0538B80F-BD38-4678-ADB9-028154C3B6E7}",
     "Language": "SFX",
-    "Hash": "{80B3F710-0C0F-785F-5142-0C9C2C8A7D2A}",
+    "Hash": "{99A4C1DB-6660-191E-6BDF-ACCA372A4063}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\game",
     "ShortName": "game",
     "Path": "game.bnk",
@@ -210,9 +210,10 @@
      {
       "Id": "961484265",
       "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
+      "Streaming": "true",
+      "Location": "Loose",
       "ShortName": "Bounty Hunter Blitz-2.wav",
+      "Path": "Media/961484265.wem",
       "CachePath": "89/{897D0A8D-D960-8087-D350-1C8E6E052A18}.wem"
      },
      {
@@ -627,6 +628,18 @@
       ]
      },
      {
+      "Id": "3122553865",
+      "Name": "st_bh_blitz",
+      "ObjectPath": "\\Events\\Default Work Unit\\music_sound_test\\st_bh_blitz",
+      "GUID": "{E88A75A9-EE04-40EB-83C4-DBAC66154E9D}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "961484265"
+       }
+      ]
+     },
+     {
       "Id": "2715300416",
       "Name": "st_bh_jam",
       "ObjectPath": "\\Events\\Default Work Unit\\music_sound_test\\st_bh_jam",
@@ -805,6 +818,6 @@
     ]
    }
   ],
-  "FileHash": "{6E6F5A45-9055-7CA2-0069-0D7A4BB44A73}"
+  "FileHash": "{01180B91-DF8B-A1CF-8D69-DE2331F78DB4}"
  }
 }
