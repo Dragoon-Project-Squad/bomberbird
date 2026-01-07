@@ -219,6 +219,7 @@ var characters: Dictionary = {
 	"summerdoki": summerdoki_paths,
 	"retrodoki": retrodoki_paths,
 	"altgirldoki": altgirldoki_paths,
+	"schooldoki": schooldoki_paths,
 	"crowki": crowki_paths,
 	"tomatodoki": tomatodoki_paths,
 	"wisp": wisp_paths,
