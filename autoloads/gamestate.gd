@@ -530,6 +530,8 @@ func assign_dict_to_spritepaths(playerdict: Dictionary):
 			playerdict.spritepaths = character_texture_paths.retrodoki_paths
 		"altgirldoki":
 			playerdict.spritepaths = character_texture_paths.altgirldoki_paths
+		"schooldoki":
+			playerdict.spritepaths = character_texture_paths.schooldoki_paths
 		"crowki":
 			playerdict.spritepaths = character_texture_paths.crowki_paths
 		"tomatodoki":
@@ -538,6 +540,14 @@ func assign_dict_to_spritepaths(playerdict: Dictionary):
 			playerdict.spritepaths = character_texture_paths.wisp_paths
 		"mint":
 			playerdict.spritepaths = character_texture_paths.mint_paths
+		"snuffy":
+			playerdict.spritepaths = character_texture_paths.snuffy_paths
+		"laimu":
+			playerdict.spritepaths = character_texture_paths.laimu_paths
+		"dooby":
+			playerdict.spritepaths = character_texture_paths.dooby_paths
+		"nimi":
+			playerdict.spritepaths = character_texture_paths.nimi_paths
 		_:
 			push_error("Could not identify character!")
 			playerdict.spritepaths = character_texture_paths.egggoon_paths

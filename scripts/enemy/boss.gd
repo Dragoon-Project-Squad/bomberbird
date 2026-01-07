@@ -118,6 +118,20 @@ func get_current_bomb_boost() -> int:
 		return init_explosion_boost_count + pickups.MAX_EXPLOSION_BOOSTS_PERMITTED
 	return init_explosion_boost_count + pickups.held_pickups[globals.pickups.FIRE_UP]
 
+func check_unlock_characters() -> void:
+	match skin:
+		"mint":
+			SettingsContainer.unlock_secret_permanently("mint")
+		"snuffy":
+			SettingsContainer.unlock_secret_permanently("snuffy")
+		"laimu":
+			SettingsContainer.unlock_secret_permanently("laimu")
+		"dooby":
+			SettingsContainer.unlock_secret_permanently("dooby")
+		"nimi":
+			SettingsContainer.unlock_secret_permanently("nimi")
+		_:
+			return
 @rpc("call_local")
 func get_curr_mine_count() -> int:
 	return 1 if self.pickups.held_pickups[globals.pickups.GENERIC_BOMB] == HeldPickups.bomb_types.MINE else 0
@@ -151,9 +165,7 @@ func exploded(by_whom: int):
 	super(by_whom)
 	if(self.health >= 1): return
 	if !is_multiplayer_authority(): return
-	if self.is_mint_boss:
-		SettingsContainer.unlock_secret_permanently("mint")
-
+	check_unlock_characters()
 	var pickup_type: int = globals.get_pickup_type_from_name(self.dropped_pickup)
 	if pickup_type == globals.pickups.NONE: return
 	var curr_pos = self.position

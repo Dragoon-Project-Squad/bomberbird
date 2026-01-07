@@ -219,7 +219,7 @@ func reset():
 	lines = []
 	started = false
 	finished = false
-	credits = defaultcredits.duplicate()
+	credits = defaultcredits.duplicate_deep()
 	for childlabel in credits_container.get_children():
 		if childlabel.name != "ProcessingLine":
 			credits_container.remove_child(childlabel)

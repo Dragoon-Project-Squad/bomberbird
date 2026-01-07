@@ -85,7 +85,6 @@ func stop_hurry_up():
 ## Disabled this world so another may be enabled
 func disable():
 	hide()
-	stop_music()
 
 	bounds_layer.collision_enabled = false
 	obstacles_layer.collision_enabled = false

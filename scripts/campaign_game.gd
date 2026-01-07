@@ -90,7 +90,7 @@ func next_stage(id: int, player: HumanPlayer):
 	_exit_entered_barrier = true
 	stage_done = true
 	# prevents two exits from triggering (Tho in general we proabily should not have 2 exits close enought next to each other to trigger that)
-
+	stage.stop_music()
 	await player.play_victory(false)
 
 	if id == -1:

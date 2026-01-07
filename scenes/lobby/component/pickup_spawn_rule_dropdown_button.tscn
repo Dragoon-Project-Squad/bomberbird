@@ -12,7 +12,8 @@ script = ExtResource("2_cpj3h")
 [node name="HBoxContainer" parent="." index="0"]
 anchors_preset = 10
 anchor_right = 1.0
-offset_right = 0.0
+offset_left = 64.0
+offset_right = -64.0
 grow_horizontal = 2
 
 [node name="Label" parent="HBoxContainer" index="0"]
