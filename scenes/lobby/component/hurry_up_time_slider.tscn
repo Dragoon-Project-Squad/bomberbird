@@ -12,13 +12,14 @@ layout_mode = 3
 anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
-size_flags_horizontal = 4
 script = ExtResource("1_ea6ru")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
+offset_left = 64.0
+offset_right = -64.0
 offset_bottom = 32.0
 grow_horizontal = 2
 theme = ExtResource("1_v021r")
@@ -49,9 +50,10 @@ layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_wum3u")
 
 [node name="SliderNumberLabel" type="Label" parent="HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(175, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "999"
+horizontal_alignment = 2
 
 [connection signal="value_changed" from="HBoxContainer/HSlider" to="." method="_on_value_changed"]
