@@ -99,6 +99,143 @@
 								</ObjectList>
 							</ObjectLists>
 						</Bus>
+						<Bus Name="Vintage Left Hand" ID="{6F3938D0-4CDE-4B08-A4E0-1015914025F7}">
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{DCB2C7E4-8D1C-4B5D-B550-18DEE7B5F286}" ShortID="964877890">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="BusVolume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="lefthand_stinger" ID="{F3DCA231-347F-4574-B1F2-4C34B52D1624}" WorkUnitID="{8B207EDA-DF61-423D-B11D-368EA98D2FB6}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{8F62B46F-0C12-4F3A-8A03-7E9060E3A658}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>-96</XPos>
+																		<YPos>-0</YPos>
+																		<Flags>5</Flags>
+																		<SegmentShape>Log3</SegmentShape>
+																	</Point>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</Bus>
+						<Bus Name="Vintage Left Hand Sidechain" ID="{4CF07948-472D-4CF8-B72C-122B90D326D9}">
+							<ObjectLists>
+								<ObjectList Name="Effects">
+									<Reference>
+										<Local>
+											<EffectSlot Name="" ID="{CF5086A5-DDEC-4185-9D52-5389903AC1F2}" ShortID="112664592">
+												<ReferenceList>
+													<Reference Name="Effect">
+														<Custom>
+															<Effect Name="Meter (Custom)" ID="{893EBBCC-7D54-4D26-BD15-2D7684D8F3DB}" ShortID="719101692" PluginName="Wwise Meter" CompanyID="0" PluginID="129" PluginType="3">
+																<PropertyList>
+																	<Property Name="Min" Type="Real32" Value="-96.3"/>
+																</PropertyList>
+																<PluginData>
+	<GameParameter Name="lefthand_stinger" ID="{F3DCA231-347F-4574-B1F2-4C34B52D1624}"/>
+</PluginData>
+															</Effect>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</EffectSlot>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</Bus>
+						<Bus Name="Vintage Right Hand" ID="{9CC84E2A-8039-463D-B684-29D740909D35}">
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{8AB85997-99FB-414E-A3E3-EADB2138FD52}" ShortID="719946129">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="BusVolume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="righthand_stinger" ID="{3C7AD629-F796-419D-8277-F0604E4BB7FE}" WorkUnitID="{8B207EDA-DF61-423D-B11D-368EA98D2FB6}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{E9FD013F-3009-4AA8-BF10-2F653219AAF9}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>-96</XPos>
+																		<YPos>0</YPos>
+																		<Flags>5</Flags>
+																		<SegmentShape>Log3</SegmentShape>
+																	</Point>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</Bus>
+						<Bus Name="Vintage Right Hand Sidechain" ID="{44940C3F-5385-4D52-87EC-03942221953D}">
+							<ObjectLists>
+								<ObjectList Name="Effects">
+									<Reference>
+										<Local>
+											<EffectSlot Name="" ID="{40C36030-E7C8-4A0A-B2E6-1AA26F921242}" ShortID="1011123786">
+												<ReferenceList>
+													<Reference Name="Effect">
+														<Custom>
+															<Effect Name="Meter (Custom)" ID="{1B278C16-AE94-4678-86AE-093511F2B74B}" ShortID="17841642" PluginName="Wwise Meter" CompanyID="0" PluginID="129" PluginType="3">
+																<PropertyList>
+																	<Property Name="Min" Type="Real32" Value="-96.3"/>
+																	<Property Name="ReleaseTime" Type="Real32" Value="0"/>
+																</PropertyList>
+																<PluginData>
+	<GameParameter Name="righthand_stinger" ID="{3C7AD629-F796-419D-8277-F0604E4BB7FE}"/>
+</PluginData>
+															</Effect>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</EffectSlot>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</Bus>
 					</ChildrenList>
 					<ObjectLists>
 						<ObjectList Name="Effects">

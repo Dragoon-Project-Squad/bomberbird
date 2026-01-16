@@ -9,6 +9,7 @@ const STAGE_DIR: Dictionary = {
 	"Dungeon": "dungeon_stages/dungeon_runtime.tscn",
 	"Lab": "lab_stages/lab_runtime.tscn",
 	"Secret": "secret_stages/secret_runtime.tscn",
+	"Vintage": "vintage_stages/vintage_runtime.tscn",
 	}
 
 signal has_changed

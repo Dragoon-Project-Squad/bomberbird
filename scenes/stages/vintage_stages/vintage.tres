@@ -1,0 +1,6 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://duf4xrj2g6ows"]
+
+[ext_resource type="Shader" uid="uid://bpegjy5qnj5pd" path="res://scenes/stages/vintage_stages/vintage.gdshader" id="1_emswx"]
+
+[resource]
+shader = ExtResource("1_emswx")

@@ -16,6 +16,30 @@
 						<State Name="minki" ID="{1B072E95-1A99-4EF2-A37D-AF6F7238DB93}"/>
 						<State Name="random" ID="{A258802D-1B1E-4885-976C-872C3B7D09FE}"/>
 						<State Name="bounty_hunter_blitz" ID="{97A706A9-F6CB-4798-B19D-D7A6E2522462}"/>
+						<State Name="vintage" ID="{BD63CDD9-0AA2-4840-B958-3EEE31A22E2F}"/>
+					</ChildrenList>
+				</StateGroup>
+				<StateGroup Name="battle_state" ID="{951EB862-2248-4D0C-A84A-4EB2FFFAB4E9}">
+					<PropertyList>
+						<Property Name="DefaultTransitionTime" Type="Real64" Value="0"/>
+					</PropertyList>
+					<ChildrenList>
+						<State Name="None" ID="{94FB7A0C-2D6D-484B-B723-68561724D03E}"/>
+						<State Name="a" ID="{D5BCFFA0-041F-4BA0-BC64-D8AD8E455246}"/>
+						<State Name="b" ID="{60AD7B32-D785-4B72-8B03-674C1F3C05CB}"/>
+						<State Name="c" ID="{ED2DE8A7-8136-40A1-8CBB-F2AD0C52B5A0}"/>
+						<State Name="d" ID="{8BF07710-24D4-4141-8F05-A7EC684964EE}"/>
+						<State Name="e" ID="{C7AE9EB6-45E0-4B6E-98D6-B776110D4A92}"/>
+					</ChildrenList>
+				</StateGroup>
+				<StateGroup Name="game_state" ID="{117D1A2A-2AFF-40B1-A09B-6B66A1FDD035}">
+					<PropertyList>
+						<Property Name="DefaultTransitionTime" Type="Real64" Value="0"/>
+					</PropertyList>
+					<ChildrenList>
+						<State Name="None" ID="{88CD8E61-15F7-4595-8FE8-5D453E6D0407}"/>
+						<State Name="game_on" ID="{D2241DEC-AA51-46EC-BF9B-90881B7B2CF4}"/>
+						<State Name="game_over" ID="{E86C340E-2859-4E1B-B2C5-A4F96142AA5E}"/>
 					</ChildrenList>
 				</StateGroup>
 			</ChildrenList>

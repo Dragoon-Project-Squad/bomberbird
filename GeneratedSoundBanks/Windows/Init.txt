@@ -1,20 +1,35 @@
 State Group	ID	Name			Wwise Object Path	Notes
+	766723505	game_state			\Default Work Unit\game_state	
 	896293863	battle_track			\Default Work Unit\battle_track	
+	2739846761	battle_state			\Default Work Unit\battle_state	
 
 State	ID	Name	State Group			Notes
+	748895195	None	game_state			
+	1432716332	game_over	game_state			
+	2219001485	game_on	game_state			
 	608898761	dungeon	battle_track			
 	748895195	None	battle_track			
+	2175638193	bounty_hunter_blitz	battle_track			
 	2275039111	rush	battle_track			
 	3048058352	random	battle_track			
+	3229754765	vintage	battle_track			
 	3284605273	dad_drive	battle_track			
 	3432696479	minki	battle_track			
 	3671065912	bounty_hunter_jam	battle_track			
+	84696442	e	battle_state			
+	84696443	d	battle_state			
+	84696444	c	battle_state			
+	84696445	b	battle_state			
+	84696446	a	battle_state			
+	748895195	None	battle_state			
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
 	393239870	SFX			\Default Work Unit\vol\SFX	
 	504532776	Brick			\Factory Acoustic Textures\Textures\Brick	
 	513139656	Mountain			\Factory Acoustic Textures\Textures\Mountain	
 	841620460	Concrete			\Factory Acoustic Textures\Textures\Concrete	
+	1286900989	righthand_stinger			\Default Work Unit\sidechains\righthand_stinger	
+	1750178298	lefthand_stinger			\Default Work Unit\sidechains\lefthand_stinger	
 	1755085759	Wood_Deep			\Factory Acoustic Textures\Textures\Wood_Deep	
 	1873957695	Anechoic			\Factory Acoustic Textures\Textures\Anechoic	
 	1970351858	Fabric			\Factory Acoustic Textures\Textures\Fabric	
@@ -30,12 +45,18 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 	4262522749	Wood_Bright			\Factory Acoustic Textures\Textures\Wood_Bright	
 
 Audio Bus	ID	Name			Wwise Object Path	Notes
+	241961275	Vintage Left Hand Sidechain			\Default Work Unit\Master Audio Bus\Vintage Left Hand Sidechain	
 	393239870	SFX			\Default Work Unit\Master Audio Bus\SFX	
+	2133159467	Vintage Left Hand			\Default Work Unit\Master Audio Bus\Vintage Left Hand	
+	2246801478	Vintage Right Hand Sidechain			\Default Work Unit\Master Audio Bus\Vintage Right Hand Sidechain	
+	3168807778	Vintage Right Hand			\Default Work Unit\Master Audio Bus\Vintage Right Hand	
 	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
 	3991942870	Music			\Default Work Unit\Master Audio Bus\Music	
 
 Effect plug-ins	ID	Name	Type				Notes
+	17841642	Meter (Custom)	Wwise Meter			
 	418997550	Peak Limiter (Custom)	Wwise Peak Limiter			
+	719101692	Meter (Custom)	Wwise Meter			
 
 Audio Devices	ID	Name	Type				Notes
 	2317455096	No_Output	No Output			

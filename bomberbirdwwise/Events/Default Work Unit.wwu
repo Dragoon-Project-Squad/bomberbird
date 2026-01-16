@@ -231,6 +231,13 @@
 												</Reference>
 											</ReferenceList>
 										</Action>
+										<Action Name="" ID="{CE42A3B7-4A1B-4140-8445-0FCBA2E02AC0}" ShortID="699038062">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="vintageplayerhurt_left_hand" ID="{429B2C70-C666-4DF3-8A27-F8C25B63A4C4}" WorkUnitID="{117B7D1D-55AF-426B-8FD8-E768576CFE9B}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
 									</ChildrenList>
 								</Event>
 								<Event Name="snd_throw_bomb" ID="{5F3D7381-E016-410D-A4B8-14ECA8071DF0}">
@@ -277,6 +284,13 @@
 														</Reference>
 													</ReferenceList>
 												</Action>
+												<Action Name="" ID="{71C4647A-29C8-4E60-9CB3-A868661CD81D}" ShortID="59946294">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="vintagecockobo_summon_right_hand" ID="{8C80A834-41A7-41B9-A417-4A7712A2E4E0}" WorkUnitID="{117B7D1D-55AF-426B-8FD8-E768576CFE9B}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
 											</ChildrenList>
 										</Event>
 										<Event Name="snd_cockobo_footstep" ID="{8E6F453C-B47A-4A0D-86BB-7FDA3FF4755A}">
@@ -296,6 +310,13 @@
 													<ReferenceList>
 														<Reference Name="Target">
 															<ObjectRef Name="cockobo_death" ID="{62CEC5C0-9A81-462D-987B-E7FC998535C8}" WorkUnitID="{117B7D1D-55AF-426B-8FD8-E768576CFE9B}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+												<Action Name="" ID="{EED72992-A404-4D9B-9A90-A811E68F71A9}" ShortID="167973138">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="vintageplayerhurt_left_hand" ID="{429B2C70-C666-4DF3-8A27-F8C25B63A4C4}" WorkUnitID="{117B7D1D-55AF-426B-8FD8-E768576CFE9B}"/>
 														</Reference>
 													</ReferenceList>
 												</Action>
@@ -470,6 +491,25 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="ambience" ID="{F6DFADBD-EEE5-4B68-BB22-9CCA99AD298D}" ShortID="1012898963">
+					<ChildrenList>
+						<Folder Name="vintage" ID="{01458742-3C85-44B2-A245-539B3258132D}" ShortID="765837491">
+							<ChildrenList>
+								<Event Name="play_projector" ID="{36762131-9175-4AAA-9069-91BA62AAB204}">
+									<ChildrenList>
+										<Action Name="" ID="{543EFB70-5D7E-4490-A0CD-D713554D264C}" ShortID="581286432">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="vintageprojector_LOOP" ID="{3DB9C9F4-DEBF-44A4-BA27-A674F190DA5D}" WorkUnitID="{117B7D1D-55AF-426B-8FD8-E768576CFE9B}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+							</ChildrenList>
+						</Folder>
 					</ChildrenList>
 				</Folder>
 			</ChildrenList>

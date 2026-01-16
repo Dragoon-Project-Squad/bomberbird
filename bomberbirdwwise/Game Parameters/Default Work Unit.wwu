@@ -25,6 +25,24 @@
 						</GameParameter>
 					</ChildrenList>
 				</Folder>
+				<Folder Name="sidechains" ID="{80AAB4E9-3CBF-410F-99DA-CFF1A66631A8}" ShortID="477275320">
+					<ChildrenList>
+						<GameParameter Name="lefthand_stinger" ID="{F3DCA231-347F-4574-B1F2-4C34B52D1624}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="-96"/>
+								<Property Name="Max" Type="Real64" Value="0"/>
+								<Property Name="Min" Type="Real64" Value="-96"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="righthand_stinger" ID="{3C7AD629-F796-419D-8277-F0604E4BB7FE}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="-96"/>
+								<Property Name="Max" Type="Real64" Value="0"/>
+								<Property Name="Min" Type="Real64" Value="-96"/>
+							</PropertyList>
+						</GameParameter>
+					</ChildrenList>
+				</Folder>
 			</ChildrenList>
 		</WorkUnit>
 	</GameParameters>
