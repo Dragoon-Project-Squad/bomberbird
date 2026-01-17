@@ -40,6 +40,7 @@
 						<State Name="None" ID="{88CD8E61-15F7-4595-8FE8-5D453E6D0407}"/>
 						<State Name="game_on" ID="{D2241DEC-AA51-46EC-BF9B-90881B7B2CF4}"/>
 						<State Name="game_over" ID="{E86C340E-2859-4E1B-B2C5-A4F96142AA5E}"/>
+						<State Name="game_transitioning" ID="{2EE1956B-77FC-4AD6-BEBB-5517062DA249}"/>
 					</ChildrenList>
 				</StateGroup>
 			</ChildrenList>

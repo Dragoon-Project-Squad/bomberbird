@@ -20,6 +20,10 @@ func start():
 		stage.reset.call_deferred()
 	stage.enable.call_deferred() #Set up the stage.
 	freeze_players.call_deferred()
+	
+	#This makes sure the actual music plays after each round
+	Wwise.set_state("game_state", "game_on")
+	
 	await remove_the_darkness()
 	show_all_players()
 	await start_stage_start_countdown() #
@@ -157,7 +161,11 @@ func _check_ending_condition(_alive_enemies: int = 0):
 
 func stop_the_match():
 	game_ended = true
+	
 	#stage.stop_music()
+	#Set wwise state to the transition track which will depend on music track state
+	Wwise.set_state("game_state", "game_transitioning")
+	
 	stage.stop_hurry_up()
 	if not %MatchTimer.is_stopped():
 		%MatchTimer.stop()

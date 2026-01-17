@@ -181,6 +181,12 @@
         "Name": "game_on",
         "ObjectPath": "\\States\\Default Work Unit\\game_state\\game_on",
         "GUID": "{D2241DEC-AA51-46EC-BF9B-90881B7B2CF4}"
+       },
+       {
+        "Id": "3592636505",
+        "Name": "game_transitioning",
+        "ObjectPath": "\\States\\Default Work Unit\\game_state\\game_transitioning",
+        "GUID": "{2EE1956B-77FC-4AD6-BEBB-5517062DA249}"
        }
       ]
      },
@@ -770,6 +776,6 @@
     ]
    }
   ],
-  "FileHash": "{F778F96D-E6C7-A583-7EDF-B69E8F5110C4}"
+  "FileHash": "{D383251C-78B9-3082-96FB-FE9BD2EF3AA1}"
  }
 }

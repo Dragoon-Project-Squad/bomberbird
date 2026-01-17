@@ -41,6 +41,7 @@ namespace AK
         static const AkUniqueID ST_MINKI = 3862449989U;
         static const AkUniqueID ST_RUSH = 979156697U;
         static const AkUniqueID ST_STOP_MUSIC = 2548511007U;
+        static const AkUniqueID ST_VINTAGE = 2244648975U;
         static const AkUniqueID STOP_MUSIC = 2837384057U;
         static const AkUniqueID UNPAUSE_MUSIC_DRAGOON_CAFE = 2726913135U;
         static const AkUniqueID UNPAUSE_MUSIC_MAIN_MENU = 3895502332U;
@@ -89,6 +90,7 @@ namespace AK
             {
                 static const AkUniqueID GAME_ON = 2219001485U;
                 static const AkUniqueID GAME_OVER = 1432716332U;
+                static const AkUniqueID GAME_TRANSITIONING = 3592636505U;
                 static const AkUniqueID NONE = 748895195U;
             } // namespace STATE
         } // namespace GAME_STATE

@@ -993,6 +993,10 @@
 												<CustomState Name="" ID="{94937B92-7FA4-42A2-8571-41B4E597A323}" ShortID="293797116"/>
 											</CustomState>
 											<CustomState>
+												<StateRef Name="game_transitioning" ID="{2EE1956B-77FC-4AD6-BEBB-5517062DA249}"/>
+												<CustomState Name="" ID="{9161750B-6D02-425B-9E5F-2C11FEC57DEC}" ShortID="321821885"/>
+											</CustomState>
+											<CustomState>
 												<StateRef Name="game_over" ID="{E86C340E-2859-4E1B-B2C5-A4F96142AA5E}"/>
 												<CustomState Name="" ID="{11B2E23E-03BB-4EC8-9C16-C1F089983056}" ShortID="613018231">
 													<PropertyList>

@@ -491,6 +491,17 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="st_vintage" ID="{8FE0D042-F275-42FC-9599-FE1906EA37A6}">
+							<ChildrenList>
+								<Action Name="" ID="{26AAE5C3-800A-4BDD-A6C0-10E58487B458}" ShortID="644381860">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="soundtest_vintage" ID="{22B3990C-957D-4ABF-81A9-277F6B26516B}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="ambience" ID="{F6DFADBD-EEE5-4B68-BB22-9CCA99AD298D}" ShortID="1012898963">
