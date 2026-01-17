@@ -79,8 +79,9 @@ signal game_ended()
 signal game_error(what)
 signal secret_status_sent
 
-signal lobby_created
-signal lobby_joined
+# Steam Exclusive Signals
+signal steam_lobby_creation_finished
+signal steam_lobby_join_finished
 
 # Preloaded Scenes
 var campaign_game_scene: String = "res://scenes/campaign_game.tscn"
@@ -273,7 +274,7 @@ func load_world(game_scene):
 	game.start()
 	get_tree().set_pause(false) 
 
-func attempt_host_game(lobby_type : Steam.LobbyType):
+func attempt_host_steam_game(lobby_type : Steam.LobbyType):
 	print_debug("Attempting to host game...")
 	
 	if lobby_id != 0:
@@ -281,7 +282,16 @@ func attempt_host_game(lobby_type : Steam.LobbyType):
 
 	Steam.createLobby(lobby_type, lobby_members_max)
 
-func host_game(lobby_id : int) -> void:
+func host_vanilla_game(new_player_name):
+	player_name = new_player_name
+	host_player_name = new_player_name
+	peer = ENetMultiplayerPeer.new()
+	peer.create_server(DEFAULT_PORT, MAX_PEERS)
+	multiplayer.set_multiplayer_peer(peer)
+	player_data_master_dict[1].spritepaths = character_texture_paths.normalgoon_paths
+	gamestate.establish_player_counts()
+	
+func host_steam_mp_game(hosting_lobby_id : int) -> void:
 	peer = SteamMultiplayerPeer.new()
 	peer.create_host()
 	
@@ -289,20 +299,26 @@ func host_game(lobby_id : int) -> void:
 	player_data_master_dict[1].spritepaths = character_texture_paths.normalgoon_paths
 	gamestate.establish_player_counts()
 	
-	peer.set_lobby_data("name", "%s's Lobby" % [player_name])
+	Steam.setLobbyData(hosting_lobby_id, "name", "%s's Lobby" % [player_name])
 	
-	lobby_created.emit()
+	steam_lobby_creation_finished.emit()
 
-func join_game(lobby_id : int):
+func join_vanilla_game_as_peer(ip, new_player_name):
+	player_name = new_player_name
+	peer = ENetMultiplayerPeer.new()
+	peer.create_client(ip, DEFAULT_PORT)
+	multiplayer.set_multiplayer_peer(peer)
+
+func join_steam_game_as_peer(joined_lobby_id : int):
 	peer = SteamMultiplayerPeer.new()
-	peer.connect_to_lobby(lobby_id)
+	peer.connect_to_lobby(joined_lobby_id)
 	
 	multiplayer.set_multiplayer_peer(peer)
-	lobby_joined.emit()
+	steam_lobby_join_finished.emit()
 	
 	if get_tree().current_scene != LobbyClass:
 		get_tree().change_scene_to_file("uid://jhdlqsokif5o") # UID leads to res://scenes/lobby/lobby.tscn
-
+		
 func get_player_name_list(): #id:playername
 	var playernames = {}
 	for p in player_data_master_dict:
@@ -550,8 +566,12 @@ func assign_dict_to_spritepaths(playerdict: Dictionary):
 			playerdict.spritepaths = character_texture_paths.egggoon_paths
 
 
-func _on_lobby_created(connection: int, this_lobby_id: int) -> void:
-	if connection == 1:
+func _on_steam_lobby_created(connection: int, this_lobby_id: int) -> void:
+	print_debug("Lobby creation attempt returned.")
+	if connection != Steam.RESULT_OK:
+		printerr("Lobby creation failed.")
+		display_specific_steam_lobby_creation_error(connection)
+	else:
 		# Set the lobby ID
 		lobby_id = this_lobby_id
 		print("Created a lobby: %s" % lobby_id)
@@ -565,11 +585,24 @@ func _on_lobby_created(connection: int, this_lobby_id: int) -> void:
 		# Allow P2P connections to fallback to being relayed through Steam if needed
 		var set_relay: bool = Steam.allowP2PPacketRelay(true)
 		print("Allowing Steam to be relay backup: %s" % set_relay)
-		host_game(lobby_id)
+		host_steam_mp_game(lobby_id)
 		
-## Steam-specific. Used whenever trying to join a lobby.
+		
+# Steam-specific. Catalouges error messages.
+func display_specific_steam_lobby_creation_error(connection_failed_reason_code : int) -> void:
+	var fail_reason: String
+	
+	match connection_failed_reason_code:
+		Steam.RESULT_FAIL: fail_reason = "This lobby no longer exists."
+		Steam.RESULT_TIMEOUT: fail_reason = "TThe message was sent to the Steam servers, but it didn't respond."
+		Steam.RESULT_LIMIT_EXCEEDED: fail_reason = "Your game client has created too many lobbies and is being rate limited."
+		Steam.RESULT_ACCESS_DENIED: fail_reason = "Your game isn't set to allow lobbies, or your client does not rights to play the game!"
+		Steam.RESULT_NO_CONNECTION: fail_reason = "Your Steam client doesn't have a connection to the back-end."
 
-func join_lobby(this_lobby_id: int) -> void:
+	print("Failed to create Steam lobby: %s" % fail_reason)
+
+## Steam-specific. Used whenever trying to join a lobby.
+func join_steam_lobby(this_lobby_id: int) -> void:
 	print("Attempting to join lobby %s" % lobby_id)
 
 	# Clear any previous lobby members lists, if you were in a previous lobby
@@ -578,16 +611,16 @@ func join_lobby(this_lobby_id: int) -> void:
 	# Make the lobby join request to Steam
 	Steam.joinLobby(this_lobby_id)
 	
-func _on_lobby_join_requested(this_lobby_id: int, friend_id: int) -> void:
+func _on_steam_lobby_join_requested(this_lobby_id: int, friend_id: int) -> void:
 	# Get the lobby owner's name
 	var owner_name: String = Steam.getFriendPersonaName(friend_id)
 
 	print("Joining %s's lobby..." % owner_name)
 
 	# Attempt to join the lobby
-	join_lobby(this_lobby_id)
+	join_steam_lobby(this_lobby_id)
 	
-func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, response: int) -> void:
+func _on_steam_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, response: int) -> void:
 	# If joining was successful
 	if response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS:
 		# Set this lobby ID as your lobby ID
@@ -597,8 +630,10 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 		get_lobby_members()
 
 		# Make the initial handshake
-		make_p2p_handshake()
-		join_game(lobby_id)
+		make_steam_p2p_handshake()
+		# If not the owner of lobby, join up
+		join_steam_game_as_peer(lobby_id)
+		
 	# Else it failed for some reason
 	else:
 		# Get the failure reason
@@ -640,7 +675,7 @@ func get_lobby_members() -> void:
 		lobby_members.append({"steam_id":member_steam_id, "steam_name":member_steam_name})
 
 # A user's information has changed
-func _on_persona_change(this_steam_id: int, _flag: int) -> void:
+func _on_steam_persona_change(this_steam_id: int, _flag: int) -> void:
 	# Make sure you're in a lobby and this user is valid or Steam might spam your console log
 	if lobby_id > 0:
 		print("A user (%s) had information change, update the lobby list" % this_steam_id)
@@ -648,7 +683,7 @@ func _on_persona_change(this_steam_id: int, _flag: int) -> void:
 		# Update the player list
 		get_lobby_members()
 
-func _on_lobby_chat_update(this_lobby_id: int, change_id: int, making_change_id: int, chat_state: int) -> void:
+func _on_steam_lobby_chat_update(_this_lobby_id: int, change_id: int, _making_change_id: int, chat_state: int) -> void:
 	# Get the user who has made the lobby change
 	var changer_name: String = Steam.getFriendPersonaName(change_id)
 
@@ -696,7 +731,7 @@ func leave_steam_lobby() -> void:
 		lobby_members.clear()
 
 ## Steam-specific. Helps handle handshakes.
-func _on_network_messages_session_request(remote_id: int) -> void:
+func _on_steam_network_messages_session_request(remote_id: int) -> void:
 	# Get the requester's name
 	var this_requester: String = Steam.getFriendPersonaName(remote_id)
 	print("%s is requesting a P2P session" % this_requester)
@@ -705,18 +740,18 @@ func _on_network_messages_session_request(remote_id: int) -> void:
 	Steam.acceptSessionWithUser(remote_id)
 
 	# Make the initial handshake
-	make_p2p_handshake()
+	make_steam_p2p_handshake()
 	
 ## Steam-specific. Called when something Multiplayer-related failed.
-func _on_network_messages_session_failed(fail_steam_id: int, fail_reason: int, fail_connection_state: int) -> void:
+func _on_steam_network_messages_session_failed(fail_steam_id: int, fail_reason: int, fail_connection_state: int) -> void:
 	printerr("Steam failed to do something network-request-related. ID: %s, Reason: %s, State: %s" % [fail_steam_id, fail_reason, fail_connection_state])
 
-func make_p2p_handshake() -> void:
+func make_steam_p2p_handshake() -> void:
 	print("Sending P2P handshake to the lobby")
 
-	send_p2p_packet(0, {"message": "handshake", "from": steam_id})
+	send_steam_p2p_packet(0, {"message": "handshake", "from": steam_id})
 
-func send_p2p_packet(this_target: int, packet_data: Dictionary) -> void:
+func send_steam_p2p_packet(this_target: int, packet_data: Dictionary) -> void:
 			# Set the send_type and channel
 	var send_type: int = Steam.P2P_SEND_RELIABLE
 	var channel: int = 0
@@ -749,27 +784,31 @@ func initialize_steam() -> void:
 		get_tree().quit() #Or just blow up the game instead.
 			
 func steam_signal_setup() -> void:
-	Steam.join_requested.connect(_on_lobby_join_requested)
+	Steam.join_requested.connect(_on_steam_lobby_join_requested)
 	#Steam.lobby_chat_update.connect(_on_lobby_chat_update) #No chatroom feature enabled.
-	Steam.lobby_created.connect(_on_lobby_created)
+	Steam.lobby_created.connect(_on_steam_lobby_created)
 	#Steam.lobby_data_update.connect(_on_lobby_data_update)
 	#Steam.lobby_invite.connect(_on_lobby_invite)
-	Steam.lobby_joined.connect(_on_lobby_joined)
+	Steam.lobby_joined.connect(_on_steam_lobby_joined)
 	#Steam.lobby_match_list.connect(_on_lobby_match_list)
 	#Steam.lobby_message.connect(_on_lobby_message)
-	Steam.persona_state_change.connect(_on_persona_change)
-	Steam.network_messages_session_request.connect(_on_network_messages_session_request)
-	Steam.network_messages_session_failed.connect(_on_network_messages_session_failed)
+	Steam.persona_state_change.connect(_on_steam_persona_change)
+	Steam.network_messages_session_request.connect(_on_steam_network_messages_session_request)
+	Steam.network_messages_session_failed.connect(_on_steam_network_messages_session_failed)
 	
-func check_command_line_arguments():
+func check_steam_command_line_arguments():
 	var these_arguments: Array = OS.get_cmdline_args()
 	# There are arguments to process
 	# A Steam connection argument exists
 	# Lobby invite exists so try to connect to it
 	if these_arguments.size() > 0 and these_arguments[0] == "+connect_lobby" and int(these_arguments[1]) > 0: # There are arguments to process
 		print("Command line lobby ID: %s" % these_arguments[1])
-		#join_lobby_on_startup(int(these_arguments[1])) 
+		join_lobby_on_startup(int(these_arguments[1])) 
 
+func join_lobby_on_startup(startupargs) -> void:
+	printerr("This developer attempted to program command line args without actually coding their effect. Point and laugh.")
+	print_debug("Anyway, here's your args, you silly billy.", startupargs)
+	
 func steam_playername_integration():
 	player_id = Steam.getSteamID()
 	player_name = Steam.getFriendPersonaName(player_id)
