@@ -1067,6 +1067,9 @@
 									<StateGroupInfo>
 										<StateGroupRef Name="battle_track" ID="{000714A4-2E78-4263-9682-6C0CB3867AC6}"/>
 									</StateGroupInfo>
+									<StateGroupInfo>
+										<StateGroupRef Name="game_state" ID="{117D1A2A-2AFF-40B1-A09B-6B66A1FDD035}"/>
+									</StateGroupInfo>
 								</StateGroupList>
 								<CustomStateList>
 									<CustomState>
@@ -1077,6 +1080,14 @@
 												<Property Name="Volume" Type="Real64" Value="-108"/>
 											</PropertyList>
 										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="None" ID="{88CD8E61-15F7-4595-8FE8-5D453E6D0407}"/>
+										<CustomState Name="" ID="{F5B3695B-C6C5-4DA6-975A-73480E8F4646}" ShortID="536108527"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="game_on" ID="{D2241DEC-AA51-46EC-BF9B-90881B7B2CF4}"/>
+										<CustomState Name="" ID="{7FD68D22-8037-4965-AD58-3C35EC52CC84}" ShortID="191742997"/>
 									</CustomState>
 									<CustomState>
 										<StateRef Name="bounty_hunter_blitz" ID="{97A706A9-F6CB-4798-B19D-D7A6E2522462}"/>
@@ -1110,6 +1121,10 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
+										<StateRef Name="game_transitioning" ID="{2EE1956B-77FC-4AD6-BEBB-5517062DA249}"/>
+										<CustomState Name="" ID="{F8F916AC-34AB-483B-B08F-6D9E76675348}" ShortID="399204343"/>
+									</CustomState>
+									<CustomState>
 										<StateRef Name="rush" ID="{9F886BF6-0CCB-4BE4-AAE9-E2E996283B7D}"/>
 										<CustomState Name="" ID="{A5A7CAC3-DFD3-4641-A01F-474D7D90EE96}" ShortID="282691413">
 											<PropertyList>
@@ -1130,6 +1145,15 @@
 									<CustomState>
 										<StateRef Name="bounty_hunter_jam" ID="{A19BA789-9EEE-4E1A-83B9-E21D457D698D}"/>
 										<CustomState Name="" ID="{089E0ED4-AD23-43EA-83CF-20CAC970C4E6}" ShortID="212156578">
+											<PropertyList>
+												<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="game_over" ID="{E86C340E-2859-4E1B-B2C5-A4F96142AA5E}"/>
+										<CustomState Name="" ID="{EB247693-5632-49D5-86A9-39998A77ABD6}" ShortID="565059191">
 											<PropertyList>
 												<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
 												<Property Name="Volume" Type="Real64" Value="-108"/>

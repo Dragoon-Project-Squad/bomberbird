@@ -412,6 +412,16 @@
 										</Reference>
 									</ReferenceList>
 								</Action>
+								<Action Name="" ID="{870E8292-4339-4332-82CD-57300866D95F}" ShortID="1013957424">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="soundtest_vintage" ID="{22B3990C-957D-4ABF-81A9-277F6B26516B}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
 							</ChildrenList>
 						</Event>
 						<Event Name="st_doki_comes_home" ID="{23C287DA-F7B4-4776-B890-E038E622D77D}">
