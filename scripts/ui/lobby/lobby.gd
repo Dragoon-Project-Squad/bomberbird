@@ -4,7 +4,7 @@ extends Control
 @onready var battle_settings_screen: Control = $BattleSettings
 @onready var stage_select_screen: Control = $StageSelect
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var vanilla_connection_screen: Panel = $VanillaConnectionScreen
+@onready var vanilla_connection_screen: PanelContainer = $VanillaConnectionScreen
 @onready var steam_connection_screen: PanelContainer = $SteamConnectionScreen
 
 #Could switch to the Steam screen depending on outside factors.

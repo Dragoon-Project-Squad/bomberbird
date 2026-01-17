@@ -7,7 +7,7 @@ extends Control
 @onready var reset_dialog: ConfirmationDialog = %ResetConfirmationDialog
 
 signal options_menu_exited
-signal correct_secret_inputted
+#signal correct_secret_input #Not actually used by anything at the moment.
 
 @export var error_sound: WwiseEvent
 @export var correct_sound: WwiseEvent

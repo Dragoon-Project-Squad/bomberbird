@@ -2,7 +2,8 @@ extends PanelContainer
 class_name ConnectionScreen
 
 var timeout_timer = null
-signal multiplayer_game_hosted
+
+signal multiplayer_game_hosted #Is used in children, from the Lobby.
 signal multiplayer_game_joined
 
 func _ready():
@@ -17,39 +18,6 @@ func _ready():
 	timeout_timer.one_shot = true
 	timeout_timer.connect("timeout", Callable(self, "_on_connection_timeout"))
 	add_child(timeout_timer)
-
-
-func _on_host_pressed():
-	if $Name.text == "":
-		$ErrorLabel.text = "Invalid name!"
-		return
-
-	$ErrorLabel.text = ""
-	
-	var player_name = $Name.text
-	globals.config.set_player_name(player_name)
-	gamestate.player_data_master_dict[1].playername = player_name
-	gamestate.host_game(globals.config.get_player_name())
-	multiplayer_game_hosted.emit()
-
-func _on_join_pressed():
-	if $Name.text == "":
-		$ErrorLabel.text = "Invalid name!"
-		return
-
-	var ip = $IPAddress.text
-	if not ip.is_valid_ip_address():
-		$ErrorLabel.text = "Invalid IP address!"
-		return
-
-	$ErrorLabel.text = ""
-	$Host.disabled = true
-	$Join.disabled = true
-
-	var player_name = $Name.text
-	globals.config.set_player_name(player_name)
-	timeout_timer.start()
-	gamestate.join_game(ip, player_name)
 
 func _on_connection_timeout():
 	if gamestate.peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:

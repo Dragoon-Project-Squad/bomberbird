@@ -1,100 +1,90 @@
-[gd_scene load_steps=4 format=3 uid="uid://ct78qhmrqbmgo"]
+[gd_scene load_steps=5 format=3 uid="uid://ct78qhmrqbmgo"]
 
 [ext_resource type="Theme" uid="uid://bgj72vffexht" path="res://assets/styles/panel_theme.tres" id="1_fogm0"]
 [ext_resource type="Script" uid="uid://bbdvm4d1whhpp" path="res://scripts/ui/lobby/vanilla_connection_screen.gd" id="2_nxlj7"]
 [ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="3_204x2"]
+[ext_resource type="Theme" uid="uid://d2oqlxohwao3c" path="res://assets/styles/battle_settings_menu.tres" id="3_nxlj7"]
 
-[node name="Connect" type="Panel"]
+[node name="Connect" type="PanelContainer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -416.0
-offset_top = -206.0
+offset_top = -208.0
 offset_right = 416.0
-offset_bottom = 210.0
+offset_bottom = 208.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 2
-size_flags_vertical = 2
 theme = ExtResource("1_fogm0")
 script = ExtResource("2_nxlj7")
 
-[node name="NameLabel" type="Label" parent="."]
-layout_mode = 0
-offset_left = 14.0
-offset_top = 11.0
-offset_right = 56.0
-offset_bottom = 25.0
-size_flags_horizontal = 2
-size_flags_vertical = 0
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme = ExtResource("3_nxlj7")
+
+[node name="HostContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="NameLabel" type="Label" parent="VBoxContainer/HostContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
 text = "Name:"
 
-[node name="Name" type="LineEdit" parent="."]
-layout_mode = 0
-offset_left = 17.0
-offset_top = 38.0
-offset_right = 173.0
-offset_bottom = 69.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-text = "Dragoon"
+[node name="Name" type="LineEdit" parent="VBoxContainer/HostContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 32
+placeholder_text = "Dragoon Name Here"
 
-[node name="IPLabel" type="Label" parent="."]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 74.0
-offset_right = 57.0
-offset_bottom = 97.0
+[node name="Host" type="Button" parent="VBoxContainer/HostContainer" groups=["ui_button"]]
+layout_mode = 2
 size_flags_horizontal = 2
-size_flags_vertical = 0
-theme_override_font_sizes/font_size = 16
-text = "IP:"
-
-[node name="IPAddress" type="LineEdit" parent="."]
-layout_mode = 0
-offset_left = 17.0
-offset_top = 102.0
-offset_right = 173.0
-offset_bottom = 133.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-text = "127.0.0.1"
-
-[node name="Host" type="Button" parent="." groups=["ui_button"]]
-layout_mode = 0
-offset_left = 181.0
-offset_top = 38.0
-offset_right = 251.0
-offset_bottom = 76.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
+size_flags_vertical = 4
 text = "Host"
 script = ExtResource("3_204x2")
 metadata/_custom_type_script = "uid://boq3i75yls51h"
 
-[node name="Join" type="Button" parent="." groups=["ui_button"]]
-layout_mode = 0
-offset_left = 181.0
-offset_top = 102.0
-offset_right = 246.0
-offset_bottom = 140.0
+[node name="JoinContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="IPLabel" type="Label" parent="VBoxContainer/JoinContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "IP:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="IPAddress" type="LineEdit" parent="VBoxContainer/JoinContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 32
+placeholder_text = "Host's IP Address"
+alignment = 1
+
+[node name="Join" type="Button" parent="VBoxContainer/JoinContainer" groups=["ui_button"]]
+layout_mode = 2
 size_flags_horizontal = 2
-size_flags_vertical = 2
+size_flags_vertical = 4
 text = "Join"
 script = ExtResource("3_204x2")
 metadata/_custom_type_script = "uid://boq3i75yls51h"
 
-[node name="ErrorLabel" type="Label" parent="."]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 138.0
-offset_right = 257.0
-offset_bottom = 161.0
-size_flags_horizontal = 2
-size_flags_vertical = 0
-theme_override_colors/font_color = Color(0.820312, 0.291595, 0.291595, 1)
+[node name="ErrorContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+alignment = 1
 
-[connection signal="pressed" from="Host" to="." method="_on_host_pressed"]
-[connection signal="pressed" from="Join" to="." method="_on_join_pressed"]
+[node name="ErrorLabel" type="Label" parent="VBoxContainer/ErrorContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_colors/font_color = Color(0.820312, 0.291595, 0.291595, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
