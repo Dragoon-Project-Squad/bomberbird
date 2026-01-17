@@ -148,6 +148,12 @@ config={
 }
 }
 
+[steam]
+
+initialization/app_id=4337270
+initialization/initialize_on_startup=true
+initialization/embed_callbacks=true
+
 [wwise]
 
 common_user_settings/root_output_path="res://GeneratedSoundBanks"

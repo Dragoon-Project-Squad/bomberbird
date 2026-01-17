@@ -21,7 +21,7 @@ func _ready():
 
 
 func _on_host_pressed():
-	gamestate.host_game(lobby_type_dropdown.selected as Steam.LobbyType)
+	gamestate.attempt_host_game(lobby_type_dropdown.selected as Steam.LobbyType)
 	
 	await gamestate.lobby_created # Wait for the lobby to be created
 	multiplayer_game_hosted.emit()
