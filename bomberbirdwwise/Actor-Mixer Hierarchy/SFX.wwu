@@ -1153,12 +1153,7 @@
 									</CustomState>
 									<CustomState>
 										<StateRef Name="game_over" ID="{E86C340E-2859-4E1B-B2C5-A4F96142AA5E}"/>
-										<CustomState Name="" ID="{EB247693-5632-49D5-86A9-39998A77ABD6}" ShortID="565059191">
-											<PropertyList>
-												<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
-												<Property Name="Volume" Type="Real64" Value="-108"/>
-											</PropertyList>
-										</CustomState>
+										<CustomState Name="" ID="{EB247693-5632-49D5-86A9-39998A77ABD6}" ShortID="565059191"/>
 									</CustomState>
 									<CustomState>
 										<StateRef Name="minki" ID="{1B072E95-1A99-4EF2-A37D-AF6F7238DB93}"/>

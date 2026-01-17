@@ -7,6 +7,7 @@ State	ID	Name	State Group			Notes
 	748895195	None	game_state			
 	1432716332	game_over	game_state			
 	2219001485	game_on	game_state			
+	3592636505	game_transitioning	game_state			
 	608898761	dungeon	battle_track			
 	748895195	None	battle_track			
 	2175638193	bounty_hunter_blitz	battle_track			
@@ -16,8 +17,6 @@ State	ID	Name	State Group			Notes
 	3284605273	dad_drive	battle_track			
 	3432696479	minki	battle_track			
 	3671065912	bounty_hunter_jam	battle_track			
-	84696442	e	battle_state			
-	84696443	d	battle_state			
 	84696444	c	battle_state			
 	84696445	b	battle_state			
 	84696446	a	battle_state			
@@ -45,11 +44,11 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 	4262522749	Wood_Bright			\Factory Acoustic Textures\Textures\Wood_Bright	
 
 Audio Bus	ID	Name			Wwise Object Path	Notes
-	241961275	Vintage Left Hand Sidechain			\Default Work Unit\Master Audio Bus\Vintage Left Hand Sidechain	
+	241961275	Vintage Left Hand Sidechain			\Default Work Unit\Master Audio Bus\Music\Vintage Left Hand Sidechain	
 	393239870	SFX			\Default Work Unit\Master Audio Bus\SFX	
-	2133159467	Vintage Left Hand			\Default Work Unit\Master Audio Bus\Vintage Left Hand	
-	2246801478	Vintage Right Hand Sidechain			\Default Work Unit\Master Audio Bus\Vintage Right Hand Sidechain	
-	3168807778	Vintage Right Hand			\Default Work Unit\Master Audio Bus\Vintage Right Hand	
+	2133159467	Vintage Left Hand			\Default Work Unit\Master Audio Bus\Music\Vintage Left Hand	
+	2246801478	Vintage Right Hand Sidechain			\Default Work Unit\Master Audio Bus\Music\Vintage Right Hand Sidechain	
+	3168807778	Vintage Right Hand			\Default Work Unit\Master Audio Bus\Music\Vintage Right Hand	
 	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
 	3991942870	Music			\Default Work Unit\Master Audio Bus\Music	
 

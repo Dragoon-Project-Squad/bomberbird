@@ -131,14 +131,10 @@ func _check_ending_condition(_alive_enemies: int = 0):
 		#horizontal adaptive music stuff
 		if !alive_players.is_empty():
 			var top_score = game_ui.get_player_score(alive_players[0].name.to_int())
-			if  top_score >= points_to_win - 1:
-				Wwise.set_state("battle_state", "e")
-			elif float(top_score) >= float(points_to_win) * 3 / 4:
-				Wwise.set_state("battle_state", "d")
-			elif float(top_score) >= float(points_to_win) * 2 / 4:
+			if  top_score >= float(points_to_win) * 2 / 3:
 				Wwise.set_state("battle_state", "c")
-			elif float(top_score) >= float(points_to_win) * 1 / 4:
-				Wwise.set_state ("battle_state", "b")
+			elif float(top_score) >= float(points_to_win) * 1 / 3:
+				Wwise.set_state("battle_state", "b")
 		
 		await play_fade_out()
 		await get_tree().create_timer(2).timeout

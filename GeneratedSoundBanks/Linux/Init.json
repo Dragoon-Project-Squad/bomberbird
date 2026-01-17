@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}",
     "Language": "SFX",
-    "Hash": "{2E146F72-6A22-A5BE-4C8A-A2FFDD7F1875}",
+    "Hash": "{6DE79C11-B86F-3AB3-ACBC-559FFDB0F95C}",
     "ObjectPath": "Init",
     "ShortName": "Init",
     "Path": "Init.bnk",
@@ -19,7 +19,7 @@
       {
        "Id": "17841642",
        "Name": "Meter (Custom)",
-       "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Vintage Right Hand Sidechain\\[Effect Slot [0]: (Meter)]\\Meter (Custom)",
+       "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music\\Vintage Right Hand Sidechain\\[Effect Slot [0]: (Meter)]\\Meter (Custom)",
        "GUID": "{1B278C16-AE94-4678-86AE-093511F2B74B}",
        "LibName": "Wwise Meter",
        "LibId": "8454147"
@@ -35,7 +35,7 @@
       {
        "Id": "719101692",
        "Name": "Meter (Custom)",
-       "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Vintage Left Hand Sidechain\\[Effect Slot [0]: (Meter)]\\Meter (Custom)",
+       "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music\\Vintage Left Hand Sidechain\\[Effect Slot [0]: (Meter)]\\Meter (Custom)",
        "GUID": "{893EBBCC-7D54-4D26-BD15-2D7684D8F3DB}",
        "LibName": "Wwise Meter",
        "LibId": "8454147"
@@ -64,7 +64,7 @@
      {
       "Id": "241961275",
       "Name": "Vintage Left Hand Sidechain",
-      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Vintage Left Hand Sidechain",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music\\Vintage Left Hand Sidechain",
       "GUID": "{4CF07948-472D-4CF8-B72C-122B90D326D9}",
       "PluginRefs": {
        "Custom": [
@@ -83,13 +83,13 @@
      {
       "Id": "2133159467",
       "Name": "Vintage Left Hand",
-      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Vintage Left Hand",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music\\Vintage Left Hand",
       "GUID": "{6F3938D0-4CDE-4B08-A4E0-1015914025F7}"
      },
      {
       "Id": "2246801478",
       "Name": "Vintage Right Hand Sidechain",
-      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Vintage Right Hand Sidechain",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music\\Vintage Right Hand Sidechain",
       "GUID": "{44940C3F-5385-4D52-87EC-03942221953D}",
       "PluginRefs": {
        "Custom": [
@@ -102,7 +102,7 @@
      {
       "Id": "3168807778",
       "Name": "Vintage Right Hand",
-      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Vintage Right Hand",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music\\Vintage Right Hand",
       "GUID": "{9CC84E2A-8039-463D-B684-29D740909D35}"
      },
      {
@@ -258,18 +258,6 @@
       "ObjectPath": "\\States\\Default Work Unit\\battle_state",
       "GUID": "{951EB862-2248-4D0C-A84A-4EB2FFFAB4E9}",
       "States": [
-       {
-        "Id": "84696442",
-        "Name": "e",
-        "ObjectPath": "\\States\\Default Work Unit\\battle_state\\e",
-        "GUID": "{C7AE9EB6-45E0-4B6E-98D6-B776110D4A92}"
-       },
-       {
-        "Id": "84696443",
-        "Name": "d",
-        "ObjectPath": "\\States\\Default Work Unit\\battle_state\\d",
-        "GUID": "{8BF07710-24D4-4141-8F05-A7EC684964EE}"
-       },
        {
         "Id": "84696444",
         "Name": "c",
@@ -776,6 +764,6 @@
     ]
    }
   ],
-  "FileHash": "{C5AD5EB6-E225-4096-0D99-25727765DE7F}"
+  "FileHash": "{2523E78B-1D10-3071-D5D1-B6286A27084B}"
  }
 }

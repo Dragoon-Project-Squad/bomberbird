@@ -58,8 +58,6 @@ namespace AK
                 static const AkUniqueID A = 84696446U;
                 static const AkUniqueID B = 84696445U;
                 static const AkUniqueID C = 84696444U;
-                static const AkUniqueID D = 84696443U;
-                static const AkUniqueID E = 84696442U;
                 static const AkUniqueID NONE = 748895195U;
             } // namespace STATE
         } // namespace BATTLE_STATE

@@ -28,8 +28,6 @@
 						<State Name="a" ID="{D5BCFFA0-041F-4BA0-BC64-D8AD8E455246}"/>
 						<State Name="b" ID="{60AD7B32-D785-4B72-8B03-674C1F3C05CB}"/>
 						<State Name="c" ID="{ED2DE8A7-8136-40A1-8CBB-F2AD0C52B5A0}"/>
-						<State Name="d" ID="{8BF07710-24D4-4141-8F05-A7EC684964EE}"/>
-						<State Name="e" ID="{C7AE9EB6-45E0-4B6E-98D6-B776110D4A92}"/>
 					</ChildrenList>
 				</StateGroup>
 				<StateGroup Name="game_state" ID="{117D1A2A-2AFF-40B1-A09B-6B66A1FDD035}">

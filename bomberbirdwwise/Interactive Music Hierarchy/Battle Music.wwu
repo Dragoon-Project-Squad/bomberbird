@@ -74,7 +74,7 @@
 																	<ObjectRef Name="b" ID="{A84610C5-8F0E-44D4-BC29-D2CEF8F8F5BF}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
 																</Reference>
 																<Reference Name="SourceContextObject">
-																	<ObjectRef Name="intro a" ID="{D7C77F8D-FBC7-4272-9398-08AA7656E7B6}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+																	<ObjectRef Name="a" ID="{D7C77F8D-FBC7-4272-9398-08AA7656E7B6}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
 																</Reference>
 															</ReferenceList>
 															<TransitionInfo/>
@@ -87,42 +87,10 @@
 															</PropertyList>
 															<ReferenceList>
 																<Reference Name="DestinationContextObject">
-																	<ObjectRef Name="middle a" ID="{B49CA279-3802-4ED6-9CEB-9536ADF459CE}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+																	<ObjectRef Name="c" ID="{81BD7B79-1403-4281-A292-0F157FE6EAD3}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
 																</Reference>
 																<Reference Name="SourceContextObject">
 																	<ObjectRef Name="b" ID="{A84610C5-8F0E-44D4-BC29-D2CEF8F8F5BF}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
-																</Reference>
-															</ReferenceList>
-															<TransitionInfo/>
-														</MusicTransition>
-														<MusicTransition Name="Transition" ID="{A431B9F5-6FCC-45C5-ACCC-6D93668529BB}">
-															<PropertyList>
-																<Property Name="DestinationContextType" Type="int16" Value="2"/>
-																<Property Name="ExitSourceAt" Type="int16" Value="5"/>
-																<Property Name="SourceContextType" Type="int16" Value="2"/>
-															</PropertyList>
-															<ReferenceList>
-																<Reference Name="DestinationContextObject">
-																	<ObjectRef Name="c" ID="{81BD7B79-1403-4281-A292-0F157FE6EAD3}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
-																</Reference>
-																<Reference Name="SourceContextObject">
-																	<ObjectRef Name="middle a" ID="{B49CA279-3802-4ED6-9CEB-9536ADF459CE}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
-																</Reference>
-															</ReferenceList>
-															<TransitionInfo/>
-														</MusicTransition>
-														<MusicTransition Name="Transition" ID="{8D80320F-F4FC-4B4D-8FF1-AAD214EBB6B9}">
-															<PropertyList>
-																<Property Name="DestinationContextType" Type="int16" Value="2"/>
-																<Property Name="ExitSourceAt" Type="int16" Value="5"/>
-																<Property Name="SourceContextType" Type="int16" Value="2"/>
-															</PropertyList>
-															<ReferenceList>
-																<Reference Name="DestinationContextObject">
-																	<ObjectRef Name="d" ID="{AF2C34AB-EDC7-466B-A930-3C0E70EEA109}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
-																</Reference>
-																<Reference Name="SourceContextObject">
-																	<ObjectRef Name="c" ID="{81BD7B79-1403-4281-A292-0F157FE6EAD3}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
 																</Reference>
 															</ReferenceList>
 															<TransitionInfo/>
@@ -131,13 +99,33 @@
 															<PropertyList>
 																<Property Name="DestinationContextType" Type="int16" Value="2"/>
 																<Property Name="ExitSourceAt" Type="int16" Value="3"/>
+																<Property Name="PlayDestinationPreEntry" Type="bool" Value="False"/>
+																<Property Name="PlaySourcePostExit" Type="bool" Value="False"/>
 															</PropertyList>
 															<ReferenceList>
 																<Reference Name="DestinationContextObject">
-																	<ObjectRef Name="coda" ID="{90742F76-3D8F-4FCD-9E50-B1D6C117CDB1}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+																	<ObjectRef Name="d" ID="{90742F76-3D8F-4FCD-9E50-B1D6C117CDB1}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
 																</Reference>
 															</ReferenceList>
-															<TransitionInfo/>
+															<TransitionInfo>
+																<SourceFadeOut>
+																	<MusicFade Name="Source Fade-out" ID="{FD20860A-DF66-4945-897E-2145620FF932}">
+																		<PropertyList>
+																			<Property Name="FadeCurve" Type="int16" Value="8"/>
+																			<Property Name="FadeTime" Type="Real64" Value="0.3"/>
+																			<Property Name="FadeType" Type="int16" Value="1"/>
+																		</PropertyList>
+																	</MusicFade>
+																</SourceFadeOut>
+																<DestinationFadeIn>
+																	<MusicFade Name="Destination Fade-in" ID="{24213F5D-D32E-447A-8FF9-AC06A0379FD5}">
+																		<PropertyList>
+																			<Property Name="FadeOffset" Type="Real64" Value="-0.1"/>
+																			<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+																		</PropertyList>
+																	</MusicFade>
+																</DestinationFadeIn>
+															</TransitionInfo>
 														</MusicTransition>
 													</ChildrenList>
 													<TransitionInfo/>
@@ -146,7 +134,7 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<MusicPlaylistContainer Name="intro a" ID="{D7C77F8D-FBC7-4272-9398-08AA7656E7B6}" ShortID="29122945">
+										<MusicPlaylistContainer Name="a" ID="{D7C77F8D-FBC7-4272-9398-08AA7656E7B6}" ShortID="29122945">
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
@@ -665,36 +653,6 @@
 													</ObjectLists>
 												</MusicSegment>
 											</ChildrenList>
-											<StateInfo>
-												<StateGroupList>
-													<StateGroupInfo>
-														<StateGroupRef Name="game_state" ID="{117D1A2A-2AFF-40B1-A09B-6B66A1FDD035}"/>
-													</StateGroupInfo>
-												</StateGroupList>
-												<CustomStateList>
-													<CustomState>
-														<StateRef Name="None" ID="{88CD8E61-15F7-4595-8FE8-5D453E6D0407}"/>
-														<CustomState Name="" ID="{EABE3F86-F2CE-4190-B90D-D2325F8392F0}" ShortID="121727246"/>
-													</CustomState>
-													<CustomState>
-														<StateRef Name="game_on" ID="{D2241DEC-AA51-46EC-BF9B-90881B7B2CF4}"/>
-														<CustomState Name="" ID="{EF271672-F9B2-4B69-BC52-8CC4B7AAA51E}" ShortID="475832304"/>
-													</CustomState>
-													<CustomState>
-														<StateRef Name="game_transitioning" ID="{2EE1956B-77FC-4AD6-BEBB-5517062DA249}"/>
-														<CustomState Name="" ID="{3A8A8DAF-F395-4620-9C2D-41E42E591EE7}" ShortID="438439617"/>
-													</CustomState>
-													<CustomState>
-														<StateRef Name="game_over" ID="{E86C340E-2859-4E1B-B2C5-A4F96142AA5E}"/>
-														<CustomState Name="" ID="{5E865CD4-6F72-473F-98AF-541BCB1BC0A9}" ShortID="264277622">
-															<PropertyList>
-																<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
-																<Property Name="Volume" Type="Real64" Value="-108"/>
-															</PropertyList>
-														</CustomState>
-													</CustomState>
-												</CustomStateList>
-											</StateInfo>
 										</MusicPlaylistContainer>
 										<MusicPlaylistContainer Name="b" ID="{A84610C5-8F0E-44D4-BC29-D2CEF8F8F5BF}" ShortID="526839623">
 											<ReferenceList>
@@ -719,9 +677,6 @@
 																	</ReferenceList>
 																</MusicPlaylistItem>
 																<MusicPlaylistItem Name="" ID="{E255C145-EBD9-4C31-B423-5AA0947EFAEE}" ShortID="507294399">
-																	<PropertyList>
-																		<Property Name="LoopCount" Type="int16" Value="0"/>
-																	</PropertyList>
 																	<ChildrenList>
 																		<MusicPlaylistItem Name="" ID="{2A1C6BC2-91B0-459A-86D7-88A923EDB9C1}" ShortID="472853654">
 																			<PropertyList>
@@ -742,6 +697,53 @@
 																					<ObjectRef Name="vintage_test_b_ending_1" ID="{353F2FEA-3DAB-4B97-9F7D-345D9F532BA6}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
 																				</Reference>
 																			</ReferenceList>
+																		</MusicPlaylistItem>
+																		<MusicPlaylistItem Name="" ID="{1E927200-4B8B-4956-A839-27641A8BD77D}" ShortID="168360292">
+																			<PropertyList>
+																				<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="Segment">
+																					<ObjectRef Name="vintage_test_b_body" ID="{8541832B-FD88-497B-96F4-B3E7A5B76063}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+																				</Reference>
+																			</ReferenceList>
+																		</MusicPlaylistItem>
+																		<MusicPlaylistItem Name="" ID="{839919DE-8925-4EC1-A29A-F4964A972D95}" ShortID="748779274">
+																			<PropertyList>
+																				<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="Segment">
+																					<ObjectRef Name="vintage_test_b_ending_2" ID="{03D25FD7-2D7F-49A8-9F28-C2FA425EFE25}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+																				</Reference>
+																			</ReferenceList>
+																		</MusicPlaylistItem>
+																		<MusicPlaylistItem Name="" ID="{97579252-375A-453A-9E01-D965795F3DB0}" ShortID="708776583">
+																			<PropertyList>
+																				<Property Name="LoopCount" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<ChildrenList>
+																				<MusicPlaylistItem Name="" ID="{052A29D6-9389-4415-9D7B-F7714E3A5E32}" ShortID="99653856">
+																					<PropertyList>
+																						<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+																					</PropertyList>
+																					<ReferenceList>
+																						<Reference Name="Segment">
+																							<ObjectRef Name="vintage_test_a_body" ID="{73EF8C09-394F-48E4-B85C-F7A10EABEF7C}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+																						</Reference>
+																					</ReferenceList>
+																				</MusicPlaylistItem>
+																				<MusicPlaylistItem Name="" ID="{774BFB2B-0329-4624-9410-9E90FA03E7FF}" ShortID="333948296">
+																					<PropertyList>
+																						<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+																					</PropertyList>
+																					<ReferenceList>
+																						<Reference Name="Segment">
+																							<ObjectRef Name="vintage_test_a_ending_1" ID="{33387A52-BC83-4A88-AFC0-751496665B16}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+																						</Reference>
+																					</ReferenceList>
+																				</MusicPlaylistItem>
+																			</ChildrenList>
 																		</MusicPlaylistItem>
 																	</ChildrenList>
 																</MusicPlaylistItem>
@@ -1054,16 +1056,6 @@
 																	</MusicCue>
 																</Local>
 															</Reference>
-															<Reference>
-																<Local>
-																	<MusicCue Name="" ID="{B767DDC3-A545-42B5-880D-145C5B2979CB}">
-																		<PropertyList>
-																			<Property Name="CueType" Type="int16" Value="2"/>
-																			<Property Name="TimeMs" Type="Real64" Value="21176.4705882353"/>
-																		</PropertyList>
-																	</MusicCue>
-																</Local>
-															</Reference>
 														</ObjectList>
 													</ObjectLists>
 												</MusicSegment>
@@ -1211,120 +1203,16 @@
 														</ObjectList>
 													</ObjectLists>
 												</MusicSegment>
-											</ChildrenList>
-											<StateInfo>
-												<StateGroupList>
-													<StateGroupInfo>
-														<StateGroupRef Name="game_state" ID="{117D1A2A-2AFF-40B1-A09B-6B66A1FDD035}"/>
-													</StateGroupInfo>
-												</StateGroupList>
-												<CustomStateList>
-													<CustomState>
-														<StateRef Name="None" ID="{88CD8E61-15F7-4595-8FE8-5D453E6D0407}"/>
-														<CustomState Name="" ID="{83802DBC-65AA-4F25-AE8C-B1B4EDACC5A8}" ShortID="75570761">
-															<PropertyList>
-																<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
-																<Property Name="Volume" Type="Real64" Value="-108"/>
-															</PropertyList>
-														</CustomState>
-													</CustomState>
-													<CustomState>
-														<StateRef Name="game_on" ID="{D2241DEC-AA51-46EC-BF9B-90881B7B2CF4}"/>
-														<CustomState Name="" ID="{B178CAD4-4052-4B58-9298-F3083C032330}" ShortID="468398783"/>
-													</CustomState>
-													<CustomState>
-														<StateRef Name="game_transitioning" ID="{2EE1956B-77FC-4AD6-BEBB-5517062DA249}"/>
-														<CustomState Name="" ID="{1F95C844-9302-4FFA-B900-74B5E0ECCAEE}" ShortID="234564616"/>
-													</CustomState>
-													<CustomState>
-														<StateRef Name="game_over" ID="{E86C340E-2859-4E1B-B2C5-A4F96142AA5E}"/>
-														<CustomState Name="" ID="{C4C81A64-8772-4580-BE5C-C2A00E80388E}" ShortID="754500460">
-															<PropertyList>
-																<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
-																<Property Name="Volume" Type="Real64" Value="-108"/>
-															</PropertyList>
-														</CustomState>
-													</CustomState>
-												</CustomStateList>
-											</StateInfo>
-										</MusicPlaylistContainer>
-										<MusicPlaylistContainer Name="middle a" ID="{B49CA279-3802-4ED6-9CEB-9536ADF459CE}" ShortID="924676175">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
-												</Reference>
-												<Reference Name="PlaylistRoot">
-													<Custom>
-														<MusicPlaylistItem Name="" ID="{6CFE3E3E-2808-4698-96BE-E9EA1E81EE9A}" ShortID="526650560">
-															<ChildrenList>
-																<MusicPlaylistItem Name="" ID="{5F1AC67B-CCDC-4F0E-8ED7-4DBD196B7F5C}" ShortID="84500512">
-																	<PropertyList>
-																		<Property Name="PlaylistItemType" Type="int16" Value="1"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="Segment">
-																			<ObjectRef Name="vintage_test_b_ending_2" ID="{03D25FD7-2D7F-49A8-9F28-C2FA425EFE25}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
-																		</Reference>
-																	</ReferenceList>
-																</MusicPlaylistItem>
-																<MusicPlaylistItem Name="" ID="{93CE78EC-5C75-4664-A902-BDAD4D376BE5}" ShortID="545626166">
-																	<PropertyList>
-																		<Property Name="LoopCount" Type="int16" Value="0"/>
-																	</PropertyList>
-																	<ChildrenList>
-																		<MusicPlaylistItem Name="" ID="{F8A673A4-36D4-410B-B777-7427F09C1F1F}" ShortID="549791202">
-																			<PropertyList>
-																				<Property Name="PlaylistItemType" Type="int16" Value="1"/>
-																			</PropertyList>
-																			<ReferenceList>
-																				<Reference Name="Segment">
-																					<ObjectRef Name="vintage_test_a_body" ID="{73EF8C09-394F-48E4-B85C-F7A10EABEF7C}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
-																				</Reference>
-																			</ReferenceList>
-																		</MusicPlaylistItem>
-																		<MusicPlaylistItem Name="" ID="{CE6C0817-81E3-4E78-93CE-55195A2F2AE0}" ShortID="574415721">
-																			<PropertyList>
-																				<Property Name="PlaylistItemType" Type="int16" Value="1"/>
-																			</PropertyList>
-																			<ReferenceList>
-																				<Reference Name="Segment">
-																					<ObjectRef Name="vintage_test_a_ending_1" ID="{33387A52-BC83-4A88-AFC0-751496665B16}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
-																				</Reference>
-																			</ReferenceList>
-																		</MusicPlaylistItem>
-																	</ChildrenList>
-																</MusicPlaylistItem>
-															</ChildrenList>
-														</MusicPlaylistItem>
-													</Custom>
-												</Reference>
-												<Reference Name="TransitionRoot">
-													<Custom>
-														<MusicTransition Name="Root" ID="{FA4D1904-1C52-4827-8F3B-EDDC74E6971B}">
-															<PropertyList>
-																<Property Name="IsFolder" Type="bool" Value="True"/>
-															</PropertyList>
-															<ChildrenList>
-																<MusicTransition Name="Transition" ID="{682526F9-1351-4565-8E7B-6588BA3DE53F}">
-																	<TransitionInfo/>
-																</MusicTransition>
-															</ChildrenList>
-															<TransitionInfo/>
-														</MusicTransition>
-													</Custom>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
 												<MusicSegment Name="vintage_test_b_ending_2" ID="{03D25FD7-2D7F-49A8-9F28-C2FA425EFE25}" ShortID="1051432809">
+													<PropertyList>
+														<Property Name="Tempo" Type="Real64" Value="85"/>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
 														</Reference>
 														<Reference Name="OutputBus">
-															<ObjectRef Name="Music" ID="{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
@@ -1465,13 +1353,14 @@
 												<MusicSegment Name="vintage_test_a_body" ID="{73EF8C09-394F-48E4-B85C-F7A10EABEF7C}" ShortID="704588093">
 													<PropertyList>
 														<Property Name="EndPosition" Type="Real64" Value="21176.4791666667"/>
+														<Property Name="Tempo" Type="Real64" Value="85"/>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
 														</Reference>
 														<Reference Name="OutputBus">
-															<ObjectRef Name="Music" ID="{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
@@ -1620,12 +1509,15 @@
 													</ObjectLists>
 												</MusicSegment>
 												<MusicSegment Name="vintage_test_a_ending_1" ID="{33387A52-BC83-4A88-AFC0-751496665B16}" ShortID="302321243">
+													<PropertyList>
+														<Property Name="Tempo" Type="Real64" Value="85"/>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
 														</Reference>
 														<Reference Name="OutputBus">
-															<ObjectRef Name="Music" ID="{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
@@ -1764,36 +1656,6 @@
 													</ObjectLists>
 												</MusicSegment>
 											</ChildrenList>
-											<StateInfo>
-												<StateGroupList>
-													<StateGroupInfo>
-														<StateGroupRef Name="game_state" ID="{117D1A2A-2AFF-40B1-A09B-6B66A1FDD035}"/>
-													</StateGroupInfo>
-												</StateGroupList>
-												<CustomStateList>
-													<CustomState>
-														<StateRef Name="None" ID="{88CD8E61-15F7-4595-8FE8-5D453E6D0407}"/>
-														<CustomState Name="" ID="{E03FA266-83D7-4D73-9A65-4A16BAE5DD6A}" ShortID="544262643"/>
-													</CustomState>
-													<CustomState>
-														<StateRef Name="game_on" ID="{D2241DEC-AA51-46EC-BF9B-90881B7B2CF4}"/>
-														<CustomState Name="" ID="{6027EA33-3683-48F0-970D-2A6C5D68363A}" ShortID="491462537"/>
-													</CustomState>
-													<CustomState>
-														<StateRef Name="game_transitioning" ID="{2EE1956B-77FC-4AD6-BEBB-5517062DA249}"/>
-														<CustomState Name="" ID="{AE1A9698-C70C-4108-A9B0-00ED047F0F00}" ShortID="78476090"/>
-													</CustomState>
-													<CustomState>
-														<StateRef Name="game_over" ID="{E86C340E-2859-4E1B-B2C5-A4F96142AA5E}"/>
-														<CustomState Name="" ID="{DBE252B9-8497-41EA-B3F0-48DDC0E42C89}" ShortID="674484595">
-															<PropertyList>
-																<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
-																<Property Name="Volume" Type="Real64" Value="-108"/>
-															</PropertyList>
-														</CustomState>
-													</CustomState>
-												</CustomStateList>
-											</StateInfo>
 										</MusicPlaylistContainer>
 										<MusicPlaylistContainer Name="c" ID="{81BD7B79-1403-4281-A292-0F157FE6EAD3}" ShortID="169054002">
 											<ReferenceList>
@@ -1818,9 +1680,6 @@
 																	</ReferenceList>
 																</MusicPlaylistItem>
 																<MusicPlaylistItem Name="" ID="{BE7725F4-E2CA-4D1D-96EC-19BDBB47229E}" ShortID="603083099">
-																	<PropertyList>
-																		<Property Name="LoopCount" Type="int16" Value="0"/>
-																	</PropertyList>
 																	<ChildrenList>
 																		<MusicPlaylistItem Name="" ID="{B494CFD8-4174-4666-97D4-E65BD13F82E3}" ShortID="678270781">
 																			<PropertyList>
@@ -1841,6 +1700,63 @@
 																					<ObjectRef Name="vintage_test_c_ending_1" ID="{B7F28AA2-9C2E-4A9D-A076-253030FEE191}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
 																				</Reference>
 																			</ReferenceList>
+																		</MusicPlaylistItem>
+																		<MusicPlaylistItem Name="" ID="{52E7B7F4-DF92-4CE4-AF35-1FCADFF14209}" ShortID="174243887">
+																			<PropertyList>
+																				<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="Segment">
+																					<ObjectRef Name="vintage_test_c_body" ID="{C4D6D338-51D7-421D-8AE9-F0D1AE412C18}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+																				</Reference>
+																			</ReferenceList>
+																		</MusicPlaylistItem>
+																		<MusicPlaylistItem Name="" ID="{D0329662-40BB-490A-B51C-FBD944E0CCB3}" ShortID="522774624">
+																			<PropertyList>
+																				<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="Segment">
+																					<ObjectRef Name="vintage_test_c_ending_2" ID="{88C5A812-BFDF-488A-BDE9-7E82A9294412}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+																				</Reference>
+																			</ReferenceList>
+																		</MusicPlaylistItem>
+																		<MusicPlaylistItem Name="" ID="{A7077356-862F-4976-8D24-7A557F432A2D}" ShortID="46459011">
+																			<PropertyList>
+																				<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="Segment">
+																					<ObjectRef Name="vintage_test_d_body" ID="{AC34674C-4AF9-4FC6-B7E6-5556CA7A0E71}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+																				</Reference>
+																			</ReferenceList>
+																		</MusicPlaylistItem>
+																		<MusicPlaylistItem Name="" ID="{FF0DF74C-55EE-4860-9273-CDB18DED240A}" ShortID="311576090">
+																			<PropertyList>
+																				<Property Name="LoopCount" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<ChildrenList>
+																				<MusicPlaylistItem Name="" ID="{5A9F9EAF-7DFA-4474-951A-C90F71A0B9BA}" ShortID="56014871">
+																					<PropertyList>
+																						<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+																					</PropertyList>
+																					<ReferenceList>
+																						<Reference Name="Segment">
+																							<ObjectRef Name="vintage_test_a_body" ID="{FF92B441-CFAC-4107-A28D-83802056CF15}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+																						</Reference>
+																					</ReferenceList>
+																				</MusicPlaylistItem>
+																				<MusicPlaylistItem Name="" ID="{88BAED9F-9398-4C61-9C39-3463BB5E9F07}" ShortID="780634304">
+																					<PropertyList>
+																						<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+																					</PropertyList>
+																					<ReferenceList>
+																						<Reference Name="Segment">
+																							<ObjectRef Name="vintage_test_a_ending_1" ID="{BDCC9194-C0FA-4CE9-A631-3B30E6A49917}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+																						</Reference>
+																					</ReferenceList>
+																				</MusicPlaylistItem>
+																			</ChildrenList>
 																		</MusicPlaylistItem>
 																	</ChildrenList>
 																</MusicPlaylistItem>
@@ -2011,7 +1927,7 @@
 												</MusicSegment>
 												<MusicSegment Name="vintage_test_c_ending_1" ID="{B7F28AA2-9C2E-4A9D-A076-253030FEE191}" ShortID="585957438">
 													<PropertyList>
-														<Property Name="EndPosition" Type="Real64" Value="1456.09548167093"/>
+														<Property Name="EndPosition" Type="Real64" Value="1428.81500426258"/>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -2300,138 +2216,19 @@
 																	</MusicCue>
 																</Local>
 															</Reference>
-															<Reference>
-																<Local>
-																	<MusicCue Name="" ID="{95A60E74-CEA8-490A-9E50-619A2CFC8E46}">
-																		<PropertyList>
-																			<Property Name="CueType" Type="int16" Value="2"/>
-																			<Property Name="TimeMs" Type="Real64" Value="21176.4705882353"/>
-																		</PropertyList>
-																	</MusicCue>
-																</Local>
-															</Reference>
 														</ObjectList>
 													</ObjectLists>
 												</MusicSegment>
-											</ChildrenList>
-											<StateInfo>
-												<StateGroupList>
-													<StateGroupInfo>
-														<StateGroupRef Name="game_state" ID="{117D1A2A-2AFF-40B1-A09B-6B66A1FDD035}"/>
-													</StateGroupInfo>
-												</StateGroupList>
-												<CustomStateList>
-													<CustomState>
-														<StateRef Name="None" ID="{88CD8E61-15F7-4595-8FE8-5D453E6D0407}"/>
-														<CustomState Name="" ID="{03D47D5D-2A24-4F91-BC56-2A6B88816364}" ShortID="733767312"/>
-													</CustomState>
-													<CustomState>
-														<StateRef Name="game_on" ID="{D2241DEC-AA51-46EC-BF9B-90881B7B2CF4}"/>
-														<CustomState Name="" ID="{7BA23C93-3909-4B10-A344-C0ED2A824603}" ShortID="1010745780"/>
-													</CustomState>
-													<CustomState>
-														<StateRef Name="game_transitioning" ID="{2EE1956B-77FC-4AD6-BEBB-5517062DA249}"/>
-														<CustomState Name="" ID="{2EA7E6CE-F827-4B18-99A3-6D1856ECA26D}" ShortID="433170900"/>
-													</CustomState>
-													<CustomState>
-														<StateRef Name="game_over" ID="{E86C340E-2859-4E1B-B2C5-A4F96142AA5E}"/>
-														<CustomState Name="" ID="{4056B5B0-050B-4D6C-BF56-103DE224110A}" ShortID="975431990">
-															<PropertyList>
-																<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
-																<Property Name="Volume" Type="Real64" Value="-108"/>
-															</PropertyList>
-														</CustomState>
-													</CustomState>
-												</CustomStateList>
-											</StateInfo>
-										</MusicPlaylistContainer>
-										<MusicPlaylistContainer Name="d" ID="{AF2C34AB-EDC7-466B-A930-3C0E70EEA109}" ShortID="495330242">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
-												</Reference>
-												<Reference Name="PlaylistRoot">
-													<Custom>
-														<MusicPlaylistItem Name="" ID="{7A4C4FB1-B631-45FD-A9D9-5E83D7DBA33E}" ShortID="226278070">
-															<ChildrenList>
-																<MusicPlaylistItem Name="" ID="{9558D0C1-7979-4E89-AB5D-12B487690A6B}" ShortID="313220670">
-																	<PropertyList>
-																		<Property Name="PlaylistItemType" Type="int16" Value="1"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="Segment">
-																			<ObjectRef Name="vintage_test_c_ending_2" ID="{88C5A812-BFDF-488A-BDE9-7E82A9294412}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
-																		</Reference>
-																	</ReferenceList>
-																</MusicPlaylistItem>
-																<MusicPlaylistItem Name="" ID="{EAC0707D-6128-4276-8936-3A10AA76CB99}" ShortID="993780432">
-																	<PropertyList>
-																		<Property Name="PlaylistItemType" Type="int16" Value="1"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="Segment">
-																			<ObjectRef Name="vintage_test_d_body" ID="{AC34674C-4AF9-4FC6-B7E6-5556CA7A0E71}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
-																		</Reference>
-																	</ReferenceList>
-																</MusicPlaylistItem>
-																<MusicPlaylistItem Name="" ID="{C9E9D061-6D88-479B-B035-0D1020891451}" ShortID="690535300">
-																	<PropertyList>
-																		<Property Name="LoopCount" Type="int16" Value="0"/>
-																	</PropertyList>
-																	<ChildrenList>
-																		<MusicPlaylistItem Name="" ID="{24BCCE31-7412-40DE-A68C-BEC1CB2A1420}" ShortID="357463863">
-																			<PropertyList>
-																				<Property Name="PlaylistItemType" Type="int16" Value="1"/>
-																			</PropertyList>
-																			<ReferenceList>
-																				<Reference Name="Segment">
-																					<ObjectRef Name="vintage_test_a_body" ID="{FF92B441-CFAC-4107-A28D-83802056CF15}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
-																				</Reference>
-																			</ReferenceList>
-																		</MusicPlaylistItem>
-																		<MusicPlaylistItem Name="" ID="{95322BF1-8E8C-4E74-987F-CFE4EED3DD37}" ShortID="281932261">
-																			<PropertyList>
-																				<Property Name="PlaylistItemType" Type="int16" Value="1"/>
-																			</PropertyList>
-																			<ReferenceList>
-																				<Reference Name="Segment">
-																					<ObjectRef Name="vintage_test_a_ending_1" ID="{BDCC9194-C0FA-4CE9-A631-3B30E6A49917}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
-																				</Reference>
-																			</ReferenceList>
-																		</MusicPlaylistItem>
-																	</ChildrenList>
-																</MusicPlaylistItem>
-															</ChildrenList>
-														</MusicPlaylistItem>
-													</Custom>
-												</Reference>
-												<Reference Name="TransitionRoot">
-													<Custom>
-														<MusicTransition Name="Root" ID="{72E59073-DDDF-4A7B-9F1B-BCB6AB530A47}">
-															<PropertyList>
-																<Property Name="IsFolder" Type="bool" Value="True"/>
-															</PropertyList>
-															<ChildrenList>
-																<MusicTransition Name="Transition" ID="{A7C732A1-6DC1-4C50-9295-EA16E6DD921D}">
-																	<TransitionInfo/>
-																</MusicTransition>
-															</ChildrenList>
-															<TransitionInfo/>
-														</MusicTransition>
-													</Custom>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
 												<MusicSegment Name="vintage_test_c_ending_2" ID="{88C5A812-BFDF-488A-BDE9-7E82A9294412}" ShortID="344195731">
+													<PropertyList>
+														<Property Name="Tempo" Type="Real64" Value="85"/>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
 														</Reference>
 														<Reference Name="OutputBus">
-															<ObjectRef Name="Music" ID="{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
@@ -2572,13 +2369,14 @@
 												<MusicSegment Name="vintage_test_d_body" ID="{AC34674C-4AF9-4FC6-B7E6-5556CA7A0E71}" ShortID="711588628">
 													<PropertyList>
 														<Property Name="EndPosition" Type="Real64" Value="28235.2916666667"/>
+														<Property Name="Tempo" Type="Real64" Value="85"/>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
 														</Reference>
 														<Reference Name="OutputBus">
-															<ObjectRef Name="Music" ID="{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
@@ -2716,13 +2514,174 @@
 														</ObjectList>
 													</ObjectLists>
 												</MusicSegment>
-												<MusicSegment Name="vintage_test_a_ending_1" ID="{BDCC9194-C0FA-4CE9-A631-3B30E6A49917}" ShortID="488711744">
+												<MusicSegment Name="vintage_test_a_body" ID="{FF92B441-CFAC-4107-A28D-83802056CF15}" ShortID="407416795">
+													<PropertyList>
+														<Property Name="EndPosition" Type="Real64" Value="21176.4791666667"/>
+														<Property Name="Tempo" Type="Real64" Value="85"/>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
 														</Reference>
 														<Reference Name="OutputBus">
-															<ObjectRef Name="Music" ID="{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<MusicTrack Name="vintage_test_left_hand_a_body" ID="{980C4049-0978-4742-AAB5-874150094939}" ShortID="354763388">
+															<PropertyList>
+																<Property Name="OverrideOutput" Type="bool" Value="True"/>
+															</PropertyList>
+															<ReferenceList>
+																<Reference Name="OutputBus">
+																	<ObjectRef Name="Vintage Left Hand" ID="{6F3938D0-4CDE-4B08-A4E0-1015914025F7}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+																</Reference>
+																<Reference Name="TransitionRoot">
+																	<Custom>
+																		<MusicTransition Name="Root" ID="{0667705E-8352-4A7B-9A47-54A163E5B5A3}">
+																			<PropertyList>
+																				<Property Name="IsFolder" Type="bool" Value="True"/>
+																			</PropertyList>
+																			<TransitionInfo/>
+																		</MusicTransition>
+																	</Custom>
+																</Reference>
+															</ReferenceList>
+															<ChildrenList>
+																<AudioFileSource Name="vintage_test_left_hand_a_body" ID="{DB5370D2-BC58-44D9-B24A-38BAD047D119}">
+																	<Language>SFX</Language>
+																	<AudioFile>vintage_test_left_hand_a_body.wav</AudioFile>
+																	<MediaIDList>
+																		<MediaID ID="45083293"/>
+																	</MediaIDList>
+																</AudioFileSource>
+															</ChildrenList>
+															<ObjectLists>
+																<ObjectList Name="Sequences">
+																	<Reference>
+																		<Local>
+																			<MusicTrackSequence Name="" ID="{2E0EA191-3A20-4246-BBE2-04BFE6E22510}">
+																				<ObjectLists>
+																					<ObjectList Name="Clips">
+																						<Reference>
+																							<Local>
+																								<MusicClip Name="vintage_test_left_hand_a_body" ID="{88C4941C-9A36-4778-8B97-A2933922B120}">
+																									<PropertyList>
+																										<Property Name="EndTrimOffset" Type="Real64" Value="21176.4791666667"/>
+																										<Property Name="FadeInMode" Type="int16" Value="0"/>
+																										<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																									</PropertyList>
+																									<AudioSourceRef Name="vintage_test_left_hand_a_body" ID="{DB5370D2-BC58-44D9-B24A-38BAD047D119}"/>
+																								</MusicClip>
+																							</Local>
+																						</Reference>
+																					</ObjectList>
+																				</ObjectLists>
+																			</MusicTrackSequence>
+																		</Local>
+																	</Reference>
+																</ObjectList>
+															</ObjectLists>
+														</MusicTrack>
+														<MusicTrack Name="vintage_test_right_hand_a_body" ID="{D03FD8A3-0E65-42C4-AC77-D2F3686DA9BF}" ShortID="692983975">
+															<PropertyList>
+																<Property Name="OverrideOutput" Type="bool" Value="True"/>
+															</PropertyList>
+															<ReferenceList>
+																<Reference Name="Conversion">
+																	<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+																</Reference>
+																<Reference Name="OutputBus">
+																	<ObjectRef Name="Vintage Right Hand" ID="{9CC84E2A-8039-463D-B684-29D740909D35}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+																</Reference>
+																<Reference Name="TransitionRoot">
+																	<Custom>
+																		<MusicTransition Name="Root" ID="{C77DCB88-2BBA-4D97-A2B5-5AF809AFF09F}">
+																			<PropertyList>
+																				<Property Name="IsFolder" Type="bool" Value="True"/>
+																			</PropertyList>
+																			<TransitionInfo/>
+																		</MusicTransition>
+																	</Custom>
+																</Reference>
+															</ReferenceList>
+															<ChildrenList>
+																<AudioFileSource Name="vintage_test_right_hand_a_body" ID="{A36994E5-E802-4F72-8175-AD3296B6338A}">
+																	<Language>SFX</Language>
+																	<AudioFile>vintage_test_right_hand_a_body.wav</AudioFile>
+																	<MediaIDList>
+																		<MediaID ID="164529607"/>
+																	</MediaIDList>
+																</AudioFileSource>
+															</ChildrenList>
+															<ObjectLists>
+																<ObjectList Name="Sequences">
+																	<Reference>
+																		<Local>
+																			<MusicTrackSequence Name="" ID="{D9DBA7F0-0860-4CF0-9AEB-DA30AFADA00A}">
+																				<ObjectLists>
+																					<ObjectList Name="Clips">
+																						<Reference>
+																							<Local>
+																								<MusicClip Name="vintage_test_right_hand_a_body" ID="{D50F8659-4C3C-4EC6-8AC8-11219D52448E}">
+																									<PropertyList>
+																										<Property Name="EndTrimOffset" Type="Real64" Value="21176.4791666667"/>
+																										<Property Name="FadeInMode" Type="int16" Value="0"/>
+																										<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																									</PropertyList>
+																									<AudioSourceRef Name="vintage_test_right_hand_a_body" ID="{A36994E5-E802-4F72-8175-AD3296B6338A}"/>
+																								</MusicClip>
+																							</Local>
+																						</Reference>
+																					</ObjectList>
+																				</ObjectLists>
+																			</MusicTrackSequence>
+																		</Local>
+																	</Reference>
+																</ObjectList>
+															</ObjectLists>
+														</MusicTrack>
+													</ChildrenList>
+													<ObjectLists>
+														<ObjectList Name="Cues">
+															<Reference>
+																<Local>
+																	<MusicCue Name="Entry Cue" ID="{85999668-6316-44F7-AAB3-189D174480D8}"/>
+																</Local>
+															</Reference>
+															<Reference>
+																<Local>
+																	<MusicCue Name="Exit Cue" ID="{E42BFBBA-32CF-419A-8574-B9E05928F484}">
+																		<PropertyList>
+																			<Property Name="CueType" Type="int16" Value="1"/>
+																			<Property Name="TimeMs" Type="Real64" Value="21176.4791666667"/>
+																		</PropertyList>
+																	</MusicCue>
+																</Local>
+															</Reference>
+															<Reference>
+																<Local>
+																	<MusicCue Name="" ID="{041BC6A4-9700-4D6C-9B96-598CF7FBEE10}">
+																		<PropertyList>
+																			<Property Name="CueType" Type="int16" Value="2"/>
+																			<Property Name="TimeMs" Type="Real64" Value="21176.4705882353"/>
+																		</PropertyList>
+																	</MusicCue>
+																</Local>
+															</Reference>
+														</ObjectList>
+													</ObjectLists>
+												</MusicSegment>
+												<MusicSegment Name="vintage_test_a_ending_1" ID="{BDCC9194-C0FA-4CE9-A631-3B30E6A49917}" ShortID="488711744">
+													<PropertyList>
+														<Property Name="Tempo" Type="Real64" Value="85"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
@@ -2860,186 +2819,9 @@
 														</ObjectList>
 													</ObjectLists>
 												</MusicSegment>
-												<MusicSegment Name="vintage_test_a_body" ID="{FF92B441-CFAC-4107-A28D-83802056CF15}" ShortID="407416795">
-													<PropertyList>
-														<Property Name="EndPosition" Type="Real64" Value="21176.4791666667"/>
-													</PropertyList>
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Music" ID="{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<MusicTrack Name="vintage_test_left_hand_a_body" ID="{980C4049-0978-4742-AAB5-874150094939}" ShortID="354763388">
-															<PropertyList>
-																<Property Name="OverrideOutput" Type="bool" Value="True"/>
-															</PropertyList>
-															<ReferenceList>
-																<Reference Name="OutputBus">
-																	<ObjectRef Name="Vintage Left Hand" ID="{6F3938D0-4CDE-4B08-A4E0-1015914025F7}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
-																</Reference>
-																<Reference Name="TransitionRoot">
-																	<Custom>
-																		<MusicTransition Name="Root" ID="{0667705E-8352-4A7B-9A47-54A163E5B5A3}">
-																			<PropertyList>
-																				<Property Name="IsFolder" Type="bool" Value="True"/>
-																			</PropertyList>
-																			<TransitionInfo/>
-																		</MusicTransition>
-																	</Custom>
-																</Reference>
-															</ReferenceList>
-															<ChildrenList>
-																<AudioFileSource Name="vintage_test_left_hand_a_body" ID="{DB5370D2-BC58-44D9-B24A-38BAD047D119}">
-																	<Language>SFX</Language>
-																	<AudioFile>vintage_test_left_hand_a_body.wav</AudioFile>
-																	<MediaIDList>
-																		<MediaID ID="45083293"/>
-																	</MediaIDList>
-																</AudioFileSource>
-															</ChildrenList>
-															<ObjectLists>
-																<ObjectList Name="Sequences">
-																	<Reference>
-																		<Local>
-																			<MusicTrackSequence Name="" ID="{2E0EA191-3A20-4246-BBE2-04BFE6E22510}">
-																				<ObjectLists>
-																					<ObjectList Name="Clips">
-																						<Reference>
-																							<Local>
-																								<MusicClip Name="vintage_test_left_hand_a_body" ID="{88C4941C-9A36-4778-8B97-A2933922B120}">
-																									<PropertyList>
-																										<Property Name="EndTrimOffset" Type="Real64" Value="21176.4791666667"/>
-																										<Property Name="FadeInMode" Type="int16" Value="0"/>
-																										<Property Name="FadeOutMode" Type="int16" Value="0"/>
-																									</PropertyList>
-																									<AudioSourceRef Name="vintage_test_left_hand_a_body" ID="{DB5370D2-BC58-44D9-B24A-38BAD047D119}"/>
-																								</MusicClip>
-																							</Local>
-																						</Reference>
-																					</ObjectList>
-																				</ObjectLists>
-																			</MusicTrackSequence>
-																		</Local>
-																	</Reference>
-																</ObjectList>
-															</ObjectLists>
-														</MusicTrack>
-														<MusicTrack Name="vintage_test_right_hand_a_body" ID="{D03FD8A3-0E65-42C4-AC77-D2F3686DA9BF}" ShortID="692983975">
-															<PropertyList>
-																<Property Name="OverrideOutput" Type="bool" Value="True"/>
-															</PropertyList>
-															<ReferenceList>
-																<Reference Name="Conversion">
-																	<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
-																</Reference>
-																<Reference Name="OutputBus">
-																	<ObjectRef Name="Vintage Right Hand" ID="{9CC84E2A-8039-463D-B684-29D740909D35}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
-																</Reference>
-																<Reference Name="TransitionRoot">
-																	<Custom>
-																		<MusicTransition Name="Root" ID="{C77DCB88-2BBA-4D97-A2B5-5AF809AFF09F}">
-																			<PropertyList>
-																				<Property Name="IsFolder" Type="bool" Value="True"/>
-																			</PropertyList>
-																			<TransitionInfo/>
-																		</MusicTransition>
-																	</Custom>
-																</Reference>
-															</ReferenceList>
-															<ChildrenList>
-																<AudioFileSource Name="vintage_test_right_hand_a_body" ID="{A36994E5-E802-4F72-8175-AD3296B6338A}">
-																	<Language>SFX</Language>
-																	<AudioFile>vintage_test_right_hand_a_body.wav</AudioFile>
-																	<MediaIDList>
-																		<MediaID ID="164529607"/>
-																	</MediaIDList>
-																</AudioFileSource>
-															</ChildrenList>
-															<ObjectLists>
-																<ObjectList Name="Sequences">
-																	<Reference>
-																		<Local>
-																			<MusicTrackSequence Name="" ID="{D9DBA7F0-0860-4CF0-9AEB-DA30AFADA00A}">
-																				<ObjectLists>
-																					<ObjectList Name="Clips">
-																						<Reference>
-																							<Local>
-																								<MusicClip Name="vintage_test_right_hand_a_body" ID="{D50F8659-4C3C-4EC6-8AC8-11219D52448E}">
-																									<PropertyList>
-																										<Property Name="EndTrimOffset" Type="Real64" Value="21176.4791666667"/>
-																										<Property Name="FadeInMode" Type="int16" Value="0"/>
-																										<Property Name="FadeOutMode" Type="int16" Value="0"/>
-																									</PropertyList>
-																									<AudioSourceRef Name="vintage_test_right_hand_a_body" ID="{A36994E5-E802-4F72-8175-AD3296B6338A}"/>
-																								</MusicClip>
-																							</Local>
-																						</Reference>
-																					</ObjectList>
-																				</ObjectLists>
-																			</MusicTrackSequence>
-																		</Local>
-																	</Reference>
-																</ObjectList>
-															</ObjectLists>
-														</MusicTrack>
-													</ChildrenList>
-													<ObjectLists>
-														<ObjectList Name="Cues">
-															<Reference>
-																<Local>
-																	<MusicCue Name="Entry Cue" ID="{85999668-6316-44F7-AAB3-189D174480D8}"/>
-																</Local>
-															</Reference>
-															<Reference>
-																<Local>
-																	<MusicCue Name="Exit Cue" ID="{E42BFBBA-32CF-419A-8574-B9E05928F484}">
-																		<PropertyList>
-																			<Property Name="CueType" Type="int16" Value="1"/>
-																			<Property Name="TimeMs" Type="Real64" Value="21176.4791666667"/>
-																		</PropertyList>
-																	</MusicCue>
-																</Local>
-															</Reference>
-														</ObjectList>
-													</ObjectLists>
-												</MusicSegment>
 											</ChildrenList>
-											<StateInfo>
-												<StateGroupList>
-													<StateGroupInfo>
-														<StateGroupRef Name="game_state" ID="{117D1A2A-2AFF-40B1-A09B-6B66A1FDD035}"/>
-													</StateGroupInfo>
-												</StateGroupList>
-												<CustomStateList>
-													<CustomState>
-														<StateRef Name="None" ID="{88CD8E61-15F7-4595-8FE8-5D453E6D0407}"/>
-														<CustomState Name="" ID="{E2638E90-9A7F-44C0-BA59-FCC29BEEF995}" ShortID="667107107"/>
-													</CustomState>
-													<CustomState>
-														<StateRef Name="game_on" ID="{D2241DEC-AA51-46EC-BF9B-90881B7B2CF4}"/>
-														<CustomState Name="" ID="{8EB27B95-5776-4A51-AFAB-F6F067B036E8}" ShortID="152412262"/>
-													</CustomState>
-													<CustomState>
-														<StateRef Name="game_transitioning" ID="{2EE1956B-77FC-4AD6-BEBB-5517062DA249}"/>
-														<CustomState Name="" ID="{19AEABE2-76A0-4825-A7A0-796450EDBC86}" ShortID="142483315"/>
-													</CustomState>
-													<CustomState>
-														<StateRef Name="game_over" ID="{E86C340E-2859-4E1B-B2C5-A4F96142AA5E}"/>
-														<CustomState Name="" ID="{24C218C8-6298-4604-ADE3-B79AD3353FD9}" ShortID="951029781">
-															<PropertyList>
-																<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
-																<Property Name="Volume" Type="Real64" Value="-108"/>
-															</PropertyList>
-														</CustomState>
-													</CustomState>
-												</CustomStateList>
-											</StateInfo>
 										</MusicPlaylistContainer>
-										<MusicPlaylistContainer Name="coda" ID="{90742F76-3D8F-4FCD-9E50-B1D6C117CDB1}" ShortID="560252954">
+										<MusicPlaylistContainer Name="d" ID="{90742F76-3D8F-4FCD-9E50-B1D6C117CDB1}" ShortID="560252954">
 											<PropertyList>
 												<Property Name="Tempo" Type="Real64" Value="85"/>
 											</PropertyList>
@@ -3101,11 +2883,6 @@
 														<MusicTrack Name="vintage_test_left_hand_coda" ID="{8030C7F7-E38D-4661-9EE3-04EBF31C114E}" ShortID="521177804">
 															<PropertyList>
 																<Property Name="IsStreamingEnabled" Type="bool">
-																	<ValueList>
-																		<Value>True</Value>
-																	</ValueList>
-																</Property>
-																<Property Name="IsZeroLatency" Type="bool">
 																	<ValueList>
 																		<Value>True</Value>
 																	</ValueList>
@@ -3303,10 +3080,6 @@
 												<CustomState Name="" ID="{BD65F480-A083-41B3-A476-B5AF32CCE121}" ShortID="90004979"/>
 											</CustomState>
 											<CustomState>
-												<StateRef Name="d" ID="{8BF07710-24D4-4141-8F05-A7EC684964EE}"/>
-												<CustomState Name="" ID="{033F8435-AC2B-4538-950F-5E34410AD7C6}" ShortID="850953663"/>
-											</CustomState>
-											<CustomState>
 												<StateRef Name="None" ID="{88CD8E61-15F7-4595-8FE8-5D453E6D0407}"/>
 												<CustomState Name="" ID="{0D557FEE-3A73-48CB-A0F8-5FB0B27B507C}" ShortID="718005040"/>
 											</CustomState>
@@ -3321,10 +3094,6 @@
 											<CustomState>
 												<StateRef Name="game_transitioning" ID="{2EE1956B-77FC-4AD6-BEBB-5517062DA249}"/>
 												<CustomState Name="" ID="{F95A5513-0BA8-49ED-B53F-C35F824C24CD}" ShortID="758847902"/>
-											</CustomState>
-											<CustomState>
-												<StateRef Name="e" ID="{C7AE9EB6-45E0-4B6E-98D6-B776110D4A92}"/>
-												<CustomState Name="" ID="{6B19C029-F6ED-49CB-95C1-CC4B47ADDD1A}" ShortID="723235163"/>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="b" ID="{60AD7B32-D785-4B72-8B03-674C1F3C05CB}"/>
@@ -3355,7 +3124,7 @@
 													<MultiSwitchEntry Name="" ID="{397EDD27-B730-4BF7-8D1E-900A8A1903D7}">
 														<ReferenceList>
 															<Reference Name="AudioNode">
-																<ObjectRef Name="intro a" ID="{D7C77F8D-FBC7-4272-9398-08AA7656E7B6}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+																<ObjectRef Name="a" ID="{D7C77F8D-FBC7-4272-9398-08AA7656E7B6}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
 															</Reference>
 														</ReferenceList>
 														<ObjectLists>
@@ -3397,7 +3166,7 @@
 													<MultiSwitchEntry Name="" ID="{DC6D933A-B33F-4895-B97E-946F9B68EC48}">
 														<ReferenceList>
 															<Reference Name="AudioNode">
-																<ObjectRef Name="middle a" ID="{B49CA279-3802-4ED6-9CEB-9536ADF459CE}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+																<ObjectRef Name="c" ID="{81BD7B79-1403-4281-A292-0F157FE6EAD3}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
 															</Reference>
 														</ReferenceList>
 														<ObjectLists>
@@ -3415,52 +3184,10 @@
 											</Reference>
 											<Reference>
 												<Local>
-													<MultiSwitchEntry Name="" ID="{B101132C-D6FB-443A-AF79-CAA6022EF4C3}">
-														<ReferenceList>
-															<Reference Name="AudioNode">
-																<ObjectRef Name="c" ID="{81BD7B79-1403-4281-A292-0F157FE6EAD3}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
-															</Reference>
-														</ReferenceList>
-														<ObjectLists>
-															<ObjectList Name="EntryPath">
-																<Reference>
-																	<ObjectRef Name="d" ID="{8BF07710-24D4-4141-8F05-A7EC684964EE}" WorkUnitID="{D0003C71-216D-472C-93A1-FB29287A9FDA}"/>
-																</Reference>
-																<Reference>
-																	<ObjectRef Name="game_on" ID="{D2241DEC-AA51-46EC-BF9B-90881B7B2CF4}" WorkUnitID="{D0003C71-216D-472C-93A1-FB29287A9FDA}"/>
-																</Reference>
-															</ObjectList>
-														</ObjectLists>
-													</MultiSwitchEntry>
-												</Local>
-											</Reference>
-											<Reference>
-												<Local>
-													<MultiSwitchEntry Name="" ID="{A3677B6E-57D2-4379-B942-F591AE779E9E}">
-														<ReferenceList>
-															<Reference Name="AudioNode">
-																<ObjectRef Name="d" ID="{AF2C34AB-EDC7-466B-A930-3C0E70EEA109}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
-															</Reference>
-														</ReferenceList>
-														<ObjectLists>
-															<ObjectList Name="EntryPath">
-																<Reference>
-																	<ObjectRef Name="e" ID="{C7AE9EB6-45E0-4B6E-98D6-B776110D4A92}" WorkUnitID="{D0003C71-216D-472C-93A1-FB29287A9FDA}"/>
-																</Reference>
-																<Reference>
-																	<ObjectRef Name="game_on" ID="{D2241DEC-AA51-46EC-BF9B-90881B7B2CF4}" WorkUnitID="{D0003C71-216D-472C-93A1-FB29287A9FDA}"/>
-																</Reference>
-															</ObjectList>
-														</ObjectLists>
-													</MultiSwitchEntry>
-												</Local>
-											</Reference>
-											<Reference>
-												<Local>
 													<MultiSwitchEntry Name="" ID="{AD9125E3-AF0A-42DB-BA3B-854823EEC465}">
 														<ReferenceList>
 															<Reference Name="AudioNode">
-																<ObjectRef Name="coda" ID="{90742F76-3D8F-4FCD-9E50-B1D6C117CDB1}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+																<ObjectRef Name="d" ID="{90742F76-3D8F-4FCD-9E50-B1D6C117CDB1}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
 															</Reference>
 														</ReferenceList>
 														<ObjectLists>
@@ -3481,7 +3208,7 @@
 													<MultiSwitchEntry Name="" ID="{D57684A9-3658-4E1A-8415-4611FCDEED60}">
 														<ReferenceList>
 															<Reference Name="AudioNode">
-																<ObjectRef Name="coda" ID="{90742F76-3D8F-4FCD-9E50-B1D6C117CDB1}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+																<ObjectRef Name="d" ID="{90742F76-3D8F-4FCD-9E50-B1D6C117CDB1}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
 															</Reference>
 														</ReferenceList>
 														<ObjectLists>
@@ -3502,7 +3229,7 @@
 													<MultiSwitchEntry Name="" ID="{0AAD9725-56C7-4921-9D44-8401D472B88E}">
 														<ReferenceList>
 															<Reference Name="AudioNode">
-																<ObjectRef Name="coda" ID="{90742F76-3D8F-4FCD-9E50-B1D6C117CDB1}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+																<ObjectRef Name="d" ID="{90742F76-3D8F-4FCD-9E50-B1D6C117CDB1}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
 															</Reference>
 														</ReferenceList>
 														<ObjectLists>
@@ -3520,79 +3247,16 @@
 											</Reference>
 											<Reference>
 												<Local>
-													<MultiSwitchEntry Name="" ID="{385C9EF7-E6F9-4A6C-9489-1804F06826EC}">
-														<ReferenceList>
-															<Reference Name="AudioNode">
-																<ObjectRef Name="coda" ID="{90742F76-3D8F-4FCD-9E50-B1D6C117CDB1}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
-															</Reference>
-														</ReferenceList>
-														<ObjectLists>
-															<ObjectList Name="EntryPath">
-																<Reference>
-																	<ObjectRef Name="d" ID="{8BF07710-24D4-4141-8F05-A7EC684964EE}" WorkUnitID="{D0003C71-216D-472C-93A1-FB29287A9FDA}"/>
-																</Reference>
-																<Reference>
-																	<ObjectRef Name="game_over" ID="{E86C340E-2859-4E1B-B2C5-A4F96142AA5E}" WorkUnitID="{D0003C71-216D-472C-93A1-FB29287A9FDA}"/>
-																</Reference>
-															</ObjectList>
-														</ObjectLists>
-													</MultiSwitchEntry>
-												</Local>
-											</Reference>
-											<Reference>
-												<Local>
-													<MultiSwitchEntry Name="" ID="{2528B897-5D35-418A-819F-6C3D4C9C6ED3}">
-														<ReferenceList>
-															<Reference Name="AudioNode">
-																<ObjectRef Name="coda" ID="{90742F76-3D8F-4FCD-9E50-B1D6C117CDB1}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
-															</Reference>
-														</ReferenceList>
-														<ObjectLists>
-															<ObjectList Name="EntryPath">
-																<Reference>
-																	<ObjectRef Name="e" ID="{C7AE9EB6-45E0-4B6E-98D6-B776110D4A92}" WorkUnitID="{D0003C71-216D-472C-93A1-FB29287A9FDA}"/>
-																</Reference>
-																<Reference>
-																	<ObjectRef Name="game_over" ID="{E86C340E-2859-4E1B-B2C5-A4F96142AA5E}" WorkUnitID="{D0003C71-216D-472C-93A1-FB29287A9FDA}"/>
-																</Reference>
-															</ObjectList>
-														</ObjectLists>
-													</MultiSwitchEntry>
-												</Local>
-											</Reference>
-											<Reference>
-												<Local>
 													<MultiSwitchEntry Name="" ID="{40368E99-F631-465F-A58A-2434887FD96A}">
 														<ReferenceList>
 															<Reference Name="AudioNode">
-																<ObjectRef Name="intro a" ID="{D7C77F8D-FBC7-4272-9398-08AA7656E7B6}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+																<ObjectRef Name="a" ID="{D7C77F8D-FBC7-4272-9398-08AA7656E7B6}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
 															</Reference>
 														</ReferenceList>
 														<ObjectLists>
 															<ObjectList Name="EntryPath">
 																<Reference>
 																	<ObjectRef Name="a" ID="{D5BCFFA0-041F-4BA0-BC64-D8AD8E455246}" WorkUnitID="{D0003C71-216D-472C-93A1-FB29287A9FDA}"/>
-																</Reference>
-																<Reference>
-																	<ObjectRef Name="game_transitioning" ID="{2EE1956B-77FC-4AD6-BEBB-5517062DA249}" WorkUnitID="{D0003C71-216D-472C-93A1-FB29287A9FDA}"/>
-																</Reference>
-															</ObjectList>
-														</ObjectLists>
-													</MultiSwitchEntry>
-												</Local>
-											</Reference>
-											<Reference>
-												<Local>
-													<MultiSwitchEntry Name="" ID="{721EDBA7-A704-4BC1-A563-D75A03277C95}">
-														<ReferenceList>
-															<Reference Name="AudioNode">
-																<ObjectRef Name="c" ID="{81BD7B79-1403-4281-A292-0F157FE6EAD3}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
-															</Reference>
-														</ReferenceList>
-														<ObjectLists>
-															<ObjectList Name="EntryPath">
-																<Reference>
-																	<ObjectRef Name="d" ID="{8BF07710-24D4-4141-8F05-A7EC684964EE}" WorkUnitID="{D0003C71-216D-472C-93A1-FB29287A9FDA}"/>
 																</Reference>
 																<Reference>
 																	<ObjectRef Name="game_transitioning" ID="{2EE1956B-77FC-4AD6-BEBB-5517062DA249}" WorkUnitID="{D0003C71-216D-472C-93A1-FB29287A9FDA}"/>
@@ -3628,34 +3292,13 @@
 													<MultiSwitchEntry Name="" ID="{9C21B71A-0826-4C3D-8D97-D77C439E75AD}">
 														<ReferenceList>
 															<Reference Name="AudioNode">
-																<ObjectRef Name="middle a" ID="{B49CA279-3802-4ED6-9CEB-9536ADF459CE}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
+																<ObjectRef Name="c" ID="{81BD7B79-1403-4281-A292-0F157FE6EAD3}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
 															</Reference>
 														</ReferenceList>
 														<ObjectLists>
 															<ObjectList Name="EntryPath">
 																<Reference>
 																	<ObjectRef Name="c" ID="{ED2DE8A7-8136-40A1-8CBB-F2AD0C52B5A0}" WorkUnitID="{D0003C71-216D-472C-93A1-FB29287A9FDA}"/>
-																</Reference>
-																<Reference>
-																	<ObjectRef Name="game_transitioning" ID="{2EE1956B-77FC-4AD6-BEBB-5517062DA249}" WorkUnitID="{D0003C71-216D-472C-93A1-FB29287A9FDA}"/>
-																</Reference>
-															</ObjectList>
-														</ObjectLists>
-													</MultiSwitchEntry>
-												</Local>
-											</Reference>
-											<Reference>
-												<Local>
-													<MultiSwitchEntry Name="" ID="{5D203C36-6D05-47D6-BB0F-A1C34311BDB8}">
-														<ReferenceList>
-															<Reference Name="AudioNode">
-																<ObjectRef Name="d" ID="{AF2C34AB-EDC7-466B-A930-3C0E70EEA109}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
-															</Reference>
-														</ReferenceList>
-														<ObjectLists>
-															<ObjectList Name="EntryPath">
-																<Reference>
-																	<ObjectRef Name="e" ID="{C7AE9EB6-45E0-4B6E-98D6-B776110D4A92}" WorkUnitID="{D0003C71-216D-472C-93A1-FB29287A9FDA}"/>
 																</Reference>
 																<Reference>
 																	<ObjectRef Name="game_transitioning" ID="{2EE1956B-77FC-4AD6-BEBB-5517062DA249}" WorkUnitID="{D0003C71-216D-472C-93A1-FB29287A9FDA}"/>

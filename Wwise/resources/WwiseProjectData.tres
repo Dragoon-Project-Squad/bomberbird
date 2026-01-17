@@ -1,4 +1,4 @@
-[gd_resource type="WwiseProjectData" load_steps=100 format=3 uid="uid://dj3wye1jv6mdo"]
+[gd_resource type="WwiseProjectData" load_steps=98 format=3 uid="uid://dj3wye1jv6mdo"]
 
 [sub_resource type="WwiseTreeObject" id="WwiseTreeObject_dn5s6"]
 path = "\\Virtual Acoustics\\Factory Acoustic Textures\\Textures\\Acoustic_Banner"
@@ -121,49 +121,47 @@ name = "Default Work Unit"
 id = 125608783
 
 [sub_resource type="WwiseTreeObject" id="WwiseTreeObject_yyrou"]
-path = "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music"
+path = "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music\\Vintage Left Hand"
 type = 2
-name = "Music"
-guid = "{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}"
-id = 3991942870
+name = "Vintage Left Hand"
+guid = "{6F3938D0-4CDE-4B08-A4E0-1015914025F7}"
+id = 2133159467
 
 [sub_resource type="WwiseTreeObject" id="WwiseTreeObject_geu6g"]
+path = "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music\\Vintage Left Hand Sidechain"
+type = 2
+name = "Vintage Left Hand Sidechain"
+guid = "{4CF07948-472D-4CF8-B72C-122B90D326D9}"
+id = 241961275
+
+[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_5n8hf"]
+path = "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music\\Vintage Right Hand"
+type = 2
+name = "Vintage Right Hand"
+guid = "{9CC84E2A-8039-463D-B684-29D740909D35}"
+id = 3168807778
+
+[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_tnib1"]
+path = "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music\\Vintage Right Hand Sidechain"
+type = 2
+name = "Vintage Right Hand Sidechain"
+guid = "{44940C3F-5385-4D52-87EC-03942221953D}"
+id = 2246801478
+
+[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_o7sea"]
+children = [SubResource("WwiseTreeObject_yyrou"), SubResource("WwiseTreeObject_geu6g"), SubResource("WwiseTreeObject_5n8hf"), SubResource("WwiseTreeObject_tnib1")]
+name = "Music"
+id = 3991942870
+
+[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_lrto0"]
 path = "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\SFX"
 type = 2
 name = "SFX"
 guid = "{AF41BCA1-3B3D-4DB7-A468-8A67F0390435}"
 id = 393239870
 
-[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_5n8hf"]
-path = "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Vintage Left Hand"
-type = 2
-name = "Vintage Left Hand"
-guid = "{6F3938D0-4CDE-4B08-A4E0-1015914025F7}"
-id = 2133159467
-
-[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_tnib1"]
-path = "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Vintage Left Hand Sidechain"
-type = 2
-name = "Vintage Left Hand Sidechain"
-guid = "{4CF07948-472D-4CF8-B72C-122B90D326D9}"
-id = 241961275
-
-[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_o7sea"]
-path = "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Vintage Right Hand"
-type = 2
-name = "Vintage Right Hand"
-guid = "{9CC84E2A-8039-463D-B684-29D740909D35}"
-id = 3168807778
-
-[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_lrto0"]
-path = "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Vintage Right Hand Sidechain"
-type = 2
-name = "Vintage Right Hand Sidechain"
-guid = "{44940C3F-5385-4D52-87EC-03942221953D}"
-id = 2246801478
-
 [sub_resource type="WwiseTreeObject" id="WwiseTreeObject_i5cxa"]
-children = [SubResource("WwiseTreeObject_yyrou"), SubResource("WwiseTreeObject_geu6g"), SubResource("WwiseTreeObject_5n8hf"), SubResource("WwiseTreeObject_tnib1"), SubResource("WwiseTreeObject_o7sea"), SubResource("WwiseTreeObject_lrto0")]
+children = [SubResource("WwiseTreeObject_o7sea"), SubResource("WwiseTreeObject_lrto0")]
 name = "Master Audio Bus"
 id = 3803692087
 
@@ -589,136 +587,122 @@ guid = "{ED2DE8A7-8136-40A1-8CBB-F2AD0C52B5A0}"
 id = 84696444
 
 [sub_resource type="WwiseTreeObject" id="WwiseTreeObject_20pdq"]
-path = "\\States\\Default Work Unit\\battle_state\\d"
-type = 8
-name = "d"
-guid = "{8BF07710-24D4-4141-8F05-A7EC684964EE}"
-id = 84696443
-
-[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_wm4gr"]
-path = "\\States\\Default Work Unit\\battle_state\\e"
-type = 8
-name = "e"
-guid = "{C7AE9EB6-45E0-4B6E-98D6-B776110D4A92}"
-id = 84696442
-
-[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_hxqoe"]
 path = "\\States\\Default Work Unit\\battle_state"
-children = [SubResource("WwiseTreeObject_i2a87"), SubResource("WwiseTreeObject_f15cs"), SubResource("WwiseTreeObject_5urve"), SubResource("WwiseTreeObject_rms2w"), SubResource("WwiseTreeObject_20pdq"), SubResource("WwiseTreeObject_wm4gr")]
+children = [SubResource("WwiseTreeObject_i2a87"), SubResource("WwiseTreeObject_f15cs"), SubResource("WwiseTreeObject_5urve"), SubResource("WwiseTreeObject_rms2w")]
 type = 9
 name = "battle_state"
 guid = "{951EB862-2248-4D0C-A84A-4EB2FFFAB4E9}"
 id = 2739846761
 
-[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_rs5m0"]
+[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_wm4gr"]
 path = "\\States\\Default Work Unit\\battle_track\\None"
 type = 8
 name = "None"
 guid = "{5BC471B7-4859-450E-93CE-FB7F414DB77B}"
 id = 748895195
 
-[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_rgqpf"]
+[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_hxqoe"]
 path = "\\States\\Default Work Unit\\battle_track\\bounty_hunter_blitz"
 type = 8
 name = "bounty_hunter_blitz"
 guid = "{97A706A9-F6CB-4798-B19D-D7A6E2522462}"
 id = 2175638193
 
-[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_nf113"]
+[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_rs5m0"]
 path = "\\States\\Default Work Unit\\battle_track\\bounty_hunter_jam"
 type = 8
 name = "bounty_hunter_jam"
 guid = "{A19BA789-9EEE-4E1A-83B9-E21D457D698D}"
 id = 3671065912
 
-[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_8d6dh"]
+[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_rgqpf"]
 path = "\\States\\Default Work Unit\\battle_track\\dad_drive"
 type = 8
 name = "dad_drive"
 guid = "{77EE4228-9450-497E-BF7B-297D0A75E710}"
 id = 3284605273
 
-[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_jih80"]
+[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_nf113"]
 path = "\\States\\Default Work Unit\\battle_track\\dungeon"
 type = 8
 name = "dungeon"
 guid = "{C3C65153-42C4-4C7A-990E-D541A0A359DD}"
 id = 608898761
 
-[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_4m7c0"]
+[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_8d6dh"]
 path = "\\States\\Default Work Unit\\battle_track\\minki"
 type = 8
 name = "minki"
 guid = "{1B072E95-1A99-4EF2-A37D-AF6F7238DB93}"
 id = 3432696479
 
-[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_ersd2"]
+[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_jih80"]
 path = "\\States\\Default Work Unit\\battle_track\\random"
 type = 8
 name = "random"
 guid = "{A258802D-1B1E-4885-976C-872C3B7D09FE}"
 id = 3048058352
 
-[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_0g0t2"]
+[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_4m7c0"]
 path = "\\States\\Default Work Unit\\battle_track\\rush"
 type = 8
 name = "rush"
 guid = "{9F886BF6-0CCB-4BE4-AAE9-E2E996283B7D}"
 id = 2275039111
 
-[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_jtj33"]
+[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_ersd2"]
 path = "\\States\\Default Work Unit\\battle_track\\vintage"
 type = 8
 name = "vintage"
 guid = "{BD63CDD9-0AA2-4840-B958-3EEE31A22E2F}"
 id = 3229754765
 
-[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_pasob"]
+[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_0g0t2"]
 path = "\\States\\Default Work Unit\\battle_track"
-children = [SubResource("WwiseTreeObject_rs5m0"), SubResource("WwiseTreeObject_rgqpf"), SubResource("WwiseTreeObject_nf113"), SubResource("WwiseTreeObject_8d6dh"), SubResource("WwiseTreeObject_jih80"), SubResource("WwiseTreeObject_4m7c0"), SubResource("WwiseTreeObject_ersd2"), SubResource("WwiseTreeObject_0g0t2"), SubResource("WwiseTreeObject_jtj33")]
+children = [SubResource("WwiseTreeObject_wm4gr"), SubResource("WwiseTreeObject_hxqoe"), SubResource("WwiseTreeObject_rs5m0"), SubResource("WwiseTreeObject_rgqpf"), SubResource("WwiseTreeObject_nf113"), SubResource("WwiseTreeObject_8d6dh"), SubResource("WwiseTreeObject_jih80"), SubResource("WwiseTreeObject_4m7c0"), SubResource("WwiseTreeObject_ersd2")]
 type = 9
 name = "battle_track"
 guid = "{000714A4-2E78-4263-9682-6C0CB3867AC6}"
 id = 896293863
 
-[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_aa1t5"]
+[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_jtj33"]
 path = "\\States\\Default Work Unit\\game_state\\None"
 type = 8
 name = "None"
 guid = "{88CD8E61-15F7-4595-8FE8-5D453E6D0407}"
 id = 748895195
 
-[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_w8b82"]
+[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_pasob"]
 path = "\\States\\Default Work Unit\\game_state\\game_on"
 type = 8
 name = "game_on"
 guid = "{D2241DEC-AA51-46EC-BF9B-90881B7B2CF4}"
 id = 2219001485
 
-[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_82afc"]
+[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_aa1t5"]
 path = "\\States\\Default Work Unit\\game_state\\game_over"
 type = 8
 name = "game_over"
 guid = "{E86C340E-2859-4E1B-B2C5-A4F96142AA5E}"
 id = 1432716332
 
-[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_dlb1b"]
+[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_w8b82"]
 path = "\\States\\Default Work Unit\\game_state\\game_transitioning"
 type = 8
 name = "game_transitioning"
 guid = "{2EE1956B-77FC-4AD6-BEBB-5517062DA249}"
 id = 3592636505
 
-[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_x2pta"]
+[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_82afc"]
 path = "\\States\\Default Work Unit\\game_state"
-children = [SubResource("WwiseTreeObject_aa1t5"), SubResource("WwiseTreeObject_w8b82"), SubResource("WwiseTreeObject_82afc"), SubResource("WwiseTreeObject_dlb1b")]
+children = [SubResource("WwiseTreeObject_jtj33"), SubResource("WwiseTreeObject_pasob"), SubResource("WwiseTreeObject_aa1t5"), SubResource("WwiseTreeObject_w8b82")]
 type = 9
 name = "game_state"
 guid = "{117D1A2A-2AFF-40B1-A09B-6B66A1FDD035}"
 id = 766723505
 
-[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_sf73r"]
-children = [SubResource("WwiseTreeObject_hxqoe"), SubResource("WwiseTreeObject_pasob"), SubResource("WwiseTreeObject_x2pta")]
+[sub_resource type="WwiseTreeObject" id="WwiseTreeObject_dlb1b"]
+children = [SubResource("WwiseTreeObject_20pdq"), SubResource("WwiseTreeObject_0g0t2"), SubResource("WwiseTreeObject_82afc")]
 name = "Default Work Unit"
 id = 125608783
 
@@ -728,4 +712,4 @@ bus_root = [SubResource("WwiseTreeObject_ptp8y")]
 bank_root = [SubResource("WwiseTreeObject_v560u")]
 event_root = [SubResource("WwiseTreeObject_dw1g5")]
 game_parameter_root = [SubResource("WwiseTreeObject_341ig")]
-state_root = [SubResource("WwiseTreeObject_sf73r")]
+state_root = [SubResource("WwiseTreeObject_dlb1b")]
