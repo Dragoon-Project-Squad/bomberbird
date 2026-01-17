@@ -152,7 +152,7 @@ config={
 
 initialization/app_id=4337270
 initialization/initialize_on_startup=true
-initialization/embed_callbacks=true
+initialization/embed_callbacks=false
 multiplayer_peer/max_channels=4
 
 [wwise]

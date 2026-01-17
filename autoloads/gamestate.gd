@@ -741,7 +741,13 @@ func send_p2p_packet(this_target: int, packet_data: Dictionary) -> void:
 func initialize_steam() -> void:
 	var initialize_response: Dictionary = Steam.steamInitEx()
 	print("Did Steam initialize?: %s " % initialize_response)
-	
+
+	if initialize_response['status'] > Steam.STEAM_API_INIT_RESULT_OK:
+		printerr("Failed to initialize Steam, shutting down: %s" % initialize_response)
+		# Show some kind of prompt so the game doesn't suddently stop working
+		#show_warning_prompt()
+		get_tree().quit() #Or just blow up the game instead.
+			
 func steam_signal_setup() -> void:
 	Steam.join_requested.connect(_on_lobby_join_requested)
 	#Steam.lobby_chat_update.connect(_on_lobby_chat_update) #No chatroom feature enabled.
@@ -772,7 +778,7 @@ func steam_playername_integration():
 	player_data_master_dict[1].playername = player_name
 	
 func _ready():
-	#initialize_steam() #Only necessary if Steam Initialization is not enabled in Godot Project settings.
+	initialize_steam() #Only necessary if Steam Initialization is not enabled in Godot Project settings.
 	steam_signal_setup()
 	
 	multiplayer.peer_connected.connect(_player_connected)
