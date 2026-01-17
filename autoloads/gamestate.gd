@@ -117,14 +117,6 @@ func update_server_player_lists(client_player_name):
 	add_ai_players(ai_count)
 	establish_player_counts()
 	assign_player_numbers()
-
-#@rpc("call_local")
-#func sync_gamestate_across_players(in_players, in_player_numbers, in_host_player_name, in_characters):
-	#players = in_players
-	#player_numbers = in_player_numbers
-	#host_player_name = in_host_player_name
-	#characters = in_characters
-	#player_list_changed.emit()
 	
 @rpc("call_local")
 func sync_playerdata_across_players(newplayer_data_master_dict):
@@ -160,7 +152,6 @@ func _player_disconnected(id):
 func _connected_ok():
 	# We just connected to a server
 	connection_succeeded.emit()
-
 
 # Callback from SceneTree, only for clients (not server).
 func _server_disconnected():
@@ -199,17 +190,10 @@ func remove_player_from_world(id):
 	
 @rpc("any_peer", "call_local")
 func change_character_player(characterpathdict : Dictionary):
-	#print(
-		#"Changing ID ", 
-		#multiplayer.get_remote_sender_id(), 
-		#"'s character model to ", 
-		#characterpathdict["walk"]
-	#)
 	var id = multiplayer.get_remote_sender_id()
 	if id == 0:
 		id = 1
 	player_data_master_dict[id].spritepaths = characterpathdict.duplicate()
-
 
 func assign_player_numbers():
 	var players_assigned = 0 #If this hits 4, we kill the loop as a sanity check.
@@ -233,7 +217,6 @@ func assign_player_numbers():
 				push_error("More than 4 players detected! Are you sure this is correct!?")
 				return
 		players_assigned += 1
-		#print("Player ", players_assigned, " assigned to ID number: ", p)
 
 func get_cpu_count() -> int:
 	var ai_player_count = 0
@@ -252,7 +235,6 @@ func establish_player_counts() -> void:
 		if player_data_master_dict[p].is_enabled && not player_data_master_dict[p].is_ai:
 			human_player_count = human_player_count + 1
 	total_player_count = human_player_count + ai_player_count
-	#print("epc: cpus: ", ai_player_count, ", players: ", human_player_count)
 		
 @rpc("call_local")
 func load_world(game_scene):
@@ -274,14 +256,6 @@ func load_world(game_scene):
 	game.start()
 	get_tree().set_pause(false) 
 
-func attempt_host_steam_game(lobby_type : Steam.LobbyType):
-	print_debug("Attempting to host game...")
-	
-	if lobby_id != 0:
-		print_debug("Game detects a lobby is already open under your name!")
-
-	Steam.createLobby(lobby_type, lobby_members_max)
-
 func host_vanilla_game(new_player_name):
 	player_name = new_player_name
 	host_player_name = new_player_name
@@ -290,6 +264,20 @@ func host_vanilla_game(new_player_name):
 	multiplayer.set_multiplayer_peer(peer)
 	player_data_master_dict[1].spritepaths = character_texture_paths.normalgoon_paths
 	gamestate.establish_player_counts()
+
+func join_vanilla_game_as_peer(ip, new_player_name):
+	player_name = new_player_name
+	peer = ENetMultiplayerPeer.new()
+	peer.create_client(ip, DEFAULT_PORT)
+	multiplayer.set_multiplayer_peer(peer)
+
+func attempt_host_steam_game(lobby_type : Steam.LobbyType):
+	print_debug("Attempting to host game...")
+	
+	if lobby_id != 0:
+		print_debug("Game detects a lobby is already open under your name!")
+
+	Steam.createLobby(lobby_type, lobby_members_max)
 	
 func host_steam_mp_game(hosting_lobby_id : int) -> void:
 	peer = SteamMultiplayerPeer.new()
@@ -302,12 +290,6 @@ func host_steam_mp_game(hosting_lobby_id : int) -> void:
 	Steam.setLobbyData(hosting_lobby_id, "name", "%s's Lobby" % [player_name])
 	
 	steam_lobby_creation_finished.emit()
-
-func join_vanilla_game_as_peer(ip, new_player_name):
-	player_name = new_player_name
-	peer = ENetMultiplayerPeer.new()
-	peer.create_client(ip, DEFAULT_PORT)
-	multiplayer.set_multiplayer_peer(peer)
 
 func join_steam_game_as_peer(joined_lobby_id : int):
 	peer = SteamMultiplayerPeer.new()
@@ -363,9 +345,8 @@ func begin_singleplayer_game():
 	player_data_master_dict[1].spritepaths = character_texture_paths.characters[current_save.character_paths]
 	load_world.rpc(campaign_game_scene)
 
-func begin_game():
+func begin_mp_game():
 	globals.current_gamemode = globals.gamemode.BATTLEMODE
-	current_level = 205
 	if player_data_master_dict.size() == 0: # If players disconnected at character select
 		game_error.emit("All other players disconnected")
 		end_game()
@@ -498,7 +479,8 @@ func end_game():
 		peer.close() #Close the peer so everyone really knows I'm leaving.
 		peer = OfflineMultiplayerPeer.new() #Tell Godot that we're in Offline mode and to safely retarget all RPC codes for a singleplayer experience.
 		multiplayer.set_multiplayer_peer(peer)
-		leave_steam_lobby()
+		if SteamBackgroundCode.game_is_steam_powered:
+			leave_steam_lobby()
 	#Only run if Main Menu is currently loaded in the scene.
 	if has_node("/root/MainMenu"):
 		var main_menu = get_node("/root/MainMenu")
@@ -774,7 +756,7 @@ func send_steam_p2p_packet(this_target: int, packet_data: Dictionary) -> void:
 		Steam.sendP2PPacket(this_target, this_data, send_type, channel)
 		
 func initialize_steam() -> void:
-	var initialize_response: Dictionary = Steam.steamInitEx()
+	var initialize_response: Dictionary = Steam.steamInitEx(SteamBackgroundCode.STEAM_APP_ID, true)
 	print("Did Steam initialize?: %s " % initialize_response)
 
 	if initialize_response['status'] > Steam.STEAM_API_INIT_RESULT_OK:
@@ -803,9 +785,9 @@ func check_steam_command_line_arguments():
 	# Lobby invite exists so try to connect to it
 	if these_arguments.size() > 0 and these_arguments[0] == "+connect_lobby" and int(these_arguments[1]) > 0: # There are arguments to process
 		print("Command line lobby ID: %s" % these_arguments[1])
-		join_lobby_on_startup(int(these_arguments[1])) 
+		join_steam_lobby_on_startup(int(these_arguments[1])) 
 
-func join_lobby_on_startup(startupargs) -> void:
+func join_steam_lobby_on_startup(startupargs) -> void:
 	printerr("This developer attempted to program command line args without actually coding their effect. Point and laugh.")
 	print_debug("Anyway, here's your args, you silly billy.", startupargs)
 	
@@ -817,13 +799,13 @@ func steam_playername_integration():
 	player_data_master_dict[1].playername = player_name
 	
 func _ready():
-	initialize_steam() #Only necessary if Steam Initialization is not enabled in Godot Project settings.
-	steam_signal_setup()
-	
+	if SteamBackgroundCode.game_is_steam_powered: #Activate Steam Code
+		initialize_steam() #Only necessary if Steam Initialization is not enabled in Godot Project settings.
+		steam_signal_setup()
+		steam_playername_integration()
+		
 	multiplayer.peer_connected.connect(_player_connected)
 	multiplayer.peer_disconnected.connect(_player_disconnected)
 	multiplayer.connected_to_server.connect(_connected_ok)
 	multiplayer.connection_failed.connect(_connected_fail)
 	multiplayer.server_disconnected.connect(_server_disconnected)
-
-	steam_playername_integration()

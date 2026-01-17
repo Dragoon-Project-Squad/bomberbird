@@ -31,6 +31,7 @@ SaveManager="*res://autoloads/save_manager.gd"
 AudioManager="*res://autoloads/audio_manager.gd"
 campaign_save_manager="*res://autoloads/campaign_save_manager.gd"
 WwiseRuntimeManager="*res://addons/Wwise/runtime/wwise_runtime_manager.gd"
+SteamBackgroundCode="*res://autoloads/steamworks.gd"
 
 [display]
 
@@ -152,7 +153,7 @@ config={
 
 initialization/app_id=4337270
 initialization/initialize_on_startup=false
-initialization/embed_callbacks=true
+initialization/embed_callbacks=false
 multiplayer_peer/max_channels=4
 
 [wwise]

@@ -5,8 +5,6 @@ extends Zone
 @export_range(0, 1) var level_chance_multiplier: float = 0.01
 var breakable_spawn_chance = base_breakable_chance
 ## Private Functions
-
-## spawns breakables randomly with a change depending on (gamestate.current_level)
 	
 func get_final_breakable_rate() -> float:
 	if SettingsContainer.get_breakable_spawn_rule() == SettingsContainer.breakable_spawn_rule_setting_states.STAGE: # Custom Mode, use the Global Percent

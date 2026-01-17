@@ -1,10 +1,14 @@
 extends Control
 
-@onready var connect_screen: PanelContainer = $Connect
 @onready var character_select_screen: Control = $CharacterSelect
 @onready var battle_settings_screen: Control = $BattleSettings
 @onready var stage_select_screen: Control = $StageSelect
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var vanilla_connection_screen: Panel = $VanillaConnectionScreen
+@onready var steam_connection_screen: PanelContainer = $SteamConnectionScreen
+
+#Could switch to the Steam screen depending on outside factors.
+var connect_screen = vanilla_connection_screen
 
 func _ready() -> void:
 	gamestate.game_ended.connect(_on_game_ended)
@@ -14,11 +18,19 @@ func _ready() -> void:
 		print("I AM ONLINE")
 		show_character_select_screen()
 	play_lobby_music()
-
+	open_appropriate_connection_screen()
+	
 func play_lobby_music() -> void:
 	Wwise.post_event("stop_music", self)
 	Wwise.post_event("play_music_dragoon_cafe", self)
 
+func open_appropriate_connection_screen() -> void:
+	if not SteamBackgroundCode.game_is_steam_powered:
+		vanilla_connection_screen.show()
+	else:
+		steam_connection_screen.show()
+		connect_screen = steam_connection_screen
+		
 func start_the_battle() -> void:
 	
 	#stops all music to signal to the player that the stage is loading
@@ -27,7 +39,7 @@ func start_the_battle() -> void:
 	animation_player.play("begin_the_game")
 	await animation_player.animation_finished
 	if is_multiplayer_authority():
-		gamestate.begin_game()
+		gamestate.begin_mp_game()
 
 func show_connect_screen() -> void:
 	connect_screen.show()

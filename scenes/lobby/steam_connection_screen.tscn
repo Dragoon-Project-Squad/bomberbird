@@ -1,42 +1,46 @@
-[gd_scene load_steps=4 format=3 uid="uid://bg5x0c706ihn3"]
+[gd_scene load_steps=5 format=3 uid="uid://bg5x0c706ihn3"]
 
-[ext_resource type="Theme" uid="uid://bgj72vffexht" path="res://assets/styles/panel_theme.tres" id="1_bvi5r"]
-[ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="2_d10gd"]
-[ext_resource type="Script" uid="uid://bbdvm4d1whhpp" path="res://scenes/lobby/connection_screen.gd" id="2_w1kis"]
+[ext_resource type="Theme" uid="uid://bgj72vffexht" path="res://assets/styles/panel_theme.tres" id="1_f1fh7"]
+[ext_resource type="Script" uid="uid://bbdvm4d1whhpp" path="res://scripts/ui/lobby/steam_connection_screen.gd" id="2_oqx7t"]
+[ext_resource type="Theme" uid="uid://d2oqlxohwao3c" path="res://assets/styles/battle_settings_menu.tres" id="3_oqx7t"]
+[ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="3_yygi8"]
 
-[node name="Connect" type="PanelContainer" node_paths=PackedStringArray("lobby_type_dropdown")]
+[node name="Connect" type="PanelContainer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -175.0
-offset_top = -75.0
-offset_right = 175.0
-offset_bottom = 75.0
+offset_left = -416.0
+offset_top = -206.0
+offset_right = 416.0
+offset_bottom = 210.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 2
-size_flags_vertical = 2
-theme = ExtResource("1_bvi5r")
-script = ExtResource("2_w1kis")
-lobby_type_dropdown = NodePath("VBoxContainer/HostContainer/HBoxContainer/OptionButton")
+theme = ExtResource("1_f1fh7")
+script = ExtResource("2_oqx7t")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
+theme = ExtResource("3_oqx7t")
+alignment = 1
 
 [node name="HostContainer" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
 size_flags_vertical = 3
+alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/HostContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-text = "Creates a server"
+size_flags_vertical = 1
+theme = ExtResource("3_oqx7t")
+text = "Create a server"
+horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HostContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
 
 [node name="OptionButton" type="OptionButton" parent="VBoxContainer/HostContainer/HBoxContainer"]
 layout_mode = 2
@@ -57,7 +61,7 @@ layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 2
 text = "Host"
-script = ExtResource("2_d10gd")
+script = ExtResource("3_yygi8")
 metadata/_custom_type_script = "uid://boq3i75yls51h"
 
 [node name="JoinContainer" type="VBoxContainer" parent="VBoxContainer"]
@@ -67,14 +71,14 @@ size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="VBoxContainer/JoinContainer"]
 layout_mode = 2
-text = "Opens the friend list to join a friend hosting!"
+text = "Open Friends List"
 
 [node name="Join" type="Button" parent="VBoxContainer/JoinContainer" groups=["ui_button"]]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 2
-text = "Join"
-script = ExtResource("2_d10gd")
+text = "JOIN A FRIEND"
+script = ExtResource("3_yygi8")
 metadata/_custom_type_script = "uid://boq3i75yls51h"
 
 [connection signal="pressed" from="VBoxContainer/HostContainer/HBoxContainer/Host" to="." method="_on_host_pressed"]

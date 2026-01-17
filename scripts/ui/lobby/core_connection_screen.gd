@@ -1,10 +1,9 @@
 extends PanelContainer
+class_name ConnectionScreen
 
 var timeout_timer = null
 signal multiplayer_game_hosted
 signal multiplayer_game_joined
-
-@export var lobby_type_dropdown : OptionButton
 
 func _ready():
 	# Called every time the node is added to the scene.
@@ -21,22 +20,36 @@ func _ready():
 
 
 func _on_host_pressed():
-	gamestate.attempt_host_game(lobby_type_dropdown.selected as Steam.LobbyType)
+	if $Name.text == "":
+		$ErrorLabel.text = "Invalid name!"
+		return
+
+	$ErrorLabel.text = ""
 	
-	await gamestate.steam_lobby_creation_finished # Wait for the lobby to be created
+	var player_name = $Name.text
+	globals.config.set_player_name(player_name)
+	gamestate.player_data_master_dict[1].playername = player_name
+	gamestate.host_game(globals.config.get_player_name())
 	multiplayer_game_hosted.emit()
-	#get_tree().change_scene_to_file("res://scenes/cssmenu/character_select_screen.tscn")
 
 func _on_join_pressed():
-	Steam.activateGameOverlay("Friends")
-	#$Host.disabled = true
-	#$Join.disabled = true
+	if $Name.text == "":
+		$ErrorLabel.text = "Invalid name!"
+		return
 
-	#var player_name = $Name.text
-	#globals.config.set_player_name(player_name)
-	#timeout_timer.start()
-	#gamestate.join_game(ip, player_name)
-	
+	var ip = $IPAddress.text
+	if not ip.is_valid_ip_address():
+		$ErrorLabel.text = "Invalid IP address!"
+		return
+
+	$ErrorLabel.text = ""
+	$Host.disabled = true
+	$Join.disabled = true
+
+	var player_name = $Name.text
+	globals.config.set_player_name(player_name)
+	timeout_timer.start()
+	gamestate.join_game(ip, player_name)
 
 func _on_connection_timeout():
 	if gamestate.peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
@@ -48,8 +61,6 @@ func _on_connection_timeout():
 
 func _on_connection_success():
 	multiplayer_game_joined.emit()
-	#get_tree().change_scene_to_file("res://scenes/cssmenu/character_select_screen.tscn")
-
 
 func _on_connection_failed():
 	$Host.disabled = false
