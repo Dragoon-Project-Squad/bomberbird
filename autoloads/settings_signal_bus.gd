@@ -1,5 +1,6 @@
 extends Node
 
+signal on_user_preferred_name_changed(alias : String)
 signal on_window_mode_selected(index : int)
 signal on_resolution_selected(index: int)
 signal on_master_sound_set(value : float)
@@ -9,6 +10,7 @@ signal load_settings_data(settings_dict: Dictionary)
 signal load_secret_data(secret_dict: Dictionary)
 signal set_settings_dictionary(settings_dict : Dictionary)
 signal set_secret_file_data(settings_dict : Dictionary)
+
 # Multiplayer
 signal on_points_to_win_set(value : int)
 signal on_cpu_difficulty_set(value : int)
@@ -33,6 +35,10 @@ func emit_load_settings_data(settings_dict: Dictionary) -> void:
 func emit_load_secret_data(secret_dict: Dictionary) -> void:
 	load_secret_data.emit(secret_dict)
 	#Do NOT trigger on_any_set.
+
+func emit_on_user_preferred_name_changed(alias : String) -> void:
+	on_user_preferred_name_changed.emit(alias)
+	on_any_set.emit()
 
 func emit_on_window_mode_selected(index : int) -> void:
 	on_window_mode_selected.emit(index)

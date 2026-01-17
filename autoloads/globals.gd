@@ -94,7 +94,6 @@ const SCHOOL_RAND_STAGE_PATH = "res://scenes/stages/school_stages/school_rand.ts
 const SECRET_RAND_STAGE_PATH = "res://scenes/stages/secret_stages/secret_rand.tscn"
 
 var current_gamemode := gamemode.NONE
-var config = Config.new()
 var game: Node2D
 var current_world: World
 var player_manager: PlayerManager

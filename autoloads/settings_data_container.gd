@@ -4,12 +4,17 @@ extends Node
 @onready var KEYBIND_RESOURCE : PlayerKeybindResource = preload("res://resources/settings/player_keybind_default.tres")
 @onready var BATTLE_SETTINGS : BattleSettingsResource = preload("res://resources/gameplay/default_battle_settings.tres")
 
+#Player Preferred Name
+var user_preferred_name := "Dragoon"
+
 #Settings
 var window_mode_index := 0
 var resolution_index := 0
 var master_volume := 0.0
 var music_volume := 0.0
 var sfx_volume := 0.0
+
+#Secret Flags
 var mint_flag := "not_boo" #Controls access to secret character Mint.
 var snuffy_flag := "not_shiny" #Controls access to secret character Snuffy.
 var laimu_flag := "not_ferret" #Controls access to secret character Laimu.
@@ -46,6 +51,7 @@ func _ready() -> void:
 
 func create_storage_dictionary() -> Dictionary:
 	var settings_container_dict : Dictionary = {
+		"user_preferred_name" : user_preferred_name,
 		"window_mode_index" : window_mode_index,
 		"resolution_index" : resolution_index,
 		"master_volume" : master_volume,
@@ -81,6 +87,11 @@ func create_keybinds_dictionary() -> Dictionary:
 	}
 	
 	return keybinds_container_dict
+
+func get_user_preferred_name() -> String:
+	if loaded_data == {}:
+		return DEFAULT_SETTINGS.DEFAULT_PLAYER_NAME
+	return user_preferred_name
 
 func get_window_mode_index() -> int:
 	if loaded_data == {}:
@@ -215,7 +226,10 @@ func get_stage_choice() -> int:
 	if loaded_data == {}:
 		return BATTLE_SETTINGS.DEFAULT_STAGE
 	return stage_choice	
-	
+
+func set_user_preferred_name(alias : String) -> void:
+	user_preferred_name = alias
+
 func set_window_mode(index : int) -> void:
 	window_mode_index = index
 
@@ -322,6 +336,10 @@ func set_pickup_chance(value : float) -> void:
 func set_stage_choice(index : int) -> void:
 	stage_choice = index as multiplayer_stages
 
+#Set apart from the others because this one can and should be permanently altered during multiplayer.
+func set_user_preferred_name_from_dict(datadict : Dictionary) -> void:
+	set_user_preferred_name(datadict.user_preferred_name if datadict.has('user_preferred_name') else DEFAULT_SETTINGS.DEFAULT_NAME)
+
 func set_options_settings_vars_from_dict(datadict : Dictionary) -> void:
 	set_window_mode(datadict.window_mode_index if datadict.has('window_mode_index') else DEFAULT_SETTINGS.DEFAULT_WINDOW_MODE_INDEX)
 	set_resolution(datadict.resolution_index if datadict.has('resolution_index') else DEFAULT_SETTINGS.DEFAULT_RESOLUTION_INDEX)
@@ -344,6 +362,7 @@ func set_battle_settings_vars_from_dict(datadict : Dictionary) -> void:
 	set_pickup_spawn_rule(datadict.pickup_spawn_rule if datadict.has('pickup_spawn_rule') else BATTLE_SETTINGS.DEFAULT_PICKUP_SPAWN_RULE)
 	set_pickup_chance(datadict.pickup_chance if datadict.has('pickup_chance') else BATTLE_SETTINGS.DEFAULT_PICKUP_CHANCE)
 	set_stage_choice(datadict.stage_choice if datadict.has('stage_choice') else BATTLE_SETTINGS.DEFAULT_STAGE)
+
 
 @rpc("call_local")
 func set_stage_choice_from_dict(datadict : Dictionary) -> void:
@@ -460,6 +479,7 @@ func on_secret_data_loaded(secretdata : Dictionary) -> void:
 	set_nimi_flag(secretdata.nimi_flag if secretdata.has('nimi_flag') else "invalidcode")
 	
 func handle_signals() -> void:
+	SettingsSignalBus.on_user_preferred_name_changed.connect(set_user_preferred_name)
 	SettingsSignalBus.on_window_mode_selected.connect(set_window_mode)
 	SettingsSignalBus.on_resolution_selected.connect(set_resolution)
 	SettingsSignalBus.on_master_sound_set.connect(set_master_vol)
