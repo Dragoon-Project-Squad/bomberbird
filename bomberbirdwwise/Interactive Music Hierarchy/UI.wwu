@@ -540,7 +540,7 @@
 							<PropertyList>
 								<Property Name="MakeUpGain" Type="Real64">
 									<ValueList>
-										<Value>16</Value>
+										<Value>7</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -738,7 +738,18 @@
 											</PropertyList>
 											<ChildrenList>
 												<MusicTransition Name="Transition" ID="{B24FB509-0E40-4D82-B5BB-7C04B2EABA81}">
-													<TransitionInfo/>
+													<PropertyList>
+														<Property Name="EnableDestinationFadeIn" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo>
+														<DestinationFadeIn>
+															<MusicFade Name="Destination Fade-in" ID="{72D03A2F-E49F-4B6F-81F4-F6B08EF20AFE}">
+																<PropertyList>
+																	<Property Name="FadeTime" Type="Real64" Value="0.05"/>
+																</PropertyList>
+															</MusicFade>
+														</DestinationFadeIn>
+													</TransitionInfo>
 												</MusicTransition>
 											</ChildrenList>
 											<TransitionInfo/>
@@ -762,6 +773,16 @@
 									<ChildrenList>
 										<MusicTrack Name="vintage_test_left_hand_a_body" ID="{B4D04972-1259-4BD6-B60A-A5151EF6EADF}" ShortID="474035441">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -817,6 +838,16 @@
 										</MusicTrack>
 										<MusicTrack Name="vintage_test_right_hand_a_body" ID="{0B143E9C-13DC-4307-ACCC-AE41387BE984}" ShortID="816824611">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -916,6 +947,16 @@
 									<ChildrenList>
 										<MusicTrack Name="vintage_test_left_hand_a_ending_1" ID="{7D67F2D2-77DC-4E85-BD7B-908F5B19B64D}" ShortID="1003520102">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -971,6 +1012,16 @@
 										</MusicTrack>
 										<MusicTrack Name="vintage_test_right_hand_a_ending_1" ID="{A662C80E-F7CA-42FE-B19D-AE29A1B0CFF3}" ShortID="566516341">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -1063,6 +1114,16 @@
 									<ChildrenList>
 										<MusicTrack Name="vintage_test_left_hand_intro" ID="{CF5D4BA7-94C6-45FB-B6D5-221FF92CD98D}" ShortID="167101916">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -1118,6 +1179,16 @@
 										</MusicTrack>
 										<MusicTrack Name="vintage_test_right_hand_intro" ID="{6970A781-E482-4484-9F31-F2CC5C57549E}" ShortID="356865028">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -1207,6 +1278,16 @@
 									<ChildrenList>
 										<MusicTrack Name="vintage_test_left_hand_a_ending_1" ID="{1E9A3051-0AFB-4A7B-864D-352B962482B3}" ShortID="269642874">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -1262,6 +1343,16 @@
 										</MusicTrack>
 										<MusicTrack Name="vintage_test_right_hand_a_ending_1" ID="{461CADCA-F605-42D4-8C3F-6E194E68B437}" ShortID="1015436385">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -1351,6 +1442,16 @@
 									<ChildrenList>
 										<MusicTrack Name="vintage_test_left_hand_b_ending_2" ID="{AA50EDD3-BD58-436B-BA39-59EED1E1F3AC}" ShortID="25492707">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -1406,6 +1507,16 @@
 										</MusicTrack>
 										<MusicTrack Name="vintage_test_right_hand_b_ending_2" ID="{BFE02B5C-DE16-4D51-B760-D42F54FC762F}" ShortID="1045018492">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -1495,6 +1606,16 @@
 									<ChildrenList>
 										<MusicTrack Name="vintage_test_left_hand_a_ending_2" ID="{7A82AB97-E5FB-464F-A5AE-C2278F2FDEA2}" ShortID="601584192">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -1550,6 +1671,16 @@
 										</MusicTrack>
 										<MusicTrack Name="vintage_test_right_hand_a_ending_2" ID="{A1E0F905-30D5-41A0-B3D4-1B87DFD38F35}" ShortID="49669903">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -1642,6 +1773,16 @@
 									<ChildrenList>
 										<MusicTrack Name="vintage_test_left_hand_b_body" ID="{0947CEDC-95B6-4124-88B8-1BFFEC1A9EDE}" ShortID="571878683">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -1697,6 +1838,16 @@
 										</MusicTrack>
 										<MusicTrack Name="vintage_test_right_hand_b_body" ID="{5E8B2B59-A032-4612-84D7-B8871ADFE14B}" ShortID="470199994">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -1796,6 +1947,16 @@
 									<ChildrenList>
 										<MusicTrack Name="vintage_test_left_hand_b_ending_1" ID="{888EE741-8A04-424A-8A6C-D50B41AAB933}" ShortID="299276683">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -1851,6 +2012,16 @@
 										</MusicTrack>
 										<MusicTrack Name="vintage_test_right_hand_b_ending_1" ID="{E4D9A888-6155-4205-9C90-97BF94DB934C}" ShortID="820933829">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -1940,6 +2111,16 @@
 									<ChildrenList>
 										<MusicTrack Name="vintage_test_left_hand_a_ending_3" ID="{FD4E128F-5C75-4AEF-BE58-85992EB1C446}" ShortID="472057510">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -1995,6 +2176,16 @@
 										</MusicTrack>
 										<MusicTrack Name="vintage_test_right_hand_a_ending_3" ID="{B24116DC-7AF8-4B5C-B0C9-1862AAA1BBFE}" ShortID="135562830">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -2087,6 +2278,16 @@
 									<ChildrenList>
 										<MusicTrack Name="vintage_test_left_hand_c_body" ID="{52E46C60-FB93-43BA-A9A4-981AAFFBDD1A}" ShortID="362932365">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -2142,6 +2343,16 @@
 										</MusicTrack>
 										<MusicTrack Name="vintage_test_right_hand_c_body" ID="{C0C9001F-908A-427F-9B5B-30845CDE563D}" ShortID="593411131">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -2244,6 +2455,16 @@
 									<ChildrenList>
 										<MusicTrack Name="vintage_test_left_hand_c_ending_1" ID="{A1E9FDA4-D637-49B0-818A-BA987BB3B6C9}" ShortID="70744946">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -2299,6 +2520,16 @@
 										</MusicTrack>
 										<MusicTrack Name="vintage_test_right_hand_c_ending_1" ID="{5EFF7436-800D-41ED-AA67-FF7E50488FF2}" ShortID="625328582">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -2388,6 +2619,16 @@
 									<ChildrenList>
 										<MusicTrack Name="vintage_test_left_hand_c_ending_2" ID="{8F8DACE8-7BA4-4430-B591-E1C9A4C64392}" ShortID="757061540">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -2443,6 +2684,16 @@
 										</MusicTrack>
 										<MusicTrack Name="vintage_test_right_hand_c_ending_2" ID="{A49A1C50-EDB4-43B0-9559-AD4E0E611382}" ShortID="437341509">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -2535,6 +2786,16 @@
 									<ChildrenList>
 										<MusicTrack Name="vintage_test_left_hand_d_body" ID="{0AEF0C1C-8E73-4251-8F23-A57AD1E59206}" ShortID="202337739">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -2590,6 +2851,16 @@
 										</MusicTrack>
 										<MusicTrack Name="vintage_test_right_hand_d_body" ID="{94759985-F30A-4FB1-AB25-28496B0BD4A3}" ShortID="932631619">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>

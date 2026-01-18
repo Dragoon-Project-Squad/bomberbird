@@ -934,13 +934,11 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<Sound Name="vintageprojector_LOOP" ID="{3DB9C9F4-DEBF-44A4-BA27-A674F190DA5D}" ShortID="300107841">
+								<Sound Name="vintageplayerhurt_left_hand" ID="{429B2C70-C666-4DF3-8A27-F8C25B63A4C4}" ShortID="536128789">
 									<PropertyList>
-										<Property Name="IsGlobalLimit" Type="int16" Value="1"/>
-										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="MakeUpGain" Type="Real64">
 											<ValueList>
-												<Value>-13</Value>
+												<Value>4</Value>
 											</ValueList>
 										</Property>
 										<Property Name="MaxSoundPerInstance" Type="int16">
@@ -960,71 +958,16 @@
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
 										</Reference>
 										<Reference Name="OutputBus">
-											<ObjectRef Name="SFX" ID="{AF41BCA1-3B3D-4DB7-A468-8A67F0390435}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="vintage_projector_LOOP" ID="{860F8275-3E77-4E91-B82A-76585055B7B9}">
-											<Language>SFX</Language>
-											<AudioFile>vintage_projector_LOOP.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="491143883"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<StateInfo>
-										<StateGroupList>
-											<StateGroupInfo>
-												<StateGroupRef Name="game_state" ID="{117D1A2A-2AFF-40B1-A09B-6B66A1FDD035}"/>
-											</StateGroupInfo>
-										</StateGroupList>
-										<CustomStateList>
-											<CustomState>
-												<StateRef Name="None" ID="{88CD8E61-15F7-4595-8FE8-5D453E6D0407}"/>
-												<CustomState Name="" ID="{DDBC6422-DF6F-498B-B5A3-4FD66A76B92E}" ShortID="374245434">
-													<PropertyList>
-														<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
-														<Property Name="Volume" Type="Real64" Value="-108"/>
-													</PropertyList>
-												</CustomState>
-											</CustomState>
-											<CustomState>
-												<StateRef Name="game_on" ID="{D2241DEC-AA51-46EC-BF9B-90881B7B2CF4}"/>
-												<CustomState Name="" ID="{94937B92-7FA4-42A2-8571-41B4E597A323}" ShortID="293797116"/>
-											</CustomState>
-											<CustomState>
-												<StateRef Name="game_transitioning" ID="{2EE1956B-77FC-4AD6-BEBB-5517062DA249}"/>
-												<CustomState Name="" ID="{9161750B-6D02-425B-9E5F-2C11FEC57DEC}" ShortID="321821885"/>
-											</CustomState>
-											<CustomState>
-												<StateRef Name="game_over" ID="{E86C340E-2859-4E1B-B2C5-A4F96142AA5E}"/>
-												<CustomState Name="" ID="{11B2E23E-03BB-4EC8-9C16-C1F089983056}" ShortID="613018231">
-													<PropertyList>
-														<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
-														<Property Name="Volume" Type="Real64" Value="-108"/>
-													</PropertyList>
-												</CustomState>
-											</CustomState>
-										</CustomStateList>
-									</StateInfo>
-									<ActiveSourceList>
-										<ActiveSource Name="vintage_projector_LOOP" ID="{860F8275-3E77-4E91-B82A-76585055B7B9}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="vintageplayerhurt_left_hand" ID="{429B2C70-C666-4DF3-8A27-F8C25B63A4C4}" ShortID="536128789">
-									<PropertyList>
-										<Property Name="OverrideOutput" Type="bool" Value="True"/>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
-										</Reference>
-										<Reference Name="OutputBus">
 											<ObjectRef Name="Vintage Left Hand Sidechain" ID="{4CF07948-472D-4CF8-B72C-122B90D326D9}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="vintage_playerhurt_left_hand" ID="{348A1280-2E6C-4337-B44B-4866E35BFEFB}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.118657298985168"/>
+												<Property Name="FadeOutShape" Type="int16" Value="1"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>vintage_playerhurt_left_hand.wav</AudioFile>
 											<MediaIDList>
@@ -1038,7 +981,22 @@
 								</Sound>
 								<Sound Name="vintagecockobo_summon_right_hand" ID="{8C80A834-41A7-41B9-A417-4A7712A2E4E0}" ShortID="334986633">
 									<PropertyList>
+										<Property Name="MakeUpGain" Type="Real64">
+											<ValueList>
+												<Value>9</Value>
+											</ValueList>
+										</Property>
+										<Property Name="MaxSoundPerInstance" Type="int16">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="UseMaxSoundPerInstance" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -1167,6 +1125,117 @@
 								</CustomStateList>
 							</StateInfo>
 						</ActorMixer>
+						<Sound Name="vintageprojector_LOOP" ID="{3DB9C9F4-DEBF-44A4-BA27-A674F190DA5D}" ShortID="300107841">
+							<PropertyList>
+								<Property Name="IsGlobalLimit" Type="int16" Value="1"/>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="MakeUpGain" Type="Real64">
+									<ValueList>
+										<Value>-13</Value>
+									</ValueList>
+								</Property>
+								<Property Name="MaxSoundPerInstance" Type="int16">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+								<Property Name="OverrideOutput" Type="bool" Value="True"/>
+								<Property Name="UseMaxSoundPerInstance" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{AF41BCA1-3B3D-4DB7-A468-8A67F0390435}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vintage_projector_LOOP" ID="{860F8275-3E77-4E91-B82A-76585055B7B9}">
+									<Language>SFX</Language>
+									<AudioFile>vintage_projector_LOOP.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="491143883"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<StateInfo>
+								<StateGroupList>
+									<StateGroupInfo>
+										<StateGroupRef Name="game_state" ID="{117D1A2A-2AFF-40B1-A09B-6B66A1FDD035}"/>
+									</StateGroupInfo>
+									<StateGroupInfo>
+										<StateGroupRef Name="battle_track" ID="{000714A4-2E78-4263-9682-6C0CB3867AC6}"/>
+									</StateGroupInfo>
+								</StateGroupList>
+								<CustomStateList>
+									<CustomState>
+										<StateRef Name="None" ID="{5BC471B7-4859-450E-93CE-FB7F414DB77B}"/>
+										<CustomState Name="" ID="{AB2AD54C-D27E-4926-ABAE-05B4CCEF8BF9}" ShortID="450453244"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="None" ID="{88CD8E61-15F7-4595-8FE8-5D453E6D0407}"/>
+										<CustomState Name="" ID="{DDBC6422-DF6F-498B-B5A3-4FD66A76B92E}" ShortID="374245434"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="game_on" ID="{D2241DEC-AA51-46EC-BF9B-90881B7B2CF4}"/>
+										<CustomState Name="" ID="{94937B92-7FA4-42A2-8571-41B4E597A323}" ShortID="293797116"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="bounty_hunter_blitz" ID="{97A706A9-F6CB-4798-B19D-D7A6E2522462}"/>
+										<CustomState Name="" ID="{A68E214E-A4C1-4E73-89FF-5A3BE312F9B8}" ShortID="502966193"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="vintage" ID="{BD63CDD9-0AA2-4840-B958-3EEE31A22E2F}"/>
+										<CustomState Name="" ID="{47C692F6-6808-4C23-ABD6-715E0256483A}" ShortID="1062115772"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="random" ID="{A258802D-1B1E-4885-976C-872C3B7D09FE}"/>
+										<CustomState Name="" ID="{CE2C5C7B-7E45-4294-9842-1EED8E620A2E}" ShortID="932873864"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="dad_drive" ID="{77EE4228-9450-497E-BF7B-297D0A75E710}"/>
+										<CustomState Name="" ID="{D925FD74-2961-481B-99F1-D03473C3A52E}" ShortID="749074220"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="game_transitioning" ID="{2EE1956B-77FC-4AD6-BEBB-5517062DA249}"/>
+										<CustomState Name="" ID="{9161750B-6D02-425B-9E5F-2C11FEC57DEC}" ShortID="321821885"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="rush" ID="{9F886BF6-0CCB-4BE4-AAE9-E2E996283B7D}"/>
+										<CustomState Name="" ID="{27ACF052-1FDD-4DF6-90D9-6FEF45225BFF}" ShortID="803538045"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="dungeon" ID="{C3C65153-42C4-4C7A-990E-D541A0A359DD}"/>
+										<CustomState Name="" ID="{5B8E027E-7062-4E45-90E7-B23CC7D61E3C}" ShortID="681911197"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="bounty_hunter_jam" ID="{A19BA789-9EEE-4E1A-83B9-E21D457D698D}"/>
+										<CustomState Name="" ID="{A11C2963-6FBE-44C2-BB6F-D681D54DC2C4}" ShortID="69841848"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="game_over" ID="{E86C340E-2859-4E1B-B2C5-A4F96142AA5E}"/>
+										<CustomState Name="" ID="{11B2E23E-03BB-4EC8-9C16-C1F089983056}" ShortID="613018231">
+											<PropertyList>
+												<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="minki" ID="{1B072E95-1A99-4EF2-A37D-AF6F7238DB93}"/>
+										<CustomState Name="" ID="{811C79C7-729D-4860-965A-0CAB719ACF3E}" ShortID="860005507"/>
+									</CustomState>
+								</CustomStateList>
+							</StateInfo>
+							<ActiveSourceList>
+								<ActiveSource Name="vintage_projector_LOOP" ID="{860F8275-3E77-4E91-B82A-76585055B7B9}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 				</ActorMixer>
 			</ChildrenList>

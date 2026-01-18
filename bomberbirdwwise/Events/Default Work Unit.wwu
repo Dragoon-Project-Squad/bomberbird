@@ -422,6 +422,16 @@
 										</Reference>
 									</ReferenceList>
 								</Action>
+								<Action Name="" ID="{89D4B8AC-9EAF-490E-98CA-04A5E600E026}" ShortID="215196642">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="vintageprojector_LOOP" ID="{3DB9C9F4-DEBF-44A4-BA27-A674F190DA5D}" WorkUnitID="{117B7D1D-55AF-426B-8FD8-E768576CFE9B}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
 							</ChildrenList>
 						</Event>
 						<Event Name="st_doki_comes_home" ID="{23C287DA-F7B4-4776-B890-E038E622D77D}">
@@ -507,6 +517,13 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="soundtest_vintage" ID="{22B3990C-957D-4ABF-81A9-277F6B26516B}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{260A58C2-7E41-4B30-9EFE-5F440C2D0E88}" ShortID="331661072">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="vintageprojector_LOOP" ID="{3DB9C9F4-DEBF-44A4-BA27-A674F190DA5D}" WorkUnitID="{117B7D1D-55AF-426B-8FD8-E768576CFE9B}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

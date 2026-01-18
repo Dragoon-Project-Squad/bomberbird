@@ -219,6 +219,11 @@
 													<ChildrenList>
 														<MusicTrack Name="vintage_test_left_hand_intro" ID="{0D90B716-72C5-4C7E-941A-1C6C6BE40CF3}" ShortID="163753704">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -274,6 +279,11 @@
 														</MusicTrack>
 														<MusicTrack Name="vintage_test_right_hand_intro" ID="{7FF0403B-27D8-4B34-8D07-4AEC53BF034A}" ShortID="482749172">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -366,6 +376,11 @@
 													<ChildrenList>
 														<MusicTrack Name="vintage_test_left_hand_a_body" ID="{7B226FB2-34E6-4AD4-854F-C5BC00CEBA19}" ShortID="892344360">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -421,6 +436,11 @@
 														</MusicTrack>
 														<MusicTrack Name="vintage_test_right_hand_a_body" ID="{58400BA3-4B20-4983-AFE4-D0972268EF16}" ShortID="242015620">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -520,6 +540,11 @@
 													<ChildrenList>
 														<MusicTrack Name="vintage_test_left_hand_a_ending_1" ID="{5E325AE8-7D3F-4885-B843-81E1170FF25B}" ShortID="883912824">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -575,6 +600,11 @@
 														</MusicTrack>
 														<MusicTrack Name="vintage_test_right_hand_a_ending_1" ID="{B745AD35-6B60-4040-81AB-E98BB9006A54}" ShortID="585958365">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -780,6 +810,11 @@
 													<ChildrenList>
 														<MusicTrack Name="vintage_test_left_hand_a_ending_2" ID="{F7B2C9DA-AB31-4AAB-81B7-C0E98C928DEF}" ShortID="491329168">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -835,6 +870,11 @@
 														</MusicTrack>
 														<MusicTrack Name="vintage_test_right_hand_a_ending_2" ID="{D850CB32-6F91-4CE6-AE58-A32CCE9AE2DE}" ShortID="110250394">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -927,6 +967,11 @@
 													<ChildrenList>
 														<MusicTrack Name="vintage_test_left_hand_b_body" ID="{A3A8ABB9-5DED-443E-9B90-487F6D9D9C03}" ShortID="528631693">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -982,6 +1027,11 @@
 														</MusicTrack>
 														<MusicTrack Name="vintage_test_right_hand_b_body" ID="{76616BD4-2F6B-4A8E-8140-6A039C100A7B}" ShortID="65546584">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -1071,6 +1121,11 @@
 													<ChildrenList>
 														<MusicTrack Name="vintage_test_left_hand_b_ending_1" ID="{DBB2354D-E297-4FCC-99F6-F5C2E2DD5DA9}" ShortID="876581575">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -1126,6 +1181,11 @@
 														</MusicTrack>
 														<MusicTrack Name="vintage_test_right_hand_b_ending_1" ID="{B2890C8F-ED36-4852-9137-997A90A5FF6A}" ShortID="654407733">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -1218,6 +1278,11 @@
 													<ChildrenList>
 														<MusicTrack Name="vintage_test_left_hand_b_ending_2" ID="{1B98E23D-9670-4C39-8B43-809852F3D8CB}" ShortID="7851411">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -1273,6 +1338,11 @@
 														</MusicTrack>
 														<MusicTrack Name="vintage_test_right_hand_b_ending_2" ID="{8EED3C89-8858-49EC-A831-3F1DA10521D0}" ShortID="682184714">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -1366,6 +1436,11 @@
 													<ChildrenList>
 														<MusicTrack Name="vintage_test_left_hand_a_body" ID="{F108ED9B-B4E3-4E14-A021-0C69223051F7}" ShortID="975991946">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -1421,6 +1496,11 @@
 														</MusicTrack>
 														<MusicTrack Name="vintage_test_right_hand_a_body" ID="{D278426E-54AB-4F72-8D8A-7D59E5495470}" ShortID="416880836">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -1523,6 +1603,11 @@
 													<ChildrenList>
 														<MusicTrack Name="vintage_test_left_hand_a_ending_1" ID="{A1B0304E-AB21-4266-AD72-795B1F42A3D3}" ShortID="274940639">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -1578,6 +1663,11 @@
 														</MusicTrack>
 														<MusicTrack Name="vintage_test_right_hand_a_ending_1" ID="{F95BC64A-BEA4-4BC2-8DE0-1153342A16E7}" ShortID="564226905">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -1793,6 +1883,11 @@
 													<ChildrenList>
 														<MusicTrack Name="vintage_test_left_hand_a_ending_3" ID="{8606429C-203D-4FF5-A112-A89ABBC2BACA}" ShortID="773578317">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -1848,6 +1943,11 @@
 														</MusicTrack>
 														<MusicTrack Name="vintage_test_right_hand_a_ending_3" ID="{EDD0AAF9-44CB-4E39-9412-39BB2DF42D6B}" ShortID="553638724">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -1940,6 +2040,11 @@
 													<ChildrenList>
 														<MusicTrack Name="vintage_test_left_hand_c_ending_1" ID="{8619141D-2B59-4BD5-A4E9-2FBDACDB1C0B}" ShortID="324763317">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -1995,6 +2100,11 @@
 														</MusicTrack>
 														<MusicTrack Name="vintage_test_right_hand_c_ending_1" ID="{3CFED268-BF61-4A08-B66A-B6FAD8CC177B}" ShortID="807950344">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -2087,6 +2197,11 @@
 													<ChildrenList>
 														<MusicTrack Name="vintage_test_left_hand_c_body" ID="{3B117CF1-72B5-469E-8BFB-F00C279D6001}" ShortID="178631450">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -2142,6 +2257,11 @@
 														</MusicTrack>
 														<MusicTrack Name="vintage_test_right_hand_c_body" ID="{639E8937-B7F3-49C6-93E3-CAB2E39E029F}" ShortID="183632947">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -2234,6 +2354,11 @@
 													<ChildrenList>
 														<MusicTrack Name="vintage_test_left_hand_c_ending_2" ID="{5FBB9A46-1DC6-402D-84D9-00098224A191}" ShortID="961358071">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -2289,6 +2414,11 @@
 														</MusicTrack>
 														<MusicTrack Name="vintage_test_right_hand_c_ending_2" ID="{0F0D5366-D018-4D6B-9398-42C2E9D351B0}" ShortID="853379527">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -2382,6 +2512,11 @@
 													<ChildrenList>
 														<MusicTrack Name="vintage_test_left_hand_d_body" ID="{D7808ECC-846B-4888-B2D0-AE767024D1E7}" ShortID="443678564">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -2437,6 +2572,11 @@
 														</MusicTrack>
 														<MusicTrack Name="vintage_test_right_hand_d_body" ID="{226CB1A9-CBAB-488C-9FFA-92280219D3B3}" ShortID="630803282">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -2530,6 +2670,11 @@
 													<ChildrenList>
 														<MusicTrack Name="vintage_test_left_hand_a_body" ID="{980C4049-0978-4742-AAB5-874150094939}" ShortID="354763388">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -2585,6 +2730,11 @@
 														</MusicTrack>
 														<MusicTrack Name="vintage_test_right_hand_a_body" ID="{D03FD8A3-0E65-42C4-AC77-D2F3686DA9BF}" ShortID="692983975">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -2687,6 +2837,11 @@
 													<ChildrenList>
 														<MusicTrack Name="vintage_test_left_hand_a_ending_1" ID="{7F68B41B-1403-4BF5-BD78-4E657011F03F}" ShortID="380976881">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -2742,6 +2897,11 @@
 														</MusicTrack>
 														<MusicTrack Name="vintage_test_right_hand_a_ending_1" ID="{EDB999E2-1A9F-4871-8530-82E02C2F39EF}" ShortID="456530388">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 															</PropertyList>
 															<ReferenceList>
@@ -2883,6 +3043,11 @@
 														<MusicTrack Name="vintage_test_left_hand_coda" ID="{8030C7F7-E38D-4661-9EE3-04EBF31C114E}" ShortID="521177804">
 															<PropertyList>
 																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
+																<Property Name="IsZeroLatency" Type="bool">
 																	<ValueList>
 																		<Value>True</Value>
 																	</ValueList>

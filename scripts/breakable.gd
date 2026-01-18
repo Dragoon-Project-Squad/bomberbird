@@ -58,10 +58,10 @@ func place(pos: Vector2, pickup: int, texture_path: String):
 	assert(pickup != globals.pickups.RANDOM)
 
 	# Turns the obstacles in the vintage stage black and white using the vintage shader.
-	# IDK why it's loading only the saloon obstacles when the stage is set to vintage though.
-	# I'll ask patch to help with this.
-	#if texture_path == "res://assets/tilesetimages/vintage_obstacles.png":
-		#$Sprite.set_material(load("res://scenes/stages/vintage_stages/vintage.tres"))
+	# IDK why it's loading only the saloon obstacles when the stage is set to vintage, but whatever.
+	if is_inside_tree():
+		if get_node("/root/Game/StageLoader/RandomizedVintageStage") != null:
+			$Sprite.set_material(load("res://scenes/stages/vintage_stages/vintage.tres"))
 	$Sprite.texture = load(texture_path)
 	
 	$AnimationPlayer.play("RESET")
