@@ -15,7 +15,7 @@ const DEFAULT_DUNGEON_PATH := "res://assets/tilesetimages/dungeon_obstacles.png"
 const DEFAULT_LAB_PATH := "res://assets/tilesetimages/lab_obstacles.png"
 const DEFAULT_SCHOOL_PATH := "res://assets/tilesetimages/school_obstacles.png"
 const DEFAULT_SECRET_PATH := "res://assets/tilesetimages/secret_obstacles.png"
-const DEFAULT_VINTAGE_PATH := "res://assets/tilesetimages/desert_obstacles.png"
+const DEFAULT_VINTAGE_PATH := "res://assets/tilesetimages/vintage_obstacles.png"
 
 const DEFAULT_DICT = {
 	"desert" : DEFAULT_DESERT_PATH,
