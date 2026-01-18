@@ -67,6 +67,7 @@ var defaultcredits = [ #DO NOT REMOVE, This is here to allow smooth reloads.
 		"'D.A.D Drive' by Peachii",
 		"'BountyHunter Jam' by Peachii",
 		"'Theme of Minki' by Peachii",
+		"'Scott Joplin's New Rag' by Scott Joplin"
 	],[
 		"Sound Designer (SFX, Technical)",
 		"MonstoBusta"
