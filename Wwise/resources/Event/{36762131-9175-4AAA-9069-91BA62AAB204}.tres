@@ -1,0 +1,8 @@
+[gd_resource type="WwiseEvent" format=3 uid="uid://ncq0bwijs6ow"]
+
+[resource]
+is_in_user_defined_sound_bank = true
+name = "play_projector"
+id = 3664693610
+guid = "{36762131-9175-4AAA-9069-91BA62AAB204}"
+dummy = true

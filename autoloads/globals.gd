@@ -92,6 +92,7 @@ const DUNGEON_RAND_STAGE_PATH = "res://scenes/stages/dungeon_stages/dungeon_rand
 const LAB_RAND_STAGE_PATH = "res://scenes/stages/lab_stages/lab_rand.tscn"
 const SCHOOL_RAND_STAGE_PATH = "res://scenes/stages/school_stages/school_rand.tscn"
 const SECRET_RAND_STAGE_PATH = "res://scenes/stages/secret_stages/secret_rand.tscn"
+const VINTAGE_RAND_STAGE_PATH = "res://scenes/stages/vintage_stages/vintage_rand.tscn"
 
 var current_gamemode := gamemode.NONE
 var config = Config.new()

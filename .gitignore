@@ -18,3 +18,4 @@ mono_crash.*.json
 *.zip
 .build/
 addons/Wwise/native/lib/win64/editor/profile/~libwwise.windows.editor.profile.dll
+*.tmp

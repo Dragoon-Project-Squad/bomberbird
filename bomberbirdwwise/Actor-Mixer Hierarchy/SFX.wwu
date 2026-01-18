@@ -273,6 +273,55 @@
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
+									<StateInfo>
+										<StateGroupList>
+											<StateGroupInfo>
+												<StateGroupRef Name="battle_track" ID="{000714A4-2E78-4263-9682-6C0CB3867AC6}"/>
+											</StateGroupInfo>
+										</StateGroupList>
+										<CustomStateList>
+											<CustomState>
+												<StateRef Name="None" ID="{5BC471B7-4859-450E-93CE-FB7F414DB77B}"/>
+												<CustomState Name="" ID="{E2B004DB-B47D-42F7-A257-02465A142AE2}" ShortID="663353386"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="bounty_hunter_blitz" ID="{97A706A9-F6CB-4798-B19D-D7A6E2522462}"/>
+												<CustomState Name="" ID="{F3998304-DE5D-4A61-AB97-CB91F99FAE87}" ShortID="11829049"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="vintage" ID="{BD63CDD9-0AA2-4840-B958-3EEE31A22E2F}"/>
+												<CustomState Name="" ID="{5D0E179A-DC99-4E90-9041-FC76DDFB1541}" ShortID="294536325">
+													<PropertyList>
+														<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
+													</PropertyList>
+												</CustomState>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="random" ID="{A258802D-1B1E-4885-976C-872C3B7D09FE}"/>
+												<CustomState Name="" ID="{2A753F21-C0ED-4A7E-BFC8-DEFFE6B60769}" ShortID="413807032"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="dad_drive" ID="{77EE4228-9450-497E-BF7B-297D0A75E710}"/>
+												<CustomState Name="" ID="{860C9D36-00E8-410D-8982-50C5892F98EF}" ShortID="1034488757"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="rush" ID="{9F886BF6-0CCB-4BE4-AAE9-E2E996283B7D}"/>
+												<CustomState Name="" ID="{F70D5B39-6B3C-4EDD-9181-F03AD886F1B2}" ShortID="760963527"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="dungeon" ID="{C3C65153-42C4-4C7A-990E-D541A0A359DD}"/>
+												<CustomState Name="" ID="{922E388A-EF20-4ABB-A128-FFA27B4EC951}" ShortID="450859665"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="bounty_hunter_jam" ID="{A19BA789-9EEE-4E1A-83B9-E21D457D698D}"/>
+												<CustomState Name="" ID="{84CB7DC7-8587-4401-BFB1-9602038D6FC6}" ShortID="998934444"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="minki" ID="{1B072E95-1A99-4EF2-A37D-AF6F7238DB93}"/>
+												<CustomState Name="" ID="{DAA74D30-81B0-4A7D-88EF-4FF3917127AD}" ShortID="754748561"/>
+											</CustomState>
+										</CustomStateList>
+									</StateInfo>
 									<ActiveSourceList>
 										<ActiveSource Name="playerhurt" ID="{059D24D8-599A-4E46-A78B-F97F50B4FE83}" Platform="Linked"/>
 									</ActiveSourceList>
@@ -290,6 +339,7 @@
 												<Value>1</Value>
 											</ValueList>
 										</Property>
+										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="UseMaxSoundPerInstance" Type="bool">
 											<ValueList>
 												<Value>True</Value>
@@ -348,6 +398,57 @@
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
+									<StateInfo>
+										<StateGroupList>
+											<StateGroupInfo>
+												<StateGroupRef Name="battle_track" ID="{000714A4-2E78-4263-9682-6C0CB3867AC6}"/>
+											</StateGroupInfo>
+										</StateGroupList>
+										<CustomStateList>
+											<CustomState>
+												<StateRef Name="None" ID="{5BC471B7-4859-450E-93CE-FB7F414DB77B}"/>
+												<CustomState Name="" ID="{EFC45F69-AF00-45EC-AE0B-4853A5CC1387}" ShortID="648078848"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="bounty_hunter_blitz" ID="{97A706A9-F6CB-4798-B19D-D7A6E2522462}"/>
+												<CustomState Name="" ID="{40039F84-1692-495D-AB04-C89A8C84C941}" ShortID="469377258"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="vintage" ID="{BD63CDD9-0AA2-4840-B958-3EEE31A22E2F}"/>
+												<CustomState Name="" ID="{631C32C7-19BF-4CAB-A309-A4AFB98E39B5}" ShortID="313238296">
+													<PropertyList>
+														<Property Name="Highpass" Type="int16" Value="5"/>
+														<Property Name="Lowpass" Type="int16" Value="9"/>
+														<Property Name="MakeUpGain" Type="Real64" Value="-2"/>
+													</PropertyList>
+												</CustomState>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="random" ID="{A258802D-1B1E-4885-976C-872C3B7D09FE}"/>
+												<CustomState Name="" ID="{13014D2A-A045-4AB4-8D50-B20D76FD6E17}" ShortID="903752288"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="dad_drive" ID="{77EE4228-9450-497E-BF7B-297D0A75E710}"/>
+												<CustomState Name="" ID="{4285B8BC-5729-4852-A06D-33B07B736813}" ShortID="592738623"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="rush" ID="{9F886BF6-0CCB-4BE4-AAE9-E2E996283B7D}"/>
+												<CustomState Name="" ID="{F64C0780-98F8-400F-92FA-C9C4D2F167E5}" ShortID="506249451"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="dungeon" ID="{C3C65153-42C4-4C7A-990E-D541A0A359DD}"/>
+												<CustomState Name="" ID="{17F22CF2-D5A5-4E7F-822A-5A17EE067894}" ShortID="267234998"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="bounty_hunter_jam" ID="{A19BA789-9EEE-4E1A-83B9-E21D457D698D}"/>
+												<CustomState Name="" ID="{D24CE6FC-E947-4FC2-9B66-118AB3E013BB}" ShortID="512590"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="minki" ID="{1B072E95-1A99-4EF2-A37D-AF6F7238DB93}"/>
+												<CustomState Name="" ID="{F96C0D54-D08E-4FA3-AD38-873D0A16905C}" ShortID="684805372"/>
+											</CustomState>
+										</CustomStateList>
+									</StateInfo>
 									<ActiveSourceList>
 										<ActiveSource Name="powerup" ID="{B47CC853-60A1-41F9-8138-2709D7D431A9}" Platform="Linked"/>
 									</ActiveSourceList>
@@ -391,7 +492,7 @@
 											<PropertyList>
 												<Property Name="MakeUpGain" Type="Real64">
 													<ValueList>
-														<Value>-7</Value>
+														<Value>-12</Value>
 													</ValueList>
 												</Property>
 												<Property Name="OverrideEffect" Type="bool" Value="True"/>
@@ -445,7 +546,7 @@
 												<Property Name="IsGlobalLimit" Type="int16" Value="1"/>
 												<Property Name="MakeUpGain" Type="Real64">
 													<ValueList>
-														<Value>6</Value>
+														<Value>-5</Value>
 													</ValueList>
 												</Property>
 												<Property Name="MaxSoundPerInstance" Type="int16">
@@ -718,9 +819,423 @@
 											</ActiveSourceList>
 										</Sound>
 									</ChildrenList>
+									<StateInfo>
+										<StateGroupList>
+											<StateGroupInfo>
+												<StateGroupRef Name="battle_track" ID="{000714A4-2E78-4263-9682-6C0CB3867AC6}"/>
+											</StateGroupInfo>
+										</StateGroupList>
+										<CustomStateList>
+											<CustomState>
+												<StateRef Name="None" ID="{5BC471B7-4859-450E-93CE-FB7F414DB77B}"/>
+												<CustomState Name="" ID="{B8C089D5-AB73-4C0C-AF83-1BED90FBF055}" ShortID="114269675"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="bounty_hunter_blitz" ID="{97A706A9-F6CB-4798-B19D-D7A6E2522462}"/>
+												<CustomState Name="" ID="{EE45E3D7-9651-4A32-856B-32E91EC448D7}" ShortID="1021876070"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="vintage" ID="{BD63CDD9-0AA2-4840-B958-3EEE31A22E2F}"/>
+												<CustomState Name="" ID="{078099B5-5E08-4654-BC8A-86ACFC64C4B5}" ShortID="489572565">
+													<PropertyList>
+														<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
+													</PropertyList>
+												</CustomState>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="random" ID="{A258802D-1B1E-4885-976C-872C3B7D09FE}"/>
+												<CustomState Name="" ID="{F8A16546-2FAB-424B-8847-730083636E68}" ShortID="591137100"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="dad_drive" ID="{77EE4228-9450-497E-BF7B-297D0A75E710}"/>
+												<CustomState Name="" ID="{76BB88C6-195E-4B8A-9678-3EB0FED63BB5}" ShortID="367253605"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="rush" ID="{9F886BF6-0CCB-4BE4-AAE9-E2E996283B7D}"/>
+												<CustomState Name="" ID="{02ABC3BF-1B4E-429F-BF20-94EEB47ABA62}" ShortID="121561069"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="dungeon" ID="{C3C65153-42C4-4C7A-990E-D541A0A359DD}"/>
+												<CustomState Name="" ID="{784A5092-0067-49C3-8D52-FA4FC8B2400F}" ShortID="125075871"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="bounty_hunter_jam" ID="{A19BA789-9EEE-4E1A-83B9-E21D457D698D}"/>
+												<CustomState Name="" ID="{89C25F69-8E24-4B52-81F2-72ED42A3B66B}" ShortID="524204654"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="minki" ID="{1B072E95-1A99-4EF2-A37D-AF6F7238DB93}"/>
+												<CustomState Name="" ID="{98A5F46F-7F99-47AF-9E31-1F20C7E74717}" ShortID="600423272"/>
+											</CustomState>
+										</CustomStateList>
+									</StateInfo>
 								</ActorMixer>
 							</ChildrenList>
+							<StateInfo>
+								<StateGroupList>
+									<StateGroupInfo>
+										<StateGroupRef Name="battle_track" ID="{000714A4-2E78-4263-9682-6C0CB3867AC6}"/>
+									</StateGroupInfo>
+								</StateGroupList>
+								<CustomStateList>
+									<CustomState>
+										<StateRef Name="None" ID="{5BC471B7-4859-450E-93CE-FB7F414DB77B}"/>
+										<CustomState Name="" ID="{EBA28D43-5A14-4A17-93FD-C33CED0C8516}" ShortID="92948156"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="bounty_hunter_blitz" ID="{97A706A9-F6CB-4798-B19D-D7A6E2522462}"/>
+										<CustomState Name="" ID="{93FABB86-9444-43CD-A354-920E9B07AA02}" ShortID="720993624"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="vintage" ID="{BD63CDD9-0AA2-4840-B958-3EEE31A22E2F}"/>
+										<CustomState Name="" ID="{618DB01E-F637-428B-95DD-2C5D0805F69F}" ShortID="939344602">
+											<PropertyList>
+												<Property Name="Highpass" Type="int16" Value="43"/>
+												<Property Name="Lowpass" Type="int16" Value="14"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="random" ID="{A258802D-1B1E-4885-976C-872C3B7D09FE}"/>
+										<CustomState Name="" ID="{A0BFC667-54F8-4280-B059-792667BBA08A}" ShortID="378239130"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="dad_drive" ID="{77EE4228-9450-497E-BF7B-297D0A75E710}"/>
+										<CustomState Name="" ID="{D7B2FB20-C7D4-49D3-96D4-64EFC22CA270}" ShortID="103961454"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="rush" ID="{9F886BF6-0CCB-4BE4-AAE9-E2E996283B7D}"/>
+										<CustomState Name="" ID="{B17E5662-1924-440E-A35C-CF0810AA5BC4}" ShortID="39402275"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="dungeon" ID="{C3C65153-42C4-4C7A-990E-D541A0A359DD}"/>
+										<CustomState Name="" ID="{0C0FE187-B1A6-4D62-83BD-24DA7E216E03}" ShortID="463643672"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="bounty_hunter_jam" ID="{A19BA789-9EEE-4E1A-83B9-E21D457D698D}"/>
+										<CustomState Name="" ID="{7802A167-162D-4B3D-AFE1-266D526678B8}" ShortID="447539705"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="minki" ID="{1B072E95-1A99-4EF2-A37D-AF6F7238DB93}"/>
+										<CustomState Name="" ID="{F6E698D4-35C3-47DF-9FFD-CF63ED0C8C28}" ShortID="549924337"/>
+									</CustomState>
+								</CustomStateList>
+							</StateInfo>
 						</ActorMixer>
+						<ActorMixer Name="vintage" ID="{F330C457-8BA1-45AB-A594-F61A99261224}" ShortID="199134460">
+							<PropertyList>
+								<Property Name="OverrideOutput" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="vintageplayerhurt_left_hand" ID="{429B2C70-C666-4DF3-8A27-F8C25B63A4C4}" ShortID="536128789">
+									<PropertyList>
+										<Property Name="MakeUpGain" Type="Real64">
+											<ValueList>
+												<Value>4</Value>
+											</ValueList>
+										</Property>
+										<Property Name="MaxSoundPerInstance" Type="int16">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
+										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="UseMaxSoundPerInstance" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Vintage Left Hand Sidechain" ID="{4CF07948-472D-4CF8-B72C-122B90D326D9}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="vintage_playerhurt_left_hand" ID="{348A1280-2E6C-4337-B44B-4866E35BFEFB}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.118657298985168"/>
+												<Property Name="FadeOutShape" Type="int16" Value="1"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>vintage_playerhurt_left_hand.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="31271833"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="vintage_playerhurt_left_hand" ID="{348A1280-2E6C-4337-B44B-4866E35BFEFB}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="vintagecockobo_summon_right_hand" ID="{8C80A834-41A7-41B9-A417-4A7712A2E4E0}" ShortID="334986633">
+									<PropertyList>
+										<Property Name="MakeUpGain" Type="Real64">
+											<ValueList>
+												<Value>9</Value>
+											</ValueList>
+										</Property>
+										<Property Name="MaxSoundPerInstance" Type="int16">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
+										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="UseMaxSoundPerInstance" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Vintage Right Hand Sidechain" ID="{44940C3F-5385-4D52-87EC-03942221953D}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="vintage_cockobo_summon_right_hand" ID="{E678C0E5-7F3B-453A-993C-81156CCF79E4}">
+											<Language>SFX</Language>
+											<AudioFile>vintage_cockobo_summon_right_hand.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1032649882"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="vintage_cockobo_summon_right_hand" ID="{E678C0E5-7F3B-453A-993C-81156CCF79E4}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<StateInfo>
+								<StateGroupList>
+									<StateGroupInfo>
+										<StateGroupRef Name="battle_track" ID="{000714A4-2E78-4263-9682-6C0CB3867AC6}"/>
+									</StateGroupInfo>
+									<StateGroupInfo>
+										<StateGroupRef Name="game_state" ID="{117D1A2A-2AFF-40B1-A09B-6B66A1FDD035}"/>
+									</StateGroupInfo>
+								</StateGroupList>
+								<CustomStateList>
+									<CustomState>
+										<StateRef Name="None" ID="{5BC471B7-4859-450E-93CE-FB7F414DB77B}"/>
+										<CustomState Name="" ID="{7667FA42-2628-45E4-9BC4-95F145B0F270}" ShortID="262022922">
+											<PropertyList>
+												<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="None" ID="{88CD8E61-15F7-4595-8FE8-5D453E6D0407}"/>
+										<CustomState Name="" ID="{F5B3695B-C6C5-4DA6-975A-73480E8F4646}" ShortID="536108527"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="game_on" ID="{D2241DEC-AA51-46EC-BF9B-90881B7B2CF4}"/>
+										<CustomState Name="" ID="{7FD68D22-8037-4965-AD58-3C35EC52CC84}" ShortID="191742997"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="bounty_hunter_blitz" ID="{97A706A9-F6CB-4798-B19D-D7A6E2522462}"/>
+										<CustomState Name="" ID="{161D6672-5DEF-4462-B67B-CF1A41E95FFF}" ShortID="177834690">
+											<PropertyList>
+												<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="vintage" ID="{BD63CDD9-0AA2-4840-B958-3EEE31A22E2F}"/>
+										<CustomState Name="" ID="{8BECFEE5-5F0F-4822-A8CE-8C93105F3A65}" ShortID="813515139"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="random" ID="{A258802D-1B1E-4885-976C-872C3B7D09FE}"/>
+										<CustomState Name="" ID="{3F10A2C8-8007-4B7E-AFCF-0C627F32D931}" ShortID="73127400">
+											<PropertyList>
+												<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="dad_drive" ID="{77EE4228-9450-497E-BF7B-297D0A75E710}"/>
+										<CustomState Name="" ID="{0CC9DCCB-8F9B-43AD-9C69-D7105EF438DE}" ShortID="1067289352">
+											<PropertyList>
+												<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="game_transitioning" ID="{2EE1956B-77FC-4AD6-BEBB-5517062DA249}"/>
+										<CustomState Name="" ID="{F8F916AC-34AB-483B-B08F-6D9E76675348}" ShortID="399204343"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="rush" ID="{9F886BF6-0CCB-4BE4-AAE9-E2E996283B7D}"/>
+										<CustomState Name="" ID="{A5A7CAC3-DFD3-4641-A01F-474D7D90EE96}" ShortID="282691413">
+											<PropertyList>
+												<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="dungeon" ID="{C3C65153-42C4-4C7A-990E-D541A0A359DD}"/>
+										<CustomState Name="" ID="{50ADB773-AEFF-41AD-ABFD-05FE038197FA}" ShortID="399258709">
+											<PropertyList>
+												<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="bounty_hunter_jam" ID="{A19BA789-9EEE-4E1A-83B9-E21D457D698D}"/>
+										<CustomState Name="" ID="{089E0ED4-AD23-43EA-83CF-20CAC970C4E6}" ShortID="212156578">
+											<PropertyList>
+												<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="game_over" ID="{E86C340E-2859-4E1B-B2C5-A4F96142AA5E}"/>
+										<CustomState Name="" ID="{EB247693-5632-49D5-86A9-39998A77ABD6}" ShortID="565059191"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="minki" ID="{1B072E95-1A99-4EF2-A37D-AF6F7238DB93}"/>
+										<CustomState Name="" ID="{63B593CA-1C9F-4659-A8B6-D80EE5FB2BA4}" ShortID="261488448">
+											<PropertyList>
+												<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+								</CustomStateList>
+							</StateInfo>
+						</ActorMixer>
+						<Sound Name="vintageprojector_LOOP" ID="{3DB9C9F4-DEBF-44A4-BA27-A674F190DA5D}" ShortID="300107841">
+							<PropertyList>
+								<Property Name="IsGlobalLimit" Type="int16" Value="1"/>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="MakeUpGain" Type="Real64">
+									<ValueList>
+										<Value>-13</Value>
+									</ValueList>
+								</Property>
+								<Property Name="MaxSoundPerInstance" Type="int16">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+								<Property Name="OverrideOutput" Type="bool" Value="True"/>
+								<Property Name="UseMaxSoundPerInstance" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{AF41BCA1-3B3D-4DB7-A468-8A67F0390435}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vintage_projector_LOOP" ID="{860F8275-3E77-4E91-B82A-76585055B7B9}">
+									<Language>SFX</Language>
+									<AudioFile>vintage_projector_LOOP.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="491143883"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<StateInfo>
+								<StateGroupList>
+									<StateGroupInfo>
+										<StateGroupRef Name="game_state" ID="{117D1A2A-2AFF-40B1-A09B-6B66A1FDD035}"/>
+									</StateGroupInfo>
+									<StateGroupInfo>
+										<StateGroupRef Name="battle_track" ID="{000714A4-2E78-4263-9682-6C0CB3867AC6}"/>
+									</StateGroupInfo>
+								</StateGroupList>
+								<CustomStateList>
+									<CustomState>
+										<StateRef Name="None" ID="{5BC471B7-4859-450E-93CE-FB7F414DB77B}"/>
+										<CustomState Name="" ID="{AB2AD54C-D27E-4926-ABAE-05B4CCEF8BF9}" ShortID="450453244"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="None" ID="{88CD8E61-15F7-4595-8FE8-5D453E6D0407}"/>
+										<CustomState Name="" ID="{DDBC6422-DF6F-498B-B5A3-4FD66A76B92E}" ShortID="374245434"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="game_on" ID="{D2241DEC-AA51-46EC-BF9B-90881B7B2CF4}"/>
+										<CustomState Name="" ID="{94937B92-7FA4-42A2-8571-41B4E597A323}" ShortID="293797116"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="bounty_hunter_blitz" ID="{97A706A9-F6CB-4798-B19D-D7A6E2522462}"/>
+										<CustomState Name="" ID="{A68E214E-A4C1-4E73-89FF-5A3BE312F9B8}" ShortID="502966193"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="vintage" ID="{BD63CDD9-0AA2-4840-B958-3EEE31A22E2F}"/>
+										<CustomState Name="" ID="{47C692F6-6808-4C23-ABD6-715E0256483A}" ShortID="1062115772"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="random" ID="{A258802D-1B1E-4885-976C-872C3B7D09FE}"/>
+										<CustomState Name="" ID="{CE2C5C7B-7E45-4294-9842-1EED8E620A2E}" ShortID="932873864"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="dad_drive" ID="{77EE4228-9450-497E-BF7B-297D0A75E710}"/>
+										<CustomState Name="" ID="{D925FD74-2961-481B-99F1-D03473C3A52E}" ShortID="749074220"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="game_transitioning" ID="{2EE1956B-77FC-4AD6-BEBB-5517062DA249}"/>
+										<CustomState Name="" ID="{9161750B-6D02-425B-9E5F-2C11FEC57DEC}" ShortID="321821885"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="rush" ID="{9F886BF6-0CCB-4BE4-AAE9-E2E996283B7D}"/>
+										<CustomState Name="" ID="{27ACF052-1FDD-4DF6-90D9-6FEF45225BFF}" ShortID="803538045"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="dungeon" ID="{C3C65153-42C4-4C7A-990E-D541A0A359DD}"/>
+										<CustomState Name="" ID="{5B8E027E-7062-4E45-90E7-B23CC7D61E3C}" ShortID="681911197"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="bounty_hunter_jam" ID="{A19BA789-9EEE-4E1A-83B9-E21D457D698D}"/>
+										<CustomState Name="" ID="{A11C2963-6FBE-44C2-BB6F-D681D54DC2C4}" ShortID="69841848"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="game_over" ID="{E86C340E-2859-4E1B-B2C5-A4F96142AA5E}"/>
+										<CustomState Name="" ID="{11B2E23E-03BB-4EC8-9C16-C1F089983056}" ShortID="613018231">
+											<PropertyList>
+												<Property Name="MakeUpGain" Type="Real64" Value="-192"/>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="minki" ID="{1B072E95-1A99-4EF2-A37D-AF6F7238DB93}"/>
+										<CustomState Name="" ID="{811C79C7-729D-4860-965A-0CAB719ACF3E}" ShortID="860005507"/>
+									</CustomState>
+								</CustomStateList>
+							</StateInfo>
+							<ActiveSourceList>
+								<ActiveSource Name="vintage_projector_LOOP" ID="{860F8275-3E77-4E91-B82A-76585055B7B9}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 				</ActorMixer>
 			</ChildrenList>

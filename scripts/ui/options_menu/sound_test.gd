@@ -19,7 +19,8 @@ var mus_dict = {
 	"BountyHunter Jam" = "st_bh_jam",
 	"Rush (Game Mix)" = "st_rush",
 	"D.A.D. Drive" = "st_dad",
-	"Theme of Minki" = "st_minki"
+	"Theme of Minki" = "st_minki",
+	"Scott Joplin's New Rag" = "st_vintage"
 	}
 
 var sfx_dict = {

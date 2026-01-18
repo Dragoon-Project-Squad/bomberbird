@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://cmjwqwrmb46mj"]
+
+[ext_resource type="Script" uid="uid://dgwlvvxb85sln" path="res://scripts/music.gd" id="1_l2h2x"]
+[ext_resource type="WwiseState" uid="uid://0kxfnq4ry1n2" path="res://Wwise/resources/State/{BD63CDD9-0AA2-4840-B958-3EEE31A22E2F}.tres" id="2_l2h2x"]
+[ext_resource type="WwiseEvent" uid="uid://ncq0bwijs6ow" path="res://Wwise/resources/Event/{36762131-9175-4AAA-9069-91BA62AAB204}.tres" id="3_557en"]
+
+[node name="Music" type="Node"]
+script = ExtResource("1_l2h2x")
+
+[node name="AkState" type="AkState" parent="."]
+state = ExtResource("2_l2h2x")
+
+[node name="Projector" type="AkEvent2D" parent="."]
+event = ExtResource("3_557en")
+trigger_on = 2
