@@ -5,7 +5,7 @@
 [ext_resource type="Material" uid="uid://duf4xrj2g6ows" path="res://scenes/stages/vintage_stages/vintage.tres" id="2_ku7wh"]
 [ext_resource type="Texture2D" uid="uid://cvisbmqvqmv0b" path="res://assets/tilesetimages/desert_background_540.png" id="3_t3m6s"]
 [ext_resource type="TileSet" uid="uid://c5k358s71dvg7" path="res://assets/tilesets/desert_tileset.tres" id="4_a6f8u"]
-[ext_resource type="TileSet" uid="uid://4k5ids6yph36" path="res://assets/tilesets/vintage_obstacle.tres" id="6_ku7wh"]
+[ext_resource type="TileSet" uid="uid://rloj8u7pcig6" path="res://assets/tilesets/desert_obstacle.tres" id="6_ku7wh"]
 [ext_resource type="PackedScene" uid="uid://c6pfxs37rwloc" path="res://scenes/hurry_up.tscn" id="6_yojcc"]
 [ext_resource type="PackedScene" uid="uid://cmjwqwrmb46mj" path="res://scenes/mus/vintage.tscn" id="8_ku7wh"]
 
