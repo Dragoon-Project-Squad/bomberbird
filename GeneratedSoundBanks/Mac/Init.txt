@@ -55,6 +55,8 @@ Audio Bus	ID	Name			Wwise Object Path	Notes
 Effect plug-ins	ID	Name	Type				Notes
 	17841642	Meter (Custom)	Wwise Meter			
 	418997550	Peak Limiter (Custom)	Wwise Peak Limiter			
+	553901620	Expander (Custom)	Wwise Expander			
+	689851107	Expander (Custom)	Wwise Expander			
 	719101692	Meter (Custom)	Wwise Meter			
 
 Audio Devices	ID	Name	Type				Notes

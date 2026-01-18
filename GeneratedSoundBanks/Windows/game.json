@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{0538B80F-BD38-4678-ADB9-028154C3B6E7}",
     "Language": "SFX",
-    "Hash": "{F2FCE19D-2076-EEBD-3753-138C61AA8CB1}",
+    "Hash": "{F7551292-1CCB-434B-69CD-D9BCD460AF86}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\game",
     "ShortName": "game",
     "Path": "game.bnk",
@@ -30,7 +30,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "vintage_playerhurt_left_hand.wav",
-      "CachePath": "4D/{4DEC60F5-927B-74CC-14A0-5AD848118FC9}.wem"
+      "CachePath": "AF/{AFBBBBAB-4422-6C67-C5A4-D99E23559FB0}.wem"
      },
      {
       "Id": "45083293",
@@ -2062,6 +2062,6 @@
     ]
    }
   ],
-  "FileHash": "{7463F334-F3D6-62D4-E2AE-1679614F58C6}"
+  "FileHash": "{ECCB7746-F9FE-3989-0B70-49442FBBA87B}"
  }
 }

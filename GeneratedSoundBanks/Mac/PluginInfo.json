@@ -11,6 +11,13 @@
     "StaticLib": "AkParametricEQFX"
    },
    {
+    "LibName": "Wwise Expander",
+    "LibId": "7143427",
+    "Type": "Effect",
+    "DLL": "AkExpander",
+    "StaticLib": "AkExpanderFX"
+   },
+   {
     "LibName": "Wwise Peak Limiter",
     "LibId": "7208963",
     "Type": "Effect",
@@ -35,6 +42,6 @@
     "Type": "AudioDevice"
    }
   ],
-  "FileHash": "{E9C693BE-9EA5-A23D-A351-70041F9ACD7C}"
+  "FileHash": "{0D9DA5EA-D0DF-94FD-3421-9A46C9504AD4}"
  }
 }

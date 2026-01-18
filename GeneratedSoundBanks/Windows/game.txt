@@ -60,7 +60,7 @@ Effect plug-ins	ID	Name	Type				Notes
 	485564799	Parametric EQ (Custom)	Wwise Parametric EQ			
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	31271833	vintageplayerhurt_left_hand	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\4D\{4DEC60F5-927B-74CC-14A0-5AD848118FC9}.wem		\Actor-Mixer Hierarchy\SFX\SFX\vintage\vintageplayerhurt_left_hand		96096
+	31271833	vintageplayerhurt_left_hand	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\AF\{AFBBBBAB-4422-6C67-C5A4-D99E23559FB0}.wem		\Actor-Mixer Hierarchy\SFX\SFX\vintage\vintageplayerhurt_left_hand		96096
 	56039939	vintage_test_left_hand_c_ending_2	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\E1\{E181A2DC-BC2D-D646-205B-A28C44862457}.wem		\Interactive Music Hierarchy\UI\ui\soundtest_vintage\vintage_test_c_ending_2\vintage_test_left_hand_c_ending_2		19296
 	73292923	vintage_test_left_hand_c_ending_1	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\DC\{DC0FDD48-1DC7-0FC4-F30D-4131E16D2993}.wem		\Interactive Music Hierarchy\UI\ui\soundtest_vintage\vintage_test_c_ending_1\vintage_test_left_hand_c_ending_1		19296
 	81452251	vintage_test_right_hand_b_ending_1	C:\Users\monst\Game Dev\Engine Projects\Godot\bomberbird\bomberbirdwwise\.cache\85\{858A62E8-B198-A3F0-53C3-701EE06BCC60}.wem		\Interactive Music Hierarchy\UI\ui\soundtest_vintage\vintage_test_b_ending_1\vintage_test_right_hand_b_ending_1		19296

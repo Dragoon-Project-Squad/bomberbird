@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}",
     "Language": "SFX",
-    "Hash": "{59AA41D7-821E-CB5B-1828-F4B270951CF3}",
+    "Hash": "{B3EC502C-3DFB-920F-877B-672F45DA174A}",
     "ObjectPath": "Init",
     "ShortName": "Init",
     "Path": "Init.bnk",
@@ -31,6 +31,22 @@
        "GUID": "{E0262A90-E544-40B0-A8DC-32F2EB21A1FE}",
        "LibName": "Wwise Peak Limiter",
        "LibId": "7208963"
+      },
+      {
+       "Id": "553901620",
+       "Name": "Expander (Custom)",
+       "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music\\Vintage Left Hand\\[Effect Slot [0]: (Expander)]\\Expander (Custom)",
+       "GUID": "{E77F7758-AA6C-49A9-B358-B3036C75F36E}",
+       "LibName": "Wwise Expander",
+       "LibId": "7143427"
+      },
+      {
+       "Id": "689851107",
+       "Name": "Expander (Custom)",
+       "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music\\Vintage Right Hand\\[Effect Slot [0]: (Expander)]\\Expander (Custom)",
+       "GUID": "{581EF298-71D7-4E64-BE3F-0C0A5EDCA139}",
+       "LibName": "Wwise Expander",
+       "LibId": "7143427"
       },
       {
        "Id": "719101692",
@@ -84,7 +100,14 @@
       "Id": "2133159467",
       "Name": "Vintage Left Hand",
       "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music\\Vintage Left Hand",
-      "GUID": "{6F3938D0-4CDE-4B08-A4E0-1015914025F7}"
+      "GUID": "{6F3938D0-4CDE-4B08-A4E0-1015914025F7}",
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "553901620"
+        }
+       ]
+      }
      },
      {
       "Id": "2246801478",
@@ -103,7 +126,14 @@
       "Id": "3168807778",
       "Name": "Vintage Right Hand",
       "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music\\Vintage Right Hand",
-      "GUID": "{9CC84E2A-8039-463D-B684-29D740909D35}"
+      "GUID": "{9CC84E2A-8039-463D-B684-29D740909D35}",
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "689851107"
+        }
+       ]
+      }
      },
      {
       "Id": "3803692087",
@@ -764,6 +794,6 @@
     ]
    }
   ],
-  "FileHash": "{8AFB1273-F610-B78F-C2DD-64F4DE1B0825}"
+  "FileHash": "{92DD195F-4498-6392-2FB3-CC492D9C821B}"
  }
 }

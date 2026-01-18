@@ -59,6 +59,9 @@
 													</PropertyList>
 													<ChildrenList>
 														<MusicTransition Name="Transition" ID="{4FBB98AA-3CBC-41A4-9B3F-54998B208E83}">
+															<PropertyList>
+																<Property Name="ExitSourceAt" Type="int16" Value="5"/>
+															</PropertyList>
 															<TransitionInfo>
 																<TransitionObjectRef Name="vintage_test_a_ending_2" ID="{6D695EDF-1AE2-48B3-8891-15CED24BD4C1}" WorkUnitID="{A0B81D47-794E-4E2F-AF02-0DC14668DDB5}"/>
 															</TransitionInfo>

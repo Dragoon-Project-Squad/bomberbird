@@ -95,6 +95,112 @@
 										</Property>
 									</PropertyList>
 									<ObjectLists>
+										<ObjectList Name="Effects">
+											<Reference>
+												<Local>
+													<EffectSlot Name="" ID="{37FD46D8-ED7E-4B8F-AB63-C220BDD099A8}" ShortID="1005451192">
+														<ReferenceList>
+															<Reference Name="Effect">
+																<Custom>
+																	<Effect Name="Expander (Custom)" ID="{E77F7758-AA6C-49A9-B358-B3036C75F36E}" ShortID="553901620" PluginName="Wwise Expander" CompanyID="0" PluginID="109" PluginType="3">
+																		<PropertyList>
+																			<Property Name="AttackTime" Type="Real32" Value="0"/>
+																			<Property Name="Ratio" Type="Real32" Value="50"/>
+																			<Property Name="ReleaseTime" Type="Real32" Value="0"/>
+																			<Property Name="Threshold" Type="Real32" Value="-96.3"/>
+																		</PropertyList>
+																		<ObjectLists>
+																			<ObjectList Name="RTPC">
+																				<Reference>
+																					<Local>
+																						<RTPC Name="" ID="{437465B0-786C-4DC7-9B7F-58A8C455B492}" ShortID="986053539">
+																							<PropertyList>
+																								<Property Name="PropertyName" Type="string" Value="ReleaseTime"/>
+																							</PropertyList>
+																							<ReferenceList>
+																								<Reference Name="ControlInput">
+																									<ObjectRef Name="lefthand_stinger" ID="{F3DCA231-347F-4574-B1F2-4C34B52D1624}" WorkUnitID="{8B207EDA-DF61-423D-B11D-368EA98D2FB6}"/>
+																								</Reference>
+																								<Reference Name="Curve">
+																									<Custom>
+																										<Curve Name="" ID="{DEA494D7-5F15-49C4-B2EE-5F6217227769}">
+																											<PropertyList>
+																												<Property Name="Flags" Type="int32" Value="1"/>
+																											</PropertyList>
+																											<PointList>
+																												<Point>
+																													<XPos>-96</XPos>
+																													<YPos>0</YPos>
+																													<Flags>5</Flags>
+																												</Point>
+																												<Point>
+																													<XPos>-66.28571</XPos>
+																													<YPos>-0</YPos>
+																													<Flags>0</Flags>
+																												</Point>
+																												<Point>
+																													<XPos>0</XPos>
+																													<YPos>0.17297</YPos>
+																													<Flags>37</Flags>
+																												</Point>
+																											</PointList>
+																										</Curve>
+																									</Custom>
+																								</Reference>
+																							</ReferenceList>
+																						</RTPC>
+																					</Local>
+																				</Reference>
+																				<Reference>
+																					<Local>
+																						<RTPC Name="" ID="{C0001ADB-E411-42FD-A3F3-C4B92CCAF777}" ShortID="799421301">
+																							<PropertyList>
+																								<Property Name="PropertyName" Type="string" Value="Threshold"/>
+																							</PropertyList>
+																							<ReferenceList>
+																								<Reference Name="ControlInput">
+																									<ObjectRef Name="lefthand_stinger" ID="{F3DCA231-347F-4574-B1F2-4C34B52D1624}" WorkUnitID="{8B207EDA-DF61-423D-B11D-368EA98D2FB6}"/>
+																								</Reference>
+																								<Reference Name="Curve">
+																									<Custom>
+																										<Curve Name="" ID="{E7F6CB32-70A2-4654-A672-9D722F316B3B}">
+																											<PropertyList>
+																												<Property Name="Flags" Type="int32" Value="1"/>
+																											</PropertyList>
+																											<PointList>
+																												<Point>
+																													<XPos>-96</XPos>
+																													<YPos>-96.3</YPos>
+																													<Flags>5</Flags>
+																												</Point>
+																												<Point>
+																													<XPos>-80.26794</XPos>
+																													<YPos>-75.56108</YPos>
+																													<Flags>0</Flags>
+																												</Point>
+																												<Point>
+																													<XPos>0</XPos>
+																													<YPos>0</YPos>
+																													<Flags>37</Flags>
+																												</Point>
+																											</PointList>
+																										</Curve>
+																									</Custom>
+																								</Reference>
+																							</ReferenceList>
+																						</RTPC>
+																					</Local>
+																				</Reference>
+																			</ObjectList>
+																		</ObjectLists>
+																	</Effect>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</Local>
+											</Reference>
+										</ObjectList>
 										<ObjectList Name="RTPC">
 											<Reference>
 												<Local>
@@ -120,8 +226,14 @@
 																				<SegmentShape>Exp3</SegmentShape>
 																			</Point>
 																			<Point>
-																				<XPos>-30</XPos>
-																				<YPos>0</YPos>
+																				<XPos>-85</XPos>
+																				<YPos>-0</YPos>
+																				<Flags>0</Flags>
+																				<SegmentShape>Log3</SegmentShape>
+																			</Point>
+																			<Point>
+																				<XPos>-84.999</XPos>
+																				<YPos>-200</YPos>
 																				<Flags>0</Flags>
 																				<SegmentShape>Exp3</SegmentShape>
 																			</Point>
@@ -156,6 +268,112 @@
 										</Property>
 									</PropertyList>
 									<ObjectLists>
+										<ObjectList Name="Effects">
+											<Reference>
+												<Local>
+													<EffectSlot Name="" ID="{BD0CE836-3B96-4B7E-A4F2-136A6D7D4545}" ShortID="531738773">
+														<ReferenceList>
+															<Reference Name="Effect">
+																<Custom>
+																	<Effect Name="Expander (Custom)" ID="{581EF298-71D7-4E64-BE3F-0C0A5EDCA139}" ShortID="689851107" PluginName="Wwise Expander" CompanyID="0" PluginID="109" PluginType="3">
+																		<PropertyList>
+																			<Property Name="AttackTime" Type="Real32" Value="0"/>
+																			<Property Name="Ratio" Type="Real32" Value="50"/>
+																			<Property Name="ReleaseTime" Type="Real32" Value="0"/>
+																			<Property Name="Threshold" Type="Real32" Value="-96.3"/>
+																		</PropertyList>
+																		<ObjectLists>
+																			<ObjectList Name="RTPC">
+																				<Reference>
+																					<Local>
+																						<RTPC Name="" ID="{2832B99A-70AE-43CB-AC53-6C109744A3AD}" ShortID="719395419">
+																							<PropertyList>
+																								<Property Name="PropertyName" Type="string" Value="ReleaseTime"/>
+																							</PropertyList>
+																							<ReferenceList>
+																								<Reference Name="ControlInput">
+																									<ObjectRef Name="righthand_stinger" ID="{3C7AD629-F796-419D-8277-F0604E4BB7FE}" WorkUnitID="{8B207EDA-DF61-423D-B11D-368EA98D2FB6}"/>
+																								</Reference>
+																								<Reference Name="Curve">
+																									<Custom>
+																										<Curve Name="" ID="{BD3D02A2-4327-4E2D-AB02-274C88856F50}">
+																											<PropertyList>
+																												<Property Name="Flags" Type="int32" Value="1"/>
+																											</PropertyList>
+																											<PointList>
+																												<Point>
+																													<XPos>-96</XPos>
+																													<YPos>0</YPos>
+																													<Flags>5</Flags>
+																												</Point>
+																												<Point>
+																													<XPos>-66.28571</XPos>
+																													<YPos>-0</YPos>
+																													<Flags>0</Flags>
+																												</Point>
+																												<Point>
+																													<XPos>0</XPos>
+																													<YPos>0.17297</YPos>
+																													<Flags>37</Flags>
+																												</Point>
+																											</PointList>
+																										</Curve>
+																									</Custom>
+																								</Reference>
+																							</ReferenceList>
+																						</RTPC>
+																					</Local>
+																				</Reference>
+																				<Reference>
+																					<Local>
+																						<RTPC Name="" ID="{56566A3B-E835-427E-836A-98338B7BDDD3}" ShortID="158938819">
+																							<PropertyList>
+																								<Property Name="PropertyName" Type="string" Value="Threshold"/>
+																							</PropertyList>
+																							<ReferenceList>
+																								<Reference Name="ControlInput">
+																									<ObjectRef Name="righthand_stinger" ID="{3C7AD629-F796-419D-8277-F0604E4BB7FE}" WorkUnitID="{8B207EDA-DF61-423D-B11D-368EA98D2FB6}"/>
+																								</Reference>
+																								<Reference Name="Curve">
+																									<Custom>
+																										<Curve Name="" ID="{D01EDB60-6D99-4C33-B03B-E1D8E264910C}">
+																											<PropertyList>
+																												<Property Name="Flags" Type="int32" Value="1"/>
+																											</PropertyList>
+																											<PointList>
+																												<Point>
+																													<XPos>-96</XPos>
+																													<YPos>-96.3</YPos>
+																													<Flags>5</Flags>
+																												</Point>
+																												<Point>
+																													<XPos>-80.26794</XPos>
+																													<YPos>-75.56108</YPos>
+																													<Flags>0</Flags>
+																												</Point>
+																												<Point>
+																													<XPos>0</XPos>
+																													<YPos>0</YPos>
+																													<Flags>37</Flags>
+																												</Point>
+																											</PointList>
+																										</Curve>
+																									</Custom>
+																								</Reference>
+																							</ReferenceList>
+																						</RTPC>
+																					</Local>
+																				</Reference>
+																			</ObjectList>
+																		</ObjectLists>
+																	</Effect>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</Local>
+											</Reference>
+										</ObjectList>
 										<ObjectList Name="RTPC">
 											<Reference>
 												<Local>
@@ -181,13 +399,13 @@
 																				<SegmentShape>Exp3</SegmentShape>
 																			</Point>
 																			<Point>
-																				<XPos>-30</XPos>
-																				<YPos>-0</YPos>
+																				<XPos>-85</XPos>
+																				<YPos>0</YPos>
 																				<Flags>0</Flags>
 																				<SegmentShape>Exp3</SegmentShape>
 																			</Point>
 																			<Point>
-																				<XPos>-10</XPos>
+																				<XPos>-84.999</XPos>
 																				<YPos>-200</YPos>
 																				<Flags>0</Flags>
 																				<SegmentShape>Log3</SegmentShape>
