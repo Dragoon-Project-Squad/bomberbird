@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bg5x0c706ihn3"]
 
 [ext_resource type="Theme" uid="uid://bgj72vffexht" path="res://assets/styles/panel_theme.tres" id="1_f1fh7"]
-[ext_resource type="Script" uid="uid://bbdvm4d1whhpp" path="res://scripts/ui/lobby/steam_connection_screen.gd" id="2_oqx7t"]
+[ext_resource type="Script" uid="uid://d2akto7hm44lr" path="res://scripts/ui/lobby/steam_connection_screen.gd" id="2_oqx7t"]
 [ext_resource type="Theme" uid="uid://d2oqlxohwao3c" path="res://assets/styles/battle_settings_menu.tres" id="3_oqx7t"]
 [ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="3_yygi8"]
 
