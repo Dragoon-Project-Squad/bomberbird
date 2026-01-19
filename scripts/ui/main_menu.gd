@@ -6,6 +6,7 @@ extends Control
 @onready var version_number_text: Label = $VersionNumberPanel/VersionNumRichText
 
 signal options_menu_entered
+
 var preload_credits_scene = preload("res://scenes/credits/credits_screen.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -16,13 +17,19 @@ func _ready() -> void:
 	version_number_text.set_text("v" + ProjectSettings.get_setting("application/config/version"))
 	$ButtonBox/Singleplayer.grab_focus()
 	check_secret()
+	steam_powered_launch_checks()
 
+func steam_powered_launch_checks():
+	if SteamManager.game_is_steam_powered:
+		SteamManager.check_steam_command_line_arguments()
+	
 func switch_to_options_menu() -> void:
 	hide_main_menu()
 	options_menu.visible = true
-	
+	options_menu_entered.emit()
 	# plays the options music resource in the OptionsMenu node
 	options_menu.options_music.post(options_menu)
+	SteamManager.check_steam_command_line_arguments()
 	
 func switch_to_credits_menu() -> void:
 	hide_main_menu()

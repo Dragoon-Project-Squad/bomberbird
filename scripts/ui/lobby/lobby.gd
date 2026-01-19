@@ -25,11 +25,17 @@ func play_lobby_music() -> void:
 	Wwise.post_event("play_music_dragoon_cafe", self)
 
 func open_appropriate_connection_screen() -> void:
-	if not SteamBackgroundCode.game_is_steam_powered:
+	if not SteamManager.game_is_steam_powered:
 		vanilla_connection_screen.show()
-		connect_screen = vanilla_connection_screen
+		assign_correct_connection_screen()
 	else:
 		steam_connection_screen.show()
+		assign_correct_connection_screen()
+
+func assign_correct_connection_screen() -> void:
+	if not SteamManager.game_is_steam_powered:
+		connect_screen = vanilla_connection_screen
+	else:
 		connect_screen = steam_connection_screen
 		
 func start_the_battle() -> void:
@@ -43,12 +49,14 @@ func start_the_battle() -> void:
 		gamestate.begin_mp_game()
 
 func show_connect_screen() -> void:
+	assign_correct_connection_screen()
 	connect_screen.show()
 	character_select_screen.hide()
 	battle_settings_screen.hide()
 	stage_select_screen.hide()
 
 func show_character_select_screen() -> void:
+	assign_correct_connection_screen()
 	connect_screen.hide()
 	if is_multiplayer_authority():
 		character_select_screen.setup_for_host()
@@ -58,6 +66,7 @@ func show_character_select_screen() -> void:
 	stage_select_screen.hide()
 	
 func show_battle_settings_screen() -> void:
+	assign_correct_connection_screen()
 	connect_screen.hide()
 	character_select_screen.hide()
 	if is_multiplayer_authority():
@@ -67,6 +76,7 @@ func show_battle_settings_screen() -> void:
 	stage_select_screen.hide()
 	
 func show_stage_select_screen() -> void:
+	assign_correct_connection_screen()
 	connect_screen.hide()
 	character_select_screen.hide()
 	battle_settings_screen.hide()
@@ -77,6 +87,7 @@ func show_stage_select_screen() -> void:
 @rpc("call_local")
 func hide_all_lobby_screens() -> void:
 	#Called via AnimationPlayer("begin_the_game")
+	assign_correct_connection_screen()
 	connect_screen.hide()
 	character_select_screen.hide()
 	battle_settings_screen.hide()

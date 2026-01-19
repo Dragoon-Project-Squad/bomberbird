@@ -21,7 +21,7 @@ config/icon="res://assets/gameart/icon.webp"
 
 [autoload]
 
-SteamBackgroundCode="*res://autoloads/steamworks.gd"
+SteamManager="*res://autoloads/steamworks.gd"
 SettingsContainer="*res://autoloads/settings_data_container.gd"
 SettingsSignalBus="*res://autoloads/settings_signal_bus.gd"
 SaveManager="*res://autoloads/save_manager.gd"

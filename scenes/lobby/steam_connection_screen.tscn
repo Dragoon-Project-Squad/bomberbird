@@ -42,7 +42,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 alignment = 1
 
-[node name="OptionButton" type="OptionButton" parent="VBoxContainer/HostContainer/HBoxContainer"]
+[node name="LobbyTypeDropdown" type="OptionButton" parent="VBoxContainer/HostContainer/HBoxContainer"]
 layout_mode = 2
 alignment = 1
 selected = 0

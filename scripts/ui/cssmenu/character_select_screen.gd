@@ -47,7 +47,7 @@ func reveal_secret_characters() -> void:
 		nimi.show()
 
 func reveal_networking_buttons() -> void:
-	if SteamBackgroundCode.game_is_steam_powered:
+	if SteamManager.game_is_steam_powered:
 		steam_friends_label.show()
 		steam_friends_link.show()
 	else:

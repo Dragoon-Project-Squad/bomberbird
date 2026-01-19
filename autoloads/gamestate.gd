@@ -479,7 +479,7 @@ func end_game():
 		peer.close() #Close the peer so everyone really knows I'm leaving.
 		peer = OfflineMultiplayerPeer.new() #Tell Godot that we're in Offline mode and to safely retarget all RPC codes for a singleplayer experience.
 		multiplayer.set_multiplayer_peer(peer)
-		if SteamBackgroundCode.game_is_steam_powered:
+		if SteamManager.game_is_steam_powered:
 			leave_steam_lobby()
 	#Only run if Main Menu is currently loaded in the scene.
 	if has_node("/root/MainMenu"):
@@ -614,7 +614,8 @@ func _on_steam_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool
 		# Make the initial handshake
 		make_steam_p2p_handshake()
 		# If not the owner of lobby, join up
-		join_steam_game_as_peer(lobby_id)
+		if Steam.getLobbyOwner(lobby_id) != Steam.getSteamID():
+			join_steam_game_as_peer(lobby_id)
 		
 	# Else it failed for some reason
 	else:
@@ -660,7 +661,7 @@ func get_lobby_members() -> void:
 func _on_steam_persona_change(this_steam_id: int, _flag: int) -> void:
 	# Make sure you're in a lobby and this user is valid or Steam might spam your console log
 	if lobby_id > 0:
-		print("A user (%s) had information change, update the lobby list" % this_steam_id)
+		print_debug("A user (%s) had information change, update the lobby list" % this_steam_id)
 
 		# Update the player list
 		get_lobby_members()
@@ -754,16 +755,6 @@ func send_steam_p2p_packet(this_target: int, packet_data: Dictionary) -> void:
 	# Else send it to someone specific
 	else:
 		Steam.sendP2PPacket(this_target, this_data, send_type, channel)
-		
-func initialize_steam() -> void:
-	var initialize_response: Dictionary = Steam.steamInitEx(SteamBackgroundCode.STEAM_APP_ID, true)
-	print("Did Steam initialize?: %s " % initialize_response)
-
-	if initialize_response['status'] > Steam.STEAM_API_INIT_RESULT_OK:
-		printerr("Failed to initialize Steam, shutting down: %s" % initialize_response)
-		# Show some kind of prompt so the game doesn't suddently stop working
-		#show_warning_prompt()
-		get_tree().quit() #Or just blow up the game instead.
 			
 func steam_signal_setup() -> void:
 	Steam.join_requested.connect(_on_steam_lobby_join_requested)
@@ -777,19 +768,13 @@ func steam_signal_setup() -> void:
 	Steam.persona_state_change.connect(_on_steam_persona_change)
 	Steam.network_messages_session_request.connect(_on_steam_network_messages_session_request)
 	Steam.network_messages_session_failed.connect(_on_steam_network_messages_session_failed)
-	
-func check_steam_command_line_arguments():
-	var these_arguments: Array = OS.get_cmdline_args()
-	# There are arguments to process
-	# A Steam connection argument exists
-	# Lobby invite exists so try to connect to it
-	if these_arguments.size() > 0 and these_arguments[0] == "+connect_lobby" and int(these_arguments[1]) > 0: # There are arguments to process
-		print("Command line lobby ID: %s" % these_arguments[1])
-		join_steam_lobby_on_startup(int(these_arguments[1])) 
 
 func join_steam_lobby_on_startup(startupargs) -> void:
 	printerr("This developer attempted to program command line args without actually coding their effect. Point and laugh.")
 	print_debug("Anyway, here's your args, you silly billy.", startupargs)
+	
+	if has_node("/root/MainMenu"):
+		get_node("/root/MainMenu")._on_multiplayer_pressed()
 	
 func steam_playername_integration():
 	player_id = Steam.getSteamID()
@@ -799,8 +784,8 @@ func steam_playername_integration():
 	player_data_master_dict[1].playername = player_name
 	
 func _ready():
-	if SteamBackgroundCode.game_is_steam_powered: #Activate Steam Code
-		initialize_steam() #Only necessary if Steam Initialization is not enabled in Godot Project settings.
+	if SteamManager.game_is_steam_powered: #Activate Steam Code
+		SteamManager.initialize_steam()
 		steam_signal_setup()
 		steam_playername_integration()
 		
