@@ -7,8 +7,8 @@ var joined_lobby_on_boot = null
 const STEAM_APP_ID := 480 #Don't set this to the correct value until the game is released.
 
 func _ready() -> void:
-	pass
-	#check_steam_powered()
+	#pass
+	check_steam_powered()
 
 func check_steam_powered():
 	if Engine.has_singleton("Steam"):
