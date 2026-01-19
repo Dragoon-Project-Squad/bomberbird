@@ -3,7 +3,7 @@ class_name ConnectionScreen
 
 var timeout_timer = null
 @onready var error_label: Label = $VBoxContainer/ErrorContainer/ErrorLabel
-@onready var host_button: SeButton = $VBoxContainer/HostContainer/Host
+@onready var host_button: SeButton = $VBoxContainer/HostContainer/HBoxContainer/Host
 @onready var join_button: SeButton = $VBoxContainer/JoinContainer/Join
 
 signal multiplayer_game_hosted #Is used in children, from the Lobby.

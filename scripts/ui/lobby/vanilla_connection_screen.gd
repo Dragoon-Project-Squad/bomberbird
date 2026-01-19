@@ -1,6 +1,6 @@
 extends ConnectionScreen
 
-@onready var name_entry: LineEdit = $VBoxContainer/HostContainer/Name
+@onready var name_entry: LineEdit = $VBoxContainer/HostContainer/HBoxContainer/Name
 @onready var ip_addr_entry: LineEdit = $VBoxContainer/JoinContainer/IPAddress
 
 func _ready():

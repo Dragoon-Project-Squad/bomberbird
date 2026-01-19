@@ -24,24 +24,34 @@ script = ExtResource("2_nxlj7")
 layout_mode = 2
 theme = ExtResource("3_nxlj7")
 
-[node name="HostContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HostContainer" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-[node name="NameLabel" type="Label" parent="VBoxContainer/HostContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/HostContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme = ExtResource("3_nxlj7")
+text = "Create A Lobby"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HostContainer"]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="VBoxContainer/HostContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "Name:"
 
-[node name="Name" type="LineEdit" parent="VBoxContainer/HostContainer"]
+[node name="Name" type="LineEdit" parent="VBoxContainer/HostContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 32
 placeholder_text = "Dragoon Name Here"
 
-[node name="Host" type="Button" parent="VBoxContainer/HostContainer" groups=["ui_button"]]
+[node name="Host" type="Button" parent="VBoxContainer/HostContainer/HBoxContainer" groups=["ui_button"]]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 4
@@ -88,5 +98,5 @@ theme_override_colors/font_color = Color(0.820312, 0.291595, 0.291595, 1)
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="VBoxContainer/HostContainer/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="VBoxContainer/HostContainer/HBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="VBoxContainer/JoinContainer/Join" to="." method="_on_join_pressed"]
