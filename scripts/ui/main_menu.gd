@@ -21,6 +21,7 @@ func _ready() -> void:
 
 func steam_powered_launch_checks():
 	if SteamManager.game_is_steam_powered:
+		gamestate.execute_post_boot_steam_framework_methods()
 		SteamManager.check_steam_command_line_arguments()
 	
 func switch_to_options_menu() -> void:
@@ -29,7 +30,6 @@ func switch_to_options_menu() -> void:
 	options_menu_entered.emit()
 	# plays the options music resource in the OptionsMenu node
 	options_menu.options_music.post(options_menu)
-	SteamManager.check_steam_command_line_arguments()
 	
 func switch_to_credits_menu() -> void:
 	hide_main_menu()
