@@ -74,9 +74,9 @@ func set_icon(rect: Rect2i):
 	assert(rect.size.y == 24)
 	self.icon.region = rect
 
-func set_price(price: int):
+func set_price(some_price: int):
 	if price_label:
-		price_label.set_text(str(price))
+		price_label.set_text(str(some_price))
 
 func disable_amounts():
 	amounts.hide()

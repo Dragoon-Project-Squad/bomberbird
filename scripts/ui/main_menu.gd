@@ -20,6 +20,8 @@ func _ready() -> void:
 	steam_powered_launch_checks()
 
 func steam_powered_launch_checks():
+	if SteamManager.steam_is_initialized == true:
+		return
 	if SteamManager.game_is_steam_powered:
 		gamestate.execute_post_boot_steam_framework_methods()
 		SteamManager.check_steam_command_line_arguments()
