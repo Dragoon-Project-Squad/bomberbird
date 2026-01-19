@@ -21,17 +21,17 @@ config/icon="res://assets/gameart/icon.webp"
 
 [autoload]
 
-globals="*res://autoloads/globals.gd"
-gamestate="*res://autoloads/gamestate.gd"
-world_data="*res://autoloads/world_data.gd"
-astargrid_handler="*res://autoloads/astargrid_handler.gd"
-SettingsSignalBus="*res://autoloads/settings_signal_bus.gd"
+SteamBackgroundCode="*res://autoloads/steamworks.gd"
 SettingsContainer="*res://autoloads/settings_data_container.gd"
+SettingsSignalBus="*res://autoloads/settings_signal_bus.gd"
 SaveManager="*res://autoloads/save_manager.gd"
 AudioManager="*res://autoloads/audio_manager.gd"
 campaign_save_manager="*res://autoloads/campaign_save_manager.gd"
 WwiseRuntimeManager="*res://addons/Wwise/runtime/wwise_runtime_manager.gd"
-SteamBackgroundCode="*res://autoloads/steamworks.gd"
+globals="*res://autoloads/globals.gd"
+gamestate="*res://autoloads/gamestate.gd"
+world_data="*res://autoloads/world_data.gd"
+astargrid_handler="*res://autoloads/astargrid_handler.gd"
 
 [display]
 

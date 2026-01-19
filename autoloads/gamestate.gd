@@ -29,7 +29,7 @@ const ENVIRONMENTAL_KILL_PLAYER_ID := -69
 const ENEMY_KILL_PLAYER_ID := -42
 
 # Name for my player.
-var player_name : String = SettingsContainer.get_user_preferred_name()
+var player_name := "Value is set before save is loaded."
 var player_id : int = 0
 # Names for remote players in id:name format.
 
@@ -54,7 +54,7 @@ var DEFAULT_PLAYER_TEXTURE_PATH = character_texture_paths.NORMALGOON_PLAYER_TEXT
 var player_data_resource: PlayerDataResource = preload("res://resources/settings/player_data_default.tres")
 var player_data_master_dict = {
 	1: {
-		"playername": SettingsContainer.get_user_preferred_name(),
+		"playername": "Value is set before save is loaded.",
 		"slotid": 1, 
 		"spritepaths": character_texture_paths.bhdoki_paths, 
 		"is_ai": false, 
