@@ -4,7 +4,7 @@ var game_is_steam_powered : bool = true #Enables ALL Steam content.
 var startupargs := OS.get_cmdline_args()
 var joined_lobby_on_boot = null
 
-const STEAM_APP_ID := 4337270
+const STEAM_APP_ID := 480 #Don't set this to the correct value until the game is released.
 		
 func check_steam_command_line_arguments():
 	# There are arguments to process
@@ -16,7 +16,7 @@ func check_steam_command_line_arguments():
 		joined_lobby_on_boot = int(startupargs[1])
 		
 func initialize_steam() -> void:
-	var initialize_response: Dictionary = Steam.steamInitEx(SteamManager.STEAM_APP_ID, true)
+	var initialize_response: Dictionary = Steam.steamInitEx(STEAM_APP_ID, true)
 	print("Did Steam initialize?: %s " % initialize_response)
 
 	if initialize_response['status'] > Steam.STEAM_API_INIT_RESULT_OK:
