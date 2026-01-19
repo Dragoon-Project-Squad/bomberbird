@@ -782,13 +782,13 @@ func steam_playername_integration():
 	print("Initialized Steam with id %s (%s)" % [player_id, player_name])
 	
 	player_data_master_dict[1].playername = player_name
+
+func execute_post_boot_steam_framework_methods() -> void:
+	SteamManager.initialize_steam()
+	steam_signal_setup()
+	steam_playername_integration()
 	
 func _ready():
-	if SteamManager.game_is_steam_powered: #Activate Steam Code
-		SteamManager.initialize_steam()
-		steam_signal_setup()
-		steam_playername_integration()
-		
 	multiplayer.peer_connected.connect(_player_connected)
 	multiplayer.peer_disconnected.connect(_player_disconnected)
 	multiplayer.connected_to_server.connect(_connected_ok)

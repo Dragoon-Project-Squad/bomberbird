@@ -1,11 +1,19 @@
 extends Node
 
-var game_is_steam_powered : bool = true #Enables ALL Steam content.
+var game_is_steam_powered : bool = false #Enables ALL Steam content.
 var startupargs := OS.get_cmdline_args()
 var joined_lobby_on_boot = null
 
 const STEAM_APP_ID := 480 #Don't set this to the correct value until the game is released.
-		
+
+func _ready() -> void:
+	pass
+	#check_steam_powered()
+
+func check_steam_powered():
+	if Engine.has_singleton("Steam"):
+		game_is_steam_powered = true
+
 func check_steam_command_line_arguments():
 	# There are arguments to process
 	# A Steam connection argument exists
