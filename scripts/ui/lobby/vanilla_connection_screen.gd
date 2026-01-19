@@ -37,4 +37,4 @@ func _on_join_pressed():
 	var player_name = name_entry.get_text()
 	SettingsSignalBus.emit_on_user_preferred_name_changed(player_name)
 	timeout_timer.start()
-	gamestate.join_game(ip, player_name)
+	gamestate.join_vanilla_game_as_peer(ip, player_name)
