@@ -67,7 +67,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 32
 placeholder_text = "Host's IP Address"
-alignment = 1
 
 [node name="Join" type="Button" parent="VBoxContainer/JoinContainer" groups=["ui_button"]]
 layout_mode = 2
@@ -88,3 +87,6 @@ size_flags_horizontal = 6
 theme_override_colors/font_color = Color(0.820312, 0.291595, 0.291595, 1)
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[connection signal="pressed" from="VBoxContainer/HostContainer/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="VBoxContainer/JoinContainer/Join" to="." method="_on_join_pressed"]

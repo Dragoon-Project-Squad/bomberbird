@@ -8,10 +8,10 @@ func _ready():
 	
 func _on_host_pressed():
 	if name_entry.get_text() == "":
-		$ErrorLabel.set_text("Invalid name!")
+		error_label.set_text("Invalid name!")
 		return
 
-	$ErrorLabel.set_text("")
+	error_label.set_text("")
 	
 	var player_name = name_entry.get_text()
 	SettingsSignalBus.emit_on_user_preferred_name_changed(player_name)
@@ -21,15 +21,15 @@ func _on_host_pressed():
 
 func _on_join_pressed():
 	if name_entry.get_text() == "":
-		$ErrorLabel.set_text("Invalid name!")
+		error_label.set_text("Invalid name!")
 		return
 
 	var ip = $IPAddress.text
 	if not ip.is_valid_ip_address():
-		$ErrorLabel.set_text("Invalid IP address!")
+		error_label.set_text("Invalid IP address!")
 		return
 
-	$ErrorLabel.set_text("")
+	error_label.set_text("")
 	$Host.disabled = true
 	$Join.disabled = true
 

@@ -8,7 +8,7 @@ extends Control
 @onready var steam_connection_screen: PanelContainer = $SteamConnectionScreen
 
 #Could switch to the Steam screen depending on outside factors.
-var connect_screen = vanilla_connection_screen
+var connect_screen = null
 
 func _ready() -> void:
 	gamestate.game_ended.connect(_on_game_ended)
@@ -27,6 +27,7 @@ func play_lobby_music() -> void:
 func open_appropriate_connection_screen() -> void:
 	if not SteamBackgroundCode.game_is_steam_powered:
 		vanilla_connection_screen.show()
+		connect_screen = vanilla_connection_screen
 	else:
 		steam_connection_screen.show()
 		connect_screen = steam_connection_screen

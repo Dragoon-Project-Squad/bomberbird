@@ -8,6 +8,12 @@ extends Control
 @onready var dooby: TextureButton = $SkinBG/CharacterGrid/dooby
 @onready var nimi: TextureButton = $SkinBG/CharacterGrid/nimi
 
+@onready var public_ip_label: Label = $PlayerList/PublicIPLabel
+@onready var steam_friends_label: Label = $PlayerList/SteamFriendsLabel
+@onready var public_ip_link: LinkButton = $PlayerList/PublicIPLink
+@onready var steam_friends_link: LinkButton = $PlayerList/SteamFriendsLink
+
+
 @export var mint_visible : bool = globals.secrets.mint
 @export var snuffy_visible : bool = globals.secrets.snuffy
 @export var laimu_visible : bool = globals.secrets.laimu
@@ -21,6 +27,7 @@ signal characters_confirmed
 
 func _ready() -> void:
 	reveal_secret_characters()
+	reveal_networking_buttons()
 	setup_default_character_select_paths()
 	gamestate.player_list_changed.connect(refresh_lobby_panel)
 	refresh_lobby_panel()
@@ -38,7 +45,15 @@ func reveal_secret_characters() -> void:
 		dooby.show()
 	if nimi_visible:
 		nimi.show()
-		
+
+func reveal_networking_buttons() -> void:
+	if SteamBackgroundCode.game_is_steam_powered:
+		steam_friends_label.show()
+		steam_friends_link.show()
+	else:
+		public_ip_label.show()
+		public_ip_link.show()
+
 func setup_default_character_select_paths() -> void:
 	$Players/Player2.set_texture(character_texture_paths.DEFAULT_PLAYER_2_SELECT)
 	$Players/Player3.set_texture(character_texture_paths.DEFAULT_PLAYER_3_SELECT)
@@ -240,4 +255,7 @@ func proceed_to_next_screen():
 	characters_confirmed.emit()
 
 func _on_find_public_ip_pressed():
+	Steam.activateGameOverlay("Friends")
+
+func _on_steam_friends_link_pressed() -> void:
 	Steam.activateGameOverlay("Friends")

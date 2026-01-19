@@ -2,6 +2,7 @@ extends PanelContainer
 class_name ConnectionScreen
 
 var timeout_timer = null
+@onready var error_label: Label = $VBoxContainer/ErrorContainer/ErrorLabel
 
 signal multiplayer_game_hosted #Is used in children, from the Lobby.
 signal multiplayer_game_joined
@@ -25,7 +26,7 @@ func _on_connection_timeout():
 		$Host.disabled = false
 		$Join.disabled = false
 		$Join.release_focus()
-		$ErrorLabel.text = "Connection timed out"
+		error_label.text = "Connection timed out"
 
 func _on_connection_success():
 	multiplayer_game_joined.emit()
@@ -33,4 +34,4 @@ func _on_connection_success():
 func _on_connection_failed():
 	$Host.disabled = false
 	$Join.disabled = false
-	$ErrorLabel.set_text("Connection failed.")
+	error_label.set_text("Connection failed.")
