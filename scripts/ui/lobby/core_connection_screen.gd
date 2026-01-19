@@ -3,6 +3,8 @@ class_name ConnectionScreen
 
 var timeout_timer = null
 @onready var error_label: Label = $VBoxContainer/ErrorContainer/ErrorLabel
+@onready var host_button: SeButton = $VBoxContainer/HostContainer/Host
+@onready var join_button: SeButton = $VBoxContainer/JoinContainer/Join
 
 signal multiplayer_game_hosted #Is used in children, from the Lobby.
 signal multiplayer_game_joined
@@ -23,15 +25,15 @@ func _ready():
 func _on_connection_timeout():
 	if gamestate.peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
 		multiplayer.multiplayer_peer = null  # Reset the multiplayer peer
-		$Host.disabled = false
-		$Join.disabled = false
-		$Join.release_focus()
+		host_button.disabled = false
+		join_button.disabled = false
+		join_button.release_focus()
 		error_label.text = "Connection timed out"
 
 func _on_connection_success():
 	multiplayer_game_joined.emit()
 
 func _on_connection_failed():
-	$Host.disabled = false
-	$Join.disabled = false
+	host_button.disabled = false
+	join_button.disabled = false
 	error_label.set_text("Connection failed.")

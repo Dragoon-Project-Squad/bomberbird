@@ -1,6 +1,7 @@
 extends ConnectionScreen
 
 @onready var name_entry: LineEdit = $VBoxContainer/HostContainer/Name
+@onready var ip_addr_entry: LineEdit = $VBoxContainer/JoinContainer/IPAddress
 
 func _ready():
 	super()
@@ -24,16 +25,16 @@ func _on_join_pressed():
 		error_label.set_text("Invalid name!")
 		return
 
-	var ip = $IPAddress.text
+	var ip = ip_addr_entry.get_text()
 	if not ip.is_valid_ip_address():
 		error_label.set_text("Invalid IP address!")
 		return
 
 	error_label.set_text("")
-	$Host.disabled = true
-	$Join.disabled = true
+	host_button.disabled = true
+	join_button.disabled = true
 
-	var player_name = $Name.text
+	var player_name = name_entry.get_text()
 	SettingsSignalBus.emit_on_user_preferred_name_changed(player_name)
 	timeout_timer.start()
 	gamestate.join_game(ip, player_name)
