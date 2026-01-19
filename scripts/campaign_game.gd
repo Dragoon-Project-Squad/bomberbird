@@ -1,6 +1,7 @@
 extends Game
 
 signal score_updated(score: int)
+signal ui_and_music_loaded
 
 const LEVEL_GRAPH_PATH: String = "res://resources/level_graph/saved_graphs"
 const MATCH_TIME: int = 180
@@ -256,6 +257,7 @@ func activate_ui_and_music():
 		)
 
 	game_ui.start_timer(MATCH_TIME)
+	ui_and_music_loaded.emit()
 
 func reset_players():
 	var players: Array[Player] = globals.player_manager.get_players()

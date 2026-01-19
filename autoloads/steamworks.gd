@@ -1,6 +1,8 @@
 extends Node
 
 var game_is_steam_powered : bool = false #Enables ALL Steam content.
+var steam_is_initialized : bool = false #Steam is NOT ready.
+
 var startupargs := OS.get_cmdline_args()
 var joined_lobby_on_boot = null
 
@@ -32,3 +34,5 @@ func initialize_steam() -> void:
 		# Show some kind of prompt so the game doesn't suddently stop working
 		#show_warning_prompt()
 		get_tree().quit() #Or just blow up the game instead.
+	else:
+		steam_is_initialized = true
