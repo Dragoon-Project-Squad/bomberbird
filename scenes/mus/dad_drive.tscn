@@ -8,3 +8,4 @@ script = ExtResource("1_fk8vg")
 
 [node name="AkState" type="AkState" parent="."]
 state = ExtResource("3_iwumw")
+trigger_on = 1

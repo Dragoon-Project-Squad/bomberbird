@@ -74,6 +74,13 @@ func _ready() -> void:
 	if self.has_node("DebugMarker2"):
 		if OS.is_debug_build(): self.get_node("DebugMarker2").show()
 		else: self.get_node("DebugMarker2").hide()
+	
+	#plays mint music for mint boss in secret stage
+	if skin == "mint":
+		while get_node("/root/CampaignGame/StageHandler/RuntimeBuildSecretStage/Music") == null:
+			await get_tree().physics_frame
+		#await get_node("/root/CampaignGame").activate_ui_and_music()
+		Wwise.set_state("battle_track", "minki")
 
 func place(pos: Vector2, path: String):
 	super(pos, path)
