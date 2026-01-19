@@ -158,7 +158,8 @@ func enable(
 		_generate_breakables_with_weights(breakable_table)
 
 	if hurry_up && globals.is_multiplayer():
-		hurry_up.start()
+		if is_multiplayer_authority():
+			hurry_up.start.rpc()
 
 	world_data.finish_init()
 	astargrid_handler.astargrid_set_initial_solidpoints()

@@ -16,6 +16,7 @@ var target_tiles: Array[Vector2i]
 var current_tile_index = 0
 var current_falling_unbreakable_index = 0
 
+@rpc("call_local")
 func start() -> void:
 	self.clear()
 	hurry_up_step_timer.stop()
