@@ -21,16 +21,17 @@ config/icon="res://assets/gameart/icon.webp"
 
 [autoload]
 
-globals="*res://autoloads/globals.gd"
-gamestate="*res://autoloads/gamestate.gd"
-world_data="*res://autoloads/world_data.gd"
-astargrid_handler="*res://autoloads/astargrid_handler.gd"
-SettingsSignalBus="*res://autoloads/settings_signal_bus.gd"
+SteamManager="*res://autoloads/steamworks.gd"
 SettingsContainer="*res://autoloads/settings_data_container.gd"
+SettingsSignalBus="*res://autoloads/settings_signal_bus.gd"
 SaveManager="*res://autoloads/save_manager.gd"
 AudioManager="*res://autoloads/audio_manager.gd"
 campaign_save_manager="*res://autoloads/campaign_save_manager.gd"
 WwiseRuntimeManager="*res://addons/Wwise/runtime/wwise_runtime_manager.gd"
+globals="*res://autoloads/globals.gd"
+gamestate="*res://autoloads/gamestate.gd"
+world_data="*res://autoloads/world_data.gd"
+astargrid_handler="*res://autoloads/astargrid_handler.gd"
 
 [display]
 
@@ -130,6 +131,7 @@ toggle_debug={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true
@@ -146,6 +148,13 @@ config={
 "synced": false
 }
 }
+
+[steam]
+
+initialization/app_id=4337270
+initialization/initialize_on_startup=false
+initialization/embed_callbacks=false
+multiplayer_peer/max_channels=4
 
 [wwise]
 

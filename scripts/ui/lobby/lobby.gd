@@ -1,10 +1,14 @@
 extends Control
 
-@onready var connect_screen: Panel = $Connect
 @onready var character_select_screen: Control = $CharacterSelect
 @onready var battle_settings_screen: Control = $BattleSettings
 @onready var stage_select_screen: Control = $StageSelect
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var vanilla_connection_screen: PanelContainer = $VanillaConnectionScreen
+@onready var steam_connection_screen: PanelContainer = $SteamConnectionScreen
+
+#Could switch to the Steam screen depending on outside factors.
+var connect_screen = null
 
 func _ready() -> void:
 	gamestate.game_ended.connect(_on_game_ended)
@@ -14,11 +18,26 @@ func _ready() -> void:
 		print("I AM ONLINE")
 		show_character_select_screen()
 	play_lobby_music()
-
+	open_appropriate_connection_screen()
+	
 func play_lobby_music() -> void:
 	Wwise.post_event("stop_music", self)
 	Wwise.post_event("play_music_dragoon_cafe", self)
 
+func open_appropriate_connection_screen() -> void:
+	if not SteamManager.game_is_steam_powered:
+		vanilla_connection_screen.show()
+		assign_correct_connection_screen()
+	else:
+		steam_connection_screen.show()
+		assign_correct_connection_screen()
+
+func assign_correct_connection_screen() -> void:
+	if not SteamManager.game_is_steam_powered:
+		connect_screen = vanilla_connection_screen
+	else:
+		connect_screen = steam_connection_screen
+		
 func start_the_battle() -> void:
 	
 	#stops all music to signal to the player that the stage is loading
@@ -27,15 +46,17 @@ func start_the_battle() -> void:
 	animation_player.play("begin_the_game")
 	await animation_player.animation_finished
 	if is_multiplayer_authority():
-		gamestate.begin_game()
+		gamestate.begin_mp_game()
 
 func show_connect_screen() -> void:
+	assign_correct_connection_screen()
 	connect_screen.show()
 	character_select_screen.hide()
 	battle_settings_screen.hide()
 	stage_select_screen.hide()
 
 func show_character_select_screen() -> void:
+	assign_correct_connection_screen()
 	connect_screen.hide()
 	if is_multiplayer_authority():
 		character_select_screen.setup_for_host()
@@ -45,6 +66,7 @@ func show_character_select_screen() -> void:
 	stage_select_screen.hide()
 	
 func show_battle_settings_screen() -> void:
+	assign_correct_connection_screen()
 	connect_screen.hide()
 	character_select_screen.hide()
 	if is_multiplayer_authority():
@@ -54,6 +76,7 @@ func show_battle_settings_screen() -> void:
 	stage_select_screen.hide()
 	
 func show_stage_select_screen() -> void:
+	assign_correct_connection_screen()
 	connect_screen.hide()
 	character_select_screen.hide()
 	battle_settings_screen.hide()
@@ -64,6 +87,7 @@ func show_stage_select_screen() -> void:
 @rpc("call_local")
 func hide_all_lobby_screens() -> void:
 	#Called via AnimationPlayer("begin_the_game")
+	assign_correct_connection_screen()
 	connect_screen.hide()
 	character_select_screen.hide()
 	battle_settings_screen.hide()

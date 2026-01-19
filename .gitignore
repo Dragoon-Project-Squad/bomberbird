@@ -18,4 +18,5 @@ mono_crash.*.json
 *.zip
 .build/
 addons/Wwise/native/lib/win64/editor/profile/~libwwise.windows.editor.profile.dll
+addons/godotsteam/win64/~libgodotsteam.windows.template_debug.x86_64.dll
 *.tmp

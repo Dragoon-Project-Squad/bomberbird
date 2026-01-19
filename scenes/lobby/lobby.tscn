@@ -1,11 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://jhdlqsokif5o"]
+[gd_scene load_steps=15 format=3 uid="uid://jhdlqsokif5o"]
 
 [ext_resource type="Script" uid="uid://dlxlkxwbdq3pq" path="res://scripts/ui/lobby/lobby.gd" id="1_jekxk"]
 [ext_resource type="Texture2D" uid="uid://bsu1o1vymo51p" path="res://assets/aesprite/Domber doki cenario1.png" id="2_iytm0"]
-[ext_resource type="PackedScene" uid="uid://bg5x0c706ihn3" path="res://scenes/lobby/connection_screen.tscn" id="2_mlusu"]
+[ext_resource type="PackedScene" uid="uid://ct78qhmrqbmgo" path="res://scenes/lobby/vanilla_connection_screen.tscn" id="2_mlusu"]
 [ext_resource type="Shader" uid="uid://c0qwo7bogo6j7" path="res://assets/shaders/blur.gdshader" id="3_l1n8d"]
 [ext_resource type="PackedScene" uid="uid://fsg6gwfw5fbi" path="res://scenes/cssmenu/character_select_screen.tscn" id="3_stkcr"]
 [ext_resource type="PackedScene" uid="uid://gr0y4uy0hk5k" path="res://scenes/lobby/battle_settings.tscn" id="4_iytm0"]
+[ext_resource type="PackedScene" uid="uid://bg5x0c706ihn3" path="res://scenes/lobby/steam_connection_screen.tscn" id="5_5l4x7"]
 [ext_resource type="PackedScene" uid="uid://bv6kuatxte3af" path="res://scenes/lobby/component/stage_select.tscn" id="5_l1n8d"]
 [ext_resource type="Theme" uid="uid://bgj72vffexht" path="res://assets/styles/panel_theme.tres" id="5_m8hcm"]
 [ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="6_5l4x7"]
@@ -116,26 +117,32 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Connect" parent="." instance=ExtResource("2_mlusu")]
+[node name="VanillaConnectionScreen" parent="." instance=ExtResource("2_mlusu")]
+visible = false
 layout_mode = 1
-offset_left = -138.5
-offset_top = -89.5
-offset_right = 138.5
-offset_bottom = 89.5
+offset_bottom = 210.0
 
-[node name="Exit" type="Button" parent="Connect" groups=["ui_button"]]
+[node name="Exit" type="Button" parent="VanillaConnectionScreen" groups=["ui_button"]]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+focus_neighbor_top = NodePath("../Multiplayer")
+focus_neighbor_bottom = NodePath("../SinglePlayer")
+theme = ExtResource("5_m8hcm")
+theme_override_colors/font_focus_color = Color(1, 0, 0, 1)
+text = "Exit
+"
+script = ExtResource("6_5l4x7")
+metadata/_custom_type_script = "uid://boq3i75yls51h"
+
+[node name="SteamConnectionScreen" parent="." instance=ExtResource("5_5l4x7")]
+visible = false
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -32.0
-offset_top = 136.5
-offset_right = 38.0
-offset_bottom = 174.5
-grow_horizontal = 2
-grow_vertical = 0
+
+[node name="Exit" type="Button" parent="SteamConnectionScreen" groups=["ui_button"]]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
 focus_neighbor_top = NodePath("../Multiplayer")
 focus_neighbor_bottom = NodePath("../SinglePlayer")
 theme = ExtResource("5_m8hcm")
@@ -172,9 +179,12 @@ offset_right = 1152.0
 offset_bottom = 648.0
 color = Color(0, 0, 0, 0)
 
-[connection signal="multiplayer_game_hosted" from="Connect" to="." method="_on_connect_multiplayer_game_hosted"]
-[connection signal="multiplayer_game_joined" from="Connect" to="." method="_on_connect_multiplayer_game_joined"]
-[connection signal="pressed" from="Connect/Exit" to="." method="_on_exit_pressed"]
+[connection signal="multiplayer_game_hosted" from="VanillaConnectionScreen" to="." method="_on_connect_multiplayer_game_hosted"]
+[connection signal="multiplayer_game_joined" from="VanillaConnectionScreen" to="." method="_on_connect_multiplayer_game_joined"]
+[connection signal="pressed" from="VanillaConnectionScreen/Exit" to="." method="_on_exit_pressed"]
+[connection signal="multiplayer_game_hosted" from="SteamConnectionScreen" to="." method="_on_connect_multiplayer_game_hosted"]
+[connection signal="multiplayer_game_joined" from="SteamConnectionScreen" to="." method="_on_connect_multiplayer_game_joined"]
+[connection signal="pressed" from="SteamConnectionScreen/Exit" to="." method="_on_exit_pressed"]
 [connection signal="characters_confirmed" from="CharacterSelect" to="." method="_on_character_select_characters_confirmed"]
 [connection signal="battle_settings_aborted" from="BattleSettings" to="." method="_on_battle_settings_battle_settings_aborted"]
 [connection signal="battle_settings_confirmed" from="BattleSettings" to="." method="_on_battle_settings_battle_settings_confirmed"]
