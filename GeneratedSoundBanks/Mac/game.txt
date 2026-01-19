@@ -1,4 +1,5 @@
 Event	ID	Name			Wwise Object Path	Notes
+	9270596	stop_projector			\Default Work Unit\ambience\vintage\stop_projector	
 	230359828	play_music_battle			\Default Work Unit\music\play_music_battle	
 	236594769	snd_cockobo_summon			\Default Work Unit\sfx\gameplay\cockobo\snd_cockobo_summon	
 	712210112	snd_pickup_powerup			\Default Work Unit\sfx\gameplay\snd_pickup_powerup	

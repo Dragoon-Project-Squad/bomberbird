@@ -43,6 +43,7 @@ namespace AK
         static const AkUniqueID ST_STOP_MUSIC = 2548511007U;
         static const AkUniqueID ST_VINTAGE = 2244648975U;
         static const AkUniqueID STOP_MUSIC = 2837384057U;
+        static const AkUniqueID STOP_PROJECTOR = 9270596U;
         static const AkUniqueID UNPAUSE_MUSIC_DRAGOON_CAFE = 2726913135U;
         static const AkUniqueID UNPAUSE_MUSIC_MAIN_MENU = 3895502332U;
     } // namespace EVENTS

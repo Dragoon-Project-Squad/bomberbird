@@ -101,15 +101,12 @@ func _on_body_entered(body: Node2D) -> void:
 	#Prevent anyone else from colliding with this pickup
 	disable_collison_and_hide.rpc()
 	
-	# plays the pickup sound event
-	Wwise.post_event("snd_pickup_powerup", self)
-	
 	var pickup_owner = body
 	pickup_owner.add_pickup.rpc(pickup_type)
 	apply_power_up(pickup_owner)
 	
 	# Ensure powerup has time to play before pickup is destroyed
-	#await self.Wwise.end_of_event
+	#await body.Wwise.end_of_event
 	disable.rpc()
 	globals.game.pickup_pool.return_obj.call_deferred(self) #Pickup returns itself to the pool
 

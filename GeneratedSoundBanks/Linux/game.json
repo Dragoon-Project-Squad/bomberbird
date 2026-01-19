@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{0538B80F-BD38-4678-ADB9-028154C3B6E7}",
     "Language": "SFX",
-    "Hash": "{F7551292-1CCB-434B-69CD-D9BCD460AF86}",
+    "Hash": "{B36CA854-5550-3328-C417-61666F5C4320}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\game",
     "ShortName": "game",
     "Path": "game.bnk",
@@ -1912,6 +1912,16 @@
       "DurationMax": "0"
      },
      {
+      "Id": "9270596",
+      "Name": "stop_projector",
+      "ObjectPath": "\\Events\\Default Work Unit\\ambience\\vintage\\stop_projector",
+      "GUID": "{8DBDC795-13FD-4342-A743-43F14120FE67}",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
+     },
+     {
       "Id": "2726913135",
       "Name": "unpause_music_dragoon_cafe",
       "ObjectPath": "\\Events\\Default Work Unit\\music\\dragoon cafe\\unpause_music_dragoon_cafe",
@@ -2062,6 +2072,6 @@
     ]
    }
   ],
-  "FileHash": "{126B94D2-39A6-A3B8-44B5-53241B8B4906}"
+  "FileHash": "{A46CFDC9-123B-A5A0-0AD3-7D33C8D6FE95}"
  }
 }
