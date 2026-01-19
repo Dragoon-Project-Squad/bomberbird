@@ -179,6 +179,9 @@ func _physics_process(_delta: float):
 @rpc("call_local")
 func add_pickup(pickup_type: int):
 	pickups.add(pickup_type)
+	
+	# plays the pickup sound event
+	Wwise.post_event("snd_pickup_powerup", self)
 
 func place(pos: Vector2):
 	process_mode = PROCESS_MODE_INHERIT

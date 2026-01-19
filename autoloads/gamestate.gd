@@ -461,6 +461,10 @@ func boss_rush_back_to_lobby():
 	var lobby: Control = get_node("/root/Lobby")
 	lobby.show_character_select_screen()
 
+	#stops the boss music and plays the cafe music
+	Wwise.post_event("stop_music", self)
+	Wwise.post_event("play_music_dragoon_cafe", get_node("/root/Lobby"))
+
 	game_ended.emit() #Listen to this signal to tell other nodes to cease the game.
 	player_data_master_dict.clear()
 	resetvars()

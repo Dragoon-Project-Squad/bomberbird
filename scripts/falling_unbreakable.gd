@@ -8,6 +8,10 @@ var hurry_up_tilemap: TileMapLayer
 func place(pos: Vector2):
 	self.position = pos
 	$AnimationPlayer.play("slam")
+	
+	#plays slam for all players hopefully
+	await $AnimationPlayer.animation_finished
+	unbreakable_sfx_player.post_event()
 
 func crush_colliding_obj(objs: Array):
 	if objs.is_empty():
@@ -28,7 +32,7 @@ func crush_colliding_obj(objs: Array):
 			if floor_tile_layer.local_to_map(obj.position) == floor_tile_layer.local_to_map(self.position):
 				obj.exploded.rpc(gamestate.ENVIRONMENTAL_KILL_PLAYER_ID)
 	# if self.empty_tile: #This needed? I'll say no -Monsto
-	unbreakable_sfx_player.post_event()
+	#unbreakable_sfx_player.post_event()
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name != "slam": return

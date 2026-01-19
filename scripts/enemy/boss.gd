@@ -85,6 +85,14 @@ func place(pos: Vector2, path: String):
 	self.statemachine.reset()
 	init_pickups()
 	enable_boss_ui()
+	
+	#plays mint music for mint boss in secret stage
+	if skin == "mint":
+		while get_node("/root/CampaignGame/StageHandler/RuntimeBuildSecretStage/Music") == null:
+			await get_tree().physics_frame
+		#await get_node("/root/CampaignGame").activate_ui_and_music()
+		print("Mint Boss theme playing")
+		Wwise.set_state("battle_track", "minki")
 
 func disable():
 	super()

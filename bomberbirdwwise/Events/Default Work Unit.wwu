@@ -546,6 +546,21 @@
 										</Action>
 									</ChildrenList>
 								</Event>
+								<Event Name="stop_projector" ID="{8DBDC795-13FD-4342-A743-43F14120FE67}">
+									<ChildrenList>
+										<Action Name="" ID="{43F123A4-3DFD-4116-86E9-D32320D1F6C0}" ShortID="706595202">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="2"/>
+												<Property Name="Scope" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="vintageprojector_LOOP" ID="{3DB9C9F4-DEBF-44A4-BA27-A674F190DA5D}" WorkUnitID="{117B7D1D-55AF-426B-8FD8-E768576CFE9B}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
 							</ChildrenList>
 						</Folder>
 					</ChildrenList>

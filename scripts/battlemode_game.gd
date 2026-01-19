@@ -141,10 +141,6 @@ func _check_ending_condition(_alive_enemies: int = 0):
 		#DO WIN SCREEN STUFF
 		if !alive_players.is_empty() && game_ui.get_player_score(alive_players[0].name.to_int()) >= points_to_win:
 			if is_multiplayer_authority():
-				
-				#plays the victory track for the vintage stage (and other horizontally adaptive tracks)
-				Wwise.set_state("game_state", "game_over")
-				
 				gamestate.set_player_scores(globals.game.game_ui.get_all_scores())
 				show_victory_screen.rpc(gamestate.player_data_master_dict.duplicate())
 		else:
@@ -188,6 +184,10 @@ func play_fade_out():
 
 @rpc("call_local")
 func show_victory_screen(player_data):
+	
+	#plays the victory track for the vintage stage (and other horizontally adaptive tracks)
+	Wwise.set_state("game_state", "game_over")
+	
 	gamestate.player_data_master_dict = player_data.duplicate()
 	get_tree().call_deferred("change_scene_to_file","res://scenes/victory_screen.tscn")
 
