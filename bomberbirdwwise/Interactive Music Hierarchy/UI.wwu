@@ -536,6 +536,2410 @@
 								</MusicSegment>
 							</ChildrenList>
 						</MusicPlaylistContainer>
+						<MusicPlaylistContainer Name="soundtest_vintage" ID="{22B3990C-957D-4ABF-81A9-277F6B26516B}" ShortID="494936285">
+							<PropertyList>
+								<Property Name="MakeUpGain" Type="Real64">
+									<ValueList>
+										<Value>7</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music" ID="{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+								</Reference>
+								<Reference Name="PlaylistRoot">
+									<Custom>
+										<MusicPlaylistItem Name="" ID="{B7B58C79-7B39-4392-B31A-A7CD3EE48F21}" ShortID="586422027">
+											<ChildrenList>
+												<MusicPlaylistItem Name="" ID="{222B6A24-28AB-40D8-B1E0-33F5634306C0}" ShortID="343893797">
+													<PropertyList>
+														<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Segment">
+															<ObjectRef Name="vintage_test_intro" ID="{4D02FBC4-1B70-4D35-8FAA-AE1E0172DA2C}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+														</Reference>
+													</ReferenceList>
+												</MusicPlaylistItem>
+												<MusicPlaylistItem Name="" ID="{B0350423-A743-486C-9E55-35A613AF35A1}" ShortID="311262709">
+													<ChildrenList>
+														<MusicPlaylistItem Name="" ID="{7669E462-6B91-464A-8796-5060AF175492}" ShortID="910421163">
+															<PropertyList>
+																<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+															</PropertyList>
+															<ReferenceList>
+																<Reference Name="Segment">
+																	<ObjectRef Name="vintage_test_a_body" ID="{D8BDF8A3-B35C-4620-BD8D-4D36862AF354}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+																</Reference>
+															</ReferenceList>
+														</MusicPlaylistItem>
+														<MusicPlaylistItem Name="" ID="{7144EE33-CCDE-428E-9947-81EBD1B09A2D}" ShortID="829870930">
+															<PropertyList>
+																<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+															</PropertyList>
+															<ReferenceList>
+																<Reference Name="Segment">
+																	<ObjectRef Name="vintage_test_a_ending_01" ID="{D874BE91-BF33-492F-9D2C-0D7A3933B32E}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+																</Reference>
+															</ReferenceList>
+														</MusicPlaylistItem>
+														<MusicPlaylistItem Name="" ID="{50DFD29D-B57C-4E30-85EB-5127521088E2}" ShortID="869688690">
+															<PropertyList>
+																<Property Name="LoopCount" Type="int16" Value="0"/>
+															</PropertyList>
+															<ChildrenList>
+																<MusicPlaylistItem Name="" ID="{A73DB616-8194-4EDD-A6E3-5A913697A640}" ShortID="365925860">
+																	<PropertyList>
+																		<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="Segment">
+																			<ObjectRef Name="vintage_test_a_body" ID="{D8BDF8A3-B35C-4620-BD8D-4D36862AF354}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicPlaylistItem>
+																<MusicPlaylistItem Name="" ID="{CBDED600-A34C-4A27-BE76-AB218BFFA92D}" ShortID="437930026">
+																	<PropertyList>
+																		<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="Segment">
+																			<ObjectRef Name="vintage_test_a_ending_2" ID="{632671A4-74C4-4BAD-8EFE-9555088042AF}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicPlaylistItem>
+																<MusicPlaylistItem Name="" ID="{A9026A7B-8780-40E8-9B2B-3D1E94D42325}" ShortID="1062250247">
+																	<PropertyList>
+																		<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="Segment">
+																			<ObjectRef Name="vintage_test_b_body" ID="{C7C955A1-6151-4000-B7BB-BC2F05F5DBD7}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicPlaylistItem>
+																<MusicPlaylistItem Name="" ID="{F75B0831-8C0D-4F97-B650-62D7CCA0C699}" ShortID="210093282">
+																	<PropertyList>
+																		<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="Segment">
+																			<ObjectRef Name="vintage_test_b_ending_1" ID="{3404CFFC-AC5F-44A2-94C0-F838A85A6936}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicPlaylistItem>
+																<MusicPlaylistItem Name="" ID="{1CC7BDEF-8E73-4452-B069-42D08899141C}" ShortID="581622776">
+																	<PropertyList>
+																		<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="Segment">
+																			<ObjectRef Name="vintage_test_b_body" ID="{C7C955A1-6151-4000-B7BB-BC2F05F5DBD7}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicPlaylistItem>
+																<MusicPlaylistItem Name="" ID="{E6A4B178-0C85-4769-A9E4-618313D3C6CB}" ShortID="541427466">
+																	<PropertyList>
+																		<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="Segment">
+																			<ObjectRef Name="vintage_test_b_ending_2" ID="{17166E56-AADD-4060-B960-1DD7605288E4}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicPlaylistItem>
+																<MusicPlaylistItem Name="" ID="{C887C6ED-1476-4FA5-A5CE-6F2283DFA51F}" ShortID="608516080">
+																	<PropertyList>
+																		<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="Segment">
+																			<ObjectRef Name="vintage_test_a_body" ID="{D8BDF8A3-B35C-4620-BD8D-4D36862AF354}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicPlaylistItem>
+																<MusicPlaylistItem Name="" ID="{CE82A9E9-CECE-41A4-AB4B-54E34036CF8B}" ShortID="985918409">
+																	<PropertyList>
+																		<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="Segment">
+																			<ObjectRef Name="vintage_test_a_ending_3" ID="{597E9FC2-26C9-4969-93D9-0E68F843086B}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicPlaylistItem>
+																<MusicPlaylistItem Name="" ID="{18831E92-7DA2-40EC-A2F9-6B8790197BE4}" ShortID="993476577">
+																	<PropertyList>
+																		<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="Segment">
+																			<ObjectRef Name="vintage_test_c_body" ID="{E41DECCF-DA30-4055-96AE-782445C20254}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicPlaylistItem>
+																<MusicPlaylistItem Name="" ID="{E984B65F-2DEE-4759-956F-D91CE0BD6A78}" ShortID="691971096">
+																	<PropertyList>
+																		<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="Segment">
+																			<ObjectRef Name="vintage_test_c_ending_1" ID="{43FC3576-740E-4A3A-BDF5-47E9576EE083}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicPlaylistItem>
+																<MusicPlaylistItem Name="" ID="{152FC9B2-2AD1-4D4F-BDD0-1E1F4EA5E57E}" ShortID="717881652">
+																	<PropertyList>
+																		<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="Segment">
+																			<ObjectRef Name="vintage_test_c_body" ID="{E41DECCF-DA30-4055-96AE-782445C20254}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicPlaylistItem>
+																<MusicPlaylistItem Name="" ID="{223C23FF-54F8-4909-816F-A0AF05A1C6D7}" ShortID="640822405">
+																	<PropertyList>
+																		<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="Segment">
+																			<ObjectRef Name="vintage_test_c_ending_2" ID="{CFBC0B75-3F5E-419B-86E5-3156F10AE6F2}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicPlaylistItem>
+																<MusicPlaylistItem Name="" ID="{89893045-7519-462B-A649-F6AF98FB7A60}" ShortID="205094641">
+																	<PropertyList>
+																		<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="Segment">
+																			<ObjectRef Name="vintage_test_d_body" ID="{17CDEC9C-D0BF-43AE-98DF-8593B0F91060}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicPlaylistItem>
+															</ChildrenList>
+														</MusicPlaylistItem>
+													</ChildrenList>
+												</MusicPlaylistItem>
+											</ChildrenList>
+										</MusicPlaylistItem>
+									</Custom>
+								</Reference>
+								<Reference Name="TransitionRoot">
+									<Custom>
+										<MusicTransition Name="Root" ID="{CC22E2DB-F03D-4382-A994-39C681ECFE9C}">
+											<PropertyList>
+												<Property Name="IsFolder" Type="bool" Value="True"/>
+											</PropertyList>
+											<ChildrenList>
+												<MusicTransition Name="Transition" ID="{B24FB509-0E40-4D82-B5BB-7C04B2EABA81}">
+													<PropertyList>
+														<Property Name="EnableDestinationFadeIn" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo>
+														<DestinationFadeIn>
+															<MusicFade Name="Destination Fade-in" ID="{72D03A2F-E49F-4B6F-81F4-F6B08EF20AFE}">
+																<PropertyList>
+																	<Property Name="FadeTime" Type="Real64" Value="0.05"/>
+																</PropertyList>
+															</MusicFade>
+														</DestinationFadeIn>
+													</TransitionInfo>
+												</MusicTransition>
+											</ChildrenList>
+											<TransitionInfo/>
+										</MusicTransition>
+									</Custom>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicSegment Name="vintage_test_a_body" ID="{D8BDF8A3-B35C-4620-BD8D-4D36862AF354}" ShortID="392320919">
+									<PropertyList>
+										<Property Name="EndPosition" Type="Real64" Value="21176.4791666667"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Music" ID="{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<MusicTrack Name="vintage_test_left_hand_a_body" ID="{B4D04972-1259-4BD6-B60A-A5151EF6EADF}" ShortID="474035441">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Left Hand" ID="{6F3938D0-4CDE-4B08-A4E0-1015914025F7}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{5C569678-F2FB-4F44-AF33-5D4F8D143520}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_left_hand_a_body" ID="{02857708-3BE2-49D9-B92D-9B4028FB4869}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_left_hand_a_body.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="921964316"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{B53E19CD-CCC5-46F1-A09F-1ECAA906A918}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_left_hand_a_body" ID="{45AB625A-CB17-4A5B-BAF3-A34FA86F2AF9}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="21176.4791666667"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_left_hand_a_body" ID="{02857708-3BE2-49D9-B92D-9B4028FB4869}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+										<MusicTrack Name="vintage_test_right_hand_a_body" ID="{0B143E9C-13DC-4307-ACCC-AE41387BE984}" ShortID="816824611">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Right Hand" ID="{9CC84E2A-8039-463D-B684-29D740909D35}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{CA8FCAE5-3E4A-47A1-8B7F-9215ADF77DC2}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_right_hand_a_body" ID="{CDC63DCF-995F-46A0-AD09-F473E543B134}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_right_hand_a_body.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="364621505"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{DEB524EE-6655-448D-82AF-31B938AB6334}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_right_hand_a_body" ID="{18B13BF1-7028-4DBC-944E-48B880E0E600}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="21176.4791666667"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_right_hand_a_body" ID="{CDC63DCF-995F-46A0-AD09-F473E543B134}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Cues">
+											<Reference>
+												<Local>
+													<MusicCue Name="Entry Cue" ID="{22AC7678-C3C7-4988-9ACC-8E5ADABCBA67}"/>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicCue Name="Exit Cue" ID="{078B151B-546C-4907-B326-4DF98217A977}">
+														<PropertyList>
+															<Property Name="CueType" Type="int16" Value="1"/>
+															<Property Name="TimeMs" Type="Real64" Value="21176.4791666667"/>
+														</PropertyList>
+													</MusicCue>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicCue Name="" ID="{AC991C93-EC24-41F5-A3A3-7E7B8CDE5943}">
+														<PropertyList>
+															<Property Name="CueType" Type="int16" Value="2"/>
+															<Property Name="TimeMs" Type="Real64" Value="21176.4705882353"/>
+														</PropertyList>
+													</MusicCue>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicSegment>
+								<MusicSegment Name="vintage_test_a_ending_1" ID="{42F86E0E-661A-4F57-9A5B-74869DE1CCD9}" ShortID="180423099">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Music" ID="{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<MusicTrack Name="vintage_test_left_hand_a_ending_1" ID="{7D67F2D2-77DC-4E85-BD7B-908F5B19B64D}" ShortID="1003520102">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Left Hand" ID="{6F3938D0-4CDE-4B08-A4E0-1015914025F7}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{BF566F7E-B264-47D5-8651-8C1B582C7683}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_left_hand_a_ending_1" ID="{A36676F1-6058-4F00-860F-EDB153200ABE}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_left_hand_a_ending_1.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="86845661"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{56FBDFCE-DB4D-46C2-9563-2DF82E0684AA}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_left_hand_a_ending_1" ID="{0ECABC4F-F43C-45BA-B650-0D306906182F}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="1411.77083333333"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_left_hand_a_ending_1" ID="{A36676F1-6058-4F00-860F-EDB153200ABE}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+										<MusicTrack Name="vintage_test_right_hand_a_ending_1" ID="{A662C80E-F7CA-42FE-B19D-AE29A1B0CFF3}" ShortID="566516341">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Right Hand" ID="{9CC84E2A-8039-463D-B684-29D740909D35}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{892BC195-3EE6-4AC1-88E6-0A48D8B2E516}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_right_hand_a_ending_1" ID="{F57BA2CD-BA15-4433-9B66-552B6BDB7628}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_right_hand_a_ending_1.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="183443696"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{4258DBD3-3E47-479E-95D3-5F32DFD124A2}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_right_hand_a_ending_1" ID="{C4B688D9-1718-4B0F-A0B5-CE930C93A18E}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="1411.77083333333"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_right_hand_a_ending_1" ID="{F57BA2CD-BA15-4433-9B66-552B6BDB7628}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Cues">
+											<Reference>
+												<Local>
+													<MusicCue Name="Entry Cue" ID="{2564EF5F-86C2-4AD7-B050-D837B270A173}"/>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicCue Name="Exit Cue" ID="{1A6450FE-ED0E-44BC-8288-167129064A4A}">
+														<PropertyList>
+															<Property Name="CueType" Type="int16" Value="1"/>
+															<Property Name="TimeMs" Type="Real64" Value="1411.77083333333"/>
+														</PropertyList>
+													</MusicCue>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicSegment>
+								<MusicSegment Name="vintage_test_intro" ID="{4D02FBC4-1B70-4D35-8FAA-AE1E0172DA2C}" ShortID="871544818">
+									<PropertyList>
+										<Property Name="EndPosition" Type="Real64" Value="5647.0625"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Music" ID="{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<MusicTrack Name="vintage_test_left_hand_intro" ID="{CF5D4BA7-94C6-45FB-B6D5-221FF92CD98D}" ShortID="167101916">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Left Hand" ID="{6F3938D0-4CDE-4B08-A4E0-1015914025F7}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{1DD223F7-BC88-4118-98AC-B437069CD410}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_left_hand_intro" ID="{51DF69D8-3B7C-4E91-95E7-4563937714D6}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_left_hand_intro.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="731975628"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{9A33AAFB-7989-4E0F-8C03-82985C3D5B7B}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_left_hand_intro" ID="{43B04028-6937-4A25-9FE2-4614F080A34F}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="5647.0625"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_left_hand_intro" ID="{51DF69D8-3B7C-4E91-95E7-4563937714D6}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+										<MusicTrack Name="vintage_test_right_hand_intro" ID="{6970A781-E482-4484-9F31-F2CC5C57549E}" ShortID="356865028">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Right Hand" ID="{9CC84E2A-8039-463D-B684-29D740909D35}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{206D9B5B-7D54-4A1B-8D59-84175BB5743C}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_right_hand_intro" ID="{C32ADFB5-6CBB-4171-8058-391DE7F83FB6}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_right_hand_intro.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="1036512667"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{93124041-379C-4B74-9BD2-8C670E82F0D9}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_right_hand_intro" ID="{70539191-1AC3-4B33-AD43-48DEFD12774F}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="5647.0625"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_right_hand_intro" ID="{C32ADFB5-6CBB-4171-8058-391DE7F83FB6}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Cues">
+											<Reference>
+												<Local>
+													<MusicCue Name="Entry Cue" ID="{1234B272-EE9B-4F6C-BC72-3B3A4B0F3CB8}"/>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicCue Name="Exit Cue" ID="{A59F3C50-7EBD-4D22-8E57-9FE7D795539D}">
+														<PropertyList>
+															<Property Name="CueType" Type="int16" Value="1"/>
+															<Property Name="TimeMs" Type="Real64" Value="5647.0625"/>
+														</PropertyList>
+													</MusicCue>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicSegment>
+								<MusicSegment Name="vintage_test_a_ending_01" ID="{D874BE91-BF33-492F-9D2C-0D7A3933B32E}" ShortID="97477542">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Music" ID="{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<MusicTrack Name="vintage_test_left_hand_a_ending_1" ID="{1E9A3051-0AFB-4A7B-864D-352B962482B3}" ShortID="269642874">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Left Hand" ID="{6F3938D0-4CDE-4B08-A4E0-1015914025F7}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{9974D7E3-AF9D-4723-A9DC-52043325FA23}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_left_hand_a_ending_1" ID="{F56965BD-AF10-4B5C-A187-DF467BFEE95D}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_left_hand_a_ending_1.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="86845661"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{14CB30B5-A676-4134-A1A4-6CC93E7CA530}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_left_hand_a_ending_1" ID="{399BDFCF-3EB6-4014-B36F-D413B1E93C38}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="1411.77083333333"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_left_hand_a_ending_1" ID="{F56965BD-AF10-4B5C-A187-DF467BFEE95D}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+										<MusicTrack Name="vintage_test_right_hand_a_ending_1" ID="{461CADCA-F605-42D4-8C3F-6E194E68B437}" ShortID="1015436385">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Right Hand" ID="{9CC84E2A-8039-463D-B684-29D740909D35}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{A5270EEE-1B50-4CFF-8DEE-634EE3A1D8E1}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_right_hand_a_ending_1" ID="{33AA54F4-7217-45D5-99D0-1EB346B8316D}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_right_hand_a_ending_1.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="183443696"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{9C0EA2EA-9BDD-4CA1-8C47-27A67FC8E154}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_right_hand_a_ending_1" ID="{4677C9FA-43B1-4C0E-B6F6-A55450E0CB8D}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="1411.77083333333"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_right_hand_a_ending_1" ID="{33AA54F4-7217-45D5-99D0-1EB346B8316D}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Cues">
+											<Reference>
+												<Local>
+													<MusicCue Name="Entry Cue" ID="{882962F4-C4B6-4BCB-B0C0-B42E7A87D125}"/>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicCue Name="Exit Cue" ID="{CB6D0F60-2F38-4153-B25B-54F4D3D7331C}">
+														<PropertyList>
+															<Property Name="CueType" Type="int16" Value="1"/>
+															<Property Name="TimeMs" Type="Real64" Value="1411.77083333333"/>
+														</PropertyList>
+													</MusicCue>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicSegment>
+								<MusicSegment Name="vintage_test_b_ending_2" ID="{17166E56-AADD-4060-B960-1DD7605288E4}" ShortID="375764677">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Music" ID="{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<MusicTrack Name="vintage_test_left_hand_b_ending_2" ID="{AA50EDD3-BD58-436B-BA39-59EED1E1F3AC}" ShortID="25492707">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Left Hand" ID="{6F3938D0-4CDE-4B08-A4E0-1015914025F7}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{D05D362B-B05A-4484-B46E-970AC839A43F}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_left_hand_b_ending_2" ID="{0A22BCF8-8C54-4120-9BC2-393BC3F0FE9C}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_left_hand_b_ending_2.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="315037834"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{A94BF34C-4355-4C47-9A3F-F9F2D154DF22}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_left_hand_b_ending_2" ID="{B8728D21-FC14-4685-9578-0E5F811B2493}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="1411.77083333333"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_left_hand_b_ending_2" ID="{0A22BCF8-8C54-4120-9BC2-393BC3F0FE9C}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+										<MusicTrack Name="vintage_test_right_hand_b_ending_2" ID="{BFE02B5C-DE16-4D51-B760-D42F54FC762F}" ShortID="1045018492">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Right Hand" ID="{9CC84E2A-8039-463D-B684-29D740909D35}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{05A41FF9-62F2-40D0-B844-CA21A13B8CAB}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_right_hand_b_ending_2" ID="{DEE5C7C8-E9D0-4493-86D5-B85819A36FEF}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_right_hand_b_ending_2.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="620641206"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{601A43F0-E87A-4B53-A3D2-B0B46BEE4533}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_right_hand_b_ending_2" ID="{1091C50F-A1B6-4D44-A7FB-10D68912EFAF}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="1411.77083333333"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_right_hand_b_ending_2" ID="{DEE5C7C8-E9D0-4493-86D5-B85819A36FEF}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Cues">
+											<Reference>
+												<Local>
+													<MusicCue Name="Entry Cue" ID="{E629E788-8D72-4897-B945-A414320A73D4}"/>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicCue Name="Exit Cue" ID="{FEB3B47A-0F0C-4C0B-8E50-8614B29422A1}">
+														<PropertyList>
+															<Property Name="CueType" Type="int16" Value="1"/>
+															<Property Name="TimeMs" Type="Real64" Value="1411.77083333333"/>
+														</PropertyList>
+													</MusicCue>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicSegment>
+								<MusicSegment Name="vintage_test_a_ending_2" ID="{632671A4-74C4-4BAD-8EFE-9555088042AF}" ShortID="306422176">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Music" ID="{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<MusicTrack Name="vintage_test_left_hand_a_ending_2" ID="{7A82AB97-E5FB-464F-A5AE-C2278F2FDEA2}" ShortID="601584192">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Left Hand" ID="{6F3938D0-4CDE-4B08-A4E0-1015914025F7}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{51634708-F97D-4B5D-80F6-A9100501E30B}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_left_hand_a_ending_2" ID="{9E6F8804-E74E-4321-A7DA-C527774CD731}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_left_hand_a_ending_2.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="874446369"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{A0A8919F-3392-47E0-BAEA-C08604A87B6F}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_left_hand_a_ending_2" ID="{F0486BE0-3C3E-4ABA-B487-C44B8C6A28A8}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="1411.77083333333"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_left_hand_a_ending_2" ID="{9E6F8804-E74E-4321-A7DA-C527774CD731}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+										<MusicTrack Name="vintage_test_right_hand_a_ending_2" ID="{A1E0F905-30D5-41A0-B3D4-1B87DFD38F35}" ShortID="49669903">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Right Hand" ID="{9CC84E2A-8039-463D-B684-29D740909D35}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{C04D587A-2E9D-4449-91A5-8D3C7D653C82}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_right_hand_a_ending_2" ID="{0A8E5CC1-C447-441B-B45D-71727FCE959E}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_right_hand_a_ending_2.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="950044961"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{BD7AA641-2F47-49E8-BEAB-B826CE516A29}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_right_hand_a_ending_2" ID="{365E9C51-09D7-407F-9BDF-674CA832E7D3}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="1411.77083333333"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_right_hand_a_ending_2" ID="{0A8E5CC1-C447-441B-B45D-71727FCE959E}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Cues">
+											<Reference>
+												<Local>
+													<MusicCue Name="Entry Cue" ID="{11F42EE4-7926-4CC3-BC29-F20C18A6E7BC}"/>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicCue Name="Exit Cue" ID="{19B98470-0EBF-41EC-A283-2622DDCA4C48}">
+														<PropertyList>
+															<Property Name="CueType" Type="int16" Value="1"/>
+															<Property Name="TimeMs" Type="Real64" Value="1411.77083333333"/>
+														</PropertyList>
+													</MusicCue>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicSegment>
+								<MusicSegment Name="vintage_test_b_body" ID="{C7C955A1-6151-4000-B7BB-BC2F05F5DBD7}" ShortID="102860093">
+									<PropertyList>
+										<Property Name="EndPosition" Type="Real64" Value="21176.4791666667"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Music" ID="{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<MusicTrack Name="vintage_test_left_hand_b_body" ID="{0947CEDC-95B6-4124-88B8-1BFFEC1A9EDE}" ShortID="571878683">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Left Hand" ID="{6F3938D0-4CDE-4B08-A4E0-1015914025F7}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{756FE886-9877-40AB-B270-FF446595DDBD}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_left_hand_b_body" ID="{FC811CC4-4756-484F-8D2F-40CDC26D77C8}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_left_hand_b_body.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="1012481579"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{59D05DAB-CD4B-4919-A845-01A15C4C5F03}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_left_hand_b_body" ID="{44EAD334-7172-4C3A-9B97-D76EE8805CD5}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="21176.4791666667"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_left_hand_b_body" ID="{FC811CC4-4756-484F-8D2F-40CDC26D77C8}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+										<MusicTrack Name="vintage_test_right_hand_b_body" ID="{5E8B2B59-A032-4612-84D7-B8871ADFE14B}" ShortID="470199994">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Right Hand" ID="{9CC84E2A-8039-463D-B684-29D740909D35}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{BDD78672-6DF9-4907-A5A9-4477E41549FA}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_right_hand_b_body" ID="{2F3C51BF-D7EA-4B96-A3C1-9E269E014DA5}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_right_hand_b_body.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="866351288"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{E8F04FB9-8E21-4E70-B00F-A3DF2DAC83A4}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_right_hand_b_body" ID="{8BBEC5B1-0F02-42CA-AC74-D6E430BB2351}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="21176.4791666667"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_right_hand_b_body" ID="{2F3C51BF-D7EA-4B96-A3C1-9E269E014DA5}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Cues">
+											<Reference>
+												<Local>
+													<MusicCue Name="Entry Cue" ID="{74C13E94-A9D6-4601-AD48-5AD056DE5418}"/>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicCue Name="Exit Cue" ID="{593371CD-EBE8-4004-86E0-C48E046061DE}">
+														<PropertyList>
+															<Property Name="CueType" Type="int16" Value="1"/>
+															<Property Name="TimeMs" Type="Real64" Value="21176.4791666667"/>
+														</PropertyList>
+													</MusicCue>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicCue Name="" ID="{5A126681-35A5-40B1-8331-A4897C693609}">
+														<PropertyList>
+															<Property Name="CueType" Type="int16" Value="2"/>
+															<Property Name="TimeMs" Type="Real64" Value="21176.4705882353"/>
+														</PropertyList>
+													</MusicCue>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicSegment>
+								<MusicSegment Name="vintage_test_b_ending_1" ID="{3404CFFC-AC5F-44A2-94C0-F838A85A6936}" ShortID="37714302">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Music" ID="{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<MusicTrack Name="vintage_test_left_hand_b_ending_1" ID="{888EE741-8A04-424A-8A6C-D50B41AAB933}" ShortID="299276683">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Left Hand" ID="{6F3938D0-4CDE-4B08-A4E0-1015914025F7}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{12DE89EE-A6B6-49FB-AEC2-CD79ECC676C8}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_left_hand_b_ending_1" ID="{7DFAF3FC-4DAA-406C-B46A-E5320E4A60DA}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_left_hand_b_ending_1.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="505784246"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{75E08473-017D-423C-BA45-D5F0184AB7D9}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_left_hand_b_ending_1" ID="{D83B5A04-AA34-4C02-8BCB-A958E8441D97}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="1411.77083333333"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_left_hand_b_ending_1" ID="{7DFAF3FC-4DAA-406C-B46A-E5320E4A60DA}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+										<MusicTrack Name="vintage_test_right_hand_b_ending_1" ID="{E4D9A888-6155-4205-9C90-97BF94DB934C}" ShortID="820933829">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Right Hand" ID="{9CC84E2A-8039-463D-B684-29D740909D35}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{C7FB63BF-3317-4D5C-95D2-E83017EC40BB}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_right_hand_b_ending_1" ID="{F41247CD-3A6C-4BFC-84DC-2EADCAE24A59}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_right_hand_b_ending_1.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="81452251"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{868E7CCD-1781-4176-9DC3-2E0918F12A3B}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_right_hand_b_ending_1" ID="{21F5FC32-B03F-4E6F-8F08-9F3E82A60454}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="1411.77083333333"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_right_hand_b_ending_1" ID="{F41247CD-3A6C-4BFC-84DC-2EADCAE24A59}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Cues">
+											<Reference>
+												<Local>
+													<MusicCue Name="Entry Cue" ID="{E35943ED-F5F1-4EE1-A631-BF0B94E4271C}"/>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicCue Name="Exit Cue" ID="{D1AEC99D-3661-4CAF-912C-90C2E25EBBE1}">
+														<PropertyList>
+															<Property Name="CueType" Type="int16" Value="1"/>
+															<Property Name="TimeMs" Type="Real64" Value="1411.77083333333"/>
+														</PropertyList>
+													</MusicCue>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicSegment>
+								<MusicSegment Name="vintage_test_a_ending_3" ID="{597E9FC2-26C9-4969-93D9-0E68F843086B}" ShortID="618347314">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Music" ID="{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<MusicTrack Name="vintage_test_left_hand_a_ending_3" ID="{FD4E128F-5C75-4AEF-BE58-85992EB1C446}" ShortID="472057510">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Left Hand" ID="{6F3938D0-4CDE-4B08-A4E0-1015914025F7}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{BFE7BD2C-5E7B-4123-A193-CC18A7581FCE}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_left_hand_a_ending_3" ID="{D967C424-1767-45A8-860B-613224B24C1F}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_left_hand_a_ending_3.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="977682729"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{C9EE4BFC-F0D6-48AD-BE9E-FA8F45D8B8AA}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_left_hand_a_ending_3" ID="{3E805CF1-EE9C-4BB4-AD0F-8C0F853806B9}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="1411.77083333333"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_left_hand_a_ending_3" ID="{D967C424-1767-45A8-860B-613224B24C1F}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+										<MusicTrack Name="vintage_test_right_hand_a_ending_3" ID="{B24116DC-7AF8-4B5C-B0C9-1862AAA1BBFE}" ShortID="135562830">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Right Hand" ID="{9CC84E2A-8039-463D-B684-29D740909D35}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{9EEC45C9-A1A8-41B9-8B4C-B022B3F6E62C}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_right_hand_a_ending_3" ID="{7AB830AC-FEB0-41FE-87B1-C21E0B86E344}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_right_hand_a_ending_3.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="731300727"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{2121E68F-1087-4B4B-A019-167FB233E19E}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_right_hand_a_ending_3" ID="{A0A3837F-09A1-4C52-817D-08DE8E085F98}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="1411.77083333333"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_right_hand_a_ending_3" ID="{7AB830AC-FEB0-41FE-87B1-C21E0B86E344}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Cues">
+											<Reference>
+												<Local>
+													<MusicCue Name="Entry Cue" ID="{E13C9CCE-F54D-4687-80E9-C055A0C3CA6C}"/>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicCue Name="Exit Cue" ID="{7F5360BC-B477-4108-B6D7-A0FEE7859F98}">
+														<PropertyList>
+															<Property Name="CueType" Type="int16" Value="1"/>
+															<Property Name="TimeMs" Type="Real64" Value="1411.77083333333"/>
+														</PropertyList>
+													</MusicCue>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicSegment>
+								<MusicSegment Name="vintage_test_c_body" ID="{E41DECCF-DA30-4055-96AE-782445C20254}" ShortID="169113531">
+									<PropertyList>
+										<Property Name="EndPosition" Type="Real64" Value="21176.4791666667"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Music" ID="{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<MusicTrack Name="vintage_test_left_hand_c_body" ID="{52E46C60-FB93-43BA-A9A4-981AAFFBDD1A}" ShortID="362932365">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Left Hand" ID="{6F3938D0-4CDE-4B08-A4E0-1015914025F7}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{2D4DB545-618C-4E4E-94F7-0EA521AC1879}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_left_hand_c_body" ID="{D094195F-9801-4C00-A9F2-DC8C40CF2C80}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_left_hand_c_body.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="698234867"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{654A437B-D3BB-4CE6-B5ED-199EE664E94C}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_left_hand_c_body" ID="{D0168614-6D44-4D0E-97B0-9A2D7BB916E5}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="21176.4791666667"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_left_hand_c_body" ID="{D094195F-9801-4C00-A9F2-DC8C40CF2C80}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+										<MusicTrack Name="vintage_test_right_hand_c_body" ID="{C0C9001F-908A-427F-9B5B-30845CDE563D}" ShortID="593411131">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Right Hand" ID="{9CC84E2A-8039-463D-B684-29D740909D35}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{DCF1EC11-6ACF-4AA5-BF7A-6F0261B1834E}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_right_hand_c_body" ID="{BDBC7253-6770-40F1-A5F9-D8C52410A24F}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_right_hand_c_body.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="647773775"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{146798BF-E56B-49DC-A165-4B9BDAAEBBDD}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_right_hand_c_body" ID="{7E66B32A-7BD7-4808-A329-835AA2F64393}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="21176.4791666667"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_right_hand_c_body" ID="{BDBC7253-6770-40F1-A5F9-D8C52410A24F}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Cues">
+											<Reference>
+												<Local>
+													<MusicCue Name="Entry Cue" ID="{64BD27EC-CAEC-4D78-AC1F-3156A98920DA}"/>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicCue Name="Exit Cue" ID="{96AFAA8B-2025-4555-980F-E67A11527362}">
+														<PropertyList>
+															<Property Name="CueType" Type="int16" Value="1"/>
+															<Property Name="TimeMs" Type="Real64" Value="21176.4791666667"/>
+														</PropertyList>
+													</MusicCue>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicCue Name="" ID="{D8781382-1204-49E5-A66B-2535D794AE76}">
+														<PropertyList>
+															<Property Name="CueType" Type="int16" Value="2"/>
+															<Property Name="TimeMs" Type="Real64" Value="21176.4705882353"/>
+														</PropertyList>
+													</MusicCue>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicSegment>
+								<MusicSegment Name="vintage_test_c_ending_1" ID="{43FC3576-740E-4A3A-BDF5-47E9576EE083}" ShortID="93824478">
+									<PropertyList>
+										<Property Name="EndPosition" Type="Real64" Value="1456.09548167093"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Music" ID="{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<MusicTrack Name="vintage_test_left_hand_c_ending_1" ID="{A1E9FDA4-D637-49B0-818A-BA987BB3B6C9}" ShortID="70744946">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Left Hand" ID="{6F3938D0-4CDE-4B08-A4E0-1015914025F7}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{0262F7A4-22DD-405D-AB6C-C719D8608EC9}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_left_hand_c_ending_1" ID="{AAD93E3C-AE63-4C28-B0A7-11A53AEB4FAE}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_left_hand_c_ending_1.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="73292923"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{384685AC-2810-46DB-BAFE-37728A37FD36}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_left_hand_c_ending_1" ID="{F76068F4-DF8C-40B6-9C26-C11FD92DCD25}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="1411.77083333333"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_left_hand_c_ending_1" ID="{AAD93E3C-AE63-4C28-B0A7-11A53AEB4FAE}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+										<MusicTrack Name="vintage_test_right_hand_c_ending_1" ID="{5EFF7436-800D-41ED-AA67-FF7E50488FF2}" ShortID="625328582">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Right Hand" ID="{9CC84E2A-8039-463D-B684-29D740909D35}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{BA747333-F6E2-4663-9771-8A0248004A64}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_right_hand_c_ending_1" ID="{C2C621F4-43CB-468D-8832-3E67DDFE823E}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_right_hand_c_ending_1.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="957691411"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{F8C3A75C-EA62-4FEE-9946-332EBAAAF058}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_right_hand_c_ending_1" ID="{734D050C-57F0-4296-ADAD-4121182C4A59}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="1411.77083333333"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_right_hand_c_ending_1" ID="{C2C621F4-43CB-468D-8832-3E67DDFE823E}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Cues">
+											<Reference>
+												<Local>
+													<MusicCue Name="Entry Cue" ID="{D176982D-D019-431E-8F49-6C275059A3EF}"/>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicCue Name="Exit Cue" ID="{74F0EB4D-0B7C-481D-A85A-903C04EEC3BA}">
+														<PropertyList>
+															<Property Name="CueType" Type="int16" Value="1"/>
+															<Property Name="TimeMs" Type="Real64" Value="1411.77083333333"/>
+														</PropertyList>
+													</MusicCue>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicSegment>
+								<MusicSegment Name="vintage_test_c_ending_2" ID="{CFBC0B75-3F5E-419B-86E5-3156F10AE6F2}" ShortID="629688388">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Music" ID="{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<MusicTrack Name="vintage_test_left_hand_c_ending_2" ID="{8F8DACE8-7BA4-4430-B591-E1C9A4C64392}" ShortID="757061540">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Left Hand" ID="{6F3938D0-4CDE-4B08-A4E0-1015914025F7}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{A828BB59-FB95-4456-9F6A-260119AB27FB}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_left_hand_c_ending_2" ID="{508BB84A-B64A-4163-82A5-9DF5EE502817}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_left_hand_c_ending_2.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="56039939"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{9247D179-E22D-482F-9794-B04A5251895B}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_left_hand_c_ending_2" ID="{22920334-ED0D-4BD6-A28D-71C5CE672A08}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="1411.77083333333"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_left_hand_c_ending_2" ID="{508BB84A-B64A-4163-82A5-9DF5EE502817}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+										<MusicTrack Name="vintage_test_right_hand_c_ending_2" ID="{A49A1C50-EDB4-43B0-9559-AD4E0E611382}" ShortID="437341509">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Right Hand" ID="{9CC84E2A-8039-463D-B684-29D740909D35}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{8B567E95-B670-46C3-9BFD-5E18B34B90FD}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_right_hand_c_ending_2" ID="{E98D135E-CB3F-4E4D-BEBB-D5F3497560BA}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_right_hand_c_ending_2.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="1016044298"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{F99F78A8-4F9C-44F2-B402-75DCB89E1E7F}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_right_hand_c_ending_2" ID="{A943E2CD-A5BD-4D2B-95B9-F7A076345AB2}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="1411.77083333333"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_right_hand_c_ending_2" ID="{E98D135E-CB3F-4E4D-BEBB-D5F3497560BA}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Cues">
+											<Reference>
+												<Local>
+													<MusicCue Name="Entry Cue" ID="{6F733C97-1E9F-4C41-8D12-E2A0D2C5D7D5}"/>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicCue Name="Exit Cue" ID="{F0DB776C-D7A1-4057-B96E-4E845896AC53}">
+														<PropertyList>
+															<Property Name="CueType" Type="int16" Value="1"/>
+															<Property Name="TimeMs" Type="Real64" Value="1411.77083333333"/>
+														</PropertyList>
+													</MusicCue>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicSegment>
+								<MusicSegment Name="vintage_test_d_body" ID="{17CDEC9C-D0BF-43AE-98DF-8593B0F91060}" ShortID="777189184">
+									<PropertyList>
+										<Property Name="EndPosition" Type="Real64" Value="28235.2916666667"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Music" ID="{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<MusicTrack Name="vintage_test_left_hand_d_body" ID="{0AEF0C1C-8E73-4251-8F23-A57AD1E59206}" ShortID="202337739">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Left Hand" ID="{6F3938D0-4CDE-4B08-A4E0-1015914025F7}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{0B49499B-707D-4C08-9E78-3E0F8D3DE93B}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_left_hand_d_body" ID="{58160BAF-30FA-44AC-9AC8-691570ADDDBB}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_left_hand_d_body.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="624991891"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{CEE04DB9-36BD-4108-8265-84AB46A59C63}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_left_hand_d_body" ID="{2CF5D468-51ED-4B65-8338-B2CA5CDEB40D}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="28235.2916666667"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_left_hand_d_body" ID="{58160BAF-30FA-44AC-9AC8-691570ADDDBB}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+										<MusicTrack Name="vintage_test_right_hand_d_body" ID="{94759985-F30A-4FB1-AB25-28496B0BD4A3}" ShortID="932631619">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsZeroLatency" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Vorbis Music" ID="{04B32FAC-77E2-44DB-92A1-9AAB21450EBB}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Vintage Right Hand" ID="{9CC84E2A-8039-463D-B684-29D740909D35}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{217DAE88-5D6E-44E7-B69E-14D88DA5D350}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vintage_test_right_hand_d_body" ID="{09308598-1B0A-479C-885B-BF4878935AF3}">
+													<Language>SFX</Language>
+													<AudioFile>vintage_test_right_hand_d_body.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="1047873097"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<Reference>
+														<Local>
+															<MusicTrackSequence Name="" ID="{6FC88FEF-2BBE-4C50-B0A0-88A353B528ED}">
+																<ObjectLists>
+																	<ObjectList Name="Clips">
+																		<Reference>
+																			<Local>
+																				<MusicClip Name="vintage_test_right_hand_d_body" ID="{764CA243-A7A6-49DF-9807-4A2DC1174D77}">
+																					<PropertyList>
+																						<Property Name="EndTrimOffset" Type="Real64" Value="28235.2916666667"/>
+																						<Property Name="FadeInMode" Type="int16" Value="0"/>
+																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																					</PropertyList>
+																					<AudioSourceRef Name="vintage_test_right_hand_d_body" ID="{09308598-1B0A-479C-885B-BF4878935AF3}"/>
+																				</MusicClip>
+																			</Local>
+																		</Reference>
+																	</ObjectList>
+																</ObjectLists>
+															</MusicTrackSequence>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Cues">
+											<Reference>
+												<Local>
+													<MusicCue Name="Entry Cue" ID="{ECBD680F-96C1-434B-933F-A502545B6819}"/>
+												</Local>
+											</Reference>
+											<Reference>
+												<Local>
+													<MusicCue Name="Exit Cue" ID="{5C954E4D-D12F-43DD-9B37-6BFD4E195509}">
+														<PropertyList>
+															<Property Name="CueType" Type="int16" Value="1"/>
+															<Property Name="TimeMs" Type="Real64" Value="28235.2916666667"/>
+														</PropertyList>
+													</MusicCue>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicSegment>
+							</ChildrenList>
+						</MusicPlaylistContainer>
 					</ChildrenList>
 				</Folder>
 			</ChildrenList>

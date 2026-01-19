@@ -7,6 +7,7 @@ class_name ObstaclePathResource extends Resource
 @export var lab_path := DEFAULT_LAB_PATH
 @export var school_path := DEFAULT_SCHOOL_PATH
 @export var secret_path := DEFAULT_SECRET_PATH
+@export var vintage_path := DEFAULT_VINTAGE_PATH
 
 const DEFAULT_DESERT_PATH := "res://assets/tilesetimages/desert_obstacles.png"
 const DEFAULT_BEACH_PATH := "res://assets/tilesetimages/beach_obstacles.png"
@@ -14,6 +15,7 @@ const DEFAULT_DUNGEON_PATH := "res://assets/tilesetimages/dungeon_obstacles.png"
 const DEFAULT_LAB_PATH := "res://assets/tilesetimages/lab_obstacles.png"
 const DEFAULT_SCHOOL_PATH := "res://assets/tilesetimages/school_obstacles.png"
 const DEFAULT_SECRET_PATH := "res://assets/tilesetimages/secret_obstacles.png"
+const DEFAULT_VINTAGE_PATH := "res://assets/tilesetimages/vintage_obstacles.png"
 
 const DEFAULT_DICT = {
 	"desert" : DEFAULT_DESERT_PATH,
@@ -21,7 +23,8 @@ const DEFAULT_DICT = {
 	"dungeon" : DEFAULT_DUNGEON_PATH,
 	"lab" : DEFAULT_LAB_PATH,
 	"school" : DEFAULT_SCHOOL_PATH,
-	"secret" : DEFAULT_SECRET_PATH
+	"secret" : DEFAULT_SECRET_PATH,
+	"vintage" : DEFAULT_VINTAGE_PATH
 }
 	
 var obstacle_path_dict = {
@@ -30,7 +33,8 @@ var obstacle_path_dict = {
 		"dungeon" : dungeon_path,
 		"lab" : lab_path,
 		"school" : school_path,
-		"secret" : secret_path
+		"secret" : secret_path,
+		"vintage" : vintage_path,
 	}
 
 func create_dict() -> Dictionary:
@@ -40,7 +44,8 @@ func create_dict() -> Dictionary:
 		"dungeon" : dungeon_path,
 		"lab" : lab_path,
 		"school" : school_path,
-		"secret" : secret_path
+		"secret" : secret_path,
+		"vintage" : vintage_path,
 	}
 	return new_dict
 
@@ -55,6 +60,7 @@ func get_value_by_stage_choice() -> String:
 func get_value_by_argument(choice: int):
 	update_internal_dict()
 	var path_to_load : String
+	print("peepee" + str(choice))
 	match choice:
 		SettingsContainer.multiplayer_stages_secret_enabled.SALOON:
 			path_to_load = obstacle_path_dict.desert
@@ -68,6 +74,8 @@ func get_value_by_argument(choice: int):
 			path_to_load = obstacle_path_dict.school
 		SettingsContainer.multiplayer_stages_secret_enabled.SECRET:
 			path_to_load = obstacle_path_dict.secret
+		SettingsContainer.multiplayer_stages_secret_enabled.VINTAGE:
+			path_to_load = obstacle_path_dict.vintage
 		_:
 			path_to_load = obstacle_path_dict.desert
 	return path_to_load

@@ -18,6 +18,7 @@ namespace AK
         static const AkUniqueID PLAY_MUSIC_BATTLE = 230359828U;
         static const AkUniqueID PLAY_MUSIC_DRAGOON_CAFE = 2372074968U;
         static const AkUniqueID PLAY_MUSIC_MAIN_MENU = 3968446557U;
+        static const AkUniqueID PLAY_PROJECTOR = 3664693610U;
         static const AkUniqueID SND_BOMB_EXPLODE = 1021163675U;
         static const AkUniqueID SND_BREAKABLE = 2391074366U;
         static const AkUniqueID SND_CLICK = 2141685911U;
@@ -40,6 +41,7 @@ namespace AK
         static const AkUniqueID ST_MINKI = 3862449989U;
         static const AkUniqueID ST_RUSH = 979156697U;
         static const AkUniqueID ST_STOP_MUSIC = 2548511007U;
+        static const AkUniqueID ST_VINTAGE = 2244648975U;
         static const AkUniqueID STOP_MUSIC = 2837384057U;
         static const AkUniqueID UNPAUSE_MUSIC_DRAGOON_CAFE = 2726913135U;
         static const AkUniqueID UNPAUSE_MUSIC_MAIN_MENU = 3895502332U;
@@ -47,6 +49,19 @@ namespace AK
 
     namespace STATES
     {
+        namespace BATTLE_STATE
+        {
+            static const AkUniqueID GROUP = 2739846761U;
+
+            namespace STATE
+            {
+                static const AkUniqueID A = 84696446U;
+                static const AkUniqueID B = 84696445U;
+                static const AkUniqueID C = 84696444U;
+                static const AkUniqueID NONE = 748895195U;
+            } // namespace STATE
+        } // namespace BATTLE_STATE
+
         namespace BATTLE_TRACK
         {
             static const AkUniqueID GROUP = 896293863U;
@@ -61,15 +76,31 @@ namespace AK
                 static const AkUniqueID NONE = 748895195U;
                 static const AkUniqueID RANDOM = 3048058352U;
                 static const AkUniqueID RUSH = 2275039111U;
+                static const AkUniqueID VINTAGE = 3229754765U;
             } // namespace STATE
         } // namespace BATTLE_TRACK
+
+        namespace GAME_STATE
+        {
+            static const AkUniqueID GROUP = 766723505U;
+
+            namespace STATE
+            {
+                static const AkUniqueID GAME_ON = 2219001485U;
+                static const AkUniqueID GAME_OVER = 1432716332U;
+                static const AkUniqueID GAME_TRANSITIONING = 3592636505U;
+                static const AkUniqueID NONE = 748895195U;
+            } // namespace STATE
+        } // namespace GAME_STATE
 
     } // namespace STATES
 
     namespace GAME_PARAMETERS
     {
+        static const AkUniqueID LEFTHAND_STINGER = 1750178298U;
         static const AkUniqueID MASTER = 4056684167U;
         static const AkUniqueID MUSIC = 3991942870U;
+        static const AkUniqueID RIGHTHAND_STINGER = 1286900989U;
         static const AkUniqueID SFX = 393239870U;
     } // namespace GAME_PARAMETERS
 
@@ -84,6 +115,10 @@ namespace AK
         static const AkUniqueID MASTER_AUDIO_BUS = 3803692087U;
         static const AkUniqueID MUSIC = 3991942870U;
         static const AkUniqueID SFX = 393239870U;
+        static const AkUniqueID VINTAGE_LEFT_HAND = 2133159467U;
+        static const AkUniqueID VINTAGE_LEFT_HAND_SIDECHAIN = 241961275U;
+        static const AkUniqueID VINTAGE_RIGHT_HAND = 3168807778U;
+        static const AkUniqueID VINTAGE_RIGHT_HAND_SIDECHAIN = 2246801478U;
     } // namespace BUSSES
 
     namespace AUDIO_DEVICES

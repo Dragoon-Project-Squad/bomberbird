@@ -1,0 +1,11 @@
+[gd_resource type="WwiseState" load_steps=2 format=3 uid="uid://dh8nnqjn3vlaq"]
+
+[ext_resource type="WwiseStateGroup" uid="uid://dt3ghsql2qj7j" path="res://Wwise/resources/State Group/{117D1A2A-2AFF-40B1-A09B-6B66A1FDD035}.tres" id="1_vb1bq"]
+
+[resource]
+group_ref = ExtResource("1_vb1bq")
+group_id = 766723505
+name = "game_on"
+id = 2219001485
+guid = "{D2241DEC-AA51-46EC-BF9B-90881B7B2CF4}"
+dummy = true

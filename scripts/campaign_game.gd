@@ -184,6 +184,10 @@ func start():
 	stage_announce_label.text = stage_data_arr[gamestate.current_save.last_stage].stage_node_title
 	stage_announce_label.show()
 	await get_tree().create_timer(0.1).timeout
+	
+	#set state to game_on so that Wwise knows to play music
+	Wwise.set_state("game_state", "game_on")
+	
 	fade.play("fade_in")
 
 	var init_stage_set: Dictionary = GraphHelper.bfs_get_values(

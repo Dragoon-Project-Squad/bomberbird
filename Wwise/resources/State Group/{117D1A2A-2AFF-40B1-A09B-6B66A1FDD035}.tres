@@ -1,0 +1,7 @@
+[gd_resource type="WwiseStateGroup" format=3 uid="uid://dt3ghsql2qj7j"]
+
+[resource]
+name = "game_state"
+id = 766723505
+guid = "{117D1A2A-2AFF-40B1-A09B-6B66A1FDD035}"
+dummy = true

@@ -10,12 +10,20 @@
     "Type": "User",
     "GUID": "{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}",
     "Language": "SFX",
-    "Hash": "{A43D5B1B-5C91-BD94-C4DC-87C236E66433}",
+    "Hash": "{27B972D8-6B73-EBFA-5CEA-5CF23A3D6630}",
     "ObjectPath": "Init",
     "ShortName": "Init",
     "Path": "Init.bnk",
     "Plugins": {
      "Custom": [
+      {
+       "Id": "17841642",
+       "Name": "Meter (Custom)",
+       "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music\\Vintage Right Hand Sidechain\\[Effect Slot [0]: (Meter)]\\Meter (Custom)",
+       "GUID": "{1B278C16-AE94-4678-86AE-093511F2B74B}",
+       "LibName": "Wwise Meter",
+       "LibId": "8454147"
+      },
       {
        "Id": "418997550",
        "Name": "Peak Limiter (Custom)",
@@ -23,6 +31,30 @@
        "GUID": "{E0262A90-E544-40B0-A8DC-32F2EB21A1FE}",
        "LibName": "Wwise Peak Limiter",
        "LibId": "7208963"
+      },
+      {
+       "Id": "553901620",
+       "Name": "Expander (Custom)",
+       "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music\\Vintage Left Hand\\[Effect Slot [0]: (Expander)]\\Expander (Custom)",
+       "GUID": "{E77F7758-AA6C-49A9-B358-B3036C75F36E}",
+       "LibName": "Wwise Expander",
+       "LibId": "7143427"
+      },
+      {
+       "Id": "689851107",
+       "Name": "Expander (Custom)",
+       "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music\\Vintage Right Hand\\[Effect Slot [0]: (Expander)]\\Expander (Custom)",
+       "GUID": "{581EF298-71D7-4E64-BE3F-0C0A5EDCA139}",
+       "LibName": "Wwise Expander",
+       "LibId": "7143427"
+      },
+      {
+       "Id": "719101692",
+       "Name": "Meter (Custom)",
+       "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music\\Vintage Left Hand Sidechain\\[Effect Slot [0]: (Meter)]\\Meter (Custom)",
+       "GUID": "{893EBBCC-7D54-4D26-BD15-2D7684D8F3DB}",
+       "LibName": "Wwise Meter",
+       "LibId": "8454147"
       }
      ],
      "AudioDevices": [
@@ -46,10 +78,62 @@
     },
     "Busses": [
      {
+      "Id": "241961275",
+      "Name": "Vintage Left Hand Sidechain",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music\\Vintage Left Hand Sidechain",
+      "GUID": "{4CF07948-472D-4CF8-B72C-122B90D326D9}",
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "719101692"
+        }
+       ]
+      }
+     },
+     {
       "Id": "393239870",
       "Name": "SFX",
       "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\SFX",
       "GUID": "{AF41BCA1-3B3D-4DB7-A468-8A67F0390435}"
+     },
+     {
+      "Id": "2133159467",
+      "Name": "Vintage Left Hand",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music\\Vintage Left Hand",
+      "GUID": "{6F3938D0-4CDE-4B08-A4E0-1015914025F7}",
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "553901620"
+        }
+       ]
+      }
+     },
+     {
+      "Id": "2246801478",
+      "Name": "Vintage Right Hand Sidechain",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music\\Vintage Right Hand Sidechain",
+      "GUID": "{44940C3F-5385-4D52-87EC-03942221953D}",
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "17841642"
+        }
+       ]
+      }
+     },
+     {
+      "Id": "3168807778",
+      "Name": "Vintage Right Hand",
+      "ObjectPath": "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music\\Vintage Right Hand",
+      "GUID": "{9CC84E2A-8039-463D-B684-29D740909D35}",
+      "PluginRefs": {
+       "Custom": [
+        {
+         "Id": "689851107"
+        }
+       ]
+      }
      },
      {
       "Id": "3803692087",
@@ -79,6 +163,18 @@
       "GUID": "{53D73489-9B3B-4EE1-AA1F-08B0448C5F63}"
      },
      {
+      "Id": "1286900989",
+      "Name": "righthand_stinger",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\sidechains\\righthand_stinger",
+      "GUID": "{3C7AD629-F796-419D-8277-F0604E4BB7FE}"
+     },
+     {
+      "Id": "1750178298",
+      "Name": "lefthand_stinger",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\sidechains\\lefthand_stinger",
+      "GUID": "{F3DCA231-347F-4574-B1F2-4C34B52D1624}"
+     },
+     {
       "Id": "3991942870",
       "Name": "Music",
       "ObjectPath": "\\Game Parameters\\Default Work Unit\\vol\\Music",
@@ -92,6 +188,38 @@
      }
     ],
     "StateGroups": [
+     {
+      "Id": "766723505",
+      "Name": "game_state",
+      "ObjectPath": "\\States\\Default Work Unit\\game_state",
+      "GUID": "{117D1A2A-2AFF-40B1-A09B-6B66A1FDD035}",
+      "States": [
+       {
+        "Id": "748895195",
+        "Name": "None",
+        "ObjectPath": "\\States\\Default Work Unit\\game_state\\None",
+        "GUID": "{88CD8E61-15F7-4595-8FE8-5D453E6D0407}"
+       },
+       {
+        "Id": "1432716332",
+        "Name": "game_over",
+        "ObjectPath": "\\States\\Default Work Unit\\game_state\\game_over",
+        "GUID": "{E86C340E-2859-4E1B-B2C5-A4F96142AA5E}"
+       },
+       {
+        "Id": "2219001485",
+        "Name": "game_on",
+        "ObjectPath": "\\States\\Default Work Unit\\game_state\\game_on",
+        "GUID": "{D2241DEC-AA51-46EC-BF9B-90881B7B2CF4}"
+       },
+       {
+        "Id": "3592636505",
+        "Name": "game_transitioning",
+        "ObjectPath": "\\States\\Default Work Unit\\game_state\\game_transitioning",
+        "GUID": "{2EE1956B-77FC-4AD6-BEBB-5517062DA249}"
+       }
+      ]
+     },
      {
       "Id": "896293863",
       "Name": "battle_track",
@@ -129,6 +257,12 @@
         "GUID": "{A258802D-1B1E-4885-976C-872C3B7D09FE}"
        },
        {
+        "Id": "3229754765",
+        "Name": "vintage",
+        "ObjectPath": "\\States\\Default Work Unit\\battle_track\\vintage",
+        "GUID": "{BD63CDD9-0AA2-4840-B958-3EEE31A22E2F}"
+       },
+       {
         "Id": "3284605273",
         "Name": "dad_drive",
         "ObjectPath": "\\States\\Default Work Unit\\battle_track\\dad_drive",
@@ -145,6 +279,38 @@
         "Name": "bounty_hunter_jam",
         "ObjectPath": "\\States\\Default Work Unit\\battle_track\\bounty_hunter_jam",
         "GUID": "{A19BA789-9EEE-4E1A-83B9-E21D457D698D}"
+       }
+      ]
+     },
+     {
+      "Id": "2739846761",
+      "Name": "battle_state",
+      "ObjectPath": "\\States\\Default Work Unit\\battle_state",
+      "GUID": "{951EB862-2248-4D0C-A84A-4EB2FFFAB4E9}",
+      "States": [
+       {
+        "Id": "84696444",
+        "Name": "c",
+        "ObjectPath": "\\States\\Default Work Unit\\battle_state\\c",
+        "GUID": "{ED2DE8A7-8136-40A1-8CBB-F2AD0C52B5A0}"
+       },
+       {
+        "Id": "84696445",
+        "Name": "b",
+        "ObjectPath": "\\States\\Default Work Unit\\battle_state\\b",
+        "GUID": "{60AD7B32-D785-4B72-8B03-674C1F3C05CB}"
+       },
+       {
+        "Id": "84696446",
+        "Name": "a",
+        "ObjectPath": "\\States\\Default Work Unit\\battle_state\\a",
+        "GUID": "{D5BCFFA0-041F-4BA0-BC64-D8AD8E455246}"
+       },
+       {
+        "Id": "748895195",
+        "Name": "None",
+        "ObjectPath": "\\States\\Default Work Unit\\battle_state\\None",
+        "GUID": "{94FB7A0C-2D6D-484B-B723-68561724D03E}"
        }
       ]
      }
@@ -628,6 +794,6 @@
     ]
    }
   ],
-  "FileHash": "{1418AB5E-0BBF-5203-D4BB-2298576A05E1}"
+  "FileHash": "{014627D8-D954-3088-44CB-D3850FCB7204}"
  }
 }

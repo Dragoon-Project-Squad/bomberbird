@@ -29,8 +29,8 @@ func dir_contents(path: String):
 func loadstream(index: int, this_stream: AudioStreamOggVorbis):
 	if this_stream == null:
 		return
-	if mus_player.playing:
-		mus_player.stop()
+	#if mus_player.playing:
+		#mus_player.stop()
 	mus_player.stream.add_stream(index, this_stream)
 	this_stream.loop = true
 	index = index + 1

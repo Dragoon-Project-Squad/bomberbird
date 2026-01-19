@@ -5,6 +5,7 @@ signal breakable_destroyed
 @onready var breakable_sfx_player: AkEvent2D = $BreakableSound
 
 const TILESIZE := 32
+const KNOWN_VINTAGE_PATH := "res://assets/tilesetimages/vintage_obstacles.png"
 var collisions_array := []
 
 var in_use: bool = false
@@ -57,7 +58,12 @@ func place(pos: Vector2, pickup: int, texture_path: String):
 	assert(globals.is_not_pickup_seperator(pickup))
 	assert(pickup != globals.pickups.RANDOM)
 
+	# Turns the obstacles in the vintage stage black and white using the vintage shader.
+	# IDK why it's loading only the saloon obstacles when the stage is set to vintage, but whatever.
+	if texture_path == KNOWN_VINTAGE_PATH:
+		apply_vintage_shader()
 	$Sprite.texture = load(texture_path)
+	
 	$AnimationPlayer.play("RESET")
 	contained_pickup = pickup
 	in_use = true
@@ -65,7 +71,10 @@ func place(pos: Vector2, pickup: int, texture_path: String):
 	$Shape.set_deferred("disabled", 0)
 	self.position = pos
 	self.show()
-	
+
+func apply_vintage_shader() -> void:
+	$Sprite.set_material(load("res://scenes/stages/vintage_stages/vintage.tres"))
+
 @rpc("call_local")
 func exploded(by_who):
 	if _exploded_barrier: return #prevents a racecondition of the game attempting to spawn a pickup twice

@@ -42,6 +42,10 @@
 							<Position X="2" Y="2"/>
 						</Module>
 						<Module>
+							<ObjectRef Name="snd_cockobo_summon" ID="{E83BFE6E-78E2-47FB-B4F7-CF945E402938}" WorkUnitID="{8AD54DB8-D7FD-4BC5-8670-3A94D6020772}"/>
+							<Position X="2" Y="3"/>
+						</Module>
+						<Module>
 							<ObjectRef Name="snd_bomb_explode" ID="{7EA4F10D-37A0-4895-A517-0D0AD765DCC8}" WorkUnitID="{8AD54DB8-D7FD-4BC5-8670-3A94D6020772}"/>
 							<Position X="3" Y="0"/>
 						</Module>
@@ -56,6 +60,18 @@
 						<Module>
 							<ObjectRef Name="snd_pickup_powerup" ID="{0333EAEF-F64E-4F40-BFEF-2089F8413F47}" WorkUnitID="{8AD54DB8-D7FD-4BC5-8670-3A94D6020772}"/>
 							<Position X="3" Y="3"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="snd_cockobo_footstep" ID="{8E6F453C-B47A-4A0D-86BB-7FDA3FF4755A}" WorkUnitID="{8AD54DB8-D7FD-4BC5-8670-3A94D6020772}"/>
+							<Position X="4" Y="1"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="snd_cockobo_summon" ID="{E83BFE6E-78E2-47FB-B4F7-CF945E402938}" WorkUnitID="{8AD54DB8-D7FD-4BC5-8670-3A94D6020772}"/>
+							<Position X="5" Y="0"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="snd_cockobo_die" ID="{9D6DA87B-53C0-4DE0-AA78-0763BAA77441}" WorkUnitID="{8AD54DB8-D7FD-4BC5-8670-3A94D6020772}"/>
+							<Position X="5" Y="1"/>
 						</Module>
 					</ModuleList>
 					<RTPCValueList ShowAll="true"/>

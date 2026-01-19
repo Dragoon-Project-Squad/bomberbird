@@ -10,22 +10,34 @@ func _ready():
 	super()
 	gamestate.game_error.connect(_on_game_error)
 	
+	#sets Wwise states for horizontally adaptive tracks to "a" and "game_on", aka the first track and the game's not over
+	Wwise.set_state("game_state", "game_on")
+	Wwise.set_state("battle_state", "a")
+	
 func start():
 	if !stage:
 		load_stage()
 		stage.reset.call_deferred()
 	stage.enable.call_deferred() #Set up the stage.
 	freeze_players.call_deferred()
+	
+	#This makes sure the actual music plays after each round
+	Wwise.set_state("game_state", "game_on")
+	
 	await remove_the_darkness()
 	show_all_players()
 	await start_stage_start_countdown() #
 	game_ended = false
 	stage_done = false
+	
 
 func load_stage() -> void:
 	var stage_path := load_chosen_stage()
 	stage = load(stage_path).instantiate()
 	stage_loader.add_child(stage)
+	
+	#Start music here instead of at activateuiandmusic to have a more seamless music experience
+	stage.start_music()	
 
 func load_chosen_stage() -> String:
 	var stage_path_to_load
@@ -42,6 +54,8 @@ func load_chosen_stage() -> String:
 			stage_path_to_load = globals.SCHOOL_RAND_STAGE_PATH
 		SettingsContainer.multiplayer_stages_secret_enabled.SECRET:
 			stage_path_to_load = globals.SECRET_RAND_STAGE_PATH
+		SettingsContainer.multiplayer_stages_secret_enabled.VINTAGE:
+			stage_path_to_load = globals.VINTAGE_RAND_STAGE_PATH
 		_:
 			stage_path_to_load = globals.DESERT_RAND_STAGE_PATH
 	return stage_path_to_load
@@ -64,7 +78,6 @@ func start_stage_start_countdown() -> Signal:
 	#Animation contains activate_ui_and_music()
 
 func activate_ui_and_music():
-	stage.start_music()
 	%MatchTimer.start()
 	game_ui.start_timer()
 	
@@ -112,11 +125,26 @@ func _check_ending_condition(_alive_enemies: int = 0):
 			# SHOW EM WHAT THEY'VE WON
 			game_ui.increase_score(alive_players[0].name.to_int())
 			await alive_players[0].play_victory(false)
+		
+		var points_to_win = SettingsContainer.get_points_to_win()
+		
+		#horizontal adaptive music stuff
+		if !alive_players.is_empty():
+			var top_score = game_ui.get_player_score(alive_players[0].name.to_int())
+			if  top_score >= float(points_to_win) * 2 / 3:
+				Wwise.set_state("battle_state", "c")
+			elif float(top_score) >= float(points_to_win) * 1 / 3:
+				Wwise.set_state("battle_state", "b")
+		
 		await play_fade_out()
 		await get_tree().create_timer(2).timeout
 		#DO WIN SCREEN STUFF
-		if !alive_players.is_empty() && game_ui.get_player_score(alive_players[0].name.to_int()) >= SettingsContainer.get_points_to_win():
+		if !alive_players.is_empty() && game_ui.get_player_score(alive_players[0].name.to_int()) >= points_to_win:
 			if is_multiplayer_authority():
+				
+				#plays the victory track for the vintage stage (and other horizontally adaptive tracks)
+				Wwise.set_state("game_state", "game_over")
+				
 				gamestate.set_player_scores(globals.game.game_ui.get_all_scores())
 				show_victory_screen.rpc(gamestate.player_data_master_dict.duplicate())
 		else:
@@ -129,7 +157,11 @@ func _check_ending_condition(_alive_enemies: int = 0):
 
 func stop_the_match():
 	game_ended = true
-	stage.stop_music()
+	
+	#stage.stop_music()
+	#Set wwise state to the transition track which will depend on music track state
+	Wwise.set_state("game_state", "game_transitioning")
+	
 	stage.stop_hurry_up()
 	if not %MatchTimer.is_stopped():
 		%MatchTimer.stop()

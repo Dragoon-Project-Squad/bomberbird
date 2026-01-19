@@ -43,7 +43,7 @@ func options_menu_inputs() -> void:
 func unlock_mint() -> void:
 	set_mint_unlock_vars()
 	correct_sound.post(self)
-	password_status.text = "MAID MINT, WISP, AND AKIBA STAGE UNLOCKED!"
+	password_status.text = "MAID MINT, WISP, AKIBA, AND VINTAGE STAGE UNLOCKED!"
 
 func set_mint_unlock_vars() -> void:
 	globals.secrets.mint = true
