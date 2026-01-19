@@ -84,7 +84,6 @@ func disable() -> void:
 	current_tile_index = 0
 	current_falling_unbreakable_index = 0
 	target_tiles = []
-
 	hurry_up_start_timer.stop()
 	hurry_up_step_timer.stop()
 

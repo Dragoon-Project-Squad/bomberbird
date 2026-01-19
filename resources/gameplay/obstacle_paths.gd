@@ -60,7 +60,6 @@ func get_value_by_stage_choice() -> String:
 func get_value_by_argument(choice: int):
 	update_internal_dict()
 	var path_to_load : String
-	print("peepee" + str(choice))
 	match choice:
 		SettingsContainer.multiplayer_stages_secret_enabled.SALOON:
 			path_to_load = obstacle_path_dict.desert
