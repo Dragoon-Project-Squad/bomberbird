@@ -15,10 +15,13 @@ func _ready() -> void:
 	gamestate.game_error.connect(_on_game_error)
 	gamestate.secret_status_sent.connect(_on_secret_status_sent)
 	if not multiplayer.get_peers().is_empty():
-		print("I AM ONLINE")
+		print_debug("Online session detected, sent to lobby instead of connection screen.")
 		show_character_select_screen()
+	else:
+		open_appropriate_connection_screen()
+		
 	play_lobby_music()
-	open_appropriate_connection_screen()
+
 	
 func play_lobby_music() -> void:
 	Wwise.post_event("stop_music", self)

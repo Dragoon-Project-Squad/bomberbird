@@ -44,7 +44,8 @@ func _ready():
 			
 	self.animation_player.play("RESET")
 	init_pickups()
-	do_invulnerabilty()
+	if is_multiplayer_authority():
+		do_invulnerabilty.rpc()
 
 
 func _physics_process(delta: float):
