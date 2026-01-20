@@ -9,7 +9,7 @@ var bomb_placed: int = 0
 var mine_placed: int = 0
 
 func _enter() -> void:
-	#TODO play burry animation
+	#TODO play bury animation
 	if self.bomb_placed >= self.enemy.get_current_bomb_count(): 
 		state_changed.emit(self, "wander")
 		return
