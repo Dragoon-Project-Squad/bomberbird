@@ -247,7 +247,7 @@ func _generate_breakables_with_weights(_breakable_table: BreakableTable):
 	pass
 	
 ## Generates all the breakables from the handed table
-func _generate_breakables_with_amounts(_breakable_table: BreakableTable, pickup_table: PickupTable):
+func _generate_breakables_with_amounts(_breakable_table: BreakableTable, _pickup_table: PickupTable):
 	pass
 
 ## Spawns a breakable 

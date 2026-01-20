@@ -2,6 +2,7 @@ extends Control
 
 @onready var confirm_button: SeButton = $MarginContainer/VBoxContainer/HBoxContainer/ConfirmButton
 @onready var battle_settings_container: Control = $MarginContainer/VBoxContainer/BattleSettingsContainer
+var options
 
 signal battle_settings_confirmed
 signal battle_settings_aborted
@@ -15,14 +16,14 @@ func setup_for_host() -> void:
 func setup_for_peers() -> void:
 	confirm_button.disabled = true
 	confirm_button.text = "Waiting for host"
-	var options = battle_settings_container.find_child("VBoxContainer", true).get_children()
+	options = battle_settings_container.find_child("VBoxContainer", true).get_children()
 	for opt in options:
 		if opt is BattleSettingControl:
 			opt.disable()
 
 func _on_confirm_button_pressed() -> void:
 	if not is_multiplayer_authority(): return
-	var options = battle_settings_container.get_children()
+	options = battle_settings_container.find_child("VBoxContainer", true).get_children()
 	apply_battle_settings.rpc()
 	proceed_to_next_screen.rpc()
 	
@@ -50,7 +51,7 @@ func update_battle_sets(settings_dict: Dictionary = {}):
 		if settings_dict.is_empty():
 			return
 		SettingsContainer.set_battle_settings_vars_from_dict(settings_dict)
-		var options = battle_settings_container.find_child("VBoxContainer", true).get_children()
+		options = battle_settings_container.find_child("VBoxContainer", true).get_children()
 		for opt in options:
 			if opt is BattleSettingControl:
 				(opt as BattleSettingControl).load_data()

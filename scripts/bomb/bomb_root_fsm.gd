@@ -26,7 +26,7 @@ const FUSES = {
 var fuse_length: float = FUSES.NORMAL
 var cell_number: int = -1
 
-enum {DISABLED, STATIONARY, AIRBORN, SLIDING, SIZE} #all states plus a SIZE constant that has to remain the last entry
+enum {DISABLED, STATIONARY, AIRBORNE, SLIDING, SIZE} #all states plus a SIZE constant that has to remain the last entry
 var state: int = DISABLED #this is the authority if ever somehow two state nodes try to execute text_overrun_behavior
 
 var state_map: Array[Node2D]
@@ -98,7 +98,7 @@ func do_place(bombPos: Vector2, boost: int = self.boost, is_dead: bool = false) 
 		STATIONARY: #a bomb should not already be in the STATIONARY state when it is getting placed
 			printerr("do place is called from a wrong state")
 			return 2
-		AIRBORN:
+		AIRBORNE:
 			force_collision = true #If it state is airborn we do now want the collision ignore logic to work rather we want the bomb to collied immediately
 		SLIDING:
 			force_collision = false
@@ -135,7 +135,7 @@ func do_misobon_throw(origin: Vector2, target: Vector2, direction: Vector2i, is_
 		return 2
 
 	in_use = true
-	set_state(AIRBORN)
+	set_state(AIRBORNE)
 	bomb_owner_is_dead = is_dead
 	var bomb_authority: Node2D = state_map[state]
 	bomb_authority.throw(origin, target, direction)
@@ -153,7 +153,7 @@ func do_punch(direction: Vector2i):
 	in_use = true
 	fuse_time_passed = state_map[state].get_node("AnimationPlayer").current_animation_position
 
-	set_state(AIRBORN)
+	set_state(AIRBORNE)
 	bomb_owner_is_dead = false
 	var bomb_authority: Node2D = state_map[state]
 	bomb_authority.throw(
@@ -168,8 +168,8 @@ func do_punch(direction: Vector2i):
 
 @rpc("call_local")
 func do_throw(direction: Vector2i, new_position: Vector2):
-	if state != AIRBORN: #this bomb has should just have been taken from the player pool. if not a fatal error has occured
-		printerr("a player wanted to throw a bomb that already has an active state")
+	if state != AIRBORNE: #this bomb has should just have been taken from the player pool. if not a fatal error has occured
+		printerr("S player wanted to throw a bomb that already has an active state")
 		return 2
 	
 	self.position = new_position
@@ -192,7 +192,7 @@ func carry():
 	if self.type == HeldPickups.bomb_types.MINE:
 		return
 	self.in_use = false # this might be a problem if world reset happens while a player is carrying a bomb causing this bomb not be be reset properly
-	set_state(AIRBORN)
+	set_state(AIRBORNE)
 
 @rpc("call_local")
 func boss_carry(): # boss just be build different ig
@@ -201,12 +201,12 @@ func boss_carry(): # boss just be build different ig
 	if self.type == HeldPickups.bomb_types.MINE:
 		return
 	world_data.set_tile(world_data.tiles.EMPTY, self.global_position)	
-	set_state(AIRBORN)
+	set_state(AIRBORNE)
 
 @rpc("call_local")
 func do_kick(direction: Vector2i):
 	if state != STATIONARY:
-		printerr("Bomb already active")
+		print_debug("Kick called on non-stationairy bomb.")
 		return 2
 	if self.type == HeldPickups.bomb_types.MINE:
 		return 1

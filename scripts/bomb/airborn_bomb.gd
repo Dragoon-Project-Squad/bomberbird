@@ -4,7 +4,7 @@ extends Area2D
 const MISOBON_THROW_TIME: float = 0.3
 const MISOBON_THROW_ANGLE_RAD: float = - PI / 8
 const TILESIZE: int = 32
-enum {DISABLED, AIRBORN, CHECKING, PLACING, ENUM_SIZE}
+enum {DISABLED, AIRBORNE, CHECKING, PLACING, ENUM_SIZE}
 var state: int = DISABLED
 
 #throwing state variables
@@ -43,7 +43,7 @@ func _physics_process(delta: float) -> void:
 		CHECKING:
 			if !check_bounds():
 				check_space()
-		AIRBORN:
+		AIRBORNE:
 			throw_physics(delta)
 		
 ## sets an internal state for airborn bomb
@@ -52,11 +52,11 @@ func set_state(new_state: int):
 	match new_state:
 		DISABLED: #I wrote this and I hate it
 			self.state = new_state
-		AIRBORN:
+		AIRBORNE:
 			if self.state == DISABLED || self.state == CHECKING:
 				self.state = new_state
 		CHECKING:
-			if self.state == AIRBORN:
+			if self.state == AIRBORNE:
 				self.state = new_state
 		PLACING:
 			if self.state == CHECKING:
@@ -159,7 +159,7 @@ func throw(origin: Vector2, target: Vector2, direction: Vector2i, angle_rad: flo
 			push_error("throw must be handed a valid direction (UP, DOWN, LEFT o RIGHT) not: ", direction)
 			return
 
-	set_state(AIRBORN)
+	set_state(AIRBORNE)
 
 ## in case of a down= or upwards throw the arch in just a straigh line
 func calculate_line(diff: Vector2):

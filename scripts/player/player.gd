@@ -220,7 +220,7 @@ func carry_bomb():
 		return 1
 	if not is_multiplayer_authority(): return 5
 	if bomb_to_throw != null: # this is really bad how'd this happen
-		printerr("tried to carry a carried bomb")
+		printerr("Player tried to carry a carried bomb.")
 		bomb_to_throw.disable.rpc()
 		bomb_pool.return_obj(bomb_to_throw)
 		return 2

@@ -28,7 +28,7 @@ func play_lobby_music() -> void:
 	Wwise.post_event("play_music_dragoon_cafe", self)
 
 func open_appropriate_connection_screen() -> void:
-	if not SteamManager.game_is_steam_powered:
+	if not SteamManager.is_steam_powered():
 		vanilla_connection_screen.show()
 		assign_correct_connection_screen()
 	else:
@@ -36,7 +36,7 @@ func open_appropriate_connection_screen() -> void:
 		assign_correct_connection_screen()
 
 func assign_correct_connection_screen() -> void:
-	if not SteamManager.game_is_steam_powered:
+	if not SteamManager.is_steam_powered():
 		connect_screen = vanilla_connection_screen
 	else:
 		connect_screen = steam_connection_screen

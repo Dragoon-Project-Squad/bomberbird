@@ -149,11 +149,8 @@ guid = "{44940C3F-5385-4D52-87EC-03942221953D}"
 id = 2246801478
 
 [sub_resource type="WwiseTreeObject" id="WwiseTreeObject_o7sea"]
-path = "\\Master-Mixer Hierarchy\\Default Work Unit\\Master Audio Bus\\Music"
 children = [SubResource("WwiseTreeObject_yyrou"), SubResource("WwiseTreeObject_geu6g"), SubResource("WwiseTreeObject_5n8hf"), SubResource("WwiseTreeObject_tnib1")]
-type = 2
 name = "Music"
-guid = "{E9F56E65-05BD-496D-98A7-1313F3BB7DBB}"
 id = 3991942870
 
 [sub_resource type="WwiseTreeObject" id="WwiseTreeObject_lrto0"]

@@ -22,6 +22,9 @@ func _ready():
 	timeout_timer.connect("timeout", Callable(self, "_on_connection_timeout"))
 	add_child(timeout_timer)
 
+func _on_host_pressed():
+	multiplayer_game_hosted.emit()
+	
 func _on_connection_timeout():
 	if gamestate.peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
 		multiplayer.multiplayer_peer = null  # Reset the multiplayer peer
