@@ -47,7 +47,7 @@ func reveal_secret_characters() -> void:
 		nimi.show()
 
 func reveal_networking_buttons() -> void:
-	if SteamManager.game_is_steam_powered:
+	if SteamManager.is_steam_powered():
 		steam_friends_label.show()
 		steam_friends_link.show()
 	else:
@@ -255,7 +255,7 @@ func proceed_to_next_screen():
 	characters_confirmed.emit()
 
 func _on_find_public_ip_pressed():
-	Steam.activateGameOverlay("Friends")
+	SteamManager.steam_api.activateGameOverlay("Friends")
 
 func _on_steam_friends_link_pressed() -> void:
-	Steam.activateGameOverlay("Friends")
+	SteamManager.steam_api.activateGameOverlay("Friends")
