@@ -74,8 +74,8 @@ func enable():
 	show()
 
 @rpc("call_local")
-func place(pos: Vector2, indestructable: bool = false):
-	self.indestructable = indestructable
+func place(pos: Vector2, is_indestructable: bool = false):
+	self.indestructable = is_indestructable
 	self.position = pos
 	world_data.set_tile(world_data.tiles.PICKUP, self.global_position)
 	set_state(PLACED)
