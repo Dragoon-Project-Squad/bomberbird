@@ -60,7 +60,7 @@ func get_segment_id(progress: float) -> int:
 	for i in range(1, 4):
 		if i * seg_len - seg_len / 2 <= progress && progress < (i+1) *seg_len - seg_len / 2:
 			return i
-	printerr("could not evaluate segment index for progress: ", progress, "and curve length of:", curve_len)
+	printerr("Could not evaluate segment index for progress: ", progress, "and curve length of:", curve_len)
 	return -1 #this indicateds something went wrong, tho considering the modolo of progress is handeled by godot this should never happen
 
 ## same as get_segment_id but returns a Vector2i directional Vector instead
