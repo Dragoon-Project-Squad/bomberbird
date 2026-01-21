@@ -110,6 +110,7 @@ var jump_config: Dictionary[String, Variant] = {
 }
 var is_jumping := false
 
+
 func _ready():
 	player_died.connect(globals.player_manager._on_player_died)
 	player_revived.connect(globals.player_manager._on_player_revived)
@@ -135,8 +136,9 @@ func _ready():
 	pickups.reset()
 	self.animation_player.play("RESET")
 	init_pickups()
+	await get_tree().process_frame
 	if is_multiplayer_authority():
-		do_invulnerabilty.rpc()
+		do_invulnerability.rpc()
 
 func init_pickups():
 	if !is_multiplayer_authority(): return
@@ -157,7 +159,7 @@ func init_pickups():
 	if self.pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] == HeldPickups.exclusive.BOMBTHROUGH:
 		enable_bombclip.rpc()
 	if self.pickups.held_pickups[globals.pickups.INVINCIBILITY_VEST]:
-		do_invulnerabilty.rpc(INVULNERABILITY_POWERUP_TIME)
+		do_invulnerability.rpc(INVULNERABILITY_POWERUP_TIME)
 	if self.pickups.held_pickups[globals.pickups.VIRUS] > pickups.virus.DEFAULT:
 		virus.rpc()
 	if self.pickups.held_pickups[globals.pickups.MOUNTGOON]:
@@ -190,7 +192,7 @@ func place(pos: Vector2):
 	self.animation_player.play("RESET")
 	await animation_player.animation_finished
 	if is_multiplayer_authority():
-		do_invulnerabilty.rpc()
+		do_invulnerability.rpc()
 	_died_barrier = false
 
 #region all bomb functions
@@ -518,7 +520,7 @@ func exit_death_state():
 	stunned = false
 	is_dead = false
 	if is_multiplayer_authority():
-		do_invulnerabilty.rpc()
+		do_invulnerability.rpc()
 
 @rpc("call_local")
 func reset():
@@ -731,7 +733,7 @@ func mount_exploded() -> void:
 	set_sprite_to_walk()
 	reset_graphic_positions()
 	remove_mount_ability()
-	do_invulnerabilty.rpc()
+	do_invulnerability.rpc()
 	_died_barrier = false
 
 func reset_graphic_positions() -> void:
@@ -819,7 +821,7 @@ func set_sprite_to_walk() -> void:
 	
 ## starts the invulnerability and its animation
 @rpc("call_local")
-func do_invulnerabilty(time: float = INVULNERABILITY_SPAWN_TIME):
+func do_invulnerability(time: float = INVULNERABILITY_SPAWN_TIME):
 	# if there is already a longer invulnerability just leave that be
 	if self.invul_timer && self.invul_timer.time_left >= time: return
 	# if there is already a shorter invulnerability overwrite it

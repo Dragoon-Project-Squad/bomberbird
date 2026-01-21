@@ -2,10 +2,13 @@ extends MisobonPlayer
 
 @onready var inputs = $Inputs
 
+func _enter_tree():
+	if str(name).is_valid_int():
+		#get_node("Inputs/InputsSync").set_multiplayer_authority(str(name).to_int())
+		set_multiplayer_authority(str(name).to_int()) #Set the entire player to be owned by this person.
+		
 func _ready() -> void:
 	progress = synced_progress
-	if str(name).is_valid_int():
-		get_node("Inputs/InputsSync").set_multiplayer_authority(str(name).to_int())
 	super()
 
 func _process(delta: float) -> void:
