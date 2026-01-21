@@ -1,4 +1,5 @@
 extends Control
+
 @onready var title_screen: Control = $TitleScreen
 @onready var button_box: VBoxContainer = $ButtonBox
 @onready var options_menu: Control = $OptionsMenu
@@ -8,6 +9,7 @@ extends Control
 signal options_menu_entered
 
 var preload_credits_scene = preload("res://scenes/credits/credits_screen.tscn")
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# stops all music to be safe
@@ -20,11 +22,12 @@ func _ready() -> void:
 	steam_powered_launch_checks()
 
 func steam_powered_launch_checks():
-	if SteamManager.steam_is_initialized == true:
+	if SteamManager.steam_checked_on_boot == true: #If Steam initialization was already attmepted, do nothing.
 		return
-	if SteamManager.game_is_steam_powered:
+	#SteamManager.determine_platform()
+	if SteamManager.this_platform == "steam":
 		gamestate.execute_post_boot_steam_framework_methods()
-		SteamManager.check_steam_command_line_arguments()
+	SteamManager.steam_checked_on_boot = true
 	
 func switch_to_options_menu() -> void:
 	hide_main_menu()
@@ -59,19 +62,19 @@ func check_secret() -> void:
 	#Do NOT set it to false if the data isn't there.
 	if SettingsContainer.get_mint_flag() == "boo":
 		globals.secrets.mint = true
-		print_debug("Mint Secret TRUE")
+		#print_debug("Mint Secret TRUE")
 	if SettingsContainer.get_snuffy_flag() == "shiny":
 		globals.secrets.snuffy = true
-		print_debug("Snuffy Secret TRUE")
+		#print_debug("Snuffy Secret TRUE")
 	if SettingsContainer.get_laimu_flag() == "ferret":
 		globals.secrets.laimu = true
-		print_debug("Laimu Secret TRUE")
+		#print_debug("Laimu Secret TRUE")
 	if SettingsContainer.get_dooby_flag() == "doobinit":
 		globals.secrets.dooby = true
-		print_debug("Dooby Secret TRUE")
+		#print_debug("Dooby Secret TRUE")
 	if SettingsContainer.get_nimi_flag() == "konbakuwa":
 		globals.secrets.nimi = true
-		print_debug("Nimi Secret TRUE")
+		#print_debug("Nimi Secret TRUE")
 
 func _on_single_player_pressed() -> void:
 	# stops ALL music

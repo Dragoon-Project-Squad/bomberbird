@@ -113,7 +113,7 @@ func init_pickups():
 	if self.pickups.held_pickups[globals.pickups.GENERIC_EXCLUSIVE] == HeldPickups.exclusive.BOMBTHROUGH:
 		enable_bombclip()
 	if self.pickups.held_pickups[globals.pickups.INVINCIBILITY_VEST]:
-		do_invulnerabilty(Player.INVULNERABILITY_POWERUP_TIME)
+		do_invulnerability(Player.INVULNERABILITY_POWERUP_TIME)
 
 func get_current_bomb_count() -> int:
 	return init_bomb_count + pickups.held_pickups[globals.pickups.BOMB_UP]

@@ -15,17 +15,20 @@ func _ready() -> void:
 	gamestate.game_error.connect(_on_game_error)
 	gamestate.secret_status_sent.connect(_on_secret_status_sent)
 	if not multiplayer.get_peers().is_empty():
-		print("I AM ONLINE")
+		print_debug("Online session detected, sent to lobby instead of connection screen.")
 		show_character_select_screen()
+	else:
+		open_appropriate_connection_screen()
+		
 	play_lobby_music()
-	open_appropriate_connection_screen()
+
 	
 func play_lobby_music() -> void:
 	Wwise.post_event("stop_music", self)
 	Wwise.post_event("play_music_dragoon_cafe", self)
 
 func open_appropriate_connection_screen() -> void:
-	if not SteamManager.game_is_steam_powered:
+	if not SteamManager.is_steam_powered():
 		vanilla_connection_screen.show()
 		assign_correct_connection_screen()
 	else:
@@ -33,7 +36,7 @@ func open_appropriate_connection_screen() -> void:
 		assign_correct_connection_screen()
 
 func assign_correct_connection_screen() -> void:
-	if not SteamManager.game_is_steam_powered:
+	if not SteamManager.is_steam_powered():
 		connect_screen = vanilla_connection_screen
 	else:
 		connect_screen = steam_connection_screen

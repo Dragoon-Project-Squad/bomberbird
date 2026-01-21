@@ -1,20 +1,26 @@
 extends Node
 
-var game_is_steam_powered : bool = false #Enables ALL Steam content.
-var steam_is_initialized : bool = false #Steam is NOT ready.
-
+var this_platform := "itch" 
+var steam_api : Object = null
 var startupargs := OS.get_cmdline_args()
 var joined_lobby_on_boot = null
+var steam_checked_on_boot = false
 
 const STEAM_APP_ID := 480 #Don't set this to the correct value until the game is released.
 
 func _ready() -> void:
-	#pass
-	check_steam_powered()
+	pass
 
-func check_steam_powered():
+func is_steam_powered() -> bool:
+	if this_platform == "steam" && steam_api != null:
+		return true
+	return false
+
+func determine_platform() -> void:
 	if Engine.has_singleton("Steam"):
-		game_is_steam_powered = true
+		this_platform = "steam"
+	else:
+		this_platform = "itch"
 
 func check_steam_command_line_arguments():
 	# There are arguments to process
@@ -26,13 +32,15 @@ func check_steam_command_line_arguments():
 		joined_lobby_on_boot = int(startupargs[1])
 		
 func initialize_steam() -> void:
-	var initialize_response: Dictionary = Steam.steamInitEx(STEAM_APP_ID, true)
-	print("Did Steam initialize?: %s " % initialize_response)
-
-	if initialize_response['status'] > Steam.STEAM_API_INIT_RESULT_OK:
-		printerr("Failed to initialize Steam, shutting down: %s" % initialize_response)
-		# Show some kind of prompt so the game doesn't suddently stop working
-		#show_warning_prompt()
-		get_tree().quit() #Or just blow up the game instead.
+	if this_platform == "steam":
+		steam_api = Engine.get_singleton("Steam")
+		var initialize_response: Dictionary = steam_api.steamInitEx(STEAM_APP_ID, true)
+		
+		if initialize_response['status'] > steam_api.STEAM_API_INIT_RESULT_OK:
+			printerr("Failed to initialize Steam, shutting down: %s" % initialize_response)
+			# Show some kind of prompt so the game doesn't suddently stop working
+			#TODO Write warning prompt
+			get_tree().quit() #Or just blow up the game instead.
+			
 	else:
-		steam_is_initialized = true
+		steam_api = null

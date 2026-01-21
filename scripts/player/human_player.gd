@@ -8,10 +8,13 @@ var is_carrying_bomb := false
 var bomb_hold_timer := 0.0
 var jump_cooldown := 0.0
 
+func _enter_tree():
+	if str(name).is_valid_int():
+		#get_node("Inputs/InputsSync").set_multiplayer_authority(str(name).to_int())
+		set_multiplayer_authority(str(name).to_int()) #Set the entire player to be owned by this person.
+		
 func _ready():
 	player_type = "human"
-	if str(name).is_valid_int():
-		get_node("Inputs/InputsSync").set_multiplayer_authority(str(name).to_int())
 
 	player_died.connect(globals.player_manager._on_player_died)
 	player_revived.connect(globals.player_manager._on_player_revived)
@@ -44,8 +47,9 @@ func _ready():
 			
 	self.animation_player.play("RESET")
 	init_pickups()
-	do_invulnerabilty()
-
+	await get_tree().process_frame
+	if is_multiplayer_authority():
+		do_invulnerability.rpc()
 
 func _physics_process(delta: float):
 	if multiplayer.multiplayer_peer == null or str(multiplayer.get_unique_id()) == str(name):
@@ -53,13 +57,9 @@ func _physics_process(delta: float):
 		inputs.update()
 
 	if multiplayer.multiplayer_peer == null or is_multiplayer_authority():
-		# The server updates the position that will be notified to the clients.
-		synced_position = position
-		# And increase the bomb cooldown spawning one if the client wants to.
-		last_bomb_time += delta
+		physics_as_authority(delta)
 	else:
-		# The client simply updates the position to the last known one.
-		position = synced_position
+		physics_as_others()
 	
 	if time_is_stopped:
 		update_animation(Vector2.ZERO, last_movement_vector)
@@ -129,6 +129,15 @@ func _physics_process(delta: float):
 			if mount_step_timer.time_left == 0:
 				mount_step_timer.start()
 				Wwise.post_event("snd_cockobo_footstep", self)
+
+func physics_as_authority(deltaTime):
+	# The server updates the position that will be notified to the clients.
+	synced_position = position
+	# And increase the bomb cooldown spawning one if the client wants to.
+	last_bomb_time += deltaTime
+	
+func physics_as_others():
+	position = synced_position
 
 @rpc("call_local")
 func reset():

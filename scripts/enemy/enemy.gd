@@ -95,7 +95,7 @@ func update_animation(direction: Vector2, old_direction: Vector2 = Vector2.DOWN)
 
 ## starts the invulnerability and its animation
 @rpc("call_local")
-func do_invulnerabilty(time: float = INVULNERABILITY_TIME):
+func do_invulnerability(time: float = INVULNERABILITY_TIME):
 	# if there is already a longer invulnerability just leave that be
 	if self.invul_timer && self.invul_timer.time_left >= time: return
 	# if there is already a shorter invulnerability overwrite it
@@ -143,7 +143,7 @@ func enable(with_invul: bool = false):
 	self.hurtbox.body_entered.connect(func (player: Player): player.exploded(gamestate.ENEMY_KILL_PLAYER_ID))
 	self.detection_handler.on()
 	self.statemachine.enable()
-	if with_invul: do_invulnerabilty()
+	if with_invul: do_invulnerability()
 
 @rpc("call_local")
 func exploded(_by_whom: int):
@@ -155,7 +155,7 @@ func exploded(_by_whom: int):
 	if self.health_ability:
 		self.health_ability.apply()
 	if(self.health >= 1):
-		do_invulnerabilty()
+		do_invulnerability()
 		set_process(true)
 		_exploded_barrier = false
 		return 1
