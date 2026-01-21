@@ -4,6 +4,7 @@ var this_platform := "itch"
 var steam_api : Object = null
 var startupargs := OS.get_cmdline_args()
 var joined_lobby_on_boot = null
+var steam_checked_on_boot = false
 
 const STEAM_APP_ID := 480 #Don't set this to the correct value until the game is released.
 

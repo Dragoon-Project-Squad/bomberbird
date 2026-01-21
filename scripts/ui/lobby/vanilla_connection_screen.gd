@@ -27,9 +27,9 @@ func _on_join_pressed():
 
 	var ip = ip_addr_entry.get_text()
 	if not ip.is_valid_ip_address():
-		error_label.set_text("Invalid IP address!")
-		return
-
+		#error_label.set_text("Invalid IP address!")
+		#return
+		ip = "127.0.0.1"
 	error_label.set_text("")
 	host_button.disabled = true
 	join_button.disabled = true
