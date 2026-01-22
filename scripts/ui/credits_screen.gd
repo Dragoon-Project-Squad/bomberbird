@@ -50,7 +50,8 @@ var defaultcredits = [ #DO NOT REMOVE, This is here to allow smooth reloads.
 		"Mylaskul",
 		"itsaperson",
 		"Metallix(Lunaryla)",
-		"Lithusei"
+		"Lithusei",
+		"Anniebuue"
 	],[
 		"Art",
 		"Onor"
@@ -74,12 +75,12 @@ var defaultcredits = [ #DO NOT REMOVE, This is here to allow smooth reloads.
 	],[
 		"Testers",
 		"Fa1co",
-		"JohnVitutus",
-		"Kitamerby",
 		"Xekra",
+		"JohnnyLacone",
 		"BigF",
 		"Kyle873",
-		"JohnnyLacone",
+		"JohnVitutus",
+		"Kitamerby",
 	],[
 		"Fonts",
 		"Thaleah Fat by Rick Hoppmann",
@@ -116,7 +117,8 @@ var credits = [
 		"Mylaskul",
 		"itsaperson",
 		"Metallix(Lunaryla)",
-		"Lithusei"
+		"Lithusei",
+		"Anniebuue"
 	],[
 		"Art",
 		"Onor"
@@ -140,12 +142,12 @@ var credits = [
 	],[
 		"Testers",
 		"Fa1co",
-		"JohnVitutus",
-		"Kitamerby",
 		"Xekra",
+		"JohnnyLacone",
 		"BigF",
 		"Kyle873",
-		"JohnnyLacone",
+		"JohnVitutus",
+		"Kitamerby",
 	],[
 		"Fonts",
 		"Thaleah Fat by Rick Hoppmann",
