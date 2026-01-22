@@ -275,15 +275,15 @@ func kick_bomb(direction: Vector2i):
 				return 1 
 			bomb_kicked = body.get_parent()
 			break
-	if bomb_kicked == null or (bodies.is_empty() and bomb_kicked.state != bomb_kicked.SLIDING):
+	if bomb_kicked == null:
 		return 1
-	
-	if bomb_kicked.bomb_owner != null and bomb_kicked.state == bomb_kicked.STATIONARY:
+	elif bomb_kicked.state == bomb_kicked.STATIONARY:
 		bomb_kicked.do_kick.rpc(direction)
 	elif bomb_kicked.state == bomb_kicked.SLIDING:
 		bomb_kicked.stop_kick.rpc()
 		bomb_kicked = null
 	else:
+		print("kick attempted on other state bomb")
 		bomb_kicked = null
 
 func call_remote_bomb():
