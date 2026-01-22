@@ -101,7 +101,7 @@ func _physics_process(delta: float):
 			if jump_cooldown >= 5.0:
 				mounted_jump(direction)
 				jump_cooldown = 0.0
-			mount_roller(not is_rolling)
+			mount_roller(true)
 
 	if not is_unbomb and not stunned and bomb_count > 0:
 		if inputs.bombing:

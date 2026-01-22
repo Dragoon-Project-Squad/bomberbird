@@ -458,7 +458,7 @@ func mount_roller(active: bool):
 
 ## "Charge" animation process, to be called in [param physics_process]
 func mount_roller_process(delta: float, direction: Vector2): 
-	var new_rotation = (2.8 * TAU * delta * direction.x if direction.x else direction.y) + self.rotation
+	var new_rotation = (2.8 * TAU * delta * direction.x) + self.rotation
 	var label_pos = roll_config.label_rpos.rotated(-new_rotation)
 	var shadow_pos = roll_config.shadow_rpos.rotated(-new_rotation)
 	mount_roller_sprite_moves.rpc(new_rotation, label_pos, shadow_pos)
@@ -740,7 +740,7 @@ func mount_dragoon():
 	player_mounted.emit()
 	
 func assign_mount_ability() -> void:
-	match pickups.mounts.GREEN:#pickups.held_pickups[globals.pickups.MOUNTGOON]:
+	match pickups.held_pickups[globals.pickups.MOUNTGOON]:
 			pickups.mounts.YELLOW:
 				print("Block push!")
 				current_mount_ability = mount_ability.BREAKABLEPUSH
