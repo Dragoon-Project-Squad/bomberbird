@@ -14,7 +14,6 @@ var peer : MultiplayerPeer = null
 const RELEASE_BUILD : bool = false # Will require the game to be launched through Steam specifically.
 const LobbyClass = preload("uid://jhdlqsokif5o") # UID leads to res://scenes/lobby/lobby.tscn
 const PACKET_READ_LIMIT: int = 32
-var steam_mp_peer_singleton = null
 
 var lobby_data
 var lobby_id: int = 0
@@ -281,7 +280,7 @@ func attempt_host_steam_game(lobby_type):
 	SteamManager.steam_api.createLobby(lobby_type, lobby_members_max)
 	
 func host_steam_mp_game(hosting_lobby_id : int) -> void:
-	peer = steam_mp_peer_singleton.new()
+	peer = ClassDB.instantiate("SteamMultiplayerPeer")
 	peer.create_host()
 	
 	multiplayer.set_multiplayer_peer(peer)
@@ -293,7 +292,7 @@ func host_steam_mp_game(hosting_lobby_id : int) -> void:
 	steam_lobby_creation_finished.emit()
 
 func join_steam_game_as_peer(joined_lobby_id : int):
-	peer = steam_mp_peer_singleton.new()
+	peer = ClassDB.instantiate("SteamMultiplayerPeer")
 	peer.connect_to_lobby(joined_lobby_id)
 	
 	multiplayer.set_multiplayer_peer(peer)
@@ -789,9 +788,11 @@ func steam_playername_integration():
 	player_data_master_dict[1].playername = player_name
 
 func establish_steam_multiplayer_peer() -> void:
-	if Engine.has_singleton("SteamMultiplayerPeer"):
-		steam_mp_peer_singleton = Engine.get_singleton("SteamMultiplayerPeer")
- 
+	if type_exists("SteamMultiplayerPeer"):
+		print("Steam Multiplayer Peer established.")
+	else:
+		printerr("Steam Multiplayer Peer could not be established!")
+		
 func execute_post_boot_steam_framework_methods() -> void:
 	SteamManager.initialize_steam()
 	steam_signal_setup()
