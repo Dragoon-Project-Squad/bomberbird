@@ -82,7 +82,9 @@ func check_space():
 			or collision.is_in_group("bombstop")
 	):
 		place_position = correct_coords(target.get_position())
-		if collision is Bomb or collision is TileMapLayer:
+		if collision is Bomb:
+			place_position -= Vector2(direction * TILESIZE)
+		elif collision is TileMapLayer:
 			if direction == Vector2i.RIGHT or direction == Vector2i.DOWN:
 				place_position -= Vector2(direction * TILESIZE)
 		elif collision.has_method("do_stun"):
@@ -97,7 +99,6 @@ func check_space():
 		else:
 			self.collision_layer =  0
 			$CollisionShape2D.set_deferred("disabled",true)
-			place_position = Vector2.ZERO
 			set_state(SLIDING)
 
 func to_stationary_bomb():
