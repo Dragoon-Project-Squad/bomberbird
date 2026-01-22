@@ -7,6 +7,7 @@ var punch_pressed_once := false
 var is_carrying_bomb := false
 var bomb_hold_timer := 0.0
 var jump_cooldown := 0.0
+var roll_duration := 0.0
 
 func _enter_tree():
 	if str(name).is_valid_int():
@@ -87,6 +88,12 @@ func _physics_process(delta: float):
 		punch_pressed_once = false
 	
 	jump_cooldown += delta
+	if is_rolling and roll_duration <= 2.0:
+		roll_duration += delta
+		mount_roller_process(delta, direction)
+	else:
+		roll_duration = 0.0
+		mount_roller(false)
 	if not stunned and inputs.secondary_ability:
 		kick_bomb(direction)
 		if is_mounted:
@@ -94,6 +101,7 @@ func _physics_process(delta: float):
 			if jump_cooldown >= 5.0:
 				mounted_jump(direction)
 				jump_cooldown = 0.0
+			mount_roller(true)
 
 	if not is_unbomb and not stunned and bomb_count > 0:
 		if inputs.bombing:
