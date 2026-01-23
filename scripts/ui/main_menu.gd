@@ -19,7 +19,7 @@ func _ready() -> void:
 	version_number_text.set_text("v" + ProjectSettings.get_setting("application/config/version"))
 	$ButtonBox/Singleplayer.grab_focus()
 	check_secret()
-	steam_powered_launch_checks()
+
 
 func steam_powered_launch_checks():
 	if SteamManager.steam_checked_on_boot == true: #If Steam initialization was already attmepted, do nothing.
