@@ -60,7 +60,8 @@ var defaultcredits = [ #DO NOT REMOVE, This is here to allow smooth reloads.
 	],[
 		"Menu Music",
 		"'Menu Theme' by Aefen",
-		"'Dragoon Cafe' by nownoir"
+		"'Dragoon Cafe' by nownoir",
+		"'Doki Doki Comes Home' by nownoir",
 	],[
 		"Battle Music",
 		"BountyHunter Blitz by Aefen",
@@ -69,9 +70,6 @@ var defaultcredits = [ #DO NOT REMOVE, This is here to allow smooth reloads.
 		"'BountyHunter Jam' by Peachii",
 		"'Theme of Minki' by Peachii",
 		"'Scott Joplin's New Rag' by Scott Joplin",
-	],[
-		"Bonus Music",
-		"'Doki Doki Comes Home' by nownoir",
 	],[
 		"Sound Designer (SFX, Technical)",
 		"MonstoBusta"
@@ -130,6 +128,7 @@ var credits = [
 	],[
 		"Menu Music",
 		"'Menu Theme' by Aefen",
+		"'Doki Doki Comes Home' by nownoir",
 		"'Dragoon Cafe' by nownoir"
 	],[
 		"Battle Music",
@@ -139,9 +138,6 @@ var credits = [
 		"'BountyHunter Jam' by Peachii",
 		"'Theme of Minki' by Peachii",
 		"'Scott Joplin's New Rag' by Scott Joplin",
-	],[
-		"Bonus Music",
-		"'Doki Doki Comes Home' by nownoir",
 	],[
 		"Sound Designer (SFX, Technical)",
 		"MonstoBusta"

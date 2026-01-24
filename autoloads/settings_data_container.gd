@@ -10,9 +10,9 @@ var user_preferred_name := "Dragoon"
 #Settings
 var window_mode_index := 0
 var resolution_index := 0
-var master_volume := 0.0
-var music_volume := 0.0
-var sfx_volume := 0.0
+var master_volume := 0.50
+var music_volume := 0.50
+var sfx_volume := 0.50
 
 #Secret Flags
 var mint_flag := "not_boo" #Controls access to secret character Mint.

@@ -11,7 +11,7 @@
 [ext_resource type="StyleBox" uid="uid://dah145apm30c3" path="res://assets/styles/main_menu_select_style.tres" id="7_2iy8e"]
 [ext_resource type="StyleBox" uid="uid://c07q8xvjxkea6" path="res://assets/styles/main_menu_style.tres" id="7_nrhvf"]
 [ext_resource type="PackedScene" uid="uid://drj31ll2cuftl" path="res://scenes/options_menu/options_menu.tscn" id="8_m4i44"]
-[ext_resource type="PackedScene" uid="uid://cmmk31d282i46" path="res://scenes/CREDITS/credits_screen.tscn" id="10_lgwnu"]
+[ext_resource type="PackedScene" uid="uid://cmmk31d282i46" path="res://scenes/credits/credits_screen.tscn" id="10_lgwnu"]
 [ext_resource type="PackedScene" uid="uid://c6osao13wt47c" path="res://scenes/doki_subscribe_link.tscn" id="11_flqon"]
 [ext_resource type="WwiseEvent" uid="uid://b3x14lxrfqgd" path="res://Wwise/resources/Event/{9DD6E647-6A86-4609-B83E-6E4D47162C95}.tres" id="11_lgwnu"]
 [ext_resource type="PackedScene" uid="uid://btbhhah5deldc" path="res://scenes/intro/intro.tscn" id="11_rcqid"]
