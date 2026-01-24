@@ -93,7 +93,7 @@ tracks/0/path = NodePath("DokibirdPublicSquad:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 3.702),
+"times": PackedFloat32Array(0, 4.444),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -105,7 +105,7 @@ tracks/1/path = NodePath("AndTDG:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.741, 4.073),
+"times": PackedFloat32Array(0.741, 4.815),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -117,7 +117,7 @@ tracks/2/path = NodePath("ProudlyPresent:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(1.481, 4.444),
+"times": PackedFloat32Array(1.481, 5.185),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -129,7 +129,7 @@ tracks/3/path = NodePath("AFangame:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(2.222, 4.815),
+"times": PackedFloat32Array(2.222, 5.5556),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -138,11 +138,11 @@ tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/path = NodePath("Node2D/Sun:position")
-tracks/4/interp = 2
+tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0, 2.593, 5.926),
-"transitions": PackedFloat32Array(1, 0.7578584, 0.43527493),
+"transitions": PackedFloat32Array(1, 2.0000007, 0.43527493),
 "update": 0,
 "values": [Vector2(0, 200), Vector2(0, 200), Vector2(0, 0)]
 }
@@ -153,8 +153,8 @@ tracks/5/path = NodePath("Node2D/Land:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(4.815, 5.926),
-"transitions": PackedFloat32Array(0.32987693, 0.14865118),
+"times": PackedFloat32Array(3.704, 5.926),
+"transitions": PackedFloat32Array(3.4821937, 0.14865118),
 "update": 0,
 "values": [Vector2(0, 117.265), Vector2(0, 0)]
 }
