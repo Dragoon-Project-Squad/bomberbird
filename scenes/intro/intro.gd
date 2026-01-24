@@ -8,10 +8,9 @@ extends Control
 @onready var land = %Land
 @onready var doki = %Doki
 
-func start_splash() -> void:
-	get_node("/root/MainMenu/").hide_main_menu()
+signal intro_screen_shown(input_cancelled)
 
-func anim_splash() -> void:
+func anim_intro() -> void:
 	$Beat1Timer.start()
 	$Beat2Timer.start()
 	$Beat3Timer.start()
@@ -21,13 +20,14 @@ func anim_splash() -> void:
 	tween.tween_property(presents, "modulate", Color(1,1,1,1), 0.741)
 	tween.parallel().tween_method(a_fangame.set_position, Vector2(0, 300), Vector2(0,-60), 2.963)
 
-func end_splash() -> void:
+func end_intro(intro_ended_via_input : bool = false ) -> void:
 	get_node("/root/MainMenu").reveal_main_menu()
+	intro_screen_shown.emit(intro_ended_via_input)
 	queue_free()
 
 func _process(_delta: float) -> void:
 	if Input.is_anything_pressed():
-		end_splash()
+		end_intro(true)
 
 func _on_entry_timer_timeout() -> void:
 	var tween = create_tween()
