@@ -14,6 +14,7 @@ enum sfx_enum {CLICK, ERROR, EXPLODE, DEBRIS, PICKUP, DEFEATED, PLACE, THROW, LA
 
 var mus_dict = {
 	"Doki Doki Comes Home" = "st_doki_comes_home",
+	"Menu" = "st_menu",
 	"Dragoon Cafe" = "st_dragoon_cafe",
 	"BountyHunter Blitz" = "st_bh_blitz",
 	"BountyHunter Jam" = "st_bh_jam",
