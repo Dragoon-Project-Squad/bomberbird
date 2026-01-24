@@ -36,19 +36,19 @@ func _on_entry_timer_timeout() -> void:
 
 func _on_beat_1_timer_timeout() -> void:
 	var tween = create_tween()
-	tween.tween_property(presents, "modulate", Color(1,1,1,0), 0.05)
+	tween.tween_property(presents, "modulate", Color(1,1,1,0), 0.00)
 
 
 func _on_beat_2_timer_timeout() -> void:
 	var tween = create_tween()
-	tween.tween_property(a_fangame, "modulate", Color(1,1,1,0), 0.05)
+	tween.tween_property(a_fangame, "modulate", Color(1,1,1,0), 0.0)
 
 
 func _on_beat_3_timer_timeout() -> void:
 	var tween = create_tween()
-	tween.tween_property(land, "modulate",Color(1,1,1,1), 0.05)
+	tween.tween_property(land, "modulate",Color(1,1,1,1), 0.0)
 
 
 func _on_beat_4_timer_timeout() -> void:
 	var tween = create_tween()
-	tween.tween_property(doki, "modulate", Color(1,1,1,1), 0.05)
+	tween.tween_property(doki, "modulate", Color(1,1,1,1), 0.0)
