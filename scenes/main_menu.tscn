@@ -1,14 +1,17 @@
-[gd_scene load_steps=13 format=3 uid="uid://dgfv37m0j3grk"]
+[gd_scene load_steps=16 format=3 uid="uid://dgfv37m0j3grk"]
 
 [ext_resource type="Script" uid="uid://bq6xc0g4f6lhf" path="res://scripts/ui/main_menu.gd" id="1_qmksv"]
-[ext_resource type="Texture2D" uid="uid://bsu1o1vymo51p" path="res://assets/aesprite/Domber doki cenario1.png" id="2_u3scb"]
+[ext_resource type="Texture2D" uid="uid://cdudde81pcsel" path="res://assets/splash/sky.png" id="2_7b55j"]
+[ext_resource type="Texture2D" uid="uid://duro6xqgr4puf" path="res://assets/splash/sun.png" id="3_5pajh"]
+[ext_resource type="Texture2D" uid="uid://buur2dw4d3xf8" path="res://assets/splash/land.png" id="4_j7ex8"]
 [ext_resource type="Texture2D" uid="uid://b7ve16526xnpv" path="res://assets/aesprite/title.png" id="4_jitsi"]
+[ext_resource type="Texture2D" uid="uid://cef8otys7fx4y" path="res://assets/splash/doki.png" id="5_a8gd2"]
 [ext_resource type="Script" uid="uid://boq3i75yls51h" path="res://scripts/ui/ingame_ui/se_button.gd" id="5_lgwnu"]
 [ext_resource type="Theme" uid="uid://wfdn1qbkwu46" path="res://assets/styles/main_menu_theme.tres" id="6_hrcjh"]
 [ext_resource type="StyleBox" uid="uid://dah145apm30c3" path="res://assets/styles/main_menu_select_style.tres" id="7_2iy8e"]
 [ext_resource type="StyleBox" uid="uid://c07q8xvjxkea6" path="res://assets/styles/main_menu_style.tres" id="7_nrhvf"]
 [ext_resource type="PackedScene" uid="uid://drj31ll2cuftl" path="res://scenes/options_menu/options_menu.tscn" id="8_m4i44"]
-[ext_resource type="PackedScene" uid="uid://cmmk31d282i46" path="res://scenes/credits/credits_screen.tscn" id="10_lgwnu"]
+[ext_resource type="PackedScene" uid="uid://cmmk31d282i46" path="res://scenes/CREDITS/credits_screen.tscn" id="10_lgwnu"]
 [ext_resource type="PackedScene" uid="uid://c6osao13wt47c" path="res://scenes/doki_subscribe_link.tscn" id="11_flqon"]
 [ext_resource type="WwiseEvent" uid="uid://b3x14lxrfqgd" path="res://Wwise/resources/Event/{9DD6E647-6A86-4609-B83E-6E4D47162C95}.tres" id="11_lgwnu"]
 [ext_resource type="PackedScene" uid="uid://btbhhah5deldc" path="res://scenes/intro/intro.tscn" id="11_rcqid"]
@@ -31,18 +34,35 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BG" type="Sprite2D" parent="TitleScreen"]
-texture_filter = 1
+[node name="Sky" type="Sprite2D" parent="TitleScreen"]
 position = Vector2(-150, 0)
 scale = Vector2(2.4, 2.4)
-texture = ExtResource("2_u3scb")
+texture = ExtResource("2_7b55j")
 centered = false
 
+[node name="Sun" type="Sprite2D" parent="TitleScreen"]
+position = Vector2(-150, 0)
+scale = Vector2(2.4, 2.4)
+texture = ExtResource("3_5pajh")
+centered = false
+
+[node name="Land" type="Sprite2D" parent="TitleScreen"]
+position = Vector2(-150, 0)
+scale = Vector2(2.4, 2.4)
+texture = ExtResource("4_j7ex8")
+centered = false
+
+[node name="Doki" type="Sprite2D" parent="TitleScreen/Land"]
+unique_name_in_owner = true
+position = Vector2(262.0833, 112.49999)
+texture = ExtResource("5_a8gd2")
+
 [node name="Title" type="Sprite2D" parent="TitleScreen"]
+unique_name_in_owner = true
 texture_filter = 1
+position = Vector2(480, 100)
 scale = Vector2(1.83206, 2)
 texture = ExtResource("4_jitsi")
-centered = false
 
 [node name="ButtonBox" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -159,6 +179,7 @@ theme_override_font_sizes/font_size = 16
 text = "VERSION NUMBER HERE"
 
 [node name="Intro" parent="." instance=ExtResource("11_rcqid")]
+visible = false
 layout_mode = 1
 
 [node name="MenuMusic" type="AkEvent2D" parent="."]
@@ -174,5 +195,6 @@ unique_name_in_owner = true
 [connection signal="options_menu_exited" from="OptionsMenu" to="." method="_on_options_menu_options_menu_exited"]
 [connection signal="credits_ended" from="Credits" to="." method="_on_credits_credits_ended"]
 [connection signal="intro_screen_shown" from="Intro" to="." method="_on_intro_intro_screen_shown"]
+[connection signal="music_sync_beat" from="MenuMusic" to="." method="_on_menu_music_music_sync_beat"]
 [connection signal="music_sync_entry" from="MenuMusic" to="." method="_on_menu_music_music_sync_entry"]
 [connection signal="music_sync_user_cue" from="MenuMusic" to="." method="_on_menu_music_music_sync_user_cue"]

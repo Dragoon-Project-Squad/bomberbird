@@ -7,6 +7,10 @@ extends Control
 @onready var version_number_text: Label = $VersionNumberPanel/VersionNumRichText
 @onready var menu_music = %MenuMusic
 @onready var intro_screen: Control = $Intro
+@onready var title := %Title
+@onready var doki := %Doki
+
+var beat_drop := false
 
 signal options_menu_entered
 
@@ -61,7 +65,8 @@ func reveal_main_menu() -> void:
 	$VersionNumberPanel.show()
 	$DokiSubscribeLink.show()
 	credits_screen.hide()
-	intro_screen.hide()
+	if has_node("intro_screen"):
+		intro_screen.hide()
 
 func pause_main_menu_music() -> void:
 	# pauses the main menu music if playing in wwise
@@ -120,6 +125,7 @@ func _on_credits_credits_ended() -> void:
 
 #unveil main menu when beat drops
 func _on_menu_music_music_sync_user_cue(_data: Dictionary) -> void:
+	beat_drop = true
 	if gamestate.intro_screen_shown == true:
 		return
 	else:
@@ -137,3 +143,13 @@ func _on_intro_intro_screen_shown(input_cancelled: Variant) -> void:
 	if(input_cancelled):
 		#Maybe play a button sound effect here?
 		pass
+
+func _on_menu_music_music_sync_beat(_data: Dictionary) -> void:
+	if beat_drop:
+		var tween := create_tween()
+		tween.tween_property(title, "scale", Vector2(1.960, 2.14), 0.06).set_trans(Tween.TRANS_CUBIC)
+		tween.parallel().tween_property(doki, "scale:y", 0.98, 0.06).set_trans(Tween.TRANS_CIRC)
+		tween.parallel().tween_property(doki, "position:y", 114.792, 0.06).set_trans(Tween.TRANS_CIRC)
+		tween.tween_property(title, "scale", Vector2(1.832, 2.0), 0.06).set_trans(Tween.TRANS_CUBIC)
+		tween.parallel().tween_property(doki, "scale:y", 1.0, 0.06).set_trans(Tween.TRANS_CIRC)
+		tween.parallel().tween_property(doki, "position:y", 112.5, 0.06).set_trans(Tween.TRANS_CIRC)

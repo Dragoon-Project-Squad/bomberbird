@@ -456,101 +456,6 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<MusicSegment Name="Menu Music Scrapped" ID="{0D02A03B-AFDA-4215-B158-9C880D0E63E8}" ShortID="66808973">
-									<PropertyList>
-										<Property Name="EndPosition" Type="Real64" Value="63157.8911564626"/>
-										<Property Name="OverrideClockSettings" Type="bool" Value="True"/>
-										<Property Name="Tempo" Type="Real64" Value="152"/>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0DDF25D3-965F-4844-9F28-55A504C5CBDF}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<MusicTrack Name="Menu Music" ID="{7315AB94-5E07-4563-9B47-4F2BE379A410}" ShortID="695538427">
-											<PropertyList>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>
-												</Reference>
-												<Reference Name="TransitionRoot">
-													<Custom>
-														<MusicTransition Name="Root" ID="{2103FBC2-840F-4A95-9BE7-74DB2708B8B1}">
-															<PropertyList>
-																<Property Name="IsFolder" Type="bool" Value="True"/>
-															</PropertyList>
-															<TransitionInfo/>
-														</MusicTransition>
-													</Custom>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="Menu Music" ID="{662D6843-9A96-4B84-867A-5ADAEE6D2EB7}">
-													<Language>SFX</Language>
-													<AudioFile>Menu Music.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="309653924"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ObjectLists>
-												<ObjectList Name="Sequences">
-													<Reference>
-														<Local>
-															<MusicTrackSequence Name="" ID="{868A1644-6A97-4F57-821C-BD648C6D2369}">
-																<ObjectLists>
-																	<ObjectList Name="Clips">
-																		<Reference>
-																			<Local>
-																				<MusicClip Name="Menu Music" ID="{FDFCF478-2CDD-434A-ACE9-6C9DBF3E201C}">
-																					<PropertyList>
-																						<Property Name="EndTrimOffset" Type="Real64" Value="63157.8911564626"/>
-																						<Property Name="FadeInMode" Type="int16" Value="0"/>
-																						<Property Name="FadeOutMode" Type="int16" Value="0"/>
-																					</PropertyList>
-																					<AudioSourceRef Name="Menu Music" ID="{662D6843-9A96-4B84-867A-5ADAEE6D2EB7}"/>
-																				</MusicClip>
-																			</Local>
-																		</Reference>
-																	</ObjectList>
-																</ObjectLists>
-															</MusicTrackSequence>
-														</Local>
-													</Reference>
-												</ObjectList>
-											</ObjectLists>
-										</MusicTrack>
-									</ChildrenList>
-									<ObjectLists>
-										<ObjectList Name="Cues">
-											<Reference>
-												<Local>
-													<MusicCue Name="Entry Cue" ID="{777C0E52-E739-4140-B700-7EC39D847A43}"/>
-												</Local>
-											</Reference>
-											<Reference>
-												<Local>
-													<MusicCue Name="Exit Cue" ID="{C51C8A68-9775-4B3B-9C9D-4CA2D8BC74AD}">
-														<PropertyList>
-															<Property Name="CueType" Type="int16" Value="1"/>
-															<Property Name="TimeMs" Type="Real64" Value="63157.8911564626"/>
-														</PropertyList>
-													</MusicCue>
-												</Local>
-											</Reference>
-										</ObjectList>
-									</ObjectLists>
-								</MusicSegment>
 								<MusicSegment Name="menu_intro" ID="{E0AD6D27-1B15-4FDA-9BEC-7FA9E455A0B1}" ShortID="780001791">
 									<PropertyList>
 										<Property Name="EndPosition" Type="Real64" Value="53343.75"/>
@@ -670,6 +575,13 @@
 									</ReferenceList>
 									<ChildrenList>
 										<MusicTrack Name="menu_theme_loop" ID="{69CA34CC-A315-4870-B639-6421AABBBBDA}" ShortID="550709846">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="OutputBus">
 													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C4F8533D-0057-4EE0-A4C5-2B6AFA958BCB}"/>

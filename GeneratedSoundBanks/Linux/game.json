@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{0538B80F-BD38-4678-ADB9-028154C3B6E7}",
     "Language": "SFX",
-    "Hash": "{1C9E640D-7080-FB9C-39D9-29D5BE14DADD}",
+    "Hash": "{36F51FD1-5420-1C74-191A-84455350C1BB}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\game",
     "ShortName": "game",
     "Path": "game.bnk",
@@ -195,15 +195,6 @@
       "ShortName": "vintage_test_right_hand_a_ending_1.wav",
       "Path": "Media/307672342.wem",
       "CachePath": "60/{60D05211-F07F-91F7-FA36-BE184BC6AD8B}.wem"
-     },
-     {
-      "Id": "309653924",
-      "Language": "SFX",
-      "Streaming": "true",
-      "Location": "Loose",
-      "ShortName": "Menu Music.wav",
-      "Path": "Media/309653924.wem",
-      "CachePath": "FD/{FDCB02C6-8BCC-6760-8D0F-1205EE398126}.wem"
      },
      {
       "Id": "315037834",
@@ -640,9 +631,10 @@
      {
       "Id": "946911196",
       "Language": "SFX",
-      "Streaming": "false",
-      "Location": "Memory",
+      "Streaming": "true",
+      "Location": "Loose",
       "ShortName": "menu_theme_loop.wav",
+      "Path": "Media/946911196.wem",
       "CachePath": "27/{2760E703-DB48-9BD8-5B86-A6BFFFC0FE68}.wem"
      },
      {
@@ -1500,9 +1492,6 @@
       "DurationType": "Infinite",
       "MediaRefs": [
        {
-        "Id": "309653924"
-       },
-       {
         "Id": "820889123"
        },
        {
@@ -1817,9 +1806,6 @@
       "DurationType": "Infinite",
       "MediaRefs": [
        {
-        "Id": "309653924"
-       },
-       {
         "Id": "820889123"
        },
        {
@@ -2119,6 +2105,6 @@
     ]
    }
   ],
-  "FileHash": "{C41B8F73-DE9F-6069-48F2-5D4C8CFD64F9}"
+  "FileHash": "{437B7E80-D71E-B019-2667-84AC0A678C48}"
  }
 }
