@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{0538B80F-BD38-4678-ADB9-028154C3B6E7}",
     "Language": "SFX",
-    "Hash": "{36F51FD1-5420-1C74-191A-84455350C1BB}",
+    "Hash": "{0CC3FE3A-94BD-0F75-4E5B-AAD52B432796}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\game",
     "ShortName": "game",
     "Path": "game.bnk",
@@ -790,6 +790,16 @@
     },
     "Events": [
      {
+      "Id": "3080254769",
+      "Name": "pause_music_doki_comes_home",
+      "ObjectPath": "\\Events\\Default Work Unit\\music\\doki_comes_home\\pause_music_doki_comes_home",
+      "GUID": "{D7033A6B-57A9-4DC5-AF2C-C5D750D4AC90}",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
+     },
+     {
       "Id": "970815282",
       "Name": "pause_music_dragoon_cafe",
       "ObjectPath": "\\Events\\Default Work Unit\\music\\dragoon cafe\\pause_music_dragoon_cafe",
@@ -1473,6 +1483,21 @@
       ]
      },
      {
+      "Id": "764632515",
+      "Name": "play_music_doki_comes_home",
+      "ObjectPath": "\\Events\\Default Work Unit\\music\\doki_comes_home\\play_music_doki_comes_home",
+      "GUID": "{7C3FCA0A-5E8E-4C87-85FC-2AFCECFD2E8A}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "279787638"
+       },
+       {
+        "Id": "396803010"
+       }
+      ]
+     },
+     {
       "Id": "2372074968",
       "Name": "play_music_dragoon_cafe",
       "ObjectPath": "\\Events\\Default Work Unit\\music\\dragoon cafe\\play_music_dragoon_cafe",
@@ -1955,6 +1980,16 @@
       "DurationMax": "0"
      },
      {
+      "Id": "3524125190",
+      "Name": "unpause_music_doki_comes_home",
+      "ObjectPath": "\\Events\\Default Work Unit\\music\\doki_comes_home\\unpause_music_doki_comes_home",
+      "GUID": "{92A7884D-9B10-4482-A183-9C5277C4AAD0}",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
+     },
+     {
       "Id": "2726913135",
       "Name": "unpause_music_dragoon_cafe",
       "ObjectPath": "\\Events\\Default Work Unit\\music\\dragoon cafe\\unpause_music_dragoon_cafe",
@@ -2105,6 +2140,6 @@
     ]
    }
   ],
-  "FileHash": "{437B7E80-D71E-B019-2667-84AC0A678C48}"
+  "FileHash": "{A8660DB1-9FFE-E0FE-F08D-74A63EEDC32D}"
  }
 }
