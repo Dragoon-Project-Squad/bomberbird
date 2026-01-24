@@ -32,7 +32,6 @@ globals="*res://autoloads/globals.gd"
 gamestate="*res://autoloads/gamestate.gd"
 world_data="*res://autoloads/world_data.gd"
 astargrid_handler="*res://autoloads/astargrid_handler.gd"
-Splash="*res://scenes/splash/splash.tscn"
 
 [display]
 

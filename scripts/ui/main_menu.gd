@@ -6,48 +6,67 @@ extends Control
 @onready var credits_screen: Control = $Credits
 @onready var version_number_text: Label = $VersionNumberPanel/VersionNumRichText
 @onready var menu_music = %MenuMusic
+@onready var intro_screen: Control = $Intro
+@onready var title := %Title
+@onready var doki := %Doki
+
+var beat_drop := false
 
 signal options_menu_entered
-
-var preload_credits_scene = preload("res://scenes/credits/credits_screen.tscn")
-
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# stops all music to be safe
 	Wwise.post_event("stop_music", self)
-	# plays the main menu music
-	menu_music.post_event()
+	# Ensure nothing is visible during setup.
+	hide_main_menu()
 	version_number_text.set_text("v" + ProjectSettings.get_setting("application/config/version"))
 	$ButtonBox/Singleplayer.grab_focus()
-	check_secret()	
+	check_secret()
 	
-	#splash screen
-	var splash_screen = get_node("/root/Splash")
-	if splash_screen != null:
-		splash_screen.start_splash()
-	
+	# plays the main menu music
+	menu_music.post_event()
+	if !gamestate.intro_screen_shown:
+		show_intro_screen_on_launch()
+	else:
+		reveal_main_menu()
+
+func show_intro_screen_on_launch():
+	if !gamestate.intro_screen_shown:
+		show_intro_screen()
+		
+func show_intro_screen():
+	if intro_screen != null:
+		intro_screen.show()
+		#Playing the animation is handled by the Wwise signal.
+	# The Intro Screen reveals the main menu when it's done.
+
 func switch_to_options_menu() -> void:
 	hide_main_menu()
-	options_menu.visible = true
+	options_menu.show()
 	options_menu_entered.emit()
 	# plays the options music resource in the OptionsMenu node
 	options_menu.options_music.post(options_menu)
 	
 func switch_to_credits_menu() -> void:
 	hide_main_menu()
-	credits_screen.visible = true
+	credits_screen.show()
 	
 func hide_main_menu() -> void:
 	title_screen.hide()
 	button_box.hide()
+	$VersionNumberPanel.hide()
 	$DokiSubscribeLink.hide()
 	
 func reveal_main_menu() -> void:
-	title_screen.visible = true
-	button_box.visible = true
+	title_screen.show()
+	button_box.show()
+	$VersionNumberPanel.show()
 	$DokiSubscribeLink.show()
+	credits_screen.hide()
+	if has_node("intro_screen"):
+		intro_screen.hide()
 
 func pause_main_menu_music() -> void:
 	# pauses the main menu music if playing in wwise
@@ -79,13 +98,13 @@ func _on_single_player_pressed() -> void:
 	# stops ALL music
 	Wwise.post_event("stop_music", self)
 	get_tree().change_scene_to_file("res://scenes/lobby/sp_lobby.tscn")
-	hide();
+	hide()
 
 func _on_multiplayer_pressed() -> void:
 	# stops ALL music
 	Wwise.post_event("stop_music", self)
 	get_tree().change_scene_to_file("res://scenes/lobby/lobby.tscn")
-	hide();
+	hide()
 
 func _on_options_pressed() -> void:
 	pause_main_menu_music()
@@ -104,14 +123,33 @@ func _on_exit_pressed() -> void:
 func _on_credits_credits_ended() -> void:
 	reveal_main_menu()
 
-#unveil splash when beat drops
+#unveil main menu when beat drops
 func _on_menu_music_music_sync_user_cue(_data: Dictionary) -> void:
-	var splash_screen = get_node("/root/Splash")
-	if splash_screen != null:
-		splash_screen.end_splash()
+	beat_drop = true
+	if gamestate.intro_screen_shown == true:
+		return
+	else:
+		intro_screen.end_intro()
 
-#have the splash do cool text things
+#have the intro do cool text things
 func _on_menu_music_music_sync_entry(_data: Dictionary) -> void:
-	var splash_screen = get_node("/root/Splash")
-	if splash_screen != null:
-		splash_screen.anim_splash()
+	if gamestate.intro_screen_shown == true:
+		return
+	else:
+		intro_screen.anim_intro()
+
+func _on_intro_intro_screen_shown(input_cancelled: Variant) -> void:
+	gamestate.intro_screen_shown = true
+	if(input_cancelled):
+		#Maybe play a button sound effect here?
+		pass
+
+func _on_menu_music_music_sync_beat(_data: Dictionary) -> void:
+	if beat_drop:
+		var tween := create_tween()
+		tween.tween_property(title, "scale", Vector2(1.960, 2.14), 0.06).set_trans(Tween.TRANS_CUBIC)
+		tween.parallel().tween_property(doki, "scale:y", 0.98, 0.06).set_trans(Tween.TRANS_CIRC)
+		tween.parallel().tween_property(doki, "position:y", 114.792, 0.06).set_trans(Tween.TRANS_CIRC)
+		tween.tween_property(title, "scale", Vector2(1.832, 2.0), 0.06).set_trans(Tween.TRANS_CUBIC)
+		tween.parallel().tween_property(doki, "scale:y", 1.0, 0.06).set_trans(Tween.TRANS_CIRC)
+		tween.parallel().tween_property(doki, "position:y", 112.5, 0.06).set_trans(Tween.TRANS_CIRC)
