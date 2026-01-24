@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{0538B80F-BD38-4678-ADB9-028154C3B6E7}",
     "Language": "SFX",
-    "Hash": "{B36CA854-5550-3328-C417-61666F5C4320}",
+    "Hash": "{1C9E640D-7080-FB9C-39D9-29D5BE14DADD}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\game",
     "ShortName": "game",
     "Path": "game.bnk",
@@ -195,6 +195,15 @@
       "ShortName": "vintage_test_right_hand_a_ending_1.wav",
       "Path": "Media/307672342.wem",
       "CachePath": "60/{60D05211-F07F-91F7-FA36-BE184BC6AD8B}.wem"
+     },
+     {
+      "Id": "309653924",
+      "Language": "SFX",
+      "Streaming": "true",
+      "Location": "Loose",
+      "ShortName": "Menu Music.wav",
+      "Path": "Media/309653924.wem",
+      "CachePath": "FD/{FDCB02C6-8BCC-6760-8D0F-1205EE398126}.wem"
      },
      {
       "Id": "315037834",
@@ -523,6 +532,15 @@
       "CachePath": "7F/{7FD192B3-52C4-157B-3D68-6852971FB902}.wem"
      },
      {
+      "Id": "820889123",
+      "Language": "SFX",
+      "Streaming": "true",
+      "Location": "Loose",
+      "ShortName": "menu_theme_actually.wav",
+      "Path": "Media/820889123.wem",
+      "CachePath": "CF/{CF904A80-6A60-EF8A-2D63-8ADFF1911CF8}.wem"
+     },
+     {
       "Id": "828194546",
       "Language": "SFX",
       "Streaming": "true",
@@ -618,6 +636,14 @@
       "Location": "Memory",
       "ShortName": "breakable_sweetener_1.wav",
       "CachePath": "2F/{2F0F9CFD-DC8D-0DBE-B1DB-B6C63466BBB5}.wem"
+     },
+     {
+      "Id": "946911196",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "menu_theme_loop.wav",
+      "CachePath": "27/{2760E703-DB48-9BD8-5B86-A6BFFFC0FE68}.wem"
      },
      {
       "Id": "950044961",
@@ -1474,10 +1500,13 @@
       "DurationType": "Infinite",
       "MediaRefs": [
        {
-        "Id": "279787638"
+        "Id": "309653924"
        },
        {
-        "Id": "396803010"
+        "Id": "820889123"
+       },
+       {
+        "Id": "946911196"
        }
       ]
      },
@@ -1781,6 +1810,24 @@
       ]
      },
      {
+      "Id": "2481250406",
+      "Name": "st_menu",
+      "ObjectPath": "\\Events\\Default Work Unit\\music_sound_test\\st_menu",
+      "GUID": "{47A7AB39-65F9-4694-89B9-8D272A56860F}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "309653924"
+       },
+       {
+        "Id": "820889123"
+       },
+       {
+        "Id": "946911196"
+       }
+      ]
+     },
+     {
       "Id": "3862449989",
       "Name": "st_minki",
       "ObjectPath": "\\Events\\Default Work Unit\\music_sound_test\\st_minki",
@@ -2072,6 +2119,6 @@
     ]
    }
   ],
-  "FileHash": "{1FEE73FE-9439-8F1B-4DBE-C75C16EF48BD}"
+  "FileHash": "{B513BC55-BB64-1534-13D4-5822DD6F9E2E}"
  }
 }
