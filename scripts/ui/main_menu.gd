@@ -19,15 +19,6 @@ func _ready() -> void:
 	version_number_text.set_text("v" + ProjectSettings.get_setting("application/config/version"))
 	$ButtonBox/Singleplayer.grab_focus()
 	check_secret()
-
-
-func steam_powered_launch_checks():
-	if SteamManager.steam_checked_on_boot == true: #If Steam initialization was already attmepted, do nothing.
-		return
-	SteamManager.determine_platform()
-	if SteamManager.this_platform == "steam":
-		gamestate.execute_post_boot_steam_framework_methods()
-	SteamManager.steam_checked_on_boot = true
 	
 func switch_to_options_menu() -> void:
 	hide_main_menu()
