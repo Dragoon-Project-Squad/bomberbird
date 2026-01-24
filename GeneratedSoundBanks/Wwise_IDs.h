@@ -13,9 +13,11 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID PAUSE_MUSIC_DOKI_COMES_HOME = 3080254769U;
         static const AkUniqueID PAUSE_MUSIC_DRAGOON_CAFE = 970815282U;
         static const AkUniqueID PAUSE_MUSIC_MAIN_MENU = 1893277663U;
         static const AkUniqueID PLAY_MUSIC_BATTLE = 230359828U;
+        static const AkUniqueID PLAY_MUSIC_DOKI_COMES_HOME = 764632515U;
         static const AkUniqueID PLAY_MUSIC_DRAGOON_CAFE = 2372074968U;
         static const AkUniqueID PLAY_MUSIC_MAIN_MENU = 3968446557U;
         static const AkUniqueID PLAY_PROJECTOR = 3664693610U;
@@ -45,6 +47,7 @@ namespace AK
         static const AkUniqueID ST_VINTAGE = 2244648975U;
         static const AkUniqueID STOP_MUSIC = 2837384057U;
         static const AkUniqueID STOP_PROJECTOR = 9270596U;
+        static const AkUniqueID UNPAUSE_MUSIC_DOKI_COMES_HOME = 3524125190U;
         static const AkUniqueID UNPAUSE_MUSIC_DRAGOON_CAFE = 2726913135U;
         static const AkUniqueID UNPAUSE_MUSIC_MAIN_MENU = 3895502332U;
     } // namespace EVENTS

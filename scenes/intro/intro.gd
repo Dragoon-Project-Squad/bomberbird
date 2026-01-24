@@ -25,5 +25,4 @@ func end_intro(intro_ended_via_input : bool = false ) -> void:
 
 func _process(_delta: float) -> void:
 	if Input.is_anything_pressed():
-		Wwise.post_event("snd_click", get_parent())
 		end_intro(true)

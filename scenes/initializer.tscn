@@ -35,3 +35,24 @@ text = "[i]Initializing...[/i]"
 fit_content = true
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="SaveDataWarning" type="ConfirmationDialog" parent="."]
+oversampling_override = 1.0
+title = "Save Data Initialization"
+initial_position = 1
+size = Vector2i(423, 100)
+ok_button_text = "Yes"
+dialog_text = "Save data could not be detected. Initailize save data?"
+dialog_close_on_escape = false
+cancel_button_text = "No"
+
+[node name="CloseGame" type="AcceptDialog" parent="."]
+oversampling_override = 1.0
+title = "Save Data Could Not Be Initialized"
+initial_position = 1
+size = Vector2i(503, 100)
+dialog_text = "Save data could not be initialized. The game will now be closed."
+
+[connection signal="canceled" from="SaveDataWarning" to="." method="_on_save_data_warning_canceled"]
+[connection signal="confirmed" from="SaveDataWarning" to="." method="_on_save_data_warning_confirmed"]
+[connection signal="confirmed" from="CloseGame" to="." method="_on_close_game_confirmed"]

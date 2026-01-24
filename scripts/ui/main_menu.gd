@@ -141,15 +141,19 @@ func _on_menu_music_music_sync_entry(_data: Dictionary) -> void:
 func _on_intro_intro_screen_shown(input_cancelled: Variant) -> void:
 	gamestate.intro_screen_shown = true
 	if(input_cancelled):
-		#Maybe play a button sound effect here?
+		Wwise.post_event("snd_click", get_parent())
 		pass
 
 func _on_menu_music_music_sync_beat(_data: Dictionary) -> void:
-	if beat_drop:
-		var tween := create_tween()
+	if !beat_drop:
+		return
+	var tween := create_tween()
+	if tween.is_valid():
 		tween.tween_property(title, "scale", Vector2(1.960, 2.14), 0.06).set_trans(Tween.TRANS_CUBIC)
 		tween.parallel().tween_property(doki, "scale:y", 0.98, 0.06).set_trans(Tween.TRANS_CIRC)
 		tween.parallel().tween_property(doki, "position:y", 114.792, 0.06).set_trans(Tween.TRANS_CIRC)
 		tween.tween_property(title, "scale", Vector2(1.832, 2.0), 0.06).set_trans(Tween.TRANS_CUBIC)
 		tween.parallel().tween_property(doki, "scale:y", 1.0, 0.06).set_trans(Tween.TRANS_CIRC)
 		tween.parallel().tween_property(doki, "position:y", 112.5, 0.06).set_trans(Tween.TRANS_CIRC)
+		await tween.finished
+		tween.stop()

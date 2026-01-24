@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://cui0yxsmxis71"]
 
 [ext_resource type="Script" uid="uid://d2cpplwd6ifoe" path="res://scripts/ui/lobby/sp_lobby.gd" id="1_418fn"]
-[ext_resource type="WwiseEvent" uid="uid://cf8gacuqqx41t" path="res://Wwise/resources/Event/{1E19996F-F80F-41CF-A16A-4AA69ECDB05A}.tres" id="2_sjg7r"]
+[ext_resource type="WwiseEvent" uid="uid://coo34rpuv3j0d" path="res://Wwise/resources/Event/{7C3FCA0A-5E8E-4C87-85FC-2AFCECFD2E8A}.tres" id="2_twxis"]
 [ext_resource type="Texture2D" uid="uid://bsu1o1vymo51p" path="res://assets/aesprite/Domber doki cenario1.png" id="2_yd478"]
 [ext_resource type="Shader" uid="uid://c0qwo7bogo6j7" path="res://assets/shaders/blur.gdshader" id="3_t42mu"]
 [ext_resource type="PackedScene" uid="uid://cwhum362lt6ww" path="res://scenes/cssmenu/sp_character_select_screen.tscn" id="4_418fn"]
@@ -25,7 +25,7 @@ grow_vertical = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
 script = ExtResource("1_418fn")
-lobby_music = ExtResource("2_sjg7r")
+lobby_music = ExtResource("2_twxis")
 
 [node name="BG" type="Sprite2D" parent="."]
 self_modulate = Color(0.501961, 0.501961, 0.501961, 1)
@@ -62,8 +62,8 @@ layout_mode = 1
 auto_translate_mode = 1
 
 [connection signal="enter_boss_rush_mode" from="ModeSelect" to="." method="show_character_select_screen"]
-[connection signal="enter_campaign_mode" from="ModeSelect" to="." method="show_save_menu_screen"]
 [connection signal="enter_campaign_mode" from="ModeSelect" to="." method="set_campaign_type_normal"]
+[connection signal="enter_campaign_mode" from="ModeSelect" to="." method="show_save_menu_screen"]
 [connection signal="enter_short_campaign_mode" from="ModeSelect" to="." method="set_campaign_type_short"]
 [connection signal="enter_short_campaign_mode" from="ModeSelect" to="." method="show_save_menu_screen"]
 [connection signal="mode_select_back" from="ModeSelect" to="." method="get_back_to_menu"]

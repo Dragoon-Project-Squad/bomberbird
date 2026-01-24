@@ -150,6 +150,49 @@
 								</Event>
 							</ChildrenList>
 						</Folder>
+						<Folder Name="doki_comes_home" ID="{A458913A-5B7A-480E-9E6C-5C365558F1B9}" ShortID="602796709">
+							<ChildrenList>
+								<Event Name="play_music_doki_comes_home" ID="{7C3FCA0A-5E8E-4C87-85FC-2AFCECFD2E8A}">
+									<ChildrenList>
+										<Action Name="" ID="{953D0B12-A986-4EC4-928F-5FE2C913DC11}" ShortID="1005001601">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="doki_comes_home" ID="{2CFFB407-CEB9-4312-AB8C-E47E8D84E158}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="pause_music_doki_comes_home" ID="{D7033A6B-57A9-4DC5-AF2C-C5D750D4AC90}">
+									<ChildrenList>
+										<Action Name="" ID="{A39FDED4-DC33-4EA4-8980-39152866125B}" ShortID="884385865">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="7"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="doki_comes_home" ID="{2CFFB407-CEB9-4312-AB8C-E47E8D84E158}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+								<Event Name="unpause_music_doki_comes_home" ID="{92A7884D-9B10-4482-A183-9C5277C4AAD0}">
+									<ChildrenList>
+										<Action Name="" ID="{665C94A1-E0D0-4F46-9EFD-484B292A8643}" ShortID="559743141">
+											<PropertyList>
+												<Property Name="ActionType" Type="int16" Value="9"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="doki_comes_home" ID="{2CFFB407-CEB9-4312-AB8C-E47E8D84E158}" WorkUnitID="{D77DC35E-096C-469A-8C5C-BA9D0EE547E8}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+							</ChildrenList>
+						</Folder>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="sfx" ID="{8EC85EE2-0488-4A30-8E92-50DC43EAA93D}" ShortID="823998233">

@@ -25,7 +25,7 @@ func _ready() -> void:
 	
 func play_lobby_music() -> void:
 	Wwise.post_event("stop_music", self)
-	Wwise.post_event("play_music_dragoon_cafe", self)
+	Wwise.post_event("play_music_doki_comes_home", self)
 
 func open_appropriate_connection_screen() -> void:
 	if not SteamManager.is_steam_powered():
