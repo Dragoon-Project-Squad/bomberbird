@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dgfv37m0j3grk"]
+[gd_scene load_steps=12 format=3 uid="uid://dgfv37m0j3grk"]
 
 [ext_resource type="Script" uid="uid://bq6xc0g4f6lhf" path="res://scripts/ui/main_menu.gd" id="1_qmksv"]
 [ext_resource type="Texture2D" uid="uid://bsu1o1vymo51p" path="res://assets/aesprite/Domber doki cenario1.png" id="2_u3scb"]
@@ -8,8 +8,9 @@
 [ext_resource type="StyleBox" uid="uid://dah145apm30c3" path="res://assets/styles/main_menu_select_style.tres" id="7_2iy8e"]
 [ext_resource type="StyleBox" uid="uid://c07q8xvjxkea6" path="res://assets/styles/main_menu_style.tres" id="7_nrhvf"]
 [ext_resource type="PackedScene" uid="uid://drj31ll2cuftl" path="res://scenes/options_menu/options_menu.tscn" id="8_m4i44"]
-[ext_resource type="PackedScene" uid="uid://cmmk31d282i46" path="res://scenes/credits/credits_screen.tscn" id="10_lgwnu"]
+[ext_resource type="PackedScene" uid="uid://cmmk31d282i46" path="res://scenes/CREDITS/credits_screen.tscn" id="10_lgwnu"]
 [ext_resource type="PackedScene" uid="uid://c6osao13wt47c" path="res://scenes/doki_subscribe_link.tscn" id="11_flqon"]
+[ext_resource type="WwiseEvent" uid="uid://b3x14lxrfqgd" path="res://Wwise/resources/Event/{9DD6E647-6A86-4609-B83E-6E4D47162C95}.tres" id="11_lgwnu"]
 
 [node name="MainMenu" type="Control"]
 process_mode = 3
@@ -156,6 +157,10 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 16
 text = "VERSION NUMBER HERE"
 
+[node name="MenuMusic" type="AkEvent2D" parent="."]
+event = ExtResource("11_lgwnu")
+unique_name_in_owner = true
+
 [connection signal="pressed" from="ButtonBox/Singleplayer" to="." method="_on_single_player_pressed"]
 [connection signal="pressed" from="ButtonBox/Multiplayer" to="." method="_on_multiplayer_pressed"]
 [connection signal="pressed" from="ButtonBox/Options" to="." method="_on_options_pressed"]
@@ -164,3 +169,5 @@ text = "VERSION NUMBER HERE"
 [connection signal="pressed" from="ButtonBox/Exit" to="." method="_on_exit_pressed"]
 [connection signal="options_menu_exited" from="OptionsMenu" to="." method="_on_options_menu_options_menu_exited"]
 [connection signal="credits_ended" from="Credits" to="." method="_on_credits_credits_ended"]
+[connection signal="music_sync_entry" from="MenuMusic" to="." method="_on_menu_music_music_sync_entry"]
+[connection signal="music_sync_user_cue" from="MenuMusic" to="." method="_on_menu_music_music_sync_user_cue"]

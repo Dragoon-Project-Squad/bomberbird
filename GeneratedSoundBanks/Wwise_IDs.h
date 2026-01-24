@@ -38,6 +38,7 @@ namespace AK
         static const AkUniqueID ST_DAD = 3787626250U;
         static const AkUniqueID ST_DOKI_COMES_HOME = 2151371268U;
         static const AkUniqueID ST_DRAGOON_CAFE = 1964974217U;
+        static const AkUniqueID ST_MENU = 2481250406U;
         static const AkUniqueID ST_MINKI = 3862449989U;
         static const AkUniqueID ST_RUSH = 979156697U;
         static const AkUniqueID ST_STOP_MUSIC = 2548511007U;

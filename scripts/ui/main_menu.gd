@@ -5,20 +5,28 @@ extends Control
 @onready var options_menu: Control = $OptionsMenu
 @onready var credits_screen: Control = $Credits
 @onready var version_number_text: Label = $VersionNumberPanel/VersionNumRichText
+@onready var menu_music = %MenuMusic
 
 signal options_menu_entered
 
 var preload_credits_scene = preload("res://scenes/credits/credits_screen.tscn")
+
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# stops all music to be safe
 	Wwise.post_event("stop_music", self)
 	# plays the main menu music
-	Wwise.post_event("play_music_main_menu", self)
+	menu_music.post_event()
 	version_number_text.set_text("v" + ProjectSettings.get_setting("application/config/version"))
 	$ButtonBox/Singleplayer.grab_focus()
-	check_secret()
+	check_secret()	
+	
+	#splash screen
+	var splash_screen = get_node("/root/Splash")
+	if splash_screen != null:
+		splash_screen.start_splash()
 	
 func switch_to_options_menu() -> void:
 	hide_main_menu()
@@ -43,11 +51,11 @@ func reveal_main_menu() -> void:
 
 func pause_main_menu_music() -> void:
 	# pauses the main menu music if playing in wwise
-	Wwise.post_event("pause_music_main_menu", self)
+	Wwise.post_event("pause_music_main_menu", menu_music)
 	
 func unpause_main_menu_music() -> void:
 	# resumes the main menu music if playing in wwise
-	Wwise.post_event("unpause_music_main_menu", self)
+	Wwise.post_event("unpause_music_main_menu", menu_music)
 	
 func check_secret() -> void:
 	#Do NOT set it to false if the data isn't there.
@@ -95,3 +103,15 @@ func _on_exit_pressed() -> void:
 
 func _on_credits_credits_ended() -> void:
 	reveal_main_menu()
+
+#unveil splash when beat drops
+func _on_menu_music_music_sync_user_cue(_data: Dictionary) -> void:
+	var splash_screen = get_node("/root/Splash")
+	if splash_screen != null:
+		splash_screen.end_splash()
+
+#have the splash do cool text things
+func _on_menu_music_music_sync_entry(_data: Dictionary) -> void:
+	var splash_screen = get_node("/root/Splash")
+	if splash_screen != null:
+		splash_screen.anim_splash()
