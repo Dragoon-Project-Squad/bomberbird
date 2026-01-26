@@ -9,7 +9,7 @@ var bomb_hold_timer := 0.0
 var jump_cooldown := 0.0
 var roll_duration := 0.0
 
-func _enter_tree():
+func set_authority_during_spawn():
 	if str(name).is_valid_int():
 		#get_node("Inputs/InputsSync").set_multiplayer_authority(str(name).to_int())
 		set_multiplayer_authority(str(name).to_int()) #Set the entire player to be owned by this person.
