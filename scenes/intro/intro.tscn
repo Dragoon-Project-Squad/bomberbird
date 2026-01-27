@@ -1,11 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://btbhhah5deldc"]
+[gd_scene load_steps=12 format=3 uid="uid://btbhhah5deldc"]
 
 [ext_resource type="Script" uid="uid://cuc7ul5dym6kr" path="res://scenes/intro/intro.gd" id="1_i52gs"]
 [ext_resource type="Theme" uid="uid://wfdn1qbkwu46" path="res://assets/styles/main_menu_theme.tres" id="2_cwtag"]
-[ext_resource type="Texture2D" uid="uid://cdudde81pcsel" path="res://assets/splash/sky.png" id="3_y4437"]
-[ext_resource type="Texture2D" uid="uid://duro6xqgr4puf" path="res://assets/splash/sun.png" id="4_wwhxh"]
-[ext_resource type="Texture2D" uid="uid://buur2dw4d3xf8" path="res://assets/splash/land.png" id="5_m61hw"]
-[ext_resource type="Texture2D" uid="uid://cef8otys7fx4y" path="res://assets/splash/doki.png" id="6_xtuk2"]
+[ext_resource type="Texture2D" uid="uid://cdudde81pcsel" path="res://assets/menuandsplash/sky.png" id="3_y4437"]
+[ext_resource type="Texture2D" uid="uid://duro6xqgr4puf" path="res://assets/menuandsplash/sun.png" id="4_wwhxh"]
+[ext_resource type="Texture2D" uid="uid://dheegcusg6xb0" path="res://assets/menuandsplash/doki_no_shadow.png" id="5_8yty6"]
+[ext_resource type="Texture2D" uid="uid://buur2dw4d3xf8" path="res://assets/menuandsplash/land.png" id="5_m61hw"]
+[ext_resource type="Texture2D" uid="uid://dthit7oa20jsy" path="res://assets/menuandsplash/doki_shadow.png" id="6_exgwc"]
+[ext_resource type="Texture2D" uid="uid://b7ve16526xnpv" path="res://assets/aesprite/title.png" id="6_xk0cr"]
 
 [sub_resource type="Animation" id="Animation_8yty6"]
 length = 0.001
@@ -79,7 +81,43 @@ tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, 120)]
+"values": [Vector2(0, 226.81)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Node2D/Land/Doki:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Node2D/Land/Shadow:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Node2D/Sky:scale")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1.574)]
 }
 
 [sub_resource type="Animation" id="Animation_1rrv8"]
@@ -144,7 +182,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0, 2.593, 5.926),
 "transitions": PackedFloat32Array(1, 2.0000007, 0.43527493),
 "update": 0,
-"values": [Vector2(0, 200), Vector2(0, 200), Vector2(0, 0)]
+"values": [Vector2(0, 200), Vector2(0, 189.615), Vector2(0, 0)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -154,9 +192,45 @@ tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
 "times": PackedFloat32Array(3.704, 5.926),
-"transitions": PackedFloat32Array(3.4821937, 0.14865118),
+"transitions": PackedFloat32Array(2.9281645, 0.14865118),
 "update": 0,
 "values": [Vector2(0, 117.265), Vector2(0, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Node2D/Land/Doki:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(4.4444, 5.92),
+"transitions": PackedFloat32Array(2.4622943, 1),
+"update": 0,
+"values": [Vector2(0, -328.94), Vector2(0, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Node2D/Land/Shadow:modulate")
+tracks/7/interp = 2
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(4.4444, 5.926),
+"transitions": PackedFloat32Array(3.0314293, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Node2D/Sky:scale")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 2.593, 5.926),
+"transitions": PackedFloat32Array(1, 3.8637443, 1),
+"update": 0,
+"values": [Vector2(1, 1.574), Vector2(1, 1.574), Vector2(1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8yty6"]
@@ -190,6 +264,7 @@ color = Color(1, 0.83137256, 0.4, 1)
 
 [node name="Sky" type="Sprite2D" parent="Node2D"]
 unique_name_in_owner = true
+scale = Vector2(1, 1.574)
 texture = ExtResource("3_y4437")
 centered = false
 
@@ -201,13 +276,25 @@ centered = false
 
 [node name="Land" type="Sprite2D" parent="Node2D"]
 unique_name_in_owner = true
-position = Vector2(0, 120)
+position = Vector2(0, 226.81)
 texture = ExtResource("5_m61hw")
 centered = false
 
 [node name="Doki" type="Sprite2D" parent="Node2D/Land"]
 unique_name_in_owner = true
-texture = ExtResource("6_xtuk2")
+texture = ExtResource("5_8yty6")
+centered = false
+
+[node name="Title" type="Sprite2D" parent="Node2D/Land/Doki"]
+unique_name_in_owner = true
+texture_filter = 1
+position = Vector2(262.5, 41.666664)
+scale = Vector2(0.7633333, 0.8333333)
+texture = ExtResource("6_xk0cr")
+
+[node name="Shadow" type="Sprite2D" parent="Node2D/Land"]
+unique_name_in_owner = true
+texture = ExtResource("6_exgwc")
 centered = false
 
 [node name="DokibirdPublicSquad" type="RichTextLabel" parent="."]
@@ -215,8 +302,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -147.0
-offset_bottom = -147.0
+offset_top = -82.0
+offset_bottom = -82.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_cwtag")
@@ -232,8 +319,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -114.645
-offset_bottom = -114.64499
+offset_top = -34.705
+offset_bottom = -34.705017
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_cwtag")
@@ -249,9 +336,9 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -83.385
+offset_top = 12.614998
 offset_right = 1.0
-offset_bottom = -83.38501
+offset_bottom = 12.61499
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_cwtag")
@@ -267,8 +354,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -55.555
-offset_bottom = -55.55487
+offset_top = 62.255
+offset_bottom = 62.255127
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_cwtag")

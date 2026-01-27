@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cef8otys7fx4y"
-path="res://.godot/imported/doki.png-8357e88c077b880e0e0d96b0e6f3d967.ctex"
+uid="uid://d3shuehpc6upk"
+path="res://.godot/imported/menuland.png-6206776bdd92b806a163c1da1a73ca18.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/splash/doki.png"
-dest_files=["res://.godot/imported/doki.png-8357e88c077b880e0e0d96b0e6f3d967.ctex"]
+source_file="res://assets/menuandsplash/menuland.png"
+dest_files=["res://.godot/imported/menuland.png-6206776bdd92b806a163c1da1a73ca18.ctex"]
 
 [params]
 
