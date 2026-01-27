@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cdudde81pcsel"
-path="res://.godot/imported/sky.png-f0e5125478b13441a1696bbcdefcb54a.ctex"
+uid="uid://dthit7oa20jsy"
+path="res://.godot/imported/doki_shadow.png-0117a4bc6524576a0913718e654808ab.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/splash/sky.png"
-dest_files=["res://.godot/imported/sky.png-f0e5125478b13441a1696bbcdefcb54a.ctex"]
+source_file="res://assets/menuandsplash/doki_shadow.png"
+dest_files=["res://.godot/imported/doki_shadow.png-0117a4bc6524576a0913718e654808ab.ctex"]
 
 [params]
 
