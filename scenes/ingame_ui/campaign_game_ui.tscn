@@ -107,6 +107,7 @@ scale = Vector2(2, 2)
 theme_override_constants/separation = 23
 
 [node name="HealthPanel_B1" parent="BossHealthPanelContainer" instance=ExtResource("5_k22gw")]
+visible = false
 layout_mode = 2
 
 [node name="HealthPanel_B2" parent="BossHealthPanelContainer" instance=ExtResource("5_k22gw")]
