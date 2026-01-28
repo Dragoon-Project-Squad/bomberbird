@@ -36,12 +36,11 @@ func _ready():
 		globals.gamemode.CAMPAIGN: lives = 3
 		globals.gamemode.BOSSRUSH: lives = 3
 		globals.gamemode.BATTLEMODE: lives = 1
-		_: lives = 1
-	lives_reset = lives
+		_: assert(false, "not a valid gamemode")
 	pickups.reset()
 
 	if globals.is_campaign_mode():
-		if gamestate.current_save.player_pickups.is_empty():
+		if gamestate.current_save.player_pickups.is_empty() && gamestate.current_save.player_health == 3:
 			write_to_save()
 		else:
 			load_from_save()
@@ -148,6 +147,11 @@ func physics_as_others():
 	position = synced_position
 
 @rpc("call_local")
+func exploded(by_who):
+	super(by_who)
+	write_to_save()
+
+@rpc("call_local")
 func reset():
 	set_bomb_pressed_once = false
 	punch_pressed_once = false
@@ -164,5 +168,7 @@ func load_from_save():
 	self.pickups.held_pickups = gamestate.current_save.player_pickups.duplicate()
 
 func clear_save():
-	gamestate.current_save.player_health = lives_reset
-	gamestate.current_save.player_pickups = {}
+	lives = 3
+	gamestate.current_save.player_health = 3
+	game_ui.update_health(lives, int(self.name))
+	write_to_save()

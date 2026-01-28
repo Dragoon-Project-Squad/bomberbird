@@ -437,9 +437,8 @@ func save_sp_game():
 func end_sp_game():
 	save_sp_game()
 	if globals.game != null: # Game is in progress.
-		# End it
 		globals.game.queue_free()
-	await get_tree().create_timer(0.05).timeout #The game scene needs to DIE.
+	await get_tree().create_timer(0.05).timeout # The game scene needs to DIE.
 	# Only run if Main Menu is currently loaded in the scene.
 	if has_node("/root/MainMenu"):
 		var main_menu = get_node("/root/MainMenu")
