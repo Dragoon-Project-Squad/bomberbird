@@ -48,9 +48,9 @@ func _ready():
 			
 	self.animation_player.play("RESET")
 	init_pickups()
-	await get_tree().process_frame
 	if is_multiplayer_authority():
 		do_invulnerability.rpc()
+	await get_tree().process_frame
 
 func _physics_process(delta: float):
 	if multiplayer.multiplayer_peer == null or str(multiplayer.get_unique_id()) == str(name):
