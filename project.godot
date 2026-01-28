@@ -8,6 +8,10 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="BomberBird"
@@ -15,9 +19,13 @@ config/description="What of Bomberman but Doki"
 config/version="0.9.9.7.5"
 config/tags=PackedStringArray("2d", "network")
 run/main_scene="uid://ff4fs8klypss"
-config/features=PackedStringArray("4.5")
+config/features=PackedStringArray("4.6")
 boot_splash/image="uid://bibdu15x4yt51"
 config/icon="res://assets/gameart/icon.webp"
+
+[audio]
+
+buses/default_bus_layout="uid://dybdyv1yvujso"
 
 [autoload]
 
