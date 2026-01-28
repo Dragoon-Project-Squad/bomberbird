@@ -1,12 +1,12 @@
 extends EnemyState
-## Implements the wander behavior '1' described in https://gamefaqs.gamespot.com/snes/562899-super-bomberman-5/faqs/79457
 
 const DEFAULT_PATH_FINDING_TIMEOUT: float = 0.5
+const DEFAULT_IDLE_TIMEOUT: float = 0.3
 const ARRIVAL_TOLARANCE: float = 1
 const STARTING_CLOSENESS: int = 2
 
 @export_group("Wander Variables")
-@export var idle_chance: float = 0.4
+@export var idle_chance: float = 0.2
 @export var wander_distance: int = 4
 @export var distance_triggering_chase: int = 6
 
@@ -20,6 +20,7 @@ var curr_path: Array[Vector2] = []:
 			self.enemy.get_node("DebugMarker").position = val[-1]
 		curr_path = val
 var path_finding_timeout: float = 0
+var idle_timeout: float = 0
 var _rand: RandomNumberGenerator = RandomNumberGenerator.new()
 
 func _enter():
@@ -33,11 +34,20 @@ func _exit():
 	path_finding_timeout = DEFAULT_PATH_FINDING_TIMEOUT
 
 func _physics_update(delta):
+	if self.enemy.disabled: return
+	if self.enemy.stop_moving: return
+	if self.enemy.stunned: return
 	_move(delta)
 
-	path_finding_timeout += delta
+	self.path_finding_timeout += delta
+	self.idle_timeout += delta
+	if self.idle_timeout >= DEFAULT_IDLE_TIMEOUT:
+		self.idle_timeout = 0
+		print("hi")
+		if world_data.is_safe(self.enemy.position):
+			print("ho")
+			if idle(): return
 
-	if self.enemy.stunned: return
 	var arrived: bool = check_arrival()
 
 	if arrived:
@@ -72,7 +82,6 @@ func _physics_update(delta):
 	elif arrived && self.curr_path.is_empty() && self.path_finding_timeout >= DEFAULT_PATH_FINDING_TIMEOUT:
 		if chase(): return
 		if detect(): return
-		if idle(): return
 		self.curr_path = get_next_path()
 		self.path_finding_timeout = 0
 		self.next_position = get_next_pos(self.curr_path)

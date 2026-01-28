@@ -264,7 +264,7 @@ func reset_players():
 	if is_multiplayer_authority():
 		for player in players:
 			player.reset()
-			player.reset_pickups()
+			# save only for player one
 			if player.name == "1": player.clear_save()
 
 func soft_reset_players():

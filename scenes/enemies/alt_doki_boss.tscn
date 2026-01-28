@@ -24,20 +24,10 @@
 
 [sub_resource type="Resource" id="Resource_cvltp"]
 script = ExtResource("2_6ojfo")
-initial_bomb_type = 0
-initial_exlusive = 0
-initial_virus = 0
 initial_bomb_up = 4
 initial_fire_up = 6
 initial_speed_up = 2
-initial_speed_down = 0
-initial_hp_up = 0
-initial_full_fire = false
-initial_bomb_punch = false
 initial_power_glove = true
-initial_wallthrough = false
-initial_freeze = false
-initial_invincibility_vest = false
 metadata/_custom_type_script = "uid://dfosda1bstp2m"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_i1su5"]
@@ -257,7 +247,7 @@ disabled_state = NodePath("Disabled")
 
 [node name="Wander" type="Node" parent="StateMachine"]
 script = ExtResource("11_yo3oj")
-idle_chance = 0.3
+idle_chance = 0.1
 
 [node name="Ability" type="Node" parent="StateMachine"]
 script = ExtResource("12_6ojfo")

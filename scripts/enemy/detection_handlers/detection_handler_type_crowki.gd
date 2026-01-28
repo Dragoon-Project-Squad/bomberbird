@@ -16,8 +16,8 @@ func make_ready() -> void:
 
 func check_for_priority_target(force: bool = false) -> int:
 	assert(self.enemy is Boss)
-	if world_data.is_tile(world_data.tiles.BOMB, self.enemy.position): return false
-	if world_data.is_tile(world_data.tiles.MINE, self.enemy.position): return false
+	if world_data.is_tile(world_data.tiles.BOMB, self.enemy.position): return abiltiy.NONE
+	if world_data.is_tile(world_data.tiles.MINE, self.enemy.position): return abiltiy.NONE 
 
 	var rand_val = _rand.randf()
 	var safe_tiles: Array[int] = [world_data.tiles.EMPTY, world_data.tiles.PICKUP]

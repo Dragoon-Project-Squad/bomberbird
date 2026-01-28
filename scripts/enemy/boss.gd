@@ -191,6 +191,13 @@ func reset_pickups():
 	self.set_collision_mask_value(3, true)
 	pickups.reset()
 
+@rpc("call_local")
+func add_pickup(pickup_type: int):
+	pickups.add(pickup_type)
+	
+	# plays the pickup sound event
+	Wwise.post_event("snd_pickup_powerup", self)
+
 func unvirus():
 	pass
 
