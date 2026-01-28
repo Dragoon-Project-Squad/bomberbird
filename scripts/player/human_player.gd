@@ -149,7 +149,8 @@ func physics_as_others():
 @rpc("call_local")
 func exploded(by_who):
 	super(by_who)
-	write_to_save()
+	if globals.is_campaign_mode() || globals.is_boss_rush_mode():
+		write_to_save()
 
 @rpc("call_local")
 func reset():
