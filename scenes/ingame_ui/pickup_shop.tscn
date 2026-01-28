@@ -165,22 +165,22 @@ columns = 9
 
 [node name="ExtraBombButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
 layout_mode = 2
-max_amount = 9
+max_amount = 6
 
 [node name="ExplosionBoostButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
 layout_mode = 2
-max_amount = 8
+max_amount = 6
 pickup_name = "explosion_boost"
 
 [node name="MaxExplosionButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
 layout_mode = 2
 max_amount = 1
 pickup_name = "max_explosion"
-price = 750
+price = 600
 
 [node name="SpeedBoostButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
 layout_mode = 2
-max_amount = 9
+max_amount = 8
 pickup_name = "speed_boost"
 
 [node name="HealthButton" parent="ShopPanel/Shop/Pickups" instance=ExtResource("5_4u2ue")]
@@ -210,7 +210,7 @@ price = 500
 layout_mode = 2
 max_amount = 1
 pickup_name = "mount_goon"
-price = 750
+price = 700
 
 [node name="ExclusivePickupsLabel" type="Label" parent="ShopPanel/Shop"]
 layout_mode = 2

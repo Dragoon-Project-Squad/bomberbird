@@ -1,6 +1,6 @@
 extends Control
 
-const INIT_SCORE: int = 750
+const INIT_SCORE: int = 800
 
 signal pickup_shop_next
 signal pickup_shop_back
