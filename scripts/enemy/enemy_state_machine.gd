@@ -33,7 +33,8 @@ func _physics_process(delta):
 		current_state._physics_update(delta)
 
 func _on_state_changed(state: EnemyState, new_state: String) -> void:
-	if !stop_process:
+	if stop_process:
+		# if the state changed but the enemy has already died from a call to exploded ignore the state change
 		return
 
 	if(state != current_state):

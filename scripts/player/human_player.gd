@@ -39,7 +39,7 @@ func _ready():
 		_: assert(false, "not a valid gamemode")
 	pickups.reset()
 
-	if globals.is_campaign_mode():
+	if globals.is_campaign_mode() || globals.is_boss_rush_mode():
 		if gamestate.current_save.player_pickups.is_empty() && gamestate.current_save.player_health == 3:
 			write_to_save()
 		else:

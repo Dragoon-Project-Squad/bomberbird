@@ -78,5 +78,6 @@ func _on_back_clicked():
 	pickup_shop_back.emit()
 
 func write_to_temp_save_file(remaining_score: int, init_pickups: Dictionary):
+	gamestate.current_save.player_health = 3
 	gamestate.current_save.current_score = remaining_score 
 	gamestate.current_save.player_pickups = init_pickups

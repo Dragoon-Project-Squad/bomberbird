@@ -1,5 +1,4 @@
 extends EnemyState
-## Implements the wander behavior '1' described in https://gamefaqs.gamespot.com/snes/562899-super-bomberman-5/faqs/79457
 
 const DEFAULT_PATH_FINDING_TIMEOUT: float = 0.5
 const ARRIVAL_TOLARANCE: float = 1
@@ -24,6 +23,7 @@ var _rand: RandomNumberGenerator = RandomNumberGenerator.new()
 
 func _enter():
 	assert(self.enemy is Boss)
+	if world_data.is_out_of_bounds(self.enemy.global_position) == world_data.bounds.IN && detect(): return
 	self.curr_path = get_next_path()
 	self.next_position = get_next_pos(self.curr_path)
 	self.enemy.movement_vector = self.enemy.position.direction_to(self.next_position) if (self.next_position != self.enemy.position) else Vector2.ZERO
@@ -33,11 +33,13 @@ func _exit():
 	path_finding_timeout = DEFAULT_PATH_FINDING_TIMEOUT
 
 func _physics_update(delta):
+	if self.enemy.disabled: return
+	if self.enemy.stop_moving: return
+	if self.enemy.stunned: return
 	_move(delta)
 
 	path_finding_timeout += delta
 
-	if self.enemy.stunned: return
 	var arrived: bool = check_arrival()
 
 	if arrived:
@@ -71,8 +73,8 @@ func _physics_update(delta):
 		return
 	elif arrived && self.curr_path.is_empty() && self.path_finding_timeout >= DEFAULT_PATH_FINDING_TIMEOUT:
 		if chase(): return
-		if detect(): return
 		if idle(): return
+		if detect(): return
 		self.curr_path = get_next_path()
 		self.path_finding_timeout = 0
 		self.next_position = get_next_pos(self.curr_path)
