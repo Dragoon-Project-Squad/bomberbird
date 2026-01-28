@@ -7,7 +7,7 @@ signal has_closed
 
 const SAVE_PATH: String = "user://user_campaigns"
 const PERMANENT_SAVE_PATH: String = "res://campaign"
-const VERSION: String = "post_v0.9.9.0_2"
+const VERSION: String = "post_v0.9.9.7.5_1"
 
 @onready var entry_point: GraphNode = $EntryPoint
 
