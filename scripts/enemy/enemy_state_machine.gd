@@ -33,6 +33,9 @@ func _physics_process(delta):
 		current_state._physics_update(delta)
 
 func _on_state_changed(state: EnemyState, new_state: String) -> void:
+	if !stop_process:
+		return
+
 	if(state != current_state):
 		push_error("enemy state machine failed as a state tried to change that is not the current state (", state.name, " -> ", new_state, ")")
 		return
@@ -46,7 +49,7 @@ func _on_state_changed(state: EnemyState, new_state: String) -> void:
 	if !current_state:
 		push_error("enemy state machine failed state: " + new_state + " does not exists")
 		return
-	
+
 	current_state._enter()
 
 func enable():
