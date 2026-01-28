@@ -239,7 +239,7 @@ disabled_state = NodePath("Disabled")
 
 [node name="Wander" type="Node" parent="StateMachine"]
 script = ExtResource("8_81bpp")
-idle_chance = 0.7
+idle_chance = 0.3
 
 [node name="Ability" type="Node" parent="StateMachine"]
 script = ExtResource("9_81bpp")

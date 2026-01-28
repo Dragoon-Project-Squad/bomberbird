@@ -1,11 +1,12 @@
 extends EnemyState
 
 const DEFAULT_PATH_FINDING_TIMEOUT: float = 0.5
+const DEFAULT_IDLE_TIMEOUT: float = 0.3
 const ARRIVAL_TOLARANCE: float = 1
 const STARTING_CLOSENESS: int = 2
 
 @export_group("Wander Variables")
-@export var idle_chance: float = 0.4
+@export var idle_chance: float = 0.2
 @export var wander_distance: int = 4
 @export var distance_triggering_chase: int = 6
 
@@ -19,11 +20,11 @@ var curr_path: Array[Vector2] = []:
 			self.enemy.get_node("DebugMarker").position = val[-1]
 		curr_path = val
 var path_finding_timeout: float = 0
+var idle_timeout: float = 0
 var _rand: RandomNumberGenerator = RandomNumberGenerator.new()
 
 func _enter():
 	assert(self.enemy is Boss)
-	if world_data.is_out_of_bounds(self.enemy.global_position) == world_data.bounds.IN && detect(): return
 	self.curr_path = get_next_path()
 	self.next_position = get_next_pos(self.curr_path)
 	self.enemy.movement_vector = self.enemy.position.direction_to(self.next_position) if (self.next_position != self.enemy.position) else Vector2.ZERO
@@ -38,7 +39,14 @@ func _physics_update(delta):
 	if self.enemy.stunned: return
 	_move(delta)
 
-	path_finding_timeout += delta
+	self.path_finding_timeout += delta
+	self.idle_timeout += delta
+	if self.idle_timeout >= DEFAULT_IDLE_TIMEOUT:
+		self.idle_timeout = 0
+		print("hi")
+		if world_data.is_safe(self.enemy.position):
+			print("ho")
+			if idle(): return
 
 	var arrived: bool = check_arrival()
 
@@ -73,7 +81,6 @@ func _physics_update(delta):
 		return
 	elif arrived && self.curr_path.is_empty() && self.path_finding_timeout >= DEFAULT_PATH_FINDING_TIMEOUT:
 		if chase(): return
-		if idle(): return
 		if detect(): return
 		self.curr_path = get_next_path()
 		self.path_finding_timeout = 0

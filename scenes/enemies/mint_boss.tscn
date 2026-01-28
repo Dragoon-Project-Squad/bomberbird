@@ -25,19 +25,9 @@
 script = ExtResource("2_8i32n")
 initial_bomb_type = 1
 initial_exlusive = 2
-initial_virus = 0
-initial_mountgoon = 0
 initial_bomb_up = 3
-initial_fire_up = 0
-initial_speed_up = 0
-initial_speed_down = 0
-initial_hp_up = 0
 initial_full_fire = true
-initial_bomb_punch = false
-initial_power_glove = false
 initial_wallthrough = true
-initial_freeze = false
-initial_invincibility_vest = false
 metadata/_custom_type_script = "uid://dfosda1bstp2m"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_i1su5"]
@@ -254,7 +244,7 @@ disabled_state = NodePath("Disabled")
 
 [node name="Wander" type="Node" parent="StateMachine"]
 script = ExtResource("11_rwvwr")
-idle_chance = 0.5
+idle_chance = 0.15
 wander_distance = 6
 distance_triggering_chase = 8
 

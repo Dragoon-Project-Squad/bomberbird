@@ -243,7 +243,7 @@ disabled_state = NodePath("Disabled")
 
 [node name="Wander" type="Node" parent="StateMachine"]
 script = ExtResource("11_5xdgk")
-idle_chance = 0.6
+idle_chance = 0.1
 wander_distance = 9
 distance_triggering_chase = 8
 
