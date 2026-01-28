@@ -146,16 +146,17 @@ func _on_intro_intro_screen_shown(input_cancelled: Variant) -> void:
 
 func _on_menu_music_music_sync_beat(_data: Dictionary) -> void:
 	var tween := create_tween()
-	if tween.is_valid():
-		if beat_drop:
-			tween.tween_property(title, "scale", Vector2(1.960, 2.14), 0.06).set_trans(Tween.TRANS_CUBIC)
-			tween.parallel().tween_property(foreground, "scale:y", 0.98, 0.06).set_trans(Tween.TRANS_CIRC)
-			tween.parallel().tween_property(foreground, "position:y", 114.422, 0.06).set_trans(Tween.TRANS_CIRC)
-			tween.tween_property(title, "scale", Vector2(1.832, 2.0), 0.06).set_trans(Tween.TRANS_CUBIC)
-			tween.parallel().tween_property(foreground, "scale:y", 1.0, 0.06).set_trans(Tween.TRANS_CIRC)
-			tween.parallel().tween_property(foreground, "position:y", 112.5, 0.06).set_trans(Tween.TRANS_CIRC)
-		else:
-			tween.tween_property(title, "scale", Vector2(1.960, 2.14), 0.06).set_trans(Tween.TRANS_CUBIC)
-			tween.tween_property(title, "scale", Vector2(1.832, 2.0), 0.06).set_trans(Tween.TRANS_CUBIC)
+  if !tween.is_valid():
+    return
+  if beat_drop:
+    tween.tween_property(title, "scale", Vector2(1.960, 2.14), 0.06).set_trans(Tween.TRANS_CUBIC)
+    tween.parallel().tween_property(foreground, "scale:y", 0.98, 0.06).set_trans(Tween.TRANS_CIRC)
+    tween.parallel().tween_property(foreground, "position:y", 114.422, 0.06).set_trans(Tween.TRANS_CIRC)
+    tween.tween_property(title, "scale", Vector2(1.832, 2.0), 0.06).set_trans(Tween.TRANS_CUBIC)
+    tween.parallel().tween_property(foreground, "scale:y", 1.0, 0.06).set_trans(Tween.TRANS_CIRC)
+    tween.parallel().tween_property(foreground, "position:y", 112.5, 0.06).set_trans(Tween.TRANS_CIRC)
+  else:
+    tween.tween_property(title, "scale", Vector2(1.960, 2.14), 0.06).set_trans(Tween.TRANS_CUBIC)
+    tween.tween_property(title, "scale", Vector2(1.832, 2.0), 0.06).set_trans(Tween.TRANS_CUBIC)
 	await tween.finished
-	tween.stop()
+	tween.kill()
